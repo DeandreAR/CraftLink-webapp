@@ -1,8 +1,10 @@
 export type LandingPillarId =
   | "conversion-social"
-  | "express-setup"
-  | "unique-link"
-  | "no-friction";
+  | "voice-ai"
+  | "lead-scoring"
+  | "whatsapp-smart"
+  | "export-options"
+  | "express-setup";
 
 export type LandingPillar = {
   id: LandingPillarId;

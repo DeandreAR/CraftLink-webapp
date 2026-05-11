@@ -34,19 +34,37 @@ export function Navbar() {
 
           <nav className="flex items-center gap-2">
             <a
+              href="#douleur"
+              className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 lg:inline-flex"
+            >
+              Pourquoi
+            </a>
+            <a
               href="#features"
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 md:inline-flex"
             >
-              Fonctionnalités
+              Fonctions
             </a>
             <a
-              href="#preview"
+              href="#metiers"
+              className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 lg:inline-flex"
+            >
+              Métiers
+            </a>
+            <a
+              href="#tarifs"
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 md:inline-flex"
             >
-              Aperçu
+              Tarifs
             </a>
-            <GlowButton href="#cta" className="px-4 py-2.5">
-              Démarrer
+            <a
+              href="#faq"
+              className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 md:inline-flex"
+            >
+              FAQ
+            </a>
+            <GlowButton href="#cta-demo" className="px-4 py-2.5">
+              Démo
             </GlowButton>
           </nav>
         </div>

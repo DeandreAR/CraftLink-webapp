@@ -10,47 +10,61 @@ export const landingService: LandingService = {
     return [
       {
         id: "conversion-social",
-        title: "Conversion Social Media",
+        title: "Réseaux → demandes utiles",
         description:
-          "Transformez vos abonnés Instagram/Facebook en demandes de devis claires — sans DM perdus.",
-        highlight: "Followers → Devis",
+          "Un lien unique dans votre bio : vos abonnés Instagram/Facebook décrivent leur besoin (y compris à la voix). Vous recevez une demande lisible, pas un fil de messages perdus.",
+        highlight: "Social → devis",
+      },
+      {
+        id: "voice-ai",
+        title: "Voix + transcription",
+        description:
+          "Le client peut parler : la voix est transcrite et structurée pour vous. Moins de Va-et-vient, plus de chantiers bien cadrés.",
+        highlight: "Moins de friction",
+      },
+      {
+        id: "lead-scoring",
+        title: "Tri automatique des leads",
+        description:
+          "Scores simples pour repérer les urgences et les budgets sérieux. Vous rappelez les bons dossiers en premier.",
+        highlight: "Priorités claires",
+      },
+      {
+        id: "whatsapp-smart",
+        title: "WhatsApp malin",
+        description:
+          "Redirection intelligente vers votre WhatsApp avec le contexte déjà collecté : vous ouvrez la discussion au bon niveau.",
+        highlight: "WhatsApp prêt à l’emploi",
+      },
+      {
+        id: "export-options",
+        title: "Export & options",
+        description:
+          "Export des contacts pour votre carnet d’adresses ou votre facturation. Des options payantes si vous voulez aller plus loin.",
+        highlight: "Vous gardez vos données",
       },
       {
         id: "express-setup",
-        title: "Express setup",
+        title: "En ligne très vite",
         description:
-          "Une page pro prête en minutes (pas en heures). Zéro technique, zéro friction.",
-        highlight: "Prêt en 2 min",
-      },
-      {
-        id: "unique-link",
-        title: "Un lien unique",
-        description:
-          "Un seul lien pour bio, SMS, cartes de visite, QR code. Toujours à jour.",
-        highlight: "Un seul URL",
-      },
-      {
-        id: "no-friction",
-        title: "No‑friction",
-        description:
-          "Pas d’usine à gaz, pas de builder lourd. Juste l’essentiel, au bon endroit.",
-        highlight: "Simple & premium",
+          "Une page pro sans site compliqué : mise en route express, vocabulaire simple, pensée pour le terrain.",
+        highlight: "2 minutes",
       },
     ];
   },
 
   async getPreview() {
     return {
-      displayName: "Camille Dupont",
-      craft: "Céramiste",
-      city: "Lyon",
-      tags: ["Sur‑mesure", "Mariage", "Vaisselle"],
+      displayName: "Marc Bernard",
+      craft: "Plombier chauffagiste",
+      city: "Toulouse",
+      tags: ["Urgence", "Rénovation", "Mise aux normes"],
       about:
-        "Je crée des pièces sur commande au rendu doux et lumineux. Vous me décrivez votre idée, je vous propose une maquette et un devis clair.",
+        "Interventions rapides et devis clairs. Décrivez votre problème (écrit ou vocal) : je vous rappelle avec une fourchette honnête et les bonnes questions.",
       stats: [
         { label: "Temps de mise en place", value: "2 min" },
-        { label: "Lien unique", value: "Oui" },
-        { label: "Devis entrants", value: "↑" },
+        { label: "Lien unique bio / QR", value: "Oui" },
+        { label: "Demandes qualifiées", value: "↑" },
       ],
     };
   },

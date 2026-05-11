@@ -85,6 +85,78 @@ export function IconLink(props: IconProps) {
   );
 }
 
+export function IconMic(props: IconProps) {
+  const { title, rest } = baseProps(props);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden={title ? undefined : true}
+      aria-label={title}
+      {...rest}
+    >
+      <path
+        d="M12 14a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v4a3 3 0 0 0 3 3Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M19 11a7 7 0 0 1-14 0M12 18v3M8 21h8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function IconChart(props: IconProps) {
+  const { title, rest } = baseProps(props);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden={title ? undefined : true}
+      aria-label={title}
+      {...rest}
+    >
+      <path
+        d="M4 19h16M7 16V9M12 16v-5M17 16V6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function IconMessage(props: IconProps) {
+  const { title, rest } = baseProps(props);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden={title ? undefined : true}
+      aria-label={title}
+      {...rest}
+    >
+      <path
+        d="M7 18h-.8c-1 0-1.7-.9-1.5-1.8l.5-2.3c-.7-.9-1.2-2-1.2-3.2a6 6 0 1 1 12 0c0 3.3-2.7 6-6 6H7Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.5 11h5M9.5 13.5h3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function IconShield(props: IconProps) {
   const { title, rest } = baseProps(props);
   return (
