@@ -34,7 +34,7 @@ export function Navbar() {
 
           <nav className="flex items-center gap-2">
             <a
-              href="#douleur"
+              href="#pourquoi"
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 lg:inline-flex"
             >
               Pourquoi
