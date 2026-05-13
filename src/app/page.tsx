@@ -12,6 +12,7 @@ import {
   IconSparkles,
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
+import { HeroIntelligencePanel } from "@/components/landing/HeroIntelligencePanel";
 import { LivePreviewWidget } from "@/components/landing/LivePreviewWidget";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -264,28 +265,7 @@ export default async function Home() {
                   </GlowButton>
                 </div>
 
-                <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {[
-                    { label: "Mise en ligne", value: "~2 min" },
-                    { label: "Lien unique", value: "Bio · QR · SMS" },
-                    { label: "Lead scoring", value: "Priorités claires" },
-                    { label: "WhatsApp", value: "Redirection maline" },
-                  ].map((k) => (
-                    <GlassCard
-                      key={k.label}
-                      rounded="2xl"
-                      elevated={false}
-                      className="px-4 py-3 shadow-[0_10px_22px_rgba(0,0,0,0.06)]"
-                    >
-                      <p className="text-[11px] font-medium text-neutral-600">
-                        {k.label}
-                      </p>
-                      <p className="mt-1 text-sm font-semibold text-black">
-                        {k.value}
-                      </p>
-                    </GlassCard>
-                  ))}
-                </div>
+                <HeroIntelligencePanel />
               </div>
 
               <div id="preview" className="md:col-span-5 scroll-mt-28">
