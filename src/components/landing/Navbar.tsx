@@ -4,8 +4,33 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GlowButton } from "@/components/ui/GlowButton";
 
-export function Navbar() {
+export type NavbarLabels = {
+  why: string;
+  features: string;
+  metiers: string;
+  tarifs: string;
+  faq: string;
+  demo: string;
+};
+
+const defaultLabels: NavbarLabels = {
+  why: "Pourquoi",
+  features: "Fonctions",
+  metiers: "Métiers",
+  tarifs: "Tarifs",
+  faq: "FAQ",
+  demo: "Démo",
+};
+
+type NavbarProps = {
+  basePath?: string;
+  labels?: NavbarLabels;
+};
+
+export function Navbar({ basePath = "", labels }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const L = labels ?? defaultLabels;
+  const p = basePath || "";
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 6);
@@ -23,7 +48,7 @@ export function Navbar() {
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
           <Link
-            href="/"
+            href={p ? `${p}` : "/"}
             className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-neutral-900 md:text-base"
           >
             <span className="grid h-8 w-8 place-items-center rounded-2xl bg-black text-white shadow-[0_12px_24px_rgba(0,0,0,0.18)]">
@@ -34,37 +59,37 @@ export function Navbar() {
 
           <nav className="flex items-center gap-2">
             <a
-              href="#pourquoi"
+              href={`${p}#pourquoi`}
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 lg:inline-flex"
             >
-              Pourquoi
+              {L.why}
             </a>
             <a
-              href="#features"
+              href={`${p}#features`}
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 md:inline-flex"
             >
-              Fonctions
+              {L.features}
             </a>
             <a
-              href="#metiers"
+              href={`${p}#metiers`}
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 lg:inline-flex"
             >
-              Métiers
+              {L.metiers}
             </a>
             <a
-              href="#tarifs"
+              href={`${p}#tarifs`}
               className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 md:inline-flex"
             >
-              Tarifs
+              {L.tarifs}
             </a>
             <a
-              href="#faq"
-              className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 md:inline-flex"
+              href={`${p}#faq`}
+              className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 transition-colors hover:text-neutral-900 lg:inline-flex"
             >
-              FAQ
+              {L.faq}
             </a>
-            <GlowButton href="#cta-demo" className="px-4 py-2.5">
-              Démo
+            <GlowButton href={`${p}#cta-demo`} className="px-4 py-2.5">
+              {L.demo}
             </GlowButton>
           </nav>
         </div>
@@ -72,4 +97,3 @@ export function Navbar() {
     </header>
   );
 }
-

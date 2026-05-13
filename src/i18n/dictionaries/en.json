@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "title": "CraftLink — Pro tradesperson page in 2 min | Instagram, Facebook & WhatsApp leads",
+    "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, joiners, HVAC, and construction trades."
+  },
+  "nav": {
+    "why": "Why",
+    "features": "Features",
+    "metiers": "Trades",
+    "tarifs": "Pricing",
+    "faq": "FAQ",
+    "demo": "Demo"
+  },
+  "pricingComparison": {
+    "sectionEyebrow": "Pricing & comparison",
+    "sectionTitle": "One simple subscription. No hidden friction.",
+    "sectionLead": "Handle the top objections: zero commission on your jobs, no technical skills, live in minutes — without the classic website tool stack.",
+    "trustNoCode": "No technical skills required",
+    "trustLiveFast": "Live in 2 minutes",
+    "zeroCommission": "0% commission on your jobs",
+    "replacementTitle": "The all-in-one replacement for a pile of bills",
+    "replacementLead": "CraftLink replaces the expensive combo: domain name, hosting, plugins, separate AI transcription tools, and relying on a webmaster or agency for every tweak.",
+    "replacementBullets": [
+      "Domain + hosting + security to manage",
+      "Plugins, themes & small fees that stack up",
+      "Transcription / AI subscriptions on top of the site",
+      "Developer or webmaster for ongoing maintenance"
+    ],
+    "compareTitle": "Classic brochure site vs CraftLink?",
+    "compareLead": "A clear contrast on real monthly cost and maintenance load — before we even talk about lead capture.",
+    "tableCriterion": "Criterion",
+    "tableClassic": "Classic brochure website",
+    "tableCraftlink": "CraftLink",
+    "mobileClassicShort": "Classic",
+    "mobileCraftlinkShort": "CraftLink",
+    "comparisonRows": [
+      {
+        "criterion": "Real monthly budget",
+        "classic": "Hosting, theme, plugins, fixes: often over €80/month once everything adds up.",
+        "craftlink": "One subscription, all-inclusive — no surprise “hosting” line items."
+      },
+      {
+        "criterion": "Time before you’re useful online",
+        "classic": "Days to weeks (copy, layout, go-live).",
+        "craftlink": "Live in 2 minutes with a lead-focused page — not an empty shell."
+      },
+      {
+        "criterion": "Maintenance & updates",
+        "classic": "Content, security, mobile compatibility, backups: your time or paid help.",
+        "craftlink": "Product updates on autopilot: you stay on the tools."
+      },
+      {
+        "criterion": "Instagram / Facebook → structured job brief",
+        "classic": "Often a generic “Contact” link: you restart from scratch every DM.",
+        "craftlink": "Dedicated funnel + voice + transcription + scoring + WhatsApp with context."
+      },
+      {
+        "criterion": "Fees / take rate on your jobs",
+        "classic": "Depending on your stack: gateways, ecommerce plugins, or middlemen taking a cut.",
+        "craftlink": "0% commission on your jobs — your business, your revenue."
+      }
+    ],
+    "pricingEyebrow": "Plans",
+    "pricingTitle": "Start lean, unlock more when volume justifies it.",
+    "pricingLead": "No heavy setup: begin with essentials, then add deeper scoring, exports, or trade-specific options when demand grows.",
+    "featuresColumnTitle": "Features",
+    "proAdvantagesTitle": "Pro advantages",
+    "optionsFootnote": "Voice capture, scoring, and exports unlock on Pro; we help you pick the right pack and onboarding.",
+    "tierEssential": {
+      "name": "Essential",
+      "pitch": "Publish fast and capture your first enquiries.",
+      "cta": "Create my page",
+      "href": "#cta"
+    },
+    "tierPro": {
+      "name": "Pro tradesperson",
+      "pitch": "Sort, score, and move to WhatsApp without friction.",
+      "cta": "Talk to us",
+      "href": "#cta-demo",
+      "badge": "Popular"
+    },
+    "tierOptions": {
+      "name": "Options",
+      "pitch": "For teams and advanced needs (quoted).",
+      "cta": "Contact the team",
+      "href": "#cta-demo"
+    },
+    "featureMatrix": [
+      {
+        "label": "Pro page + single link (bio, QR, sheets)",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Structured form (area, urgency, job type)",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Mobile-first layout",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Voice capture & AI transcription",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Lead scoring & prioritised briefs",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "WhatsApp Smart (summary on open)",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Export contacts & enquiry history",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Dedicated support & custom workflows",
+        "essential": false,
+        "pro": false,
+        "options": true
+      }
+    ],
+    "proAdvantages": [
+      "Less phone tennis: the customer already structured the request.",
+      "Instant pro image on mobile, with zero web skills.",
+      "Zero technical maintenance: the product evolves for you.",
+      "Prioritise high-potential jobs with scoring."
+    ]
+  }
+}

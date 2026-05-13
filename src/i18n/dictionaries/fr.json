@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "title": "CraftLink — Page pro artisan en 2 min | Leads Instagram, Facebook & WhatsApp",
+    "description": "Créez une page professionnelle avec un lien unique : tunnel de capture vocale, transcription, scoring des leads et redirection WhatsApp. Pour artisans sans site ou peu équipés — électriciens, plombiers, menuisiers, chauffagistes et corps de métier du bâtiment."
+  },
+  "nav": {
+    "why": "Pourquoi",
+    "features": "Fonctions",
+    "metiers": "Métiers",
+    "tarifs": "Tarifs",
+    "faq": "FAQ",
+    "demo": "Démo"
+  },
+  "pricingComparison": {
+    "sectionEyebrow": "Tarifs & comparaison",
+    "sectionTitle": "Un abonnement simple. Zéro friction cachée.",
+    "sectionLead": "Réponse aux objections les plus fréquentes : pas de commission sur vos chantiers, aucune compétence technique, mise en ligne en quelques minutes — sans la pile d’outils d’un site classique.",
+    "trustNoCode": "Aucune compétence technique requise",
+    "trustLiveFast": "En ligne en 2 minutes",
+    "zeroCommission": "0% de commission sur vos chantiers",
+    "replacementTitle": "Le tout-en-un qui remplace une ribambelle d’abonnements",
+    "replacementLead": "CraftLink remplace le combo coûteux : nom de domaine, hébergement, plugins, outils de transcription IA à part, et la dépendance à un webmaster ou une agence pour chaque modification.",
+    "replacementBullets": [
+      "Nom de domaine + hébergement + sécurité à suivre",
+      "Plugins, thèmes & petites factures qui s’empilent",
+      "Abonnements transcription / IA en plus du site",
+      "Prestataire ou webmaster pour la maintenance"
+    ],
+    "compareTitle": "Site vitrine classique ou CraftLink ?",
+    "compareLead": "Contraste net sur le coût mensuel réel et la charge de maintenance — avant même de parler de capture de leads.",
+    "tableCriterion": "Critère",
+    "tableClassic": "Site vitrine classique",
+    "tableCraftlink": "CraftLink",
+    "mobileClassicShort": "Classique",
+    "mobileCraftlinkShort": "CraftLink",
+    "comparisonRows": [
+      {
+        "criterion": "Budget mensuel réel",
+        "classic": "Hébergement, thème, plugins, correctifs : souvent plus de 80 €/mois une fois tout cumulé.",
+        "craftlink": "Un seul abonnement, tout inclus — sans surprise sur la ligne « hébergement »."
+      },
+      {
+        "criterion": "Temps avant d’être utile en ligne",
+        "classic": "Plusieurs jours à plusieurs semaines (contenus, maquette, mise en ligne).",
+        "craftlink": "En ligne en 2 minutes avec une page orientée leads, pas une coquille vide."
+      },
+      {
+        "criterion": "Maintenance & mises à jour",
+        "classic": "Contenus, sécurité, compatibilité mobile, sauvegardes : à prévoir ou à payer.",
+        "craftlink": "Mises à jour automatisées côté produit : vous restez sur le terrain."
+      },
+      {
+        "criterion": "Capture Instagram / Facebook → dossier client",
+        "classic": "Souvent un lien « Contact » générique : vous repartez de zéro à chaque message.",
+        "craftlink": "Tunnel dédié + vocal + transcription + scoring + WhatsApp avec contexte."
+      },
+      {
+        "criterion": "Commerce / commission sur vos chantiers",
+        "classic": "Selon votre stack : passerelles, plugins e-commerce ou prestataire qui prend une marge.",
+        "craftlink": "0 % de commission sur vos chantiers : votre activité, votre chiffre."
+      }
+    ],
+    "pricingEyebrow": "Tarifs & offre",
+    "pricingTitle": "Commencer léger, activer le reste quand ça tourne.",
+    "pricingLead": "Pas de configuration complexe : vous démarrez avec l’essentiel, puis vous ajoutez scoring poussé, exports ou options métier lorsque le volume de demandes le justifie.",
+    "featuresColumnTitle": "Fonctionnalités",
+    "proAdvantagesTitle": "Avantages Pro",
+    "optionsFootnote": "Les briques vocales, scoring et exports s’activent avec l’offre Pro ; l’équipe vous aide à composer le bon pack et la mise en route.",
+    "tierEssential": {
+      "name": "Essentiel",
+      "pitch": "Pour publier vite et capter vos premiers messages.",
+      "cta": "Créer ma page",
+      "href": "#cta"
+    },
+    "tierPro": {
+      "name": "Pro artisan",
+      "pitch": "Pour trier, scorer et passer sur WhatsApp sans friction.",
+      "cta": "Voir avec nous",
+      "href": "#cta-demo",
+      "badge": "Populaire"
+    },
+    "tierOptions": {
+      "name": "Options",
+      "pitch": "Pour les équipes et besoins avancés (sur devis).",
+      "cta": "Parler à l’équipe",
+      "href": "#cta-demo"
+    },
+    "featureMatrix": [
+      {
+        "label": "Page pro + lien unique (bio, QR, fiches)",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Formulaire structuré (zone, urgence, type d’intervention)",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Mise en page mobile-first",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Capture vocale & transcription IA",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Lead scoring & dossiers priorisés",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "WhatsApp Smart (besoin résumé à l’ouverture)",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Export contacts & historique des demandes",
+        "essential": false,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Accompagnement dédié & évolutions sur mesure",
+        "essential": false,
+        "pro": false,
+        "options": true
+      }
+    ],
+    "proAdvantages": [
+      "Moins de temps au téléphone : le client a déjà structuré sa demande.",
+      "Image pro immédiate sur mobile, sans compétences web.",
+      "Zéro maintenance technique : le produit évolue pour vous.",
+      "Priorité aux chantiers à fort potentiel grâce au scoring."
+    ]
+  }
+}
