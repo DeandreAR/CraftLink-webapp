@@ -49,12 +49,17 @@ export function Navbar({ basePath = "", labels }: NavbarProps) {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
           <Link
             href={p ? `${p}` : "/"}
-            className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-neutral-900 md:text-base"
+            className="landing-nav-logo inline-flex shrink-0 items-center text-black"
+            aria-label="CraftLink"
           >
-            <span className="grid h-8 w-8 place-items-center rounded-2xl bg-black text-white shadow-[0_12px_24px_rgba(0,0,0,0.18)]">
-              C
-            </span>
-            <span className="font-semibold">CraftLink</span>
+            <img
+              src="/images/logo_main.png"
+              alt="CraftLink"
+              width={1731}
+              height={350}
+              className="landing-nav-logo-img block h-8 w-auto max-w-none md:h-10"
+              decoding="async"
+            />
           </Link>
 
           <nav className="flex items-center gap-2">

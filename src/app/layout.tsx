@@ -9,9 +9,7 @@ const lexend = Lexend({
 });
 
 export const metadata: Metadata = {
-  title: "CraftLink — L’artisanat, en lien",
-  description:
-    "CraftLink relie passionnés et artisans : profils, créations et prise de contact en un clin d’œil.",
+  title: "CraftLink",
 };
 
 export default function RootLayout({

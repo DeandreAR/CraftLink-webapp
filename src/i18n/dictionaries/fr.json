@@ -11,6 +11,35 @@
     "faq": "FAQ",
     "demo": "Démo"
   },
+  "hero": {
+    "pill": "Capture de leads pour artisans",
+    "titleBefore": "Un lien unique pour",
+    "titleHighlight": "centraliser toutes vos demandes",
+    "titleAfter": "clients.",
+    "lead": "Transformez vos abonnés en demandes de devis qualifiées. Fini le chaos entre vos DM et vos mails : un seul lien sur vos réseaux et votre fiche Google permet à vos prospects de déposer une demande vocale ou écrite. Notre IA traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
+    "ctaPrimary": "Créer ma page pro",
+    "ctaSecondary": "Demander une démo",
+    "preview": {
+      "eyebrow": "Live preview",
+      "title": "Votre profil artisan, prêt à partager",
+      "about": "Interventions rapides et devis clairs. Décrivez votre problème (écrit ou vocal) : je vous rappelle avec une fourchette honnête et les bonnes questions.",
+      "tags": ["Urgence", "Rénovation", "Mise aux normes"],
+      "stats": [
+        { "label": "Temps de mise en place", "value": "2 min" },
+        { "label": "Lien unique bio / QR", "value": "Oui" },
+        { "label": "Demandes qualifiées", "value": "↑" }
+      ],
+      "savoirFaire": "Mon savoir-faire",
+      "dixPlusAns": "10+ ans",
+      "materiaux": "Matériaux",
+      "mesPrestations": "Mes prestations",
+      "craftlinkDemo": "Craftlink demo",
+      "inCity": "à"
+    },
+    "flow": {
+      "figureAlt": "Schéma en quatre étapes : toutes les sources, lien central (vocal ou texte), traitement IA et dossiers, puis action sur le terrain (WhatsApp, SMS, chantier)."
+    }
+  },
   "pricingComparison": {
     "sectionEyebrow": "Tarifs & comparaison",
     "sectionTitle": "Un abonnement simple. Zéro friction cachée.",

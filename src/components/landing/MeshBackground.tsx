@@ -14,7 +14,7 @@ export function MeshBackground({
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute inset-0 bg-white ${className}`.trim()}
+      className={`pointer-events-none absolute inset-0 z-0 bg-white ${className}`.trim()}
       {...rest}
     />
   );

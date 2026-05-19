@@ -11,6 +11,35 @@
     "faq": "FAQ",
     "demo": "Demo"
   },
+  "hero": {
+    "pill": "Lead capture for tradespeople",
+    "titleBefore": "One link to",
+    "titleHighlight": "centralise every client",
+    "titleAfter": "request.",
+    "lead": "Turn followers into qualified quote requests. End the chaos across DMs and email: one link on your social profiles and Google listing lets prospects send a voice or written brief. Our AI shapes the information and delivers a structured dossier straight to the messenger you already use.",
+    "ctaPrimary": "Create my pro page",
+    "ctaSecondary": "Book a demo",
+    "preview": {
+      "eyebrow": "Live preview",
+      "title": "Your tradesperson profile, ready to share",
+      "about": "Fast call-outs and clear quotes. Describe the issue (written or voice): I’ll call you back with an honest range and the right questions.",
+      "tags": ["Emergency", "Renovation", "Compliance"],
+      "stats": [
+        { "label": "Time to go live", "value": "2 min" },
+        { "label": "Single bio / QR link", "value": "Yes" },
+        { "label": "Qualified leads", "value": "↑" }
+      ],
+      "savoirFaire": "My expertise",
+      "dixPlusAns": "10+ yrs",
+      "materiaux": "Materials",
+      "mesPrestations": "My services",
+      "craftlinkDemo": "Craftlink demo",
+      "inCity": "in"
+    },
+    "flow": {
+      "figureAlt": "Four-step diagram: all sources, central link (voice or text), AI processing and files, then field action (WhatsApp, SMS, jobsite)."
+    }
+  },
   "pricingComparison": {
     "sectionEyebrow": "Pricing & comparison",
     "sectionTitle": "One simple subscription. No hidden friction.",

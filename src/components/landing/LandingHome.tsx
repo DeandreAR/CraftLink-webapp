@@ -11,7 +11,7 @@ import {
   IconSparkles,
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
-import { HeroIntelligencePanel } from "@/components/landing/HeroIntelligencePanel";
+import { HeroFlowSchema } from "@/components/landing/HeroFlowSchema";
 import { LivePreviewWidget } from "@/components/landing/LivePreviewWidget";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -150,50 +150,64 @@ export async function LandingHome({ lang }: { lang: Locale }) {
   const pricingModel = buildPricingSectionModel(dict.pricingComparison);
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="landing-home min-h-screen bg-white text-black">
       <Navbar basePath={basePath} labels={dict.nav} />
 
-      <main className="relative">
+      <main className="landing-main relative">
         {/* Hero */}
-        <section className="relative overflow-hidden">
+        <section className="landing-hero relative overflow-hidden">
           <MeshBackground intensity="normal" />
 
-          <div className="mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
-            <div className="grid items-center gap-10 md:grid-cols-12 md:gap-8">
-              <div className="relative md:col-span-7">
-                <p className="inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700">
+          <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
+            <div className="landing-hero-body grid items-start gap-10 md:gap-8">
+              <div className="landing-hero-body-col min-w-0">
+                <p className="landing-hero-pill inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700">
                   <span className="h-2 w-2 rounded-full bg-[#EFA188]" />
-                  Capture de leads pour artisans
+                  {dict.hero.pill}
                 </p>
 
-                <h1 className="mt-6 text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl">
-                  Un lien unique pour{" "}
-                  <Highlighter className="font-semibold" color="#EFA188" opacity={0.3}>
-                    centraliser toutes vos demandes
-                  </Highlighter>{" "}
-                  clients.
-                </h1>
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:text-lg">
-                  Transformez vos abonnés en demandes de devis qualifiées. Fini
-                  le chaos entre vos DM et vos mails : un seul lien sur vos
-                  réseaux et votre fiche Google permet à vos prospects de
-                  déposer une demande vocale ou écrite. Notre IA traite{" "}
-                  {"l'information"} et vous livre un dossier structuré directement
-                  sur la messagerie de votre choix
-                </p>
+                <div className="landing-hero-grid mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_270px] lg:gap-x-10">
+                  <div className="landing-hero-copy min-w-0 max-w-2xl">
+                    <h1 className="landing-hero-title text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl">
+                      {dict.hero.titleBefore}{" "}
+                      <Highlighter
+                        className="font-semibold"
+                        color="#EFA188"
+                        opacity={0.3}
+                      >
+                        {dict.hero.titleHighlight}
+                      </Highlighter>{" "}
+                      {dict.hero.titleAfter}
+                    </h1>
+                    <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:text-lg">
+                      {dict.hero.lead}
+                    </p>
 
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                  <GlowButton href={`${basePath}#cta`}>Créer ma page pro</GlowButton>
-                  <GlowButton href={`${basePath}#cta-demo`}>
-                    Demander une démo
-                  </GlowButton>
+                    <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                      <GlowButton href={`${basePath}#cta`}>
+                        {dict.hero.ctaPrimary}
+                      </GlowButton>
+                      <GlowButton href={`${basePath}#cta-demo`}>
+                        {dict.hero.ctaSecondary}
+                      </GlowButton>
+                    </div>
+                  </div>
+
+                  <div
+                    id="preview"
+                    className="landing-hero-aside flex w-full max-w-[270px] shrink-0 scroll-mt-28 flex-col items-stretch gap-4 self-center lg:self-start"
+                  >
+                    <LivePreviewWidget
+                      preview={preview}
+                      labels={dict.hero.preview}
+                      variant="hero"
+                    />
+                    <HeroFlowSchema
+                      flow={dict.hero.flow}
+                      className="landing-hero-schema"
+                    />
+                  </div>
                 </div>
-
-                <HeroIntelligencePanel />
-              </div>
-
-              <div id="preview" className="md:col-span-5 scroll-mt-28">
-                <LivePreviewWidget preview={preview} />
               </div>
             </div>
           </div>
@@ -201,17 +215,17 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
         {/* Transition douce hero → contenu */}
         <div
-          className="pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-neutral-200 to-transparent"
+          className="landing-hero-divider pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-neutral-200 to-transparent"
           aria-hidden
         />
 
         {/* Pourquoi : synthèse + sans/avec + 3 piliers colorés */}
         <section
           id="pourquoi"
-          className="scroll-mt-28 bg-white"
+          className="landing-pourquoi scroll-mt-28 bg-white"
           aria-labelledby="pourquoi-heading"
         >
-          <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
+          <div className="landing-pourquoi-inner mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
               Pourquoi CraftLink ?
             </p>
@@ -242,8 +256,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               </span>
             </div>
 
-            <div className="mt-12 grid gap-4 md:grid-cols-2">
-              <div className="rounded-3xl border border-neutral-200 bg-neutral-100 p-6 text-neutral-600 shadow-inner md:p-8">
+            <div className="landing-pourquoi-compare mt-12 grid gap-4 md:grid-cols-2">
+              <div className="landing-pourquoi-sans rounded-3xl border border-neutral-200 bg-neutral-100 p-6 text-neutral-600 shadow-inner md:p-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">
                   Sans CraftLink
                 </p>
@@ -274,7 +288,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                 </ul>
               </div>
 
-              <div className="rounded-3xl border border-[#EFA188]/40 bg-gradient-to-br from-[#EFA188]/[0.14] via-white to-white p-6 shadow-[0_20px_50px_rgba(239,161,136,0.12)] md:p-8">
+              <div className="landing-pourquoi-avec rounded-3xl border border-[#EFA188]/40 bg-gradient-to-br from-[#EFA188]/[0.14] via-white to-white p-6 shadow-[0_20px_50px_rgba(239,161,136,0.12)] md:p-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#EFA188]">
                   Avec CraftLink
                 </p>
@@ -307,7 +321,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               </div>
             </div>
 
-            <div className="mt-14 grid gap-4 md:grid-cols-3">
+            <div className="landing-pourquoi-pillars mt-14 grid gap-4 md:grid-cols-3">
               <div className="rounded-3xl border border-[#EFA188]/25 bg-[#EFA188]/[0.12] p-6 md:p-7">
                 <div className="flex items-start gap-3">
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#EFA188] text-white shadow-[0_12px_28px_rgba(239,161,136,0.35)]">
@@ -365,11 +379,11 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         {/* Fonctionnalités — bento teinté, enveloppe premium */}
         <section
           id="features"
-          className="scroll-mt-28 border-t border-neutral-200 bg-gradient-to-b from-neutral-50/80 via-white to-white"
+          className="landing-features scroll-mt-28 border-t border-neutral-200 bg-gradient-to-b from-neutral-50/80 via-white to-white"
           aria-labelledby="features-heading"
         >
-          <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:pb-18">
-            <div className="max-w-2xl">
+          <div className="landing-features-inner mx-auto max-w-6xl px-4 py-14 md:px-6 md:pb-18">
+            <div className="landing-features-header max-w-2xl">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
                 Fonctionnalités
               </p>
@@ -390,7 +404,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               </p>
             </div>
 
-            <div className="mt-10 rounded-[2rem] border border-neutral-200/80 bg-gradient-to-br from-white via-[#EFA188]/[0.04] to-[#D6BCFA]/[0.06] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.06)] md:p-6">
+            <div className="landing-features-bento mt-10 rounded-[2rem] border border-neutral-200/80 bg-gradient-to-br from-white via-[#EFA188]/[0.04] to-[#D6BCFA]/[0.06] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.06)] md:p-6">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-6">
                 <BentoFeatureCard
                   className="md:col-span-3"
@@ -481,10 +495,10 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         {/* Cas d’usage par métier */}
         <section
           id="metiers"
-          className="mx-auto max-w-6xl scroll-mt-28 px-4 py-14 md:px-6 md:py-18"
+          className="landing-metiers mx-auto max-w-6xl scroll-mt-28 px-4 py-14 md:px-6 md:py-18"
           aria-labelledby="metiers-heading"
         >
-          <div className="max-w-3xl">
+          <div className="landing-metiers-header max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
               Cas d’usage par métier
             </p>
@@ -508,7 +522,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="landing-metiers-grid mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {metiersCasUsage.map((m) => (
               <GlassCard
                 key={m.metier}
@@ -531,9 +545,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         <LandingFaqDisclosure blocks={faqBlocks} />
 
         {/* CTA inscription */}
-        <section id="cta" className="relative scroll-mt-28 overflow-hidden py-14">
+        <section id="cta" className="landing-cta relative scroll-mt-28 overflow-hidden py-14">
           <MeshBackground intensity="subtle" />
-          <div className="relative mx-auto max-w-6xl px-4 md:px-6">
+          <div className="landing-cta-inner relative mx-auto max-w-6xl px-4 md:px-6">
             <GlassCard rounded="2xl" className="border border-neutral-200 p-8 md:p-10">
               <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                 <div className="max-w-2xl">
@@ -557,9 +571,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         {/* CTA démo */}
         <section
           id="cta-demo"
-          className="scroll-mt-28 border-t border-neutral-200 bg-neutral-900 py-14 text-white"
+          className="landing-cta-demo scroll-mt-28 border-t border-neutral-200 bg-neutral-900 py-14 text-white"
         >
-          <div className="mx-auto max-w-6xl px-4 md:px-6">
+          <div className="landing-cta-demo-inner mx-auto max-w-6xl px-4 md:px-6">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div className="max-w-2xl">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
@@ -584,8 +598,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         </section>
       </main>
 
-      <footer className="border-t border-neutral-200/70 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-10 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between md:px-6">
+      <footer className="landing-footer border-t border-neutral-200/70 bg-white">
+        <div className="landing-footer-inner mx-auto flex max-w-6xl flex-col gap-2 px-4 py-10 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between md:px-6">
           <p className="font-medium text-neutral-700">
             © {new Date().getFullYear()} CraftLink — Page pro artisan, capture de
             leads, WhatsApp.

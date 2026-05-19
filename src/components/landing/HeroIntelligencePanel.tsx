@@ -2,9 +2,15 @@
  * Illustration simplifiée du panneau « Intelligence et structure » du tunnel CraftLink.
  */
 
+import type { HeroIntelligenceDictionary } from "@/i18n/types";
+
 const peach = "#F8B195";
 
-export function HeroIntelligencePanel() {
+type HeroIntelligencePanelProps = {
+  copy: HeroIntelligenceDictionary;
+};
+
+export function HeroIntelligencePanel({ copy }: HeroIntelligencePanelProps) {
   return (
     <div className="mt-10 w-full max-w-xl">
       <div className="relative">
@@ -83,7 +89,7 @@ export function HeroIntelligencePanel() {
 
             <div className="min-w-[8rem] flex-1">
               <p className="text-xs font-semibold text-black sm:text-sm">
-                Transcription
+                {copy.transcriptionLabel}
               </p>
               <div className="mt-2 space-y-1.5">
                 <div className="h-1.5 rounded-full bg-neutral-200 w-full max-w-[11rem]" />
@@ -145,7 +151,7 @@ export function HeroIntelligencePanel() {
 
             <div className="min-w-0 flex-1">
               <p className="text-xs font-semibold text-black sm:text-sm">
-                Client data
+                {copy.clientDataLabel}
               </p>
               <div className="mt-2 space-y-1.5">
                 <DataBar fill={0.85} />
@@ -161,11 +167,10 @@ export function HeroIntelligencePanel() {
 
       <div className="mt-5 text-center">
         <p className="text-xs font-bold uppercase tracking-[0.12em] text-black sm:text-sm">
-          2. Intelligence et structure
+          {copy.stepTitle}
         </p>
         <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-neutral-600 sm:text-sm">
-          L&apos;IA transcrit les vocaux et structure le dossier : zone,
-          urgence, projet, photos.
+          {copy.stepDescription}
         </p>
       </div>
     </div>

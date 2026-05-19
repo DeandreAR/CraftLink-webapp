@@ -1,13 +1,16 @@
 import { GlassCard } from "@/components/ui/GlassCard";
 import type { ArtisanPreview } from "@/domain/landing";
+import type { HeroPreviewDictionary } from "@/i18n/types";
 
-type Props = {
+type LivePreviewWidgetProps = {
   preview: ArtisanPreview;
+  labels: HeroPreviewDictionary;
+  /** Mode hero : téléphone seul (largeur 270px), sans colonne texte dupliquée. */
+  variant?: "full" | "hero";
 };
 
 const accent = "#EFA188";
 const screenBg = "#F9FAFB";
-const actionBg = "#1F2937";
 
 function PreviewIcons() {
   return {
@@ -38,46 +41,6 @@ function PreviewIcons() {
         <path fill={accent} d="M11 21h2v1h-2z" opacity={0.85} />
       </svg>
     ),
-    mic: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden>
-        <path
-          fill={accent}
-          d="M12 14a3 3 0 003-3V7a3 3 0 10-6 0v4a3 3 0 003 3zm5-3a5 5 0 01-10 0h-2a7 7 0 0014 0h-2zM11 19h2v3h-2z"
-        />
-      </svg>
-    ),
-    chat: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden>
-        <path
-          fill={accent}
-          d="M4 5h16a2 2 0 012 2v8a2 2 0 01-2 2h-6l-4 3v-3H4a2 2 0 01-2-2V7a2 2 0 012-2z"
-        />
-      </svg>
-    ),
-    brain: (
-      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-neutral-500" aria-hidden>
-        <path
-          fill="currentColor"
-          d="M12 3a4 4 0 00-2 7.5V13h4v-2.5A4 4 0 0012 3zm-6 5a2.5 2.5 0 012 2.4V13H4V10.4A2.5 2.5 0 016 8zm12 0a2.5 2.5 0 012 2.4V13h-4v-2.6a2.5 2.5 0 012-2.4zM7 15h10v2H7v-2zm2 4h6v2H9v-2z"
-        />
-      </svg>
-    ),
-    phone: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5 text-neutral-500" aria-hidden>
-        <path
-          fill="currentColor"
-          d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2zm5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
-        />
-      </svg>
-    ),
-    bubbles: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5 text-neutral-500" aria-hidden>
-        <path
-          fill="currentColor"
-          d="M4 6h10a2 2 0 012 2v5H8l-3 3V8a2 2 0 012-2zm8 8h8a2 2 0 012 2v4h-4l-2 2v-2h-4a2 2 0 01-2-2v-4z"
-        />
-      </svg>
-    ),
   };
 }
 
@@ -96,17 +59,47 @@ function ToolMini({ d }: { d: string }) {
   );
 }
 
-export function LivePreviewWidget({ preview }: Props) {
+const toolMiniPaths = [
+  "M14.7 6.3a1 1 0 000 1.4l-3 3a1 1 0 01-1.4 0L5.4 5.4a1 1 0 010-1.4l1.4-1.4a1 1 0 011.4 0l5.3 5.3a1 1 0 001.4 0l3-3a1 1 0 011.4 0l1.4 1.4a1 1 0 010 1.4l-3 3",
+  "M12 3v18M8 8l8 8M16 8l-8 8",
+  "M4 12h16M12 4v16",
+  "M9 18V6l6 6-6 6",
+  "M6 8h12M6 16h12M12 8v8",
+  "M8 8h8v8H8zM10 10h4v4h-4z",
+];
+
+export function LivePreviewWidget({
+  preview,
+  labels,
+  variant = "full",
+}: LivePreviewWidgetProps) {
+  if (variant === "hero") {
+    return (
+      <GlassCard
+        rounded="2xl"
+        elevated={false}
+        className="border border-neutral-200 bg-white p-3 shadow-[0_12px_32px_rgba(0,0,0,0.06)]"
+      >
+        <p className="text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500">
+          {labels.eyebrow}
+        </p>
+        <div className="mt-2 flex justify-center">
+          <DemoPhoneFrame preview={preview} labels={labels} />
+        </div>
+      </GlassCard>
+    );
+  }
+
   return (
     <GlassCard rounded="2xl" className="p-6 md:p-7">
       <div className="flex flex-col gap-5">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
-              Live preview
+              {labels.eyebrow}
             </p>
             <h3 className="mt-2 text-xl font-bold tracking-tight text-black md:text-2xl">
-              Votre profil artisan, prêt à partager
+              {labels.title}
             </h3>
           </div>
           <div className="hidden rounded-2xl border border-[#E5E7EB] bg-white px-3 py-2 text-xs font-semibold text-neutral-700 md:block">
@@ -117,10 +110,10 @@ export function LivePreviewWidget({ preview }: Props) {
         <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-3">
             <p className="text-sm leading-relaxed text-neutral-700 md:text-base">
-              {preview.about}
+              {labels.about}
             </p>
             <div className="flex flex-wrap gap-2">
-              {preview.tags.map((t) => (
+              {labels.tags.map((t) => (
                 <span
                   key={t}
                   className="rounded-full border border-[#E5E7EB] bg-white px-3 py-1 text-xs font-medium text-neutral-700"
@@ -130,7 +123,7 @@ export function LivePreviewWidget({ preview }: Props) {
               ))}
             </div>
             <div className="grid grid-cols-3 gap-2 pt-2">
-              {preview.stats.map((s) => (
+              {labels.stats.map((s) => (
                 <div
                   key={s.label}
                   className="rounded-2xl border border-[#E5E7EB] bg-white p-3 text-center shadow-[0_10px_22px_rgba(0,0,0,0.05)]"
@@ -147,7 +140,7 @@ export function LivePreviewWidget({ preview }: Props) {
           </div>
 
           <div className="flex justify-center">
-            <DemoPhoneFrame preview={preview} />
+            <DemoPhoneFrame preview={preview} labels={labels} />
           </div>
         </div>
       </div>
@@ -155,16 +148,13 @@ export function LivePreviewWidget({ preview }: Props) {
   );
 }
 
-const toolMiniPaths = [
-  "M14.7 6.3a1 1 0 000 1.4l-3 3a1 1 0 01-1.4 0L5.4 5.4a1 1 0 010-1.4l1.4-1.4a1 1 0 011.4 0l5.3 5.3a1 1 0 001.4 0l3-3a1 1 0 011.4 0l1.4 1.4a1 1 0 010 1.4l-3 3",
-  "M12 3v18M8 8l8 8M16 8l-8 8",
-  "M4 12h16M12 4v16",
-  "M9 18V6l6 6-6 6",
-  "M6 8h12M6 16h12M12 8v8",
-  "M8 8h8v8H8zM10 10h4v4h-4z",
-];
-
-function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
+function DemoPhoneFrame({
+  preview,
+  labels,
+}: {
+  preview: ArtisanPreview;
+  labels: HeroPreviewDictionary;
+}) {
   const icons = PreviewIcons();
   const parts = preview.displayName.trim().split(/\s+/);
   const firstName = parts[0] ?? preview.displayName;
@@ -177,7 +167,7 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
   const craftShort = preview.craft.split(/\s+/)[0] ?? preview.craft;
 
   return (
-    <div className="relative w-[270px] shrink-0">
+    <div className="relative w-[270px] shrink-0 lg:-mt-10">
       <div className="relative overflow-hidden rounded-[2.45rem] shadow-[0_22px_48px_rgba(0,0,0,0.18)] ring-1 ring-neutral-900/15">
         <div className="rounded-[2.45rem] bg-neutral-900 p-[5px]">
           <div
@@ -185,10 +175,10 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
             aria-hidden
           />
           <div
-            className="relative max-h-[480px] overflow-hidden rounded-[2.05rem] pt-6"
+            className="relative max-h-[360px] overflow-hidden rounded-[2.05rem] pt-6"
             style={{ backgroundColor: screenBg }}
           >
-            <div className="max-h-[440px] space-y-2 overflow-hidden px-2.5 pb-4 pt-0.5">
+            <div className="max-h-[320px] space-y-2 overflow-hidden px-2.5 pb-3 pt-0.5">
               <div className="text-center">
                 <div className="relative mx-auto h-[52px] w-[52px]">
                   <div
@@ -217,16 +207,16 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
                   {firstName}
                 </p>
                 <p className="text-[10px] font-medium text-neutral-500">
-                  {craftShort} à {preview.city}
+                  {craftShort} {labels.inCity} {preview.city}
                 </p>
                 <p className="mt-2.5 text-[11px] font-bold uppercase tracking-[0.14em] text-black">
-                  Craftlink demo
+                  {labels.craftlinkDemo}
                 </p>
               </div>
 
               <div className="rounded-[1.15rem] border border-neutral-100 bg-white p-2 shadow-[0_4px_14px_rgba(0,0,0,0.04)]">
                 <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-neutral-800">
-                  Mon savoir-faire
+                  {labels.savoirFaire}
                 </p>
                 <div className="mt-2 flex items-center gap-2">
                   <div className="shrink-0">{icons.toolbox}</div>
@@ -256,7 +246,7 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
                           />
                         </svg>
                         <span className="text-[8px] font-semibold text-neutral-600">
-                          10+ ans
+                          {labels.dixPlusAns}
                         </span>
                       </div>
                       <div className="h-px flex-1 bg-neutral-200" />
@@ -273,7 +263,7 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
                           />
                         </svg>
                         <span className="text-[8px] font-semibold text-neutral-600">
-                          Matériaux
+                          {labels.materiaux}
                         </span>
                       </div>
                     </div>
@@ -281,9 +271,9 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
                 </div>
               </div>
 
-              <div className="rounded-[1.15rem] border border-neutral-100 bg-white p-2 shadow-[0_4px_14px_rgba(0,0,0,0.04)]">
+              <div className="relative z-10 rounded-[1.15rem] border border-neutral-100 bg-white p-2 shadow-[0_4px_14px_rgba(0,0,0,0.04)]">
                 <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-neutral-800">
-                  Mes prestations
+                  {labels.mesPrestations}
                 </p>
                 <div className="mt-2 flex gap-2">
                   <div className="shrink-0">{icons.faucet}</div>
@@ -298,56 +288,15 @@ function DemoPhoneFrame({ preview }: { preview: ArtisanPreview }) {
                     ))}
                   </div>
                 </div>
-              </div>
-
-              <div className="rounded-[1.15rem] border border-neutral-100 bg-white p-2 shadow-[0_4px_14px_rgba(0,0,0,0.04)]">
-                <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-neutral-900">
-                  Votre projet{" "}
-                  <span className="font-semibold text-neutral-500">
-                    (vocal ou écrit)
-                  </span>
-                </p>
-                <div className="mt-2 grid grid-cols-2 gap-1.5">
-                  <div
-                    className="flex flex-col items-center justify-center gap-1 rounded-xl py-2.5 text-[9px] font-bold uppercase tracking-wide text-white"
-                    style={{ backgroundColor: actionBg }}
-                  >
-                    {icons.mic}
-                    Vocal
-                  </div>
-                  <div
-                    className="flex flex-col items-center justify-center gap-1 rounded-xl py-2.5 text-[9px] font-bold uppercase tracking-wide text-white"
-                    style={{ backgroundColor: actionBg }}
-                  >
-                    {icons.chat}
-                    Texte
-                  </div>
-                </div>
-                <div className="mt-2 flex items-center justify-center gap-1 text-[8px] font-semibold uppercase tracking-[0.08em] text-neutral-500">
-                  {icons.brain}
-                  AI cluster
-                </div>
-              </div>
-
-              <div className="rounded-[1.15rem] border border-neutral-100 bg-white p-2.5 shadow-[0_4px_14px_rgba(0,0,0,0.04)]">
-                <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-neutral-800">
-                  Rejoindre
-                </p>
-                <div className="mt-2 flex justify-center gap-4">
-                  {icons.phone}
-                  {icons.bubbles}
-                </div>
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[4.5rem] rounded-b-[1.05rem] bg-gradient-to-b from-transparent via-white/80 to-white"
+                  aria-hidden
+                />
               </div>
             </div>
           </div>
         </div>
-
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-28 rounded-b-[2.45rem] bg-gradient-to-b from-transparent via-white/85 to-white"
-          aria-hidden
-        />
       </div>
     </div>
   );
 }
-

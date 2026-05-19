@@ -64,8 +64,39 @@ export type MetaDictionary = {
   description: string;
 };
 
+export type HeroPreviewDictionary = {
+  eyebrow: string;
+  title: string;
+  about: string;
+  tags: string[];
+  stats: { label: string; value: string }[];
+  savoirFaire: string;
+  dixPlusAns: string;
+  materiaux: string;
+  mesPrestations: string;
+  craftlinkDemo: string;
+  inCity: string;
+};
+
+export type HeroFlowDictionary = {
+  figureAlt: string;
+};
+
+export type HeroDictionary = {
+  pill: string;
+  titleBefore: string;
+  titleHighlight: string;
+  titleAfter: string;
+  lead: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  preview: HeroPreviewDictionary;
+  flow: HeroFlowDictionary;
+};
+
 export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
+  hero: HeroDictionary;
   pricingComparison: PricingComparisonDictionary;
 };
