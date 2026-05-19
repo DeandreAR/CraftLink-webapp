@@ -82,11 +82,22 @@ export type HeroFlowDictionary = {
   figureAlt: string;
 };
 
+export type HeroTypingChannel = {
+  label: string;
+  color: string;
+};
+
+export type HeroTypingTitleDictionary = {
+  intro: string;
+  channels: HeroTypingChannel[];
+};
+
 export type HeroDictionary = {
   pill: string;
   titleBefore: string;
   titleHighlight: string;
   titleAfter: string;
+  typingTitle: HeroTypingTitleDictionary;
   lead: string;
   ctaPrimary: string;
   ctaSecondary: string;

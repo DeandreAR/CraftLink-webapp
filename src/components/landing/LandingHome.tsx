@@ -12,10 +12,10 @@ import {
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
 import { HeroFlowSchema } from "@/components/landing/HeroFlowSchema";
+import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
 import { LivePreviewWidget } from "@/components/landing/LivePreviewWidget";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { Highlighter } from "@/components/ui/Highlighter";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -168,17 +168,13 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
                 <div className="landing-hero-grid mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_270px] lg:gap-x-10">
                   <div className="landing-hero-copy min-w-0 max-w-2xl">
-                    <h1 className="landing-hero-title text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl">
-                      {dict.hero.titleBefore}{" "}
-                      <Highlighter
-                        className="font-semibold"
-                        color="#EFA188"
-                        opacity={0.3}
-                      >
-                        {dict.hero.titleHighlight}
-                      </Highlighter>{" "}
-                      {dict.hero.titleAfter}
-                    </h1>
+                    <div className="landing-hero-title-card relative z-10 mb-6 max-w-xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
+                      <HeroTypingTitle
+                        className="landing-hero-title"
+                        intro={dict.hero.typingTitle.intro}
+                        channels={dict.hero.typingTitle.channels}
+                      />
+                    </div>
                     <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:text-lg">
                       {dict.hero.lead}
                     </p>

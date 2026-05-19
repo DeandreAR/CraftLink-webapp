@@ -16,6 +16,18 @@
     "titleBefore": "One link to",
     "titleHighlight": "centralise every client",
     "titleAfter": "request.",
+    "typingTitle": {
+      "intro": "One link to centralise every client request from ",
+      "channels": [
+        { "label": "Instagram", "color": "#E4405F" },
+        { "label": "Facebook", "color": "#1877F2" },
+        { "label": "TikTok", "color": "#FE2C55" },
+        { "label": "WhatsApp", "color": "#25D366" },
+        { "label": "Snapchat", "color": "#FFFC00" },
+        { "label": "Threads", "color": "#000000" },
+        { "label": "QR codes", "color": "#212129" }
+      ]
+    },
     "lead": "Turn followers into qualified quote requests. End the chaos across DMs and email: one link on your social profiles and Google listing lets prospects send a voice or written brief. Our AI shapes the information and delivers a structured dossier straight to the messenger you already use.",
     "ctaPrimary": "Create my pro page",
     "ctaSecondary": "Book a demo",

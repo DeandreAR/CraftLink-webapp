@@ -16,6 +16,18 @@
     "titleBefore": "Un lien unique pour",
     "titleHighlight": "centraliser toutes vos demandes",
     "titleAfter": "clients.",
+    "typingTitle": {
+      "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
+      "channels": [
+        { "label": "Instagram", "color": "#E4405F" },
+        { "label": "Facebook", "color": "#1877F2" },
+        { "label": "TikTok", "color": "#FE2C55" },
+        { "label": "WhatsApp", "color": "#25D366" },
+        { "label": "Snapchat", "color": "#FFFC00" },
+        { "label": "Threads", "color": "#000000" },
+        { "label": "les QR codes", "color": "#212129" }
+      ]
+    },
     "lead": "Transformez vos abonnés en demandes de devis qualifiées. Fini le chaos entre vos DM et vos mails : un seul lien sur vos réseaux et votre fiche Google permet à vos prospects de déposer une demande vocale ou écrite. Notre IA traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
     "ctaPrimary": "Créer ma page pro",
     "ctaSecondary": "Demander une démo",
