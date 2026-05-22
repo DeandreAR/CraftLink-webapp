@@ -98,6 +98,7 @@ export type HeroDictionary = {
   titleHighlight: string;
   titleAfter: string;
   typingTitle: HeroTypingTitleDictionary;
+  asideShowcaseAlt: string;
   lead: string;
   ctaPrimary: string;
   ctaSecondary: string;

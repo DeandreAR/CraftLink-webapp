@@ -11,15 +11,13 @@ import {
   IconSparkles,
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
-import { HeroFlowSchema } from "@/components/landing/HeroFlowSchema";
+import { HeroAsideShowcase } from "@/components/landing/HeroAsideShowcase";
 import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
-import { LivePreviewWidget } from "@/components/landing/LivePreviewWidget";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
-import { landingService } from "@/services/landingService";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
 
 const faqBlocks = [
@@ -144,7 +142,6 @@ const metiersCasUsage = [
 ];
 
 export async function LandingHome({ lang }: { lang: Locale }) {
-  const preview = await landingService.getPreview();
   const dict = await getDictionary(lang);
   const basePath = `/${lang}`;
   const pricingModel = buildPricingSectionModel(dict.pricingComparison);
@@ -155,7 +152,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
       <main className="landing-main relative">
         {/* Hero */}
-        <section className="landing-hero relative overflow-hidden">
+        <section className="landing-hero relative overflow-x-hidden overflow-y-visible">
           <MeshBackground intensity="normal" />
 
           <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
@@ -166,16 +163,16 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                   {dict.hero.pill}
                 </p>
 
-                <div className="landing-hero-grid mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_270px] lg:gap-x-10">
-                  <div className="landing-hero-copy min-w-0 max-w-2xl">
-                    <div className="landing-hero-title-card relative z-10 mb-6 max-w-xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
+                <div className="landing-hero-grid mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,1.12fr)] lg:gap-x-6">
+                  <div className="landing-hero-copy min-w-0 w-full self-center lg:max-w-none">
+                    <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
                       <HeroTypingTitle
                         className="landing-hero-title"
                         intro={dict.hero.typingTitle.intro}
                         channels={dict.hero.typingTitle.channels}
                       />
                     </div>
-                    <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:text-lg">
+                    <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-lg">
                       {dict.hero.lead}
                     </p>
 
@@ -191,16 +188,11 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
                   <div
                     id="preview"
-                    className="landing-hero-aside flex w-full max-w-[270px] shrink-0 scroll-mt-28 flex-col items-stretch gap-4 self-center lg:self-start"
+                    className="landing-hero-aside flex min-w-0 w-full items-center justify-center overflow-visible scroll-mt-28"
                   >
-                    <LivePreviewWidget
-                      preview={preview}
-                      labels={dict.hero.preview}
-                      variant="hero"
-                    />
-                    <HeroFlowSchema
-                      flow={dict.hero.flow}
-                      className="landing-hero-schema"
+                    <HeroAsideShowcase
+                      alt={dict.hero.asideShowcaseAlt}
+                      className="w-full"
                     />
                   </div>
                 </div>
