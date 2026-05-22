@@ -139,6 +139,7 @@
     "pricingTitle": "Commencer léger, activer le reste quand ça tourne.",
     "pricingLead": "Pas de configuration complexe : vous démarrez avec l’essentiel, puis vous ajoutez scoring poussé, exports ou options métier lorsque le volume de demandes le justifie.",
     "featuresColumnTitle": "Fonctionnalités",
+    "featureNewBadge": "Nouveau",
     "proAdvantagesTitle": "Avantages Pro",
     "optionsFootnote": "Les briques vocales, scoring et exports s’activent avec l’offre Pro ; l’équipe vous aide à composer le bon pack et la mise en route.",
     "tierEssential": {
@@ -150,8 +151,8 @@
     "tierPro": {
       "name": "Pro artisan",
       "pitch": "Pour trier, scorer et passer sur WhatsApp sans friction.",
-      "cta": "Voir avec nous",
-      "href": "#cta-demo",
+      "cta": "Passer Pro",
+      "href": "#cta",
       "badge": "Populaire"
     },
     "tierOptions": {
@@ -162,19 +163,25 @@
     },
     "featureMatrix": [
       {
-        "label": "Page pro + lien unique (bio, QR, fiches)",
+        "label": "Page pro + lien unique (bio, fiches)",
         "essential": true,
         "pro": true,
         "options": true
       },
       {
-        "label": "Formulaire structuré (zone, urgence, type d’intervention)",
+        "label": "QR Code Camion imprimable (Générique)",
         "essential": true,
         "pro": true,
         "options": true
       },
       {
-        "label": "Mise en page mobile-first",
+        "label": "Formulaire texte structuré (zone, urgence)",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Mise en page mobile-first & WhatsApp direct",
         "essential": true,
         "pro": true,
         "options": true
@@ -183,38 +190,47 @@
         "label": "Capture vocale & transcription IA",
         "essential": false,
         "pro": true,
-        "options": true
+        "options": true,
+        "isNew": true
       },
       {
-        "label": "Lead scoring & dossiers priorisés",
+        "labelEssential": "Leads illimités (Soft Cap à 10 leads/mois)",
+        "labelPro": "Leads illimités (Pas de blocage)",
+        "label": "Leads illimités",
         "essential": false,
         "pro": true,
-        "options": true
+        "options": true,
+        "isNew": true
       },
       {
-        "label": "WhatsApp Smart (besoin résumé à l’ouverture)",
+        "label": "Section « Partenaires & Marques » dédiée",
         "essential": false,
         "pro": true,
-        "options": true
+        "options": true,
+        "isNew": true
       },
       {
-        "label": "Export contacts & historique des demandes",
+        "label": "Partage de compte avec vos employés (V1.1)",
         "essential": false,
-        "pro": true,
-        "options": true
+        "pro": false,
+        "options": false,
+        "showEssential": false,
+        "showOptions": false
       },
       {
         "label": "Accompagnement dédié & évolutions sur mesure",
         "essential": false,
         "pro": false,
-        "options": true
+        "options": true,
+        "showEssential": false,
+        "showPro": false
       }
     ],
     "proAdvantages": [
       "Moins de temps au téléphone : le client a déjà structuré sa demande.",
       "Image pro immédiate sur mobile, sans compétences web.",
       "Zéro maintenance technique : le produit évolue pour vous.",
-      "Priorité aux chantiers à fort potentiel grâce au scoring."
+      "Séparez vos demandes de chantiers et vos partenariats marques."
     ]
   }
 }

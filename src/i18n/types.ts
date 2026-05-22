@@ -6,9 +6,16 @@ export type ComparisonRowJson = {
 
 export type FeatureMatrixRowJson = {
   label: string;
+  labelEssential?: string;
+  labelPro?: string;
   essential: boolean;
   pro: boolean;
   options: boolean;
+  /** Afficher le badge « Nouveau » sur le plan Pro lorsque la ligne est active. */
+  isNew?: boolean;
+  showEssential?: boolean;
+  showPro?: boolean;
+  showOptions?: boolean;
 };
 
 export type TierJson = {
@@ -41,6 +48,7 @@ export type PricingComparisonDictionary = {
   pricingTitle: string;
   pricingLead: string;
   featuresColumnTitle: string;
+  featureNewBadge: string;
   proAdvantagesTitle: string;
   optionsFootnote: string;
   tierEssential: TierJson;

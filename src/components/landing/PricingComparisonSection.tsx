@@ -1,12 +1,74 @@
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Highlighter } from "@/components/ui/Highlighter";
-import type { PricingSectionModel } from "@/services/pricingComparisonSection";
+import type { FeatureMatrixRowJson } from "@/i18n/types";
+import type {
+  PricingSectionModel,
+  TierKey,
+} from "@/services/pricingComparisonSection";
 
 type PricingComparisonSectionProps = {
   model: PricingSectionModel;
   basePath: string;
 };
+
+function isFeatureVisible(row: FeatureMatrixRowJson, tierKey: TierKey): boolean {
+  if (tierKey === "essential") return row.showEssential !== false;
+  if (tierKey === "pro") return row.showPro !== false;
+  return row.showOptions !== false;
+}
+
+function getFeatureLabel(row: FeatureMatrixRowJson, tierKey: TierKey): string {
+  if (tierKey === "essential" && row.labelEssential) return row.labelEssential;
+  if (tierKey === "pro" && row.labelPro) return row.labelPro;
+  return row.label;
+}
+
+function TierFeatureList({
+  tierKey,
+  rows,
+  newBadge,
+}: {
+  tierKey: TierKey;
+  rows: FeatureMatrixRowJson[];
+  newBadge: string;
+}) {
+  return (
+    <ul className="mt-2 flex-1 space-y-2.5 text-sm">
+      {rows
+        .filter((row) => isFeatureVisible(row, tierKey))
+        .map((row) => {
+          const ok = row[tierKey];
+          const label = getFeatureLabel(row, tierKey);
+          return (
+            <li
+              key={`${tierKey}-${label}`}
+              className={`flex gap-2.5 leading-snug ${
+                ok ? "text-neutral-900" : "text-neutral-400"
+              }`}
+            >
+              <span
+                className={`mt-0.5 shrink-0 font-bold tabular-nums ${
+                  ok ? "text-neutral-900" : "text-neutral-300"
+                }`}
+                aria-hidden
+              >
+                {ok ? "✓" : "—"}
+              </span>
+              <span className={ok ? undefined : "line-through decoration-neutral-300/90"}>
+                {label}
+                {ok && tierKey === "pro" && row.isNew ? (
+                  <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wide text-[#EFA188] no-underline">
+                    ({newBadge})
+                  </span>
+                ) : null}
+              </span>
+            </li>
+          );
+        })}
+    </ul>
+  );
+}
 
 export function PricingComparisonSection({
   model,
@@ -182,27 +244,11 @@ export function PricingComparisonSection({
                     <p className="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
                       {copy.featuresColumnTitle}
                     </p>
-                    <ul className="mt-2 flex-1 space-y-2.5 text-sm">
-                      {model.featureMatrix.map((row) => {
-                        const ok = row[tier.tierKey];
-                        return (
-                          <li
-                            key={row.label}
-                            className={`flex gap-2.5 leading-snug ${
-                              ok ? "text-neutral-900" : "text-neutral-400"
-                            }`}
-                          >
-                            <span
-                              className="mt-0.5 shrink-0 font-bold tabular-nums"
-                              aria-hidden
-                            >
-                              {ok ? "✓" : "—"}
-                            </span>
-                            <span>{row.label}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    <TierFeatureList
+                      tierKey={tier.tierKey}
+                      rows={model.featureMatrix}
+                      newBadge={copy.featureNewBadge}
+                    />
                     <div className="mt-6 rounded-2xl border border-[#B2F5EA]/40 bg-[#B2F5EA]/[0.12] p-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800">
                         {copy.proAdvantagesTitle}
@@ -244,27 +290,11 @@ export function PricingComparisonSection({
                   <p className="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
                     {copy.featuresColumnTitle}
                   </p>
-                  <ul className="mt-2 flex-1 space-y-2.5 text-sm">
-                    {model.featureMatrix.map((row) => {
-                      const ok = row[tier.tierKey];
-                      return (
-                        <li
-                          key={row.label}
-                          className={`flex gap-2.5 leading-snug ${
-                            ok ? "text-neutral-900" : "text-neutral-400"
-                          }`}
-                        >
-                          <span
-                            className="mt-0.5 shrink-0 font-bold tabular-nums"
-                            aria-hidden
-                          >
-                            {ok ? "✓" : "—"}
-                          </span>
-                          <span>{row.label}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <TierFeatureList
+                    tierKey={tier.tierKey}
+                    rows={model.featureMatrix}
+                    newBadge={copy.featureNewBadge}
+                  />
                   {tier.tierKey === "options" ? (
                     <p className="mt-4 text-xs leading-relaxed text-neutral-500">
                       {copy.optionsFootnote}

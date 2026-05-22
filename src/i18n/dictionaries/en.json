@@ -139,6 +139,7 @@
     "pricingTitle": "Start lean, unlock more when volume justifies it.",
     "pricingLead": "No heavy setup: begin with essentials, then add deeper scoring, exports, or trade-specific options when demand grows.",
     "featuresColumnTitle": "Features",
+    "featureNewBadge": "New",
     "proAdvantagesTitle": "Pro advantages",
     "optionsFootnote": "Voice capture, scoring, and exports unlock on Pro; we help you pick the right pack and onboarding.",
     "tierEssential": {
@@ -150,8 +151,8 @@
     "tierPro": {
       "name": "Pro tradesperson",
       "pitch": "Sort, score, and move to WhatsApp without friction.",
-      "cta": "Talk to us",
-      "href": "#cta-demo",
+      "cta": "Go Pro",
+      "href": "#cta",
       "badge": "Popular"
     },
     "tierOptions": {
@@ -162,19 +163,25 @@
     },
     "featureMatrix": [
       {
-        "label": "Pro page + single link (bio, QR, sheets)",
+        "label": "Pro page + single link (bio, listings)",
         "essential": true,
         "pro": true,
         "options": true
       },
       {
-        "label": "Structured form (area, urgency, job type)",
+        "label": "Printable van QR code (generic)",
         "essential": true,
         "pro": true,
         "options": true
       },
       {
-        "label": "Mobile-first layout",
+        "label": "Structured text form (area, urgency)",
+        "essential": true,
+        "pro": true,
+        "options": true
+      },
+      {
+        "label": "Mobile-first layout & direct WhatsApp",
         "essential": true,
         "pro": true,
         "options": true
@@ -183,38 +190,47 @@
         "label": "Voice capture & AI transcription",
         "essential": false,
         "pro": true,
-        "options": true
+        "options": true,
+        "isNew": true
       },
       {
-        "label": "Lead scoring & prioritised briefs",
+        "labelEssential": "Unlimited leads (soft cap: 10 leads/month)",
+        "labelPro": "Unlimited leads (no blocking)",
+        "label": "Unlimited leads",
         "essential": false,
         "pro": true,
-        "options": true
+        "options": true,
+        "isNew": true
       },
       {
-        "label": "WhatsApp Smart (summary on open)",
+        "label": "Dedicated “Partners & Brands” section",
         "essential": false,
         "pro": true,
-        "options": true
+        "options": true,
+        "isNew": true
       },
       {
-        "label": "Export contacts & enquiry history",
+        "label": "Shared account for your employees (v1.1)",
         "essential": false,
-        "pro": true,
-        "options": true
+        "pro": false,
+        "options": false,
+        "showEssential": false,
+        "showOptions": false
       },
       {
         "label": "Dedicated support & custom workflows",
         "essential": false,
         "pro": false,
-        "options": true
+        "options": true,
+        "showEssential": false,
+        "showPro": false
       }
     ],
     "proAdvantages": [
       "Less phone tennis: the customer already structured the request.",
       "Instant pro image on mobile, with zero web skills.",
       "Zero technical maintenance: the product evolves for you.",
-      "Prioritise high-potential jobs with scoring."
+      "Separate job enquiries from brand partnership requests."
     ]
   }
 }
