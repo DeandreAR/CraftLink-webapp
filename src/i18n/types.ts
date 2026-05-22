@@ -104,7 +104,7 @@ export type FeaturesFlowDictionary = {
     colLast: string;
     pagination: string;
   };
-  step4: { label: string; toolbox: string; technician: string };
+  step4: { label: string; folder: string };
   contactRows: FeaturesFlowContactRow[];
 };
 

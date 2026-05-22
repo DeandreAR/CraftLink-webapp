@@ -21,11 +21,12 @@
       "channels": [
         { "label": "Instagram", "color": "#E4405F" },
         { "label": "Facebook", "color": "#1877F2" },
+        { "label": "Gmail", "color": "#EA4335" },
+        { "label": "SMS", "color": "#25D366" },
         { "label": "TikTok", "color": "#FE2C55" },
-        { "label": "WhatsApp", "color": "#25D366" },
         { "label": "Snapchat", "color": "#FFFC00" },
         { "label": "Threads", "color": "#000000" },
-        { "label": "QR codes", "color": "#212129" }
+        { "label": "QR codes", "color": "#E7E2CA" }
       ]
     },
     "asideShowcaseAlt": "From an Instagram bio to a CraftLink page: a tradesperson profile turned into a pro storefront with quote and service buttons.",
@@ -75,8 +76,7 @@
     },
     "step4": {
       "label": "4. Action",
-      "toolbox": "Jobsite",
-      "technician": "Technician"
+      "folder": "Client file"
     },
     "contactRows": [
       { "name": "Emma Dupont", "phone": "+33 6 12…", "source": "Instagram", "last": "2 min" },

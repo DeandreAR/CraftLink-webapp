@@ -20,12 +20,13 @@
       "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
       "channels": [
         { "label": "Instagram", "color": "#E4405F" },
+        { "label": "Gmail", "color": "#f46c09" },
+        { "label": "SMS", "color": "#25D366" },
         { "label": "Facebook", "color": "#1877F2" },
         { "label": "TikTok", "color": "#FE2C55" },
-        { "label": "WhatsApp", "color": "#25D366" },
         { "label": "Snapchat", "color": "#FFFC00" },
         { "label": "Threads", "color": "#000000" },
-        { "label": "les QR codes", "color": "#212129" }
+        { "label": "QR codes", "color": "#E7E2CA" }
       ]
     },
     "asideShowcaseAlt": "De la bio Instagram à la page CraftLink : un profil artisan transformé en vitrine pro avec boutons devis et services.",
@@ -75,8 +76,7 @@
     },
     "step4": {
       "label": "4. Action",
-      "toolbox": "Chantier",
-      "technician": "Artisan"
+      "folder": "Dossier client"
     },
     "contactRows": [
       { "name": "Emma Dupont", "phone": "+33 6 12…", "source": "Instagram", "last": "2 min" },

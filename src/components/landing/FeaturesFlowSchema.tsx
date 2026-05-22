@@ -1,10 +1,26 @@
 import type { FeaturesFlowDictionary } from "@/i18n/types";
 import { IconMic, IconMessage } from "@/components/landing/Icons";
+import {
+  LuFolder,
+  LuMessageSquare,
+  LuQrCode,
+} from "react-icons/lu";
+import {
+  SiFacebook,
+  SiGmail,
+  SiInstagram,
+  SiTiktok,
+  SiWhatsapp,
+} from "react-icons/si";
 
 type FeaturesFlowSchemaProps = {
   flow: FeaturesFlowDictionary;
   className?: string;
 };
+
+const BRAND_ICON = "h-7 w-7 shrink-0";
+const UTILITY_ICON = "h-7 w-7 shrink-0 text-white/85";
+const ACTION_ICON = "h-9 w-9 shrink-0";
 
 function FlowArrow({
   hint,
@@ -34,88 +50,6 @@ function FlowArrow({
   );
 }
 
-function IconInstagram({ className = "h-7 w-7" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <defs>
-        <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#F58529" />
-          <stop offset="50%" stopColor="#DD2A7B" />
-          <stop offset="100%" stopColor="#8134AF" />
-        </linearGradient>
-      </defs>
-      <rect
-        x="2"
-        y="2"
-        width="20"
-        height="20"
-        rx="5"
-        stroke="url(#ig-grad)"
-        strokeWidth="1.8"
-        fill="none"
-      />
-      <circle cx="12" cy="12" r="4.5" stroke="url(#ig-grad)" strokeWidth="1.8" fill="none" />
-      <circle cx="17.2" cy="6.8" r="1.2" fill="url(#ig-grad)" />
-    </svg>
-  );
-}
-
-function IconFacebook({ className = "h-7 w-7" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <path
-        d="M14 8.5V6.8c0-.7.5-1.1 1.2-1.1H17V3h-2.4C12.1 3 11 4.4 11 6.5V8.5H8v2.7h3V21h3v-9.8h2.6l.4-2.7H14Z"
-        fill="#1877F2"
-      />
-    </svg>
-  );
-}
-
-function IconTikTok({ className = "h-7 w-7" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <path
-        d="M16.5 5.2a5.8 5.8 0 0 0 3.5-1.2V8a5.5 5.5 0 0 1-3.5-1.1v6.8a4.8 4.8 0 1 1-4.8-4.8c.2 0 .5 0 .7.1v3.1a1.7 1.7 0 1 0 1.2 1.6V5.2Z"
-        fill="#fff"
-      />
-      <path
-        d="M16.5 5.2a5.8 5.8 0 0 0 3.5-1.2V8a5.5 5.5 0 0 1-3.5-1.1v6.8a4.8 4.8 0 1 1-4.8-4.8c.2 0 .5 0 .7.1v3.1a1.7 1.7 0 1 0 1.2 1.6V5.2Z"
-        fill="#FE2C55"
-        fillOpacity="0.9"
-      />
-    </svg>
-  );
-}
-
-function IconQr({ className = "h-7 w-7" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      className={className}
-      aria-hidden
-    >
-      <rect x="3" y="3" width="7" height="7" rx="1" />
-      <rect x="14" y="3" width="7" height="7" rx="1" />
-      <rect x="3" y="14" width="7" height="7" rx="1" />
-      <path d="M14 14h2v2h-2zm4 0h3v3h-3zm-3 4h3v3h-3zm4-4v7" />
-    </svg>
-  );
-}
-
-function IconWhatsApp({ className = "h-6 w-6" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <path
-        fill="#25D366"
-        d="M12 2C6.5 2 2 6.1 2 11.4c0 1.9.5 3.7 1.4 5.3L2 22l5.6-1.5A9.7 9.7 0 0 0 12 20.8C17.5 20.8 22 16.7 22 11.4S17.5 2 12 2Zm5.4 13.5c-.2.6-1.1 1.1-1.5 1.2-.4 0-.9.2-3-1.1-2.5-1.3-4.1-4.5-4.2-4.7-.1-.2-1-1.3-1-2.5s.6-1.8.9-2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.7.8 1.8.1.1.1.3 0 .4-.1.2-.2.3-.3.4-.1.1-.2.2-.1.4.1.2.5.8 1.1 1.3.8.7 1.4.9 1.6 1 .2.1.3.1.4-.1.1-.2.6-.7.7-1 .1-.2.3-.2.5-.1.2.1 1.4.7 1.6.8.2.1.3.2.3.4 0 .1-.1.5-.3 1.1Z"
-      />
-    </svg>
-  );
-}
-
 function FunnelArrows() {
   return (
     <svg
@@ -134,6 +68,11 @@ function FunnelArrows() {
   );
 }
 
+const PANEL =
+  "rounded-xl border border-white/10 bg-white/[0.03]";
+const STEP_LABEL =
+  "text-[10px] font-bold uppercase tracking-[0.14em] text-white/70";
+
 export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaProps) {
   return (
     <figure
@@ -144,24 +83,15 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
         <div className="flex min-w-[52rem] items-stretch gap-2 md:gap-3">
           {/* 1 — Sources */}
           <div className="flex w-[11.5rem] shrink-0 flex-col">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">
-              {flow.step1.label}
-            </p>
-            <div className="relative mt-3 flex flex-1 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-3 py-5">
-              <div className="grid grid-cols-3 gap-2.5">
-                <IconInstagram />
-                <IconFacebook />
-                <IconTikTok />
-                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-white/80">
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-                    <path d="M7 11v-1.5A4.5 4.5 0 0 1 14 7.5V6M11 4.5 13.5 2 16 4.5 18.5 2" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M9 14h6l1 4H8l1-4Z" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <IconQr className="h-7 w-7 text-white/80" />
-                <span className="flex h-7 w-7 items-center justify-center rounded-md border border-white/20 text-[9px] font-semibold text-white/70">
-                  SMS
-                </span>
+            <p className={STEP_LABEL}>{flow.step1.label}</p>
+            <div className={`relative mt-3 flex flex-1 items-center justify-center px-3 py-5 ${PANEL}`}>
+              <div className="grid grid-cols-3 gap-3">
+                <SiInstagram className={`${BRAND_ICON} text-[#E4405F]`} aria-hidden />
+                <SiFacebook className={`${BRAND_ICON} text-[#1877F2]`} aria-hidden />
+                <SiTiktok className={`${BRAND_ICON} text-white`} aria-hidden />
+                <SiGmail className={BRAND_ICON} aria-hidden />
+                <LuQrCode className={UTILITY_ICON} strokeWidth={1.75} aria-hidden />
+                <LuMessageSquare className={UTILITY_ICON} strokeWidth={1.75} aria-hidden />
               </div>
               <FunnelArrows />
             </div>
@@ -171,10 +101,8 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
 
           {/* 2 — Lien central */}
           <div className="flex w-[10.5rem] shrink-0 flex-col">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">
-              {flow.step2.label}
-            </p>
-            <div className="mt-3 flex flex-1 flex-col items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-3 py-4">
+            <p className={STEP_LABEL}>{flow.step2.label}</p>
+            <div className={`mt-3 flex flex-1 flex-col items-center justify-center px-3 py-4 ${PANEL}`}>
               <div className="w-[5.5rem] rounded-[1.1rem] border-2 border-white/60 p-1.5">
                 <div className="rounded-lg border border-white/20 bg-neutral-900 px-1.5 py-2">
                   <p className="text-center text-[8px] font-bold tracking-wide text-white">
@@ -203,10 +131,8 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
 
           {/* 3 — Contacts */}
           <div className="flex min-w-0 flex-1 flex-col">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">
-              {flow.step3.label}
-            </p>
-            <div className="mt-3 flex flex-1 flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.03]">
+            <p className={STEP_LABEL}>{flow.step3.label}</p>
+            <div className={`mt-3 flex flex-1 flex-col overflow-hidden ${PANEL}`}>
               <div className="flex items-center justify-between border-b border-white/10 px-2.5 py-1.5">
                 <span className="text-[8px] font-bold uppercase tracking-wider text-white">
                   {flow.step3.contactsTitle}
@@ -243,49 +169,29 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
 
           <FlowArrow hint={flow.arrowHints[2]} />
 
-          {/* 4 — Action */}
+          {/* 4 — Action : WhatsApp, SMS, dossier */}
           <div className="flex w-[9.5rem] shrink-0 flex-col">
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">
-              {flow.step4.label}
-            </p>
-            <div className="mt-3 flex flex-1 flex-wrap items-center justify-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-4">
+            <p className={STEP_LABEL}>{flow.step4.label}</p>
+            <div className={`mt-3 flex flex-1 items-center justify-center gap-4 px-3 py-4 ${PANEL}`}>
+              <SiWhatsapp className={`${ACTION_ICON} text-[#25D366]`} aria-hidden />
+              <LuMessageSquare
+                className={`${ACTION_ICON} text-white/90`}
+                strokeWidth={1.5}
+                aria-hidden
+              />
               <span
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 text-white/80"
-                title={flow.step4.toolbox}
+                title={flow.step4.folder}
+                className="flex flex-col items-center gap-0.5"
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                  <path d="M4 14l6-6 4 4 6-6 2 2-8 8-4-4-6 6-2-2Z" strokeLinecap="round" />
-                  <rect x="3" y="17" width="8" height="4" rx="1" />
-                </svg>
-              </span>
-              <span
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/80"
-                title={flow.step4.technician}
-              >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                  <circle cx="12" cy="7" r="3" />
-                  <path d="M6 20v-1a6 6 0 0 1 12 0v1" strokeLinecap="round" />
-                  <path d="M9 11h6" strokeLinecap="round" />
-                </svg>
-              </span>
-              <IconWhatsApp className="h-8 w-8" />
-              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/25 bg-white/5 text-[8px] font-bold text-white">
-                SMS
-              </span>
-              <IconMessage className="h-6 w-6 text-white/70" />
-              <svg viewBox="0 0 24 24" className="h-6 w-6 text-white/70" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                <path
-                  d="M6.5 4.5h11c1.1 0 2 .9 2 2v7.5c0 1.1-.9 2-2 2h-2l-3.5 3.5V17H6.5c-1.1 0-2-.9-2-2V6.5c0-1.1.9-2 2-2Z"
-                  strokeLinejoin="round"
+                <LuFolder
+                  className={`${ACTION_ICON} text-white/90`}
+                  strokeWidth={1.5}
+                  aria-hidden
                 />
-              </svg>
-              <svg viewBox="0 0 24 24" className="h-6 w-6 text-white/70" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                <path
-                  d="M6 4.5h3.5L12 10l-2.5 2A11 11 0 0 0 14 18.5L16 16h4.5a2 2 0 0 1 2 2v1.5A14.5 14.5 0 0 1 3 7a2 2 0 0 1 2-2.5Z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+                <span className="text-[6px] font-bold uppercase tracking-wide text-white/55">
+                  {flow.step4.folder}
+                </span>
+              </span>
             </div>
           </div>
         </div>
