@@ -232,5 +232,35 @@
       "Zéro maintenance technique : le produit évolue pour vous.",
       "Séparez vos demandes de chantiers et vos partenariats marques."
     ]
+  },
+  "footer": {
+    "copyright": "© {year} CraftLink — Page pro artisan, capture de leads.",
+    "tagline": "Vitrine express pour artisans du bâtiment.",
+    "legalNavLabel": "Informations légales",
+    "manageCookies": "Gérer les cookies",
+    "links": {
+      "mentionsLegales": "Mentions légales",
+      "privacy": "Confidentialité (RGPD)",
+      "cookies": "Cookies",
+      "terms": "CGU"
+    }
+  },
+  "cookieConsent": {
+    "title": "Cookies & confidentialité",
+    "description": "Nous utilisons des cookies essentiels au fonctionnement du site et, avec votre accord, des cookies de mesure et marketing. Vous pouvez modifier vos choix à tout moment.",
+    "acceptAll": "Tout accepter",
+    "rejectOptional": "Refuser les optionnels",
+    "customize": "Personnaliser",
+    "save": "Enregistrer",
+    "close": "Fermer",
+    "necessaryTitle": "Essentiels",
+    "necessaryDesc": "Indispensables (sécurité, session, mémorisation de ce choix). Toujours actifs.",
+    "analyticsTitle": "Mesure d’audience",
+    "analyticsDesc": "Statistiques anonymisées pour améliorer le site.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Personnalisation et mesure de campagnes.",
+    "alwaysOn": "Toujours actif",
+    "cookiesPolicyLink": "Politique cookies",
+    "privacyPolicyLink": "Confidentialité"
   }
 }

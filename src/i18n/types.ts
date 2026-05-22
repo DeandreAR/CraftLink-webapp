@@ -140,10 +140,71 @@ export type HeroDictionary = {
   flow: HeroFlowDictionary;
 };
 
+export type LegalSectionJson = {
+  title: string;
+  paragraphs?: string[];
+  list?: string[];
+};
+
+export type LegalPageJson = {
+  metaTitle: string;
+  metaDescription: string;
+  title: string;
+  intro?: string;
+  sections: LegalSectionJson[];
+};
+
+export type FooterDictionary = {
+  copyright: string;
+  tagline: string;
+  legalNavLabel: string;
+  manageCookies: string;
+  links: {
+    mentionsLegales: string;
+    privacy: string;
+    cookies: string;
+    terms: string;
+  };
+};
+
+export type CookieConsentDictionary = {
+  title: string;
+  description: string;
+  acceptAll: string;
+  rejectOptional: string;
+  customize: string;
+  save: string;
+  close: string;
+  necessaryTitle: string;
+  necessaryDesc: string;
+  analyticsTitle: string;
+  analyticsDesc: string;
+  marketingTitle: string;
+  marketingDesc: string;
+  alwaysOn: string;
+  cookiesPolicyLink: string;
+  privacyPolicyLink: string;
+};
+
+export type LegalBundleDictionary = {
+  backToHome: string;
+  lastUpdated: string;
+  updatedDate: string;
+  pages: {
+    mentionsLegales: LegalPageJson;
+    privacy: LegalPageJson;
+    cookies: LegalPageJson;
+    terms: LegalPageJson;
+  };
+};
+
 export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
   hero: HeroDictionary;
   featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;
+  footer: FooterDictionary;
+  cookieConsent: CookieConsentDictionary;
+  legal: LegalBundleDictionary;
 };

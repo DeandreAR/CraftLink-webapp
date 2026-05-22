@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
+import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
 import "./globals.css";
 
 const lexend = Lexend({
@@ -19,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${lexend.variable} h-full antialiased`}>
-      <body className="min-h-full font-sans">{children}</body>
+      <body className="min-h-full font-sans">
+        {children}
+        <CookieConsentRoot />
+      </body>
     </html>
   );
 }

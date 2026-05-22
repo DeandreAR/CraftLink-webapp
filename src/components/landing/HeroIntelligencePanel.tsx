@@ -2,12 +2,17 @@
  * Illustration simplifiée du panneau « Intelligence et structure » du tunnel CraftLink.
  */
 
-import type { HeroIntelligenceDictionary } from "@/i18n/types";
-
 const peach = "#F8B195";
 
+type HeroIntelligenceCopy = {
+  transcriptionLabel: string;
+  clientDataLabel: string;
+  stepTitle: string;
+  stepDescription: string;
+};
+
 type HeroIntelligencePanelProps = {
-  copy: HeroIntelligenceDictionary;
+  copy: HeroIntelligenceCopy;
 };
 
 export function HeroIntelligencePanel({ copy }: HeroIntelligencePanelProps) {

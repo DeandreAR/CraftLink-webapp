@@ -18,6 +18,7 @@ import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
 import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
+import { LandingFooter } from "@/components/landing/LandingFooter";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
@@ -84,7 +85,7 @@ const faqBlocks = [
     items: [
       {
         q: "Est-ce que mes données sont sécurisées ?",
-        a: "Les informations de vos clients méritent du sérieux : stockage et accès sont conçus dans une logique professionnelle (connexion sécurisée, bonnes pratiques). Les détails précis sont précisés dans nos documents légaux au moment de l’inscription.",
+        a: "Les informations de vos clients méritent du sérieux : stockage et accès sont conçus dans une logique professionnelle (connexion sécurisée, bonnes pratiques). Consultez notre politique de confidentialité pour le détail de vos droits et de nos engagements RGPD.",
       },
     ],
   },
@@ -591,18 +592,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         </section>
       </main>
 
-      <footer className="landing-footer border-t border-neutral-200/70 bg-white">
-        <div className="landing-footer-inner mx-auto flex max-w-6xl flex-col gap-2 px-4 py-10 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between md:px-6">
-          <p className="font-medium text-neutral-700">
-            © {new Date().getFullYear()} CraftLink — Page pro artisan, capture de
-            leads, WhatsApp.
-          </p>
-          <p className="max-w-md text-right md:text-right">
-            Mots-clés intégrés naturellement : vitrine artisan, leads Instagram,
-            scoring, transcription vocale.
-          </p>
-        </div>
-      </footer>
+      <LandingFooter lang={lang} footer={dict.footer} />
     </div>
   );
 }

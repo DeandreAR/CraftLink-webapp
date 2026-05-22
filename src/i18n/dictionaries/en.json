@@ -232,5 +232,35 @@
       "Zero technical maintenance: the product evolves for you.",
       "Separate job enquiries from brand partnership requests."
     ]
+  },
+  "footer": {
+    "copyright": "© {year} CraftLink — Pro tradesperson page & lead capture.",
+    "tagline": "Express storefront for construction trades.",
+    "legalNavLabel": "Legal information",
+    "manageCookies": "Manage cookies",
+    "links": {
+      "mentionsLegales": "Legal notice",
+      "privacy": "Privacy (GDPR)",
+      "cookies": "Cookies",
+      "terms": "Terms of use"
+    }
+  },
+  "cookieConsent": {
+    "title": "Cookies & privacy",
+    "description": "We use essential cookies for the site to work and, with your consent, analytics and marketing cookies. You can change your choices at any time.",
+    "acceptAll": "Accept all",
+    "rejectOptional": "Reject optional",
+    "customize": "Customise",
+    "save": "Save",
+    "close": "Close",
+    "necessaryTitle": "Essential",
+    "necessaryDesc": "Required for security, session and remembering this choice. Always on.",
+    "analyticsTitle": "Analytics",
+    "analyticsDesc": "Anonymous statistics to improve the site.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Personalisation and campaign measurement.",
+    "alwaysOn": "Always on",
+    "cookiesPolicyLink": "Cookie policy",
+    "privacyPolicyLink": "Privacy policy"
   }
 }
