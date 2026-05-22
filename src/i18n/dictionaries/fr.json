@@ -53,6 +53,39 @@
       "figureAlt": "Schéma en quatre étapes : toutes les sources, lien central (vocal ou texte), traitement IA et dossiers, puis action sur le terrain (WhatsApp, SMS, chantier)."
     }
   },
+  "featuresFlow": {
+    "figureAlt": "Parcours en quatre étapes : toutes les sources convergent vers un lien central, les contacts sont centralisés, puis vous passez à l’action sur le terrain.",
+    "arrowHints": ["1 lien", "1 liste", "1 action"],
+    "step1": { "label": "1. Toutes les sources" },
+    "step2": {
+      "label": "2. Lien central",
+      "bioLink": "Bio Link",
+      "vocal": "VOCAL",
+      "text": "TEXTE"
+    },
+    "step3": {
+      "label": "3. Liste contacts",
+      "contactsTitle": "CONTACTS",
+      "addContact": "+ AJOUTER",
+      "colName": "NOM",
+      "colPhone": "TÉL.",
+      "colSource": "SOURCE",
+      "colLast": "DERNIER",
+      "pagination": "1-5 sur 128 · pages 1, 2… 26"
+    },
+    "step4": {
+      "label": "4. Action",
+      "toolbox": "Chantier",
+      "technician": "Artisan"
+    },
+    "contactRows": [
+      { "name": "Emma Dupont", "phone": "+33 6 12…", "source": "Instagram", "last": "2 min" },
+      { "name": "Lucas Martin", "phone": "+33 6 23…", "source": "Facebook", "last": "1 h" },
+      { "name": "Chloé Bernard", "phone": "+33 6 34…", "source": "QR Code", "last": "3 h" },
+      { "name": "Thomas Petit", "phone": "+33 6 45…", "source": "TikTok", "last": "1 j" },
+      { "name": "Julie Leroy", "phone": "+33 6 56…", "source": "SMS", "last": "2 j" }
+    ]
+  },
   "pricingComparison": {
     "sectionEyebrow": "Tarifs & comparaison",
     "sectionTitle": "Un abonnement simple. Zéro friction cachée.",

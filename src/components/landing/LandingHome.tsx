@@ -17,6 +17,7 @@ import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
+import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
@@ -393,6 +394,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                 , pas des conversations vides.
               </p>
             </div>
+
+            <FeaturesFlowSchema flow={dict.featuresFlow} />
 
             <div className="landing-features-bento mt-10 rounded-[2rem] border border-neutral-200/80 bg-gradient-to-br from-white via-[#EFA188]/[0.04] to-[#D6BCFA]/[0.06] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.06)] md:p-6">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-6">

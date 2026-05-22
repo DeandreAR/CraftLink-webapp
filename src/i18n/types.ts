@@ -82,6 +82,32 @@ export type HeroFlowDictionary = {
   figureAlt: string;
 };
 
+export type FeaturesFlowContactRow = {
+  name: string;
+  phone: string;
+  source: string;
+  last: string;
+};
+
+export type FeaturesFlowDictionary = {
+  figureAlt: string;
+  arrowHints: [string, string, string];
+  step1: { label: string };
+  step2: { label: string; bioLink: string; vocal: string; text: string };
+  step3: {
+    label: string;
+    contactsTitle: string;
+    addContact: string;
+    colName: string;
+    colPhone: string;
+    colSource: string;
+    colLast: string;
+    pagination: string;
+  };
+  step4: { label: string; toolbox: string; technician: string };
+  contactRows: FeaturesFlowContactRow[];
+};
+
 export type HeroTypingChannel = {
   label: string;
   color: string;
@@ -110,5 +136,6 @@ export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
   hero: HeroDictionary;
+  featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;
 };
