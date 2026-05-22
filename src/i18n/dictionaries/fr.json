@@ -9,8 +9,14 @@
     "metiers": "Métiers",
     "tarifs": "Tarifs",
     "faq": "FAQ",
-    "demo": "Démo",
-    "cta": "Créer ma page"
+    "login": "Connexion",
+    "createAccount": "Créer mon compte"
+  },
+  "faqUi": {
+    "title": "Questions fréquentes",
+    "lead": "Réponses aux objections courantes — uniquement si vous souhaitez creuser le détail.",
+    "show": "Afficher les questions fréquentes",
+    "hide": "Masquer la FAQ"
   },
   "hero": {
     "pill": "Capture de leads pour artisans",
@@ -62,12 +68,6 @@
     "subtitle": "Découvrez comment CraftLink qualifie vos leads en moins d'une minute.",
     "placeholder": "Vidéo de démonstration — lien à intégrer prochainement"
   },
-  "contactCta": {
-    "eyebrow": "Une question ?",
-    "title": "Parlons de votre activité sur WhatsApp",
-    "lead": "Réponse rapide, sans formulaire : on vous guide pour choisir Essentiel ou Pro et configurer votre page.",
-    "cta": "Écrire sur WhatsApp"
-  },
   "featuresFlow": {
     "figureAlt": "Parcours en quatre étapes : toutes les sources convergent vers un lien central, les contacts sont centralisés, puis vous passez à l’action sur le terrain.",
     "arrowHints": ["1 lien", "1 liste", "1 action"],
@@ -104,7 +104,7 @@
     "sectionEyebrow": "Tarifs & comparaison",
     "sectionTitle": "Un abonnement simple. Zéro friction cachée.",
     "sectionLead": "Réponse aux objections les plus fréquentes : pas de commission sur vos chantiers, aucune compétence technique, mise en ligne en quelques minutes — sans la pile d’outils d’un site classique.",
-    "trustNoCode": "Aucune compétence technique requise",
+    "trustNoCode": "Aucune compétence technique ni codage requis",
     "trustLiveFast": "En ligne en 2 minutes",
     "zeroCommission": "0% de commission sur vos chantiers",
     "replacementTitle": "Le tout-en-un qui remplace une ribambelle d’abonnements",
@@ -186,6 +186,19 @@
           "footnote": "facturé 276€/an — Économisez 72€"
         }
       }
+    },
+    "tierCustom": {
+      "name": "SUR MESURE",
+      "pitch": "Pour tout autre développement.",
+      "description": "Besoin hors offre Essentiel ou Pro ? Décrivez votre projet, on vous répond sur WhatsApp.",
+      "priceLabel": "Sur devis",
+      "bullets": [
+        "Fonctionnalités métier spécifiques",
+        "Intégrations & exports avancés",
+        "Accompagnement équipe / multi-comptes"
+      ],
+      "cta": "Nous contacter sur WhatsApp",
+      "whatsappMessage": "Bonjour CraftLink, j'ai un besoin de développement sur mesure à discuter avec vous."
     },
     "featureMatrix": [
       {

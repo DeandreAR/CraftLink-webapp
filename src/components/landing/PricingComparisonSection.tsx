@@ -1,4 +1,3 @@
-import { Highlighter } from "@/components/ui/Highlighter";
 import { PricingGrid } from "@/components/landing/PricingGrid";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
@@ -33,17 +32,33 @@ export function PricingComparisonSection({
             {copy.sectionLead}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-2 md:gap-3">
-            <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-[#EFA188] shadow-sm">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <span className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#B2F5EA] bg-[#B2F5EA]/35 px-5 py-3.5 text-sm font-bold tracking-tight text-neutral-900 shadow-[0_10px_28px_rgba(178,245,234,0.45)] md:text-base">
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#5EEAD4] text-base"
+                aria-hidden
+              >
+                ✓
+              </span>
               {copy.trustNoCode}
             </span>
-            <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-[#EFA188] shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#D6BCFA] bg-[#D6BCFA]/35 px-5 py-3.5 text-sm font-bold tracking-tight text-neutral-900 shadow-[0_10px_28px_rgba(214,188,250,0.4)] md:text-base">
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#C4B5FD] text-base"
+                aria-hidden
+              >
+                ⚡
+              </span>
               {copy.trustLiveFast}
             </span>
-            <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-900 shadow-sm">
-              <Highlighter className="font-semibold" color="#EFA188" opacity={0.35}>
-                {copy.zeroCommission}
-              </Highlighter>
+            <span className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#EFA188] bg-[#EFA188]/40 px-5 py-3.5 text-sm font-bold tracking-tight text-black shadow-[0_10px_28px_rgba(239,161,136,0.45)] md:text-base">
+              <span
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-sm font-extrabold text-white"
+                aria-hidden
+              >
+                0%
+              </span>
+              {copy.zeroCommission}
             </span>
           </div>
         </div>

@@ -10,8 +10,8 @@ export type NavbarLabels = {
   metiers: string;
   tarifs: string;
   faq: string;
-  demo: string;
-  cta: string;
+  login: string;
+  createAccount: string;
 };
 
 const defaultLabels: NavbarLabels = {
@@ -20,8 +20,8 @@ const defaultLabels: NavbarLabels = {
   metiers: "Métiers",
   tarifs: "Tarifs",
   faq: "FAQ",
-  demo: "Démo",
-  cta: "Créer ma page",
+  login: "Connexion",
+  createAccount: "Créer mon compte",
 };
 
 type NavbarProps = {
@@ -96,14 +96,14 @@ export function Navbar({ basePath = "", labels }: NavbarProps) {
               {L.faq}
             </a>
             <GlowButton
-              href={`${p}#demo-video`}
+              href={`${p}#connexion`}
               variant="secondary"
-              className="hidden px-4 py-2.5 sm:inline-flex"
+              className="px-3 py-2.5 text-sm md:px-4"
             >
-              {L.demo}
+              {L.login}
             </GlowButton>
-            <GlowButton href={`${p}#cta`} className="px-4 py-2.5">
-              {L.cta}
+            <GlowButton href={`${p}#cta`} className="px-3 py-2.5 text-sm md:px-4">
+              {L.createAccount}
             </GlowButton>
           </nav>
         </div>

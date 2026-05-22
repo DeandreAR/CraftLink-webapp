@@ -20,7 +20,6 @@ import { PricingComparisonSection } from "@/components/landing/PricingComparison
 import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
-import { getWhatsAppHref } from "@/config/contact";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
@@ -543,7 +542,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
         <PricingComparisonSection model={pricingModel} basePath={basePath} />
 
-        <LandingFaqDisclosure blocks={faqBlocks} />
+        <LandingFaqDisclosure blocks={faqBlocks} copy={dict.faqUi} />
+
+        <div id="connexion" className="scroll-mt-28" aria-hidden />
 
         {/* CTA inscription */}
         <section id="cta" className="landing-cta relative scroll-mt-28 overflow-hidden py-14">
@@ -569,34 +570,6 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           </div>
         </section>
 
-        {/* Contact WhatsApp */}
-        <section
-          id="contact"
-          className="landing-contact-cta scroll-mt-28 border-t border-neutral-200 bg-neutral-900 py-14 text-white"
-        >
-          <div className="mx-auto max-w-6xl px-4 md:px-6">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="max-w-2xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
-                  {dict.contactCta.eyebrow}
-                </p>
-                <h2 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">
-                  {dict.contactCta.title}
-                </h2>
-                <p className="mt-3 text-base leading-relaxed text-neutral-300 md:text-lg">
-                  {dict.contactCta.lead}
-                </p>
-              </div>
-              <GlowButton
-                href={getWhatsAppHref()}
-                external
-                className="min-w-[220px] shrink-0 bg-[#25D366] text-white ring-2 ring-white/25 hover:scale-[1.02] hover:bg-[#20BD5A]"
-              >
-                {dict.contactCta.cta}
-              </GlowButton>
-            </div>
-          </div>
-        </section>
       </main>
 
       <LandingFooter lang={lang} footer={dict.footer} />

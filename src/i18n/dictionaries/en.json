@@ -9,8 +9,14 @@
     "metiers": "Trades",
     "tarifs": "Pricing",
     "faq": "FAQ",
-    "demo": "Demo",
-    "cta": "Create my page"
+    "login": "Log in",
+    "createAccount": "Create my account"
+  },
+  "faqUi": {
+    "title": "Frequently asked questions",
+    "lead": "Answers to common objections — only if you want to dig into the details.",
+    "show": "Show frequently asked questions",
+    "hide": "Hide FAQ"
   },
   "hero": {
     "pill": "Lead capture for tradespeople",
@@ -62,12 +68,6 @@
     "subtitle": "See how CraftLink qualifies your leads in under a minute.",
     "placeholder": "Demo video — embed link coming soon"
   },
-  "contactCta": {
-    "eyebrow": "Questions?",
-    "title": "Chat with us on WhatsApp",
-    "lead": "Quick answers, no form: we help you pick Essential or Pro and set up your page.",
-    "cta": "Message on WhatsApp"
-  },
   "featuresFlow": {
     "figureAlt": "Four-step journey: all sources funnel into one central link, contacts are centralized, then you take action in the field.",
     "arrowHints": ["1 link", "1 list", "1 action"],
@@ -104,7 +104,7 @@
     "sectionEyebrow": "Pricing & comparison",
     "sectionTitle": "One simple subscription. No hidden friction.",
     "sectionLead": "Handle the top objections: zero commission on your jobs, no technical skills, live in minutes — without the classic website tool stack.",
-    "trustNoCode": "No technical skills required",
+    "trustNoCode": "No technical skills or coding required",
     "trustLiveFast": "Live in 2 minutes",
     "zeroCommission": "0% commission on your jobs",
     "replacementTitle": "The all-in-one replacement for a pile of bills",
@@ -186,6 +186,19 @@
           "footnote": "billed €276/year — Save €72"
         }
       }
+    },
+    "tierCustom": {
+      "name": "CUSTOM",
+      "pitch": "For any other development.",
+      "description": "Need something beyond Essential or Pro? Tell us about your project — we reply on WhatsApp.",
+      "priceLabel": "Quoted",
+      "bullets": [
+        "Trade-specific features",
+        "Integrations & advanced exports",
+        "Team rollout / multi-account"
+      ],
+      "cta": "Contact us on WhatsApp",
+      "whatsappMessage": "Hi CraftLink, I'd like to discuss a custom development need."
     },
     "featureMatrix": [
       {

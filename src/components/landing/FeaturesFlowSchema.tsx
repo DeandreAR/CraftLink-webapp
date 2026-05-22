@@ -1,10 +1,6 @@
 import type { FeaturesFlowDictionary } from "@/i18n/types";
 import { IconMic, IconMessage } from "@/components/landing/Icons";
-import {
-  LuFolder,
-  LuMessageSquare,
-  LuQrCode,
-} from "react-icons/lu";
+import { LuFolder, LuQrCode } from "react-icons/lu";
 import {
   SiFacebook,
   SiGmail,
@@ -21,6 +17,17 @@ type FeaturesFlowSchemaProps = {
 const BRAND_ICON = "h-7 w-7 shrink-0";
 const UTILITY_ICON = "h-7 w-7 shrink-0 text-white/85";
 const ACTION_ICON = "h-9 w-9 shrink-0";
+
+function IconSmsBadge({ className = "h-7 w-7" }: { className?: string }) {
+  return (
+    <span
+      className={`flex items-center justify-center rounded-md border border-white/30 bg-white/10 text-[9px] font-extrabold tracking-tight text-white ${className}`.trim()}
+      aria-hidden
+    >
+      SMS
+    </span>
+  );
+}
 
 function FlowArrow({
   hint,
@@ -91,7 +98,7 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
                 <SiTiktok className={`${BRAND_ICON} text-white`} aria-hidden />
                 <SiGmail className={BRAND_ICON} aria-hidden />
                 <LuQrCode className={UTILITY_ICON} strokeWidth={1.75} aria-hidden />
-                <LuMessageSquare className={UTILITY_ICON} strokeWidth={1.75} aria-hidden />
+                <IconSmsBadge />
               </div>
               <FunnelArrows />
             </div>
@@ -174,11 +181,7 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
             <p className={STEP_LABEL}>{flow.step4.label}</p>
             <div className={`mt-3 flex flex-1 items-center justify-center gap-4 px-3 py-4 ${PANEL}`}>
               <SiWhatsapp className={`${ACTION_ICON} text-[#25D366]`} aria-hidden />
-              <LuMessageSquare
-                className={`${ACTION_ICON} text-white/90`}
-                strokeWidth={1.5}
-                aria-hidden
-              />
+              <IconSmsBadge className="h-9 w-9 min-w-[2.25rem] text-[10px]" />
               <span
                 title={flow.step4.folder}
                 className="flex flex-col items-center gap-0.5"

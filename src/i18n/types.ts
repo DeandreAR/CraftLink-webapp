@@ -49,11 +49,14 @@ export type DemoVideoDictionary = {
   posterSrc?: string;
 };
 
-export type ContactCtaDictionary = {
-  eyebrow: string;
-  title: string;
-  lead: string;
+export type TierCustomJson = {
+  name: string;
+  pitch: string;
+  description: string;
+  priceLabel: string;
+  bullets: string[];
   cta: string;
+  whatsappMessage: string;
 };
 
 export type PricingComparisonDictionary = {
@@ -82,6 +85,7 @@ export type PricingComparisonDictionary = {
   billing: BillingDictionary;
   tierEssential: TierJson;
   tierPro: TierJson;
+  tierCustom: TierCustomJson;
   featureMatrix: FeatureMatrixRowJson[];
   proAdvantages: string[];
 };
@@ -92,8 +96,15 @@ export type NavDictionary = {
   metiers: string;
   tarifs: string;
   faq: string;
-  demo: string;
-  cta: string;
+  login: string;
+  createAccount: string;
+};
+
+export type FaqUiDictionary = {
+  title: string;
+  lead: string;
+  show: string;
+  hide: string;
 };
 
 export type MetaDictionary = {
@@ -231,11 +242,11 @@ export type LegalBundleDictionary = {
 export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
+  faqUi: FaqUiDictionary;
   hero: HeroDictionary;
   demoVideo: DemoVideoDictionary;
   featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;
-  contactCta: ContactCtaDictionary;
   footer: FooterDictionary;
   cookieConsent: CookieConsentDictionary;
   legal: LegalBundleDictionary;

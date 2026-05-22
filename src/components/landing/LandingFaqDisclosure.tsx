@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { GlowButton } from "@/components/ui/GlowButton";
+import type { FaqUiDictionary } from "@/i18n/types";
 
 export type FaqItem = { q: string; a: string };
 
 export type FaqBlock = { title: string; items: FaqItem[] };
 
-export function LandingFaqDisclosure({ blocks }: { blocks: FaqBlock[] }) {
+type LandingFaqDisclosureProps = {
+  blocks: FaqBlock[];
+  copy: FaqUiDictionary;
+};
+
+export function LandingFaqDisclosure({ blocks, copy }: LandingFaqDisclosureProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -20,23 +25,22 @@ export function LandingFaqDisclosure({ blocks }: { blocks: FaqBlock[] }) {
         id="faq-heading"
         className="text-3xl font-bold tracking-tight text-black md:text-4xl"
       >
-        Questions fréquentes
+        {copy.title}
       </h2>
       <p className="mt-4 max-w-3xl text-base text-neutral-700 md:text-lg">
-        Réponses aux objections courantes — uniquement si vous souhaitez creuser
-        le détail.
+        {copy.lead}
       </p>
 
       <div className="mt-8">
-        <GlowButton
+        <button
           type="button"
-          variant="primary"
           aria-expanded={open}
           aria-controls="faq-panel"
           onClick={() => setOpen((v) => !v)}
+          className="inline-flex items-center justify-center rounded-2xl border-2 border-neutral-300 bg-neutral-100 px-6 py-3.5 text-sm font-semibold text-neutral-800 shadow-sm transition hover:border-neutral-400 hover:bg-neutral-200/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-500 md:text-base"
         >
-          {open ? "Masquer la FAQ" : "Afficher les questions fréquentes"}
-        </GlowButton>
+          {open ? copy.hide : copy.show}
+        </button>
       </div>
 
       {open ? (

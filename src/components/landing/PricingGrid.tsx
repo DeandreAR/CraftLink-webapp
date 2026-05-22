@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getWhatsAppHref } from "@/config/contact";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import type { FeatureMatrixRowJson, PricingComparisonDictionary } from "@/i18n/types";
@@ -137,7 +138,7 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
         onChange={setPeriod}
       />
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-2 lg:items-stretch">
+      <div className="mt-10 grid gap-6 lg:grid-cols-3 lg:items-stretch">
         <GlassCard
           rounded="2xl"
           className="flex flex-col border border-neutral-200 bg-white p-6 md:p-8"
@@ -210,6 +211,43 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
             </p>
           ) : null}
         </div>
+
+        <GlassCard
+          rounded="2xl"
+          className="flex flex-col border border-dashed border-neutral-300 bg-neutral-50/80 p-6 md:p-8"
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-600">
+            {copy.tierCustom.name}
+          </p>
+          <p className="mt-2 text-base font-medium text-neutral-700">
+            {copy.tierCustom.pitch}
+          </p>
+          <p className="mt-5 text-3xl font-bold tracking-tight text-black md:text-4xl">
+            {copy.tierCustom.priceLabel}
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+            {copy.tierCustom.description}
+          </p>
+          <ul className="mt-5 flex-1 space-y-2 text-sm text-neutral-700">
+            {copy.tierCustom.bullets.map((item) => (
+              <li key={item} className="flex gap-2 leading-snug">
+                <span className="font-bold text-neutral-400" aria-hidden>
+                  —
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <GlowButton
+              href={getWhatsAppHref(copy.tierCustom.whatsappMessage)}
+              external
+              className="w-full justify-center bg-[#25D366] text-white hover:bg-[#20BD5A]"
+            >
+              {copy.tierCustom.cta}
+            </GlowButton>
+          </div>
+        </GlassCard>
       </div>
 
       <div className="mt-10 rounded-2xl border border-[#B2F5EA]/40 bg-[#B2F5EA]/[0.12] p-6 md:p-8">
