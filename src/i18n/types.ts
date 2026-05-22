@@ -10,12 +10,18 @@ export type FeatureMatrixRowJson = {
   labelPro?: string;
   essential: boolean;
   pro: boolean;
-  options: boolean;
-  /** Afficher le badge « Nouveau » sur le plan Pro lorsque la ligne est active. */
-  isNew?: boolean;
   showEssential?: boolean;
   showPro?: boolean;
-  showOptions?: boolean;
+};
+
+export type TierPriceLineJson = {
+  amount: string;
+  footnote?: string;
+};
+
+export type TierPricingJson = {
+  monthly: TierPriceLineJson;
+  annual: TierPriceLineJson;
 };
 
 export type TierJson = {
@@ -24,6 +30,30 @@ export type TierJson = {
   cta: string;
   href: string;
   badge?: string;
+  reassurance?: string;
+  pricing: TierPricingJson;
+};
+
+export type BillingDictionary = {
+  monthly: string;
+  annual: string;
+  discountBadge: string;
+};
+
+export type DemoVideoDictionary = {
+  sectionId: string;
+  title: string;
+  subtitle: string;
+  placeholder: string;
+  videoSrc?: string;
+  posterSrc?: string;
+};
+
+export type ContactCtaDictionary = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  cta: string;
 };
 
 export type PricingComparisonDictionary = {
@@ -48,12 +78,10 @@ export type PricingComparisonDictionary = {
   pricingTitle: string;
   pricingLead: string;
   featuresColumnTitle: string;
-  featureNewBadge: string;
   proAdvantagesTitle: string;
-  optionsFootnote: string;
+  billing: BillingDictionary;
   tierEssential: TierJson;
   tierPro: TierJson;
-  tierOptions: TierJson;
   featureMatrix: FeatureMatrixRowJson[];
   proAdvantages: string[];
 };
@@ -65,6 +93,7 @@ export type NavDictionary = {
   tarifs: string;
   faq: string;
   demo: string;
+  cta: string;
 };
 
 export type MetaDictionary = {
@@ -136,6 +165,7 @@ export type HeroDictionary = {
   lead: string;
   ctaPrimary: string;
   ctaSecondary: string;
+  ctaSecondaryHref: string;
   preview: HeroPreviewDictionary;
   flow: HeroFlowDictionary;
 };
@@ -202,8 +232,10 @@ export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
   hero: HeroDictionary;
+  demoVideo: DemoVideoDictionary;
   featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;
+  contactCta: ContactCtaDictionary;
   footer: FooterDictionary;
   cookieConsent: CookieConsentDictionary;
   legal: LegalBundleDictionary;

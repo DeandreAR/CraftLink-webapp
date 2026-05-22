@@ -9,7 +9,8 @@
     "metiers": "Trades",
     "tarifs": "Pricing",
     "faq": "FAQ",
-    "demo": "Demo"
+    "demo": "Demo",
+    "cta": "Create my page"
   },
   "hero": {
     "pill": "Lead capture for tradespeople",
@@ -31,8 +32,9 @@
     },
     "asideShowcaseAlt": "From an Instagram bio to a CraftLink page: a tradesperson profile turned into a pro storefront with quote and service buttons.",
     "lead": "Turn followers into qualified quote requests. End the chaos across DMs and email: one link on your social profiles and Google listing lets prospects send a voice or written brief. Our AI shapes the information and delivers a structured dossier straight to the messenger you already use.",
-    "ctaPrimary": "Create my pro page",
-    "ctaSecondary": "Book a demo",
+    "ctaPrimary": "Create my page for free",
+    "ctaSecondary": "See the app in action (45s)",
+    "ctaSecondaryHref": "#demo-video",
     "preview": {
       "eyebrow": "Live preview",
       "title": "Your tradesperson profile, ready to share",
@@ -53,6 +55,18 @@
     "flow": {
       "figureAlt": "Four-step diagram: all sources, central link (voice or text), AI processing and files, then field action (WhatsApp, SMS, jobsite)."
     }
+  },
+  "demoVideo": {
+    "sectionId": "demo-video",
+    "title": "How does it work?",
+    "subtitle": "See how CraftLink qualifies your leads in under a minute.",
+    "placeholder": "Demo video — embed link coming soon"
+  },
+  "contactCta": {
+    "eyebrow": "Questions?",
+    "title": "Chat with us on WhatsApp",
+    "lead": "Quick answers, no form: we help you pick Essential or Pro and set up your page.",
+    "cta": "Message on WhatsApp"
   },
   "featuresFlow": {
     "figureAlt": "Four-step journey: all sources funnel into one central link, contacts are centralized, then you take action in the field.",
@@ -136,101 +150,100 @@
       }
     ],
     "pricingEyebrow": "Plans",
-    "pricingTitle": "Start lean, unlock more when volume justifies it.",
-    "pricingLead": "No heavy setup: begin with essentials, then add deeper scoring, exports, or trade-specific options when demand grows.",
+    "pricingTitle": "Start free, go Pro when volume grows.",
+    "pricingLead": "Prices excl. VAT. Switch between monthly and annual billing: save 20% on Pro with annual.",
     "featuresColumnTitle": "Features",
-    "featureNewBadge": "New",
     "proAdvantagesTitle": "Pro advantages",
-    "optionsFootnote": "Voice capture, scoring, and exports unlock on Pro; we help you pick the right pack and onboarding.",
+    "billing": {
+      "monthly": "Monthly billing",
+      "annual": "Annual billing",
+      "discountBadge": "-20%"
+    },
     "tierEssential": {
-      "name": "Essential",
-      "pitch": "Publish fast and capture your first enquiries.",
+      "name": "ESSENTIAL",
+      "pitch": "Publish fast and centralise your first leads.",
       "cta": "Create my page",
-      "href": "#cta"
+      "href": "#cta",
+      "pricing": {
+        "monthly": { "amount": "€0 excl. VAT / month" },
+        "annual": { "amount": "€0 excl. VAT / month" }
+      }
     },
     "tierPro": {
-      "name": "Pro tradesperson",
-      "pitch": "Sort, score, and move to WhatsApp without friction.",
-      "cta": "Go Pro",
+      "name": "PRO TRADESPERSON",
+      "pitch": "AI qualification, stronger influence and review collection.",
+      "cta": "Go PRO",
       "href": "#cta",
-      "badge": "Popular"
-    },
-    "tierOptions": {
-      "name": "Options",
-      "pitch": "For teams and advanced needs (quoted).",
-      "cta": "Contact the team",
-      "href": "#cta-demo"
+      "badge": "POPULAR",
+      "reassurance": "Full autonomy OR a free 15‑min guided onboarding — your choice.",
+      "pricing": {
+        "monthly": {
+          "amount": "€29 excl. VAT / month",
+          "footnote": "no commitment"
+        },
+        "annual": {
+          "amount": "€23 excl. VAT / month",
+          "footnote": "billed €276/year — Save €72"
+        }
+      }
     },
     "featureMatrix": [
       {
         "label": "Pro page + single link (bio, listings)",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Printable van QR code (generic)",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Structured text form (area, urgency)",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Mobile-first layout & direct WhatsApp",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Voice capture & AI transcription",
         "essential": false,
-        "pro": true,
-        "options": true,
-        "isNew": true
+        "pro": true
       },
       {
         "labelEssential": "Unlimited leads (soft cap: 10 leads/month)",
         "labelPro": "Unlimited leads (no blocking)",
         "label": "Unlimited leads",
         "essential": false,
-        "pro": true,
-        "options": true,
-        "isNew": true
+        "pro": true
       },
       {
         "label": "Dedicated “Partners & Brands” section",
         "essential": false,
-        "pro": true,
-        "options": true,
-        "isNew": true
+        "pro": true
+      },
+      {
+        "labelEssential": "Personal onboarding at signup",
+        "labelPro": "Personal onboarding (optional & 100% free)",
+        "label": "Personal onboarding",
+        "essential": false,
+        "pro": true
       },
       {
         "label": "Shared account for your employees (v1.1)",
         "essential": false,
         "pro": false,
-        "options": false,
-        "showEssential": false,
-        "showOptions": false
-      },
-      {
-        "label": "Dedicated support & custom workflows",
-        "essential": false,
-        "pro": false,
-        "options": true,
-        "showEssential": false,
-        "showPro": false
+        "showEssential": false
       }
     ],
     "proAdvantages": [
       "Less phone tennis: the customer already structured the request.",
       "Instant pro image on mobile, with zero web skills.",
-      "Zero technical maintenance: the product evolves for you.",
-      "Separate job enquiries from brand partnership requests."
+      "Separate job enquiries from brand partnership requests.",
+      "Zero technical maintenance: the product evolves for you."
     ]
   },
   "footer": {

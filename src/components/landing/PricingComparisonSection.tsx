@@ -1,81 +1,17 @@
-import { GlowButton } from "@/components/ui/GlowButton";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { Highlighter } from "@/components/ui/Highlighter";
-import type { FeatureMatrixRowJson } from "@/i18n/types";
-import type {
-  PricingSectionModel,
-  TierKey,
-} from "@/services/pricingComparisonSection";
+import { PricingGrid } from "@/components/landing/PricingGrid";
+import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
 type PricingComparisonSectionProps = {
   model: PricingSectionModel;
   basePath: string;
 };
 
-function isFeatureVisible(row: FeatureMatrixRowJson, tierKey: TierKey): boolean {
-  if (tierKey === "essential") return row.showEssential !== false;
-  if (tierKey === "pro") return row.showPro !== false;
-  return row.showOptions !== false;
-}
-
-function getFeatureLabel(row: FeatureMatrixRowJson, tierKey: TierKey): string {
-  if (tierKey === "essential" && row.labelEssential) return row.labelEssential;
-  if (tierKey === "pro" && row.labelPro) return row.labelPro;
-  return row.label;
-}
-
-function TierFeatureList({
-  tierKey,
-  rows,
-  newBadge,
-}: {
-  tierKey: TierKey;
-  rows: FeatureMatrixRowJson[];
-  newBadge: string;
-}) {
-  return (
-    <ul className="mt-2 flex-1 space-y-2.5 text-sm">
-      {rows
-        .filter((row) => isFeatureVisible(row, tierKey))
-        .map((row) => {
-          const ok = row[tierKey];
-          const label = getFeatureLabel(row, tierKey);
-          return (
-            <li
-              key={`${tierKey}-${label}`}
-              className={`flex gap-2.5 leading-snug ${
-                ok ? "text-neutral-900" : "text-neutral-400"
-              }`}
-            >
-              <span
-                className={`mt-0.5 shrink-0 font-bold tabular-nums ${
-                  ok ? "text-neutral-900" : "text-neutral-300"
-                }`}
-                aria-hidden
-              >
-                {ok ? "✓" : "—"}
-              </span>
-              <span className={ok ? undefined : "line-through decoration-neutral-300/90"}>
-                {label}
-                {ok && tierKey === "pro" && row.isNew ? (
-                  <span className="ml-1.5 text-[10px] font-bold uppercase tracking-wide text-[#EFA188] no-underline">
-                    ({newBadge})
-                  </span>
-                ) : null}
-              </span>
-            </li>
-          );
-        })}
-    </ul>
-  );
-}
-
 export function PricingComparisonSection({
   model,
   basePath,
 }: PricingComparisonSectionProps) {
   const { copy } = model;
-  const withBase = (hash: string) => `${basePath}${hash}`;
 
   return (
     <section
@@ -220,99 +156,7 @@ export function PricingComparisonSection({
             </p>
           </div>
 
-          <div className="mt-10 grid gap-4 lg:grid-cols-3 lg:items-stretch">
-            {model.tiers.map((tier) => {
-              const isPro = tier.tierKey === "pro";
-
-              if (isPro) {
-                return (
-                  <div
-                    key={tier.tierKey}
-                    className="flex flex-col rounded-[28px] border-2 border-black bg-white p-6 shadow-[0_22px_52px_rgba(0,0,0,0.14)] md:p-7"
-                  >
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
-                        {tier.name}
-                      </p>
-                      {tier.badge ? (
-                        <span className="rounded-full bg-white px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#EFA188]">
-                          {tier.badge}
-                        </span>
-                      ) : null}
-                    </div>
-                    <p className="mt-3 text-lg font-bold text-black">{tier.pitch}</p>
-                    <p className="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
-                      {copy.featuresColumnTitle}
-                    </p>
-                    <TierFeatureList
-                      tierKey={tier.tierKey}
-                      rows={model.featureMatrix}
-                      newBadge={copy.featureNewBadge}
-                    />
-                    <div className="mt-6 rounded-2xl border border-[#B2F5EA]/40 bg-[#B2F5EA]/[0.12] p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800">
-                        {copy.proAdvantagesTitle}
-                      </p>
-                      <ul className="mt-3 space-y-2 text-sm text-neutral-900">
-                        {model.proAdvantages.map((line) => (
-                          <li key={line} className="flex gap-2 leading-snug">
-                            <span className="font-bold text-[#0F766E]" aria-hidden>
-                              ✓
-                            </span>
-                            <span>{line}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="mt-6">
-                      <GlowButton
-                        href={withBase(tier.hrefSuffix)}
-                        variant="primary"
-                        className="w-full justify-center border-2 border-black bg-black text-white shadow-none hover:scale-[1.02] sm:w-auto"
-                      >
-                        {tier.cta}
-                      </GlowButton>
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <GlassCard
-                  key={tier.tierKey}
-                  rounded="2xl"
-                  className="flex flex-col border border-neutral-200 bg-white p-6 md:p-7"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600">
-                    {tier.name}
-                  </p>
-                  <p className="mt-3 text-lg font-bold text-black">{tier.pitch}</p>
-                  <p className="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
-                    {copy.featuresColumnTitle}
-                  </p>
-                  <TierFeatureList
-                    tierKey={tier.tierKey}
-                    rows={model.featureMatrix}
-                    newBadge={copy.featureNewBadge}
-                  />
-                  {tier.tierKey === "options" ? (
-                    <p className="mt-4 text-xs leading-relaxed text-neutral-500">
-                      {copy.optionsFootnote}
-                    </p>
-                  ) : null}
-                  <div className="mt-6">
-                    <GlowButton
-                      href={withBase(tier.hrefSuffix)}
-                      variant="primary"
-                      className="w-full justify-center border-2 border-black bg-black text-white shadow-none hover:scale-[1.02] sm:w-auto"
-                    >
-                      {tier.cta}
-                    </GlowButton>
-                  </div>
-                </GlassCard>
-              );
-            })}
-          </div>
+          <PricingGrid model={model} basePath={basePath} />
         </div>
       </div>
     </section>

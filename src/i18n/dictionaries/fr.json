@@ -9,7 +9,8 @@
     "metiers": "Métiers",
     "tarifs": "Tarifs",
     "faq": "FAQ",
-    "demo": "Démo"
+    "demo": "Démo",
+    "cta": "Créer ma page"
   },
   "hero": {
     "pill": "Capture de leads pour artisans",
@@ -31,8 +32,9 @@
     },
     "asideShowcaseAlt": "De la bio Instagram à la page CraftLink : un profil artisan transformé en vitrine pro avec boutons devis et services.",
     "lead": "Transformez vos abonnés en demandes de devis qualifiées. Fini le chaos entre vos DM et vos mails : un seul lien sur vos réseaux et votre fiche Google permet à vos prospects de déposer une demande vocale ou écrite. Notre IA traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
-    "ctaPrimary": "Créer ma page pro",
-    "ctaSecondary": "Demander une démo",
+    "ctaPrimary": "Créer ma page gratuitement",
+    "ctaSecondary": "Voir l'application en action (45s)",
+    "ctaSecondaryHref": "#demo-video",
     "preview": {
       "eyebrow": "Live preview",
       "title": "Votre profil artisan, prêt à partager",
@@ -53,6 +55,18 @@
     "flow": {
       "figureAlt": "Schéma en quatre étapes : toutes les sources, lien central (vocal ou texte), traitement IA et dossiers, puis action sur le terrain (WhatsApp, SMS, chantier)."
     }
+  },
+  "demoVideo": {
+    "sectionId": "demo-video",
+    "title": "Comment ça marche ?",
+    "subtitle": "Découvrez comment CraftLink qualifie vos leads en moins d'une minute.",
+    "placeholder": "Vidéo de démonstration — lien à intégrer prochainement"
+  },
+  "contactCta": {
+    "eyebrow": "Une question ?",
+    "title": "Parlons de votre activité sur WhatsApp",
+    "lead": "Réponse rapide, sans formulaire : on vous guide pour choisir Essentiel ou Pro et configurer votre page.",
+    "cta": "Écrire sur WhatsApp"
   },
   "featuresFlow": {
     "figureAlt": "Parcours en quatre étapes : toutes les sources convergent vers un lien central, les contacts sont centralisés, puis vous passez à l’action sur le terrain.",
@@ -136,101 +150,100 @@
       }
     ],
     "pricingEyebrow": "Tarifs & offre",
-    "pricingTitle": "Commencer léger, activer le reste quand ça tourne.",
-    "pricingLead": "Pas de configuration complexe : vous démarrez avec l’essentiel, puis vous ajoutez scoring poussé, exports ou options métier lorsque le volume de demandes le justifie.",
+    "pricingTitle": "Commencer gratuitement, passer Pro quand le volume suit.",
+    "pricingLead": "Prix affichés HT. Basculez entre facturation mensuelle et annuelle : −20 % sur l’offre Pro en annuel.",
     "featuresColumnTitle": "Fonctionnalités",
-    "featureNewBadge": "Nouveau",
     "proAdvantagesTitle": "Avantages Pro",
-    "optionsFootnote": "Les briques vocales, scoring et exports s’activent avec l’offre Pro ; l’équipe vous aide à composer le bon pack et la mise en route.",
+    "billing": {
+      "monthly": "Facturation mensuelle",
+      "annual": "Facturation annuelle",
+      "discountBadge": "-20%"
+    },
     "tierEssential": {
-      "name": "Essentiel",
-      "pitch": "Pour publier vite et capter vos premiers messages.",
+      "name": "ESSENTIEL",
+      "pitch": "Pour publier vite et centraliser vos premiers leads.",
       "cta": "Créer ma page",
-      "href": "#cta"
+      "href": "#cta",
+      "pricing": {
+        "monthly": { "amount": "0€ HT / mois" },
+        "annual": { "amount": "0€ HT / mois" }
+      }
     },
     "tierPro": {
-      "name": "Pro artisan",
-      "pitch": "Pour trier, scorer et passer sur WhatsApp sans friction.",
-      "cta": "Passer Pro",
+      "name": "PRO ARTISAN",
+      "pitch": "Pour qualifier par IA, booster l'influence et récolter des avis.",
+      "cta": "Passer PRO",
       "href": "#cta",
-      "badge": "Populaire"
-    },
-    "tierOptions": {
-      "name": "Options",
-      "pitch": "Pour les équipes et besoins avancés (sur devis).",
-      "cta": "Parler à l’équipe",
-      "href": "#cta-demo"
+      "badge": "POPULAIRE",
+      "reassurance": "Autonomie totale OU onboarding guidé en 15 min, c'est vous qui choisissez.",
+      "pricing": {
+        "monthly": {
+          "amount": "29€ HT / mois",
+          "footnote": "sans engagement"
+        },
+        "annual": {
+          "amount": "23€ HT / mois",
+          "footnote": "facturé 276€/an — Économisez 72€"
+        }
+      }
     },
     "featureMatrix": [
       {
         "label": "Page pro + lien unique (bio, fiches)",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "QR Code Camion imprimable (Générique)",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Formulaire texte structuré (zone, urgence)",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Mise en page mobile-first & WhatsApp direct",
         "essential": true,
-        "pro": true,
-        "options": true
+        "pro": true
       },
       {
         "label": "Capture vocale & transcription IA",
         "essential": false,
-        "pro": true,
-        "options": true,
-        "isNew": true
+        "pro": true
       },
       {
         "labelEssential": "Leads illimités (Soft Cap à 10 leads/mois)",
         "labelPro": "Leads illimités (Pas de blocage)",
         "label": "Leads illimités",
         "essential": false,
-        "pro": true,
-        "options": true,
-        "isNew": true
+        "pro": true
       },
       {
         "label": "Section « Partenaires & Marques » dédiée",
         "essential": false,
-        "pro": true,
-        "options": true,
-        "isNew": true
+        "pro": true
+      },
+      {
+        "labelEssential": "Onboarding personnalisé au démarrage",
+        "labelPro": "Onboarding personnalisé (Optionnel & 100% Gratuit)",
+        "label": "Onboarding personnalisé",
+        "essential": false,
+        "pro": true
       },
       {
         "label": "Partage de compte avec vos employés (V1.1)",
         "essential": false,
         "pro": false,
-        "options": false,
-        "showEssential": false,
-        "showOptions": false
-      },
-      {
-        "label": "Accompagnement dédié & évolutions sur mesure",
-        "essential": false,
-        "pro": false,
-        "options": true,
-        "showEssential": false,
-        "showPro": false
+        "showEssential": false
       }
     ],
     "proAdvantages": [
       "Moins de temps au téléphone : le client a déjà structuré sa demande.",
       "Image pro immédiate sur mobile, sans compétences web.",
-      "Zéro maintenance technique : le produit évolue pour vous.",
-      "Séparez vos demandes de chantiers et vos partenariats marques."
+      "Séparez vos demandes de chantiers et vos partenariats marques.",
+      "Zéro maintenance technique : le produit évolue pour vous."
     ]
   },
   "footer": {

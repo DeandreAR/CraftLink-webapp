@@ -11,6 +11,7 @@ export type NavbarLabels = {
   tarifs: string;
   faq: string;
   demo: string;
+  cta: string;
 };
 
 const defaultLabels: NavbarLabels = {
@@ -20,6 +21,7 @@ const defaultLabels: NavbarLabels = {
   tarifs: "Tarifs",
   faq: "FAQ",
   demo: "Démo",
+  cta: "Créer ma page",
 };
 
 type NavbarProps = {
@@ -93,8 +95,15 @@ export function Navbar({ basePath = "", labels }: NavbarProps) {
             >
               {L.faq}
             </a>
-            <GlowButton href={`${p}#cta-demo`} className="px-4 py-2.5">
+            <GlowButton
+              href={`${p}#demo-video`}
+              variant="secondary"
+              className="hidden px-4 py-2.5 sm:inline-flex"
+            >
               {L.demo}
+            </GlowButton>
+            <GlowButton href={`${p}#cta`} className="px-4 py-2.5">
+              {L.cta}
             </GlowButton>
           </nav>
         </div>

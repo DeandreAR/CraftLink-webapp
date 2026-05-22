@@ -19,6 +19,8 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
 import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
+import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
+import { getWhatsAppHref } from "@/config/contact";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
@@ -184,7 +186,10 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                       <GlowButton href={`${basePath}#cta`}>
                         {dict.hero.ctaPrimary}
                       </GlowButton>
-                      <GlowButton href={`${basePath}#cta-demo`}>
+                      <GlowButton
+                        href={`${basePath}${dict.hero.ctaSecondaryHref}`}
+                        variant="secondary"
+                      >
                         {dict.hero.ctaSecondary}
                       </GlowButton>
                     </div>
@@ -210,6 +215,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           className="landing-hero-divider pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-neutral-200 to-transparent"
           aria-hidden
         />
+
+        <DemoVideoSection copy={dict.demoVideo} />
 
         {/* Pourquoi : synthèse + sans/avec + 3 piliers colorés */}
         <section
@@ -562,30 +569,30 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           </div>
         </section>
 
-        {/* CTA démo */}
+        {/* Contact WhatsApp */}
         <section
-          id="cta-demo"
-          className="landing-cta-demo scroll-mt-28 border-t border-neutral-200 bg-neutral-900 py-14 text-white"
+          id="contact"
+          className="landing-contact-cta scroll-mt-28 border-t border-neutral-200 bg-neutral-900 py-14 text-white"
         >
-          <div className="landing-cta-demo-inner mx-auto max-w-6xl px-4 md:px-6">
+          <div className="mx-auto max-w-6xl px-4 md:px-6">
             <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div className="max-w-2xl">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-400">
-                  Accompagnement
+                  {dict.contactCta.eyebrow}
                 </p>
                 <h2 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">
-                  Besoin d’une démo ou d’un cas métier précis ?
+                  {dict.contactCta.title}
                 </h2>
                 <p className="mt-3 text-base leading-relaxed text-neutral-300 md:text-lg">
-                  On vous montre comment présenter vos services, récupérer des
-                  vocaux propres et brancher WhatsApp sans perdre vos habitudes.
+                  {dict.contactCta.lead}
                 </p>
               </div>
               <GlowButton
-                href="#"
-                className="min-w-[220px] shrink-0 ring-2 ring-white/25"
+                href={getWhatsAppHref()}
+                external
+                className="min-w-[220px] shrink-0 bg-[#25D366] text-white ring-2 ring-white/25 hover:scale-[1.02] hover:bg-[#20BD5A]"
               >
-                Réserver une démo
+                {dict.contactCta.cta}
               </GlowButton>
             </div>
           </div>

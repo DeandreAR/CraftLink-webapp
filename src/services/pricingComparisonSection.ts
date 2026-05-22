@@ -5,7 +5,7 @@ import type {
   TierJson,
 } from "@/i18n/types";
 
-export type TierKey = "essential" | "pro" | "options";
+export type TierKey = "essential" | "pro";
 
 export type PricingTierView = {
   tierKey: TierKey;
@@ -51,7 +51,6 @@ export function buildPricingSectionModel(
     tiers: [
       mapTier("essential", input.tierEssential, false),
       mapTier("pro", input.tierPro, true),
-      mapTier("options", input.tierOptions, false),
     ],
     featureMatrix: input.featureMatrix,
     proAdvantages: input.proAdvantages,
