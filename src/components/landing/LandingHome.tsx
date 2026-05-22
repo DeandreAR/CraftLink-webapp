@@ -12,6 +12,7 @@ import {
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
 import { HeroAsideShowcase } from "@/components/landing/HeroAsideShowcase";
+import { LandingHeroBlobs } from "@/components/landing/LandingHeroBlobs";
 import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -154,6 +155,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         {/* Hero */}
         <section className="landing-hero relative overflow-x-hidden overflow-y-visible">
           <MeshBackground intensity="normal" />
+          <LandingHeroBlobs />
 
           <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
             <div className="landing-hero-body grid items-start gap-10 md:gap-8">
