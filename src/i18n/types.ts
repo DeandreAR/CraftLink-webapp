@@ -217,6 +217,7 @@ export type HeroDictionary = {
   typingTitle: HeroTypingTitleDictionary;
   asideShowcaseAlt: string;
   lead: string;
+  controlPhrase: string;
   ctaPrimary: string;
   ctaSecondary: string;
   ctaSecondaryHref: string;

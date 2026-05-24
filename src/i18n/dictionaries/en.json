@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "CraftLink — Pro tradesperson page in 2 min | Instagram, Facebook & WhatsApp leads",
-    "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, joiners, HVAC, and construction trades."
+    "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, drywallers, joiners, HVAC, and construction trades."
   },
   "nav": {
     "why": "Why",
@@ -73,7 +73,8 @@
       ]
     },
     "asideShowcaseAlt": "From an Instagram bio to a CraftLink page: a tradesperson profile turned into a pro storefront with quote and service buttons.",
-    "lead": "Turn followers into qualified quote requests. End the chaos across DMs and email: one link on your social profiles and Google listing lets prospects send a voice or written brief. Our AI shapes the information and delivers a structured dossier straight to the messenger you already use.",
+    "lead": "Turn followers into qualified quote requests. CraftLink is your pro storefront and request form in one link. End the chaos across DMs and email: share one link on your social profiles and Google listing so prospects can send a voice or written brief. Our tool shapes the information and delivers a structured dossier straight to the messenger you already use.",
+    "controlPhrase": "You share your link, stay in control, and make it easy to take action.",
     "ctaPrimary": "Create my page for free",
     "ctaSecondary": "See the app in action (45s)",
     "ctaSecondaryHref": "#demo-video",

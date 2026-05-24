@@ -115,6 +115,11 @@ const metiersCasUsage = [
       "Ouvertures urgentes : identifiez tout de suite la zone et le créneau pour optimiser vos déplacements.",
   },
   {
+    metier: "Plaquiste",
+    angle:
+      "Cloisons, plafonds, isolation : le client décrit pièces et contraintes pour un premier chiffrage plus net.",
+  },
+  {
     metier: "Peintre",
     angle:
       "Surfaces, finitions, délais : le client précise déjà volumes et contraintes pour chiffrer sans allers-retours interminables.",
@@ -181,6 +186,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                     <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-lg">
                       {dict.hero.lead}
                     </p>
+                    <p className="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-neutral-900 md:max-w-none">
+                      {dict.hero.controlPhrase}
+                    </p>
 
                     <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                       <GlowButton href={authPath(lang, "signup")}>
@@ -215,6 +223,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           className="landing-hero-divider pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-neutral-200 to-transparent"
           aria-hidden
         />
+
+        <DemoVideoSection copy={dict.demoVideo} />
+
 
         <DemoVideoSection copy={dict.demoVideo} />
 
@@ -518,8 +529,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               <strong className="font-semibold text-black">
                 site simple pour plombier
               </strong>{" "}
-              ou une entrée unique pour votre menuiserie, le mécanisme reste le
-              même : capturer le besoin net, scorer, puis passer sur WhatsApp.
+              ou une entrée unique pour votre menuiserie ou votre activité de
+              plaquiste, le mécanisme reste le même : capturer le besoin net, scorer, puis passer sur WhatsApp.
             </p>
           </div>
 

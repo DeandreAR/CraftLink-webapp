@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "CraftLink — Page pro artisan en 2 min | Leads Instagram, Facebook & WhatsApp",
-    "description": "Créez une page professionnelle avec un lien unique : tunnel de capture vocale, transcription, scoring des leads et redirection WhatsApp. Pour artisans sans site ou peu équipés — électriciens, plombiers, menuisiers, chauffagistes et corps de métier du bâtiment."
+    "description": "Créez une page professionnelle avec un lien unique : tunnel de capture vocale, transcription, scoring des leads et redirection WhatsApp. Pour artisans sans site ou peu équipés — électriciens, plombiers, plaquistes, menuisiers, chauffagistes et corps de métier du bâtiment."
   },
   "nav": {
     "why": "Pourquoi",
@@ -73,7 +73,8 @@
       ]
     },
     "asideShowcaseAlt": "De la bio Instagram à la page CraftLink : un profil artisan transformé en vitrine pro avec boutons devis et services.",
-    "lead": "Transformez vos abonnés en demandes de devis qualifiées. Fini le chaos entre vos DM et vos mails : un seul lien sur vos réseaux et votre fiche Google permet à vos prospects de déposer une demande vocale ou écrite. Notre IA traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
+    "lead": "Transformez vos abonnés en demandes de devis qualifiées. CraftLink, c’est votre vitrine pro et votre formulaire de demande en un seul lien. Fini le chaos entre vos DM et vos mails : partagez un seul lien sur vos réseaux sociaux et votre fiche Google pour que vos prospects déposent une demande vocale ou écrite. Notre outil traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
+    "controlPhrase": "Vous partagez votre lien, vous gardez le contrôle, et vous facilitez le passage à l’action.",
     "ctaPrimary": "Créer ma page gratuitement",
     "ctaSecondary": "Voir l'application en action (45s)",
     "ctaSecondaryHref": "#demo-video",
