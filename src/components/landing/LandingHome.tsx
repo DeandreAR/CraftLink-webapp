@@ -20,6 +20,7 @@ import { PricingComparisonSection } from "@/components/landing/PricingComparison
 import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
+import { authPath } from "@/lib/auth/paths";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
@@ -182,7 +183,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                     </p>
 
                     <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                      <GlowButton href={`${basePath}#cta`}>
+                      <GlowButton href={authPath(lang, "signup")}>
                         {dict.hero.ctaPrimary}
                       </GlowButton>
                       <GlowButton
@@ -544,8 +545,6 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
         <LandingFaqDisclosure blocks={faqBlocks} copy={dict.faqUi} />
 
-        <div id="connexion" className="scroll-mt-28" aria-hidden />
-
         {/* CTA inscription */}
         <section id="cta" className="landing-cta relative scroll-mt-28 overflow-hidden py-14">
           <MeshBackground intensity="subtle" />
@@ -562,7 +561,10 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                     d’être développeur pour avoir l’air pro en ligne.
                   </p>
                 </div>
-                <GlowButton href="#" className="min-w-[220px] shrink-0">
+                <GlowButton
+                  href={authPath(lang, "signup")}
+                  className="min-w-[220px] shrink-0"
+                >
                   Créer ma page maintenant
                 </GlowButton>
               </div>

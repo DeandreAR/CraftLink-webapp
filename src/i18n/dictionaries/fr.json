@@ -12,6 +12,42 @@
     "login": "Connexion",
     "createAccount": "Créer mon compte"
   },
+  "auth": {
+    "serviceUnavailable": "Le service est momentanément indisponible. Réessayez dans quelques minutes ou contactez le support.",
+    "signIn": {
+      "title": "Connexion",
+      "subtitle": "Accédez à votre espace artisan CraftLink.",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "submitting": "Connexion…",
+      "goToSignUp": "Créer un compte"
+    },
+    "signUp": {
+      "title": "Créer mon compte",
+      "subtitle": "Inscription gratuite — votre espace multi-tenant est prêt en quelques secondes.",
+      "fullName": "Nom / raison sociale (optionnel)",
+      "whatsapp": "WhatsApp (optionnel)",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "passwordHint": "8 caractères minimum.",
+      "confirmPassword": "Confirmer le mot de passe",
+      "submit": "Créer mon compte",
+      "submitting": "Création…",
+      "goToSignIn": "Déjà inscrit ? Se connecter"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "welcome": "Bienvenue sur CraftLink.",
+      "email": "E-mail",
+      "workspace": "Espace de travail (workspace_id)",
+      "role": "Rôle",
+      "plan": "Offre",
+      "name": "Nom",
+      "signOut": "Déconnexion",
+      "placeholder": "Prochaine étape : configuration de votre page pro et capture de leads."
+    }
+  },
   "faqUi": {
     "title": "Questions fréquentes",
     "lead": "Réponses aux objections courantes — uniquement si vous souhaitez creuser le détail.",

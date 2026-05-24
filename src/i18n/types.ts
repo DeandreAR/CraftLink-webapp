@@ -100,6 +100,49 @@ export type NavDictionary = {
   createAccount: string;
 };
 
+export type AuthSignInDictionary = {
+  title: string;
+  subtitle: string;
+  email: string;
+  password: string;
+  submit: string;
+  submitting: string;
+  goToSignUp: string;
+};
+
+export type AuthSignUpDictionary = {
+  title: string;
+  subtitle: string;
+  fullName: string;
+  whatsapp: string;
+  email: string;
+  password: string;
+  passwordHint: string;
+  confirmPassword: string;
+  submit: string;
+  submitting: string;
+  goToSignIn: string;
+};
+
+export type AuthDashboardDictionary = {
+  title: string;
+  welcome: string;
+  email: string;
+  workspace: string;
+  role: string;
+  plan: string;
+  name: string;
+  signOut: string;
+  placeholder: string;
+};
+
+export type AuthDictionary = {
+  serviceUnavailable: string;
+  signIn: AuthSignInDictionary;
+  signUp: AuthSignUpDictionary;
+  dashboard: AuthDashboardDictionary;
+};
+
 export type FaqUiDictionary = {
   title: string;
   lead: string;
@@ -243,6 +286,7 @@ export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
   faqUi: FaqUiDictionary;
+  auth: AuthDictionary;
   hero: HeroDictionary;
   demoVideo: DemoVideoDictionary;
   featuresFlow: FeaturesFlowDictionary;

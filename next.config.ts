@@ -1,18 +1,26 @@
 import path from "node:path";
+import { loadEnvConfig } from "@next/env";
 import type { NextConfig } from "next";
 
+const projectDir = path.resolve(process.cwd());
+loadEnvConfig(projectDir);
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ??
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() ??
+  "";
+
 /**
- * Évite l’avertissement « multiple lockfiles » quand un `package-lock.json`
- * existe plus haut dans l’arborescence (ex. dossier utilisateur).
- * @see https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory
+ * Évite l’avertissement « multiple lockfiles » + expose les variables Supabase au bundle client.
  */
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_SUPABASE_URL: supabaseUrl,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: supabaseAnonKey,
+  },
   turbopack: {
-    // `__dirname` avec `next.config.ts` peut ne pas être le dossier du projet
-    // (bundle / cache) : la racine serait alors trop étroite et `src/app` ne serait
-    // pas résolu → page vide / pas de route `/`. `process.cwd()` suit le répertoire
-    // d’exécution (`npm run dev` / `build` depuis ce package).
-    root: path.resolve(process.cwd()),
+    root: projectDir,
   },
 };
 

@@ -12,6 +12,42 @@
     "login": "Log in",
     "createAccount": "Create my account"
   },
+  "auth": {
+    "serviceUnavailable": "This service is temporarily unavailable. Please try again in a few minutes or contact support.",
+    "signIn": {
+      "title": "Log in",
+      "subtitle": "Access your CraftLink tradesperson workspace.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "submitting": "Signing in…",
+      "goToSignUp": "Create an account"
+    },
+    "signUp": {
+      "title": "Create my account",
+      "subtitle": "Free signup — your multi-tenant workspace is ready in seconds.",
+      "fullName": "Name / business (optional)",
+      "whatsapp": "WhatsApp (optional)",
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "confirmPassword": "Confirm password",
+      "submit": "Create my account",
+      "submitting": "Creating…",
+      "goToSignIn": "Already registered? Log in"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome to CraftLink.",
+      "email": "Email",
+      "workspace": "Workspace (workspace_id)",
+      "role": "Role",
+      "plan": "Plan",
+      "name": "Name",
+      "signOut": "Sign out",
+      "placeholder": "Next: set up your pro page and lead capture."
+    }
+  },
   "faqUi": {
     "title": "Frequently asked questions",
     "lead": "Answers to common objections — only if you want to dig into the details.",

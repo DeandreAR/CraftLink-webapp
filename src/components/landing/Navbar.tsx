@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GlowButton } from "@/components/ui/GlowButton";
+import { authPath } from "@/lib/auth/paths";
+import { defaultLocale } from "@/i18n/config";
 
 export type NavbarLabels = {
   why: string;
@@ -33,6 +35,7 @@ export function Navbar({ basePath = "", labels }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const L = labels ?? defaultLabels;
   const p = basePath || "";
+  const locale = p === "/en" ? "en" : defaultLocale;
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 6);
@@ -96,13 +99,16 @@ export function Navbar({ basePath = "", labels }: NavbarProps) {
               {L.faq}
             </a>
             <GlowButton
-              href={`${p}#connexion`}
+              href={authPath(locale, "login")}
               variant="secondary"
               className="px-3 py-2.5 text-sm md:px-4"
             >
               {L.login}
             </GlowButton>
-            <GlowButton href={`${p}#cta`} className="px-3 py-2.5 text-sm md:px-4">
+            <GlowButton
+              href={authPath(locale, "signup")}
+              className="px-3 py-2.5 text-sm md:px-4"
+            >
               {L.createAccount}
             </GlowButton>
           </nav>
