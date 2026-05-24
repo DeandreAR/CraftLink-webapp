@@ -2,13 +2,14 @@ import { Navbar } from "@/components/landing/Navbar";
 import { MeshBackground } from "@/components/landing/MeshBackground";
 import { BentoFeatureCard } from "@/components/landing/BentoFeatureCard";
 import {
-  IconBolt,
   IconChart,
+  IconFolder,
   IconLink,
   IconMessage,
   IconMic,
+  IconPalette,
+  IconShareNetwork,
   IconShield,
-  IconSparkles,
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
 import { HeroAsideShowcase } from "@/components/landing/HeroAsideShowcase";
@@ -20,6 +21,7 @@ import { PricingComparisonSection } from "@/components/landing/PricingComparison
 import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
+import { PourquoiPillarCard } from "@/components/landing/PourquoiPillarCard";
 import { authPath } from "@/lib/auth/paths";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -226,10 +228,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
         <DemoVideoSection copy={dict.demoVideo} />
 
-
-        <DemoVideoSection copy={dict.demoVideo} />
-
-        {/* Pourquoi : synthèse + sans/avec + 3 piliers colorés */}
+        {/* Pourquoi : synthèse + sans/avec + 3 piliers */}
         <section
           id="pourquoi"
           className="landing-pourquoi scroll-mt-28 bg-white"
@@ -332,56 +331,21 @@ export async function LandingHome({ lang }: { lang: Locale }) {
             </div>
 
             <div className="landing-pourquoi-pillars mt-14 grid gap-4 md:grid-cols-3">
-              <div className="rounded-3xl border border-[#EFA188]/25 bg-[#EFA188]/[0.12] p-6 md:p-7">
-                <div className="flex items-start gap-3">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#EFA188] text-white shadow-[0_12px_28px_rgba(239,161,136,0.35)]">
-                    <IconBolt className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-bold text-black">
-                      Vitesse & express
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-neutral-800 md:text-base">
-                      Mise en ligne en quelques minutes, vocaux mis en forme :
-                      moins d’allers-retours avant d’être crédible et réactif.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-3xl border border-[#B2F5EA]/35 bg-[#B2F5EA]/[0.12] p-6 md:p-7">
-                <div className="flex items-start gap-3">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#B2F5EA] text-neutral-900 shadow-[0_12px_28px_rgba(20,184,166,0.2)]">
-                    <IconChart className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-bold text-black">
-                      Croissance & leads
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-neutral-800 md:text-base">
-                      Scoring, exports et tunnel dédié : priorisez les dossiers
-                      sérieux et nourrissez votre suivi sans tout ressaisir.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-3xl border border-[#D6BCFA]/30 bg-[#D6BCFA]/[0.12] p-6 md:p-7">
-                <div className="flex items-start gap-3">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#D6BCFA] text-neutral-900 shadow-[0_12px_28px_rgba(139,92,246,0.18)]">
-                    <IconSparkles className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-bold text-black">
-                      Simplicité & tech
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-neutral-800 md:text-base">
-                      Interface mobile-first, jargon tenu à distance : vous
-                      pilotez l’essentiel depuis le terrain, sans formation longue.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <PourquoiPillarCard
+                pillar={dict.pourquoi.pillars[0]}
+                tint="peach"
+                icon={<IconPalette className="h-5 w-5" />}
+              />
+              <PourquoiPillarCard
+                pillar={dict.pourquoi.pillars[1]}
+                tint="mint"
+                icon={<IconShareNetwork className="h-5 w-5" />}
+              />
+              <PourquoiPillarCard
+                pillar={dict.pourquoi.pillars[2]}
+                tint="lavender"
+                icon={<IconFolder className="h-5 w-5" />}
+              />
             </div>
           </div>
         </section>

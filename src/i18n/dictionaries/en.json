@@ -105,6 +105,35 @@
     "subtitle": "See how CraftLink qualifies your leads in under a minute.",
     "placeholder": "Demo video — embed link coming soon"
   },
+  "pourquoi": {
+    "pillars": [
+      {
+        "title": "Skip complicated websites — centralise everything",
+        "bullets": [
+          { "emoji": "📷", "text": "Dynamic photo/video gallery of your projects (showcase your services)." },
+          { "emoji": "✉️", "text": "Smart request form (with AI voice capture)." }
+        ]
+      },
+      {
+        "title": "Share and capture across every channel",
+        "bullets": [
+          { "emoji": "📱", "text": "Bio-link integration (Instagram, Facebook)." },
+          { "emoji": "🏷️", "text": "One QR code (van, business card)." },
+          { "emoji": "🔗", "text": "Link in your professional SMS and emails." },
+          { "emoji": "📍", "text": "Google Business Profile (reviews and contact details)." }
+        ]
+      },
+      {
+        "title": "Receive qualified, structured dossiers",
+        "bullets": [
+          { "emoji": "🗂️", "text": "Complete prospect files (not just a message)." },
+          { "emoji": "📊", "text": "Dashboard with lead scoring and follow-up." },
+          { "emoji": "✅", "text": "Voice messages transcribed automatically (AI capture)." },
+          { "emoji": "💬", "text": "Request summary straight on WhatsApp." }
+        ]
+      }
+    ]
+  },
   "featuresFlow": {
     "figureAlt": "Four-step journey: all sources funnel into one central link, contacts are centralized, then you take action in the field.",
     "arrowHints": ["1 link", "1 list", "1 action"],
@@ -198,7 +227,7 @@
     },
     "tierEssential": {
       "name": "ESSENTIAL",
-      "pitch": "Publish fast and centralise your first leads.",
+      "pitch": "Publish fast and test your first leads.",
       "cta": "Create my page",
       "href": "#cta",
       "pricing": {
@@ -244,6 +273,13 @@
         "pro": true
       },
       {
+        "labelEssential": "Instant AI page creation (Instagram, Facebook or Google Business link)",
+        "labelPro": "AI-enriched page creation (via your social profiles or Google listing)",
+        "label": "AI page creation",
+        "essential": true,
+        "pro": true
+      },
+      {
         "label": "Printable van QR code (generic)",
         "essential": true,
         "pro": true
@@ -264,11 +300,20 @@
         "pro": true
       },
       {
-        "labelEssential": "Unlimited leads (soft cap: 10 leads/month)",
-        "labelPro": "Unlimited leads (no blocking)",
-        "label": "Unlimited leads",
+        "labelEssential": "Limited to 15 leads/month (blurred display beyond)",
+        "labelPro": "Unlimited leads (no blocking, no frustration)",
+        "label": "Lead volume",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "No automatic SMS acknowledgement to the end customer",
+        "labelPro": "Automatic SMS acknowledgement to the end customer (instant confirmation)",
+        "label": "SMS acknowledgement",
         "essential": false,
-        "pro": true
+        "pro": true,
+        "highlightPro": true
       },
       {
         "label": "Dedicated “Partners & Brands” section",

@@ -25,6 +25,80 @@ function getFeatureLabel(row: FeatureMatrixRowJson, tierKey: TierKey): string {
   return row.label;
 }
 
+function IconCheck({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={className} fill="none" aria-hidden>
+      <path
+        d="M3.5 8.5 6.5 11.5 12.5 4.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconCross({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={className} fill="none" aria-hidden>
+      <path
+        d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function IconSparkHighlight({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" className={className} fill="currentColor" aria-hidden>
+      <path d="M8 1.5 8.8 5.2 12.5 6 8.8 6.8 8 10.5 7.2 6.8 3.5 6 7.2 5.2 8 1.5Z" />
+    </svg>
+  );
+}
+
+function FeatureStatusIcon({
+  tierKey,
+  row,
+  included,
+}: {
+  tierKey: TierKey;
+  row: FeatureMatrixRowJson;
+  included: boolean;
+}) {
+  const isLimit = tierKey === "essential" && row.essentialLimit && included;
+  const isHighlight = tierKey === "pro" && row.highlightPro && included;
+
+  if (!included) {
+    return (
+      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-neutral-300">
+        <IconCross className="h-3.5 w-3.5" />
+      </span>
+    );
+  }
+
+  if (isHighlight) {
+    return (
+      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-[#EFA188]">
+        <IconSparkHighlight className="h-3.5 w-3.5" />
+      </span>
+    );
+  }
+
+  return (
+    <span
+      className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center ${
+        isLimit ? "text-amber-700" : "text-neutral-900"
+      }`}
+    >
+      <IconCheck className="h-3.5 w-3.5" />
+    </span>
+  );
+}
+
 function TierFeatureList({
   tierKey,
   rows,
@@ -37,26 +111,34 @@ function TierFeatureList({
       {rows
         .filter((row) => isFeatureVisible(row, tierKey))
         .map((row) => {
-          const ok = row[tierKey];
+          const included = row[tierKey];
           const label = getFeatureLabel(row, tierKey);
+          const isLimit =
+            tierKey === "essential" && row.essentialLimit && included;
+          const isHighlight =
+            tierKey === "pro" && row.highlightPro && included;
+
           return (
             <li
               key={`${tierKey}-${label}`}
               className={`flex gap-2.5 leading-snug ${
-                ok ? "text-neutral-900" : "text-neutral-400"
+                included ? "text-neutral-900" : "text-neutral-400"
               }`}
             >
-              <span
-                className={`mt-0.5 shrink-0 text-sm font-bold ${
-                  ok ? "text-neutral-900" : "text-neutral-300"
-                }`}
-                aria-hidden
-              >
-                {ok ? "✓" : "✕"}
-              </span>
+              <FeatureStatusIcon
+                tierKey={tierKey}
+                row={row}
+                included={included}
+              />
               <span
                 className={
-                  ok ? undefined : "line-through decoration-neutral-300/90"
+                  !included
+                    ? "line-through decoration-neutral-300/90"
+                    : isHighlight
+                      ? "font-semibold text-black"
+                      : isLimit
+                        ? "text-neutral-800"
+                        : undefined
                 }
               >
                 {label}
@@ -228,11 +310,14 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
           <p className="mt-4 text-sm leading-relaxed text-neutral-600">
             {copy.tierCustom.description}
           </p>
-          <ul className="mt-5 flex-1 space-y-2 text-sm text-neutral-700">
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
+            {copy.featuresColumnTitle}
+          </p>
+          <ul className="mt-4 flex-1 space-y-2.5 text-sm">
             {copy.tierCustom.bullets.map((item) => (
-              <li key={item} className="flex gap-2 leading-snug">
-                <span className="font-bold text-neutral-400" aria-hidden>
-                  —
+              <li key={item} className="flex gap-2.5 leading-snug text-neutral-900">
+                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-neutral-900">
+                  <IconCheck className="h-3.5 w-3.5" />
                 </span>
                 <span>{item}</span>
               </li>
@@ -260,8 +345,8 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
               key={line}
               className="flex gap-2 text-sm leading-snug text-neutral-900 md:text-base"
             >
-              <span className="font-bold text-[#0F766E]" aria-hidden>
-                ✓
+              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-[#0F766E]">
+                <IconCheck className="h-3.5 w-3.5" />
               </span>
               <span>{line}</span>
             </li>

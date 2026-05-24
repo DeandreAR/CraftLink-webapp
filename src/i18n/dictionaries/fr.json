@@ -105,6 +105,35 @@
     "subtitle": "Découvrez comment CraftLink qualifie vos leads en moins d'une minute.",
     "placeholder": "Vidéo de démonstration — lien à intégrer prochainement"
   },
+  "pourquoi": {
+    "pillars": [
+      {
+        "title": "Dites adieu aux sites compliqués, centralisez tout",
+        "bullets": [
+          { "emoji": "📷", "text": "Galerie photo/vidéo de chantiers dynamique (montrez vos prestations)." },
+          { "emoji": "✉️", "text": "Formulaire de demande intelligent (avec capture vocale IA)." }
+        ]
+      },
+      {
+        "title": "Partagez et capturez sur tous vos canaux",
+        "bullets": [
+          { "emoji": "📱", "text": "Intégration dans vos bio-links (Instagram, Facebook)." },
+          { "emoji": "🏷️", "text": "QR code unique (camion, carte de visite)." },
+          { "emoji": "🔗", "text": "Lien dans vos SMS et emails professionnels." },
+          { "emoji": "📍", "text": "Google My Business (avis/coordonnées)." }
+        ]
+      },
+      {
+        "title": "Recevez des dossiers qualifiés & structurés",
+        "bullets": [
+          { "emoji": "🗂️", "text": "Dossiers prospects complets (pas juste un message)." },
+          { "emoji": "📊", "text": "Dashboard avec scoring et suivi des leads." },
+          { "emoji": "✅", "text": "Les messages vocaux sont transcrits automatiquement (capture IA)." },
+          { "emoji": "💬", "text": "Résumé de la demande directement sur WhatsApp." }
+        ]
+      }
+    ]
+  },
   "featuresFlow": {
     "figureAlt": "Parcours en quatre étapes : toutes les sources convergent vers un lien central, les contacts sont centralisés, puis vous passez à l’action sur le terrain.",
     "arrowHints": ["1 lien", "1 liste", "1 action"],
@@ -198,7 +227,7 @@
     },
     "tierEssential": {
       "name": "ESSENTIEL",
-      "pitch": "Pour publier vite et centraliser vos premiers leads.",
+      "pitch": "Pour publier vite et tester vos premiers leads.",
       "cta": "Créer ma page",
       "href": "#cta",
       "pricing": {
@@ -244,6 +273,13 @@
         "pro": true
       },
       {
+        "labelEssential": "Création de page instantanée via IA (Lien Instagram, Facebook ou Google My Business)",
+        "labelPro": "Création de page enrichie par IA (via vos réseaux sociaux ou fiche Google)",
+        "label": "Création de page via IA",
+        "essential": true,
+        "pro": true
+      },
+      {
         "label": "QR Code Camion imprimable (Générique)",
         "essential": true,
         "pro": true
@@ -264,11 +300,20 @@
         "pro": true
       },
       {
-        "labelEssential": "Leads illimités (Soft Cap à 10 leads/mois)",
-        "labelPro": "Leads illimités (Pas de blocage)",
-        "label": "Leads illimités",
+        "labelEssential": "Accès limité à 15 leads/mois (Affichage flouté au-delà)",
+        "labelPro": "Leads illimités (Aucun blocage, aucune frustration)",
+        "label": "Volume de leads",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "Pas d'accusé de réception SMS automatique",
+        "labelPro": "Accusé de réception SMS automatique au client final (Prise en compte instantanée)",
+        "label": "Accusé de réception SMS",
         "essential": false,
-        "pro": true
+        "pro": true,
+        "highlightPro": true
       },
       {
         "label": "Section « Partenaires & Marques » dédiée",

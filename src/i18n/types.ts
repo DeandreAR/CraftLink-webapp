@@ -12,6 +12,10 @@ export type FeatureMatrixRowJson = {
   pro: boolean;
   showEssential?: boolean;
   showPro?: boolean;
+  /** Affiche la ligne Essentiel comme limite (coche neutre, pas barrée). */
+  essentialLimit?: boolean;
+  /** Met en avant la ligne Pro (gras + icône). */
+  highlightPro?: boolean;
 };
 
 export type TierPriceLineJson = {
@@ -209,6 +213,20 @@ export type HeroTypingTitleDictionary = {
   channels: HeroTypingChannel[];
 };
 
+export type PourquoiPillarBulletJson = {
+  emoji: string;
+  text: string;
+};
+
+export type PourquoiPillarJson = {
+  title: string;
+  bullets: PourquoiPillarBulletJson[];
+};
+
+export type PourquoiDictionary = {
+  pillars: PourquoiPillarJson[];
+};
+
 export type HeroDictionary = {
   pill: string;
   titleBefore: string;
@@ -290,6 +308,7 @@ export type Dictionary = {
   auth: AuthDictionary;
   hero: HeroDictionary;
   demoVideo: DemoVideoDictionary;
+  pourquoi: PourquoiDictionary;
   featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;
   footer: FooterDictionary;
