@@ -1,0 +1,138 @@
+"use server";
+
+import { redirect } from "next/navigation";
+import type { SignInFormInput, SignUpFormInput } from "@/domain/auth";
+import { formatConfigDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import {
+  HONEYPOT_FIELD_NAME,
+  isHoneypotTriggered,
+} from "@/lib/auth/honeypot";
+import { authPath } from "@/lib/auth/paths";
+import {
+  getSupabaseConfig,
+} from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/server";
+import {
+  signInWithPassword,
+  signOut,
+  signUpWithProfile,
+} from "@/services/authService";
+import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
+
+function localeFromForm(formData: FormData): Locale {
+  const raw = String(formData.get("locale") ?? defaultLocale);
+  return isLocale(raw) ? raw : defaultLocale;
+}
+
+export type AuthActionState = {
+  error?: string;
+  success?: string;
+};
+
+function configUnavailableMessage(): string {
+  return formatConfigDebugMessage(
+    "supabase.config",
+    "Variables placeholder dans .env.local (ex. ton_url_supabase). Mettez l’URL et la clé anon JWT Supabase, sauvegardez, redémarrez npm run dev.",
+  );
+}
+
+async function getServerSupabaseClient() {
+  if (!getSupabaseConfig()) {
+    return { error: configUnavailableMessage() as string };
+  }
+  try {
+    return { client: await createClient() };
+  } catch (error) {
+    logAuthError("createClient", error);
+    return {
+      error: formatConfigDebugMessage(
+        "supabase.createClient",
+        error instanceof Error ? error.message : "Impossible d’initialiser Supabase.",
+      ),
+    };
+  }
+}
+
+export async function signUpAction(
+  _prev: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
+  if (isHoneypotTriggered(formData.get(HONEYPOT_FIELD_NAME))) {
+    logAuthError("signUpAction", "Honeypot déclenché — soumission ignorée.");
+    return {};
+  }
+
+  const input: SignUpFormInput = {
+    email: String(formData.get("email") ?? ""),
+    password: String(formData.get("password") ?? ""),
+    fullName: String(formData.get("fullName") ?? "") || undefined,
+    proPhoneNumber: String(formData.get("proPhoneNumber") ?? "") || undefined,
+  };
+
+  const confirm = String(formData.get("confirmPassword") ?? "");
+  if (input.password !== confirm) {
+    return { error: "Les mots de passe ne correspondent pas." };
+  }
+
+  const supabaseResult = await getServerSupabaseClient();
+  if ("error" in supabaseResult && supabaseResult.error) {
+    return { error: supabaseResult.error };
+  }
+
+  const supabase = supabaseResult.client!;
+  const result = await signUpWithProfile(supabase, input);
+
+  if (!result.ok) {
+    return { error: result.error };
+  }
+
+  if (result.data.needsEmailConfirmation) {
+    return {
+      success:
+        "Compte créé. Vérifiez votre e-mail pour confirmer, puis connectez-vous.",
+    };
+  }
+
+  redirect(authPath(localeFromForm(formData), "dashboard"));
+}
+
+export async function signInAction(
+  _prev: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
+  const input: SignInFormInput = {
+    email: String(formData.get("email") ?? ""),
+    password: String(formData.get("password") ?? ""),
+  };
+
+  const supabaseResult = await getServerSupabaseClient();
+  if ("error" in supabaseResult && supabaseResult.error) {
+    return { error: supabaseResult.error };
+  }
+
+  const supabase = supabaseResult.client!;
+  const result = await signInWithPassword(supabase, input);
+
+  if (!result.ok) {
+    return { error: result.error };
+  }
+
+  if (!result.data.profile) {
+    return {
+      error: formatConfigDebugMessage(
+        "profile.missing.afterSignIn",
+        "Connexion OK mais aucune ligne dans public.profiles pour cet utilisateur (id / workspace_id).",
+      ),
+    };
+  }
+
+  redirect(authPath(localeFromForm(formData), "dashboard"));
+}
+
+export async function signOutAction(formData: FormData) {
+  const supabaseResult = await getServerSupabaseClient();
+  if ("client" in supabaseResult && supabaseResult.client) {
+    await signOut(supabaseResult.client);
+  }
+  redirect(authPath(localeFromForm(formData), "login"));
+}

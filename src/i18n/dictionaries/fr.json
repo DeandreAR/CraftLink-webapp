@@ -1,0 +1,378 @@
+{
+  "meta": {
+    "title": "CraftLink — Page pro artisan en 2 min | Leads Instagram, Facebook & WhatsApp",
+    "description": "Créez une page professionnelle avec un lien unique : tunnel de capture vocale, transcription, scoring des leads et redirection WhatsApp. Pour artisans sans site ou peu équipés — électriciens, plombiers, plaquistes, menuisiers, chauffagistes et corps de métier du bâtiment."
+  },
+  "nav": {
+    "why": "Pourquoi",
+    "features": "Fonctions",
+    "metiers": "Métiers",
+    "tarifs": "Tarifs",
+    "faq": "FAQ",
+    "login": "Connexion",
+    "createAccount": "Créer mon compte"
+  },
+  "auth": {
+    "serviceUnavailable": "Le service est momentanément indisponible. Réessayez dans quelques minutes ou contactez le support.",
+    "shell": {
+      "backToHome": "Accueil"
+    },
+    "signIn": {
+      "title": "Connexion",
+      "subtitle": "Accédez à votre espace artisan CraftLink.",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "submitting": "Connexion…",
+      "goToSignUp": "Créer un compte"
+    },
+    "signUp": {
+      "title": "Créer mon compte",
+      "subtitle": "Inscription gratuite — votre page pro est prête en quelques secondes.",
+      "fullName": "Nom / raison sociale (optionnel)",
+      "proPhone": "Numéro pro (optionnel)",
+      "proPhonePlaceholder": "6 12 34 56 78",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "passwordHint": "8 caractères minimum.",
+      "confirmPassword": "Confirmer le mot de passe",
+      "submit": "Créer mon compte",
+      "submitting": "Création…",
+      "goToSignIn": "Déjà inscrit ? Se connecter"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "welcome": "Bienvenue sur CraftLink.",
+      "email": "E-mail",
+      "workspace": "Espace de travail (workspace_id)",
+      "role": "Rôle",
+      "plan": "Offre",
+      "name": "Nom",
+      "signOut": "Déconnexion",
+      "placeholder": "Prochaine étape : configuration de votre page pro et capture de leads."
+    }
+  },
+  "faqUi": {
+    "title": "Questions fréquentes",
+    "lead": "Réponses aux objections courantes — uniquement si vous souhaitez creuser le détail.",
+    "show": "Afficher les questions fréquentes",
+    "hide": "Masquer la FAQ"
+  },
+  "hero": {
+    "pill": "Capture de leads pour artisans",
+    "titleBefore": "Un lien unique pour",
+    "titleHighlight": "centraliser toutes vos demandes",
+    "titleAfter": "clients.",
+    "typingTitle": {
+      "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
+      "channels": [
+        { "label": "Instagram", "color": "#E4405F" },
+        { "label": "Gmail", "color": "#f46c09" },
+        { "label": "SMS", "color": "#25D366" },
+        { "label": "Facebook", "color": "#1877F2" },
+        { "label": "TikTok", "color": "#FE2C55" },
+        { "label": "Snapchat", "color": "#FFFC00" },
+        { "label": "Threads", "color": "#000000" },
+        { "label": "QR codes", "color": "#E7E2CA" }
+      ]
+    },
+    "asideShowcaseAlt": "De la bio Instagram à la page CraftLink : un profil artisan transformé en vitrine pro avec boutons devis et services.",
+    "lead": "Transformez vos abonnés en demandes de devis qualifiées. CraftLink, c’est votre vitrine pro et votre formulaire de demande en un seul lien. Fini le chaos entre vos DM et vos mails : partagez un seul lien sur vos réseaux sociaux et votre fiche Google pour que vos prospects déposent une demande vocale ou écrite. Notre outil traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
+    "controlPhrase": "Vous partagez votre lien, vous gardez le contrôle, et vous facilitez le passage à l’action.",
+    "ctaPrimary": "Créer ma page gratuitement",
+    "ctaSecondary": "Voir l'application en action (45s)",
+    "ctaSecondaryHref": "#demo-video",
+    "preview": {
+      "eyebrow": "Live preview",
+      "title": "Votre profil artisan, prêt à partager",
+      "about": "Interventions rapides et devis clairs. Décrivez votre problème (écrit ou vocal) : je vous rappelle avec une fourchette honnête et les bonnes questions.",
+      "tags": ["Urgence", "Rénovation", "Mise aux normes"],
+      "stats": [
+        { "label": "Temps de mise en place", "value": "2 min" },
+        { "label": "Lien unique bio / QR", "value": "Oui" },
+        { "label": "Demandes qualifiées", "value": "↑" }
+      ],
+      "savoirFaire": "Mon savoir-faire",
+      "dixPlusAns": "10+ ans",
+      "materiaux": "Matériaux",
+      "mesPrestations": "Mes prestations",
+      "craftlinkDemo": "Craftlink demo",
+      "inCity": "à"
+    },
+    "flow": {
+      "figureAlt": "Schéma en quatre étapes : toutes les sources, lien central (vocal ou texte), traitement IA et dossiers, puis action sur le terrain (WhatsApp, SMS, chantier)."
+    }
+  },
+  "demoVideo": {
+    "sectionId": "demo-video",
+    "title": "Comment ça marche ?",
+    "subtitle": "Découvrez comment CraftLink qualifie vos leads en moins d'une minute.",
+    "placeholder": "Vidéo de démonstration — lien à intégrer prochainement"
+  },
+  "pourquoi": {
+    "pillars": [
+      {
+        "title": "Dites adieu aux sites compliqués, centralisez tout",
+        "bullets": [
+          { "emoji": "📷", "text": "Galerie photo/vidéo de chantiers dynamique (montrez vos prestations)." },
+          { "emoji": "✉️", "text": "Formulaire de demande intelligent (avec capture vocale IA)." }
+        ]
+      },
+      {
+        "title": "Partagez et capturez sur tous vos canaux",
+        "bullets": [
+          { "emoji": "📱", "text": "Intégration dans vos bio-links (Instagram, Facebook)." },
+          { "emoji": "🏷️", "text": "QR code unique (camion, carte de visite)." },
+          { "emoji": "🔗", "text": "Lien dans vos SMS et emails professionnels." },
+          { "emoji": "📍", "text": "Google My Business (avis/coordonnées)." }
+        ]
+      },
+      {
+        "title": "Recevez des dossiers qualifiés & structurés",
+        "bullets": [
+          { "emoji": "🗂️", "text": "Dossiers prospects complets (pas juste un message)." },
+          { "emoji": "📊", "text": "Dashboard avec scoring et suivi des leads." },
+          { "emoji": "✅", "text": "Les messages vocaux sont transcrits automatiquement (capture IA)." },
+          { "emoji": "💬", "text": "Résumé de la demande directement sur WhatsApp." }
+        ]
+      }
+    ]
+  },
+  "featuresFlow": {
+    "figureAlt": "Parcours en quatre étapes : toutes les sources convergent vers un lien central, les contacts sont centralisés, puis vous passez à l’action sur le terrain.",
+    "arrowHints": ["1 lien", "1 liste", "1 action"],
+    "step1": { "label": "1. Toutes les sources" },
+    "step2": {
+      "label": "2. Lien central",
+      "bioLink": "Bio Link",
+      "vocal": "VOCAL",
+      "text": "TEXTE"
+    },
+    "step3": {
+      "label": "3. Liste contacts",
+      "contactsTitle": "CONTACTS",
+      "addContact": "+ AJOUTER",
+      "colName": "NOM",
+      "colPhone": "TÉL.",
+      "colSource": "SOURCE",
+      "colLast": "DERNIER",
+      "pagination": "1-5 sur 128 · pages 1, 2… 26"
+    },
+    "step4": {
+      "label": "4. Action",
+      "folder": "Dossier client"
+    },
+    "contactRows": [
+      { "name": "Emma Dupont", "phone": "+33 6 12…", "source": "Instagram", "last": "2 min" },
+      { "name": "Lucas Martin", "phone": "+33 6 23…", "source": "Facebook", "last": "1 h" },
+      { "name": "Chloé Bernard", "phone": "+33 6 34…", "source": "QR Code", "last": "3 h" },
+      { "name": "Thomas Petit", "phone": "+33 6 45…", "source": "TikTok", "last": "1 j" },
+      { "name": "Julie Leroy", "phone": "+33 6 56…", "source": "SMS", "last": "2 j" }
+    ]
+  },
+  "pricingComparison": {
+    "sectionEyebrow": "Tarifs & comparaison",
+    "sectionTitle": "Un abonnement simple. Zéro friction cachée.",
+    "sectionLead": "Réponse aux objections les plus fréquentes : pas de commission sur vos chantiers, aucune compétence technique, mise en ligne en quelques minutes — sans la pile d’outils d’un site classique.",
+    "trustNoCode": "Aucune compétence technique ni codage requis",
+    "trustLiveFast": "En ligne en 2 minutes",
+    "zeroCommission": "de commission sur vos chantiers",
+    "replacementTitle": "Le tout-en-un qui remplace une ribambelle d’abonnements",
+    "replacementLead": "CraftLink remplace le combo coûteux : nom de domaine, hébergement, plugins, outils de transcription IA à part, et la dépendance à un webmaster ou une agence pour chaque modification.",
+    "replacementBullets": [
+      "Nom de domaine + hébergement + sécurité à suivre",
+      "Plugins, thèmes & petites factures qui s’empilent",
+      "Abonnements transcription / IA en plus du site",
+      "Prestataire ou webmaster pour la maintenance"
+    ],
+    "compareTitle": "Site vitrine classique ou CraftLink ?",
+    "compareLead": "Contraste net sur le coût mensuel réel et la charge de maintenance — avant même de parler de capture de leads.",
+    "tableCriterion": "Critère",
+    "tableClassic": "Site vitrine classique",
+    "tableCraftlink": "CraftLink",
+    "mobileClassicShort": "Classique",
+    "mobileCraftlinkShort": "CraftLink",
+    "comparisonRows": [
+      {
+        "criterion": "Budget mensuel réel",
+        "classic": "Hébergement, thème, plugins, correctifs : souvent plus de 80 €/mois une fois tout cumulé.",
+        "craftlink": "Un seul abonnement, tout inclus — sans surprise sur la ligne « hébergement »."
+      },
+      {
+        "criterion": "Temps avant d’être utile en ligne",
+        "classic": "Plusieurs jours à plusieurs semaines (contenus, maquette, mise en ligne).",
+        "craftlink": "En ligne en 2 minutes avec une page orientée leads, pas une coquille vide."
+      },
+      {
+        "criterion": "Maintenance & mises à jour",
+        "classic": "Contenus, sécurité, compatibilité mobile, sauvegardes : à prévoir ou à payer.",
+        "craftlink": "Mises à jour automatisées côté produit : vous restez sur le terrain."
+      },
+      {
+        "criterion": "Capture Instagram / Facebook → dossier client",
+        "classic": "Souvent un lien « Contact » générique : vous repartez de zéro à chaque message.",
+        "craftlink": "Tunnel dédié + vocal + transcription + scoring + WhatsApp avec contexte."
+      },
+      {
+        "criterion": "Commerce / commission sur vos chantiers",
+        "classic": "Selon votre stack : passerelles, plugins e-commerce ou prestataire qui prend une marge.",
+        "craftlink": "0 % de commission sur vos chantiers : votre activité, votre chiffre."
+      }
+    ],
+    "pricingEyebrow": "Tarifs & offre",
+    "pricingTitle": "Commencer gratuitement, passer Pro quand le volume suit.",
+    "pricingLead": "Prix affichés HT. Basculez entre facturation mensuelle et annuelle : −20 % sur l’offre Pro en annuel.",
+    "featuresColumnTitle": "Fonctionnalités",
+    "proAdvantagesTitle": "Avantages Pro",
+    "billing": {
+      "monthly": "Facturation mensuelle",
+      "annual": "Facturation annuelle",
+      "discountBadge": "-20%"
+    },
+    "tierEssential": {
+      "name": "ESSENTIEL",
+      "pitch": "Pour publier vite et tester vos premiers leads.",
+      "cta": "Créer ma page",
+      "href": "#cta",
+      "pricing": {
+        "monthly": { "amount": "0€ HT / mois" },
+        "annual": { "amount": "0€ HT / mois" }
+      }
+    },
+    "tierPro": {
+      "name": "PRO ARTISAN",
+      "pitch": "Pour qualifier par IA, booster l'influence et récolter des avis.",
+      "cta": "Passer PRO",
+      "href": "#cta",
+      "badge": "POPULAIRE",
+      "reassurance": "Autonomie totale OU onboarding guidé en 15 min, c'est vous qui choisissez.",
+      "pricing": {
+        "monthly": {
+          "amount": "29€ HT / mois",
+          "footnote": "sans engagement"
+        },
+        "annual": {
+          "amount": "23€ HT / mois",
+          "footnote": "facturé 276€/an — Économisez 72€"
+        }
+      }
+    },
+    "tierCustom": {
+      "name": "SUR MESURE",
+      "pitch": "Pour tout autre développement.",
+      "description": "Besoin hors offre Essentiel ou Pro ? Décrivez votre projet, on vous répond sur WhatsApp.",
+      "priceLabel": "Sur devis",
+      "bullets": [
+        "Fonctionnalités métier spécifiques",
+        "Intégrations & exports avancés",
+        "Accompagnement équipe / multi-comptes"
+      ],
+      "cta": "Nous contacter sur WhatsApp",
+      "whatsappMessage": "Bonjour CraftLink, j'ai un besoin de développement sur mesure à discuter avec vous."
+    },
+    "featureMatrix": [
+      {
+        "label": "Page pro + lien unique (bio, fiches)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "labelEssential": "Création de page instantanée via IA (Lien Instagram, Facebook ou Google My Business)",
+        "labelPro": "Création de page enrichie par IA (via vos réseaux sociaux ou fiche Google)",
+        "label": "Création de page via IA",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "QR Code Camion imprimable (Générique)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "Formulaire texte structuré (zone, urgence)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "Mise en page mobile-first & WhatsApp direct",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "Capture vocale & transcription IA",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "labelEssential": "Accès limité à 15 leads/mois (Affichage flouté au-delà)",
+        "labelPro": "Leads illimités (Aucun blocage, aucune frustration)",
+        "label": "Volume de leads",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "Pas d'accusé de réception SMS automatique",
+        "labelPro": "Accusé de réception SMS automatique au client final (Prise en compte instantanée)",
+        "label": "Accusé de réception SMS",
+        "essential": false,
+        "pro": true,
+        "highlightPro": true
+      },
+      {
+        "label": "Section « Partenaires & Marques » dédiée",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "labelEssential": "Onboarding personnalisé au démarrage",
+        "labelPro": "Onboarding personnalisé (Optionnel & 100% Gratuit)",
+        "label": "Onboarding personnalisé",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "label": "Partage de compte avec vos employés (V1.1)",
+        "essential": false,
+        "pro": false,
+        "showEssential": false
+      }
+    ],
+    "proAdvantages": [
+      "Moins de temps au téléphone : le client a déjà structuré sa demande.",
+      "Image pro immédiate sur mobile, sans compétences web.",
+      "Séparez vos demandes de chantiers et vos partenariats marques.",
+      "Zéro maintenance technique : le produit évolue pour vous."
+    ]
+  },
+  "footer": {
+    "copyright": "© {year} CraftLink — Page pro artisan, capture de leads.",
+    "tagline": "Vitrine express pour artisans du bâtiment.",
+    "legalNavLabel": "Informations légales",
+    "manageCookies": "Gérer les cookies",
+    "links": {
+      "mentionsLegales": "Mentions légales",
+      "privacy": "Confidentialité (RGPD)",
+      "cookies": "Cookies",
+      "terms": "CGU"
+    }
+  },
+  "cookieConsent": {
+    "title": "Cookies & confidentialité",
+    "description": "Nous utilisons des cookies essentiels au fonctionnement du site et, avec votre accord, des cookies de mesure et marketing. Vous pouvez modifier vos choix à tout moment.",
+    "acceptAll": "Tout accepter",
+    "rejectOptional": "Refuser les optionnels",
+    "customize": "Personnaliser",
+    "save": "Enregistrer",
+    "close": "Fermer",
+    "necessaryTitle": "Essentiels",
+    "necessaryDesc": "Indispensables (sécurité, session, mémorisation de ce choix). Toujours actifs.",
+    "analyticsTitle": "Mesure d’audience",
+    "analyticsDesc": "Statistiques anonymisées pour améliorer le site.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Personnalisation et mesure de campagnes.",
+    "alwaysOn": "Toujours actif",
+    "cookiesPolicyLink": "Politique cookies",
+    "privacyPolicyLink": "Confidentialité"
+  }
+}
