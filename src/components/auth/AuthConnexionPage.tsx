@@ -9,12 +9,14 @@ type AuthConnexionPageProps = {
   lang: Locale;
   copy: AuthDictionary;
   unavailable?: boolean;
+  unavailableMessage?: string;
 };
 
 export function AuthConnexionPage({
   lang,
   copy,
   unavailable = false,
+  unavailableMessage,
 }: AuthConnexionPageProps) {
   return (
     <AuthPageShell
@@ -23,9 +25,12 @@ export function AuthConnexionPage({
       subtitle={copy.signIn.subtitle}
       alternateHref={authPath(lang, "signup")}
       alternateLabel={copy.signIn.goToSignUp}
+      backToHomeLabel={copy.shell.backToHome}
     >
       {unavailable ? (
-        <AuthServiceUnavailable message={copy.serviceUnavailable} />
+        <AuthServiceUnavailable
+          message={unavailableMessage ?? copy.serviceUnavailable}
+        />
       ) : (
         <SignInForm lang={lang} copy={copy.signIn} />
       )}

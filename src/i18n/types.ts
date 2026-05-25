@@ -118,7 +118,8 @@ export type AuthSignUpDictionary = {
   title: string;
   subtitle: string;
   fullName: string;
-  whatsapp: string;
+  proPhone: string;
+  proPhonePlaceholder: string;
   email: string;
   password: string;
   passwordHint: string;
@@ -126,6 +127,10 @@ export type AuthSignUpDictionary = {
   submit: string;
   submitting: string;
   goToSignIn: string;
+};
+
+export type AuthShellDictionary = {
+  backToHome: string;
 };
 
 export type AuthDashboardDictionary = {
@@ -142,6 +147,7 @@ export type AuthDashboardDictionary = {
 
 export type AuthDictionary = {
   serviceUnavailable: string;
+  shell: AuthShellDictionary;
   signIn: AuthSignInDictionary;
   signUp: AuthSignUpDictionary;
   dashboard: AuthDashboardDictionary;

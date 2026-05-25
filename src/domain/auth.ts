@@ -6,7 +6,7 @@ export type SignUpFormInput = {
   email: string;
   password: string;
   fullName?: string;
-  whatsappNumber?: string;
+  proPhoneNumber?: string;
 };
 
 export type SignInFormInput = {

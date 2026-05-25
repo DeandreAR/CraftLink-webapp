@@ -14,6 +14,9 @@
   },
   "auth": {
     "serviceUnavailable": "Le service est momentanément indisponible. Réessayez dans quelques minutes ou contactez le support.",
+    "shell": {
+      "backToHome": "Accueil"
+    },
     "signIn": {
       "title": "Connexion",
       "subtitle": "Accédez à votre espace artisan CraftLink.",
@@ -25,9 +28,10 @@
     },
     "signUp": {
       "title": "Créer mon compte",
-      "subtitle": "Inscription gratuite — votre espace multi-tenant est prêt en quelques secondes.",
+      "subtitle": "Inscription gratuite — votre page pro est prête en quelques secondes.",
       "fullName": "Nom / raison sociale (optionnel)",
-      "whatsapp": "WhatsApp (optionnel)",
+      "proPhone": "Numéro pro (optionnel)",
+      "proPhonePlaceholder": "6 12 34 56 78",
       "email": "E-mail",
       "password": "Mot de passe",
       "passwordHint": "8 caractères minimum.",
@@ -172,7 +176,7 @@
     "sectionLead": "Réponse aux objections les plus fréquentes : pas de commission sur vos chantiers, aucune compétence technique, mise en ligne en quelques minutes — sans la pile d’outils d’un site classique.",
     "trustNoCode": "Aucune compétence technique ni codage requis",
     "trustLiveFast": "En ligne en 2 minutes",
-    "zeroCommission": "0% de commission sur vos chantiers",
+    "zeroCommission": "de commission sur vos chantiers",
     "replacementTitle": "Le tout-en-un qui remplace une ribambelle d’abonnements",
     "replacementLead": "CraftLink remplace le combo coûteux : nom de domaine, hébergement, plugins, outils de transcription IA à part, et la dépendance à un webmaster ou une agence pour chaque modification.",
     "replacementBullets": [

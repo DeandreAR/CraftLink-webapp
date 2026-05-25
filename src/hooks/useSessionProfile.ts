@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import type { Profile } from "@/domain/profile";
+import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
 import { createClient } from "@/lib/supabase/client";
 import { getProfileByUserId } from "@/services/profileService";
 
@@ -23,25 +25,61 @@ const INITIAL: SessionProfileState = {
 };
 
 /**
- * Session Supabase + profil (`workspace_id`) pour les pages client sécurisées.
+ * Session Supabase + profil pour les pages client sécurisées.
+ * Utilisez `workspaceId` pour filtrer les données tenant :
+ * `.eq("workspace_id", workspaceId)` sur leads, services, etc.
  */
 export function useSessionProfile() {
   const [state, setState] = useState<SessionProfileState>(INITIAL);
 
   const refresh = useCallback(async () => {
-    const supabase = createClient();
+    let supabase;
+    try {
+      supabase = createClient();
+    } catch (error) {
+      logAuthError("useSessionProfile.createClient", error);
+      setState({
+        loading: false,
+        user: null,
+        profile: null,
+        workspaceId: null,
+        error: formatAuthDebugMessage(
+          "supabase.createClient",
+          error instanceof Error ? error : null,
+          "Configuration Supabase indisponible côté client.",
+        ),
+      });
+      return;
+    }
+
     const {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser();
 
     if (authError) {
+      if (isMissingAuthSessionError(authError)) {
+        setState({
+          loading: false,
+          user: null,
+          profile: null,
+          workspaceId: null,
+          error: null,
+        });
+        return;
+      }
+
+      logAuthError("useSessionProfile.getUser", authError);
       setState({
         loading: false,
         user: null,
         profile: null,
         workspaceId: null,
-        error: authError.message,
+        error: formatAuthDebugMessage(
+          "auth.getUser",
+          authError,
+          authError.message,
+        ),
       });
       return;
     }
@@ -59,6 +97,7 @@ export function useSessionProfile() {
 
     const profileResult = await getProfileByUserId(supabase, user.id);
     if (!profileResult.ok) {
+      logAuthError("useSessionProfile.profile", profileResult.error);
       setState({
         loading: false,
         user,

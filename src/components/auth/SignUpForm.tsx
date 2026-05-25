@@ -1,11 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useCallback } from "react";
 import {
   signUpAction,
   type AuthActionState,
 } from "@/app/actions/auth";
+import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
+import { ProPhoneInput } from "@/components/auth/ProPhoneInput";
 import { GlowButton } from "@/components/ui/GlowButton";
+import { HONEYPOT_FIELD_NAME, isHoneypotTriggered } from "@/lib/auth/honeypot";
 import type { AuthSignUpDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
@@ -19,13 +22,33 @@ type SignUpFormProps = {
 export function SignUpForm({ lang, copy }: SignUpFormProps) {
   const [state, formAction, pending] = useActionState(signUpAction, initial);
 
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      const formData = new FormData(event.currentTarget);
+      if (isHoneypotTriggered(formData.get(HONEYPOT_FIELD_NAME))) {
+        event.preventDefault();
+        return;
+      }
+    },
+    [],
+  );
+
   return (
-    <form action={formAction} className="space-y-5">
+    <form action={formAction} onSubmit={handleSubmit} className="space-y-5">
       <input type="hidden" name="locale" value={lang} />
+
+      <input
+        type="text"
+        name={HONEYPOT_FIELD_NAME}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden
+        style={{ display: "none" }}
+      />
 
       {state.error ? (
         <p
-          className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
           role="alert"
         >
           {state.error}
@@ -33,7 +56,7 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
       ) : null}
       {state.success ? (
         <p
-          className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
+          className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
           role="status"
         >
           {state.success}
@@ -41,7 +64,7 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
       ) : null}
 
       <div>
-        <label htmlFor="fullName" className="text-sm font-semibold text-neutral-800">
+        <label htmlFor="fullName" className={authLabelClassName}>
           {copy.fullName}
         </label>
         <input
@@ -49,26 +72,21 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
           name="fullName"
           type="text"
           autoComplete="name"
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black"
+          className={authFieldClassName}
         />
       </div>
 
-      <div>
-        <label htmlFor="whatsappNumber" className="text-sm font-semibold text-neutral-800">
-          {copy.whatsapp}
-        </label>
-        <input
-          id="whatsappNumber"
-          name="whatsappNumber"
-          type="tel"
-          autoComplete="tel"
-          placeholder="33612345678"
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black"
-        />
-      </div>
+      <ProPhoneInput
+        id="proPhoneNumber"
+        name="proPhoneNumber"
+        lang={lang}
+        label={copy.proPhone}
+        placeholder={copy.proPhonePlaceholder}
+        labelClassName={authLabelClassName}
+      />
 
       <div>
-        <label htmlFor="email" className="text-sm font-semibold text-neutral-800">
+        <label htmlFor="email" className={authLabelClassName}>
           {copy.email}
         </label>
         <input
@@ -77,12 +95,12 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
           type="email"
           autoComplete="email"
           required
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black"
+          className={authFieldClassName}
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="text-sm font-semibold text-neutral-800">
+        <label htmlFor="password" className={authLabelClassName}>
           {copy.password}
         </label>
         <input
@@ -92,16 +110,13 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
           autoComplete="new-password"
           required
           minLength={8}
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black"
+          className={authFieldClassName}
         />
         <p className="mt-1 text-xs text-neutral-500">{copy.passwordHint}</p>
       </div>
 
       <div>
-        <label
-          htmlFor="confirmPassword"
-          className="text-sm font-semibold text-neutral-800"
-        >
+        <label htmlFor="confirmPassword" className={authLabelClassName}>
           {copy.confirmPassword}
         </label>
         <input
@@ -111,7 +126,7 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
           autoComplete="new-password"
           required
           minLength={8}
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none focus:border-black focus:ring-2 focus:ring-black"
+          className={authFieldClassName}
         />
       </div>
 

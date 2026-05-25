@@ -19,6 +19,9 @@ export default async function LangSignupPage({ params }: Props) {
       lang={lang}
       copy={dict.auth}
       unavailable={prepared.status === "unavailable"}
+      unavailableMessage={
+        prepared.status === "unavailable" ? prepared.message : undefined
+      }
     />
   );
 }

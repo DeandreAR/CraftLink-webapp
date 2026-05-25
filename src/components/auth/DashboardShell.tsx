@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { signOutAction } from "@/app/actions/auth";
-import type { SessionWithProfile } from "@/services/authService";
+import type { WorkspaceSession } from "@/lib/auth/sessionContext";
 import type { AuthDashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { authPath } from "@/lib/auth/paths";
@@ -8,13 +8,13 @@ import { defaultLocale } from "@/i18n/config";
 
 type DashboardShellProps = {
   lang: Locale;
-  session: SessionWithProfile;
+  session: WorkspaceSession;
   copy: AuthDashboardDictionary;
 };
 
 export function DashboardShell({ lang, session, copy }: DashboardShellProps) {
   const home = lang === defaultLocale ? "/" : `/${lang}`;
-  const { user, profile } = session;
+  const { user, profile, workspaceId } = session;
 
   return (
     <div className="min-h-screen bg-neutral-50 text-black">
@@ -46,7 +46,7 @@ export function DashboardShell({ lang, session, copy }: DashboardShellProps) {
             </div>
             <div>
               <dt className="font-semibold text-neutral-500">{copy.workspace}</dt>
-              <dd className="mt-1 font-mono text-xs">{profile.workspace_id}</dd>
+              <dd className="mt-1 font-mono text-xs">{workspaceId}</dd>
             </div>
             <div>
               <dt className="font-semibold text-neutral-500">{copy.role}</dt>

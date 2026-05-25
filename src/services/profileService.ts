@@ -1,16 +1,33 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { AuthResult } from "@/domain/auth";
 import type { CreateProfileInput, Profile } from "@/domain/profile";
+import {
+  DEFAULT_PLAN_TIER,
+  SIGNUP_PLAN_TIER_CANDIDATES,
+} from "@/config/planTier";
+import {
+  formatAuthDebugMessage,
+  logAuthError,
+} from "@/lib/auth/debugError";
 
-const PROFILE_COLUMNS =
-  "id, workspace_id, role, plan_tier, full_name, whatsapp_number, created_at, updated_at";
+const PROFILE_SELECT_TIERS = [
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, created_at, updated_at",
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier",
+  "id, workspace_id, role",
+  "id, full_name, whatsapp_number, created_at, updated_at",
+  "id, full_name, whatsapp_number",
+  "id",
+] as const;
+
+const RETRYABLE_INSERT_CODES = new Set(["42703", "22P02"]);
 
 function mapProfile(row: Record<string, unknown>): Profile {
+  const id = String(row.id);
   return {
-    id: String(row.id),
-    workspace_id: String(row.workspace_id),
-    role: row.role as Profile["role"],
-    plan_tier: row.plan_tier as Profile["plan_tier"],
+    id,
+    workspace_id: row.workspace_id != null ? String(row.workspace_id) : id,
+    role: (row.role as Profile["role"]) ?? "ADMIN",
+    plan_tier: (row.plan_tier as Profile["plan_tier"]) ?? DEFAULT_PLAN_TIER,
     full_name: (row.full_name as string | null) ?? null,
     whatsapp_number: (row.whatsapp_number as string | null) ?? null,
     created_at: (row.created_at as string | null) ?? null,
@@ -18,62 +35,162 @@ function mapProfile(row: Record<string, unknown>): Profile {
   };
 }
 
+function profileInsertPayloads(input: CreateProfileInput): Record<string, unknown>[] {
+  const { userId, fullName, proPhoneNumber } = input;
+  const optional = {
+    ...(fullName?.trim() ? { full_name: fullName.trim() } : {}),
+    ...(proPhoneNumber?.trim()
+      ? { whatsapp_number: proPhoneNumber.trim() }
+      : {}),
+  };
+
+  const payloads: Record<string, unknown>[] = [];
+
+  for (const planTier of SIGNUP_PLAN_TIER_CANDIDATES) {
+    payloads.push({
+      id: userId,
+      workspace_id: userId,
+      role: "ADMIN",
+      plan_tier: planTier,
+      ...optional,
+    });
+  }
+
+  payloads.push(
+    { id: userId, workspace_id: userId, role: "ADMIN", ...optional },
+    { id: userId, workspace_id: userId, role: "ADMIN" },
+    { id: userId, role: "ADMIN" },
+    { id: userId },
+  );
+
+  return payloads;
+}
+
+async function selectProfile(
+  supabase: SupabaseClient,
+  userId: string,
+  columns: string,
+) {
+  return supabase.from("profiles").select(columns).eq("id", userId).maybeSingle();
+}
+
+async function selectProfileWithFallback(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<{ data: Record<string, unknown> | null; error: { code?: string; message?: string } | null }> {
+  let lastError: { code?: string; message?: string } | null = null;
+
+  for (const columns of PROFILE_SELECT_TIERS) {
+    const { data, error } = await selectProfile(supabase, userId, columns);
+    if (!error) {
+      return { data: data as Record<string, unknown> | null, error: null };
+    }
+    lastError = error;
+    if (error.code !== "42703") {
+      break;
+    }
+    logAuthError(
+      "getProfileByUserId",
+      `Colonne absente — retry select (${columns}).`,
+    );
+  }
+
+  return { data: null, error: lastError };
+}
+
+async function insertProfileWithFallback(
+  supabase: SupabaseClient,
+  input: CreateProfileInput,
+): Promise<{ ok: true } | { ok: false; error: { code?: string; message?: string } }> {
+  let lastError: { code?: string; message?: string } | null = null;
+
+  for (const payload of profileInsertPayloads(input)) {
+    const { error } = await supabase.from("profiles").insert(payload);
+
+    if (!error) {
+      return { ok: true };
+    }
+
+    lastError = error;
+    if (error.code === "23505") {
+      return { ok: true };
+    }
+    if (RETRYABLE_INSERT_CODES.has(error.code ?? "")) {
+      logAuthError(
+        "createProfileForNewUser",
+        `Insert rejeté (${error.code}) — retry sans ${Object.keys(payload).join(", ")}.`,
+      );
+      continue;
+    }
+    break;
+  }
+
+  return { ok: false, error: lastError ?? { message: "Insert failed" } };
+}
+
 /**
- * Crée le profil artisan : workspace solo = user.id, rôle ADMIN, plan ALL_SOURCES.
+ * Crée le profil artisan : workspace solo = user.id, rôle ADMIN.
+ * Si le trigger `on_auth_user_created` a déjà inséré la ligne, on la récupère.
  */
 export async function createProfileForNewUser(
   supabase: SupabaseClient,
   input: CreateProfileInput,
 ): Promise<AuthResult<Profile>> {
-  const { userId, fullName, whatsappNumber } = input;
+  const { userId } = input;
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .insert({
-      id: userId,
-      workspace_id: userId,
-      role: "ADMIN",
-      plan_tier: "ALL_SOURCES",
-      full_name: fullName?.trim() || null,
-      whatsapp_number: whatsappNumber?.trim() || null,
-    })
-    .select(PROFILE_COLUMNS)
-    .single();
+  const existing = await getProfileByUserId(supabase, userId);
+  if (existing.ok && existing.data) {
+    return { ok: true, data: existing.data };
+  }
+  if (!existing.ok) {
+    return existing;
+  }
 
-  if (error) {
-    if (error.code === "23505") {
-      return {
-        ok: false,
-        error:
-          "Un profil existe déjà pour ce compte. Essayez de vous connecter.",
-        code: error.code,
-      };
-    }
+  const insertResult = await insertProfileWithFallback(supabase, input);
+  if (!insertResult.ok) {
     return {
       ok: false,
-      error:
+      error: formatAuthDebugMessage(
+        "profiles.insert",
+        insertResult.error,
         "Impossible de créer votre espace artisan. Réessayez ou contactez le support.",
-      code: error.code,
+      ),
+      code: insertResult.error.code,
     };
   }
 
-  return { ok: true, data: mapProfile(data as Record<string, unknown>) };
+  const profile = await getProfileByUserId(supabase, userId);
+  if (!profile.ok) {
+    return profile;
+  }
+  if (!profile.data) {
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "profiles.insert",
+        null,
+        "Profil créé mais introuvable après insertion.",
+      ),
+    };
+  }
+
+  return { ok: true, data: profile.data };
 }
 
 export async function getProfileByUserId(
   supabase: SupabaseClient,
   userId: string,
 ): Promise<AuthResult<Profile | null>> {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select(PROFILE_COLUMNS)
-    .eq("id", userId)
-    .maybeSingle();
+  const { data, error } = await selectProfileWithFallback(supabase, userId);
 
   if (error) {
     return {
       ok: false,
-      error: "Impossible de charger votre profil.",
+      error: formatAuthDebugMessage(
+        "profiles.select",
+        error,
+        "Impossible de charger votre profil.",
+      ),
       code: error.code,
     };
   }
@@ -82,5 +199,5 @@ export async function getProfileByUserId(
     return { ok: true, data: null };
   }
 
-  return { ok: true, data: mapProfile(data as Record<string, unknown>) };
+  return { ok: true, data: mapProfile(data) };
 }

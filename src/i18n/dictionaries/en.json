@@ -14,6 +14,9 @@
   },
   "auth": {
     "serviceUnavailable": "This service is temporarily unavailable. Please try again in a few minutes or contact support.",
+    "shell": {
+      "backToHome": "Home"
+    },
     "signIn": {
       "title": "Log in",
       "subtitle": "Access your CraftLink tradesperson workspace.",
@@ -25,9 +28,10 @@
     },
     "signUp": {
       "title": "Create my account",
-      "subtitle": "Free signup — your multi-tenant workspace is ready in seconds.",
+      "subtitle": "Free signup — your pro page is ready in seconds.",
       "fullName": "Name / business (optional)",
-      "whatsapp": "WhatsApp (optional)",
+      "proPhone": "Business phone (optional)",
+      "proPhonePlaceholder": "7123 456789",
       "email": "Email",
       "password": "Password",
       "passwordHint": "At least 8 characters.",

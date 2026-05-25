@@ -4,7 +4,10 @@
  */
 
 const PLACEHOLDER_URL =
-  /ton_url|your[-_]?supabase|example\.com|changeme|placeholder/i;
+  /ton_url|ta_cle|your[-_]?supabase|example\.com|changeme|placeholder/i;
+
+const PLACEHOLDER_KEY =
+  /ta_cle|your[-_]?key|changeme|placeholder|example/i;
 
 function readEnv(name: string): string | undefined {
   const value = process.env[name];
@@ -40,7 +43,10 @@ export function getSupabaseConfig(): SupabasePublicConfig | null {
 
   if (!url || !anonKey) return null;
   if (!isValidHttpUrl(url) || looksLikePlaceholder(url)) return null;
-  if (looksLikePlaceholder(anonKey)) return null;
+  if (looksLikePlaceholder(anonKey) || PLACEHOLDER_KEY.test(anonKey)) return null;
+  if (!anonKey.startsWith("eyJ") && !anonKey.startsWith("sb_publishable_")) {
+    return null;
+  }
 
   return { url, anonKey };
 }

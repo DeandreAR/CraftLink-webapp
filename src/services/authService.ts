@@ -5,6 +5,8 @@ import type {
   SignUpFormInput,
 } from "@/domain/auth";
 import type { Profile } from "@/domain/profile";
+import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   createProfileForNewUser,
@@ -32,12 +34,22 @@ function mapAuthError(message: string): string {
 
 async function rollbackAuthUser(userId: string): Promise<void> {
   const admin = createAdminClient();
-  if (!admin) return;
-  await admin.auth.admin.deleteUser(userId);
+  if (!admin) {
+    logAuthError(
+      "rollbackAuthUser",
+      "SUPABASE_SERVICE_ROLE_KEY absente — impossible de supprimer l’utilisateur Auth en rollback.",
+    );
+    return;
+  }
+  const { error } = await admin.auth.admin.deleteUser(userId);
+  if (error) {
+    logAuthError("rollbackAuthUser", error);
+  }
 }
 
 /**
  * Insère le profil avec le client session ; en secours, client admin (service role).
+ * Compatible trigger SQL `on_auth_user_created` (évite double insert + rollback).
  */
 async function ensureProfileAfterSignUp(
   sessionClient: SupabaseClient,
@@ -47,8 +59,16 @@ async function ensureProfileAfterSignUp(
   const createInput = {
     userId: user.id,
     fullName: input.fullName,
-    whatsappNumber: input.whatsappNumber,
+    proPhoneNumber: input.proPhoneNumber,
   };
+
+  const existing = await getProfileByUserId(sessionClient, user.id);
+  if (existing.ok && existing.data) {
+    return { ok: true, data: existing.data };
+  }
+  if (!existing.ok) {
+    return existing;
+  }
 
   const withSession = await createProfileForNewUser(sessionClient, createInput);
   if (withSession.ok) {
@@ -61,15 +81,33 @@ async function ensureProfileAfterSignUp(
     if (withAdmin.ok) {
       return withAdmin;
     }
+    logAuthError("ensureProfileAfterSignUp.admin", {
+      error: withAdmin.error,
+      code: withAdmin.code,
+    });
+  } else {
+    logAuthError(
+      "ensureProfileAfterSignUp",
+      "SUPABASE_SERVICE_ROLE_KEY absente — secours admin indisponible après échec insert session.",
+    );
+  }
+
+  const finalCheck = await getProfileByUserId(sessionClient, user.id);
+  if (finalCheck.ok && finalCheck.data) {
+    return { ok: true, data: finalCheck.data };
   }
 
   await rollbackAuthUser(user.id);
 
   return {
     ok: false,
-    error:
-      "Votre compte a été créé mais l’initialisation de l’espace artisan a échoué. Aucun espace partiel n’a été conservé : réessayez l’inscription ou contactez le support.",
-    code: "profile_init_failed",
+    error: formatAuthDebugMessage(
+      "profile_init",
+      null,
+      withSession.error ??
+        "Votre compte a été créé mais l’initialisation de l’espace artisan a échoué. Réessayez l’inscription ou contactez le support.",
+    ),
+    code: withSession.code ?? "profile_init_failed",
   };
 }
 
@@ -96,19 +134,31 @@ export async function signUpWithProfile(
     options: {
       data: {
         full_name: input.fullName?.trim() || null,
-        whatsapp_number: input.whatsappNumber?.trim() || null,
+        whatsapp_number: input.proPhoneNumber?.trim() || null,
       },
     },
   });
 
   if (error) {
-    return { ok: false, error: mapAuthError(error.message), code: error.code };
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.signUp",
+        error,
+        mapAuthError(error.message),
+      ),
+      code: error.code,
+    };
   }
 
   if (!data.user) {
     return {
       ok: false,
-      error: "Inscription impossible. Réessayez dans quelques instants.",
+      error: formatAuthDebugMessage(
+        "auth.signUp",
+        null,
+        "Inscription impossible. Réessayez dans quelques instants.",
+      ),
     };
   }
 
@@ -148,16 +198,47 @@ export async function signInWithPassword(
   });
 
   if (error) {
-    return { ok: false, error: mapAuthError(error.message), code: error.code };
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.signIn",
+        error,
+        mapAuthError(error.message),
+      ),
+      code: error.code,
+    };
   }
 
   if (!data.user) {
-    return { ok: false, error: "Connexion impossible." };
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.signIn",
+        null,
+        "Connexion impossible.",
+      ),
+    };
   }
 
   const profileResult = await getProfileByUserId(supabase, data.user.id);
   if (!profileResult.ok) {
     return profileResult;
+  }
+
+  if (!profileResult.data) {
+    const repaired = await createProfileForNewUser(supabase, {
+      userId: data.user.id,
+      fullName: (data.user.user_metadata?.full_name as string | undefined) ?? undefined,
+      proPhoneNumber:
+        (data.user.user_metadata?.whatsapp_number as string | undefined) ?? undefined,
+    });
+    if (!repaired.ok) {
+      return repaired;
+    }
+    return {
+      ok: true,
+      data: { user: data.user, profile: repaired.data },
+    };
   }
 
   return {
@@ -180,7 +261,19 @@ export async function getSessionWithProfile(
   } = await supabase.auth.getUser();
 
   if (userError) {
-    return { ok: false, error: "Session invalide.", code: userError.code };
+    if (isMissingAuthSessionError(userError)) {
+      return { ok: true, data: null };
+    }
+
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.getUser",
+        userError,
+        "Session invalide.",
+      ),
+      code: userError.code,
+    };
   }
 
   if (!user) {
@@ -195,8 +288,11 @@ export async function getSessionWithProfile(
   if (!profileResult.data) {
     return {
       ok: false,
-      error:
-        "Profil artisan introuvable. Contactez le support ou réinscrivez-vous.",
+      error: formatAuthDebugMessage(
+        "profile.missing",
+        null,
+        "Profil artisan introuvable (workspace_id). Contactez le support ou réinscrivez-vous.",
+      ),
       code: "profile_missing",
     };
   }
@@ -210,7 +306,11 @@ export async function getSessionWithProfile(
 export async function signOut(supabase: SupabaseClient): Promise<AuthResult<null>> {
   const { error } = await supabase.auth.signOut();
   if (error) {
-    return { ok: false, error: error.message, code: error.code };
+    return {
+      ok: false,
+      error: formatAuthDebugMessage("auth.signOut", error, error.message),
+      code: error.code,
+    };
   }
   return { ok: true, data: null };
 }

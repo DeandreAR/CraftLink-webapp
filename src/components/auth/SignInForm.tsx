@@ -5,6 +5,7 @@ import {
   signInAction,
   type AuthActionState,
 } from "@/app/actions/auth";
+import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { AuthSignInDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
@@ -25,23 +26,15 @@ export function SignInForm({ lang, copy }: SignInFormProps) {
 
       {state.error ? (
         <p
-          className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
           role="alert"
         >
           {state.error}
         </p>
       ) : null}
-      {state.success ? (
-        <p
-          className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
-          role="status"
-        >
-          {state.success}
-        </p>
-      ) : null}
 
       <div>
-        <label htmlFor="email" className="text-sm font-semibold text-neutral-800">
+        <label htmlFor="email" className={authLabelClassName}>
           {copy.email}
         </label>
         <input
@@ -50,12 +43,12 @@ export function SignInForm({ lang, copy }: SignInFormProps) {
           type="email"
           autoComplete="email"
           required
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none ring-black focus:border-black focus:ring-2"
+          className={authFieldClassName}
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="text-sm font-semibold text-neutral-800">
+        <label htmlFor="password" className={authLabelClassName}>
           {copy.password}
         </label>
         <input
@@ -65,7 +58,7 @@ export function SignInForm({ lang, copy }: SignInFormProps) {
           autoComplete="current-password"
           required
           minLength={8}
-          className="mt-1.5 w-full rounded-xl border border-neutral-300 px-4 py-3 text-sm outline-none ring-black focus:border-black focus:ring-2"
+          className={authFieldClassName}
         />
       </div>
 

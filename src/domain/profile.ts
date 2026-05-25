@@ -1,8 +1,10 @@
+import type { PlanTierValue } from "@/config/planTier";
+
 /** Rôle dans l’espace de travail (multi-tenant). */
 export type ProfileRole = "ADMIN";
 
-/** Offre / palier métier (plan de base à l’inscription). */
-export type PlanTier = "ALL_SOURCES";
+/** Offre / palier métier — aligné sur l’enum Supabase `plan_tier`. */
+export type PlanTier = PlanTierValue;
 
 export type Profile = {
   id: string;
@@ -18,5 +20,5 @@ export type Profile = {
 export type CreateProfileInput = {
   userId: string;
   fullName?: string;
-  whatsappNumber?: string;
+  proPhoneNumber?: string;
 };

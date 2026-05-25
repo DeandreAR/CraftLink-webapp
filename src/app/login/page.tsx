@@ -12,6 +12,9 @@ export default async function LoginPage() {
       lang={defaultLocale}
       copy={dict.auth}
       unavailable={prepared.status === "unavailable"}
+      unavailableMessage={
+        prepared.status === "unavailable" ? prepared.message : undefined
+      }
     />
   );
 }

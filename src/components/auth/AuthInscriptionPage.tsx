@@ -9,12 +9,14 @@ type AuthInscriptionPageProps = {
   lang: Locale;
   copy: AuthDictionary;
   unavailable?: boolean;
+  unavailableMessage?: string;
 };
 
 export function AuthInscriptionPage({
   lang,
   copy,
   unavailable = false,
+  unavailableMessage,
 }: AuthInscriptionPageProps) {
   return (
     <AuthPageShell
@@ -23,9 +25,12 @@ export function AuthInscriptionPage({
       subtitle={copy.signUp.subtitle}
       alternateHref={authPath(lang, "login")}
       alternateLabel={copy.signUp.goToSignIn}
+      backToHomeLabel={copy.shell.backToHome}
     >
       {unavailable ? (
-        <AuthServiceUnavailable message={copy.serviceUnavailable} />
+        <AuthServiceUnavailable
+          message={unavailableMessage ?? copy.serviceUnavailable}
+        />
       ) : (
         <SignUpForm lang={lang} copy={copy.signUp} />
       )}
