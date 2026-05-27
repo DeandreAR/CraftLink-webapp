@@ -43,6 +43,7 @@
     "dashboard": {
       "title": "Dashboard",
       "welcome": "Welcome to CraftLink.",
+      "loading": "Loading your workspace…",
       "email": "Email",
       "workspace": "Workspace (workspace_id)",
       "role": "Role",
@@ -221,13 +222,14 @@
     ],
     "pricingEyebrow": "Plans",
     "pricingTitle": "Start free, go Pro when volume grows.",
-    "pricingLead": "Prices excl. VAT. Switch between monthly and annual billing: save 20% on Pro with annual.",
+    "pricingLead": "Beta prices excl. VAT for the first 50 tradespeople only. Public Pro pricing will be €29 excl. VAT/month after launch.",
+    "betaPioneerBadge": "PIONEER BETA OFFER (Limited to the first 50)",
     "featuresColumnTitle": "Features",
     "proAdvantagesTitle": "Pro advantages",
     "billing": {
       "monthly": "Monthly billing",
       "annual": "Annual billing",
-      "discountBadge": "-20%"
+      "discountBadge": "-35%"
     },
     "tierEssential": {
       "name": "ESSENTIAL",
@@ -241,19 +243,20 @@
     },
     "tierPro": {
       "name": "PRO TRADESPERSON",
-      "pitch": "AI qualification, stronger influence and review collection.",
-      "cta": "Go PRO",
+      "pitch": "Early Bird offer — AI qualification, unlimited leads and a stronger pro image.",
+      "cta": "Join Pro Beta",
       "href": "#cta",
-      "badge": "POPULAR",
+      "badge": "EARLY BIRD",
+      "futurePrice": "€29 excl. VAT/month",
       "reassurance": "Full autonomy OR a free 15‑min guided onboarding — your choice.",
       "pricing": {
         "monthly": {
-          "amount": "€29 excl. VAT / month",
+          "amount": "€19 excl. VAT / month",
           "footnote": "no commitment"
         },
         "annual": {
-          "amount": "€23 excl. VAT / month",
-          "footnote": "billed €276/year — Save €72"
+          "amount": "€14 excl. VAT / month",
+          "footnote": "billed €168 excl. VAT/year — Save 35%"
         }
       }
     },
@@ -305,7 +308,7 @@
       },
       {
         "labelEssential": "Limited to 15 leads/month (blurred display beyond)",
-        "labelPro": "Unlimited leads (no blocking, no frustration)",
+        "labelPro": "Unlimited leads (no blocking)",
         "label": "Lead volume",
         "essential": true,
         "pro": true,
@@ -313,7 +316,7 @@
       },
       {
         "labelEssential": "No automatic SMS acknowledgement to the end customer",
-        "labelPro": "Automatic SMS acknowledgement to the end customer (instant confirmation)",
+        "labelPro": "Automatic SMS acknowledgement to the end customer",
         "label": "SMS acknowledgement",
         "essential": false,
         "pro": true,

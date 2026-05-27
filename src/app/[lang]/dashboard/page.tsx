@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { DashboardShell } from "@/components/auth/DashboardShell";
+import { DashboardPageClient } from "@/components/auth/DashboardPageClient";
 import { getDictionary } from "@/i18n/getDictionary";
 import { isLocale, type Locale } from "@/i18n/config";
 import { requireSessionProfile } from "@/lib/auth/guards";
@@ -14,5 +14,7 @@ export default async function LangDashboardPage({ params }: Props) {
   const session = await requireSessionProfile(lang);
   const dict = await getDictionary(lang);
 
-  return <DashboardShell lang={lang} session={session} copy={dict.auth.dashboard} />;
+  return (
+    <DashboardPageClient lang={lang} session={session} copy={dict.auth.dashboard} />
+  );
 }

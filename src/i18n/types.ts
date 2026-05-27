@@ -35,6 +35,8 @@ export type TierJson = {
   href: string;
   badge?: string;
   reassurance?: string;
+  /** Prix public futur (affiché barré en Bêta). */
+  futurePrice?: string;
   pricing: TierPricingJson;
 };
 
@@ -84,6 +86,7 @@ export type PricingComparisonDictionary = {
   pricingEyebrow: string;
   pricingTitle: string;
   pricingLead: string;
+  betaPioneerBadge: string;
   featuresColumnTitle: string;
   proAdvantagesTitle: string;
   billing: BillingDictionary;
@@ -136,6 +139,7 @@ export type AuthShellDictionary = {
 export type AuthDashboardDictionary = {
   title: string;
   welcome: string;
+  loading: string;
   email: string;
   workspace: string;
   role: string;
