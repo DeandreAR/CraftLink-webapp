@@ -311,6 +311,52 @@ export type LegalBundleDictionary = {
   };
 };
 
+export type VitrineDictionary = {
+  details: {
+    back: string;
+    servicesTitle: string;
+    servicesHint: string;
+    captureTitle: string;
+  };
+  form: {
+    fullName: string;
+    fullNamePlaceholder: string;
+    phone: string;
+    phonePlaceholder: string;
+    urgency: string;
+    urgencyOptions: {
+      urgent: string;
+      this_week: string;
+      flexible: string;
+    };
+    project: string;
+    projectPlaceholder: string;
+    collaborationToggle: string;
+    proCompanyName: string;
+    proCompanyPlaceholder: string;
+    proProject: string;
+    proProjectPlaceholder: string;
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successBody: string;
+    errorTitle: string;
+    errorBody: string;
+    smsAck: string;
+  };
+  voice: {
+    title: string;
+    record: string;
+    recording: string;
+    stop: string;
+    added: string;
+  };
+  services: {
+    priceHt: string;
+  };
+  poweredBy: string;
+};
+
 export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
@@ -324,4 +370,5 @@ export type Dictionary = {
   footer: FooterDictionary;
   cookieConsent: CookieConsentDictionary;
   legal: LegalBundleDictionary;
+  vitrine: VitrineDictionary;
 };
