@@ -312,25 +312,41 @@ export type LegalBundleDictionary = {
 };
 
 export type VitrineDictionary = {
+  presentation: {
+    quoteFreeHint: string;
+    portfolioTitle: string;
+  };
   details: {
     back: string;
     servicesTitle: string;
     servicesHint: string;
     captureTitle: string;
+    titles: {
+      quote: string;
+      urgent: string;
+      info: string;
+      collaboration: string;
+    };
+    delayLabel: string;
   };
   form: {
     fullName: string;
     fullNamePlaceholder: string;
+    partnerCompanyName: string;
+    partnerCompanyPlaceholder: string;
     phone: string;
     phonePlaceholder: string;
     urgency: string;
     urgencyOptions: {
       urgent: string;
-      this_week: string;
-      flexible: string;
+      asap: string;
+      planned: string;
+      info: string;
     };
     project: string;
     projectPlaceholder: string;
+    question: string;
+    questionPlaceholder: string;
     collaborationToggle: string;
     proCompanyName: string;
     proCompanyPlaceholder: string;
@@ -343,6 +359,7 @@ export type VitrineDictionary = {
     errorTitle: string;
     errorBody: string;
     smsAck: string;
+    selectDelay: string;
   };
   voice: {
     title: string;
@@ -350,6 +367,17 @@ export type VitrineDictionary = {
     recording: string;
     stop: string;
     added: string;
+    timerLabel: string;
+    maxDuration: string;
+  };
+  photos: {
+    title: string;
+    dropHint: string;
+    browse: string;
+    count: string;
+    tooMany: string;
+    tooLarge: string;
+    invalidType: string;
   };
   services: {
     priceHt: string;

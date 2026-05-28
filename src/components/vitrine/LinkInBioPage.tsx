@@ -10,10 +10,10 @@ import type {
   VitrineService,
   VitrineTheme,
 } from "@/domain/vitrine";
-import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import { vitrineThemeStyle } from "@/lib/vitrine/theme";
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineDetailsSection } from "@/components/vitrine/VitrineDetailsSection";
+import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
 import { VitrinePresentation } from "@/components/vitrine/VitrinePresentation";
 import { VitrineProfileHero } from "@/components/vitrine/VitrineProfileHero";
 
@@ -48,7 +48,6 @@ export function LinkInBioPage({
     onInteractionStateChange?.(next);
   };
 
-  const isPro = isProPublicPlan(planTier);
   const showDetails = interactionState === "DETAILS_VISIBLE";
   const showSocial =
     profileSettings.visibility.showSocialLinks && artisan.socialLinks.length > 0;
@@ -67,7 +66,7 @@ export function LinkInBioPage({
   return (
     <div className="min-h-screen bg-[#e8e8e8] font-sans sm:bg-neutral-200">
       <div
-        className="mx-auto min-h-screen w-full max-w-md overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
+        className="mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
         style={{
           ...vitrineThemeStyle(theme),
           backgroundColor: "#ffffff",
@@ -82,25 +81,16 @@ export function LinkInBioPage({
               artisan={artisan}
               planTier={planTier}
               profileSettings={profileSettings}
+              copy={copy}
               onOpenDetails={openDetails}
             />
-            {!isPro ? (
-              <footer className="pb-8 pt-2 text-center">
-                <a
-                  href="/"
-                  className="text-[10px] font-semibold uppercase tracking-wide text-neutral-400"
-                >
-                  {copy.poweredBy}
-                </a>
-              </footer>
-            ) : (
-              <div className="h-8" aria-hidden />
-            )}
+            <VitrineFooter label={copy.poweredBy} />
           </>
         ) : (
-          <div id="vitrine-details">
+          <div id="vitrine-details" className="flex-1">
             <VitrineDetailsSection
               planTier={planTier}
+              profileSettings={profileSettings}
               services={services}
               copy={copy}
               initialIntent={openIntent}

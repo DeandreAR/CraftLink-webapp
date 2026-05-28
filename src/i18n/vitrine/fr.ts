@@ -1,27 +1,44 @@
 import type { VitrineDictionary } from "@/i18n/types";
 
 export const vitrineFr: VitrineDictionary = {
+  presentation: {
+    quoteFreeHint: "Devis 100% gratuit · Sans engagement",
+    portfolioTitle: "Réalisations récentes",
+  },
   details: {
     back: "Retour à la présentation",
     servicesTitle: "Prestations",
     servicesHint: "Sélectionnez ce qui correspond à votre besoin",
     captureTitle: "Votre demande",
+    titles: {
+      quote: "Votre demande de devis",
+      urgent: "Votre demande de dépannage urgent",
+      info: "Votre question",
+      collaboration: "Demande de collaboration",
+    },
+    delayLabel: "Quand souhaitez-vous intervenir ?",
   },
   form: {
     fullName: "Votre nom",
     fullNamePlaceholder: "Jean Dupont",
+    partnerCompanyName: "Nom de l'entreprise partenaire",
+    partnerCompanyPlaceholder: "Raison sociale ou enseigne",
     phone: "Téléphone",
     phonePlaceholder: "06 12 34 56 78",
-    urgency: "Urgence",
+    urgency: "Délai souhaité",
     urgencyOptions: {
-      urgent: "Urgent (sous 24h)",
-      this_week: "Cette semaine",
-      flexible: "Pas urgent",
+      urgent: "🚨 Urgent / Dépannage (Intervention sous 24h à 48h)",
+      asap: "📅 Dès que possible (Sous 1 à 2 semaines)",
+      planned: "🏗️ Dans le mois / Planifié (Sous 30 jours)",
+      info: "🔍 Juste pour information (Plus d'un mois)",
     },
     project: "Décrivez votre besoin",
     projectPlaceholder: "Type de panne, surface, accès, contraintes…",
-    collaborationToggle: "Je suis un pro, je souhaite collaborer",
-    proCompanyName: "Nom de l’entreprise",
+    question: "Posez votre question à l'artisan…",
+    questionPlaceholder: "Expliquez votre situation ou votre doute…",
+    collaborationToggle:
+      "Je suis un professionnel et je souhaite collaborer",
+    proCompanyName: "Nom de l'entreprise",
     proCompanyPlaceholder: "Raison sociale ou enseigne",
     proProject: "Projet de collaboration",
     proProjectPlaceholder: "Nature du partenariat, volume, calendrier…",
@@ -29,10 +46,11 @@ export const vitrineFr: VitrineDictionary = {
     submitting: "Envoi en cours…",
     successTitle: "Demande envoyée",
     successBody:
-      "L’artisan a reçu votre demande structurée et vous recontacte rapidement.",
+      "L'artisan a reçu votre demande structurée et vous recontacte rapidement.",
     errorTitle: "Envoi impossible",
-    errorBody: "Vérifiez votre connexion et réessayez.",
+    errorBody: "Vérifiez les champs obligatoires et réessayez.",
     smsAck: "✓ Vous recevrez instantanément un SMS de confirmation dès validation.",
+    selectDelay: "Choisissez un délai pour continuer.",
   },
   voice: {
     title: "Décrivez votre projet à la voix",
@@ -40,6 +58,17 @@ export const vitrineFr: VitrineDictionary = {
     recording: "Enregistrement en cours…",
     stop: "Appuyez pour terminer",
     added: "Message vocal enregistré",
+    timerLabel: "Durée",
+    maxDuration: "Maximum 2 minutes",
+  },
+  photos: {
+    title: "Ajoutez des photos (optionnel)",
+    dropHint: "Glissez vos images ici",
+    browse: "Parcourir",
+    count: "photo(s) ajoutée(s)",
+    tooMany: "Maximum 3 photos autorisées.",
+    tooLarge: "Chaque image doit faire moins de 10 Mo.",
+    invalidType: "Seuls les fichiers image sont acceptés (pas de vidéo).",
   },
   services: {
     priceHt: "HT",

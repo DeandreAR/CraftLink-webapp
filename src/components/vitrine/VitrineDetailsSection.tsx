@@ -7,32 +7,43 @@ import type {
   LeadUrgency,
   PublicPlanTier,
   VitrineOpenIntent,
+  VitrineProfileSettings,
   VitrineService,
 } from "@/domain/vitrine";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
+import {
+  getCaptureFormTitle,
+  getDefaultDelay,
+  shouldShowDelaySelection,
+} from "@/lib/vitrine/captureForm";
 import type { VitrineDictionary } from "@/i18n/types";
+import { VitrineDelayPills } from "@/components/vitrine/VitrineDelayPills";
+import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
+import { VitrinePhotoUpload } from "@/components/vitrine/VitrinePhotoUpload";
+import { VitrineVoiceCapture } from "@/components/vitrine/VitrineVoiceCapture";
 
 type VitrineDetailsSectionProps = {
   planTier: PublicPlanTier;
+  profileSettings: VitrineProfileSettings;
   services: VitrineService[];
   copy: VitrineDictionary;
   initialIntent?: VitrineOpenIntent;
   onBack: () => void;
 };
 
-const URGENCY_VALUES: LeadUrgency[] = ["urgent", "this_week", "flexible"];
-
 export function VitrineDetailsSection({
   planTier,
+  profileSettings,
   services,
   copy,
   initialIntent = "quote",
   onBack,
 }: VitrineDetailsSectionProps) {
   const isPro = isProPublicPlan(planTier);
+  const showCollaborationToggle =
+    isPro && profileSettings.visibility.showCollaborationButton;
   const det = copy.details;
   const form = copy.form;
-  const voice = copy.voice;
 
   const [status, setStatus] = useState<LeadFormStatus>("idle");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -42,17 +53,22 @@ export function VitrineDetailsSection({
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [proCompanyName, setProCompanyName] = useState("");
-  const [urgency, setUrgency] = useState<LeadUrgency>(
-    initialIntent === "urgent" ? "urgent" : "this_week",
-  );
+  const [urgency, setUrgency] = useState<LeadUrgency>(getDefaultDelay(initialIntent));
+  const [projectDescription, setProjectDescription] = useState("");
+  const [hasVoice, setHasVoice] = useState(false);
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
+  const [delayError, setDelayError] = useState(false);
+
+  const showDelay = shouldShowDelaySelection(initialIntent);
+  const isInfoIntent = initialIntent === "info";
+  const formTitle = getCaptureFormTitle(initialIntent, copy);
 
   useEffect(() => {
     setIsCollaboration(initialIntent === "collaboration");
-    setUrgency(initialIntent === "urgent" ? "urgent" : "this_week");
+    setUrgency(getDefaultDelay(initialIntent));
+    setDelayError(false);
+    setStatus("idle");
   }, [initialIntent]);
-  const [projectDescription, setProjectDescription] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
-  const [hasVoice, setHasVoice] = useState(false);
 
   const toggleService = (id: string) => {
     setSelectedServices((prev) =>
@@ -60,28 +76,32 @@ export function VitrineDetailsSection({
     );
   };
 
-  const handleVoiceToggle = () => {
-    if (isRecording) {
-      setIsRecording(false);
-      setHasVoice(true);
-      return;
-    }
-    setIsRecording(true);
-  };
+  const resolvedUrgency: LeadUrgency = showDelay
+    ? urgency
+    : initialIntent === "urgent"
+      ? "urgent"
+      : initialIntent === "info"
+        ? "info"
+        : urgency;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (status === "submitting") return;
 
-    const needsProject = !isCollaboration && !projectDescription.trim();
-    const needsProFields = isCollaboration && (!proCompanyName.trim() || !projectDescription.trim());
+    if (showDelay && !urgency) {
+      setDelayError(true);
+      setStatus("error");
+      return;
+    }
+
+    const nameValue = isCollaboration ? proCompanyName : fullName;
+    const descriptionOk = projectDescription.trim().length > 0;
 
     if (
-      !fullName.trim() ||
+      !nameValue.trim() ||
       !phone.trim() ||
       selectedServices.length === 0 ||
-      needsProject ||
-      needsProFields
+      !descriptionOk
     ) {
       setStatus("error");
       return;
@@ -90,6 +110,9 @@ export function VitrineDetailsSection({
     setStatus("submitting");
     try {
       await new Promise((r) => setTimeout(r, 1100));
+      void resolvedUrgency;
+      void hasVoice;
+      void photoFiles;
       setStatus("success");
     } catch {
       setStatus("error");
@@ -98,37 +121,58 @@ export function VitrineDetailsSection({
 
   if (status === "success") {
     return (
-      <motion.section
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mx-4 mb-8 rounded-[24px] border border-emerald-200 bg-emerald-50 p-6 text-center"
-        role="status"
-      >
-        <p className="text-4xl" aria-hidden>
-          ✓
-        </p>
-        <h3 className="mt-2 text-xl font-bold text-emerald-950">{form.successTitle}</h3>
-        <p className="mt-2 text-sm text-emerald-900">{form.successBody}</p>
-        {isPro ? (
-          <p className="mt-3 text-xs text-emerald-800">{form.smsAck}</p>
-        ) : null}
-        <button
-          type="button"
-          onClick={onBack}
-          className="mt-5 text-sm font-semibold text-[var(--primary-color)] underline"
+      <>
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mx-4 mb-4 rounded-[24px] border border-emerald-200 bg-emerald-50 p-6 text-center"
+          role="status"
         >
-          {det.back}
-        </button>
-      </motion.section>
+          <p className="text-4xl" aria-hidden>
+            ✓
+          </p>
+          <h3 className="mt-2 text-xl font-bold text-emerald-950">{form.successTitle}</h3>
+          <p className="mt-2 text-sm text-emerald-900">{form.successBody}</p>
+          {isPro ? (
+            <p className="mt-3 text-xs text-emerald-800">{form.smsAck}</p>
+          ) : null}
+          <button
+            type="button"
+            onClick={onBack}
+            className="mt-5 text-sm font-semibold text-[var(--primary-color)] underline"
+          >
+            {det.back}
+          </button>
+        </motion.section>
+        <VitrineFooter label={copy.poweredBy} />
+      </>
     );
   }
+
+  const nameLabel = isCollaboration ? form.partnerCompanyName : form.fullName;
+  const namePlaceholder = isCollaboration
+    ? form.partnerCompanyPlaceholder
+    : form.fullNamePlaceholder;
+  const nameValue = isCollaboration ? proCompanyName : fullName;
+  const setNameValue = isCollaboration ? setProCompanyName : setFullName;
+
+  const textLabel = isCollaboration
+    ? form.proProject
+    : isInfoIntent
+      ? form.question
+      : form.project;
+  const textPlaceholder = isCollaboration
+    ? form.proProjectPlaceholder
+    : isInfoIntent
+      ? form.questionPlaceholder
+      : form.projectPlaceholder;
 
   return (
     <motion.section
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="px-4 pb-10"
+      className="px-4 pb-4"
     >
       <button
         type="button"
@@ -183,9 +227,9 @@ export function VitrineDetailsSection({
         onSubmit={handleSubmit}
         className="mt-5 rounded-[24px] border-2 border-[var(--primary-color)]/25 bg-[color-mix(in_srgb,var(--primary-color)_6%,var(--bg-color))] p-5 shadow-[0_20px_48px_color-mix(in_srgb,var(--primary-color)_18%,transparent)]"
       >
-        <h2 className="text-base font-bold text-[var(--v-text)]">{det.captureTitle}</h2>
+        <h2 className="text-base font-bold text-[var(--v-text)]">{formTitle}</h2>
 
-        {isPro ? (
+        {showCollaborationToggle ? (
           <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-2xl border border-[var(--v-accent)]/25 bg-[var(--v-surface)] p-3">
             <input
               type="checkbox"
@@ -200,59 +244,23 @@ export function VitrineDetailsSection({
         ) : null}
 
         {isPro && !isCollaboration ? (
-          <div className="mt-5">
-            <p className="text-sm font-bold text-[var(--v-text)]">{voice.title}</p>
-            <button
-              type="button"
-              onClick={handleVoiceToggle}
-              className={`mt-3 flex min-h-[4.25rem] w-full items-center justify-center gap-2 rounded-[20px] text-base font-bold transition ${
-                isRecording
-                  ? "animate-pulse bg-red-50 text-red-900 ring-2 ring-red-400"
-                  : hasVoice
-                    ? "bg-emerald-50 text-emerald-900 ring-2 ring-emerald-400"
-                    : "bg-[var(--primary-color)] text-[var(--v-primary-fg)] shadow-lg"
-              }`}
-            >
-              <span className="text-2xl" aria-hidden>
-                🎙️
-              </span>
-              {isRecording
-                ? voice.recording
-                : hasVoice
-                  ? voice.added
-                  : voice.record}
-            </button>
-            {isRecording ? (
-              <p className="mt-2 text-center text-xs text-[var(--v-muted)]">{voice.stop}</p>
-            ) : null}
-          </div>
+          <VitrineVoiceCapture copy={copy} onRecorded={setHasVoice} />
+        ) : null}
+
+        {isPro && !isCollaboration ? (
+          <VitrinePhotoUpload copy={copy} onChange={setPhotoFiles} />
         ) : null}
 
         <div className="mt-5 grid gap-4">
-          {isCollaboration ? (
-            <div>
-              <label className="text-sm font-semibold text-[var(--v-text)]">
-                {form.proCompanyName}
-              </label>
-              <input
-                required
-                value={proCompanyName}
-                onChange={(e) => setProCompanyName(e.target.value)}
-                placeholder={form.proCompanyPlaceholder}
-                className="mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
-              />
-            </div>
-          ) : null}
-
           <div>
             <label className="text-sm font-semibold text-[var(--v-text)]">
-              {form.fullName}
+              {nameLabel}
             </label>
             <input
               required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder={form.fullNamePlaceholder}
+              value={nameValue}
+              onChange={(e) => setNameValue(e.target.value)}
+              placeholder={namePlaceholder}
               className="mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
             />
           </div>
@@ -271,37 +279,27 @@ export function VitrineDetailsSection({
             />
           </div>
 
-          {!isCollaboration ? (
-            <div>
-              <label className="text-sm font-semibold text-[var(--v-text)]">
-                {form.urgency}
-              </label>
-              <select
-                value={urgency}
-                onChange={(e) => setUrgency(e.target.value as LeadUrgency)}
-                className="mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
-              >
-                {URGENCY_VALUES.map((v) => (
-                  <option key={v} value={v}>
-                    {form.urgencyOptions[v]}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {showDelay ? (
+            <VitrineDelayPills
+              value={urgency}
+              onChange={(value) => {
+                setUrgency(value);
+                setDelayError(false);
+              }}
+              copy={copy}
+            />
           ) : null}
 
           <div>
             <label className="text-sm font-semibold text-[var(--v-text)]">
-              {isCollaboration ? form.proProject : form.project}
+              {textLabel}
             </label>
             <textarea
               required
               rows={4}
               value={projectDescription}
               onChange={(e) => setProjectDescription(e.target.value)}
-              placeholder={
-                isCollaboration ? form.proProjectPlaceholder : form.projectPlaceholder
-              }
+              placeholder={textPlaceholder}
               className="mt-1.5 w-full resize-y rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
             />
           </div>
@@ -314,7 +312,7 @@ export function VitrineDetailsSection({
           >
             <span className="font-semibold">{form.errorTitle}</span>
             <br />
-            {form.errorBody}
+            {delayError ? form.selectDelay : form.errorBody}
           </p>
         ) : null}
 
@@ -330,6 +328,8 @@ export function VitrineDetailsSection({
           <p className="mt-3 text-center text-xs text-[var(--v-muted)]">{form.smsAck}</p>
         ) : null}
       </form>
+
+      <VitrineFooter label={copy.poweredBy} />
     </motion.section>
   );
 }

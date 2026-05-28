@@ -25,6 +25,7 @@ export type VitrineVisibilitySettings = {
   showStatBadges: boolean;
   showInterventionTags: boolean;
   showCollaborationButton: boolean;
+  showPortfolioGallery: boolean;
 };
 
 export type VitrineCtaLabels = {
@@ -80,6 +81,17 @@ export type VitrineSocialLink = {
   href: string;
 };
 
+/** Média portfolio sous les CTA (images ou embed Instagram). */
+export type VitrinePortfolioItem = {
+  id: string;
+  type: "image" | "instagram_embed";
+  /** URL image directe ou vignette. */
+  imageUrl?: string;
+  /** URL embed Instagram (blockquote / iframe). */
+  embedUrl?: string;
+  alt?: string;
+};
+
 export type ArtisanVitrineProfile = {
   slug: string;
   businessName: string;
@@ -93,6 +105,7 @@ export type ArtisanVitrineProfile = {
   /** Fiche Google Business (avis + note cliquables). */
   googleBusinessUrl?: string | null;
   socialLinks: VitrineSocialLink[];
+  portfolioItems?: VitrinePortfolioItem[];
 };
 
 export type VitrineService = {
@@ -102,7 +115,8 @@ export type VitrineService = {
   description?: string;
 };
 
-export type LeadUrgency = "urgent" | "this_week" | "flexible";
+/** Délai souhaité pour la demande (4 niveaux). */
+export type LeadUrgency = "urgent" | "asap" | "planned" | "info";
 
 export type LeadCapturePayload = {
   fullName: string;

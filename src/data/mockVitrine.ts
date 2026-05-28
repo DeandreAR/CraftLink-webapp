@@ -99,6 +99,26 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
       href: "https://linkedin.com",
     },
   ],
+  portfolioItems: [
+    {
+      id: "work-1",
+      type: "image",
+      imageUrl: DEMO_ELECTRICIAN_IMAGE,
+      alt: "Intervention tableau électrique",
+    },
+    {
+      id: "work-2",
+      type: "image",
+      imageUrl: DEMO_ELECTRICIAN_IMAGE,
+      alt: "Rénovation électrique",
+    },
+    {
+      id: "work-3",
+      type: "image",
+      imageUrl: DEMO_ELECTRICIAN_IMAGE,
+      alt: "Installation domotique",
+    },
+  ],
 };
 
 const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
@@ -107,6 +127,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showStatBadges: true,
     showInterventionTags: true,
     showCollaborationButton: false,
+    showPortfolioGallery: true,
   },
   cta: {
     secondaryInfo: "Poser une Question",
@@ -121,9 +142,10 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showStatBadges: true,
     showInterventionTags: true,
     showCollaborationButton: true,
+    showPortfolioGallery: true,
   },
   cta: {
-    primaryQuote: "Demander un Devis",
+    primaryQuote: "Besoin d'un devis rapide ?",
     secondaryInfo: "Poser une Question",
     secondaryUrgent: "Demander un RDV Urgent",
     collaboration: "Lien Collaboration (Partenaires)",
