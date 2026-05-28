@@ -6,6 +6,7 @@ import type {
 } from "@/domain/vitrine";
 import { resolvePrimaryQuoteLabel } from "@/lib/vitrine/ctaLabels";
 import type { VitrineDictionary } from "@/i18n/types";
+import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
 import { VitrineInterventionTags } from "@/components/vitrine/VitrineInterventionTags";
 import { VitrinePortfolioGallery } from "@/components/vitrine/VitrinePortfolioGallery";
@@ -33,6 +34,12 @@ export function VitrinePresentation({
   const portfolioItems = artisan.portfolioItems ?? [];
   const showPortfolio =
     visibility.showPortfolioGallery && portfolioItems.length > 0;
+  const showAbout =
+    visibility.contentBlockMode === "about" && artisan.aboutSection?.body;
+  const showInterventions =
+    visibility.contentBlockMode === "interventions" &&
+    visibility.showInterventionTags &&
+    artisan.interventions.length > 0;
 
   return (
     <section className="px-4 pb-2 pt-5 text-center sm:px-5 sm:pt-6">
@@ -50,7 +57,14 @@ export function VitrinePresentation({
         />
       ) : null}
 
-      {visibility.showInterventionTags && artisan.interventions.length > 0 ? (
+      {showAbout && artisan.aboutSection ? (
+        <VitrineAboutSection
+          title={artisan.aboutSection.title}
+          body={artisan.aboutSection.body}
+        />
+      ) : null}
+
+      {showInterventions ? (
         <VitrineInterventionTags items={artisan.interventions} />
       ) : null}
 

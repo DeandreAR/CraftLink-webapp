@@ -320,6 +320,9 @@ export type VitrineDictionary = {
     back: string;
     servicesTitle: string;
     servicesHint: string;
+    servicesOptionalHint: string;
+    servicesQuoteHint: string;
+    servicesSelected: string;
     captureTitle: string;
     titles: {
       quote: string;
@@ -345,6 +348,9 @@ export type VitrineDictionary = {
     };
     project: string;
     projectPlaceholder: string;
+    descriptionHint: string;
+    needDescriptionOrVoice: string;
+    selectDelayPlaceholder: string;
     question: string;
     questionPlaceholder: string;
     collaborationToggle: string;
@@ -367,6 +373,8 @@ export type VitrineDictionary = {
     recording: string;
     stop: string;
     added: string;
+    replay: string;
+    orRecord: string;
     timerLabel: string;
     maxDuration: string;
   };
@@ -378,6 +386,57 @@ export type VitrineDictionary = {
     tooMany: string;
     tooLarge: string;
     invalidType: string;
+  };
+  collaboration: {
+    title: string;
+    profilePeer: string;
+    profileBrand: string;
+    companyPeer: string;
+    companyBrand: string;
+    contactName: string;
+    jobTitle: string;
+    phone: string;
+    email: string;
+    activityType: string;
+    activityOptions: {
+      architect: string;
+      project_manager: string;
+      artisan: string;
+      builder: string;
+      real_estate: string;
+      other: string;
+    };
+    needType: string;
+    needOptions: {
+      subcontracting: string;
+      project_offer: string;
+      local_partnership: string;
+    };
+    partnershipType: string;
+    partnershipOptions: {
+      product_placement: string;
+      material_donation: string;
+      affiliate_program: string;
+      media_campaign: string;
+    };
+    description: string;
+    descriptionPeerPlaceholder: string;
+    descriptionBrandPlaceholder: string;
+    filesPeerLabel: string;
+    filesBrandLabel: string;
+    files: {
+      dropHint: string;
+      browse: string;
+      tooMany: string;
+      tooLarge: string;
+      invalidType: string;
+      invalidVideo: string;
+    };
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successBody: string;
+    errorBody: string;
   };
   services: {
     priceHt: string;

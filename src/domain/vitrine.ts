@@ -20,12 +20,21 @@ export type VitrineTheme = {
   bannerTo: string;
 };
 
+/** Bloc sous les badges : liste d’interventions ou texte « À propos ». */
+export type VitrineContentBlockMode = "interventions" | "about";
+
+export type VitrineAboutSection = {
+  title: string;
+  body: string;
+};
+
 export type VitrineVisibilitySettings = {
   showSocialLinks: boolean;
   showStatBadges: boolean;
   showInterventionTags: boolean;
   showCollaborationButton: boolean;
   showPortfolioGallery: boolean;
+  contentBlockMode: VitrineContentBlockMode;
 };
 
 export type VitrineCtaLabels = {
@@ -106,6 +115,7 @@ export type ArtisanVitrineProfile = {
   googleBusinessUrl?: string | null;
   socialLinks: VitrineSocialLink[];
   portfolioItems?: VitrinePortfolioItem[];
+  aboutSection?: VitrineAboutSection | null;
 };
 
 export type VitrineService = {

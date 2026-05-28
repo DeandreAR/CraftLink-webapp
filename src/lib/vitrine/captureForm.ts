@@ -5,6 +5,14 @@ export function shouldShowDelaySelection(intent: VitrineOpenIntent): boolean {
   return intent === "quote";
 }
 
+export function shouldShowServices(intent: VitrineOpenIntent): boolean {
+  return intent !== "urgent";
+}
+
+export function areServicesRequired(_intent: VitrineOpenIntent): boolean {
+  return false;
+}
+
 export function getDefaultDelay(intent: VitrineOpenIntent): LeadUrgency {
   if (intent === "urgent") return "urgent";
   if (intent === "info") return "info";

@@ -79,6 +79,10 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
     "Rénovation Électrique",
   ],
   serviceAreaSummary: "Intervient à Nantes et 30 km alentour",
+  aboutSection: {
+    title: "À propos",
+    body: "Électricien certifié depuis plus de 10 ans à Nantes. Spécialisé en dépannage urgent, rénovation et domotique. Intervention rapide, devis gratuit et garantie décennale sur vos installations.",
+  },
   socialLinks: [
     {
       id: "ig",
@@ -128,11 +132,12 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showInterventionTags: true,
     showCollaborationButton: false,
     showPortfolioGallery: true,
+    contentBlockMode: "interventions",
   },
   cta: {
     secondaryInfo: "Poser une Question",
     secondaryUrgent: "Demander un RDV Urgent",
-    collaboration: "Lien Collaboration (Partenaires)",
+    collaboration: "Collaboration (Partenaires)",
   },
 };
 
@@ -143,12 +148,13 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showInterventionTags: true,
     showCollaborationButton: true,
     showPortfolioGallery: true,
+    contentBlockMode: "about",
   },
   cta: {
     primaryQuote: "Besoin d'un devis rapide ?",
     secondaryInfo: "Poser une Question",
     secondaryUrgent: "Demander un RDV Urgent",
-    collaboration: "Lien Collaboration (Partenaires)",
+    collaboration: "Collaboration (Partenaires)",
   },
 };
 
