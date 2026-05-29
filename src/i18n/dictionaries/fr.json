@@ -43,6 +43,7 @@
     "dashboard": {
       "title": "Tableau de bord",
       "welcome": "Bienvenue sur CraftLink.",
+      "loading": "Chargement de votre espace…",
       "email": "E-mail",
       "workspace": "Espace de travail (workspace_id)",
       "role": "Rôle",
@@ -221,13 +222,14 @@
     ],
     "pricingEyebrow": "Tarifs & offre",
     "pricingTitle": "Commencer gratuitement, passer Pro quand le volume suit.",
-    "pricingLead": "Prix affichés HT. Basculez entre facturation mensuelle et annuelle : −20 % sur l’offre Pro en annuel.",
+    "pricingLead": "Tarifs Bêta HT réservés aux 50 premiers artisans. Le tarif public Pro sera de 29€ HT/mois après la phase de lancement.",
+    "betaPioneerBadge": "OFFRE BÊTA PIONNIER (Limité aux 50 premiers)",
     "featuresColumnTitle": "Fonctionnalités",
     "proAdvantagesTitle": "Avantages Pro",
     "billing": {
       "monthly": "Facturation mensuelle",
       "annual": "Facturation annuelle",
-      "discountBadge": "-20%"
+      "discountBadge": "-35%"
     },
     "tierEssential": {
       "name": "ESSENTIEL",
@@ -241,19 +243,20 @@
     },
     "tierPro": {
       "name": "PRO ARTISAN",
-      "pitch": "Pour qualifier par IA, booster l'influence et récolter des avis.",
-      "cta": "Passer PRO",
+      "pitch": "Offre Early Bird — qualification IA, leads illimités et image pro renforcée.",
+      "cta": "Rejoindre la Bêta Pro",
       "href": "#cta",
-      "badge": "POPULAIRE",
+      "badge": "EARLY BIRD",
+      "futurePrice": "29€ HT/mois",
       "reassurance": "Autonomie totale OU onboarding guidé en 15 min, c'est vous qui choisissez.",
       "pricing": {
         "monthly": {
-          "amount": "29€ HT / mois",
+          "amount": "19€ HT / mois",
           "footnote": "sans engagement"
         },
         "annual": {
-          "amount": "23€ HT / mois",
-          "footnote": "facturé 276€/an — Économisez 72€"
+          "amount": "14€ HT / mois",
+          "footnote": "Facturé 168€ HT/an — Économisez 35%"
         }
       }
     },
@@ -305,7 +308,7 @@
       },
       {
         "labelEssential": "Accès limité à 15 leads/mois (Affichage flouté au-delà)",
-        "labelPro": "Leads illimités (Aucun blocage, aucune frustration)",
+        "labelPro": "Leads illimités (Aucun blocage)",
         "label": "Volume de leads",
         "essential": true,
         "pro": true,
@@ -313,7 +316,7 @@
       },
       {
         "labelEssential": "Pas d'accusé de réception SMS automatique",
-        "labelPro": "Accusé de réception SMS automatique au client final (Prise en compte instantanée)",
+        "labelPro": "Accusé de réception SMS automatique au client final",
         "label": "Accusé de réception SMS",
         "essential": false,
         "pro": true,

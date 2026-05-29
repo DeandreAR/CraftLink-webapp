@@ -1,4 +1,4 @@
-import { DashboardShell } from "@/components/auth/DashboardShell";
+import { DashboardPageClient } from "@/components/auth/DashboardPageClient";
 import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { requireSessionProfile } from "@/lib/auth/guards";
@@ -8,6 +8,10 @@ export default async function DashboardPage() {
   const dict = await getDictionary(defaultLocale);
 
   return (
-    <DashboardShell lang={defaultLocale} session={session} copy={dict.auth.dashboard} />
+    <DashboardPageClient
+      lang={defaultLocale}
+      session={session}
+      copy={dict.auth.dashboard}
+    />
   );
 }

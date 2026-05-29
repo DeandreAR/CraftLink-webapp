@@ -35,6 +35,8 @@ export type TierJson = {
   href: string;
   badge?: string;
   reassurance?: string;
+  /** Prix public futur (affiché barré en Bêta). */
+  futurePrice?: string;
   pricing: TierPricingJson;
 };
 
@@ -84,6 +86,7 @@ export type PricingComparisonDictionary = {
   pricingEyebrow: string;
   pricingTitle: string;
   pricingLead: string;
+  betaPioneerBadge: string;
   featuresColumnTitle: string;
   proAdvantagesTitle: string;
   billing: BillingDictionary;
@@ -136,6 +139,7 @@ export type AuthShellDictionary = {
 export type AuthDashboardDictionary = {
   title: string;
   welcome: string;
+  loading: string;
   email: string;
   workspace: string;
   role: string;
@@ -307,6 +311,143 @@ export type LegalBundleDictionary = {
   };
 };
 
+export type VitrineDictionary = {
+  presentation: {
+    quoteFreeHint: string;
+    portfolioTitle: string;
+  };
+  details: {
+    back: string;
+    servicesTitle: string;
+    servicesHint: string;
+    servicesOptionalHint: string;
+    servicesQuoteHint: string;
+    servicesSelected: string;
+    captureTitle: string;
+    titles: {
+      quote: string;
+      urgent: string;
+      info: string;
+      collaboration: string;
+    };
+    delayLabel: string;
+  };
+  form: {
+    fullName: string;
+    fullNamePlaceholder: string;
+    partnerCompanyName: string;
+    partnerCompanyPlaceholder: string;
+    phone: string;
+    phonePlaceholder: string;
+    urgency: string;
+    urgencyOptions: {
+      urgent: string;
+      asap: string;
+      planned: string;
+      info: string;
+    };
+    project: string;
+    projectPlaceholder: string;
+    dimensions: string;
+    dimensionsPlaceholder: string;
+    access: string;
+    accessPlaceholder: string;
+    descriptionHint: string;
+    needDescriptionOrVoice: string;
+    selectDelayPlaceholder: string;
+    question: string;
+    questionPlaceholder: string;
+    collaborationToggle: string;
+    proCompanyName: string;
+    proCompanyPlaceholder: string;
+    proProject: string;
+    proProjectPlaceholder: string;
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successBody: string;
+    errorTitle: string;
+    errorBody: string;
+    successSmsFollowUp: string;
+    selectDelay: string;
+  };
+  voice: {
+    title: string;
+    record: string;
+    recording: string;
+    stop: string;
+    added: string;
+    replay: string;
+    orRecord: string;
+    timerLabel: string;
+    maxDuration: string;
+  };
+  photos: {
+    title: string;
+    dropHint: string;
+    browse: string;
+    count: string;
+    tooMany: string;
+    tooLarge: string;
+    invalidType: string;
+  };
+  collaboration: {
+    title: string;
+    profilePeer: string;
+    profileBrand: string;
+    companyPeer: string;
+    companyBrand: string;
+    contactName: string;
+    jobTitle: string;
+    phone: string;
+    email: string;
+    activityType: string;
+    activityOptions: {
+      architect: string;
+      project_manager: string;
+      artisan: string;
+      builder: string;
+      real_estate: string;
+      other: string;
+    };
+    needType: string;
+    needOptions: {
+      subcontracting: string;
+      project_offer: string;
+      local_partnership: string;
+    };
+    partnershipType: string;
+    partnershipOptions: {
+      product_placement: string;
+      material_donation: string;
+      affiliate_program: string;
+      media_campaign: string;
+    };
+    description: string;
+    descriptionPeerPlaceholder: string;
+    descriptionBrandPlaceholder: string;
+    filesPeerLabel: string;
+    filesBrandLabel: string;
+    files: {
+      dropHint: string;
+      browse: string;
+      tooMany: string;
+      tooLarge: string;
+      invalidType: string;
+      invalidVideo: string;
+    };
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successBody: string;
+    errorBody: string;
+  };
+  services: {
+    priceHt: string;
+  };
+  poweredBy: string;
+};
+
 export type Dictionary = {
   meta: MetaDictionary;
   nav: NavDictionary;
@@ -320,4 +461,5 @@ export type Dictionary = {
   footer: FooterDictionary;
   cookieConsent: CookieConsentDictionary;
   legal: LegalBundleDictionary;
+  vitrine: VitrineDictionary;
 };

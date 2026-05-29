@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { getWhatsAppHref } from "@/config/contact";
 import { GlowButton } from "@/components/ui/GlowButton";
@@ -150,7 +151,7 @@ function TierFeatureList({
   );
 }
 
-function BillingSwitch({
+function ProBillingSwitch({
   copy,
   period,
   onChange,
@@ -162,68 +163,73 @@ function BillingSwitch({
   const isAnnual = period === "annual";
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div
-        className="inline-flex items-center gap-3 rounded-full border border-neutral-200 bg-white p-1.5 shadow-sm"
-        role="group"
-        aria-label={`${copy.monthly} / ${copy.annual}`}
+    <div
+      className="mt-4 inline-flex w-full max-w-full items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 p-1"
+      role="group"
+      aria-label={`${copy.monthly} / ${copy.annual}`}
+    >
+      <button
+        type="button"
+        onClick={() => onChange("monthly")}
+        className={`flex-1 rounded-full px-3 py-2 text-xs font-semibold transition sm:text-sm ${
+          !isAnnual
+            ? "bg-black text-white shadow-sm"
+            : "text-neutral-600 hover:text-black"
+        }`}
+        aria-pressed={!isAnnual}
       >
-        <button
-          type="button"
-          onClick={() => onChange("monthly")}
-          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-            !isAnnual
-              ? "bg-black text-white"
-              : "text-neutral-600 hover:text-black"
-          }`}
-          aria-pressed={!isAnnual}
-        >
-          {copy.monthly}
-        </button>
-        <button
-          type="button"
-          onClick={() => onChange("annual")}
-          className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
-            isAnnual
-              ? "bg-black text-white"
-              : "text-neutral-600 hover:text-black"
-          }`}
-          aria-pressed={isAnnual}
-        >
-          {copy.annual}
-          <span className="badge-discount rounded-full bg-[#EFA188] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black">
-            {copy.discountBadge}
-          </span>
-        </button>
-      </div>
+        {copy.monthly}
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange("annual")}
+        className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition sm:text-sm ${
+          isAnnual
+            ? "bg-black text-white shadow-sm"
+            : "text-neutral-600 hover:text-black"
+        }`}
+        aria-pressed={isAnnual}
+      >
+        <span>{copy.annual}</span>
+        <span className="rounded-full bg-[#EFA188] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-black">
+          {copy.discountBadge}
+        </span>
+      </button>
     </div>
   );
 }
 
 export function PricingGrid({ model, basePath }: PricingGridProps) {
   const { copy } = model;
-  const [period, setPeriod] = useState<BillingPeriod>("monthly");
+  const [proPeriod, setProPeriod] = useState<BillingPeriod>("monthly");
   const withBase = (hash: string) => `${basePath}${hash}`;
 
   const essential = model.tiers.find((t) => t.tierKey === "essential");
   const pro = model.tiers.find((t) => t.tierKey === "pro");
   if (!essential || !pro) return null;
 
-  const essentialPrice = copy.tierEssential.pricing[period];
-  const proPrice = copy.tierPro.pricing[period];
+  const essentialPrice = copy.tierEssential.pricing.monthly;
+  const proPrice = copy.tierPro.pricing[proPeriod];
+  const proFuturePrice = copy.tierPro.futurePrice;
 
   return (
     <>
-      <BillingSwitch
-        copy={copy.billing}
-        period={period}
-        onChange={setPeriod}
-      />
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.4 }}
+        className="mt-10 flex justify-center"
+      >
+        <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#EFA188]/50 bg-gradient-to-r from-[#EFA188]/20 via-[#EFA188]/10 to-[#D6BCFA]/20 px-5 py-2.5 text-center text-[11px] font-bold uppercase leading-snug tracking-[0.12em] text-neutral-900 shadow-[0_8px_24px_rgba(239,161,136,0.25)] sm:text-xs">
+          {copy.betaPioneerBadge}
+        </span>
+      </motion.div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-3 lg:items-stretch">
+      <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-10 lg:grid-cols-3 lg:items-stretch">
         <GlassCard
           rounded="2xl"
-          className="flex flex-col border border-neutral-200 bg-white p-6 md:p-8"
+          className="flex flex-col border border-neutral-200 bg-white p-6 shadow-[0_12px_32px_rgba(0,0,0,0.04)] md:p-8"
         >
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-600">
             {essential.name}
@@ -254,19 +260,45 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
           </div>
         </GlassCard>
 
-        <div className="flex flex-col rounded-[28px] border-2 border-black bg-white p-6 shadow-[0_22px_52px_rgba(0,0,0,0.14)] md:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5, delay: 0.08 }}
+          whileHover={{ y: -4, scale: 1.01 }}
+          className="relative flex flex-col overflow-hidden rounded-[28px] border-2 border-black bg-white p-6 shadow-[0_28px_64px_rgba(0,0,0,0.16)] ring-4 ring-[#EFA188]/25 md:p-8 lg:scale-[1.03] lg:shadow-[0_32px_72px_rgba(239,161,136,0.22)]"
+        >
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#EFA188] via-[#D6BCFA] to-[#B2F5EA]"
+            aria-hidden
+          />
+
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-600">
               {pro.name}
             </p>
             {pro.badge ? (
-              <span className="rounded-full bg-[#EFA188]/25 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-black">
+              <span className="rounded-full bg-black px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
                 {pro.badge}
               </span>
             ) : null}
           </div>
+
           <p className="mt-2 text-base font-medium text-neutral-700">{pro.pitch}</p>
-          <p className="mt-5 text-3xl font-bold tracking-tight text-black md:text-4xl">
+
+          {proFuturePrice ? (
+            <p className="mt-4 text-sm text-neutral-400 line-through decoration-neutral-300">
+              {proFuturePrice}
+            </p>
+          ) : null}
+
+          <ProBillingSwitch
+            copy={copy.billing}
+            period={proPeriod}
+            onChange={setProPeriod}
+          />
+
+          <p className="mt-4 text-3xl font-bold tracking-tight text-black md:text-4xl">
             {proPrice.amount}
           </p>
           {proPrice.footnote ? (
@@ -274,15 +306,17 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
               {proPrice.footnote}
             </p>
           ) : null}
+
           <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
             {copy.featuresColumnTitle}
           </p>
           <TierFeatureList tierKey="pro" rows={model.featureMatrix} />
+
           <div className="mt-8">
             <GlowButton
               href={withBase(pro.hrefSuffix)}
               variant="primary"
-              className="w-full justify-center border-2 border-black bg-black text-white shadow-none hover:scale-[1.02]"
+              className="w-full justify-center border-2 border-black bg-black text-white shadow-[0_12px_28px_rgba(0,0,0,0.2)] hover:scale-[1.02]"
             >
               {pro.cta}
             </GlowButton>
@@ -292,7 +326,7 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
               {copy.tierPro.reassurance}
             </p>
           ) : null}
-        </div>
+        </motion.div>
 
         <GlassCard
           rounded="2xl"

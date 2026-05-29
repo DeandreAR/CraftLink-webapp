@@ -56,3 +56,5 @@ Ton : Agis en tant que co-fondateur technique. Sois pragmatique, direct et criti
 Règle d'or : Ne jamais sacrifier la clarté pour le SEO. L'artisan doit comprendre l'outil en 15 secondes.
 
 i18n : Le projet est multilingue (fr/en). Toujours utiliser les dictionnaires JSON pour les textes.
+
+supprime toujours les composants non utilisés
