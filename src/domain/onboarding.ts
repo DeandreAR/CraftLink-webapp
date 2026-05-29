@@ -26,6 +26,7 @@ export type OnboardingSocialDraft = {
 
 export type OnboardingVisualDraft = {
   fontId: OnboardingFontId;
+  /** Couleur dominante (logo) — CTA principal et --primary-color. */
   accentColor: string;
   avatarPreviewUrl: string | null;
   bannerPreviewUrl: string | null;
@@ -34,6 +35,7 @@ export type OnboardingVisualDraft = {
 export type OnboardingProfileDraft = {
   plan: OnboardingPlan;
   businessName: string;
+  phone: string;
   metierKey: MetierKey | "";
   city: string;
   cityCode: string;
@@ -81,6 +83,7 @@ export const defaultOnboardingProfile = (
 ): OnboardingProfileDraft => ({
   plan,
   businessName: "",
+  phone: "",
   metierKey: "",
   city: "",
   cityCode: "",
@@ -93,6 +96,6 @@ export const defaultOnboardingProfile = (
   visual: defaultVisualDraft(),
 });
 
-export type GeneralStepField = "businessName" | "metierKey" | "city";
+export type GeneralStepField = "businessName" | "metierKey" | "city" | "phone";
 
 export type GeneralStepErrors = Partial<Record<GeneralStepField, string>>;

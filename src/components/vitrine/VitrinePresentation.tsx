@@ -7,6 +7,7 @@ import type {
   VitrineTheme,
 } from "@/domain/vitrine";
 import { resolvePrimaryQuoteLabel } from "@/lib/vitrine/ctaLabels";
+import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
@@ -51,6 +52,7 @@ export function VitrinePresentation({
     artisan.interventions.length > 0;
   const showServicesOnPresentation =
     visibility.showServicesOnPresentation && services.length > 0;
+  const useBrandCta = isProPublicPlan(planTier);
 
   return (
     <section className="px-4 pb-2 pt-5 text-center sm:px-5 sm:pt-6">
@@ -83,6 +85,7 @@ export function VitrinePresentation({
         label={primaryQuoteLabel}
         freeHint={copy.presentation.quoteFreeHint}
         onClick={() => onOpenDetails("quote")}
+        useBrandColor={useBrandCta}
       />
 
       <VitrineActionButtons

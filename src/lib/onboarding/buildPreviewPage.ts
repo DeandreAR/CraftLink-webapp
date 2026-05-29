@@ -60,6 +60,8 @@ export function buildOnboardingPreviewProps(
   const useAbout =
     profile.presentationMode === "about" && profile.aboutText.trim().length > 0;
 
+  const brandPrimary = profile.visual.accentColor;
+
   return {
     artisan: {
       ...base.artisan,
@@ -100,7 +102,11 @@ export function buildOnboardingPreviewProps(
     planTier: base.planTier,
     theme: {
       ...base.theme,
+      primary: brandPrimary,
+      primaryForeground: "#ffffff",
       accent: profile.visual.accentColor,
+      bannerFrom: `color-mix(in srgb, ${brandPrimary} 35%, white)`,
+      bannerTo: `color-mix(in srgb, ${brandPrimary} 8%, white)`,
     },
     profileSettings: {
       ...base.profileSettings,

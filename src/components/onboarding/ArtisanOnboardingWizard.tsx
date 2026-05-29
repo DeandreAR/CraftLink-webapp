@@ -14,19 +14,22 @@ import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import { OnboardingPlanBadge } from "@/components/onboarding/OnboardingPlanBadge";
 import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
+import { ProOnboardingWizard } from "@/components/onboarding/ProOnboardingWizard";
 import {
   getGeneralStepErrors,
   isGeneralStepValid,
   OnboardingGeneralStep,
 } from "@/components/onboarding/steps/OnboardingGeneralStep";
-import { OnboardingInterventionsStep, isInterventionsStepValid } from "@/components/onboarding/steps/OnboardingInterventionsStep";
-import { OnboardingProImportStep } from "@/components/onboarding/steps/OnboardingProImportStep";
+import {
+  isInterventionsStepValid,
+  OnboardingInterventionsStep,
+} from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
 import { OnboardingUpsellModal } from "@/components/onboarding/OnboardingUpsellModal";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { authPath } from "@/lib/auth/paths";
 
-type WizardPhase = "general" | "interventions" | "visual" | "pro-import" | "complete";
+type WizardPhase = "general" | "interventions" | "visual" | "complete";
 
 const STEPS: WizardPhase[] = ["general", "interventions", "visual"];
 
@@ -48,6 +51,7 @@ export function ArtisanOnboardingWizard({
   planIntent = "choice",
 }: ArtisanOnboardingWizardProps) {
   const isProIntent = planIntent === "pro";
+  const [proWizardActive, setProWizardActive] = useState(isProIntent);
   const [phase, setPhase] = useState<WizardPhase>("general");
   const [draftPlan, setDraftPlan] = useState<OnboardingPlan>(isProIntent ? "PRO" : "FREE");
   const [profile, setProfile] = useState<OnboardingProfileDraft>(() =>
@@ -58,6 +62,18 @@ export function ArtisanOnboardingWizard({
   const [creating, setCreating] = useState(false);
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
+
+  if (proWizardActive) {
+    return (
+      <ProOnboardingWizard
+        lang={lang}
+        copy={copy}
+        vitrineCopy={vitrineCopy}
+        initialProfile={isProIntent ? undefined : profile}
+        initialServices={isProIntent ? undefined : services}
+      />
+    );
+  }
 
   const patchProfile = (patch: Partial<OnboardingProfileDraft>) => {
     setProfile((prev) => ({ ...prev, ...patch }));
@@ -80,7 +96,7 @@ export function ArtisanOnboardingWizard({
     }
   };
 
-  const stepIndex = STEPS.indexOf(phase as (typeof STEPS)[number]);
+  const stepIndex = STEPS.indexOf(phase);
   const progressCurrent = stepIndex >= 0 ? stepIndex + 1 : STEPS.length;
 
   const canGoNext = useMemo(() => {
@@ -92,7 +108,6 @@ export function ArtisanOnboardingWizard({
   const goBack = () => {
     if (phase === "interventions") setPhase("general");
     else if (phase === "visual") setPhase("interventions");
-    else if (phase === "pro-import") setPhase("visual");
   };
 
   const goNext = () => {
@@ -128,7 +143,7 @@ export function ArtisanOnboardingWizard({
     setUpsellOpen(false);
     setCreating(false);
     if (plan === "PRO") {
-      setPhase("pro-import");
+      setProWizardActive(true);
     } else {
       setPhase("complete");
     }
@@ -162,13 +177,11 @@ export function ArtisanOnboardingWizard({
         }}
       />
 
-      {STEPS.includes(phase as (typeof STEPS)[number]) ? (
-        <OnboardingProgress
-          current={progressCurrent}
-          total={STEPS.length}
-          label={formatStepLabel(copy.stepLabel, progressCurrent, STEPS.length)}
-        />
-      ) : null}
+      <OnboardingProgress
+        current={progressCurrent}
+        total={STEPS.length}
+        label={formatStepLabel(copy.stepLabel, progressCurrent, STEPS.length)}
+      />
 
       {phase === "general" ? (
         <OnboardingGeneralStep
@@ -203,56 +216,35 @@ export function ArtisanOnboardingWizard({
           copy={copy}
           vitrineCopy={vitrineCopy}
           locale={lang}
-          plan={draftPlan}
           profile={profile}
           services={services}
           onChange={patchProfile}
-          onCreatePage={() => {
-            if (isProIntent) {
-              void finalizePlan("PRO");
-            } else {
-              setUpsellOpen(true);
-            }
-          }}
+          onCreatePage={() => setUpsellOpen(true)}
         />
       ) : null}
 
-      {phase === "pro-import" ? (
-        <OnboardingProImportStep
-          copy={copy}
-          profile={{ ...profile, plan: "PRO" }}
-          onImported={(patch) => {
-            patchProfile(patch);
-            setPhase("complete");
-          }}
-          onManual={() => setPhase("complete")}
-        />
-      ) : null}
-
-      {STEPS.includes(phase as (typeof STEPS)[number]) ? (
-        <div className="mt-6 flex gap-3">
-          {phase !== "general" ? (
-            <GlowButton
-              type="button"
-              variant="secondary"
-              onClick={goBack}
-              className="flex-1 justify-center"
-            >
-              {copy.back}
-            </GlowButton>
-          ) : null}
-          {phase !== "visual" ? (
-            <GlowButton
-              type="button"
-              onClick={goNext}
-              disabled={!canGoNext}
-              className="flex-1 justify-center disabled:opacity-50"
-            >
-              {copy.next}
-            </GlowButton>
-          ) : null}
-        </div>
-      ) : null}
+      <div className="mt-6 flex gap-3">
+        {phase !== "general" ? (
+          <GlowButton
+            type="button"
+            variant="secondary"
+            onClick={goBack}
+            className="flex-1 justify-center"
+          >
+            {copy.back}
+          </GlowButton>
+        ) : null}
+        {phase !== "visual" ? (
+          <GlowButton
+            type="button"
+            onClick={goNext}
+            disabled={!canGoNext}
+            className="flex-1 justify-center disabled:opacity-50"
+          >
+            {copy.next}
+          </GlowButton>
+        ) : null}
+      </div>
 
       {phase === "general" ? (
         <p className="mt-6 text-center text-xs text-neutral-400">

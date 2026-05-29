@@ -170,4 +170,35 @@ export const onboardingEn: OnboardingDictionary = {
     title: "Services",
     surDevis: "On quote",
   },
+  pro: {
+    choiceTitle: "How do you want to build your Pro page?",
+    choiceSubtitle:
+      "Automatic import from your online presence or step-by-step setup — you can adjust everything later.",
+    autoCardTitle: "Automatic creation",
+    autoCardHint:
+      "Pull your name, logo, reviews and services from Google, Instagram or Facebook.",
+    manualCardTitle: "Manual setup",
+    manualCardHint:
+      "Fill in your profile step by step: trade, services, visuals and pricing.",
+    manualCardCta: "Set up manually →",
+    gapTitle: "A few details are missing",
+    gapSubtitle: "Complete these fields to finish your page.",
+    gapLeadTemplate:
+      "We couldn't find your {field} on your profile. Please add it to complete your page.",
+    gapContinue: "Continue to preview",
+    fieldLabels: {
+      businessName: "business name",
+      phone: "phone number",
+      city: "city",
+      metierKey: "main trade",
+    },
+    phoneLabel: "Phone / WhatsApp",
+    phonePlaceholder: "E.g. +33 6 12 34 56 78",
+    phoneError: "Enter a valid phone number.",
+    validateBanner: "Your CraftLink page is ready! Does this look good to you?",
+    validateYes: "Yes, publish my page",
+    validateNo: "No, edit",
+    publishing: "Publishing…",
+    publishError: "Could not publish. Please try again.",
+  },
 };

@@ -605,6 +605,33 @@ export type OnboardingDictionary = {
     title: string;
     surDevis: string;
   };
+  pro: {
+    choiceTitle: string;
+    choiceSubtitle: string;
+    autoCardTitle: string;
+    autoCardHint: string;
+    manualCardTitle: string;
+    manualCardHint: string;
+    manualCardCta: string;
+    gapTitle: string;
+    gapSubtitle: string;
+    gapLeadTemplate: string;
+    gapContinue: string;
+    fieldLabels: {
+      businessName: string;
+      phone: string;
+      city: string;
+      metierKey: string;
+    };
+    phoneLabel: string;
+    phonePlaceholder: string;
+    phoneError: string;
+    validateBanner: string;
+    validateYes: string;
+    validateNo: string;
+    publishing: string;
+    publishError: string;
+  };
 };
 
 export type Dictionary = {

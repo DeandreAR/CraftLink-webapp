@@ -6,6 +6,8 @@ type VitrinePrimaryCtaButtonProps = {
   label: string;
   freeHint: string;
   onClick: () => void;
+  /** Utilise --primary-color (marque artisan) au lieu du dégradé orange par défaut. */
+  useBrandColor?: boolean;
 };
 
 const CTA_GRADIENT =
@@ -15,21 +17,29 @@ export function VitrinePrimaryCtaButton({
   label,
   freeHint,
   onClick,
+  useBrandColor = false,
 }: VitrinePrimaryCtaButtonProps) {
   return (
     <div className="mt-7">
       <button
         type="button"
         onClick={onClick}
-        className="relative flex min-h-[4.65rem] w-full items-center justify-center rounded-full px-12 text-[15px] font-extrabold tracking-tight shadow-[0_10px_28px_rgba(234,88,12,0.38)] transition active:scale-[0.98] sm:text-base"
-        style={{
-          background: CTA_GRADIENT,
-          color: "#ffffff",
-        }}
+        className="relative flex min-h-[4.65rem] w-full items-center justify-center rounded-full px-12 text-[15px] font-extrabold tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition active:scale-[0.98] sm:text-base"
+        style={
+          useBrandColor
+            ? {
+                background: "var(--primary-color)",
+                color: "var(--v-primary-fg, #ffffff)",
+              }
+            : {
+                background: CTA_GRADIENT,
+                color: "#ffffff",
+              }
+        }
       >
         <span
           className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full bg-white"
-          style={{ color: "#ea580c" }}
+          style={{ color: useBrandColor ? "var(--primary-color)" : "#ea580c" }}
         >
           <LuQuote className="h-[1.15rem] w-[1.15rem]" aria-hidden />
         </span>

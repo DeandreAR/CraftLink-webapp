@@ -20,6 +20,7 @@ type OnboardingGeneralStepProps = {
   locale: Locale;
   profile: OnboardingProfileDraft;
   errors: GeneralStepErrors;
+  includePhone?: boolean;
   onChange: (patch: Partial<OnboardingProfileDraft>) => void;
 };
 
@@ -28,6 +29,7 @@ export function OnboardingGeneralStep({
   locale,
   profile,
   errors,
+  includePhone = false,
   onChange,
 }: OnboardingGeneralStepProps) {
   const g = copy.general;
@@ -67,6 +69,28 @@ export function OnboardingGeneralStep({
           </p>
         ) : null}
       </div>
+
+      {includePhone ? (
+        <div>
+          <label htmlFor="business-phone" className={authLabelClassName}>
+            {copy.pro.phoneLabel}
+          </label>
+          <input
+            id="business-phone"
+            type="tel"
+            value={profile.phone}
+            onChange={(e) => onChange({ phone: e.target.value })}
+            placeholder={copy.pro.phonePlaceholder}
+            aria-invalid={Boolean(errors.phone)}
+            className={`${authFieldClassName} ${errors.phone ? "border-red-300 focus:border-red-500 focus:ring-red-100" : ""}`}
+          />
+          {errors.phone ? (
+            <p className={fieldErrorClass} role="alert">
+              {errors.phone}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       <fieldset>
         <legend className={authLabelClassName}>{g.metierLabel}</legend>
@@ -151,6 +175,7 @@ export function OnboardingGeneralStep({
 export function getGeneralStepErrors(
   profile: OnboardingProfileDraft,
   copy: OnboardingDictionary,
+  options?: { requirePhone?: boolean },
 ): GeneralStepErrors {
   const e = copy.errors.general;
   const errors: GeneralStepErrors = {};
@@ -163,13 +188,22 @@ export function getGeneralStepErrors(
   if (profile.city.trim().length <= 1) {
     errors.city = e.city;
   }
+  if (options?.requirePhone && profile.phone.trim().length <= 5) {
+    errors.phone = copy.pro.phoneError;
+  }
   return errors;
 }
 
-export function isGeneralStepValid(profile: OnboardingProfileDraft): boolean {
-  return (
+export function isGeneralStepValid(
+  profile: OnboardingProfileDraft,
+  options?: { requirePhone?: boolean },
+): boolean {
+  const base =
     profile.businessName.trim().length > 1 &&
     profile.metierKey !== "" &&
-    profile.city.trim().length > 1
-  );
+    profile.city.trim().length > 1;
+  if (options?.requirePhone) {
+    return base && profile.phone.trim().length > 5;
+  }
+  return base;
 }

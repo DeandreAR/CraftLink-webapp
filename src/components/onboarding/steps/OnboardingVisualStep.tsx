@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import type { OnboardingPlan, OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
+import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import { authLabelClassName } from "@/components/auth/authFormStyles";
@@ -12,6 +12,7 @@ import {
   buildOnboardingPreviewProps,
   previewFontFamily,
 } from "@/lib/onboarding/buildPreviewPage";
+import { applyBrandColorFromImageUrl } from "@/lib/onboarding/applyBrandFromImage";
 import {
   buildGoogleFontsHref,
   COLOR_PRESETS,
@@ -24,7 +25,6 @@ type OnboardingVisualStepProps = {
   copy: OnboardingDictionary;
   vitrineCopy: VitrineDictionary;
   locale: Locale;
-  plan: OnboardingPlan;
   profile: OnboardingProfileDraft;
   services: OnboardingService[];
   onChange: (patch: Partial<OnboardingProfileDraft>) => void;
@@ -57,6 +57,17 @@ export function OnboardingVisualStep({
     onChange({ visual: { ...profile.visual, ...patch } });
   };
 
+  const handleAvatarChange = async (url: string | null) => {
+    patchVisual({ avatarPreviewUrl: url });
+    if (url) {
+      const brand = await applyBrandColorFromImageUrl(url);
+      patchVisual({
+        avatarPreviewUrl: url,
+        accentColor: normalizeAccentColor(brand),
+      });
+    }
+  };
+
   const previewProps = useMemo(
     () =>
       buildOnboardingPreviewProps(profile, "PRO", services, locale, vitrineCopy, {
@@ -70,7 +81,10 @@ export function OnboardingVisualStep({
   );
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      style={{ ["--primary-color" as string]: profile.visual.accentColor }}
+    >
       <div>
         <h2 className="text-lg font-bold text-black">{v.title}</h2>
         <p className="mt-1 text-sm text-neutral-600">{v.subtitle}</p>
@@ -85,7 +99,7 @@ export function OnboardingVisualStep({
             errorTypeLabel={v.errorType}
             errorSizeLabel={v.errorSize}
             aspectClass="aspect-square max-h-36"
-            onChange={(url) => patchVisual({ avatarPreviewUrl: url })}
+            onChange={(url) => void handleAvatarChange(url)}
           />
 
           <ImageUploadZone
