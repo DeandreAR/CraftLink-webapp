@@ -50,6 +50,7 @@ const MOCK_SERVICES: VitrineService[] = [
 const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
   businessName: "John Carter Électricité",
   tradeLabel: "Électricien Spécialisé",
+  metierKey: "ELECTRICIEN",
   city: "Nantes",
   avatarInitials: "JC",
   googleBusinessUrl: GOOGLE_BUSINESS_URL,
@@ -105,22 +106,34 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
   ],
   portfolioItems: [
     {
-      id: "work-1",
+      id: "work-renovation-avant-apres",
       type: "image",
-      imageUrl: DEMO_ELECTRICIAN_IMAGE,
-      alt: "Intervention tableau électrique",
+      imageUrl: "/images/portfolio/renovation-avant-apres.png",
+      alt: "Rénovation complète : avant travaux et couloir fini avec plancher chauffant",
     },
     {
-      id: "work-2",
+      id: "work-isolation",
       type: "image",
-      imageUrl: DEMO_ELECTRICIAN_IMAGE,
-      alt: "Rénovation électrique",
+      imageUrl: "/images/portfolio/isolation-cloisons.png",
+      alt: "Cloisons métalliques, isolation Isover et gaines électriques sur chantier",
     },
     {
-      id: "work-3",
+      id: "work-tableau",
       type: "image",
-      imageUrl: DEMO_ELECTRICIAN_IMAGE,
-      alt: "Installation domotique",
+      imageUrl: "/images/portfolio/tableau-electrique.png",
+      alt: "Installation d'un tableau électrique et compteur",
+    },
+    {
+      id: "work-borne",
+      type: "image",
+      imageUrl: "/images/portfolio/borne-recharge.png",
+      alt: "Borne de recharge pour véhicule électrique à domicile",
+    },
+    {
+      id: "work-chantier",
+      type: "image",
+      imageUrl: "/images/portfolio/electricite-renovation.png",
+      alt: "Artisan électricien sur chantier de rénovation intérieure",
     },
   ],
 };

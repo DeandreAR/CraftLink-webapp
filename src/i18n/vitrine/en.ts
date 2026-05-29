@@ -37,6 +37,10 @@ export const vitrineEn: VitrineDictionary = {
     },
     project: "Describe your need",
     projectPlaceholder: "Issue type, area, access, constraints…",
+    dimensions: "Area / dimensions",
+    dimensionsPlaceholder: "E.g. 25 m², 3 windows 120×140 cm…",
+    access: "Access & constraints",
+    accessPlaceholder: "E.g. 3rd floor, no lift, inner courtyard…",
     descriptionHint: "Text, voice, or both — at least one required",
     needDescriptionOrVoice:
       "Describe your need in writing or record a voice message.",
@@ -51,11 +55,11 @@ export const vitrineEn: VitrineDictionary = {
     submit: "Send my request",
     submitting: "Sending…",
     successTitle: "Request sent",
-    successBody:
-      "Your tradesperson received a structured request and will get back to you soon.",
+    successBody: "Your request has been sent to the tradesperson.",
+    successSmsFollowUp:
+      "In a few minutes, you'll receive an automatic SMS from them confirming your request has been received and that they'll get back to you.",
     errorTitle: "Could not send",
     errorBody: "Check required fields and try again.",
-    smsAck: "✓ You'll instantly receive a confirmation SMS once submitted.",
     selectDelay: "Please choose a timeline to continue.",
   },
   voice: {

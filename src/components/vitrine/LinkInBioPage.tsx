@@ -11,6 +11,7 @@ import type {
   VitrineTheme,
 } from "@/domain/vitrine";
 import { vitrineThemeStyle } from "@/lib/vitrine/theme";
+import type { Locale } from "@/i18n/config";
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineDetailsSection } from "@/components/vitrine/VitrineDetailsSection";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
@@ -24,6 +25,7 @@ export type LinkInBioPageProps = {
   theme: VitrineTheme;
   profileSettings: VitrineProfileSettings;
   copy: VitrineDictionary;
+  locale: Locale;
   interactionState?: VitrineInteractionState;
   onInteractionStateChange?: (state: VitrineInteractionState) => void;
 };
@@ -35,6 +37,7 @@ export function LinkInBioPage({
   theme,
   profileSettings,
   copy,
+  locale,
   interactionState: controlledState,
   onInteractionStateChange,
 }: LinkInBioPageProps) {
@@ -92,6 +95,8 @@ export function LinkInBioPage({
               planTier={planTier}
               services={services}
               copy={copy}
+              locale={locale}
+              metierKey={artisan.metierKey}
               initialIntent={openIntent}
               onBack={() => setInteractionState("INITIAL")}
             />

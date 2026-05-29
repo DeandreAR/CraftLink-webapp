@@ -90,6 +90,10 @@ export type VitrineSocialLink = {
   href: string;
 };
 
+import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+
+export type { MetierKey };
+
 /** Média portfolio sous les CTA (images ou embed Instagram). */
 export type VitrinePortfolioItem = {
   id: string;
@@ -105,6 +109,8 @@ export type ArtisanVitrineProfile = {
   slug: string;
   businessName: string;
   tradeLabel: string;
+  /** Pilote le formulaire de capture (titres, placeholders, champs optionnels). */
+  metierKey?: MetierKey;
   city: string;
   avatarInitials: string;
   media: VitrineMedia;
@@ -134,6 +140,8 @@ export type LeadCapturePayload = {
   urgency: LeadUrgency;
   serviceIds: string[];
   projectDescription?: string;
+  dimensions?: string;
+  accessNotes?: string;
   voiceNoteAttached?: boolean;
   isCollaborationRequest?: boolean;
   proCompanyName?: string;

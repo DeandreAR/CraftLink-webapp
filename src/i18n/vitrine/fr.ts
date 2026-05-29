@@ -37,6 +37,10 @@ export const vitrineFr: VitrineDictionary = {
     },
     project: "Décrivez votre besoin",
     projectPlaceholder: "Type de panne, surface, accès, contraintes…",
+    dimensions: "Surface / dimensions",
+    dimensionsPlaceholder: "Ex : 25 m², 3 fenêtres 120×140 cm…",
+    access: "Accès & contraintes",
+    accessPlaceholder: "Ex : 3e étage sans ascenseur, cour intérieure…",
     descriptionHint: "Texte, vocal, ou les deux — au moins l'un des deux",
     needDescriptionOrVoice:
       "Décrivez votre besoin par écrit ou enregistrez un message vocal.",
@@ -51,11 +55,11 @@ export const vitrineFr: VitrineDictionary = {
     submit: "Envoyer ma demande",
     submitting: "Envoi en cours…",
     successTitle: "Demande envoyée",
-    successBody:
-      "L'artisan a reçu votre demande structurée et vous recontacte rapidement.",
+    successBody: "Votre demande a bien été transmise à l'artisan.",
+    successSmsFollowUp:
+      "Dans quelques minutes, vous recevrez un SMS automatique de sa part pour confirmer que votre demande a été prise en compte et qu'il reviendra vers vous.",
     errorTitle: "Envoi impossible",
     errorBody: "Vérifiez les champs obligatoires et réessayez.",
-    smsAck: "✓ Vous recevrez instantanément un SMS de confirmation dès validation.",
     selectDelay: "Choisissez un délai pour continuer.",
   },
   voice: {

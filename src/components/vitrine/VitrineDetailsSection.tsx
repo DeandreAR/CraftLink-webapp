@@ -5,10 +5,13 @@ import { useEffect, useState } from "react";
 import type {
   LeadFormStatus,
   LeadUrgency,
+  MetierKey,
   PublicPlanTier,
   VitrineOpenIntent,
   VitrineService,
 } from "@/domain/vitrine";
+import type { Locale } from "@/i18n/config";
+import type { VitrineDictionary } from "@/i18n/types";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import {
   areServicesRequired,
@@ -17,7 +20,7 @@ import {
   shouldShowDelaySelection,
   shouldShowServices,
 } from "@/lib/vitrine/captureForm";
-import type { VitrineDictionary } from "@/i18n/types";
+import { getMetierFormConfig } from "@/lib/vitrine/metierConfigs";
 import { VitrineBackButton } from "@/components/vitrine/VitrineBackButton";
 import { VitrineCollaborationForm } from "@/components/vitrine/VitrineCollaborationForm";
 import { VitrineDelaySelect } from "@/components/vitrine/VitrineDelaySelect";
@@ -232,7 +235,7 @@ function CaptureFormBody({
           <h3 className="mt-2 text-xl font-bold text-emerald-950">{form.successTitle}</h3>
           <p className="mt-2 text-sm text-emerald-900">{form.successBody}</p>
           {isPro ? (
-            <p className="mt-3 text-xs text-emerald-800">{form.smsAck}</p>
+            <p className="mt-3 text-xs text-emerald-800">{form.successSmsFollowUp}</p>
           ) : null}
           <button
             type="button"
@@ -333,9 +336,6 @@ function CaptureFormBody({
           {status === "submitting" ? form.submitting : form.submit}
         </button>
 
-        {isPro ? (
-          <p className="mt-3 text-center text-xs text-[var(--v-muted)]">{form.smsAck}</p>
-        ) : null}
       </form>
 
       {!servicesOnTop && servicesBlock ? (

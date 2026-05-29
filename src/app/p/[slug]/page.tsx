@@ -37,6 +37,7 @@ export default async function PublicVitrinePage({ params }: Props) {
       theme={data.theme}
       profileSettings={data.profileSettings}
       copy={dict.vitrine}
+      locale={defaultLocale}
     />
   );
 }

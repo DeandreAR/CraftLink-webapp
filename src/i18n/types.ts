@@ -348,6 +348,10 @@ export type VitrineDictionary = {
     };
     project: string;
     projectPlaceholder: string;
+    dimensions: string;
+    dimensionsPlaceholder: string;
+    access: string;
+    accessPlaceholder: string;
     descriptionHint: string;
     needDescriptionOrVoice: string;
     selectDelayPlaceholder: string;
@@ -364,7 +368,7 @@ export type VitrineDictionary = {
     successBody: string;
     errorTitle: string;
     errorBody: string;
-    smsAck: string;
+    successSmsFollowUp: string;
     selectDelay: string;
   };
   voice: {

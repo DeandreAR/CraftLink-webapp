@@ -1,8 +1,15 @@
 import type { LeadUrgency, VitrineOpenIntent } from "@/domain/vitrine";
 import type { VitrineDictionary } from "@/i18n/types";
+import type { MetierFormFields } from "@/lib/vitrine/metierConfigs";
 
-export function shouldShowDelaySelection(intent: VitrineOpenIntent): boolean {
-  return intent === "quote";
+export function shouldShowDelaySelection(
+  intent: VitrineOpenIntent,
+  metierFields?: MetierFormFields,
+): boolean {
+  if (intent !== "quote") {
+    return false;
+  }
+  return metierFields?.showUrgency ?? true;
 }
 
 export function shouldShowServices(intent: VitrineOpenIntent): boolean {
@@ -22,6 +29,7 @@ export function getDefaultDelay(intent: VitrineOpenIntent): LeadUrgency {
 export function getCaptureFormTitle(
   intent: VitrineOpenIntent,
   copy: VitrineDictionary,
+  metierTitle?: string,
 ): string {
   switch (intent) {
     case "urgent":
@@ -32,7 +40,7 @@ export function getCaptureFormTitle(
       return copy.details.titles.collaboration;
     case "quote":
     default:
-      return copy.details.titles.quote;
+      return metierTitle ?? copy.details.titles.quote;
   }
 }
 
