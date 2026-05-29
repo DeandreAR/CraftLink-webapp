@@ -139,6 +139,7 @@ export const vitrineFr: VitrineDictionary = {
   },
   services: {
     priceHt: "HT",
+    surDevis: "Sur devis",
   },
   poweredBy: "Propulsé par CraftLink",
 };

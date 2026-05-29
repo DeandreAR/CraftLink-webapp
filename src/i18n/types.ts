@@ -130,6 +130,7 @@ export type AuthSignUpDictionary = {
   submit: string;
   submitting: string;
   goToSignIn: string;
+  setupVitrineLink: string;
 };
 
 export type AuthShellDictionary = {
@@ -444,8 +445,166 @@ export type VitrineDictionary = {
   };
   services: {
     priceHt: string;
+    surDevis: string;
   };
   poweredBy: string;
+};
+
+export type OnboardingDictionary = {
+  title: string;
+  subtitle: string;
+  back: string;
+  next: string;
+  stepLabel: string;
+  plan: {
+    title: string;
+    free: string;
+    freeHint: string;
+    pro: string;
+    proHint: string;
+  };
+  badge: {
+    label: string;
+    essential: string;
+    pro: string;
+  };
+  errors: {
+    general: {
+      businessName: string;
+      metierKey: string;
+      city: string;
+    };
+    interventions: {
+      metierKey: string;
+      presentationRequired: string;
+    };
+  };
+  general: {
+    title: string;
+    subtitle: string;
+    companyLabel: string;
+    companyPlaceholder: string;
+    metierLabel: string;
+    cityLabel: string;
+    cityPlaceholder: string;
+    cityNoResults: string;
+    radiusLabel: string;
+  };
+  interventions: {
+    title: string;
+    subtitle: string;
+    optionalBadge: string;
+    requiredBadge: string;
+    tagsLabel: string;
+    tagsHint: string;
+    customTagPlaceholder: string;
+    addCustomTag: string;
+    selectedListLabel: string;
+    removeTag: string;
+    orDivider: string;
+    switchToTags: string;
+    switchToAbout: string;
+    aboutLabel: string;
+    aboutHint: string;
+    aboutPlaceholder: string;
+    selectionCounter: string;
+    tagsMaxReached: string;
+    selectMetierFirst: string;
+    socialTitle: string;
+    socialHint: string;
+    socialPlaceholder: string;
+    googleBusinessLabel: string;
+    googleBusinessHint: string;
+    googleBusinessPlaceholder: string;
+  };
+  visual: {
+    title: string;
+    subtitle: string;
+    avatarLabel: string;
+    bannerLabel: string;
+    uploadHint: string;
+    errorType: string;
+    errorSize: string;
+    fontLabel: string;
+    colorLabel: string;
+    colorHint: string;
+    colorPickerLabel: string;
+    previewTitle: string;
+    previewHint: string;
+    portfolioLaterHint: string;
+    createPage: string;
+  };
+  upsell: {
+    title: string;
+    subtitle: string;
+    essentialName: string;
+    essentialPrice: string;
+    essentialFeatures: string[];
+    proName: string;
+    proPrice: string;
+    proFeatures: string[];
+    chooseEssential: string;
+    choosePro: string;
+    cancel: string;
+    creating: string;
+  };
+  import: {
+    title: string;
+    lead: string;
+    platformGoogle: string;
+    platformInstagram: string;
+    platformFacebook: string;
+    identifierLabel: string;
+    placeholderGoogle: string;
+    placeholderInstagram: string;
+    placeholderFacebook: string;
+    generate: string;
+    generating: string;
+    manualLink: string;
+    loadingHint: string;
+    importError: string;
+  };
+  free: {
+    companyLabel: string;
+    companyPlaceholder: string;
+    metierLabel: string;
+    cityLabel: string;
+    cityPlaceholder: string;
+    radiusLabel: string;
+    previewTitle: string;
+    previewHint: string;
+    defaultBusinessName: string;
+    quoteCta: string;
+  };
+  services: {
+    title: string;
+    optionalBadge: string;
+    subtitle: string;
+    skip: string;
+    add: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    priceLabel: string;
+    pricePrefix: string;
+    priceSuffixEur: string;
+    priceSuffixUsd: string;
+    surDevisOption: string;
+    amountOption: string;
+    currencyEur: string;
+    currencyUsd: string;
+    maxReached: string;
+    listTitle: string;
+    finish: string;
+  };
+  complete: {
+    title: string;
+    body: string;
+    cta: string;
+  };
+  publicServices: {
+    title: string;
+    surDevis: string;
+  };
 };
 
 export type Dictionary = {
@@ -462,4 +621,5 @@ export type Dictionary = {
   cookieConsent: CookieConsentDictionary;
   legal: LegalBundleDictionary;
   vitrine: VitrineDictionary;
+  onboarding: OnboardingDictionary;
 };

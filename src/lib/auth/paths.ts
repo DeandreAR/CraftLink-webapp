@@ -1,6 +1,6 @@
 import { defaultLocale, type Locale } from "@/i18n/config";
 
-export type AuthSegment = "login" | "signup" | "dashboard";
+export type AuthSegment = "login" | "signup" | "dashboard" | "onboarding";
 
 export function authPath(
   lang: Locale | undefined,
@@ -11,6 +11,17 @@ export function authPath(
     return `/${segment}`;
   }
   return `/${locale}/${segment}`;
+}
+
+export function onboardingPath(
+  lang: Locale | undefined,
+  options?: { plan?: "pro" },
+): string {
+  const base = authPath(lang, "onboarding");
+  if (options?.plan === "pro") {
+    return `${base}?plan=pro`;
+  }
+  return base;
 }
 
 /** Anciennes routes FR → routes anglaises (SEO / favoris). */

@@ -145,6 +145,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showInterventionTags: true,
     showCollaborationButton: false,
     showPortfolioGallery: true,
+    showServicesOnPresentation: true,
     contentBlockMode: "interventions",
   },
   cta: {
@@ -161,6 +162,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showInterventionTags: true,
     showCollaborationButton: true,
     showPortfolioGallery: true,
+    showServicesOnPresentation: false,
     contentBlockMode: "about",
   },
   cta: {

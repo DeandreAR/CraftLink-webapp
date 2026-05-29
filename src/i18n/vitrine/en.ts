@@ -137,6 +137,7 @@ export const vitrineEn: VitrineDictionary = {
   },
   services: {
     priceHt: "excl. VAT",
+    surDevis: "On quote",
   },
   poweredBy: "Powered by CraftLink",
 };

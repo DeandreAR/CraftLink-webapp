@@ -22,7 +22,7 @@ import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
 import { PourquoiPillarCard } from "@/components/landing/PourquoiPillarCard";
-import { authPath } from "@/lib/auth/paths";
+import { authPath, onboardingPath } from "@/lib/auth/paths";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
@@ -193,7 +193,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                     </p>
 
                     <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                      <GlowButton href={authPath(lang, "signup")}>
+                      <GlowButton href={onboardingPath(lang)}>
                         {dict.hero.ctaPrimary}
                       </GlowButton>
                       <GlowButton
@@ -537,7 +537,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                   </p>
                 </div>
                 <GlowButton
-                  href={authPath(lang, "signup")}
+                  href={onboardingPath(lang)}
                   className="min-w-[220px] shrink-0"
                 >
                   Créer ma page maintenant

@@ -38,7 +38,8 @@
       "confirmPassword": "Confirm password",
       "submit": "Create my account",
       "submitting": "Creating…",
-      "goToSignIn": "Already registered? Log in"
+      "goToSignIn": "Already registered? Log in",
+      "setupVitrineLink": "Set up my storefront without an account →"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -235,7 +236,7 @@
       "name": "ESSENTIAL",
       "pitch": "Publish fast and test your first leads.",
       "cta": "Create my page",
-      "href": "#cta",
+      "href": "/onboarding",
       "pricing": {
         "monthly": { "amount": "€0 excl. VAT / month" },
         "annual": { "amount": "€0 excl. VAT / month" }
@@ -245,7 +246,7 @@
       "name": "PRO TRADESPERSON",
       "pitch": "Early Bird offer — AI qualification, unlimited leads and a stronger pro image.",
       "cta": "Join Pro Beta",
-      "href": "#cta",
+      "href": "/onboarding?plan=pro",
       "badge": "EARLY BIRD",
       "futurePrice": "€29 excl. VAT/month",
       "reassurance": "Full autonomy OR a free 15‑min guided onboarding — your choice.",

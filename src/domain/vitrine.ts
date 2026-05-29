@@ -34,6 +34,8 @@ export type VitrineVisibilitySettings = {
   showInterventionTags: boolean;
   showCollaborationButton: boolean;
   showPortfolioGallery: boolean;
+  /** Affiche la liste des prestations sur la page de présentation (pas le formulaire). */
+  showServicesOnPresentation: boolean;
   contentBlockMode: VitrineContentBlockMode;
 };
 
@@ -79,6 +81,8 @@ export type SocialLinkType =
   | "facebook"
   | "linkedin"
   | "tiktok"
+  | "threads"
+  | "snapchat"
   | "google"
   | "website"
   | "whatsapp";

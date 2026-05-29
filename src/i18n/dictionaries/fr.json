@@ -38,7 +38,8 @@
       "confirmPassword": "Confirmer le mot de passe",
       "submit": "Créer mon compte",
       "submitting": "Création…",
-      "goToSignIn": "Déjà inscrit ? Se connecter"
+      "goToSignIn": "Déjà inscrit ? Se connecter",
+      "setupVitrineLink": "Configurer ma vitrine sans compte →"
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -235,7 +236,7 @@
       "name": "ESSENTIEL",
       "pitch": "Pour publier vite et tester vos premiers leads.",
       "cta": "Créer ma page",
-      "href": "#cta",
+      "href": "/onboarding",
       "pricing": {
         "monthly": { "amount": "0€ HT / mois" },
         "annual": { "amount": "0€ HT / mois" }
@@ -245,7 +246,7 @@
       "name": "PRO ARTISAN",
       "pitch": "Offre Early Bird — qualification IA, leads illimités et image pro renforcée.",
       "cta": "Rejoindre la Bêta Pro",
-      "href": "#cta",
+      "href": "/onboarding?plan=pro",
       "badge": "EARLY BIRD",
       "futurePrice": "29€ HT/mois",
       "reassurance": "Autonomie totale OU onboarding guidé en 15 min, c'est vous qui choisissez.",

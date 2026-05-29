@@ -11,7 +11,6 @@ import type {
   VitrineTheme,
 } from "@/domain/vitrine";
 import { vitrineThemeStyle } from "@/lib/vitrine/theme";
-import type { Locale } from "@/i18n/config";
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineDetailsSection } from "@/components/vitrine/VitrineDetailsSection";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
@@ -25,9 +24,10 @@ export type LinkInBioPageProps = {
   theme: VitrineTheme;
   profileSettings: VitrineProfileSettings;
   copy: VitrineDictionary;
-  locale: Locale;
   interactionState?: VitrineInteractionState;
   onInteractionStateChange?: (state: VitrineInteractionState) => void;
+  /** Aperçu onboarding : sans fond gris, interactions désactivées. */
+  embedded?: boolean;
 };
 
 export function LinkInBioPage({
@@ -37,9 +37,9 @@ export function LinkInBioPage({
   theme,
   profileSettings,
   copy,
-  locale,
   interactionState: controlledState,
   onInteractionStateChange,
+  embedded = false,
 }: LinkInBioPageProps) {
   const [internalState, setInternalState] =
     useState<VitrineInteractionState>("INITIAL");
@@ -67,9 +67,19 @@ export function LinkInBioPage({
   };
 
   return (
-    <div className="min-h-screen bg-[#e8e8e8] font-sans sm:bg-neutral-200">
+    <div
+      className={
+        embedded
+          ? "bg-white font-sans"
+          : "min-h-screen bg-[#e8e8e8] font-sans sm:bg-neutral-200"
+      }
+    >
       <div
-        className="mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
+        className={
+          embedded
+            ? "mx-auto flex w-full max-w-md flex-col overflow-hidden bg-white"
+            : "mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
+        }
         style={{
           ...vitrineThemeStyle(theme),
           backgroundColor: "#ffffff",
@@ -82,9 +92,12 @@ export function LinkInBioPage({
           <>
             <VitrinePresentation
               artisan={artisan}
+              services={services}
               planTier={planTier}
+              theme={theme}
               profileSettings={profileSettings}
               copy={copy}
+              servicesSurDevisLabel={copy.services.surDevis}
               onOpenDetails={openDetails}
             />
             <VitrineFooter label={copy.poweredBy} />
@@ -95,8 +108,6 @@ export function LinkInBioPage({
               planTier={planTier}
               services={services}
               copy={copy}
-              locale={locale}
-              metierKey={artisan.metierKey}
               initialIntent={openIntent}
               onBack={() => setInteractionState("INITIAL")}
             />

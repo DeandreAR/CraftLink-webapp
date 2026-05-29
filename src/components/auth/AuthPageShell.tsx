@@ -14,6 +14,8 @@ type AuthPageShellProps = {
   alternateHref: string;
   alternateLabel: string;
   backToHomeLabel?: string;
+  contentClassName?: string;
+  hideBrandPill?: boolean;
 };
 
 export function AuthPageShell({
@@ -24,6 +26,8 @@ export function AuthPageShell({
   alternateHref,
   alternateLabel,
   backToHomeLabel = "Accueil",
+  contentClassName = "max-w-lg",
+  hideBrandPill = false,
 }: AuthPageShellProps) {
   const home = lang === defaultLocale ? "/" : `/${lang}`;
 
@@ -62,16 +66,17 @@ export function AuthPageShell({
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-lg px-4 py-10 md:px-6 md:py-14">
+      <main className={`relative z-10 mx-auto px-4 py-10 md:px-6 md:py-14 ${contentClassName}`}>
         <GlassCard
           rounded="2xl"
           className="border border-neutral-200/90 bg-white/95 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.06)] backdrop-blur-sm md:p-8"
         >
-          <p className="inline-flex items-center gap-2 rounded-full border border-[#EFA188]/30 bg-[#EFA188]/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-neutral-900">
-            <span className="h-2 w-2 rounded-full bg-[#EFA188]" aria-hidden />
-            CraftLink
-          </p>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight text-black md:text-4xl">
+          {!hideBrandPill ? (
+            <p className="inline-flex items-center gap-2 rounded-full border border-[#EFA188]/30 bg-[#EFA188]/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-neutral-900">
+              <span className="h-2 w-2 rounded-full bg-[#EFA188]" aria-hidden />
+            </p>
+          ) : null}
+          <h1 className={`${hideBrandPill ? "" : "mt-4"} text-3xl font-bold tracking-tight text-black md:text-4xl`}>
             {title}
           </h1>
           <p className="mt-3 text-base leading-relaxed text-neutral-600">{subtitle}</p>

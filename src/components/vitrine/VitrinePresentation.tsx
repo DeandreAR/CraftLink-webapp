@@ -3,6 +3,8 @@ import type {
   PublicPlanTier,
   VitrineOpenIntent,
   VitrineProfileSettings,
+  VitrineService,
+  VitrineTheme,
 } from "@/domain/vitrine";
 import { resolvePrimaryQuoteLabel } from "@/lib/vitrine/ctaLabels";
 import type { VitrineDictionary } from "@/i18n/types";
@@ -10,22 +12,29 @@ import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
 import { VitrineInterventionTags } from "@/components/vitrine/VitrineInterventionTags";
 import { VitrinePortfolioGallery } from "@/components/vitrine/VitrinePortfolioGallery";
+import { VitrineServicesPublicList } from "@/components/vitrine/VitrineServicesPublicList";
 import { VitrinePrimaryCtaButton } from "@/components/vitrine/VitrinePrimaryCtaButton";
 import { VitrineStatBadges } from "@/components/vitrine/VitrineStatBadges";
 
 type VitrinePresentationProps = {
   artisan: ArtisanVitrineProfile;
+  services?: VitrineService[];
   planTier: PublicPlanTier;
+  theme: VitrineTheme;
   profileSettings: VitrineProfileSettings;
   copy: VitrineDictionary;
+  servicesSurDevisLabel?: string;
   onOpenDetails: (intent: VitrineOpenIntent) => void;
 };
 
 export function VitrinePresentation({
   artisan,
+  services = [],
   planTier,
+  theme,
   profileSettings,
   copy,
+  servicesSurDevisLabel = "Sur devis",
   onOpenDetails,
 }: VitrinePresentationProps) {
   const { visibility } = profileSettings;
@@ -40,6 +49,8 @@ export function VitrinePresentation({
     visibility.contentBlockMode === "interventions" &&
     visibility.showInterventionTags &&
     artisan.interventions.length > 0;
+  const showServicesOnPresentation =
+    visibility.showServicesOnPresentation && services.length > 0;
 
   return (
     <section className="px-4 pb-2 pt-5 text-center sm:px-5 sm:pt-6">
@@ -77,8 +88,17 @@ export function VitrinePresentation({
       <VitrineActionButtons
         planTier={planTier}
         profileSettings={profileSettings}
+        theme={theme}
         onAction={onOpenDetails}
       />
+
+      {showServicesOnPresentation ? (
+        <VitrineServicesPublicList
+          services={services}
+          title={copy.details.servicesTitle}
+          surDevisLabel={servicesSurDevisLabel}
+        />
+      ) : null}
 
       {showPortfolio ? (
         <VitrinePortfolioGallery
