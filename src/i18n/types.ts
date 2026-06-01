@@ -564,6 +564,8 @@ export type OnboardingDictionary = {
     manualLink: string;
     loadingHint: string;
     importError: string;
+    serverConfigError: string;
+    quotaFallbackMessage: string;
   };
   free: {
     companyLabel: string;

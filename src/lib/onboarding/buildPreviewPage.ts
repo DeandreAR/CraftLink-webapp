@@ -14,8 +14,10 @@ import { getMetierLabel } from "@/lib/onboarding/metierOptions";
 import { getFontById } from "@/lib/onboarding/onboardingFonts";
 import { onboardingSocialToVitrineLinks } from "@/lib/onboarding/socialLinks";
 import { onboardingServicesToVitrine } from "@/lib/onboarding/toVitrineServices";
+import { resolveTradeLabelFallback } from "@/lib/onboarding/proImport/toProfileDraft";
 import type { VitrineDictionary } from "@/i18n/types";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+import type { VitrinePortfolioItem, VitrineStatBadge } from "@/domain/vitrine";
 
 type PriceLabels = {
   pricePrefix: string;
@@ -24,6 +26,66 @@ type PriceLabels = {
   surDevis: string;
   aboutTitle: string;
 };
+
+function buildStatBadges(profile: OnboardingProfileDraft): VitrineStatBadge[] | null {
+  const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
+  const googleRating = profile.importGoogleRating;
+  const googleReviews = profile.importGoogleReviewCount;
+
+  if (
+    hasGoogleBusiness &&
+    googleRating != null &&
+    googleReviews != null &&
+    profile.importPlatform === "google"
+  ) {
+    return [
+      {
+        id: "reviews",
+        label: `${googleReviews}+ Avis Google`,
+        kind: "google_reviews",
+      },
+      {
+        id: "rating",
+        label: String(googleRating),
+        kind: "google_rating",
+        rating: String(googleRating),
+        starCount: 5,
+      },
+    ];
+  }
+
+  if (
+    profile.importPlatform === "instagram" &&
+    profile.importExperienceYears != null &&
+    profile.importExperienceYears > 0
+  ) {
+    return [
+      {
+        id: "exp",
+        label: `${profile.importExperienceYears}+ ans d'expérience`,
+        kind: "default",
+      },
+    ];
+  }
+
+  if (profile.importPlatform === "instagram") {
+    return [];
+  }
+
+  return null;
+}
+
+function toVitrinePortfolio(
+  items: OnboardingProfileDraft["portfolioItems"],
+): VitrinePortfolioItem[] {
+  if (!items?.length) return [];
+  return items.map((item) => ({
+    id: item.id,
+    type: item.type,
+    embedUrl: item.embedUrl,
+    alt: item.alt,
+  }));
+}
 
 export function buildOnboardingPreviewProps(
   profile: OnboardingProfileDraft,
@@ -35,8 +97,14 @@ export function buildOnboardingPreviewProps(
 ): LinkInBioPageProps {
   const base = plan === "PRO" ? MOCK_VITRINE_PRO : MOCK_VITRINE_ESSENTIAL;
   const metierKey = profile.metierKey as MetierKey | "";
-  const tradeLabel =
-    metierKey && metierKey.length > 0 ? getMetierLabel(metierKey, locale) : base.artisan.tradeLabel;
+  const isInstagramImport = profile.importPlatform === "instagram";
+
+  const tradeLabelFromMetier =
+    metierKey && metierKey.length > 0 ? getMetierLabel(metierKey, locale) : "";
+  const tradeLabel = resolveTradeLabelFallback(
+    profile,
+    tradeLabelFromMetier || base.artisan.tradeLabel,
+  );
 
   const vitrineServices =
     services.length > 0
@@ -46,9 +114,17 @@ export function buildOnboardingPreviewProps(
           priceSuffixUsd: priceLabels.priceSuffixUsd,
           surDevis: priceLabels.surDevis,
         })
-      : base.services;
+      : isInstagramImport
+        ? []
+        : base.services;
 
-  const bannerUrl = profile.visual.bannerPreviewUrl ?? base.artisan.media.bannerUrl;
+  const useBrandBanner =
+    isInstagramImport || profile.visual.useBrandGradientBanner === true;
+
+  const bannerUrl = useBrandBanner
+    ? null
+    : (profile.visual.bannerPreviewUrl ?? base.artisan.media.bannerUrl);
+
   const avatarUrl = profile.visual.avatarPreviewUrl ?? base.artisan.media.avatarUrl;
 
   const socialLinks = onboardingSocialToVitrineLinks(profile.social);
@@ -61,27 +137,12 @@ export function buildOnboardingPreviewProps(
     profile.presentationMode === "about" && profile.aboutText.trim().length > 0;
 
   const brandPrimary = profile.visual.accentColor;
-  const googleRating = profile.importGoogleRating;
-  const googleReviews = profile.importGoogleReviewCount;
+  const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
+  const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
 
-  const statBadgesFromImport =
-    hasGoogleBusiness && googleRating != null && googleReviews != null
-      ? [
-          { id: "exp", label: "10+ Années Exp.", kind: "default" as const },
-          {
-            id: "reviews",
-            label: `${googleReviews}+ Avis Google`,
-            kind: "google_reviews" as const,
-          },
-          {
-            id: "rating",
-            label: String(googleRating),
-            kind: "google_rating" as const,
-            rating: String(googleRating),
-            starCount: 5,
-          },
-        ]
-      : null;
+  const statBadgesFromImport = buildStatBadges(profile);
+  const portfolioItems = toVitrinePortfolio(profile.portfolioItems);
+  const hasPortfolio = portfolioItems.length > 0;
 
   return {
     artisan: {
@@ -94,15 +155,21 @@ export function buildOnboardingPreviewProps(
         ? profile.selectedInterventions
         : useAbout
           ? []
-          : base.artisan.interventions,
+          : isInstagramImport
+            ? []
+            : base.artisan.interventions,
       serviceAreaSummary: profile.city
         ? `Intervient à ${profile.city} et ${profile.interventionRadiusKm} km alentour`
-        : base.artisan.serviceAreaSummary,
+        : isInstagramImport
+          ? "Zone d'intervention à préciser"
+          : base.artisan.serviceAreaSummary,
       aboutSection: useAbout
         ? { title: priceLabels.aboutTitle, body: profile.aboutText.trim() }
         : useInterventions
           ? undefined
-          : base.artisan.aboutSection,
+          : isInstagramImport
+            ? undefined
+            : base.artisan.aboutSection,
       googleBusinessUrl: hasGoogleBusiness
         ? profile.social.googleBusinessUrl.trim()
         : base.artisan.googleBusinessUrl,
@@ -114,9 +181,13 @@ export function buildOnboardingPreviewProps(
               (b) => b.kind !== "google_reviews" && b.kind !== "google_rating",
             )),
       socialLinks: hasSocial ? socialLinks : base.artisan.socialLinks,
+      portfolioItems: hasPortfolio ? portfolioItems : isInstagramImport ? [] : base.artisan.portfolioItems,
       media: {
         ...base.artisan.media,
         bannerUrl,
+        bannerGradient: useBrandBanner
+          ? { from: themeBannerFrom, to: themeBannerTo }
+          : undefined,
         avatarUrl,
         showAvatar: true,
       },
@@ -128,8 +199,8 @@ export function buildOnboardingPreviewProps(
       primary: brandPrimary,
       primaryForeground: "#ffffff",
       accent: profile.visual.accentColor,
-      bannerFrom: `color-mix(in srgb, ${brandPrimary} 35%, white)`,
-      bannerTo: `color-mix(in srgb, ${brandPrimary} 8%, white)`,
+      bannerFrom: themeBannerFrom,
+      bannerTo: themeBannerTo,
     },
     profileSettings: {
       ...base.profileSettings,
@@ -142,7 +213,11 @@ export function buildOnboardingPreviewProps(
             : base.profileSettings.visibility.contentBlockMode,
         showInterventionTags: useInterventions,
         showSocialLinks: hasSocial || base.profileSettings.visibility.showSocialLinks,
-        showStatBadges: hasGoogleBusiness || base.profileSettings.visibility.showStatBadges,
+        showStatBadges:
+          (statBadgesFromImport?.length ?? 0) > 0 ||
+          (hasGoogleBusiness && !isInstagramImport) ||
+          base.profileSettings.visibility.showStatBadges,
+        showPortfolioGallery: hasPortfolio || (!isInstagramImport && base.profileSettings.visibility.showPortfolioGallery),
       },
     },
     copy: vitrineCopy,

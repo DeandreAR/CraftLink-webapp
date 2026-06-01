@@ -37,9 +37,10 @@ export function VitrinePortfolioGallery({
               <iframe
                 src={item.embedUrl}
                 title={item.alt ?? "Instagram"}
-                className="h-full w-full border-0"
+                className="h-full min-h-[280px] w-full border-0 sm:min-h-[320px]"
                 loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
               />
             ) : item.imageUrl ? (
               <img

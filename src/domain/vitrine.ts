@@ -70,6 +70,8 @@ export type VitrineStatBadge = {
 export type VitrineMedia = {
   /** Bannière pleine largeur (si pas de collage). */
   bannerUrl?: string | null;
+  /** Bannière dégradée (import Instagram — aucune image stockée). */
+  bannerGradient?: { from: string; to: string } | null;
   /** Grille 3 visuels : haut-gauche, bas-gauche, droite (pleine hauteur). */
   bannerCollage?: [string | null, string | null, string | null];
   avatarUrl?: string | null;

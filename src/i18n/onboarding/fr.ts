@@ -132,6 +132,10 @@ export const onboardingFr: OnboardingDictionary = {
     manualLink: "Ignorer l'import et terminer",
     loadingHint: "Extraction des avis, de la bio et des photos…",
     importError: "Import impossible. Réessayez ou terminez sans import.",
+    serverConfigError:
+      "Import indisponible : configurez SERPAPI_KEY, ROCKETAPI_KEY et RAPIDAPI_KEY côté serveur (.env.local).",
+    quotaFallbackMessage:
+      "L'import automatique est temporairement indisponible. Complétez votre page manuellement — cela ne prend que quelques minutes.",
   },
   free: {
     companyLabel: "Nom de l'entreprise",

@@ -5,7 +5,6 @@ import {
 } from "@/domain/onboarding";
 import { extractDominantColorFromUrl, FALLBACK_BRAND } from "@/lib/onboarding/extractDominantColor";
 import { fetchProImportApi } from "@/lib/onboarding/proImport/fetchProImportApi";
-import { mapProImportApiPayload } from "@/lib/onboarding/proImport/mappers";
 import { mappedImportToProfileDraft } from "@/lib/onboarding/proImport/toProfileDraft";
 import type { MappedProImportData, ProImportRunResult } from "@/lib/onboarding/proImport/types";
 import { getMissingProRequiredFields } from "@/lib/onboarding/proRequiredFields";
@@ -19,6 +18,7 @@ const FALLBACK_BY_PLATFORM: Record<ProImportPlatform, string> = {
 export type ProImportPipelineResult = ProImportRunResult & {
   profile: Partial<OnboardingProfileDraft>;
   missingFields: ReturnType<typeof getMissingProRequiredFields>;
+  source: "live";
 };
 
 export async function extractBrandColorFromAvatar(
@@ -35,28 +35,40 @@ export async function extractBrandColorFromAvatar(
   }
 }
 
-/** Pipeline complet : REST simulé → mapping → couleur dominante → brouillon profil. */
+/** Pipeline : API serveur → mapping → couleur dominante → brouillon profil. */
 export async function runProImportPipeline(
   platform: ProImportPlatform,
   identifier: string,
 ): Promise<ProImportPipelineResult> {
-  const apiPayload = await fetchProImportApi(platform, identifier);
-  const mapped: MappedProImportData = mapProImportApiPayload(apiPayload, identifier);
+  const { mapped, profile: profilePatch, missingFields, source } =
+    await fetchProImportApi(platform, identifier);
+
   const brandColor = await extractBrandColorFromAvatar(mapped.avatarUrl, platform);
-  const profilePatch = mappedImportToProfileDraft(mapped, brandColor);
+  const profile = mappedImportToProfileDraft(mapped, brandColor);
+
   const draft: OnboardingProfileDraft = {
     ...defaultOnboardingProfile("PRO"),
     ...profilePatch,
+    ...profile,
+    plan: "PRO",
     visual: {
       ...defaultOnboardingProfile("PRO").visual,
       ...profilePatch.visual,
+      ...profile.visual,
+      accentColor: brandColor,
     },
     social: {
       ...defaultOnboardingProfile("PRO").social,
       ...profilePatch.social,
+      ...profile.social,
     },
   };
-  const missingFields = getMissingProRequiredFields(draft);
 
-  return { mapped, brandColor, profile: profilePatch, missingFields };
+  return {
+    mapped,
+    brandColor,
+    profile,
+    missingFields: missingFields.length > 0 ? missingFields : getMissingProRequiredFields(draft),
+    source,
+  };
 }

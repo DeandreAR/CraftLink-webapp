@@ -21,6 +21,8 @@ export type ProOnboardingState = {
   profile: OnboardingProfileDraft;
   services: OnboardingService[];
   importError: string | null;
+  /** Message informatif après bascule mode dégradé (quota API). */
+  importNotice: string | null;
   publishing: boolean;
   publishError: string | null;
   gapFields: ProRequiredFieldKey[];
@@ -34,10 +36,15 @@ export type ProOnboardingAction =
   | { type: "PATCH_PROFILE"; patch: Partial<OnboardingProfileDraft> }
   | { type: "SET_SERVICES"; services: OnboardingService[] }
   | { type: "SET_IMPORT_ERROR"; error: string | null }
+  | { type: "SET_IMPORT_NOTICE"; notice: string | null }
   | { type: "SET_GAP_FIELDS"; fields: ProRequiredFieldKey[] }
   | { type: "SET_PUBLISHING"; publishing: boolean }
   | { type: "SET_PUBLISH_ERROR"; error: string | null }
-  | { type: "SET_MAPPED_IMPORT"; mapped: MappedProImportData | null; brandColor: string | null };
+  | {
+      type: "SET_MAPPED_IMPORT";
+      mapped: MappedProImportData | null;
+      brandColor: string | null;
+    };
 
 export function createProOnboardingState(
   initial?: Partial<{
@@ -51,6 +58,7 @@ export function createProOnboardingState(
     profile: initial?.profile ?? defaultOnboardingProfile("PRO"),
     services: initial?.services ?? [],
     importError: null,
+    importNotice: null,
     publishing: false,
     publishError: null,
     gapFields: [],
@@ -72,6 +80,8 @@ export function proOnboardingReducer(
       return { ...state, services: action.services };
     case "SET_IMPORT_ERROR":
       return { ...state, importError: action.error };
+    case "SET_IMPORT_NOTICE":
+      return { ...state, importNotice: action.notice };
     case "SET_GAP_FIELDS":
       return { ...state, gapFields: action.fields };
     case "SET_PUBLISHING":

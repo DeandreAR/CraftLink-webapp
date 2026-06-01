@@ -24,12 +24,21 @@ export type OnboardingSocialDraft = {
   googleBusinessUrl: string;
 };
 
+export type OnboardingPortfolioItem = {
+  id: string;
+  type: "instagram_embed";
+  embedUrl: string;
+  alt?: string;
+};
+
 export type OnboardingVisualDraft = {
   fontId: OnboardingFontId;
   /** Couleur dominante (logo) — CTA principal et --primary-color. */
   accentColor: string;
   avatarPreviewUrl: string | null;
   bannerPreviewUrl: string | null;
+  /** Bannière CSS (import Instagram — pas d’image en base). */
+  useBrandGradientBanner?: boolean;
 };
 
 export type OnboardingProfileDraft = {
@@ -51,6 +60,10 @@ export type OnboardingProfileDraft = {
   /** Avis Google issus de l’import GMB. */
   importGoogleRating?: number;
   importGoogleReviewCount?: number;
+  /** Années d’expérience détectées dans la bio (import Instagram). */
+  importExperienceYears?: number;
+  /** Réalisations récentes via embed Instagram (pas d’images stockées). */
+  portfolioItems?: OnboardingPortfolioItem[];
 };
 
 export type OnboardingService = {

@@ -10,6 +10,7 @@ type OnboardingProChoiceStepProps = {
   onStartManual: () => void;
   onImportSuccess: (result: ProImportPipelineResult) => void;
   onImportError: (message: string) => void;
+  onImportFallbackToManual: () => void;
 };
 
 export function OnboardingProChoiceStep({
@@ -17,6 +18,7 @@ export function OnboardingProChoiceStep({
   onStartManual,
   onImportSuccess,
   onImportError,
+  onImportFallbackToManual,
 }: OnboardingProChoiceStepProps) {
   const p = copy.pro;
 
@@ -38,6 +40,7 @@ export function OnboardingProChoiceStep({
             copy={copy}
             onSuccess={onImportSuccess}
             onError={onImportError}
+            onFallbackToManual={onImportFallbackToManual}
           />
         </article>
 

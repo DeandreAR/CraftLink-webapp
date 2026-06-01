@@ -130,6 +130,10 @@ export const onboardingEn: OnboardingDictionary = {
     manualLink: "Skip import and finish",
     loadingHint: "Fetching reviews, bio and photos…",
     importError: "Import failed. Try again or finish without import.",
+    serverConfigError:
+      "Import unavailable: set SERPAPI_KEY, ROCKETAPI_KEY and RAPIDAPI_KEY on the server (.env.local).",
+    quotaFallbackMessage:
+      "Automated import is temporarily unavailable. Complete your page manually — it only takes a few minutes.",
   },
   free: {
     companyLabel: "Business name",

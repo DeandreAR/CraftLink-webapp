@@ -6,6 +6,8 @@ import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
 import { GlowButton } from "@/components/ui/GlowButton";
+import { SERVER_CONFIG_ERROR } from "@/lib/onboarding/proImport/api/constants";
+import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
 import {
   runProImportPipeline,
   type ProImportPipelineResult,
@@ -15,11 +17,18 @@ type ProB2BImportPanelProps = {
   copy: OnboardingDictionary;
   onSuccess: (result: ProImportPipelineResult) => void;
   onError: (message: string) => void;
+  /** Bascule fluide vers le parcours manuel (quota API / réseau). */
+  onFallbackToManual: () => void;
 };
 
 const PLATFORMS: ProImportPlatform[] = ["google", "instagram", "facebook"];
 
-export function ProB2BImportPanel({ copy, onSuccess, onError }: ProB2BImportPanelProps) {
+export function ProB2BImportPanel({
+  copy,
+  onSuccess,
+  onError,
+  onFallbackToManual,
+}: ProB2BImportPanelProps) {
   const imp = copy.import;
   const [platform, setPlatform] = useState<ProImportPlatform>("google");
   const [identifier, setIdentifier] = useState("");
@@ -47,12 +56,31 @@ export function ProB2BImportPanel({ copy, onSuccess, onError }: ProB2BImportPane
       const result = await runProImportPipeline(platform, identifier);
       setBrandColor(result.brandColor);
       onSuccess(result);
-    } catch {
-      onError(imp.importError);
+    } catch (error) {
+      if (isProImportDegradedError(error)) {
+        onFallbackToManual();
+        return;
+      }
+      const message =
+        error instanceof Error && error.message === SERVER_CONFIG_ERROR
+          ? imp.serverConfigError
+          : error instanceof Error
+            ? error.message
+            : imp.importError;
+      onError(message);
     } finally {
       setLoading(false);
     }
-  }, [loading, platform, identifier, imp.importError, onSuccess, onError]);
+  }, [
+    loading,
+    platform,
+    identifier,
+    imp.importError,
+    imp.serverConfigError,
+    onSuccess,
+    onError,
+    onFallbackToManual,
+  ]);
 
   if (loading) {
     return <OnboardingImportSkeleton hint={imp.loadingHint} />;

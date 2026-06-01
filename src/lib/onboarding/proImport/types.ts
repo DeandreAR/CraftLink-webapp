@@ -1,4 +1,5 @@
-import type { ProImportPlatform } from "@/domain/onboarding";
+import type { OnboardingPortfolioItem, ProImportPlatform } from "@/domain/onboarding";
+import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 
 /** Données normalisées après mapping des réponses REST. */
 export type MappedProImportData = {
@@ -11,6 +12,10 @@ export type MappedProImportData = {
   reviews?: number;
   platform: ProImportPlatform;
   identifier: string;
+  inferredMetierKey?: MetierKey | "";
+  experienceYears?: number | null;
+  portfolioItems?: OnboardingPortfolioItem[];
+  useBrandGradientBanner?: boolean;
 };
 
 export type ProImportRunResult = {

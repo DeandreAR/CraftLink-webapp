@@ -214,6 +214,15 @@ export function ProOnboardingWizard({
     <div style={{ ["--primary-color" as string]: profile.visual.accentColor }}>
       <OnboardingPlanBadge plan="PRO" copy={copy} locked onPlanChange={() => {}} />
 
+      {state.importNotice && showManualProgress ? (
+        <div
+          role="status"
+          className="mb-4 rounded-[20px] border border-amber-200/90 bg-amber-50/90 px-4 py-3 text-sm leading-relaxed text-amber-950"
+        >
+          {state.importNotice}
+        </div>
+      ) : null}
+
       {showManualProgress ? (
         <OnboardingProgress
           current={manualStepIndex + 1}
@@ -231,10 +240,31 @@ export function ProOnboardingWizard({
           ) : null}
           <OnboardingProChoiceStep
             copy={copy}
-            onStartManual={() => dispatch({ type: "SET_PHASE", phase: "manual-general" })}
+            onStartManual={() => {
+              dispatch({ type: "SET_IMPORT_NOTICE", notice: null });
+              dispatch({
+                type: "SET_MAPPED_IMPORT",
+                mapped: null,
+                brandColor: null,
+              });
+              dispatch({ type: "SET_PHASE", phase: "manual-general" });
+            }}
             onImportSuccess={handleImportSuccess}
             onImportError={(message) => {
               dispatch({ type: "SET_IMPORT_ERROR", error: message });
+            }}
+            onImportFallbackToManual={() => {
+              dispatch({ type: "SET_IMPORT_ERROR", error: null });
+              dispatch({
+                type: "SET_IMPORT_NOTICE",
+                notice: copy.import.quotaFallbackMessage,
+              });
+              dispatch({
+                type: "SET_MAPPED_IMPORT",
+                mapped: null,
+                brandColor: null,
+              });
+              dispatch({ type: "SET_PHASE", phase: "manual-general" });
             }}
           />
         </>

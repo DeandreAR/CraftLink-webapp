@@ -15,10 +15,25 @@ const COLLAGE_PLACEHOLDERS: [string, string, string] = [
 function BannerCollage({
   collage,
   bannerUrl,
+  bannerGradient,
 }: {
   collage?: [string | null, string | null, string | null];
   bannerUrl?: string | null;
+  bannerGradient?: { from: string; to: string } | null;
 }) {
+  if (bannerGradient) {
+    return (
+      <div
+        className="h-44 w-full sm:h-48"
+        style={{
+          background: `linear-gradient(135deg, ${bannerGradient.from} 0%, ${bannerGradient.to} 100%)`,
+        }}
+        role="img"
+        aria-label="Bannière"
+      />
+    );
+  }
+
   if (bannerUrl) {
     return (
       <div
@@ -68,6 +83,7 @@ export function VitrineProfileHero({
       <BannerCollage
         collage={media.bannerCollage}
         bannerUrl={media.bannerUrl ?? undefined}
+        bannerGradient={media.bannerGradient ?? undefined}
       />
 
       {showAvatar ? (
