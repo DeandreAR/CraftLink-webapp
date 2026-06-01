@@ -554,6 +554,7 @@ export type OnboardingDictionary = {
     platformGoogle: string;
     platformInstagram: string;
     platformFacebook: string;
+    platformLabel: string;
     identifierLabel: string;
     placeholderGoogle: string;
     placeholderInstagram: string;

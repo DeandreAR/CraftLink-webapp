@@ -61,6 +61,27 @@ export function buildOnboardingPreviewProps(
     profile.presentationMode === "about" && profile.aboutText.trim().length > 0;
 
   const brandPrimary = profile.visual.accentColor;
+  const googleRating = profile.importGoogleRating;
+  const googleReviews = profile.importGoogleReviewCount;
+
+  const statBadgesFromImport =
+    hasGoogleBusiness && googleRating != null && googleReviews != null
+      ? [
+          { id: "exp", label: "10+ Années Exp.", kind: "default" as const },
+          {
+            id: "reviews",
+            label: `${googleReviews}+ Avis Google`,
+            kind: "google_reviews" as const,
+          },
+          {
+            id: "rating",
+            label: String(googleRating),
+            kind: "google_rating" as const,
+            rating: String(googleRating),
+            starCount: 5,
+          },
+        ]
+      : null;
 
   return {
     artisan: {
@@ -85,11 +106,13 @@ export function buildOnboardingPreviewProps(
       googleBusinessUrl: hasGoogleBusiness
         ? profile.social.googleBusinessUrl.trim()
         : base.artisan.googleBusinessUrl,
-      statBadges: hasGoogleBusiness
-        ? base.artisan.statBadges
-        : base.artisan.statBadges.filter(
-            (b) => b.kind !== "google_reviews" && b.kind !== "google_rating",
-          ),
+      statBadges:
+        statBadgesFromImport ??
+        (hasGoogleBusiness
+          ? base.artisan.statBadges
+          : base.artisan.statBadges.filter(
+              (b) => b.kind !== "google_reviews" && b.kind !== "google_rating",
+            )),
       socialLinks: hasSocial ? socialLinks : base.artisan.socialLinks,
       media: {
         ...base.artisan.media,

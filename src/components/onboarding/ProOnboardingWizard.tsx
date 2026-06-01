@@ -12,7 +12,6 @@ import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import { OnboardingPlanBadge } from "@/components/onboarding/OnboardingPlanBadge";
 import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
-import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
 import {
   getGeneralStepErrors,
   isGeneralStepValid,
@@ -39,7 +38,10 @@ import {
   isProProfilePublishable,
 } from "@/lib/onboarding/proRequiredFields";
 import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
-import { simulateProImport } from "@/lib/onboarding/simulateProImport";
+import {
+  runProImportPipeline,
+  type ProImportPipelineResult,
+} from "@/lib/onboarding/proImport/runProImport";
 import type { GeneralStepErrors } from "@/domain/onboarding";
 
 type ProOnboardingWizardProps = {
@@ -100,35 +102,31 @@ export function ProOnboardingWizard({
   const manualStepIndex = MANUAL_PRO_PHASES.indexOf(phase);
   const showManualProgress = manualStepIndex >= 0;
 
-  const handleAutoImport = async (
-    platform: Parameters<typeof simulateProImport>[0],
-    identifier: string,
-  ) => {
+  const handleImportSuccess = (result: ProImportPipelineResult) => {
     dispatch({ type: "SET_IMPORT_ERROR", error: null });
-    dispatch({ type: "SET_PHASE", phase: "importing" });
-    try {
-      const result = await simulateProImport(platform, identifier);
-      const merged: OnboardingProfileDraft = {
-        ...defaultOnboardingProfile("PRO"),
-        ...profile,
-        ...result.profile,
-        plan: "PRO",
-        visual: {
-          ...defaultVisualDraft(),
-          ...profile.visual,
-          ...(result.profile.visual ?? {}),
-          accentColor: result.brandColor,
-          avatarPreviewUrl:
-            result.profile.visual?.avatarPreviewUrl ??
-            result.logoUrl ??
-            profile.visual.avatarPreviewUrl,
-        },
-      };
-      dispatch({ type: "PATCH_PROFILE", patch: merged });
-      goToValidateOrGap(merged, dispatch);
-    } catch {
-      dispatch({ type: "SET_IMPORT_ERROR", error: copy.import.importError });
-      dispatch({ type: "SET_PHASE", phase: "choice" });
+    dispatch({
+      type: "SET_MAPPED_IMPORT",
+      mapped: result.mapped,
+      brandColor: result.brandColor,
+    });
+    const merged: OnboardingProfileDraft = {
+      ...defaultOnboardingProfile("PRO"),
+      ...profile,
+      ...result.profile,
+      plan: "PRO",
+      visual: {
+        ...defaultVisualDraft(),
+        ...profile.visual,
+        ...(result.profile.visual ?? {}),
+        accentColor: result.brandColor,
+      },
+    };
+    dispatch({ type: "PATCH_PROFILE", patch: merged });
+    dispatch({ type: "SET_GAP_FIELDS", fields: result.missingFields });
+    if (result.missingFields.length > 0) {
+      dispatch({ type: "SET_PHASE", phase: "gap" });
+    } else {
+      dispatch({ type: "SET_PHASE", phase: "validate" });
     }
   };
 
@@ -234,13 +232,12 @@ export function ProOnboardingWizard({
           <OnboardingProChoiceStep
             copy={copy}
             onStartManual={() => dispatch({ type: "SET_PHASE", phase: "manual-general" })}
-            onStartAuto={(platform, id) => void handleAutoImport(platform, id)}
+            onImportSuccess={handleImportSuccess}
+            onImportError={(message) => {
+              dispatch({ type: "SET_IMPORT_ERROR", error: message });
+            }}
           />
         </>
-      ) : null}
-
-      {phase === "importing" ? (
-        <OnboardingImportSkeleton hint={copy.import.loadingHint} />
       ) : null}
 
       {phase === "gap" ? (

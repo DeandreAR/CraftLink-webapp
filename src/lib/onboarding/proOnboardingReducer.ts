@@ -4,6 +4,7 @@ import {
   type OnboardingService,
 } from "@/domain/onboarding";
 import type { ProRequiredFieldKey } from "@/lib/onboarding/proRequiredFields";
+import type { MappedProImportData } from "@/lib/onboarding/proImport/types";
 
 export type ProOnboardingPhase =
   | "choice"
@@ -23,6 +24,9 @@ export type ProOnboardingState = {
   publishing: boolean;
   publishError: string | null;
   gapFields: ProRequiredFieldKey[];
+  /** Données normalisées du dernier import B2B réussi. */
+  mappedImport: MappedProImportData | null;
+  brandColor: string | null;
 };
 
 export type ProOnboardingAction =
@@ -32,7 +36,8 @@ export type ProOnboardingAction =
   | { type: "SET_IMPORT_ERROR"; error: string | null }
   | { type: "SET_GAP_FIELDS"; fields: ProRequiredFieldKey[] }
   | { type: "SET_PUBLISHING"; publishing: boolean }
-  | { type: "SET_PUBLISH_ERROR"; error: string | null };
+  | { type: "SET_PUBLISH_ERROR"; error: string | null }
+  | { type: "SET_MAPPED_IMPORT"; mapped: MappedProImportData | null; brandColor: string | null };
 
 export function createProOnboardingState(
   initial?: Partial<{
@@ -49,6 +54,8 @@ export function createProOnboardingState(
     publishing: false,
     publishError: null,
     gapFields: [],
+    mappedImport: null,
+    brandColor: null,
   };
 }
 
@@ -71,6 +78,12 @@ export function proOnboardingReducer(
       return { ...state, publishing: action.publishing };
     case "SET_PUBLISH_ERROR":
       return { ...state, publishError: action.error };
+    case "SET_MAPPED_IMPORT":
+      return {
+        ...state,
+        mappedImport: action.mapped,
+        brandColor: action.brandColor,
+      };
     default:
       return state;
   }

@@ -48,6 +48,9 @@ export type OnboardingProfileDraft = {
   visual: OnboardingVisualDraft;
   importPlatform?: ProImportPlatform;
   importIdentifier?: string;
+  /** Avis Google issus de l’import GMB. */
+  importGoogleRating?: number;
+  importGoogleReviewCount?: number;
 };
 
 export type OnboardingService = {

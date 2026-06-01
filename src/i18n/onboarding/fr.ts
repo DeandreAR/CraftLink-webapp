@@ -120,10 +120,13 @@ export const onboardingFr: OnboardingDictionary = {
     platformGoogle: "Google My Business",
     platformInstagram: "Instagram",
     platformFacebook: "Facebook",
+    platformLabel: "Plateforme",
     identifierLabel: "Identifiant",
-    placeholderGoogle: "Nom précis de votre fiche Google",
-    placeholderInstagram: "Saisissez votre @username Instagram",
-    placeholderFacebook: "Nom de votre page Facebook",
+    placeholderGoogle:
+      "Nom précis de votre fiche + Ville (ex: Carter Électricité Nantes)",
+    placeholderInstagram: "Saisissez votre @username (ex: john_electricite)",
+    placeholderFacebook:
+      "Saisissez l'identifiant de votre page (ex: JohnCarter44)",
     generate: "Générer ma page instantanément",
     generating: "Import en cours…",
     manualLink: "Ignorer l'import et terminer",
