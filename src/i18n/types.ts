@@ -557,6 +557,7 @@ export type OnboardingDictionary = {
     platformLabel: string;
     identifierLabel: string;
     placeholderGoogle: string;
+    googleImportHint: string;
     placeholderInstagram: string;
     placeholderFacebook: string;
     generate: string;
@@ -634,6 +635,28 @@ export type OnboardingDictionary = {
     validateNo: string;
     publishing: string;
     publishError: string;
+    slugTitle: string;
+    slugSubtitle: string;
+    slugLabel: string;
+    slugPrefix: string;
+    slugPlaceholder: string;
+    slugHint: string;
+    slugChecking: string;
+    slugAvailable: string;
+    slugConfirm: string;
+    slugYourUrl: string;
+    slugEditLink: string;
+    slugErrors: {
+      empty: string;
+      tooShort: string;
+      tooLong: string;
+      invalidChars: string;
+      invalidEdges: string;
+      reserved: string;
+      taken: string;
+    };
+    editableFieldsTitle: string;
+    editableFieldsList: string[];
   };
 };
 

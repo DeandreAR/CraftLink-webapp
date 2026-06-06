@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useReducer, useState, type Dispatch } from "react";
 import {
   defaultOnboardingProfile,
@@ -22,6 +23,7 @@ import {
   OnboardingInterventionsStep,
 } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingProChoiceStep } from "@/components/onboarding/steps/OnboardingProChoiceStep";
+import { OnboardingPageSlugStep } from "@/components/onboarding/steps/OnboardingPageSlugStep";
 import { OnboardingProGapStep } from "@/components/onboarding/steps/OnboardingProGapStep";
 import { OnboardingProValidateStep } from "@/components/onboarding/steps/OnboardingProValidateStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
@@ -33,11 +35,13 @@ import {
   proOnboardingReducer,
   type ProOnboardingPhase,
 } from "@/lib/onboarding/proOnboardingReducer";
+import { resolveNextPhaseAfterProfileUpdate } from "@/lib/onboarding/proOnboardingFlow";
 import {
   getMissingProRequiredFields,
   isProProfilePublishable,
 } from "@/lib/onboarding/proRequiredFields";
-import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
+import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
+import { saveOnboardingDraft } from "@/lib/onboarding/publishOnboardingProfile";
 import {
   runProImportPipeline,
   type ProImportPipelineResult,
@@ -58,17 +62,18 @@ function formatStepLabel(template: string, current: number, total: number): stri
   return template.replace("{current}", String(current)).replace("{total}", String(total));
 }
 
-function goToValidateOrGap(
+function goToNextProPhase(
   profile: OnboardingProfileDraft,
   dispatch: Dispatch<Parameters<typeof proOnboardingReducer>[1]>,
 ) {
-  const missing = getMissingProRequiredFields(profile);
-  if (missing.length > 0) {
-    dispatch({ type: "SET_GAP_FIELDS", fields: missing });
-    dispatch({ type: "SET_PHASE", phase: "gap" });
-  } else {
-    dispatch({ type: "SET_PHASE", phase: "validate" });
+  const next = resolveNextPhaseAfterProfileUpdate(profile);
+  if (next === "gap") {
+    dispatch({
+      type: "SET_GAP_FIELDS",
+      fields: getMissingProRequiredFields(profile),
+    });
   }
+  dispatch({ type: "SET_PHASE", phase: next });
 }
 
 export function ProOnboardingWizard({
@@ -79,6 +84,11 @@ export function ProOnboardingWizard({
   initialServices,
   startPhase = "choice",
 }: ProOnboardingWizardProps) {
+  const searchParams = useSearchParams();
+  const stripeCheckoutSuccess = searchParams.get("stripe") === "success";
+  const billingPeriod = searchParams.get("billing") === "annual" ? "annual" : "monthly";
+  const checkoutPriceKey = billingPeriod === "annual" ? "pro_annual" : "pro_monthly";
+
   const [state, dispatch] = useReducer(
     proOnboardingReducer,
     undefined,
@@ -86,18 +96,31 @@ export function ProOnboardingWizard({
       createProOnboardingState({
         profile: initialProfile,
         services: initialServices,
-        phase: startPhase,
+        phase: stripeCheckoutSuccess ? "complete" : startPhase,
       }),
   );
 
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
 
-  const patchProfile = useCallback((patch: Partial<OnboardingProfileDraft>) => {
-    dispatch({ type: "PATCH_PROFILE", patch });
-  }, []);
-
   const { phase, profile, services } = state;
+
+  const patchProfile = useCallback(
+    (patch: Partial<OnboardingProfileDraft>) => {
+      const nextPatch = { ...patch };
+      if (
+        patch.businessName &&
+        !patch.pageSlug &&
+        !profile.pageSlugConfirmed &&
+        !profile.pageSlug.trim()
+      ) {
+        const suggested = suggestPageSlugFromName(patch.businessName);
+        if (suggested) nextPatch.pageSlug = suggested;
+      }
+      dispatch({ type: "PATCH_PROFILE", patch: nextPatch });
+    },
+    [profile.pageSlug, profile.pageSlugConfirmed],
+  );
 
   const manualStepIndex = MANUAL_PRO_PHASES.indexOf(phase);
   const showManualProgress = manualStepIndex >= 0;
@@ -123,11 +146,7 @@ export function ProOnboardingWizard({
     };
     dispatch({ type: "PATCH_PROFILE", patch: merged });
     dispatch({ type: "SET_GAP_FIELDS", fields: result.missingFields });
-    if (result.missingFields.length > 0) {
-      dispatch({ type: "SET_PHASE", phase: "gap" });
-    } else {
-      dispatch({ type: "SET_PHASE", phase: "validate" });
-    }
+    goToNextProPhase(merged, dispatch);
   };
 
   const handleGapContinue = () => {
@@ -138,19 +157,23 @@ export function ProOnboardingWizard({
       });
       return;
     }
-    dispatch({ type: "SET_PHASE", phase: "validate" });
+    goToNextProPhase(profile, dispatch);
   };
 
-  const handlePublish = async () => {
+  const handleBeforeCheckout = async () => {
+    if (!profile.pageSlugConfirmed || !validatePageSlug(profile.pageSlug).ok) {
+      dispatch({ type: "SET_PHASE", phase: "slug" });
+      return false;
+    }
     dispatch({ type: "SET_PUBLISHING", publishing: true });
     dispatch({ type: "SET_PUBLISH_ERROR", error: null });
-    const result = await publishOnboardingProfile(profile, services);
+    const result = await saveOnboardingDraft(profile, services);
     dispatch({ type: "SET_PUBLISHING", publishing: false });
     if (!result.ok) {
       dispatch({ type: "SET_PUBLISH_ERROR", error: result.message });
-      return;
+      return false;
     }
-    dispatch({ type: "SET_PHASE", phase: "complete" });
+    return true;
   };
 
   const goManualNext = () => {
@@ -194,6 +217,18 @@ export function ProOnboardingWizard({
     );
   }
 
+  if (phase === "slug") {
+    return (
+      <OnboardingPageSlugStep
+        copy={copy}
+        locale={lang}
+        profile={profile}
+        onChange={patchProfile}
+        onConfirm={() => dispatch({ type: "SET_PHASE", phase: "validate" })}
+      />
+    );
+  }
+
   if (phase === "validate") {
     return (
       <OnboardingProValidateStep
@@ -204,8 +239,20 @@ export function ProOnboardingWizard({
         services={services}
         publishing={state.publishing}
         publishError={state.publishError}
-        onPublish={() => void handlePublish()}
+        priceKey={checkoutPriceKey}
+        billingPeriod={billingPeriod}
+        onBeforeCheckout={handleBeforeCheckout}
+        onCheckoutError={(message) =>
+          dispatch({ type: "SET_PUBLISH_ERROR", error: message })
+        }
         onEdit={() => dispatch({ type: "SET_PHASE", phase: "manual-general" })}
+        onEditSlug={() => {
+          dispatch({
+            type: "PATCH_PROFILE",
+            patch: { pageSlugConfirmed: false },
+          });
+          dispatch({ type: "SET_PHASE", phase: "slug" });
+        }}
       />
     );
   }
@@ -318,7 +365,7 @@ export function ProOnboardingWizard({
           profile={profile}
           services={services}
           onChange={patchProfile}
-          onCreatePage={() => goToValidateOrGap(profile, dispatch)}
+          onCreatePage={() => goToNextProPhase(profile, dispatch)}
         />
       ) : null}
 

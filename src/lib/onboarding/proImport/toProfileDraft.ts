@@ -2,6 +2,7 @@ import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { isMetierKey } from "@/lib/vitrine/metierConfigs";
 import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import { inferTradeLabelFromBio } from "@/lib/onboarding/proImport/inferFromInstagramBio";
+import { suggestPageSlugFromName } from "@/lib/onboarding/pageSlug";
 import type { MappedProImportData } from "@/lib/onboarding/proImport/types";
 
 export function mappedImportToProfileDraft(
@@ -22,9 +23,7 @@ export function mappedImportToProfileDraft(
     threads: "",
     snapchat: "",
     googleBusinessUrl:
-      mapped.platform === "google" && trimmedId
-        ? `https://g.page/${encodeURIComponent(trimmedId)}`
-        : "",
+      mapped.platform === "google" ? (mapped.googleBusinessUrl?.trim() ?? "") : "",
   };
 
   const inferredMetier: MetierKey | "" =
@@ -57,6 +56,8 @@ export function mappedImportToProfileDraft(
     importGoogleReviewCount: mapped.reviews,
     importExperienceYears: mapped.experienceYears ?? undefined,
     portfolioItems: mapped.portfolioItems,
+    pageSlug: suggestPageSlugFromName(mapped.name) || "",
+    pageSlugConfirmed: false,
   };
 }
 

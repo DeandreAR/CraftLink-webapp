@@ -103,7 +103,7 @@ export type { MetierKey };
 /** Média portfolio sous les CTA (images ou embed Instagram). */
 export type VitrinePortfolioItem = {
   id: string;
-  type: "image" | "instagram_embed";
+  type: "image" | "instagram_embed" | "instagram_profile_embed";
   /** URL image directe ou vignette. */
   imageUrl?: string;
   /** URL embed Instagram (blockquote / iframe). */

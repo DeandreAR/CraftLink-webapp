@@ -1,14 +1,17 @@
 import { PricingGrid } from "@/components/landing/PricingGrid";
+import type { Locale } from "@/i18n/config";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
 type PricingComparisonSectionProps = {
   model: PricingSectionModel;
   basePath: string;
+  locale: Locale;
 };
 
 export function PricingComparisonSection({
   model,
   basePath,
+  locale,
 }: PricingComparisonSectionProps) {
   const { copy } = model;
 
@@ -171,7 +174,7 @@ export function PricingComparisonSection({
             </p>
           </div>
 
-          <PricingGrid model={model} basePath={basePath} />
+          <PricingGrid model={model} basePath={basePath} locale={locale} />
         </div>
       </div>
     </section>

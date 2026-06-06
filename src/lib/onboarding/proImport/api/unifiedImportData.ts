@@ -12,6 +12,8 @@ export type UnifiedImportData = {
   city: string | null;
   rating: number | null;
   reviews: number | null;
+  /** Import Google uniquement — lien canonique vers la fiche GMB */
+  googleBusinessUrl?: string | null;
   /** Import Instagram uniquement */
   instagramUsername?: string | null;
   inferredMetierKey?: string | null;

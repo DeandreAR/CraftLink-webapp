@@ -181,7 +181,7 @@ export function buildOnboardingPreviewProps(
               (b) => b.kind !== "google_reviews" && b.kind !== "google_rating",
             )),
       socialLinks: hasSocial ? socialLinks : base.artisan.socialLinks,
-      portfolioItems: hasPortfolio ? portfolioItems : isInstagramImport ? [] : base.artisan.portfolioItems,
+      portfolioItems: hasPortfolio ? portfolioItems : [],
       media: {
         ...base.artisan.media,
         bannerUrl,
@@ -217,7 +217,7 @@ export function buildOnboardingPreviewProps(
           (statBadgesFromImport?.length ?? 0) > 0 ||
           (hasGoogleBusiness && !isInstagramImport) ||
           base.profileSettings.visibility.showStatBadges,
-        showPortfolioGallery: hasPortfolio || (!isInstagramImport && base.profileSettings.visibility.showPortfolioGallery),
+        showPortfolioGallery: hasPortfolio,
       },
     },
     copy: vitrineCopy,

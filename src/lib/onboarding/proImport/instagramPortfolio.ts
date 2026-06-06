@@ -6,6 +6,12 @@ export function instagramEmbedUrl(shortcode: string): string {
   return `https://www.instagram.com/p/${shortcode}/embed`;
 }
 
+/** Un seul iframe : fil des publications du profil (aucune image stockée). */
+export function instagramProfileEmbedUrl(username: string): string {
+  const handle = username.trim().replace(/^@/, "");
+  return `https://www.instagram.com/${encodeURIComponent(handle)}/embed`;
+}
+
 export function extractInstagramShortcodes(payload: unknown, limit = MAX_PORTFOLIO_POSTS): string[] {
   const found: string[] = [];
 

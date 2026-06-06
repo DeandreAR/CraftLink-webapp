@@ -24,11 +24,31 @@ alter table public.profiles add column if not exists updated_at timestamptz defa
 update public.profiles
 set
   workspace_id = coalesce(workspace_id, id),
-  role = coalesce(nullif(trim(role), ''), 'ADMIN'),
-  plan_tier = coalesce(nullif(trim(plan_tier), ''), 'ALL_SOURCES')
+  role = coalesce(nullif(trim(role), ''), 'ADMIN')
 where workspace_id is null
-   or role is null
-   or plan_tier is null;
+   or role is null;
+
+do $$
+begin
+  if exists (
+    select 1
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'profiles'
+      and column_name = 'plan_tier'
+      and data_type = 'text'
+  ) then
+    execute $sql$
+      update public.profiles
+      set plan_tier = coalesce(nullif(trim(plan_tier), ''), 'ALL_SOURCES')
+      where plan_tier is null
+    $sql$;
+  else
+    update public.profiles
+    set plan_tier = 'ALL_SOURCES'
+    where plan_tier is null;
+  end if;
+end $$;
 
 alter table public.profiles alter column workspace_id set not null;
 alter table public.profiles alter column role set default 'ADMIN';
@@ -53,7 +73,7 @@ begin
   on conflict (id) do update set
     workspace_id = coalesce(public.profiles.workspace_id, excluded.workspace_id),
     role = coalesce(nullif(trim(public.profiles.role), ''), excluded.role),
-    plan_tier = coalesce(nullif(trim(public.profiles.plan_tier), ''), excluded.plan_tier),
+    plan_tier = coalesce(public.profiles.plan_tier, excluded.plan_tier),
     full_name = coalesce(public.profiles.full_name, excluded.full_name),
     whatsapp_number = coalesce(public.profiles.whatsapp_number, excluded.whatsapp_number);
   return new;

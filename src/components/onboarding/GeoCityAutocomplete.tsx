@@ -4,10 +4,13 @@ import { useEffect, useId, useRef, useState } from "react";
 import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
 import {
   communeToSelection,
+  departementToSelection,
+  formatCitySelectionLabel,
   formatCommuneLabel,
-  searchCommunes,
+  formatDepartementLabel,
+  searchGeoLocations,
   type CitySelection,
-  type GeoCommune,
+  type GeoSearchResult,
 } from "@/lib/onboarding/geoApi";
 
 type GeoCityAutocompleteProps = {
@@ -26,15 +29,15 @@ export function GeoCityAutocomplete({
   noResultsLabel,
 }: GeoCityAutocompleteProps) {
   const listId = useId();
-  const [query, setQuery] = useState(value ? formatCommuneLabelFromSelection(value) : "");
-  const [results, setResults] = useState<GeoCommune[]>([]);
+  const [query, setQuery] = useState(value ? formatCitySelectionLabel(value) : "");
+  const [results, setResults] = useState<GeoSearchResult[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (value) {
-      setQuery(formatCommuneLabelFromSelection(value));
+      setQuery(formatCitySelectionLabel(value));
     }
   }, [value]);
 
@@ -47,7 +50,7 @@ export function GeoCityAutocomplete({
 
     debounceRef.current = setTimeout(() => {
       setLoading(true);
-      void searchCommunes(query)
+      void searchGeoLocations(query)
         .then(setResults)
         .finally(() => setLoading(false));
     }, 280);
@@ -57,10 +60,17 @@ export function GeoCityAutocomplete({
     };
   }, [query]);
 
-  const pick = (commune: GeoCommune) => {
-    const selection = communeToSelection(commune);
+  const pick = (result: GeoSearchResult) => {
+    const selection =
+      result.kind === "departement"
+        ? departementToSelection(result.departement)
+        : communeToSelection(result.commune);
     onChange(selection);
-    setQuery(formatCommuneLabel(commune));
+    setQuery(
+      result.kind === "departement"
+        ? formatDepartementLabel(result.departement)
+        : formatCommuneLabel(result.commune),
+    );
     setOpen(false);
   };
 
@@ -98,25 +108,32 @@ export function GeoCityAutocomplete({
           ) : results.length === 0 ? (
             <li className="px-4 py-2 text-sm text-neutral-500">{noResultsLabel}</li>
           ) : (
-            results.map((commune) => (
-              <li key={commune.code} role="option">
-                <button
-                  type="button"
-                  className="w-full px-4 py-2.5 text-left text-sm hover:bg-neutral-50"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => pick(commune)}
-                >
-                  {formatCommuneLabel(commune)}
-                </button>
-              </li>
-            ))
+            results.map((result) => {
+              const key =
+                result.kind === "departement"
+                  ? `dept-${result.departement.code}`
+                  : `commune-${result.commune.code}`;
+              const labelText =
+                result.kind === "departement"
+                  ? `Département — ${formatDepartementLabel(result.departement)}`
+                  : formatCommuneLabel(result.commune);
+
+              return (
+                <li key={key} role="option">
+                  <button
+                    type="button"
+                    className="w-full px-4 py-2.5 text-left text-sm hover:bg-neutral-50"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => pick(result)}
+                  >
+                    {labelText}
+                  </button>
+                </li>
+              );
+            })
           )}
         </ul>
       ) : null}
     </div>
   );
-}
-
-function formatCommuneLabelFromSelection(city: CitySelection): string {
-  return city.postalCode ? `${city.name} (${city.postalCode})` : city.name;
 }

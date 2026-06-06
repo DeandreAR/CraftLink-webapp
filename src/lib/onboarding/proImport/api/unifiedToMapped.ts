@@ -16,10 +16,16 @@ export function unifiedToMappedImportData(
 
   const portfolioItems: OnboardingPortfolioItem[] | undefined = data.instagramPortfolio?.map(
     (item) => ({
-      id: `ig-${item.shortcode}`,
-      type: "instagram_embed" as const,
+      id: item.shortcode === "profile" ? "ig-profile-feed" : `ig-${item.shortcode}`,
+      type:
+        item.shortcode === "profile"
+          ? ("instagram_profile_embed" as const)
+          : ("instagram_embed" as const),
       embedUrl: item.embedUrl,
-      alt: `Publication Instagram ${item.shortcode}`,
+      alt:
+        item.shortcode === "profile"
+          ? "Publications Instagram"
+          : `Publication Instagram ${item.shortcode}`,
     }),
   );
 
@@ -33,6 +39,7 @@ export function unifiedToMappedImportData(
     city: data.city ?? "",
     rating: data.rating ?? undefined,
     reviews: data.reviews ?? undefined,
+    googleBusinessUrl: data.googleBusinessUrl?.trim() || undefined,
     inferredMetierKey,
     experienceYears: data.experienceYears ?? null,
     portfolioItems,

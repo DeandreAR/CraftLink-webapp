@@ -1,31 +1,39 @@
 import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
+import { validatePageSlug } from "@/lib/onboarding/pageSlug";
 import { createClient } from "@/lib/supabase/client";
 
 export type PublishOnboardingResult =
   | { ok: true; slug: string }
   | { ok: false; message: string };
 
-function slugify(name: string): string {
-  return (
-    name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "")
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "")
-      .slice(0, 48) || "mon-activite"
-  );
+const SLUG_TAKEN_MESSAGE = "Cette URL est déjà prise. Choisissez-en une autre.";
+
+async function isSlugAvailableClient(slug: string): Promise<boolean> {
+  try {
+    const res = await fetch(`/api/onboarding/slug/check?slug=${encodeURIComponent(slug)}`);
+    const data = (await res.json()) as { available: boolean };
+    return data.available === true;
+  } catch {
+    return true;
+  }
 }
 
-/**
- * Publie le profil onboarding : met à jour Supabase si session active, sinon simulation.
- */
-export async function publishOnboardingProfile(
+async function persistOnboardingProfile(
   profile: OnboardingProfileDraft,
-  _services: OnboardingService[],
+  options: { setProPlan: boolean },
 ): Promise<PublishOnboardingResult> {
-  const slug = slugify(profile.businessName.trim());
-  await new Promise((r) => setTimeout(r, 900));
+  const validation = validatePageSlug(profile.pageSlug);
+  if (!validation.ok || !profile.pageSlugConfirmed) {
+    return { ok: false, message: "URL de page invalide." };
+  }
+
+  const slug = validation.normalized;
+
+  if (!(await isSlugAvailableClient(slug))) {
+    return { ok: false, message: SLUG_TAKEN_MESSAGE };
+  }
+
+  await new Promise((r) => setTimeout(r, 400));
 
   try {
     const supabase = createClient();
@@ -33,27 +41,54 @@ export async function publishOnboardingProfile(
       data: { user },
     } = await supabase.auth.getUser();
 
-    if (user) {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          plan_tier: "PRO",
-          full_name: profile.businessName.trim(),
-          whatsapp_number: profile.phone.trim(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", user.id);
+    if (!user) {
+      return {
+        ok: false,
+        message: "Connectez-vous pour publier votre page et accéder au paiement.",
+      };
+    }
 
-      if (error) {
-        return {
-          ok: false,
-          message: error.message,
-        };
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        ...(options.setProPlan ? { plan_tier: "PRO" } : {}),
+        full_name: profile.businessName.trim(),
+        whatsapp_number: profile.phone.trim(),
+        page_slug: slug,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", user.id);
+
+    if (error) {
+      if (error.code === "23505") {
+        return { ok: false, message: SLUG_TAKEN_MESSAGE };
       }
+      return { ok: false, message: error.message };
     }
   } catch {
-    /* Client Supabase indisponible — on continue en mode démo */
+    return {
+      ok: false,
+      message: "Impossible de sauvegarder le profil. Réessayez.",
+    };
   }
 
   return { ok: true, slug };
+}
+
+/** Sauvegarde le brouillon avant redirection Stripe (sans activer PRO). */
+export async function saveOnboardingDraft(
+  profile: OnboardingProfileDraft,
+  services: OnboardingService[],
+): Promise<PublishOnboardingResult> {
+  return persistOnboardingProfile(profile, { setProPlan: false });
+}
+
+/**
+ * Publie le profil onboarding : met à jour Supabase si session active, sinon simulation.
+ */
+export async function publishOnboardingProfile(
+  profile: OnboardingProfileDraft,
+  services: OnboardingService[],
+): Promise<PublishOnboardingResult> {
+  return persistOnboardingProfile(profile, { setProPlan: true });
 }

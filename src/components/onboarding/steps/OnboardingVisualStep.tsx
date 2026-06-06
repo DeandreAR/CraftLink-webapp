@@ -88,6 +88,12 @@ export function OnboardingVisualStep({
       <div>
         <h2 className="text-lg font-bold text-black">{v.title}</h2>
         <p className="mt-1 text-sm text-neutral-600">{v.subtitle}</p>
+        {profile.pageSlugConfirmed && profile.pageSlug ? (
+          <p className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-center text-sm">
+            <span className="text-neutral-500">{copy.pro.slugPrefix}</span>
+            <span className="font-bold text-neutral-900">{profile.pageSlug}</span>
+          </p>
+        ) : null}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

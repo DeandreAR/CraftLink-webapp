@@ -26,7 +26,7 @@ export type OnboardingSocialDraft = {
 
 export type OnboardingPortfolioItem = {
   id: string;
-  type: "instagram_embed";
+  type: "instagram_embed" | "instagram_profile_embed";
   embedUrl: string;
   alt?: string;
 };
@@ -64,6 +64,9 @@ export type OnboardingProfileDraft = {
   importExperienceYears?: number;
   /** Réalisations récentes via embed Instagram (pas d’images stockées). */
   portfolioItems?: OnboardingPortfolioItem[];
+  /** Segment URL publique : craftlink.app/p/{pageSlug} */
+  pageSlug: string;
+  pageSlugConfirmed: boolean;
 };
 
 export type OnboardingService = {
@@ -110,6 +113,8 @@ export const defaultOnboardingProfile = (
   aboutText: "",
   social: defaultSocialDraft(),
   visual: defaultVisualDraft(),
+  pageSlug: "",
+  pageSlugConfirmed: false,
 });
 
 export type GeneralStepField = "businessName" | "metierKey" | "city" | "phone";

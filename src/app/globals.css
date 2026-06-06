@@ -31,4 +31,13 @@ body {
     border: 1px solid var(--border);
     box-shadow: var(--shadow-clean);
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }

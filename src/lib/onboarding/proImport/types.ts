@@ -12,6 +12,7 @@ export type MappedProImportData = {
   reviews?: number;
   platform: ProImportPlatform;
   identifier: string;
+  googleBusinessUrl?: string;
   inferredMetierKey?: MetierKey | "";
   experienceYears?: number | null;
   portfolioItems?: OnboardingPortfolioItem[];

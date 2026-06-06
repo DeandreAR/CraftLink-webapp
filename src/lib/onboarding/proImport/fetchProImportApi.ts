@@ -53,6 +53,8 @@ function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequir
       bannerPreviewUrl: null,
       ...profile.visual,
     },
+    pageSlug: profile.pageSlug ?? "",
+    pageSlugConfirmed: profile.pageSlugConfirmed ?? false,
   };
 
   return getMissingProRequiredFields(draftForValidation);

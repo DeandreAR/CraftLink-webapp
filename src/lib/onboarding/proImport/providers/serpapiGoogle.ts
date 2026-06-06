@@ -1,4 +1,5 @@
 import type { GooglePlaceApiResponse } from "@/lib/onboarding/proImport/apiTypes";
+import { parseGoogleIdentifier } from "@/lib/onboarding/proImport/parseGoogleIdentifier";
 import { providerFetch } from "@/lib/onboarding/proImport/api/providerHttp";
 import {
   throwIfQuotaHttpStatus,
@@ -13,6 +14,7 @@ type SerpPlace = {
   address?: string;
   phone?: string;
   images?: { thumbnail?: string }[];
+  place_id?: string;
 };
 
 type SerpMapsResponse = {
@@ -21,7 +23,8 @@ type SerpMapsResponse = {
   local_results?: SerpPlace[];
 };
 
-function toGooglePayload(place: SerpPlace): GooglePlaceApiResponse {
+function toGooglePayload(place: SerpPlace, placeId?: string): GooglePlaceApiResponse {
+  const resolvedPlaceId = placeId ?? place.place_id;
   return {
     place_results: {
       title: place.title ?? "",
@@ -31,6 +34,7 @@ function toGooglePayload(place: SerpPlace): GooglePlaceApiResponse {
       address: place.address ?? "",
       phone_number: place.phone ?? null,
     },
+    ...(resolvedPlaceId ? { place_id: resolvedPlaceId } : {}),
   };
 }
 
@@ -65,19 +69,28 @@ async function serpMapsSearch(
   return data;
 }
 
-/**
- * Google My Business via SerpApi (engine=google_maps).
- * @see https://serpapi.com/google-maps-api
- */
-export async function fetchGoogleFromSerpApi(
-  identifier: string,
+async function fetchByPlaceId(
   apiKey: string,
+  placeId: string,
 ): Promise<GooglePlaceApiResponse> {
-  const query = identifier.trim();
-  if (!query) {
-    throw new Error("Identifiant Google requis");
+  const details = await serpMapsSearch(apiKey, {
+    engine: "google_maps",
+    place_id: placeId,
+    hl: "fr",
+    gl: "fr",
+  });
+
+  if (!details.place_results?.title) {
+    throw new Error("Aucune fiche Google My Business trouvée pour cet identifiant.");
   }
 
+  return toGooglePayload(details.place_results, placeId);
+}
+
+async function fetchBySearchQuery(
+  apiKey: string,
+  query: string,
+): Promise<GooglePlaceApiResponse> {
   const search = await serpMapsSearch(apiKey, {
     engine: "google_maps",
     q: query,
@@ -95,7 +108,7 @@ export async function fetchGoogleFromSerpApi(
     throw new Error("Aucune fiche Google My Business trouvée pour cette recherche.");
   }
 
-  const placeId = (first as SerpPlace & { place_id?: string }).place_id;
+  const placeId = first.place_id;
   if (placeId) {
     const details = await serpMapsSearch(apiKey, {
       engine: "google_maps",
@@ -104,9 +117,28 @@ export async function fetchGoogleFromSerpApi(
       gl: "fr",
     });
     if (details.place_results?.title) {
-      return toGooglePayload(details.place_results);
+      return toGooglePayload(details.place_results, placeId);
     }
   }
 
-  return toGooglePayload(first);
+  return toGooglePayload(first, placeId);
+}
+
+/**
+ * Google My Business via SerpApi (engine=google_maps).
+ * Accepte nom + ville, lien Google Maps / g.page, ou place_id.
+ * @see https://serpapi.com/google-maps-api
+ */
+export async function fetchGoogleFromSerpApi(
+  identifier: string,
+  apiKey: string,
+): Promise<GooglePlaceApiResponse> {
+  const parsed = parseGoogleIdentifier(identifier);
+
+  if (parsed.kind === "place_id") {
+    return fetchByPlaceId(apiKey, parsed.placeId);
+  }
+
+  const query = parsed.kind === "url" ? parsed.url : parsed.query;
+  return fetchBySearchQuery(apiKey, query);
 }

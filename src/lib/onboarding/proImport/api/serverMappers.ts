@@ -11,8 +11,12 @@ import {
   inferMetierFromBio,
 } from "@/lib/onboarding/proImport/inferFromInstagramBio";
 import {
+  parseGoogleIdentifier,
+  resolveGoogleBusinessUrl,
+} from "@/lib/onboarding/proImport/parseGoogleIdentifier";
+import {
   buildInstagramAvatarProxyUrl,
-  instagramEmbedUrl,
+  instagramProfileEmbedUrl,
 } from "@/lib/onboarding/proImport/instagramPortfolio";
 import type { UnifiedImportData } from "@/lib/onboarding/proImport/api/unifiedImportData";
 
@@ -31,8 +35,25 @@ function normalizePhone(phone: string | null | undefined): string | null {
 
 export function mapGoogleResponseToUnified(
   raw: GooglePlaceApiResponse,
+  identifier?: string,
 ): UnifiedImportData {
   const p = raw.place_results;
+  let googleBusinessUrl: string | null = null;
+
+  if (identifier) {
+    try {
+      const parsed = parseGoogleIdentifier(identifier);
+      googleBusinessUrl = resolveGoogleBusinessUrl(parsed, raw.place_id ?? null) || null;
+    } catch {
+      googleBusinessUrl = null;
+    }
+  } else if (raw.place_id) {
+    googleBusinessUrl = resolveGoogleBusinessUrl(
+      { kind: "place_id", placeId: raw.place_id },
+      raw.place_id,
+    );
+  }
+
   return {
     name: p.title?.trim() ?? "",
     description: "",
@@ -41,13 +62,14 @@ export function mapGoogleResponseToUnified(
     city: parseCityFromAddress(p.address ?? ""),
     rating: p.rating ?? null,
     reviews: p.reviews ?? null,
+    googleBusinessUrl,
   };
 }
 
 export function mapInstagramResponseToUnified(
   raw: InstagramProfileApiResponse,
   username: string,
-  shortcodes: string[] = [],
+  _shortcodes: string[] = [],
 ): UnifiedImportData {
   const body = raw.response.body;
   const bio = body.biography?.trim() ?? "";
@@ -68,10 +90,12 @@ export function mapInstagramResponseToUnified(
     instagramUsername: username.replace(/^@/, ""),
     inferredMetierKey: metierKey || null,
     experienceYears: inferExperienceYearsFromBio(bio),
-    instagramPortfolio: shortcodes.map((shortcode) => ({
-      shortcode,
-      embedUrl: instagramEmbedUrl(shortcode),
-    })),
+    instagramPortfolio: [
+      {
+        shortcode: "profile",
+        embedUrl: instagramProfileEmbedUrl(username),
+      },
+    ],
     useBrandGradientBanner: true,
   };
 }

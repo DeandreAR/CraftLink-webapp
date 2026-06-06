@@ -10,6 +10,7 @@ export type ProOnboardingPhase =
   | "choice"
   | "importing"
   | "gap"
+  | "slug"
   | "validate"
   | "manual-general"
   | "manual-interventions"

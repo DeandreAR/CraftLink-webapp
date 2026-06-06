@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { getWhatsAppHref } from "@/config/contact";
 import { GlowButton } from "@/components/ui/GlowButton";
+import type { Locale } from "@/i18n/config";
+import { defaultLocale } from "@/i18n/config";
+import { onboardingPath } from "@/lib/auth/paths";
 import { GlassCard } from "@/components/ui/GlassCard";
 import type { FeatureMatrixRowJson, PricingComparisonDictionary } from "@/i18n/types";
 import type { PricingSectionModel, TierKey } from "@/services/pricingComparisonSection";
@@ -13,6 +16,7 @@ type BillingPeriod = "monthly" | "annual";
 type PricingGridProps = {
   model: PricingSectionModel;
   basePath: string;
+  locale?: Locale;
 };
 
 function isFeatureVisible(row: FeatureMatrixRowJson, tierKey: TierKey): boolean {
@@ -199,7 +203,7 @@ function ProBillingSwitch({
   );
 }
 
-export function PricingGrid({ model, basePath }: PricingGridProps) {
+export function PricingGrid({ model, basePath, locale = defaultLocale }: PricingGridProps) {
   const { copy } = model;
   const [proPeriod, setProPeriod] = useState<BillingPeriod>("monthly");
   const withBase = (hash: string) => `${basePath}${hash}`;
@@ -314,8 +318,7 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
 
           <div className="mt-8">
             <GlowButton
-              href={withBase(pro.hrefSuffix)}
-              variant="primary"
+              href={onboardingPath(locale, { plan: "pro", billing: proPeriod })}
               className="w-full justify-center border-2 border-black bg-black text-white shadow-[0_12px_28px_rgba(0,0,0,0.2)] hover:scale-[1.02]"
             >
               {pro.cta}

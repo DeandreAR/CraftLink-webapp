@@ -516,7 +516,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
         {/* Section SEO locale retirée (trop long / redondant pour la landing). */}
 
-        <PricingComparisonSection model={pricingModel} basePath={basePath} />
+        <PricingComparisonSection model={pricingModel} basePath={basePath} locale={lang} />
 
         <LandingFaqDisclosure blocks={faqBlocks} copy={dict.faqUi} />
 

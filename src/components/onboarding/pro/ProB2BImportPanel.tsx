@@ -126,6 +126,10 @@ export function ProB2BImportPanel({
         />
       </div>
 
+      {platform === "google" ? (
+        <p className="text-xs text-neutral-600">{imp.googleImportHint}</p>
+      ) : null}
+
       <GlowButton
         type="button"
         onClick={() => void handleGenerate()}
