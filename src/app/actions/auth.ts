@@ -7,6 +7,7 @@ import {
   HONEYPOT_FIELD_NAME,
   isHoneypotTriggered,
 } from "@/lib/auth/honeypot";
+import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
 import {
   getSupabaseConfig,
@@ -93,7 +94,7 @@ export async function signUpAction(
     };
   }
 
-  redirect(authPath(localeFromForm(formData), "dashboard"));
+  redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
 }
 
 export async function signInAction(
@@ -126,7 +127,7 @@ export async function signInAction(
     };
   }
 
-  redirect(authPath(localeFromForm(formData), "dashboard"));
+  redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
 }
 
 export async function signOutAction(formData: FormData) {

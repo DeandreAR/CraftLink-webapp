@@ -21,6 +21,10 @@ export async function setProfilePlanByUserId(
     updated_at: new Date().toISOString(),
   };
 
+  if (planTier === STRIPE_PRO_PLAN_TIER) {
+    patch.onboarding_completed_at = new Date().toISOString();
+  }
+
   if (stripeCustomerId) {
     patch.stripe_customer_id = stripeCustomerId;
   }
@@ -43,12 +47,18 @@ export async function setProfilePlanByStripeCustomerId(
     return { ok: false, error: "Supabase admin client unavailable" };
   }
 
+  const patch: Record<string, string> = {
+    plan_tier: planTier,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (planTier === STRIPE_PRO_PLAN_TIER) {
+    patch.onboarding_completed_at = new Date().toISOString();
+  }
+
   const { error } = await admin
     .from("profiles")
-    .update({
-      plan_tier: planTier,
-      updated_at: new Date().toISOString(),
-    })
+    .update(patch)
     .eq("stripe_customer_id", stripeCustomerId);
 
   if (error) {

@@ -1,4 +1,4 @@
-import type { OnboardingProfileDraft, ProImportPlatform } from "@/domain/onboarding";
+import type { OnboardingProfileDraft, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
 import {
   PROVIDER_QUOTA_EXHAUSTED,
   SERVER_CONFIG_ERROR,
@@ -20,6 +20,7 @@ const IMPORT_ROUTES: Record<ProImportPlatform, string> = {
 export type ClientProImportApiResult = {
   mapped: MappedProImportData;
   profile: Partial<OnboardingProfileDraft>;
+  services: OnboardingService[];
   missingFields: ProRequiredFieldKey[];
   source: "live";
 };
@@ -107,6 +108,7 @@ export async function fetchProImportApi(
   return {
     mapped,
     profile,
+    services: mapped.services ?? [],
     missingFields,
     source: "live",
   };

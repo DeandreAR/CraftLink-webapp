@@ -173,9 +173,11 @@ export const onboardingFr: OnboardingDictionary = {
     finish: "Terminer",
   },
   complete: {
-    title: "Votre page est prête",
-    body: "Retrouvez-la dans votre espace artisan et partagez-la dès maintenant.",
-    cta: "Accéder à mon espace",
+    title: "Félicitations !",
+    body: "Votre page CraftLink est en ligne. Partagez votre URL et retrouvez votre espace artisan.",
+    yourUrl: "Votre URL publique",
+    cta: "Accéder au tableau de bord",
+    autoRedirect: "Redirection automatique dans quelques secondes…",
   },
   publicServices: {
     title: "Prestations",

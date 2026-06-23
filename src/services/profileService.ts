@@ -11,7 +11,9 @@ import {
 } from "@/lib/auth/debugError";
 
 const PROFILE_SELECT_TIERS = [
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, created_at, updated_at",
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, created_at, updated_at",
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at",
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, created_at, updated_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier",
   "id, workspace_id, role",
   "id, full_name, whatsapp_number, created_at, updated_at",
@@ -30,6 +32,8 @@ function mapProfile(row: Record<string, unknown>): Profile {
     plan_tier: (row.plan_tier as Profile["plan_tier"]) ?? DEFAULT_PLAN_TIER,
     full_name: (row.full_name as string | null) ?? null,
     whatsapp_number: (row.whatsapp_number as string | null) ?? null,
+    page_slug: (row.page_slug as string | null) ?? null,
+    onboarding_completed_at: (row.onboarding_completed_at as string | null) ?? null,
     created_at: (row.created_at as string | null) ?? null,
     updated_at: (row.updated_at as string | null) ?? null,
   };

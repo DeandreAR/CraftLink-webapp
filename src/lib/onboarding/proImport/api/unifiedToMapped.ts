@@ -1,8 +1,9 @@
-import type { OnboardingPortfolioItem, ProImportPlatform } from "@/domain/onboarding";
+import type { OnboardingPortfolioItem, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { isMetierKey } from "@/lib/vitrine/metierConfigs";
 import type { UnifiedImportData } from "@/lib/onboarding/proImport/api/unifiedImportData";
 import type { MappedProImportData } from "@/lib/onboarding/proImport/types";
+import { namesToOnboardingServices } from "@/lib/onboarding/importServices";
 
 export function unifiedToMappedImportData(
   data: UnifiedImportData,
@@ -40,6 +41,11 @@ export function unifiedToMappedImportData(
     rating: data.rating ?? undefined,
     reviews: data.reviews ?? undefined,
     googleBusinessUrl: data.googleBusinessUrl?.trim() || undefined,
+    importServices: data.importServices,
+    services:
+      data.importServices && data.importServices.length > 0
+        ? namesToOnboardingServices(data.importServices)
+        : undefined,
     inferredMetierKey,
     experienceYears: data.experienceYears ?? null,
     portfolioItems,

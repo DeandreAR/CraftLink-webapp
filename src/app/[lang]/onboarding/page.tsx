@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { OnboardingPage } from "@/components/onboarding/OnboardingPage";
 import { getDictionary } from "@/i18n/getDictionary";
 import { isLocale, type Locale } from "@/i18n/config";
+import { prepareOnboardingPage } from "@/lib/auth/prepareOnboardingPage";
 
 type Props = {
   params: Promise<{ lang: string }>;
@@ -13,6 +14,7 @@ export default async function LangOnboardingPage({ params, searchParams }: Props
   const { plan } = await searchParams;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
+  await prepareOnboardingPage(lang);
   const dict = await getDictionary(lang);
   const planIntent = plan === "pro" ? "pro" : "choice";
 

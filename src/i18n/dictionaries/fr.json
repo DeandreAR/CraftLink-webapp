@@ -38,8 +38,7 @@
       "confirmPassword": "Confirmer le mot de passe",
       "submit": "Créer mon compte",
       "submitting": "Création…",
-      "goToSignIn": "Déjà inscrit ? Se connecter",
-      "setupVitrineLink": "Configurer ma vitrine sans compte →"
+      "goToSignIn": "Déjà inscrit ? Se connecter"
     },
     "dashboard": {
       "title": "Tableau de bord",

@@ -38,8 +38,7 @@
       "confirmPassword": "Confirm password",
       "submit": "Create my account",
       "submitting": "Creating…",
-      "goToSignIn": "Already registered? Log in",
-      "setupVitrineLink": "Set up my storefront without an account →"
+      "goToSignIn": "Already registered? Log in"
     },
     "dashboard": {
       "title": "Dashboard",

@@ -1,4 +1,8 @@
 import type { GooglePlaceApiResponse } from "@/lib/onboarding/proImport/apiTypes";
+import {
+  extractGooglePlaceServices,
+  type SerpPlaceWithServices,
+} from "@/lib/onboarding/proImport/googlePlaceServices";
 import { parseGoogleIdentifier } from "@/lib/onboarding/proImport/parseGoogleIdentifier";
 import { providerFetch } from "@/lib/onboarding/proImport/api/providerHttp";
 import {
@@ -6,15 +10,19 @@ import {
   throwIfQuotaInProviderError,
 } from "@/lib/onboarding/proImport/api/providerErrors";
 
-type SerpPlace = {
+type SerpPlace = SerpPlaceWithServices & {
   title?: string;
   rating?: number;
   reviews?: number;
   thumbnail?: string;
   address?: string;
   phone?: string;
+  description?: string;
   images?: { thumbnail?: string }[];
   place_id?: string;
+  data_id?: string;
+  data_cid?: string;
+  gps_coordinates?: { latitude?: number; longitude?: number };
 };
 
 type SerpMapsResponse = {
@@ -23,8 +31,30 @@ type SerpMapsResponse = {
   local_results?: SerpPlace[];
 };
 
+function mergePlaces(base: SerpPlace, patch?: SerpPlace): SerpPlace {
+  if (!patch) return base;
+  return {
+    ...base,
+    ...patch,
+    menu: patch.menu ?? base.menu,
+    services: patch.services ?? base.services,
+    offerings: patch.offerings ?? base.offerings,
+    extensions: patch.extensions ?? base.extensions,
+    unsupported_extensions: patch.unsupported_extensions ?? base.unsupported_extensions,
+  };
+}
+
+function buildPlaceDataParam(place: SerpPlace): string | null {
+  const dataId = place.data_id?.trim();
+  const lat = place.gps_coordinates?.latitude;
+  const lng = place.gps_coordinates?.longitude;
+  if (!dataId || lat == null || lng == null) return null;
+  return `!4m5!3m4!1s${dataId}!8m2!3d${lat}!4d${lng}`;
+}
+
 function toGooglePayload(place: SerpPlace, placeId?: string): GooglePlaceApiResponse {
   const resolvedPlaceId = placeId ?? place.place_id;
+  const services = extractGooglePlaceServices(place);
   return {
     place_results: {
       title: place.title ?? "",
@@ -33,8 +63,10 @@ function toGooglePayload(place: SerpPlace, placeId?: string): GooglePlaceApiResp
       thumbnail: place.thumbnail ?? place.images?.[0]?.thumbnail ?? "",
       address: place.address ?? "",
       phone_number: place.phone ?? null,
+      description: place.description?.trim() ?? "",
     },
     ...(resolvedPlaceId ? { place_id: resolvedPlaceId } : {}),
+    ...(services.length > 0 ? { services } : {}),
   };
 }
 
@@ -69,6 +101,66 @@ async function serpMapsSearch(
   return data;
 }
 
+async function enrichPlaceDetails(
+  apiKey: string,
+  place: SerpPlace,
+  placeId?: string,
+  options?: { skipPlaceIdFetch?: boolean },
+): Promise<SerpPlace> {
+  let merged = place;
+  const resolvedPlaceId = placeId ?? place.place_id;
+
+  if (
+    !options?.skipPlaceIdFetch &&
+    resolvedPlaceId &&
+    extractGooglePlaceServices(merged).length === 0
+  ) {
+    const byPlaceId = await serpMapsSearch(apiKey, {
+      engine: "google_maps",
+      place_id: resolvedPlaceId,
+      hl: "fr",
+      gl: "fr",
+    });
+    if (byPlaceId.place_results?.title) {
+      merged = mergePlaces(merged, byPlaceId.place_results);
+    }
+  }
+
+  if (extractGooglePlaceServices(merged).length > 0) {
+    return merged;
+  }
+
+  const dataParam = buildPlaceDataParam(merged);
+  if (dataParam) {
+    const byData = await serpMapsSearch(apiKey, {
+      engine: "google_maps",
+      type: "place",
+      data: dataParam,
+      hl: "fr",
+      gl: "fr",
+    });
+    if (byData.place_results?.title) {
+      merged = mergePlaces(merged, byData.place_results);
+    }
+  }
+
+  if (extractGooglePlaceServices(merged).length > 0 || !merged.data_cid) {
+    return merged;
+  }
+
+  const byCid = await serpMapsSearch(apiKey, {
+    engine: "google_maps",
+    data_cid: merged.data_cid,
+    hl: "fr",
+    gl: "fr",
+  });
+  if (byCid.place_results?.title) {
+    merged = mergePlaces(merged, byCid.place_results);
+  }
+
+  return merged;
+}
+
 async function fetchByPlaceId(
   apiKey: string,
   placeId: string,
@@ -84,7 +176,10 @@ async function fetchByPlaceId(
     throw new Error("Aucune fiche Google My Business trouvée pour cet identifiant.");
   }
 
-  return toGooglePayload(details.place_results, placeId);
+  const enriched = await enrichPlaceDetails(apiKey, details.place_results, placeId, {
+    skipPlaceIdFetch: true,
+  });
+  return toGooglePayload(enriched, placeId);
 }
 
 async function fetchBySearchQuery(
@@ -100,7 +195,8 @@ async function fetchBySearchQuery(
   });
 
   if (search.place_results?.title) {
-    return toGooglePayload(search.place_results);
+    const enriched = await enrichPlaceDetails(apiKey, search.place_results);
+    return toGooglePayload(enriched);
   }
 
   const first = search.local_results?.[0];
@@ -109,19 +205,8 @@ async function fetchBySearchQuery(
   }
 
   const placeId = first.place_id;
-  if (placeId) {
-    const details = await serpMapsSearch(apiKey, {
-      engine: "google_maps",
-      place_id: placeId,
-      hl: "fr",
-      gl: "fr",
-    });
-    if (details.place_results?.title) {
-      return toGooglePayload(details.place_results, placeId);
-    }
-  }
-
-  return toGooglePayload(first, placeId);
+  const enriched = await enrichPlaceDetails(apiKey, first, placeId);
+  return toGooglePayload(enriched, placeId);
 }
 
 /**

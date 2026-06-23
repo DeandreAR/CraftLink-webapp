@@ -13,6 +13,8 @@ export type Profile = {
   plan_tier: PlanTier;
   full_name: string | null;
   whatsapp_number: string | null;
+  page_slug: string | null;
+  onboarding_completed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
 };

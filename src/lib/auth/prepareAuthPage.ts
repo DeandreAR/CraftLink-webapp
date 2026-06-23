@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import type { Locale } from "@/i18n/config";
 import { formatConfigDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
 import { rethrowIfNextNavigationError } from "@/lib/next/navigationErrors";
 import { getSupabaseConfig } from "@/lib/supabase/env";
@@ -34,7 +35,7 @@ export async function prepareAuthPage(
     }
 
     if (session.ok && session.data) {
-      redirect(authPath(lang, "dashboard"));
+      redirect(resolvePostAuthPath(lang, session.data.profile));
     }
   } catch (error) {
     rethrowIfNextNavigationError(error);

@@ -11,6 +11,7 @@ import {
 } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
+import { OnboardingCompleteStep } from "@/components/onboarding/OnboardingCompleteStep";
 import { OnboardingPlanBadge } from "@/components/onboarding/OnboardingPlanBadge";
 import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
 import {
@@ -29,13 +30,13 @@ import { OnboardingProValidateStep } from "@/components/onboarding/steps/Onboard
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { authPath } from "@/lib/auth/paths";
+import { resolveNextPhaseAfterProfileUpdate } from "@/lib/onboarding/proOnboardingFlow";
 import {
   createProOnboardingState,
   MANUAL_PRO_PHASES,
   proOnboardingReducer,
   type ProOnboardingPhase,
 } from "@/lib/onboarding/proOnboardingReducer";
-import { resolveNextPhaseAfterProfileUpdate } from "@/lib/onboarding/proOnboardingFlow";
 import {
   getMissingProRequiredFields,
   isProProfilePublishable,
@@ -145,6 +146,9 @@ export function ProOnboardingWizard({
       },
     };
     dispatch({ type: "PATCH_PROFILE", patch: merged });
+    if (result.services.length > 0) {
+      dispatch({ type: "SET_SERVICES", services: result.services });
+    }
     dispatch({ type: "SET_GAP_FIELDS", fields: result.missingFields });
     goToNextProPhase(merged, dispatch);
   };
@@ -204,16 +208,7 @@ export function ProOnboardingWizard({
 
   if (phase === "complete") {
     return (
-      <div className="space-y-5 text-center">
-        <p className="text-4xl" aria-hidden>
-          ✓
-        </p>
-        <h2 className="text-xl font-bold text-black">{copy.complete.title}</h2>
-        <p className="text-sm text-neutral-600">{copy.complete.body}</p>
-        <GlowButton href={authPath(lang, "dashboard")} className="w-full justify-center">
-          {copy.complete.cta}
-        </GlowButton>
-      </div>
+      <OnboardingCompleteStep copy={copy} lang={lang} pageSlug={profile.pageSlug} />
     );
   }
 

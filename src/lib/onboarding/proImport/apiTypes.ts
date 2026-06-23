@@ -7,8 +7,10 @@ export type GooglePlaceApiResponse = {
     thumbnail: string;
     address: string;
     phone_number: string | null;
+    description?: string;
   };
   place_id?: string;
+  services?: string[];
 };
 
 /** Réponse type RocketAPI — Instagram */

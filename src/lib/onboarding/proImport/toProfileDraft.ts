@@ -67,7 +67,7 @@ export function resolveTradeLabelFallback(
 ): string {
   if (profile.metierKey) return defaultLabel;
   if (profile.importPlatform === "instagram" && profile.aboutText.trim()) {
-    return inferTradeLabelFromBio(profile.aboutText) || defaultLabel;
+    return inferTradeLabelFromBio(profile.aboutText) || "";
   }
-  return defaultLabel;
+  return "";
 }

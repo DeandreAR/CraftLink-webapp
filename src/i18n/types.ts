@@ -130,7 +130,6 @@ export type AuthSignUpDictionary = {
   submit: string;
   submitting: string;
   goToSignIn: string;
-  setupVitrineLink: string;
 };
 
 export type AuthShellDictionary = {
@@ -603,7 +602,9 @@ export type OnboardingDictionary = {
   complete: {
     title: string;
     body: string;
+    yourUrl: string;
     cta: string;
+    autoRedirect: string;
   };
   publicServices: {
     title: string;

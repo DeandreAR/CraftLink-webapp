@@ -70,7 +70,7 @@ export function OnboardingVisualStep({
 
   const previewProps = useMemo(
     () =>
-      buildOnboardingPreviewProps(profile, "PRO", services, locale, vitrineCopy, {
+      buildOnboardingPreviewProps(profile, profile.plan, services, locale, vitrineCopy, {
         pricePrefix: copy.services.pricePrefix,
         priceSuffixEur: copy.services.priceSuffixEur,
         priceSuffixUsd: copy.services.priceSuffixUsd,

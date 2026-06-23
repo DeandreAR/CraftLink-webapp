@@ -1,6 +1,7 @@
 import {
   defaultOnboardingProfile,
   type OnboardingProfileDraft,
+  type OnboardingService,
   type ProImportPlatform,
 } from "@/domain/onboarding";
 import { extractDominantColorFromUrl, FALLBACK_BRAND } from "@/lib/onboarding/extractDominantColor";
@@ -17,6 +18,7 @@ const FALLBACK_BY_PLATFORM: Record<ProImportPlatform, string> = {
 
 export type ProImportPipelineResult = ProImportRunResult & {
   profile: Partial<OnboardingProfileDraft>;
+  services: OnboardingService[];
   missingFields: ReturnType<typeof getMissingProRequiredFields>;
   source: "live";
 };
@@ -40,7 +42,7 @@ export async function runProImportPipeline(
   platform: ProImportPlatform,
   identifier: string,
 ): Promise<ProImportPipelineResult> {
-  const { mapped, profile: profilePatch, missingFields, source } =
+  const { mapped, profile: profilePatch, services, missingFields, source } =
     await fetchProImportApi(platform, identifier);
 
   const brandColor = await extractBrandColorFromAvatar(mapped.avatarUrl, platform);
@@ -68,6 +70,7 @@ export async function runProImportPipeline(
     mapped,
     brandColor,
     profile,
+    services,
     missingFields: missingFields.length > 0 ? missingFields : getMissingProRequiredFields(draft),
     source,
   };

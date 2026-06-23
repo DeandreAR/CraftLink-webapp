@@ -1,4 +1,4 @@
-import type { OnboardingPortfolioItem, ProImportPlatform } from "@/domain/onboarding";
+import type { OnboardingPortfolioItem, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 
 /** Données normalisées après mapping des réponses REST. */
@@ -13,6 +13,8 @@ export type MappedProImportData = {
   platform: ProImportPlatform;
   identifier: string;
   googleBusinessUrl?: string;
+  importServices?: string[];
+  services?: OnboardingService[];
   inferredMetierKey?: MetierKey | "";
   experienceYears?: number | null;
   portfolioItems?: OnboardingPortfolioItem[];

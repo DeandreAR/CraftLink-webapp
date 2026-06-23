@@ -14,6 +14,8 @@ export type UnifiedImportData = {
   reviews: number | null;
   /** Import Google uniquement — lien canonique vers la fiche GMB */
   googleBusinessUrl?: string | null;
+  /** Noms de prestations importées (Google GMB). */
+  importServices?: string[];
   /** Import Instagram uniquement */
   instagramUsername?: string | null;
   inferredMetierKey?: string | null;

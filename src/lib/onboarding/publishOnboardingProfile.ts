@@ -20,7 +20,7 @@ async function isSlugAvailableClient(slug: string): Promise<boolean> {
 
 async function persistOnboardingProfile(
   profile: OnboardingProfileDraft,
-  options: { setProPlan: boolean },
+  options: { setProPlan: boolean; markComplete: boolean },
 ): Promise<PublishOnboardingResult> {
   const validation = validatePageSlug(profile.pageSlug);
   if (!validation.ok || !profile.pageSlugConfirmed) {
@@ -55,6 +55,9 @@ async function persistOnboardingProfile(
         full_name: profile.businessName.trim(),
         whatsapp_number: profile.phone.trim(),
         page_slug: slug,
+        ...(options.markComplete
+          ? { onboarding_completed_at: new Date().toISOString() }
+          : {}),
         updated_at: new Date().toISOString(),
       })
       .eq("id", user.id);
@@ -80,15 +83,18 @@ export async function saveOnboardingDraft(
   profile: OnboardingProfileDraft,
   services: OnboardingService[],
 ): Promise<PublishOnboardingResult> {
-  return persistOnboardingProfile(profile, { setProPlan: false });
+  return persistOnboardingProfile(profile, { setProPlan: false, markComplete: false });
 }
 
 /**
- * Publie le profil onboarding : met à jour Supabase si session active, sinon simulation.
+ * Publie le profil onboarding : met à jour Supabase si session active.
  */
 export async function publishOnboardingProfile(
   profile: OnboardingProfileDraft,
   services: OnboardingService[],
 ): Promise<PublishOnboardingResult> {
-  return persistOnboardingProfile(profile, { setProPlan: true });
+  return persistOnboardingProfile(profile, {
+    setProPlan: profile.plan === "PRO",
+    markComplete: true,
+  });
 }

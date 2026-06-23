@@ -56,13 +56,14 @@ export function mapGoogleResponseToUnified(
 
   return {
     name: p.title?.trim() ?? "",
-    description: "",
+    description: p.description?.trim() ?? "",
     avatarUrl: p.thumbnail ?? "",
     phone: normalizePhone(p.phone_number),
     city: parseCityFromAddress(p.address ?? ""),
     rating: p.rating ?? null,
     reviews: p.reviews ?? null,
     googleBusinessUrl,
+    importServices: raw.services ?? [],
   };
 }
 

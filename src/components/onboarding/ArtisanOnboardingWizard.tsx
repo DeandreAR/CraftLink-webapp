@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   defaultOnboardingProfile,
   type GeneralStepErrors,
@@ -12,6 +12,7 @@ import {
 } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
+import { OnboardingCompleteStep } from "@/components/onboarding/OnboardingCompleteStep";
 import { OnboardingPlanBadge } from "@/components/onboarding/OnboardingPlanBadge";
 import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
 import { ProOnboardingWizard } from "@/components/onboarding/ProOnboardingWizard";
@@ -24,14 +25,17 @@ import {
   isInterventionsStepValid,
   OnboardingInterventionsStep,
 } from "@/components/onboarding/steps/OnboardingInterventionsStep";
+import { OnboardingPageSlugStep } from "@/components/onboarding/steps/OnboardingPageSlugStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
 import { OnboardingUpsellModal } from "@/components/onboarding/OnboardingUpsellModal";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { authPath } from "@/lib/auth/paths";
+import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
+import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
 
-type WizardPhase = "general" | "interventions" | "visual" | "complete";
+type WizardPhase = "general" | "interventions" | "slug" | "visual" | "complete";
 
-const STEPS: WizardPhase[] = ["general", "interventions", "visual"];
+const STEPS: WizardPhase[] = ["general", "interventions", "slug", "visual"];
 
 type ArtisanOnboardingWizardProps = {
   lang: Locale;
@@ -60,23 +64,25 @@ export function ArtisanOnboardingWizard({
   const [services, setServices] = useState<OnboardingService[]>([]);
   const [upsellOpen, setUpsellOpen] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [publishError, setPublishError] = useState<string | null>(null);
+  const [publishedSlug, setPublishedSlug] = useState("");
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
 
-  if (proWizardActive) {
-    return (
-      <ProOnboardingWizard
-        lang={lang}
-        copy={copy}
-        vitrineCopy={vitrineCopy}
-        initialProfile={isProIntent ? undefined : profile}
-        initialServices={isProIntent ? undefined : services}
-      />
-    );
-  }
-
-  const patchProfile = (patch: Partial<OnboardingProfileDraft>) => {
-    setProfile((prev) => ({ ...prev, ...patch }));
+  const patchProfile = useCallback((patch: Partial<OnboardingProfileDraft>) => {
+    setProfile((prev) => {
+      const next = { ...prev, ...patch };
+      if (
+        patch.businessName &&
+        !patch.pageSlug &&
+        !prev.pageSlugConfirmed &&
+        !prev.pageSlug.trim()
+      ) {
+        const suggested = suggestPageSlugFromName(patch.businessName);
+        if (suggested) next.pageSlug = suggested;
+      }
+      return next;
+    });
     if (patch.businessName !== undefined) {
       setGeneralErrors((e) => ({ ...e, businessName: undefined }));
     }
@@ -94,7 +100,7 @@ export function ArtisanOnboardingWizard({
     if (patch.city !== undefined) {
       setGeneralErrors((e) => ({ ...e, city: undefined }));
     }
-  };
+  }, []);
 
   const stepIndex = STEPS.indexOf(phase);
   const progressCurrent = stepIndex >= 0 ? stepIndex + 1 : STEPS.length;
@@ -105,9 +111,22 @@ export function ArtisanOnboardingWizard({
     return true;
   }, [phase, profile]);
 
+  if (proWizardActive) {
+    return (
+      <ProOnboardingWizard
+        lang={lang}
+        copy={copy}
+        vitrineCopy={vitrineCopy}
+        initialProfile={isProIntent ? undefined : profile}
+        initialServices={isProIntent ? undefined : services}
+      />
+    );
+  }
+
   const goBack = () => {
     if (phase === "interventions") setPhase("general");
-    else if (phase === "visual") setPhase("interventions");
+    else if (phase === "slug") setPhase("interventions");
+    else if (phase === "visual") setPhase("slug");
   };
 
   const goNext = () => {
@@ -131,36 +150,62 @@ export function ArtisanOnboardingWizard({
         return;
       }
       setInterventionError(null);
-      setPhase("visual");
+      setPhase("slug");
     }
   };
 
   const finalizePlan = async (plan: OnboardingPlan) => {
+    if (!profile.pageSlugConfirmed || !validatePageSlug(profile.pageSlug).ok) {
+      setUpsellOpen(false);
+      setPhase("slug");
+      return;
+    }
+
     setCreating(true);
+    setPublishError(null);
     patchProfile({ plan });
     setDraftPlan(plan);
-    await new Promise((r) => setTimeout(r, 800));
-    setUpsellOpen(false);
-    setCreating(false);
+
     if (plan === "PRO") {
+      setUpsellOpen(false);
+      setCreating(false);
       setProWizardActive(true);
-    } else {
-      setPhase("complete");
+      return;
     }
+
+    const profileToPublish = { ...profile, plan };
+    const result = await publishOnboardingProfile(profileToPublish, services);
+    setCreating(false);
+    setUpsellOpen(false);
+
+    if (!result.ok) {
+      setPublishError(result.message);
+      return;
+    }
+
+    setPublishedSlug(result.slug);
+    setPhase("complete");
   };
 
   if (phase === "complete") {
     return (
-      <div className="space-y-5 text-center">
-        <p className="text-4xl" aria-hidden>
-          ✓
-        </p>
-        <h2 className="text-xl font-bold text-black">{copy.complete.title}</h2>
-        <p className="text-sm text-neutral-600">{copy.complete.body}</p>
-        <GlowButton href={authPath(lang, "dashboard")} className="w-full justify-center">
-          {copy.complete.cta}
-        </GlowButton>
-      </div>
+      <OnboardingCompleteStep
+        copy={copy}
+        lang={lang}
+        pageSlug={publishedSlug || profile.pageSlug}
+      />
+    );
+  }
+
+  if (phase === "slug") {
+    return (
+      <OnboardingPageSlugStep
+        copy={copy}
+        locale={lang}
+        profile={profile}
+        onChange={patchProfile}
+        onConfirm={() => setPhase("visual")}
+      />
     );
   }
 
@@ -172,6 +217,12 @@ export function ArtisanOnboardingWizard({
         locked={isProIntent}
         onPlanChange={(next) => {
           if (isProIntent) return;
+          if (next === "PRO") {
+            setProfile((prev) => ({ ...prev, plan: "PRO" }));
+            setDraftPlan("PRO");
+            setProWizardActive(true);
+            return;
+          }
           setDraftPlan(next);
           patchProfile({ plan: next });
         }}
@@ -212,15 +263,22 @@ export function ArtisanOnboardingWizard({
       ) : null}
 
       {phase === "visual" ? (
-        <OnboardingVisualStep
-          copy={copy}
-          vitrineCopy={vitrineCopy}
-          locale={lang}
-          profile={profile}
-          services={services}
-          onChange={patchProfile}
-          onCreatePage={() => setUpsellOpen(true)}
-        />
+        <>
+          {publishError ? (
+            <p className="mb-4 text-sm text-red-600" role="alert">
+              {publishError}
+            </p>
+          ) : null}
+          <OnboardingVisualStep
+            copy={copy}
+            vitrineCopy={vitrineCopy}
+            locale={lang}
+            profile={profile}
+            services={services}
+            onChange={patchProfile}
+            onCreatePage={() => setUpsellOpen(true)}
+          />
+        </>
       ) : null}
 
       <div className="mt-6 flex gap-3">
@@ -248,7 +306,7 @@ export function ArtisanOnboardingWizard({
 
       {phase === "general" ? (
         <p className="mt-6 text-center text-xs text-neutral-400">
-          <Link href={authPath(lang, "signup")} className="underline-offset-2 hover:underline">
+          <Link href={authPath(lang, "login")} className="underline-offset-2 hover:underline">
             ← {copy.back}
           </Link>
         </p>

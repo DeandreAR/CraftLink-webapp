@@ -170,9 +170,11 @@ export const onboardingEn: OnboardingDictionary = {
     finish: "Finish",
   },
   complete: {
-    title: "Your page is ready",
-    body: "Find it in your workspace and share it right away.",
-    cta: "Go to my workspace",
+    title: "Congratulations!",
+    body: "Your CraftLink page is live. Share your URL and manage everything from your workspace.",
+    yourUrl: "Your public URL",
+    cta: "Go to dashboard",
+    autoRedirect: "Redirecting automatically in a few seconds…",
   },
   publicServices: {
     title: "Services",
