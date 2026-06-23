@@ -16,6 +16,7 @@ type AuthPageShellProps = {
   backToHomeLabel?: string;
   contentClassName?: string;
   hideBrandPill?: boolean;
+  hideHeading?: boolean;
 };
 
 export function AuthPageShell({
@@ -28,6 +29,7 @@ export function AuthPageShell({
   backToHomeLabel = "Accueil",
   contentClassName = "max-w-lg",
   hideBrandPill = false,
+  hideHeading = false,
 }: AuthPageShellProps) {
   const home = lang === defaultLocale ? "/" : `/${lang}`;
 
@@ -47,7 +49,7 @@ export function AuthPageShell({
               alt="CraftLink"
               width={1731}
               height={350}
-              className="block h-8 w-auto max-w-none md:h-10"
+              className="landing-nav-logo-img block h-6 w-auto max-w-none md:h-7"
               decoding="async"
             />
           </Link>
@@ -76,11 +78,17 @@ export function AuthPageShell({
               <span className="h-2 w-2 rounded-full bg-[#EFA188]" aria-hidden />
             </p>
           ) : null}
-          <h1 className={`${hideBrandPill ? "" : "mt-4"} text-3xl font-bold tracking-tight text-black md:text-4xl`}>
-            {title}
-          </h1>
-          <p className="mt-3 text-base leading-relaxed text-neutral-600">{subtitle}</p>
-          <div className="mt-8">{children}</div>
+          {!hideHeading && title ? (
+            <h1
+              className={`${hideBrandPill ? "" : "mt-4"} text-3xl font-bold tracking-tight text-black md:text-4xl`}
+            >
+              {title}
+            </h1>
+          ) : null}
+          {!hideHeading && subtitle ? (
+            <p className="mt-3 text-base leading-relaxed text-neutral-600">{subtitle}</p>
+          ) : null}
+          <div className={hideHeading ? "mt-0" : "mt-8"}>{children}</div>
         </GlassCard>
       </main>
     </div>

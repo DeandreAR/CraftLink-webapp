@@ -66,6 +66,7 @@ export async function createCheckoutSession(
   const sessionParams: Parameters<typeof stripe.checkout.sessions.create>[0] = {
     mode: "subscription",
     line_items: [{ price: priceId, quantity: 1 }],
+    excluded_payment_method_types: ["klarna"],
     success_url: successUrl,
     cancel_url: cancelUrl,
     client_reference_id: user.id,

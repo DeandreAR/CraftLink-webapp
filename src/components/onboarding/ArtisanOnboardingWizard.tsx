@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   defaultOnboardingProfile,
   type GeneralStepErrors,
@@ -42,6 +42,7 @@ type ArtisanOnboardingWizardProps = {
   copy: OnboardingDictionary;
   vitrineCopy: VitrineDictionary;
   planIntent?: OnboardingPlanIntent;
+  onCelebrationChange?: (active: boolean) => void;
 };
 
 function formatStepLabel(template: string, current: number, total: number): string {
@@ -53,6 +54,7 @@ export function ArtisanOnboardingWizard({
   copy,
   vitrineCopy,
   planIntent = "choice",
+  onCelebrationChange,
 }: ArtisanOnboardingWizardProps) {
   const isProIntent = planIntent === "pro";
   const [proWizardActive, setProWizardActive] = useState(isProIntent);
@@ -65,7 +67,6 @@ export function ArtisanOnboardingWizard({
   const [upsellOpen, setUpsellOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
-  const [publishedSlug, setPublishedSlug] = useState("");
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
 
@@ -105,6 +106,10 @@ export function ArtisanOnboardingWizard({
   const stepIndex = STEPS.indexOf(phase);
   const progressCurrent = stepIndex >= 0 ? stepIndex + 1 : STEPS.length;
 
+  useEffect(() => {
+    onCelebrationChange?.(phase === "complete");
+  }, [phase, onCelebrationChange]);
+
   const canGoNext = useMemo(() => {
     if (phase === "general") return isGeneralStepValid(profile);
     if (phase === "interventions") return isInterventionsStepValid(profile);
@@ -119,6 +124,7 @@ export function ArtisanOnboardingWizard({
         vitrineCopy={vitrineCopy}
         initialProfile={isProIntent ? undefined : profile}
         initialServices={isProIntent ? undefined : services}
+        onCelebrationChange={onCelebrationChange}
       />
     );
   }
@@ -183,18 +189,11 @@ export function ArtisanOnboardingWizard({
       return;
     }
 
-    setPublishedSlug(result.slug);
     setPhase("complete");
   };
 
   if (phase === "complete") {
-    return (
-      <OnboardingCompleteStep
-        copy={copy}
-        lang={lang}
-        pageSlug={publishedSlug || profile.pageSlug}
-      />
-    );
+    return <OnboardingCompleteStep copy={copy} lang={lang} />;
   }
 
   if (phase === "slug") {

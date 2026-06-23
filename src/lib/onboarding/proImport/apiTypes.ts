@@ -8,6 +8,8 @@ export type GooglePlaceApiResponse = {
     address: string;
     phone_number: string | null;
     description?: string;
+    /** Catégories GMB (ex. "Electrician", "Électricien") */
+    category?: string;
   };
   place_id?: string;
   services?: string[];

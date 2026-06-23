@@ -1,8 +1,6 @@
-import { AuthPageShell } from "@/components/auth/AuthPageShell";
-import { ArtisanOnboardingWizard } from "@/components/onboarding/ArtisanOnboardingWizard";
+import { OnboardingPageClient } from "@/components/onboarding/OnboardingPageClient";
 import type { OnboardingPlanIntent } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
-import { authPath } from "@/lib/auth/paths";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 
 type OnboardingPageProps = {
@@ -21,22 +19,12 @@ export function OnboardingPage({
   planIntent = "choice",
 }: OnboardingPageProps) {
   return (
-    <AuthPageShell
+    <OnboardingPageClient
       lang={lang}
-      title={copy.title}
-      subtitle={copy.subtitle}
-      alternateHref={authPath(lang, "login")}
-      alternateLabel={loginLabel}
-      backToHomeLabel="Accueil"
-      contentClassName="max-w-5xl"
-      hideBrandPill
-    >
-      <ArtisanOnboardingWizard
-        lang={lang}
-        copy={copy}
-        vitrineCopy={vitrineCopy}
-        planIntent={planIntent}
-      />
-    </AuthPageShell>
+      copy={copy}
+      vitrineCopy={vitrineCopy}
+      loginLabel={loginLabel}
+      planIntent={planIntent}
+    />
   );
 }

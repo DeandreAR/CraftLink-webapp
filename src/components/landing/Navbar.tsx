@@ -62,7 +62,7 @@ export function Navbar({ basePath = "", labels }: NavbarProps) {
               alt="CraftLink"
               width={1731}
               height={350}
-              className="landing-nav-logo-img block h-8 w-auto max-w-none md:h-10"
+              className="landing-nav-logo-img block h-6 w-auto max-w-none md:h-7"
               decoding="async"
             />
           </Link>

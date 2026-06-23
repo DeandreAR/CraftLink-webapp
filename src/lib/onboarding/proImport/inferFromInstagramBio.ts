@@ -1,60 +1,14 @@
+import { detectMetierFromImport } from "@/lib/onboarding/jobDetection";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
-import { METIER_KEYS } from "@/lib/onboarding/metierOptions";
 
-const METIER_KEYWORDS: Record<MetierKey, readonly string[]> = {
-  ELECTRICIEN: [
-    "électric",
-    "electric",
-    "domotique",
-    "tableau électrique",
-    "irve",
-    "borne de recharge",
-    "photovolta",
-    "courant faible",
-  ],
-  PLOMBIER: ["plomb", "plumb", "chauffag", "sanitaire", "chaudière", "chauffe-eau", "dépannage eau"],
-  MENUISIER: ["menuiser", "carpent", "ébénist", "agencement", "parquet", "escalier bois"],
-  SERRURIER: ["serrur", "locksmith", "blindage", "porte blindée", "cylindre"],
-  PLAQUISTE: ["plaquist", "placo", "drywall", "isolation", "cloison sèche"],
-  PEINTRE: ["peint", "paint", "finition", "enduit décoratif", "ravalement"],
-  PAYSAGISTE: ["paysag", "landscap", "jardin", "terrasse bois", "engazonnement"],
-  COUVREUR: ["couvreur", "roof", "toiture", "tuile", "zinguerie", "gouttière"],
-  CARRELEUR: ["carrel", "tiler", "faïence", "mosaïque", "marbre"],
-  CHARPENTIER: ["charpent", "ossature bois", "fermette", "comble"],
-  MACON: ["maçon", "mason", "gros œuvre", "béton", "mur porteur", "parpaing"],
-  RENOVATION_GENERALE: [
-    "rénovation",
-    "renovation",
-    "travaux tous corps",
-    "contractant général",
-    "réhabilitation",
-    "home staging",
-  ],
-};
-
-export function inferMetierFromBio(bio: string): MetierKey | "" {
-  const text = bio.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
-  if (!text.trim()) return "";
-
-  let best: MetierKey | "" = "";
-  let bestScore = 0;
-
-  for (const key of METIER_KEYS) {
-    let score = 0;
-    for (const keyword of METIER_KEYWORDS[key]) {
-      const normalized = keyword
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/\p{Diacritic}/gu, "");
-      if (text.includes(normalized)) score += 1;
-    }
-    if (score > bestScore) {
-      bestScore = score;
-      best = key;
-    }
-  }
-
-  return bestScore > 0 ? best : "";
+/** @deprecated Préférer `detectMetierFromImport` — conservé pour les appels legacy bio seule. */
+export function inferMetierFromBio(bio: string, businessName = ""): MetierKey | "" {
+  const detected = detectMetierFromImport({
+    source: "instagram",
+    businessName,
+    biographyOrDesc: bio,
+  });
+  return detected ?? "";
 }
 
 export function inferCityFromBio(bio: string): string {

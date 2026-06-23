@@ -52,9 +52,16 @@ function buildPlaceDataParam(place: SerpPlace): string | null {
   return `!4m5!3m4!1s${dataId}!8m2!3d${lat}!4d${lng}`;
 }
 
+function formatGoogleCategory(type: string | string[] | undefined): string {
+  if (!type) return "";
+  if (Array.isArray(type)) return type.filter(Boolean).join(" ");
+  return type.trim();
+}
+
 function toGooglePayload(place: SerpPlace, placeId?: string): GooglePlaceApiResponse {
   const resolvedPlaceId = placeId ?? place.place_id;
   const services = extractGooglePlaceServices(place);
+  const category = formatGoogleCategory(place.type);
   return {
     place_results: {
       title: place.title ?? "",
@@ -64,6 +71,7 @@ function toGooglePayload(place: SerpPlace, placeId?: string): GooglePlaceApiResp
       address: place.address ?? "",
       phone_number: place.phone ?? null,
       description: place.description?.trim() ?? "",
+      ...(category ? { category } : {}),
     },
     ...(resolvedPlaceId ? { place_id: resolvedPlaceId } : {}),
     ...(services.length > 0 ? { services } : {}),

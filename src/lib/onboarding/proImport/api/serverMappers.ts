@@ -3,12 +3,10 @@ import type {
   GooglePlaceApiResponse,
   InstagramProfileApiResponse,
 } from "@/lib/onboarding/proImport/apiTypes";
-import type { MetierKey } from "@/lib/vitrine/metierConfigs";
-import { isMetierKey } from "@/lib/vitrine/metierConfigs";
+import { detectMetierFromImport } from "@/lib/onboarding/jobDetection";
 import {
   inferCityFromBio,
   inferExperienceYearsFromBio,
-  inferMetierFromBio,
 } from "@/lib/onboarding/proImport/inferFromInstagramBio";
 import {
   parseGoogleIdentifier,
@@ -54,9 +52,18 @@ export function mapGoogleResponseToUnified(
     );
   }
 
+  const name = p.title?.trim() ?? "";
+  const description = p.description?.trim() ?? "";
+  const inferredMetierKey = detectMetierFromImport({
+    source: "gmb",
+    businessName: name,
+    category: p.category,
+    biographyOrDesc: description,
+  });
+
   return {
-    name: p.title?.trim() ?? "",
-    description: p.description?.trim() ?? "",
+    name,
+    description,
     avatarUrl: p.thumbnail ?? "",
     phone: normalizePhone(p.phone_number),
     city: parseCityFromAddress(p.address ?? ""),
@@ -64,6 +71,7 @@ export function mapGoogleResponseToUnified(
     reviews: p.reviews ?? null,
     googleBusinessUrl,
     importServices: raw.services ?? [],
+    inferredMetierKey,
   };
 }
 
@@ -77,11 +85,15 @@ export function mapInstagramResponseToUnified(
   const rawAvatar = body.hd_profile_pic_url_info?.url ?? body.profile_pic_url ?? "";
   const avatarUrl = rawAvatar ? buildInstagramAvatarProxyUrl(rawAvatar) : "";
 
-  const inferred = inferMetierFromBio(bio);
-  const metierKey: MetierKey | "" = inferred && isMetierKey(inferred) ? inferred : "";
+  const name = body.full_name?.trim() ?? "";
+  const inferredMetierKey = detectMetierFromImport({
+    source: "instagram",
+    businessName: name,
+    biographyOrDesc: bio,
+  });
 
   return {
-    name: body.full_name?.trim() ?? "",
+    name,
     description: bio,
     avatarUrl,
     phone: null,
@@ -89,7 +101,7 @@ export function mapInstagramResponseToUnified(
     rating: null,
     reviews: null,
     instagramUsername: username.replace(/^@/, ""),
-    inferredMetierKey: metierKey || null,
+    inferredMetierKey,
     experienceYears: inferExperienceYearsFromBio(bio),
     instagramPortfolio: [
       {
@@ -105,13 +117,22 @@ export function mapFacebookResponseToUnified(
   raw: FacebookPageApiResponse,
 ): UnifiedImportData {
   const p = raw.page_data;
+  const name = p.name?.trim() ?? "";
+  const description = p.about?.trim() ?? "";
+  const inferredMetierKey = detectMetierFromImport({
+    source: "facebook",
+    businessName: name,
+    biographyOrDesc: description,
+  });
+
   return {
-    name: p.name?.trim() ?? "",
-    description: p.about?.trim() ?? "",
+    name,
+    description,
     avatarUrl: p.profile_pic ?? "",
     phone: normalizePhone(p.phone),
     city: null,
     rating: null,
     reviews: null,
+    inferredMetierKey,
   };
 }

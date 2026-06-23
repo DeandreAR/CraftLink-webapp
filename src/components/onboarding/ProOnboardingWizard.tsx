@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useReducer, useState, type Dispatch } from "react";
+import { useCallback, useEffect, useReducer, useState, type Dispatch } from "react";
 import {
   defaultOnboardingProfile,
   defaultVisualDraft,
@@ -57,6 +57,7 @@ type ProOnboardingWizardProps = {
   initialServices?: OnboardingService[];
   /** Démarre directement sur le choix auto/manuel (défaut) ou sur l’édition manuelle. */
   startPhase?: ProOnboardingPhase;
+  onCelebrationChange?: (active: boolean) => void;
 };
 
 function formatStepLabel(template: string, current: number, total: number): string {
@@ -84,6 +85,7 @@ export function ProOnboardingWizard({
   initialProfile,
   initialServices,
   startPhase = "choice",
+  onCelebrationChange,
 }: ProOnboardingWizardProps) {
   const searchParams = useSearchParams();
   const stripeCheckoutSuccess = searchParams.get("stripe") === "success";
@@ -105,6 +107,10 @@ export function ProOnboardingWizard({
   const [interventionError, setInterventionError] = useState<string | null>(null);
 
   const { phase, profile, services } = state;
+
+  useEffect(() => {
+    onCelebrationChange?.(phase === "complete");
+  }, [phase, onCelebrationChange]);
 
   const patchProfile = useCallback(
     (patch: Partial<OnboardingProfileDraft>) => {
@@ -207,9 +213,7 @@ export function ProOnboardingWizard({
   };
 
   if (phase === "complete") {
-    return (
-      <OnboardingCompleteStep copy={copy} lang={lang} pageSlug={profile.pageSlug} />
-    );
+    return <OnboardingCompleteStep copy={copy} lang={lang} />;
   }
 
   if (phase === "slug") {
