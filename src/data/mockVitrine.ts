@@ -153,6 +153,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     secondaryUrgent: "Demander un RDV Urgent",
     collaboration: "Collaboration (Partenaires)",
   },
+  voiceCaptureEnabled: false,
 };
 
 const SETTINGS_PRO: VitrineProfileSettings = {
@@ -171,6 +172,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     secondaryUrgent: "Demander un RDV Urgent",
     collaboration: "Collaboration (Partenaires)",
   },
+  voiceCaptureEnabled: true,
 };
 
 const THEME_ESSENTIAL: VitrineTheme = {

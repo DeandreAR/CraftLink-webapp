@@ -243,7 +243,7 @@
     },
     "tierPro": {
       "name": "PRO ARTISAN",
-      "pitch": "Offre Early Bird — qualification IA, leads illimités et image pro renforcée.",
+      "pitch": "Offre Early Bird — contacts WhatsApp illimités, capture vocale et image pro renforcée.",
       "cta": "Rejoindre la Bêta Pro",
       "href": "/onboarding?plan=pro",
       "badge": "EARLY BIRD",
@@ -302,17 +302,22 @@
         "pro": true
       },
       {
-        "label": "Capture vocale & transcription IA",
-        "essential": false,
+        "label": "CRM leads — liste complète visible",
+        "essential": true,
         "pro": true
       },
       {
-        "labelEssential": "Accès limité à 15 leads/mois (Affichage flouté au-delà)",
-        "labelPro": "Leads illimités (Aucun blocage)",
-        "label": "Volume de leads",
+        "labelEssential": "10 partages WhatsApp/mois depuis le CRM",
+        "labelPro": "Partages WhatsApp illimités depuis le CRM",
+        "label": "Contact client via WhatsApp",
         "essential": true,
         "pro": true,
         "essentialLimit": true
+      },
+      {
+        "label": "Capture vocale (fichier audio brut)",
+        "essential": false,
+        "pro": true
       },
       {
         "labelEssential": "Pas d'accusé de réception SMS automatique",

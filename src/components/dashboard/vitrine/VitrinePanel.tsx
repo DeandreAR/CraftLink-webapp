@@ -1,17 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { FaPen, FaQrcode, FaStore } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { FaMicrophone, FaPen, FaQrcode, FaStore } from "react-icons/fa6";
 import type { Profile } from "@/domain/profile";
+import { profileToDashboardUser } from "@/domain/dashboardUser";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { PartnersSection } from "@/components/dashboard/vitrine/PartnersSection";
 import { QrCodeVanModule } from "@/components/dashboard/vitrine/QrCodeVanModule";
+import { VoiceCaptureSetting } from "@/components/dashboard/vitrine/VoiceCaptureSetting";
 import { VitrineProfileForm } from "@/components/dashboard/vitrine/VitrineProfileForm";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
-import { isProPlan } from "@/lib/dashboard/planAccess";
+import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 
-type VitrineSubTab = "profile" | "qr" | "partners";
+type VitrineSubTab = "profile" | "capture" | "qr" | "partners";
 
 type VitrinePanelProps = {
   profile: Profile;
@@ -21,14 +23,25 @@ type VitrinePanelProps = {
 
 export function VitrinePanel({ profile, copy, locale }: VitrinePanelProps) {
   const [subTab, setSubTab] = useState<VitrineSubTab>("profile");
+  const [dashboardUser, setDashboardUser] = useState(() => profileToDashboardUser(profile));
   const v = copy.vitrine;
-  const pro = isProPlan(profile.plan_tier);
+  const plan = resolveCraftlinkPlan(profile.plan_tier);
+  const pro = plan === "PRO";
+
+  useEffect(() => {
+    setDashboardUser(profileToDashboardUser(profile));
+  }, [profile]);
 
   const subTabs = [
     {
       id: "profile" as const,
       label: v.subTabs.profile,
       icon: <FaPen className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+    {
+      id: "capture" as const,
+      label: v.subTabs.capture,
+      icon: <FaMicrophone className="h-3.5 w-3.5 opacity-70" aria-hidden />,
     },
     {
       id: "qr" as const,
@@ -61,6 +74,17 @@ export function VitrinePanel({ profile, copy, locale }: VitrinePanelProps) {
       <div className="mt-6">
         {subTab === "profile" ? (
           <VitrineProfileForm profile={profile} copy={copy} locale={locale} />
+        ) : null}
+        {subTab === "capture" ? (
+          <VoiceCaptureSetting
+            plan={dashboardUser.plan}
+            enabled={dashboardUser.voiceCaptureEnabled}
+            onEnabledChange={(enabled) =>
+              setDashboardUser((prev) => ({ ...prev, voiceCaptureEnabled: enabled }))
+            }
+            copy={copy}
+            locale={locale}
+          />
         ) : null}
         {subTab === "qr" ? (
           <QrCodeVanModule slug={profile.page_slug} copy={copy} />

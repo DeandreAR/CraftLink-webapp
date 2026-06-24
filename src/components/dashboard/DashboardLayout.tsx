@@ -27,7 +27,7 @@ export function DashboardLayout({ session, copy, locale }: DashboardLayoutProps)
   const home = locale === defaultLocale ? "/" : `/${locale}`;
 
   return (
-    <div className="flex min-h-screen bg-white text-black">
+    <div className="flex min-h-screen bg-[#f4f5f7] text-slate-900">
       <DashboardSidebar
         active={tab}
         onChange={setTab}
@@ -58,7 +58,7 @@ export function DashboardLayout({ session, copy, locale }: DashboardLayoutProps)
           </form>
         </header>
 
-        <main className="flex-1 overflow-x-auto bg-white px-4 py-5 pb-[4.5rem] md:px-8 md:py-8 md:pb-8">
+        <main className="flex-1 overflow-x-auto px-4 py-5 pb-[4.5rem] md:px-8 md:py-8 md:pb-8">
           <div className="mx-auto w-full max-w-5xl">
             {tab === "leads" ? (
               <LeadsPanel

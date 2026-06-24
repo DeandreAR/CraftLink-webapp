@@ -12,10 +12,46 @@ export const dashboardFr: DashboardDictionary = {
     title: "Vos demandes clients",
     subtitle: "Dossiers structurés reçus via votre page CraftLink.",
     empty: "Aucun lead pour le moment. Partagez votre lien pour recevoir des demandes.",
-    quotaBanner:
-      "Plan Essentiel : {used}/{limit} leads visibles ce mois-ci. Passez au Pro pour un accès illimité.",
-    quotaUnlimited: "Plan Pro — leads illimités.",
+    whatsappQuota: {
+      unlimited: "Plan Pro — partages WhatsApp illimités.",
+      limited:
+        "Plan Essentiel : {used}/{limit} partages WhatsApp ce mois-ci ({remaining} restants).",
+    },
+    upgradeModal: {
+      eyebrow: "Limite atteinte",
+      title: "Passez au Plan Pro pour partager sans limite",
+      body:
+        "Votre plan Essentiel inclut {limit} partages WhatsApp par mois. Débloquez des partages illimités et la capture vocale sur votre formulaire.",
+      usage: "Utilisation ce mois-ci : {used} / {limit} partages WhatsApp",
+      cta: "Passer au Plan Pro — 19 € HT/mois",
+      dismiss: "Plus tard",
+      proBenefits: [
+        "Partages WhatsApp illimités",
+        "Capture vocale (fichier audio brut) sur votre page",
+        "Section Partenaires & Marques",
+      ],
+    },
+    summary: {
+      total: "Demandes actives",
+      urgent: "Urgentes",
+      asap: "Rapides",
+      planned: "Planifiées",
+      info: "Info / devis",
+      done: "Terminées",
+    },
+    bulk: {
+      selected: "{count} sélectionnée(s)",
+      markDone: "Marquer terminé",
+      archive: "Archiver",
+      clear: "Annuler",
+      selectAll: "Tout sélectionner",
+      selectOne: "Sélectionner {name}",
+    },
+    pipeline: {
+      singleDragHint: "Glissez une demande à la fois pour changer son statut.",
+    },
     columns: {
+      id: "N°",
       name: "Client",
       requestDate: "Date de la demande",
       work: "Travaux",
@@ -23,8 +59,6 @@ export const dashboardFr: DashboardDictionary = {
       status: "Statut",
     },
     contactWhatsApp: "Contacter sur WhatsApp",
-    lockedBadge: "Débloquer avec le Plan Pro",
-    lockedHint: "Lead masqué — quota Essentiel atteint (15/mois).",
     delayStatus: {
       urgent: "Urgent",
       asap: "Rapide",
@@ -71,6 +105,7 @@ export const dashboardFr: DashboardDictionary = {
     subtitle: "Éléments visibles sur votre page publique CraftLink.",
     subTabs: {
       profile: "Profil",
+      capture: "Capture",
       qr: "QR Camion",
       partners: "Partenaires",
     },
@@ -91,6 +126,16 @@ export const dashboardFr: DashboardDictionary = {
     saveError: "Impossible d'enregistrer. Réessayez.",
     viewPage: "Voir ma page",
     editPage: "Modifier la page",
+    voiceCapture: {
+      title: "Capture vocale",
+      description:
+        "Permettez à vos clients de laisser un message audio brut sur votre formulaire de demande.",
+      rawAudioNote: "Fichier audio uniquement — pas de transcription automatique.",
+      proBadge: "Plan Pro",
+      lockedHint:
+        "La capture vocale est incluse dans le Plan Pro Artisan. Activez-la pour enrichir vos dossiers clients.",
+      upgradeCta: "Passer au Plan Pro",
+    },
   },
   qr: {
     title: "QR Code Camion",
@@ -120,8 +165,31 @@ export const dashboardFr: DashboardDictionary = {
     manageStripe: "Gérer mon abonnement",
     upgradePro: "Passer au Plan Pro",
     portalError: "Impossible d'ouvrir le portail Stripe.",
-    essentialFeatures: "15 leads/mois visibles, page pro, QR camion.",
-    proFeatures: "Leads illimités, capture vocale IA, partenaires & marques.",
+    essentialFeatures: "10 partages WhatsApp/mois, page pro, QR camion.",
+    proFeatures: "Partages WhatsApp illimités, capture vocale, partenaires & marques.",
+  },
+  account: {
+    title: "Mon compte",
+    subtitle: "Abonnement, équipe et gestion de vos données personnelles.",
+    delete: {
+      title: "Supprimer mon compte et mes données",
+      body:
+        "Cette action est définitive. Toutes vos données CraftLink seront effacées et votre page publique ne sera plus accessible.",
+      bullets: [
+        "Profil artisan et paramètres de page",
+        "Historique des demandes clients",
+        "Abonnement Stripe (si actif)",
+      ],
+      cta: "Supprimer mon compte",
+      modalTitle: "Confirmer la suppression",
+      modalBody:
+        "Pour confirmer, tapez le mot ci-dessous. Cette action ne peut pas être annulée.",
+      confirmLabel: 'Tapez « {word} » pour confirmer',
+      confirmWord: "SUPPRIMER",
+      confirmCta: "Supprimer définitivement",
+      deleting: "Suppression…",
+      cancel: "Annuler",
+    },
   },
   team: {
     title: "Équipe / Collaboration",

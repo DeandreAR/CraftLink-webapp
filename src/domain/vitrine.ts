@@ -50,6 +50,8 @@ export type VitrineCtaLabels = {
 export type VitrineProfileSettings = {
   visibility: VitrineVisibilitySettings;
   cta: VitrineCtaLabels;
+  /** Capture vocale (fichier audio brut) — Pro uniquement, activable depuis le dashboard. */
+  voiceCaptureEnabled?: boolean;
 };
 
 export type VitrineStatBadgeKind =

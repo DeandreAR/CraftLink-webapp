@@ -1,6 +1,6 @@
 import type { DashboardLead } from "@/domain/lead";
 
-type DemoLeadRow = Omit<DashboardLead, "workflowStatus">;
+type DemoLeadRow = Omit<DashboardLead, "workflowStatus" | "requestNumber">;
 
 /**
  * Données de démonstration — remplacées par Supabase `leads` quand la table sera branchée.
@@ -195,8 +195,9 @@ function buildDemoLeads(): DashboardLead[] {
     },
   ];
 
-  return rows.map((lead) => ({
+  return rows.map((lead, index) => ({
     ...lead,
+    requestNumber: 3801 + index,
     workflowStatus:
       lead.id === "ld-17"
         ? ("archived" as const)

@@ -12,10 +12,46 @@ export const dashboardEn: DashboardDictionary = {
     title: "Client requests",
     subtitle: "Structured dossiers received via your CraftLink page.",
     empty: "No leads yet. Share your link to start receiving requests.",
-    quotaBanner:
-      "Essential plan: {used}/{limit} leads visible this month. Upgrade to Pro for unlimited access.",
-    quotaUnlimited: "Pro plan — unlimited leads.",
+    whatsappQuota: {
+      unlimited: "Pro plan — unlimited WhatsApp shares.",
+      limited:
+        "Essential plan: {used}/{limit} WhatsApp shares this month ({remaining} left).",
+    },
+    upgradeModal: {
+      eyebrow: "Limit reached",
+      title: "Upgrade to Pro for unlimited shares",
+      body:
+        "Your Essential plan includes {limit} WhatsApp shares per month. Unlock unlimited shares and voice capture on your form.",
+      usage: "Usage this month: {used} / {limit} WhatsApp shares",
+      cta: "Upgrade to Pro — €19 excl. VAT/month",
+      dismiss: "Later",
+      proBenefits: [
+        "Unlimited WhatsApp shares",
+        "Voice capture (raw audio file) on your page",
+        "Partners & Brands section",
+      ],
+    },
+    summary: {
+      total: "Active requests",
+      urgent: "Urgent",
+      asap: "ASAP",
+      planned: "Planned",
+      info: "Info / quote",
+      done: "Completed",
+    },
+    bulk: {
+      selected: "{count} selected",
+      markDone: "Mark done",
+      archive: "Archive",
+      clear: "Clear",
+      selectAll: "Select all",
+      selectOne: "Select {name}",
+    },
+    pipeline: {
+      singleDragHint: "Drag one request at a time to change its status.",
+    },
     columns: {
+      id: "No.",
       name: "Client",
       requestDate: "Request date",
       work: "Work",
@@ -23,8 +59,6 @@ export const dashboardEn: DashboardDictionary = {
       status: "Status",
     },
     contactWhatsApp: "Contact on WhatsApp",
-    lockedBadge: "Unlock with Pro plan",
-    lockedHint: "Lead hidden — Essential quota reached (15/month).",
     delayStatus: {
       urgent: "Urgent",
       asap: "ASAP",
@@ -71,6 +105,7 @@ export const dashboardEn: DashboardDictionary = {
     subtitle: "What visitors see on your public CraftLink page.",
     subTabs: {
       profile: "Profile",
+      capture: "Capture",
       qr: "Van QR",
       partners: "Partners",
     },
@@ -91,6 +126,16 @@ export const dashboardEn: DashboardDictionary = {
     saveError: "Could not save. Please try again.",
     viewPage: "View my page",
     editPage: "Edit page",
+    voiceCapture: {
+      title: "Voice capture",
+      description:
+        "Let clients leave a raw audio message on your request form.",
+      rawAudioNote: "Audio file only — no automatic transcription.",
+      proBadge: "Pro plan",
+      lockedHint:
+        "Voice capture is included in the Pro Artisan plan. Enable it to enrich client dossiers.",
+      upgradeCta: "Upgrade to Pro",
+    },
   },
   qr: {
     title: "Van QR Code",
@@ -120,8 +165,30 @@ export const dashboardEn: DashboardDictionary = {
     manageStripe: "Manage subscription",
     upgradePro: "Upgrade to Pro",
     portalError: "Could not open Stripe portal.",
-    essentialFeatures: "15 visible leads/month, pro page, van QR.",
-    proFeatures: "Unlimited leads, AI voice capture, partners & brands.",
+    essentialFeatures: "10 WhatsApp shares/month, pro page, van QR.",
+    proFeatures: "Unlimited WhatsApp shares, voice capture, partners & brands.",
+  },
+  account: {
+    title: "My account",
+    subtitle: "Subscription, team, and personal data management.",
+    delete: {
+      title: "Delete my account and data",
+      body:
+        "This action is permanent. All your CraftLink data will be erased and your public page will no longer be accessible.",
+      bullets: [
+        "Artisan profile and page settings",
+        "Client request history",
+        "Stripe subscription (if active)",
+      ],
+      cta: "Delete my account",
+      modalTitle: "Confirm deletion",
+      modalBody: "To confirm, type the word below. This cannot be undone.",
+      confirmLabel: 'Type "{word}" to confirm',
+      confirmWord: "DELETE",
+      confirmCta: "Delete permanently",
+      deleting: "Deleting…",
+      cancel: "Cancel",
+    },
   },
   team: {
     title: "Team / Collaboration",

@@ -8,6 +8,8 @@ export type LeadWorkflowStatus = "active" | "done" | "archived";
 /** Lead affiché dans le CRM artisan (tableau de bord). */
 export type DashboardLead = {
   id: string;
+  /** Numéro de demande affiché (ex. 3801 → « 3801 »). */
+  requestNumber: number;
   clientName: string;
   clientPhone: string;
   createdAt: string;

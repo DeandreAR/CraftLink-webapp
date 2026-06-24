@@ -15,6 +15,9 @@ export type Profile = {
   whatsapp_number: string | null;
   page_slug: string | null;
   onboarding_completed_at: string | null;
+  whatsapp_clicks_this_month?: number;
+  whatsapp_clicks_month_key?: string | null;
+  voice_capture_enabled?: boolean;
   created_at: string | null;
   updated_at: string | null;
 };

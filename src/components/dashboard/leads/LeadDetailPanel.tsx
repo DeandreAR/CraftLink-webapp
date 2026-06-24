@@ -1,15 +1,15 @@
 "use client";
 
-import { FaWhatsapp, FaXmark } from "react-icons/fa6";
+import { FaXmark } from "react-icons/fa6";
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus } from "@/domain/lead";
-import { LeadStatusSelect } from "@/components/dashboard/leads/LeadStatusControls";
+import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
 import { LeadWorkflowActions } from "@/components/dashboard/leads/LeadWorkflowActions";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppContactButton";
+import { buildLeadWhatsAppLink } from "@/lib/leads/buildLeadWhatsAppLink";
+import { formatLeadDate, formatRequestNumber } from "@/components/dashboard/leads/leadsViewShared";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
-import { buildLeadWhatsAppLink } from "@/lib/leads/buildLeadWhatsAppLink";
-import { formatLeadDate } from "@/components/dashboard/leads/leadsViewShared";
 
 type LeadDetailPanelProps = {
   lead: DashboardLead;
@@ -21,6 +21,7 @@ type LeadDetailPanelProps = {
   onMarkDone: () => void;
   onMarkArchived: () => void;
   onReactivate: () => void;
+  onWhatsAppContact: (href: string) => void;
 };
 
 export function LeadDetailPanel({
@@ -33,6 +34,7 @@ export function LeadDetailPanel({
   onMarkDone,
   onMarkArchived,
   onReactivate,
+  onWhatsAppContact,
 }: LeadDetailPanelProps) {
   const d = copy.leads.detail;
   const l = copy.leads;
@@ -58,7 +60,9 @@ export function LeadDetailPanel({
             <h2 id="lead-detail-title" className="mt-1 text-xl font-bold text-black">
               {lead.workType}
             </h2>
-            <p className="mt-0.5 text-sm text-neutral-600">{lead.clientName}</p>
+            <p className="mt-0.5 text-sm text-neutral-600">
+              {lead.clientName} · #{formatRequestNumber(lead.requestNumber)}
+            </p>
           </div>
           <button
             type="button"
@@ -90,7 +94,7 @@ export function LeadDetailPanel({
               {l.columns.status}
             </dt>
             <dd className="mt-1">
-              <LeadStatusSelect
+              <LeadStatusPicker
                 value={lead.delayStatus}
                 onChange={onDelayStatusChange}
                 copy={copy}
@@ -109,14 +113,10 @@ export function LeadDetailPanel({
 
         <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           {waHref ? (
-            <GlowButton
-              href={waHref}
-              external
-              className="justify-center gap-2 bg-[#25D366] text-white hover:bg-[#20BD5A]"
-            >
-              <FaWhatsapp className="h-4 w-4" aria-hidden />
-              {l.contactWhatsApp}
-            </GlowButton>
+            <WhatsAppContactButton
+              label={l.contactWhatsApp}
+              onClick={() => onWhatsAppContact(waHref)}
+            />
           ) : null}
           <LeadWorkflowActions
             workflowStatus={lead.workflowStatus}

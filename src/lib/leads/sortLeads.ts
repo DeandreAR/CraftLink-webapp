@@ -1,9 +1,15 @@
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus } from "@/domain/lead";
-import {
-  ESSENTIAL_MONTHLY_LEAD_LIMIT,
-  isProPlan,
-} from "@/lib/dashboard/planAccess";
+
+export type LeadSortKey = "date" | "name" | "status";
+export type LeadSortDirection = "asc" | "desc";
+
+export type LeadSortState = {
+  key: LeadSortKey;
+  direction: LeadSortDirection;
+};
+
+export const DEFAULT_LEAD_SORT: LeadSortState = { key: "date", direction: "desc" };
 
 /** Priorité pour le tri par statut (délai). */
 export const DELAY_STATUS_SORT_ORDER: Record<LeadDelayStatus, number> = {
@@ -13,41 +19,42 @@ export const DELAY_STATUS_SORT_ORDER: Record<LeadDelayStatus, number> = {
   info: 3,
 };
 
-export type LeadSortKey = "date" | "name" | "status";
+const DEFAULT_DIRECTION: Record<LeadSortKey, LeadSortDirection> = {
+  date: "desc",
+  name: "asc",
+  status: "asc",
+};
+
+export function toggleLeadSort(current: LeadSortState, key: LeadSortKey): LeadSortState {
+  if (current.key === key) {
+    return { key, direction: current.direction === "asc" ? "desc" : "asc" };
+  }
+  return { key, direction: DEFAULT_DIRECTION[key] };
+}
 
 export function sortLeads(
   leads: DashboardLead[],
-  sortKey: LeadSortKey,
+  sort: LeadSortState,
 ): DashboardLead[] {
+  const { key: sortKey, direction } = sort;
   const copy = [...leads];
+  const factor = direction === "asc" ? 1 : -1;
 
   copy.sort((a, b) => {
     if (sortKey === "date") {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      return (
+        factor *
+        (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      );
     }
     if (sortKey === "name") {
-      return a.clientName.localeCompare(b.clientName, "fr", { sensitivity: "base" });
+      return factor * a.clientName.localeCompare(b.clientName, "fr", { sensitivity: "base" });
     }
     const diff =
       DELAY_STATUS_SORT_ORDER[a.delayStatus] - DELAY_STATUS_SORT_ORDER[b.delayStatus];
-    if (diff !== 0) return diff;
+    if (diff !== 0) return factor * diff;
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
   return copy;
-}
-
-/** Quota Essentiel : basé sur l'ordre chronologique de réception, pas sur le tri affiché. */
-export function isLeadQuotaLocked(
-  lead: DashboardLead,
-  allLeads: DashboardLead[],
-  planTier: string,
-): boolean {
-  if (isProPlan(planTier)) return false;
-
-  const byDate = [...allLeads].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
-  const rank = byDate.findIndex((item) => item.id === lead.id);
-  return rank >= ESSENTIAL_MONTHLY_LEAD_LIMIT;
 }

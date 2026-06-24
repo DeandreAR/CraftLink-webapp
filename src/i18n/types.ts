@@ -161,9 +161,40 @@ export type DashboardDictionary = {
     title: string;
     subtitle: string;
     empty: string;
-    quotaBanner: string;
-    quotaUnlimited: string;
+    whatsappQuota: {
+      unlimited: string;
+      limited: string;
+    };
+    upgradeModal: {
+      eyebrow: string;
+      title: string;
+      body: string;
+      usage: string;
+      cta: string;
+      dismiss: string;
+      proBenefits: string[];
+    };
+    summary: {
+      total: string;
+      urgent: string;
+      asap: string;
+      planned: string;
+      info: string;
+      done: string;
+    };
+    bulk: {
+      selected: string;
+      markDone: string;
+      archive: string;
+      clear: string;
+      selectAll: string;
+      selectOne: string;
+    };
+    pipeline: {
+      singleDragHint: string;
+    };
     columns: {
+      id: string;
       name: string;
       requestDate: string;
       work: string;
@@ -171,8 +202,6 @@ export type DashboardDictionary = {
       status: string;
     };
     contactWhatsApp: string;
-    lockedBadge: string;
-    lockedHint: string;
     delayStatus: Record<"urgent" | "asap" | "planned" | "info", string>;
     delayStatusHints: Record<"urgent" | "asap" | "planned" | "info", string>;
     statusLegendTitle: string;
@@ -209,6 +238,7 @@ export type DashboardDictionary = {
     subtitle: string;
     subTabs: {
       profile: string;
+      capture: string;
       qr: string;
       partners: string;
     };
@@ -229,6 +259,14 @@ export type DashboardDictionary = {
     saveError: string;
     viewPage: string;
     editPage: string;
+    voiceCapture: {
+      title: string;
+      description: string;
+      rawAudioNote: string;
+      proBadge: string;
+      lockedHint: string;
+      upgradeCta: string;
+    };
   };
   qr: {
     title: string;
@@ -259,6 +297,23 @@ export type DashboardDictionary = {
     portalError: string;
     essentialFeatures: string;
     proFeatures: string;
+  };
+  account: {
+    title: string;
+    subtitle: string;
+    delete: {
+      title: string;
+      body: string;
+      bullets: string[];
+      cta: string;
+      modalTitle: string;
+      modalBody: string;
+      confirmLabel: string;
+      confirmWord: string;
+      confirmCta: string;
+      deleting: string;
+      cancel: string;
+    };
   };
   team: {
     title: string;

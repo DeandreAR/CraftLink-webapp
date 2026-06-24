@@ -2,25 +2,33 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
+import { registerWhatsAppClickAction } from "@/app/actions/dashboard";
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus } from "@/domain/lead";
 import type { Profile } from "@/domain/profile";
+import {
+  profileToDashboardUser,
+  type DashboardUser,
+} from "@/domain/dashboardUser";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { LeadDetailPanel } from "@/components/dashboard/leads/LeadDetailPanel";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
-import { LeadStatusLegend } from "@/components/dashboard/leads/LeadStatusControls";
+import { LeadsBulkActionsBar } from "@/components/dashboard/leads/LeadsBulkActionsBar";
+import { LeadsCardsToolbar } from "@/components/dashboard/leads/LeadsCardsToolbar";
 import { LeadsPipelineView } from "@/components/dashboard/leads/LeadsPipelineView";
-import { LeadsSortBar } from "@/components/dashboard/leads/LeadsSortBar";
+import { LeadsSummaryCards } from "@/components/dashboard/leads/LeadsSummaryCards";
 import { LeadsTableView } from "@/components/dashboard/leads/LeadsTableView";
+import { WhatsAppUpgradeModal } from "@/components/dashboard/leads/WhatsAppUpgradeModal";
 import type { LeadsViewHandlers } from "@/components/dashboard/leads/leadsViewTypes";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
-import { onboardingPath } from "@/lib/auth/paths";
 import {
-  ESSENTIAL_MONTHLY_LEAD_LIMIT,
-  isProPlan,
-} from "@/lib/dashboard/planAccess";
-import { isLeadQuotaLocked, sortLeads, type LeadSortKey } from "@/lib/leads/sortLeads";
+  canOpenWhatsAppContact,
+  ESSENTIAL_WHATSAPP_CLICK_LIMIT,
+  whatsappClicksRemaining,
+} from "@/lib/dashboard/whatsappQuota";
+import { computeLeadsSummary } from "@/lib/leads/leadStats";
+import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/sortLeads";
 import { getWorkspaceLeads } from "@/services/leadService";
 
 export type LeadsDisplayView = "table" | "cards" | "pipeline";
@@ -36,12 +44,19 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
   const [leads, setLeads] = useState<DashboardLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<LeadsDisplayView>("table");
-  const [sortKey, setSortKey] = useState<LeadSortKey>("date");
+  const [sort, setSort] = useState<LeadSortState>(DEFAULT_LEAD_SORT);
   const [showArchived, setShowArchived] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
-  const pro = isProPlan(profile.plan_tier);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [dashboardUser, setDashboardUser] = useState<DashboardUser>(() =>
+    profileToDashboardUser(profile),
+  );
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const l = copy.leads;
-  const upgradeHref = onboardingPath(locale, { plan: "pro" });
+
+  useEffect(() => {
+    setDashboardUser(profileToDashboardUser(profile));
+  }, [profile]);
 
   useEffect(() => {
     let cancelled = false;
@@ -62,20 +77,59 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
     );
   }, []);
 
+  const handleWhatsAppContact = useCallback(
+    async (href: string) => {
+      if (dashboardUser.plan === "PRO") {
+        window.open(href, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      if (!canOpenWhatsAppContact(dashboardUser.plan, dashboardUser.whatsappClicksThisMonth)) {
+        setUpgradeOpen(true);
+        return;
+      }
+
+      const result = await registerWhatsAppClickAction();
+      if (!result.ok) {
+        setUpgradeOpen(true);
+        return;
+      }
+
+      if (!result.allowed) {
+        setDashboardUser((prev) => ({
+          ...prev,
+          whatsappClicksThisMonth: result.clicks,
+        }));
+        setUpgradeOpen(true);
+        return;
+      }
+
+      setDashboardUser((prev) => ({
+        ...prev,
+        whatsappClicksThisMonth: result.clicks,
+      }));
+      window.open(href, "_blank", "noopener,noreferrer");
+    },
+    [dashboardUser.plan, dashboardUser.whatsappClicksThisMonth],
+  );
+
   const handlers: LeadsViewHandlers = useMemo(
     () => ({
-      isLocked: (lead) => isLeadQuotaLocked(lead, leads, profile.plan_tier),
       onOpenDetail: setSelectedLeadId,
       onDelayStatusChange: (leadId, status: LeadDelayStatus) =>
         updateLead(leadId, { delayStatus: status }),
       onMarkDone: (leadId) => updateLead(leadId, { workflowStatus: "done" }),
       onMarkArchived: (leadId) => updateLead(leadId, { workflowStatus: "archived" }),
       onReactivate: (leadId) => updateLead(leadId, { workflowStatus: "active" }),
+      onWhatsAppContact: (href) => {
+        void handleWhatsAppContact(href);
+      },
     }),
-    [leads, profile.plan_tier, updateLead],
+    [updateLead, handleWhatsAppContact],
   );
 
   const archivedCount = leads.filter((item) => item.workflowStatus === "archived").length;
+  const summaryStats = useMemo(() => computeLeadsSummary(leads), [leads]);
 
   const displayedLeads = useMemo(() => {
     const filtered = leads.filter((item) =>
@@ -83,17 +137,8 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
         ? item.workflowStatus === "archived"
         : item.workflowStatus !== "archived",
     );
-    return sortLeads(filtered, sortKey);
-  }, [leads, sortKey, showArchived]);
-
-  const visibleQuotaCount = useMemo(() => {
-    if (pro) return leads.filter((item) => item.workflowStatus !== "archived").length;
-    const activeLeads = leads.filter((item) => item.workflowStatus !== "archived");
-    return Math.min(
-      activeLeads.filter((lead) => !isLeadQuotaLocked(lead, leads, profile.plan_tier)).length,
-      ESSENTIAL_MONTHLY_LEAD_LIMIT,
-    );
-  }, [leads, pro, profile.plan_tier]);
+    return sortLeads(filtered, sort);
+  }, [leads, sort, showArchived]);
 
   const selectedLead = selectedLeadId
     ? leads.find((item) => item.id === selectedLeadId) ?? null
@@ -104,8 +149,52 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
     copy,
     locale,
     artisanName: profile.full_name ?? undefined,
-    lockedCtaHref: upgradeHref,
     ...handlers,
+  };
+
+  const remaining = whatsappClicksRemaining(
+    dashboardUser.plan,
+    dashboardUser.whatsappClicksThisMonth,
+  );
+
+  const quotaLabel =
+    dashboardUser.plan === "PRO"
+      ? l.whatsappQuota.unlimited
+      : l.whatsappQuota.limited
+          .replace("{used}", String(dashboardUser.whatsappClicksThisMonth))
+          .replace("{limit}", String(ESSENTIAL_WHATSAPP_CLICK_LIMIT))
+          .replace("{remaining}", String(remaining ?? 0));
+
+  const toggleSelect = (leadId: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(leadId)) next.delete(leadId);
+      else next.add(leadId);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (displayedLeads.every((lead) => selectedIds.has(lead.id))) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(displayedLeads.map((lead) => lead.id)));
+    }
+  };
+
+  const bulkMarkDone = () => {
+    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "done" }));
+    setSelectedIds(new Set());
+  };
+
+  const bulkArchive = () => {
+    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "archived" }));
+    setSelectedIds(new Set());
+  };
+
+  const handleViewChange = (next: LeadsDisplayView) => {
+    setView(next);
+    if (next === "pipeline") setSelectedIds(new Set());
   };
 
   const viewTabs = [
@@ -126,68 +215,126 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
     },
   ];
 
+  const supportsBulkSelect = view === "table" || view === "cards";
+
   return (
     <section className="space-y-0">
-      <header className="mb-1">
-        <h1 className="text-2xl font-bold tracking-tight text-black md:text-[1.75rem]">
-          {l.title}
-        </h1>
-        <p className="mt-1 text-sm text-neutral-500">{l.subtitle}</p>
+      <header className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-[1.75rem]">
+            {l.title}
+          </h1>
+          <p className="mt-0.5 text-sm text-slate-500">{l.subtitle}</p>
+        </div>
+        <p
+          className={`shrink-0 self-start rounded-full px-3 py-1 text-[11px] font-medium sm:self-auto ${
+            dashboardUser.plan === "PRO"
+              ? "bg-slate-100 text-slate-600"
+              : "bg-amber-50 text-amber-900 ring-1 ring-amber-100"
+          }`}
+        >
+          {quotaLabel}
+        </p>
       </header>
 
       <DashboardViewTabs
         tabs={viewTabs}
         active={view}
-        onChange={setView}
+        onChange={handleViewChange}
         ariaLabel={l.views.ariaLabel}
       />
 
-      <div className="mt-4 space-y-3 border-b border-neutral-100 pb-4">
-        <p
-          className={`inline-block rounded-md px-3 py-1.5 text-xs font-medium ${
-            pro ? "bg-neutral-100 text-neutral-700" : "bg-amber-50 text-amber-900"
-          }`}
-        >
-          {pro
-            ? l.quotaUnlimited
-            : l.quotaBanner
-                .replace("{used}", String(visibleQuotaCount))
-                .replace("{limit}", String(ESSENTIAL_MONTHLY_LEAD_LIMIT))}
-        </p>
-        <LeadStatusLegend copy={copy} />
-        <LeadsSortBar
-          sortKey={sortKey}
-          onSortChange={setSortKey}
-          showArchived={showArchived}
-          onShowArchivedChange={setShowArchived}
-          archivedCount={archivedCount}
-          copy={copy}
-        />
-      </div>
-
       <div className="mt-4">
         {loading ? (
-          <p className="py-12 text-center text-sm text-neutral-400">{copy.loading}</p>
-        ) : displayedLeads.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-neutral-200 py-16 text-center text-sm text-neutral-400">
-            {showArchived ? l.emptyArchived : l.empty}
-          </p>
-        ) : view === "table" ? (
-          <LeadsTableView {...viewProps} />
-        ) : view === "pipeline" ? (
-          <LeadsPipelineView {...viewProps} />
+          <p className="py-12 text-center text-sm text-slate-400">{copy.loading}</p>
         ) : (
-          <ul className="space-y-2">
-            {displayedLeads.map((lead) => (
-              <li key={lead.id}>
-                <LeadCard lead={lead} {...viewProps} />
-              </li>
-            ))}
-          </ul>
+          <>
+            {!showArchived && view !== "pipeline" ? (
+              <LeadsSummaryCards stats={summaryStats} copy={copy} />
+            ) : null}
+
+            {supportsBulkSelect ? (
+              <LeadsBulkActionsBar
+                count={selectedIds.size}
+                copy={copy}
+                onMarkDone={bulkMarkDone}
+                onArchive={bulkArchive}
+                onClear={() => setSelectedIds(new Set())}
+              />
+            ) : null}
+
+            {displayedLeads.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-neutral-200 py-16 text-center text-sm text-slate-400">
+                {showArchived ? l.emptyArchived : l.empty}
+              </p>
+            ) : view === "table" ? (
+              <LeadsTableView
+                {...viewProps}
+                sort={sort}
+                onSortChange={setSort}
+                showArchived={showArchived}
+                onShowArchivedChange={setShowArchived}
+                archivedCount={archivedCount}
+                selectedIds={selectedIds}
+                onToggleSelect={toggleSelect}
+                onToggleSelectAll={toggleSelectAll}
+              />
+            ) : (
+              <div className="space-y-3">
+                {view === "cards" ? (
+                  <LeadsCardsToolbar
+                    sort={sort}
+                    onSortChange={setSort}
+                    showArchived={showArchived}
+                    onShowArchivedChange={setShowArchived}
+                    archivedCount={archivedCount}
+                    copy={copy}
+                  />
+                ) : null}
+                {view === "pipeline" ? (
+                  <>
+                    {archivedCount > 0 ? (
+                      <div className="flex justify-end">
+                        <button
+                          type="button"
+                          onClick={() => setShowArchived(!showArchived)}
+                          className={`text-xs font-semibold transition ${
+                            showArchived
+                              ? "text-slate-900 underline"
+                              : "text-slate-500 hover:text-slate-800"
+                          }`}
+                        >
+                          {showArchived
+                            ? l.sort.hideArchived
+                            : l.sort.showArchived.replace("{count}", String(archivedCount))}
+                        </button>
+                      </div>
+                    ) : null}
+                    <p className="text-xs text-slate-500">{l.pipeline.singleDragHint}</p>
+                    <LeadsPipelineView {...viewProps} />
+                  </>
+                ) : (
+                  <ul className="space-y-2">
+                    {displayedLeads.map((lead) => (
+                      <li key={lead.id}>
+                        <LeadCard
+                          lead={lead}
+                          {...viewProps}
+                          selectable
+                          selected={selectedIds.has(lead.id)}
+                          onToggleSelect={() => toggleSelect(lead.id)}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
 
-      {selectedLead && !handlers.isLocked(selectedLead) ? (
+      {selectedLead ? (
         <LeadDetailPanel
           lead={selectedLead}
           copy={copy}
@@ -200,8 +347,17 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
           onMarkDone={() => handlers.onMarkDone(selectedLead.id)}
           onMarkArchived={() => handlers.onMarkArchived(selectedLead.id)}
           onReactivate={() => handlers.onReactivate(selectedLead.id)}
+          onWhatsAppContact={handlers.onWhatsAppContact}
         />
       ) : null}
+
+      <WhatsAppUpgradeModal
+        open={upgradeOpen}
+        onClose={() => setUpgradeOpen(false)}
+        copy={copy}
+        locale={locale}
+        clicksUsed={dashboardUser.whatsappClicksThisMonth}
+      />
     </section>
   );
 }

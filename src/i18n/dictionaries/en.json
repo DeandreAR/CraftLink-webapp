@@ -243,7 +243,7 @@
     },
     "tierPro": {
       "name": "PRO TRADESPERSON",
-      "pitch": "Early Bird offer — AI qualification, unlimited leads and a stronger pro image.",
+      "pitch": "Early Bird — unlimited WhatsApp contacts, voice capture, and a stronger pro image.",
       "cta": "Join Pro Beta",
       "href": "/onboarding?plan=pro",
       "badge": "EARLY BIRD",
@@ -302,17 +302,22 @@
         "pro": true
       },
       {
-        "label": "Voice capture & AI transcription",
-        "essential": false,
+        "label": "Lead CRM — full list always visible",
+        "essential": true,
         "pro": true
       },
       {
-        "labelEssential": "Limited to 15 leads/month (blurred display beyond)",
-        "labelPro": "Unlimited leads (no blocking)",
-        "label": "Lead volume",
+        "labelEssential": "10 WhatsApp shares/month from the CRM",
+        "labelPro": "Unlimited WhatsApp shares from the CRM",
+        "label": "Client contact via WhatsApp",
         "essential": true,
         "pro": true,
         "essentialLimit": true
+      },
+      {
+        "label": "Voice capture (raw audio file)",
+        "essential": false,
+        "pro": true
       },
       {
         "labelEssential": "No automatic SMS acknowledgement to the end customer",

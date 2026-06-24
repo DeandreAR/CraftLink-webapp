@@ -11,6 +11,7 @@ import {
 } from "@/lib/auth/debugError";
 
 const PROFILE_SELECT_TIERS = [
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, created_at, updated_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, created_at, updated_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, created_at, updated_at",
@@ -34,6 +35,12 @@ function mapProfile(row: Record<string, unknown>): Profile {
     whatsapp_number: (row.whatsapp_number as string | null) ?? null,
     page_slug: (row.page_slug as string | null) ?? null,
     onboarding_completed_at: (row.onboarding_completed_at as string | null) ?? null,
+    whatsapp_clicks_this_month:
+      typeof row.whatsapp_clicks_this_month === "number"
+        ? row.whatsapp_clicks_this_month
+        : 0,
+    whatsapp_clicks_month_key: (row.whatsapp_clicks_month_key as string | null) ?? null,
+    voice_capture_enabled: row.voice_capture_enabled === true,
     created_at: (row.created_at as string | null) ?? null,
     updated_at: (row.updated_at as string | null) ?? null,
   };

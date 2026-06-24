@@ -8,6 +8,7 @@ import type {
   MetierKey,
   PublicPlanTier,
   VitrineOpenIntent,
+  VitrineProfileSettings,
   VitrineService,
 } from "@/domain/vitrine";
 import type { Locale } from "@/i18n/config";
@@ -31,6 +32,7 @@ import { VitrineVoiceCapture } from "@/components/vitrine/VitrineVoiceCapture";
 
 type VitrineDetailsSectionProps = {
   planTier: PublicPlanTier;
+  profileSettings: VitrineProfileSettings;
   services: VitrineService[];
   copy: VitrineDictionary;
   initialIntent?: VitrineOpenIntent;
@@ -39,6 +41,7 @@ type VitrineDetailsSectionProps = {
 
 export function VitrineDetailsSection({
   planTier,
+  profileSettings,
   services,
   copy,
   initialIntent = "quote",
@@ -51,6 +54,7 @@ export function VitrineDetailsSection({
   return (
     <CaptureFormBody
       planTier={planTier}
+      profileSettings={profileSettings}
       services={services}
       copy={copy}
       initialIntent={initialIntent}
@@ -61,6 +65,7 @@ export function VitrineDetailsSection({
 
 type CaptureFormBodyProps = {
   planTier: PublicPlanTier;
+  profileSettings: VitrineProfileSettings;
   services: VitrineService[];
   copy: VitrineDictionary;
   initialIntent: VitrineOpenIntent;
@@ -69,12 +74,14 @@ type CaptureFormBodyProps = {
 
 function CaptureFormBody({
   planTier,
+  profileSettings,
   services,
   copy,
   initialIntent,
   onBack,
 }: CaptureFormBodyProps) {
   const isPro = isProPublicPlan(planTier);
+  const voiceCaptureOn = isPro && profileSettings.voiceCaptureEnabled === true;
   const form = copy.form;
   const det = copy.details;
 
@@ -124,7 +131,7 @@ function CaptureFormBody({
         : urgency;
 
   const isDescriptionValid = (): boolean => {
-    if (isQuoteIntent && isPro) {
+    if (isQuoteIntent && voiceCaptureOn) {
       return projectDescription.trim().length > 0 || hasVoice;
     }
     return projectDescription.trim().length > 0;
@@ -200,7 +207,7 @@ function CaptureFormBody({
         placeholder={textPlaceholder}
         className="mt-1.5 w-full resize-y rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
       />
-      {isQuoteIntent && isPro ? (
+      {isQuoteIntent && voiceCaptureOn ? (
         <VitrineVoiceCapture
           copy={copy}
           onRecorded={(recorded) => {

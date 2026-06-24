@@ -198,6 +198,7 @@ export function buildOnboardingPreviewProps(
         secondaryUrgent: "Demander un RDV Urgent",
         collaboration: "Collaboration (Partenaires)",
       },
+      voiceCaptureEnabled: false,
     },
     copy: vitrineCopy,
   };
