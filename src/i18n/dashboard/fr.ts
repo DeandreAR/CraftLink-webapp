@@ -6,6 +6,7 @@ export const dashboardFr: DashboardDictionary = {
   tabs: {
     leads: "Leads",
     vitrine: "Ma page",
+    partners: "Partenaires",
     account: "Compte",
   },
   leads: {
@@ -74,6 +75,7 @@ export const dashboardFr: DashboardDictionary = {
     statusLegendTitle: "Légende des statuts (délais)",
     sort: {
       label: "Trier par",
+      id: "N°",
       date: "Date",
       name: "Nom",
       status: "Statut",
@@ -95,9 +97,40 @@ export const dashboardFr: DashboardDictionary = {
     emptyArchived: "Aucune demande archivée.",
     views: {
       ariaLabel: "Mode d'affichage des leads",
+      sectionAriaLabel: "Vue principale des demandes",
+      listSection: "Liste",
+      calendarSection: "Calendrier",
       table: "Tableau",
       cards: "Cartes",
       pipeline: "Pipeline",
+    },
+    schedule: {
+      title: "Planifier la réalisation",
+      hint: "Date et durée estimée pour organiser votre chantier.",
+      dateLabel: "Date de réalisation",
+      durationLabel: "Durée estimée",
+      minutesValueLabel: "Nombre de minutes",
+      hoursValueLabel: "Nombre d'heures",
+      minutesUnit: "min",
+      hoursUnit: "h",
+      durationPresets: {
+        minutes: "Minutes",
+        hours: "Heures",
+        half_day: "Demi-journée",
+        full_day: "Journée",
+      },
+      save: "Enregistrer la planification",
+      clear: "Supprimer la planification",
+      savedHint: "Planifié le {date} · {duration}",
+    },
+    calendar: {
+      views: { day: "Jour", week: "Semaine", month: "Mois" },
+      prev: "Période précédente",
+      next: "Période suivante",
+      weekOf: "Semaine · {month}",
+      rangeHint: "{count} réalisation(s) planifiée(s) sur 2 ans",
+      emptyDay: "Aucune réalisation planifiée ce jour.",
+      weekdays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
     },
   },
   vitrine: {

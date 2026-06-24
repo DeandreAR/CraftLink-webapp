@@ -6,7 +6,9 @@ import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import {
   canOpenWhatsAppContact,
   currentWhatsappMonthKey,
+  ESSENTIAL_WHATSAPP_CLICK_LIMIT,
   normalizeWhatsappClickCount,
+  whatsappClicksRemaining,
 } from "@/lib/dashboard/whatsappQuota";
 import { authPath } from "@/lib/auth/paths";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -58,6 +60,52 @@ export type RegisterWhatsAppClickResult =
   | { ok: true; allowed: true; clicks: number }
   | { ok: true; allowed: false; clicks: number }
   | { ok: false; message: string };
+
+export type WhatsAppQuotaSnapshot = {
+  plan: "ESSENTIEL" | "PRO";
+  clicks: number;
+  limit: number;
+  remaining: number | null;
+};
+
+export async function getWhatsAppQuotaAction(): Promise<
+  { ok: true; quota: WhatsAppQuotaSnapshot } | { ok: false; message: string }
+> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user?.id) {
+    return { ok: false, message: "Connexion requise." };
+  }
+
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("plan_tier, whatsapp_clicks_this_month, whatsapp_clicks_month_key")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (error || !profile) {
+    return { ok: false, message: error?.message ?? "Profil introuvable." };
+  }
+
+  const plan = resolveCraftlinkPlan(String(profile.plan_tier ?? ""));
+  const clicks = normalizeWhatsappClickCount(
+    Number(profile.whatsapp_clicks_this_month ?? 0),
+    profile.whatsapp_clicks_month_key as string | null,
+  );
+
+  return {
+    ok: true,
+    quota: {
+      plan,
+      clicks,
+      limit: ESSENTIAL_WHATSAPP_CLICK_LIMIT,
+      remaining: whatsappClicksRemaining(plan, clicks),
+    },
+  };
+}
 
 export async function registerWhatsAppClickAction(): Promise<RegisterWhatsAppClickResult> {
   const supabase = await createClient();

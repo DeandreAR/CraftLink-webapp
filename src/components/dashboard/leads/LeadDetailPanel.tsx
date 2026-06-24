@@ -2,7 +2,8 @@
 
 import { FaXmark } from "react-icons/fa6";
 import type { DashboardLead } from "@/domain/lead";
-import type { LeadDelayStatus } from "@/domain/lead";
+import type { LeadDelayStatus, LeadSchedule } from "@/domain/lead";
+import { LeadScheduleEditor } from "@/components/dashboard/leads/LeadScheduleEditor";
 import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
 import { LeadWorkflowActions } from "@/components/dashboard/leads/LeadWorkflowActions";
 import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppContactButton";
@@ -18,6 +19,7 @@ type LeadDetailPanelProps = {
   artisanName?: string;
   onClose: () => void;
   onDelayStatusChange: (status: LeadDelayStatus) => void;
+  onScheduleChange: (schedule: LeadSchedule | null) => void;
   onMarkDone: () => void;
   onMarkArchived: () => void;
   onReactivate: () => void;
@@ -31,6 +33,7 @@ export function LeadDetailPanel({
   artisanName,
   onClose,
   onDelayStatusChange,
+  onScheduleChange,
   onMarkDone,
   onMarkArchived,
   onReactivate,
@@ -110,6 +113,14 @@ export function LeadDetailPanel({
             </dd>
           </div>
         </dl>
+
+        <div className="mt-4">
+          <LeadScheduleEditor
+            schedule={lead.schedule}
+            onChange={onScheduleChange}
+            copy={copy}
+          />
+        </div>
 
         <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           {waHref ? (

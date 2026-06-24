@@ -1,6 +1,28 @@
 import type { DashboardLead } from "@/domain/lead";
+import type { LeadSchedule } from "@/domain/lead";
 
 type DemoLeadRow = Omit<DashboardLead, "workflowStatus" | "requestNumber">;
+
+function scheduleDate(dayOffset: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + dayOffset);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function sched(
+  dayOffset: number,
+  preset: LeadSchedule["durationPreset"],
+  value?: number,
+): LeadSchedule {
+  return {
+    date: scheduleDate(dayOffset),
+    durationPreset: preset,
+    ...(value != null ? { durationValue: value } : {}),
+  };
+}
 
 /**
  * Données de démonstration — remplacées par Supabase `leads` quand la table sera branchée.
@@ -22,6 +44,7 @@ function buildDemoLeads(): DashboardLead[] {
       delayStatus: "asap",
       summary:
         "Appartement 65 m², disjoncteur qui saute au four. Souhaite un devis avant vendredi.",
+      schedule: sched(2, "hours", 3),
     },
     {
       id: "ld-02",
@@ -32,6 +55,7 @@ function buildDemoLeads(): DashboardLead[] {
       zone: "Massy (91300)",
       delayStatus: "urgent",
       summary: "Fuite active cuisine, accès facile, disponible cet après-midi.",
+      schedule: sched(0, "half_day"),
     },
     {
       id: "ld-03",
@@ -42,6 +66,7 @@ function buildDemoLeads(): DashboardLead[] {
       zone: "Sceaux (92330)",
       delayStatus: "planned",
       summary: "Rénovation salon, perçage cloison placo, créneau semaine prochaine.",
+      schedule: sched(7, "full_day"),
     },
     {
       id: "ld-04",
@@ -62,6 +87,7 @@ function buildDemoLeads(): DashboardLead[] {
       zone: "Fontenay-aux-Roses (92260)",
       delayStatus: "urgent",
       summary: "Plus de lumière chambre et SDB, disjoncteur OK.",
+      schedule: sched(1, "minutes", 90),
     },
     {
       id: "ld-06",
@@ -122,6 +148,7 @@ function buildDemoLeads(): DashboardLead[] {
       zone: "Antony (92160)",
       delayStatus: "asap",
       summary: "6 spots LED, IP65, alimentation depuis cuisine.",
+      schedule: sched(3, "hours", 4),
     },
     {
       id: "ld-12",

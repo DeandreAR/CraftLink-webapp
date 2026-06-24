@@ -1,7 +1,7 @@
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus } from "@/domain/lead";
 
-export type LeadSortKey = "date" | "name" | "status";
+export type LeadSortKey = "id" | "date" | "name" | "status";
 export type LeadSortDirection = "asc" | "desc";
 
 export type LeadSortState = {
@@ -20,6 +20,7 @@ export const DELAY_STATUS_SORT_ORDER: Record<LeadDelayStatus, number> = {
 };
 
 const DEFAULT_DIRECTION: Record<LeadSortKey, LeadSortDirection> = {
+  id: "desc",
   date: "desc",
   name: "asc",
   status: "asc",
@@ -41,6 +42,9 @@ export function sortLeads(
   const factor = direction === "asc" ? 1 : -1;
 
   copy.sort((a, b) => {
+    if (sortKey === "id") {
+      return factor * (a.requestNumber - b.requestNumber);
+    }
     if (sortKey === "date") {
       return (
         factor *

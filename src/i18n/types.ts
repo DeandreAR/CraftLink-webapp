@@ -155,6 +155,7 @@ export type DashboardDictionary = {
   tabs: {
     leads: string;
     vitrine: string;
+    partners: string;
     account: string;
   };
   leads: {
@@ -207,6 +208,7 @@ export type DashboardDictionary = {
     statusLegendTitle: string;
     sort: {
       label: string;
+      id: string;
       date: string;
       name: string;
       status: string;
@@ -228,9 +230,35 @@ export type DashboardDictionary = {
     emptyArchived: string;
     views: {
       ariaLabel: string;
+      sectionAriaLabel: string;
+      listSection: string;
+      calendarSection: string;
       table: string;
       cards: string;
       pipeline: string;
+    };
+    schedule: {
+      title: string;
+      hint: string;
+      dateLabel: string;
+      durationLabel: string;
+      minutesValueLabel: string;
+      hoursValueLabel: string;
+      minutesUnit: string;
+      hoursUnit: string;
+      durationPresets: Record<"minutes" | "hours" | "half_day" | "full_day", string>;
+      save: string;
+      clear: string;
+      savedHint: string;
+    };
+    calendar: {
+      views: Record<"day" | "week" | "month", string>;
+      prev: string;
+      next: string;
+      weekOf: string;
+      rangeHint: string;
+      emptyDay: string;
+      weekdays: string[];
     };
   };
   vitrine: {

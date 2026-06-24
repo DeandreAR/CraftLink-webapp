@@ -1,23 +1,25 @@
 import type { CraftlinkPlan } from "@/domain/craftlinkPlan";
 import { isCraftlinkPro } from "@/domain/craftlinkPlan";
 
-/** Limite mensuelle de clics WhatsApp sur le plan Essentiel. */
+/** Limite mensuelle de partages WhatsApp sur le plan Essentiel. */
 export const ESSENTIAL_WHATSAPP_CLICK_LIMIT = 10;
 
+/** Clé mois locale (YYYY-MM) — alignée fuseau artisan. */
 export function currentWhatsappMonthKey(): string {
   const now = new Date();
-  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
-  return `${now.getUTCFullYear()}-${month}`;
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  return `${now.getFullYear()}-${month}`;
 }
 
 export function normalizeWhatsappClickCount(
   clicks: number,
   storedMonthKey: string | null | undefined,
 ): number {
+  const safe = Number.isFinite(clicks) ? Math.max(0, clicks) : 0;
   if (!storedMonthKey || storedMonthKey !== currentWhatsappMonthKey()) {
     return 0;
   }
-  return Math.max(0, clicks);
+  return safe;
 }
 
 export function canOpenWhatsAppContact(
@@ -34,4 +36,11 @@ export function whatsappClicksRemaining(
 ): number | null {
   if (isCraftlinkPro(plan)) return null;
   return Math.max(0, ESSENTIAL_WHATSAPP_CLICK_LIMIT - clicksThisMonth);
+}
+
+export function isWhatsAppQuotaExhausted(
+  plan: CraftlinkPlan,
+  clicksThisMonth: number,
+): boolean {
+  return !canOpenWhatsAppContact(plan, clicksThisMonth);
 }

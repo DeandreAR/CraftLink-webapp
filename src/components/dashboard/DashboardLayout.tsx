@@ -7,13 +7,14 @@ import { AccountPanel } from "@/components/dashboard/account/AccountPanel";
 import { DashboardBottomNav } from "@/components/dashboard/DashboardBottomNav";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { LeadsPanel } from "@/components/dashboard/leads/LeadsPanel";
+import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { VitrinePanel } from "@/components/dashboard/vitrine/VitrinePanel";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
 import type { WorkspaceSession } from "@/lib/auth/sessionContext";
 
-export type DashboardTab = "leads" | "vitrine" | "account";
+export type DashboardTab = "leads" | "vitrine" | "partners" | "account";
 
 type DashboardLayoutProps = {
   session: WorkspaceSession;
@@ -59,7 +60,7 @@ export function DashboardLayout({ session, copy, locale }: DashboardLayoutProps)
         </header>
 
         <main className="flex-1 overflow-x-auto px-4 py-5 pb-[4.5rem] md:px-8 md:py-8 md:pb-8">
-          <div className="mx-auto w-full max-w-5xl">
+          <div className="mx-auto w-full max-w-6xl">
             {tab === "leads" ? (
               <LeadsPanel
                 workspaceId={workspaceId}
@@ -70,6 +71,9 @@ export function DashboardLayout({ session, copy, locale }: DashboardLayoutProps)
             ) : null}
             {tab === "vitrine" ? (
               <VitrinePanel profile={profile} copy={copy} locale={locale} />
+            ) : null}
+            {tab === "partners" ? (
+              <PartnersPanel profile={profile} copy={copy} locale={locale} />
             ) : null}
             {tab === "account" ? (
               <AccountPanel profile={profile} copy={copy} locale={locale} />

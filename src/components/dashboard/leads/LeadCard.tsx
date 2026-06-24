@@ -73,11 +73,13 @@ export function LeadCard({
               <span className="font-mono text-[10px] text-slate-400">
                 {formatRequestNumber(lead.requestNumber)}
               </span>
-              <p
-                className={`truncate font-semibold ${compact ? "text-sm" : "text-base"} ${muted ? "text-neutral-500" : "text-black"}`}
+              <button
+                type="button"
+                onClick={() => onOpenDetail(lead.id)}
+                className={`truncate font-semibold underline-offset-2 hover:underline ${compact ? "text-sm" : "text-base"} ${muted ? "text-neutral-500" : "text-black"}`}
               >
                 {lead.clientName}
-              </p>
+              </button>
               {lead.workflowStatus === "done" ? (
                 <span
                   className={`rounded-md px-1.5 py-0.5 text-[9px] font-semibold ${workflowStatusBadgeClass("done")}`}

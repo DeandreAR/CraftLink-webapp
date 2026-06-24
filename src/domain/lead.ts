@@ -5,6 +5,18 @@ export type LeadDelayStatus = LeadUrgency;
 
 export type LeadWorkflowStatus = "active" | "done" | "archived";
 
+/** Unité de durée pour la planification d'une réalisation. */
+export type LeadDurationPreset = "minutes" | "hours" | "half_day" | "full_day";
+
+/** Planification artisan (date + durée estimée). */
+export type LeadSchedule = {
+  /** Date prévue (YYYY-MM-DD). */
+  date: string;
+  durationPreset: LeadDurationPreset;
+  /** Valeur numérique pour minutes ou heures. */
+  durationValue?: number;
+};
+
 /** Lead affiché dans le CRM artisan (tableau de bord). */
 export type DashboardLead = {
   id: string;
@@ -19,6 +31,8 @@ export type DashboardLead = {
   workflowStatus: LeadWorkflowStatus;
   /** Résumé structuré du dossier (description projet, accès, etc.). */
   summary: string;
+  /** Planification de la réalisation (optionnel). */
+  schedule?: LeadSchedule | null;
 };
 
 export const LEAD_DELAY_STATUSES: LeadDelayStatus[] = [

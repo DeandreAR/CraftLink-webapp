@@ -6,6 +6,7 @@ export const dashboardEn: DashboardDictionary = {
   tabs: {
     leads: "Leads",
     vitrine: "My page",
+    partners: "Partners",
     account: "Account",
   },
   leads: {
@@ -74,6 +75,7 @@ export const dashboardEn: DashboardDictionary = {
     statusLegendTitle: "Status legend (timelines)",
     sort: {
       label: "Sort by",
+      id: "No.",
       date: "Date",
       name: "Name",
       status: "Status",
@@ -95,9 +97,40 @@ export const dashboardEn: DashboardDictionary = {
     emptyArchived: "No archived requests.",
     views: {
       ariaLabel: "Lead display mode",
+      sectionAriaLabel: "Main requests view",
+      listSection: "List",
+      calendarSection: "Calendar",
       table: "Table",
       cards: "Cards",
       pipeline: "Pipeline",
+    },
+    schedule: {
+      title: "Schedule the job",
+      hint: "Set a date and estimated duration for your planning.",
+      dateLabel: "Scheduled date",
+      durationLabel: "Estimated duration",
+      minutesValueLabel: "Minutes",
+      hoursValueLabel: "Hours",
+      minutesUnit: "min",
+      hoursUnit: "h",
+      durationPresets: {
+        minutes: "Minutes",
+        hours: "Hours",
+        half_day: "Half day",
+        full_day: "Full day",
+      },
+      save: "Save schedule",
+      clear: "Remove schedule",
+      savedHint: "Scheduled on {date} · {duration}",
+    },
+    calendar: {
+      views: { day: "Day", week: "Week", month: "Month" },
+      prev: "Previous period",
+      next: "Next period",
+      weekOf: "Week · {month}",
+      rangeHint: "{count} scheduled job(s) across 2 years",
+      emptyDay: "No scheduled jobs this day.",
+      weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
   },
   vitrine: {

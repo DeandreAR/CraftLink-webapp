@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
-import { registerWhatsAppClickAction } from "@/app/actions/dashboard";
+import { FaCalendarDays, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
+import { getWhatsAppQuotaAction, registerWhatsAppClickAction } from "@/app/actions/dashboard";
 import type { DashboardLead } from "@/domain/lead";
-import type { LeadDelayStatus } from "@/domain/lead";
+import type { LeadDelayStatus, LeadSchedule } from "@/domain/lead";
 import type { Profile } from "@/domain/profile";
 import {
   profileToDashboardUser,
@@ -14,6 +14,7 @@ import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { LeadDetailPanel } from "@/components/dashboard/leads/LeadDetailPanel";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
 import { LeadsBulkActionsBar } from "@/components/dashboard/leads/LeadsBulkActionsBar";
+import { LeadsCalendar } from "@/components/dashboard/leads/LeadsCalendar";
 import { LeadsCardsToolbar } from "@/components/dashboard/leads/LeadsCardsToolbar";
 import { LeadsPipelineView } from "@/components/dashboard/leads/LeadsPipelineView";
 import { LeadsSummaryCards } from "@/components/dashboard/leads/LeadsSummaryCards";
@@ -23,7 +24,6 @@ import type { LeadsViewHandlers } from "@/components/dashboard/leads/leadsViewTy
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import {
-  canOpenWhatsAppContact,
   ESSENTIAL_WHATSAPP_CLICK_LIMIT,
   whatsappClicksRemaining,
 } from "@/lib/dashboard/whatsappQuota";
@@ -32,6 +32,7 @@ import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/so
 import { getWorkspaceLeads } from "@/services/leadService";
 
 export type LeadsDisplayView = "table" | "cards" | "pipeline";
+export type LeadsSectionView = "list" | "calendar";
 
 type LeadsPanelProps = {
   workspaceId: string;
@@ -44,6 +45,7 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
   const [leads, setLeads] = useState<DashboardLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<LeadsDisplayView>("table");
+  const [section, setSection] = useState<LeadsSectionView>("list");
   const [sort, setSort] = useState<LeadSortState>(DEFAULT_LEAD_SORT);
   const [showArchived, setShowArchived] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
@@ -57,6 +59,18 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
   useEffect(() => {
     setDashboardUser(profileToDashboardUser(profile));
   }, [profile]);
+
+  useEffect(() => {
+    void getWhatsAppQuotaAction().then((result) => {
+      if (result.ok) {
+        setDashboardUser((prev) => ({
+          ...prev,
+          plan: result.quota.plan,
+          whatsappClicksThisMonth: result.quota.clicks,
+        }));
+      }
+    });
+  }, [profile.id]);
 
   useEffect(() => {
     let cancelled = false;
@@ -84,33 +98,22 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
         return;
       }
 
-      if (!canOpenWhatsAppContact(dashboardUser.plan, dashboardUser.whatsappClicksThisMonth)) {
-        setUpgradeOpen(true);
-        return;
-      }
-
       const result = await registerWhatsAppClickAction();
-      if (!result.ok) {
-        setUpgradeOpen(true);
-        return;
-      }
-
-      if (!result.allowed) {
-        setDashboardUser((prev) => ({
-          ...prev,
-          whatsappClicksThisMonth: result.clicks,
-        }));
-        setUpgradeOpen(true);
-        return;
-      }
+      if (!result.ok) return;
 
       setDashboardUser((prev) => ({
         ...prev,
         whatsappClicksThisMonth: result.clicks,
       }));
+
+      if (!result.allowed) {
+        setUpgradeOpen(true);
+        return;
+      }
+
       window.open(href, "_blank", "noopener,noreferrer");
     },
-    [dashboardUser.plan, dashboardUser.whatsappClicksThisMonth],
+    [dashboardUser.plan],
   );
 
   const handlers: LeadsViewHandlers = useMemo(
@@ -118,6 +121,8 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
       onOpenDetail: setSelectedLeadId,
       onDelayStatusChange: (leadId, status: LeadDelayStatus) =>
         updateLead(leadId, { delayStatus: status }),
+      onScheduleChange: (leadId, schedule: LeadSchedule | null) =>
+        updateLead(leadId, { schedule }),
       onMarkDone: (leadId) => updateLead(leadId, { workflowStatus: "done" }),
       onMarkArchived: (leadId) => updateLead(leadId, { workflowStatus: "archived" }),
       onReactivate: (leadId) => updateLead(leadId, { workflowStatus: "active" }),
@@ -215,7 +220,24 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
     },
   ];
 
-  const supportsBulkSelect = view === "table" || view === "cards";
+  const sectionTabs = [
+    {
+      id: "list" as const,
+      label: l.views.listSection,
+      icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+    {
+      id: "calendar" as const,
+      label: l.views.calendarSection,
+      icon: <FaCalendarDays className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+  ];
+
+  const supportsBulkSelect = section === "list" && (view === "table" || view === "cards");
+  const calendarLeads = useMemo(
+    () => leads.filter((item) => item.workflowStatus !== "archived"),
+    [leads],
+  );
 
   return (
     <section className="space-y-0">
@@ -238,15 +260,31 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
       </header>
 
       <DashboardViewTabs
-        tabs={viewTabs}
-        active={view}
-        onChange={handleViewChange}
-        ariaLabel={l.views.ariaLabel}
+        tabs={sectionTabs}
+        active={section}
+        onChange={setSection}
+        ariaLabel={l.views.sectionAriaLabel}
       />
+
+      {section === "list" ? (
+        <DashboardViewTabs
+          tabs={viewTabs}
+          active={view}
+          onChange={handleViewChange}
+          ariaLabel={l.views.ariaLabel}
+        />
+      ) : null}
 
       <div className="mt-4">
         {loading ? (
           <p className="py-12 text-center text-sm text-slate-400">{copy.loading}</p>
+        ) : section === "calendar" ? (
+          <LeadsCalendar
+            leads={calendarLeads}
+            copy={copy}
+            locale={locale}
+            onOpenDetail={setSelectedLeadId}
+          />
         ) : (
           <>
             {!showArchived && view !== "pipeline" ? (
@@ -316,7 +354,14 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
                 ) : (
                   <ul className="space-y-2">
                     {displayedLeads.map((lead) => (
-                      <li key={lead.id}>
+                      <li
+                        key={lead.id}
+                        onClick={(e) => {
+                          if ((e.target as HTMLElement).closest("input, button, a")) return;
+                          setSelectedLeadId(lead.id);
+                        }}
+                        className="cursor-pointer"
+                      >
                         <LeadCard
                           lead={lead}
                           {...viewProps}
@@ -347,6 +392,9 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
           onMarkDone={() => handlers.onMarkDone(selectedLead.id)}
           onMarkArchived={() => handlers.onMarkArchived(selectedLead.id)}
           onReactivate={() => handlers.onReactivate(selectedLead.id)}
+          onScheduleChange={(schedule) =>
+            handlers.onScheduleChange(selectedLead.id, schedule)
+          }
           onWhatsAppContact={handlers.onWhatsAppContact}
         />
       ) : null}

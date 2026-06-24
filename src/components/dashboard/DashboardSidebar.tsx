@@ -6,7 +6,7 @@ import type { DashboardTab } from "@/components/dashboard/DashboardLayout";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
-import { FaBriefcase, FaUser, FaUsers } from "react-icons/fa6";
+import { FaBriefcase, FaHandshake, FaUser, FaUsers } from "react-icons/fa6";
 
 type DashboardSidebarProps = {
   active: DashboardTab;
@@ -18,6 +18,7 @@ type DashboardSidebarProps = {
 const NAV_ITEMS: { id: DashboardTab; icon: typeof FaBriefcase }[] = [
   { id: "leads", icon: FaBriefcase },
   { id: "vitrine", icon: FaUser },
+  { id: "partners", icon: FaHandshake },
   { id: "account", icon: FaUsers },
 ];
 
@@ -33,11 +34,7 @@ export function DashboardSidebar({
   return (
     <aside className="hidden h-screen w-[220px] shrink-0 flex-col border-r border-white/5 bg-[#1a1d24] md:flex lg:w-[240px]">
       <div className="border-b border-white/8 px-5 py-5">
-        <Link
-          href={home}
-          className="inline-flex items-center"
-          aria-label="CraftLink"
-        >
+        <Link href={home} className="inline-flex items-center" aria-label="CraftLink">
           <img
             src="/images/logo_main.png"
             alt="CraftLink"
