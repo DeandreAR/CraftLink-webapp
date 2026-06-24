@@ -11,7 +11,7 @@ export default async function DashboardPage() {
     <DashboardPageClient
       lang={defaultLocale}
       session={session}
-      copy={dict.auth.dashboard}
+      copy={dict.dashboard}
     />
   );
 }

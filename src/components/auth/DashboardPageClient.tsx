@@ -1,15 +1,15 @@
 "use client";
 
 import { DashboardEntrance } from "@/components/auth/DashboardEntrance";
-import { DashboardShell } from "@/components/auth/DashboardShell";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import type { WorkspaceSession } from "@/lib/auth/sessionContext";
-import type { AuthDashboardDictionary } from "@/i18n/types";
+import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
 type DashboardPageClientProps = {
   lang: Locale;
   session: WorkspaceSession;
-  copy: AuthDashboardDictionary;
+  copy: DashboardDictionary;
 };
 
 export function DashboardPageClient({

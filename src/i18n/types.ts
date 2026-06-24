@@ -149,6 +149,126 @@ export type AuthDashboardDictionary = {
   placeholder: string;
 };
 
+export type DashboardDictionary = {
+  loading: string;
+  signOut: string;
+  tabs: {
+    leads: string;
+    vitrine: string;
+    account: string;
+  };
+  leads: {
+    title: string;
+    subtitle: string;
+    empty: string;
+    quotaBanner: string;
+    quotaUnlimited: string;
+    columns: {
+      name: string;
+      requestDate: string;
+      work: string;
+      zone: string;
+      status: string;
+    };
+    contactWhatsApp: string;
+    lockedBadge: string;
+    lockedHint: string;
+    delayStatus: Record<"urgent" | "asap" | "planned" | "info", string>;
+    delayStatusHints: Record<"urgent" | "asap" | "planned" | "info", string>;
+    statusLegendTitle: string;
+    sort: {
+      label: string;
+      date: string;
+      name: string;
+      status: string;
+      showArchived: string;
+      hideArchived: string;
+    };
+    workflow: {
+      markDone: string;
+      archive: string;
+      reactivate: string;
+      done: string;
+      archived: string;
+    };
+    detail: {
+      title: string;
+      close: string;
+      summaryLabel: string;
+    };
+    emptyArchived: string;
+    views: {
+      ariaLabel: string;
+      table: string;
+      cards: string;
+      pipeline: string;
+    };
+  };
+  vitrine: {
+    title: string;
+    subtitle: string;
+    subTabs: {
+      profile: string;
+      qr: string;
+      partners: string;
+    };
+    fields: {
+      businessName: string;
+      trade: string;
+      description: string;
+      city: string;
+      phone: string;
+      pageUrl: string;
+      instagram: string;
+      facebook: string;
+      google: string;
+    };
+    save: string;
+    saving: string;
+    saved: string;
+    saveError: string;
+    viewPage: string;
+    editPage: string;
+  };
+  qr: {
+    title: string;
+    subtitle: string;
+    download: string;
+    printHint: string;
+  };
+  partners: {
+    title: string;
+    subtitle: string;
+    lockedTitle: string;
+    lockedBody: string;
+    upgradeCta: string;
+    placeholder: string;
+    add: string;
+    empty: string;
+  };
+  billing: {
+    title: string;
+    currentPlan: string;
+    essential: string;
+    essentialPrice: string;
+    pro: string;
+    proPriceMonthly: string;
+    proPriceAnnual: string;
+    manageStripe: string;
+    upgradePro: string;
+    portalError: string;
+    essentialFeatures: string;
+    proFeatures: string;
+  };
+  team: {
+    title: string;
+    subtitle: string;
+    comingSoonTitle: string;
+    comingSoonBody: string;
+    strikethrough: string;
+  };
+};
+
 export type AuthDictionary = {
   serviceUnavailable: string;
   shell: AuthShellDictionary;
@@ -676,4 +796,5 @@ export type Dictionary = {
   legal: LegalBundleDictionary;
   vitrine: VitrineDictionary;
   onboarding: OnboardingDictionary;
+  dashboard: DashboardDictionary;
 };

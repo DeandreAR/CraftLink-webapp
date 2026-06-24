@@ -15,6 +15,6 @@ export default async function LangDashboardPage({ params }: Props) {
   const dict = await getDictionary(lang);
 
   return (
-    <DashboardPageClient lang={lang} session={session} copy={dict.auth.dashboard} />
+    <DashboardPageClient lang={lang} session={session} copy={dict.dashboard} />
   );
 }
