@@ -3,19 +3,19 @@
 import { FaArrowDown, FaArrowUp, FaSort } from "react-icons/fa6";
 import type { DashboardLead } from "@/domain/lead";
 import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
-import { LeadWorkflowActions } from "@/components/dashboard/leads/LeadWorkflowActions";
 import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppContactButton";
 import type { LeadsViewBaseProps } from "@/components/dashboard/leads/leadsViewTypes";
 import { useResizableColumns } from "@/hooks/useResizableColumns";
-import { buildLeadWhatsAppLink } from "@/lib/leads/buildLeadWhatsAppLink";
+import { buildLeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
 import type { LeadSortKey, LeadSortState } from "@/lib/leads/sortLeads";
 import { toggleLeadSort } from "@/lib/leads/sortLeads";
 import {
+  contactStatusBadgeClass,
   formatLeadDate,
   formatRequestNumber,
+  formatScheduleShort,
   isLeadWorkflowMuted,
   leadRowMutedClass,
-  workflowStatusBadgeClass,
 } from "@/components/dashboard/leads/leadsViewShared";
 
 type TableColumnKey =
@@ -25,26 +25,27 @@ type TableColumnKey =
   | "date"
   | "work"
   | "zone"
+  | "delay"
+  | "calendar"
   | "status"
-  | "actions";
+  | "whatsapp";
 
 const DEFAULT_WIDTHS: Record<TableColumnKey, number> = {
   checkbox: 44,
   id: 72,
   name: 150,
   date: 118,
-  work: 200,
-  zone: 130,
-  status: 112,
-  actions: 108,
+  work: 180,
+  zone: 120,
+  delay: 108,
+  calendar: 108,
+  status: 96,
+  whatsapp: 56,
 };
 
 type LeadsTableViewProps = LeadsViewBaseProps & {
   sort: LeadSortState;
   onSortChange: (sort: LeadSortState) => void;
-  showArchived: boolean;
-  onShowArchivedChange: (show: boolean) => void;
-  archivedCount: number;
   selectedIds: Set<string>;
   onToggleSelect: (leadId: string) => void;
   onToggleSelectAll: () => void;
@@ -131,25 +132,18 @@ export function LeadsTableView({
   leads,
   copy,
   locale,
-  artisanName,
+  businessName,
   sort,
   onSortChange,
-  showArchived,
-  onShowArchivedChange,
-  archivedCount,
   selectedIds,
   onToggleSelect,
   onToggleSelectAll,
   onOpenDetail,
   onDelayStatusChange,
-  onMarkDone,
-  onMarkArchived,
-  onReactivate,
   onWhatsAppContact,
 }: LeadsTableViewProps) {
   const l = copy.leads;
   const cols = l.columns;
-  const s = l.sort;
   const { widths, startResize } = useResizableColumns(DEFAULT_WIDTHS);
   const allSelected = leads.length > 0 && leads.every((lead) => selectedIds.has(lead.id));
 
@@ -214,48 +208,44 @@ export function LeadsTableView({
               <span className={HEADER_CLASS}>{cols.zone}</span>
               <ColumnResizeHandle onResizeStart={(x) => startResize("zone", x)} />
             </th>
+            <SortableHeader
+              label={cols.delay}
+              sortKey="delay"
+              sort={sort}
+              onSortChange={onSortChange}
+              width={widths.delay}
+              onResizeStart={(x) => startResize("delay", x)}
+            />
+            <SortableHeader
+              label={cols.calendar}
+              sortKey="calendar"
+              sort={sort}
+              onSortChange={onSortChange}
+              width={widths.calendar}
+              onResizeStart={(x) => startResize("calendar", x)}
+              className="hidden md:table-cell"
+            />
+            <SortableHeader
+              label={cols.status}
+              sortKey="contactStatus"
+              sort={sort}
+              onSortChange={onSortChange}
+              width={widths.status}
+              onResizeStart={(x) => startResize("status", x)}
+              className="hidden sm:table-cell"
+            />
             <th
-              className="relative px-3 py-2.5"
-              style={{ width: widths.status, minWidth: widths.status }}
+              className="relative px-3 py-2.5 text-center"
+              style={{ width: widths.whatsapp, minWidth: widths.whatsapp }}
             >
-              <button
-                type="button"
-                onClick={() => onSortChange(toggleLeadSort(sort, "status"))}
-                className={`inline-flex items-center gap-1 transition hover:text-slate-700 ${HEADER_CLASS} ${
-                  sort.key === "status" ? "text-slate-700" : ""
-                }`}
-              >
-                {cols.status}
-                <SortIcon active={sort.key === "status"} direction={sort.direction} />
-              </button>
-              <ColumnResizeHandle onResizeStart={(x) => startResize("status", x)} />
-            </th>
-            <th
-              className="relative px-3 py-2.5 text-right"
-              style={{ width: widths.actions, minWidth: widths.actions }}
-            >
-              {archivedCount > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => onShowArchivedChange(!showArchived)}
-                  className={`text-[10px] font-semibold uppercase tracking-wide transition ${
-                    showArchived
-                      ? "text-slate-800 underline"
-                      : "text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  {showArchived
-                    ? s.hideArchived
-                    : s.showArchived.replace("{count}", String(archivedCount))}
-                </button>
-              ) : null}
-              <ColumnResizeHandle onResizeStart={(x) => startResize("actions", x)} />
+              <span className={HEADER_CLASS}>{cols.whatsapp}</span>
+              <ColumnResizeHandle onResizeStart={(x) => startResize("whatsapp", x)} />
             </th>
           </tr>
         </thead>
         <tbody>
           {leads.map((lead) => {
-            const waHref = buildLeadWhatsAppLink(lead, artisanName);
+            const waLinks = buildLeadWhatsAppLinks(lead, businessName);
             const muted = isLeadWorkflowMuted(lead.workflowStatus);
             const selected = selectedIds.has(lead.id);
 
@@ -288,29 +278,9 @@ export function LeadsTableView({
                   <button
                     type="button"
                     onClick={() => onOpenDetail(lead.id)}
-                    className="text-left"
+                    className={`text-left font-medium underline-offset-2 hover:underline ${muted ? "text-neutral-500" : "text-slate-900"}`}
                   >
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span
-                        className={`font-medium underline-offset-2 hover:underline ${muted ? "text-neutral-500" : "text-slate-900"}`}
-                      >
-                        {lead.clientName}
-                      </span>
-                      {lead.workflowStatus === "done" ? (
-                        <span
-                          className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${workflowStatusBadgeClass("done")}`}
-                        >
-                          {l.workflow.done}
-                        </span>
-                      ) : null}
-                      {lead.workflowStatus === "archived" ? (
-                        <span
-                          className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${workflowStatusBadgeClass("archived")}`}
-                        >
-                          {l.workflow.archived}
-                        </span>
-                      ) : null}
-                    </div>
+                    {lead.clientName}
                   </button>
                 </td>
                 <td className={`px-3 py-2.5 text-slate-600 ${muted ? "text-neutral-400" : ""}`}>
@@ -337,25 +307,33 @@ export function LeadsTableView({
                     compact
                   />
                 </td>
-                <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
-                  <div className="flex items-center justify-end gap-1.5">
-                    {waHref ? (
-                      <WhatsAppContactButton
-                        label={l.contactWhatsApp}
-                        onClick={() => onWhatsAppContact(waHref)}
-                        compact
-                        iconOnly
-                      />
-                    ) : null}
-                    <LeadWorkflowActions
-                      workflowStatus={lead.workflowStatus}
-                      copy={copy}
-                      onMarkDone={() => onMarkDone(lead.id)}
-                      onMarkArchived={() => onMarkArchived(lead.id)}
-                      onReactivate={() => onReactivate(lead.id)}
+                <td className={`hidden px-3 py-2.5 md:table-cell ${muted ? "text-neutral-400" : ""}`}>
+                  {lead.schedule?.date ? (
+                    <span className="text-xs font-medium text-slate-700">
+                      {formatScheduleShort(lead.schedule.date, locale)}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-neutral-400">{l.calendar.notScheduled}</span>
+                  )}
+                </td>
+                <td className={`hidden px-3 py-2.5 sm:table-cell ${muted ? "opacity-70" : ""}`}>
+                  <span
+                    className={`inline-block rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${contactStatusBadgeClass(lead.contactStatus === "contacted")}`}
+                  >
+                    {lead.contactStatus === "contacted"
+                      ? l.contactStatus.contacted
+                      : l.contactStatus.pending}
+                  </span>
+                </td>
+                <td className="px-3 py-2.5 text-center" onClick={(e) => e.stopPropagation()}>
+                  {waLinks ? (
+                    <WhatsAppContactButton
+                      label={l.contactWhatsApp}
+                      onClick={() => onWhatsAppContact(lead.id, waLinks)}
                       compact
+                      iconOnly
                     />
-                  </div>
+                  ) : null}
                 </td>
               </tr>
             );

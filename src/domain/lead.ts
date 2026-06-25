@@ -5,6 +5,9 @@ export type LeadDelayStatus = LeadUrgency;
 
 export type LeadWorkflowStatus = "active" | "done" | "archived";
 
+/** Suivi du premier contact WhatsApp artisan → client. */
+export type LeadContactStatus = "pending" | "contacted";
+
 /** Unité de durée pour la planification d'une réalisation. */
 export type LeadDurationPreset = "minutes" | "hours" | "half_day" | "full_day";
 
@@ -17,6 +20,21 @@ export type LeadSchedule = {
   durationValue?: number;
 };
 
+/** Message vocal client (Whisper + résumé IA). */
+export type LeadVoiceNote = {
+  audioUrl: string;
+  /** Transcription brute (Whisper). */
+  transcript: string;
+  /** Résumé structuré (GPT) — alimente aussi la colonne Travaux. */
+  summary: string;
+};
+
+/** Photo jointe à la demande. */
+export type LeadPhoto = {
+  url: string;
+  alt?: string;
+};
+
 /** Lead affiché dans le CRM artisan (tableau de bord). */
 export type DashboardLead = {
   id: string;
@@ -25,12 +43,22 @@ export type DashboardLead = {
   clientName: string;
   clientPhone: string;
   createdAt: string;
+  /** Intitulé court des travaux (résumé IA si vocal). */
   workType: string;
   zone: string;
   delayStatus: LeadDelayStatus;
   workflowStatus: LeadWorkflowStatus;
-  /** Résumé structuré du dossier (description projet, accès, etc.). */
+  contactStatus: LeadContactStatus;
+  /** Horodatage ISO du contact WhatsApp. */
+  contactedAt?: string | null;
+  /** Description textuelle du besoin (formulaire client). */
+  description: string;
+  /** Notes complémentaires / dossier structuré (legacy). */
   summary: string;
+  /** Message vocal + transcription + résumé IA. */
+  voice?: LeadVoiceNote | null;
+  /** Photos jointes par le client. */
+  photos?: LeadPhoto[];
   /** Planification de la réalisation (optionnel). */
   schedule?: LeadSchedule | null;
 };

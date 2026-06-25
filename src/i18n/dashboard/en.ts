@@ -18,6 +18,10 @@ export const dashboardEn: DashboardDictionary = {
       limited:
         "Essential plan: {used}/{limit} WhatsApp shares this month ({remaining} left).",
     },
+    whatsappError: {
+      title: "Could not open WhatsApp",
+      dismiss: "Close",
+    },
     upgradeModal: {
       eyebrow: "Limit reached",
       title: "Upgrade to Pro for unlimited shares",
@@ -57,7 +61,24 @@ export const dashboardEn: DashboardDictionary = {
       requestDate: "Request date",
       work: "Work",
       zone: "Area",
+      delay: "Timeline",
+      calendar: "Calendar",
       status: "Status",
+      whatsapp: "WhatsApp",
+    },
+    filter: {
+      label: "Filter",
+      calendar: "Calendar",
+      contact: "Status",
+      all: "All",
+      scheduled: "Scheduled",
+      unscheduled: "Not scheduled",
+      pending: "To contact",
+      contacted: "Contacted",
+    },
+    contactStatus: {
+      pending: "To contact",
+      contacted: "Contacted",
     },
     contactWhatsApp: "Contact on WhatsApp",
     delayStatus: {
@@ -78,7 +99,10 @@ export const dashboardEn: DashboardDictionary = {
       id: "No.",
       date: "Date",
       name: "Name",
-      status: "Status",
+      delay: "Timeline",
+      status: "Timeline",
+      calendar: "Calendar",
+      contactStatus: "Status",
       showArchived: "Archived ({count})",
       hideArchived: "Hide archived",
     },
@@ -92,6 +116,12 @@ export const dashboardEn: DashboardDictionary = {
     detail: {
       title: "Request details",
       close: "Close",
+      phoneLabel: "Client phone",
+      descriptionLabel: "Description",
+      voiceLabel: "Voice message",
+      voiceSummaryLabel: "Voice message summary",
+      transcriptLabel: "View transcript",
+      photosLabel: "Photos",
       summaryLabel: "Client dossier",
     },
     emptyArchived: "No archived requests.",
@@ -130,6 +160,7 @@ export const dashboardEn: DashboardDictionary = {
       weekOf: "Week · {month}",
       rangeHint: "{count} scheduled job(s) across 2 years",
       emptyDay: "No scheduled jobs this day.",
+      notScheduled: "Not scheduled",
       weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
   },
@@ -163,7 +194,8 @@ export const dashboardEn: DashboardDictionary = {
       title: "Voice capture",
       description:
         "Let clients leave a raw audio message on your request form.",
-      rawAudioNote: "Audio file only — no automatic transcription.",
+      rawAudioNote:
+        "Whisper transcription + AI summary (GPT-4o mini) to auto-fill the dossier.",
       proBadge: "Pro plan",
       lockedHint:
         "Voice capture is included in the Pro Artisan plan. Enable it to enrich client dossiers.",

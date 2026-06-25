@@ -6,7 +6,7 @@ import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControl
 import { LeadWorkflowActions } from "@/components/dashboard/leads/LeadWorkflowActions";
 import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppContactButton";
 import type { LeadsViewBaseProps } from "@/components/dashboard/leads/leadsViewTypes";
-import { buildLeadWhatsAppLink } from "@/lib/leads/buildLeadWhatsAppLink";
+import { buildLeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
 import {
   formatLeadDate,
   formatRequestNumber,
@@ -28,7 +28,7 @@ export function LeadCard({
   lead,
   copy,
   locale,
-  artisanName,
+  businessName,
   onOpenDetail,
   onDelayStatusChange,
   onMarkDone,
@@ -43,7 +43,7 @@ export function LeadCard({
 }: LeadCardProps) {
   const l = copy.leads;
   const dateLabel = formatLeadDate(lead.createdAt, locale);
-  const waHref = buildLeadWhatsAppLink(lead, artisanName);
+  const waLinks = buildLeadWhatsAppLinks(lead, businessName);
   const muted = isLeadWorkflowMuted(lead.workflowStatus);
 
   return (
@@ -131,10 +131,10 @@ export function LeadCard({
       )}
 
       <div className={`flex flex-wrap items-center gap-1.5 ${compact ? "mt-2" : "mt-3"}`}>
-        {waHref ? (
+        {waLinks ? (
           <WhatsAppContactButton
             label={l.contactWhatsApp}
-            onClick={() => onWhatsAppContact(waHref)}
+            onClick={() => onWhatsAppContact(lead.id, waLinks)}
             compact
             iconOnly={compact}
           />

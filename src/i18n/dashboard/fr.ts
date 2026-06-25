@@ -18,6 +18,10 @@ export const dashboardFr: DashboardDictionary = {
       limited:
         "Plan Essentiel : {used}/{limit} partages WhatsApp ce mois-ci ({remaining} restants).",
     },
+    whatsappError: {
+      title: "Impossible d'ouvrir WhatsApp",
+      dismiss: "Fermer",
+    },
     upgradeModal: {
       eyebrow: "Limite atteinte",
       title: "Passez au Plan Pro pour partager sans limite",
@@ -57,7 +61,24 @@ export const dashboardFr: DashboardDictionary = {
       requestDate: "Date de la demande",
       work: "Travaux",
       zone: "Zone",
+      delay: "Délai",
+      calendar: "Calendrier",
       status: "Statut",
+      whatsapp: "WhatsApp",
+    },
+    filter: {
+      label: "Filtrer",
+      calendar: "Calendrier",
+      contact: "Statut",
+      all: "Tous",
+      scheduled: "Planifié",
+      unscheduled: "Non planifié",
+      pending: "À contacter",
+      contacted: "Contacté",
+    },
+    contactStatus: {
+      pending: "À contacter",
+      contacted: "Contacté",
     },
     contactWhatsApp: "Contacter sur WhatsApp",
     delayStatus: {
@@ -78,7 +99,10 @@ export const dashboardFr: DashboardDictionary = {
       id: "N°",
       date: "Date",
       name: "Nom",
-      status: "Statut",
+      delay: "Délai",
+      status: "Délai",
+      calendar: "Calendrier",
+      contactStatus: "Statut",
       showArchived: "Archivés ({count})",
       hideArchived: "Masquer archivés",
     },
@@ -92,6 +116,12 @@ export const dashboardFr: DashboardDictionary = {
     detail: {
       title: "Détail de la demande",
       close: "Fermer",
+      phoneLabel: "Téléphone client",
+      descriptionLabel: "Description",
+      voiceLabel: "Message vocal",
+      voiceSummaryLabel: "Résumé du message vocal",
+      transcriptLabel: "Voir la transcription",
+      photosLabel: "Photos",
       summaryLabel: "Dossier client",
     },
     emptyArchived: "Aucune demande archivée.",
@@ -130,6 +160,7 @@ export const dashboardFr: DashboardDictionary = {
       weekOf: "Semaine · {month}",
       rangeHint: "{count} réalisation(s) planifiée(s) sur 2 ans",
       emptyDay: "Aucune réalisation planifiée ce jour.",
+      notScheduled: "Non planifié",
       weekdays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
     },
   },
@@ -163,7 +194,8 @@ export const dashboardFr: DashboardDictionary = {
       title: "Capture vocale",
       description:
         "Permettez à vos clients de laisser un message audio brut sur votre formulaire de demande.",
-      rawAudioNote: "Fichier audio uniquement — pas de transcription automatique.",
+      rawAudioNote:
+        "Transcription Whisper + résumé IA (GPT-4o mini) pour remplir automatiquement le dossier.",
       proBadge: "Plan Pro",
       lockedHint:
         "La capture vocale est incluse dans le Plan Pro Artisan. Activez-la pour enrichir vos dossiers clients.",

@@ -166,6 +166,10 @@ export type DashboardDictionary = {
       unlimited: string;
       limited: string;
     };
+    whatsappError: {
+      title: string;
+      dismiss: string;
+    };
     upgradeModal: {
       eyebrow: string;
       title: string;
@@ -200,7 +204,24 @@ export type DashboardDictionary = {
       requestDate: string;
       work: string;
       zone: string;
+      delay: string;
+      calendar: string;
       status: string;
+      whatsapp: string;
+    };
+    filter: {
+      label: string;
+      calendar: string;
+      contact: string;
+      all: string;
+      scheduled: string;
+      unscheduled: string;
+      pending: string;
+      contacted: string;
+    };
+    contactStatus: {
+      pending: string;
+      contacted: string;
     };
     contactWhatsApp: string;
     delayStatus: Record<"urgent" | "asap" | "planned" | "info", string>;
@@ -211,7 +232,10 @@ export type DashboardDictionary = {
       id: string;
       date: string;
       name: string;
+      delay: string;
       status: string;
+      calendar: string;
+      contactStatus: string;
       showArchived: string;
       hideArchived: string;
     };
@@ -225,6 +249,12 @@ export type DashboardDictionary = {
     detail: {
       title: string;
       close: string;
+      phoneLabel: string;
+      descriptionLabel: string;
+      voiceLabel: string;
+      voiceSummaryLabel: string;
+      transcriptLabel: string;
+      photosLabel: string;
       summaryLabel: string;
     };
     emptyArchived: string;
@@ -258,6 +288,7 @@ export type DashboardDictionary = {
       weekOf: string;
       rangeHint: string;
       emptyDay: string;
+      notScheduled: string;
       weekdays: string[];
     };
   };

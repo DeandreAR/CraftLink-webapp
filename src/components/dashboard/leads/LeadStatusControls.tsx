@@ -66,7 +66,7 @@ export function LeadStatusPicker({
         title={l.delayStatusHints[value]}
         aria-expanded={open}
         aria-haspopup="listbox"
-        aria-label={l.columns.status}
+        aria-label={copy.leads.columns.delay}
         className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 font-semibold transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60 ${delayStatusBadgeClass(value)} ${compact ? "text-[10px]" : "text-xs"}`}
       >
         {l.delayStatus[value]}

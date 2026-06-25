@@ -3,12 +3,13 @@
 import { FaXmark } from "react-icons/fa6";
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus, LeadSchedule } from "@/domain/lead";
+import { LeadDetailMedia } from "@/components/dashboard/leads/LeadDetailMedia";
 import { LeadScheduleEditor } from "@/components/dashboard/leads/LeadScheduleEditor";
 import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
 import { LeadWorkflowActions } from "@/components/dashboard/leads/LeadWorkflowActions";
 import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppContactButton";
-import { buildLeadWhatsAppLink } from "@/lib/leads/buildLeadWhatsAppLink";
-import { formatLeadDate, formatRequestNumber } from "@/components/dashboard/leads/leadsViewShared";
+import { buildLeadWhatsAppLinks, type LeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
+import { formatLeadDate, formatRequestNumber, formatScheduleShort, contactStatusBadgeClass, formatClientPhone } from "@/components/dashboard/leads/leadsViewShared";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
@@ -16,21 +17,21 @@ type LeadDetailPanelProps = {
   lead: DashboardLead;
   copy: DashboardDictionary;
   locale: Locale;
-  artisanName?: string;
+  businessName?: string;
   onClose: () => void;
   onDelayStatusChange: (status: LeadDelayStatus) => void;
   onScheduleChange: (schedule: LeadSchedule | null) => void;
   onMarkDone: () => void;
   onMarkArchived: () => void;
   onReactivate: () => void;
-  onWhatsAppContact: (href: string) => void;
+  onWhatsAppContact: (leadId: string, links: LeadWhatsAppLinks) => void;
 };
 
 export function LeadDetailPanel({
   lead,
   copy,
   locale,
-  artisanName,
+  businessName,
   onClose,
   onDelayStatusChange,
   onScheduleChange,
@@ -41,7 +42,7 @@ export function LeadDetailPanel({
 }: LeadDetailPanelProps) {
   const d = copy.leads.detail;
   const l = copy.leads;
-  const waHref = buildLeadWhatsAppLink(lead, artisanName);
+  const waLinks = buildLeadWhatsAppLinks(lead, businessName);
 
   return (
     <div
@@ -94,7 +95,19 @@ export function LeadDetailPanel({
           </div>
           <div>
             <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-              {l.columns.status}
+              {d.phoneLabel}
+            </dt>
+            <dd className="mt-0.5 font-medium text-slate-900">
+              {lead.clientPhone ? (
+                formatClientPhone(lead.clientPhone, locale)
+              ) : (
+                <span className="font-normal text-neutral-400">—</span>
+              )}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+              {l.columns.delay}
             </dt>
             <dd className="mt-1">
               <LeadStatusPicker
@@ -106,13 +119,31 @@ export function LeadDetailPanel({
           </div>
           <div>
             <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-              {d.summaryLabel}
+              {l.columns.status}
             </dt>
-            <dd className="mt-0.5 whitespace-pre-wrap leading-relaxed text-neutral-700">
-              {lead.summary}
+            <dd className="mt-1">
+              <span
+                className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${contactStatusBadgeClass(lead.contactStatus === "contacted")}`}
+              >
+                {lead.contactStatus === "contacted"
+                  ? l.contactStatus.contacted
+                  : l.contactStatus.pending}
+              </span>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+              {l.columns.calendar}
+            </dt>
+            <dd className="mt-0.5 text-neutral-800">
+              {lead.schedule?.date
+                ? formatScheduleShort(lead.schedule.date, locale)
+                : l.calendar.notScheduled}
             </dd>
           </div>
         </dl>
+
+        <LeadDetailMedia lead={lead} copy={copy} />
 
         <div className="mt-4">
           <LeadScheduleEditor
@@ -123,10 +154,10 @@ export function LeadDetailPanel({
         </div>
 
         <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-          {waHref ? (
+          {waLinks ? (
             <WhatsAppContactButton
               label={l.contactWhatsApp}
-              onClick={() => onWhatsAppContact(waHref)}
+              onClick={() => onWhatsAppContact(lead.id, waLinks)}
             />
           ) : null}
           <LeadWorkflowActions

@@ -14,7 +14,7 @@ type LeadsCardsToolbarProps = {
   copy: DashboardDictionary;
 };
 
-const SORT_KEYS: LeadSortKey[] = ["id", "date", "name", "status"];
+const SORT_KEYS: LeadSortKey[] = ["id", "date", "name", "delay", "calendar", "contactStatus"];
 
 export function LeadsCardsToolbar({
   sort,
