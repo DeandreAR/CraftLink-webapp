@@ -25,6 +25,7 @@ import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import {
   ESSENTIAL_WHATSAPP_CLICK_LIMIT,
+  isWhatsAppQuotaExhausted,
   whatsappClicksRemaining,
 } from "@/lib/dashboard/whatsappQuota";
 import type { LeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
@@ -37,21 +38,27 @@ import { openWhatsAppLinks, resolveWhatsAppUrl } from "@/lib/leads/openWhatsApp"
 import { computeLeadsSummary } from "@/lib/leads/leadStats";
 import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/sortLeads";
 import { LeadsTableToolbar } from "@/components/dashboard/leads/LeadsTableToolbar";
-import { getWorkspaceLeads } from "@/services/leadService";
+import { updateLeadAction } from "@/app/actions/leads";
 
 export type LeadsDisplayView = "table" | "cards" | "pipeline";
 export type LeadsSectionView = "list" | "calendar";
 
 type LeadsPanelProps = {
-  workspaceId: string;
   profile: Profile;
   copy: DashboardDictionary;
   locale: Locale;
+  initialLeads: DashboardLead[];
+  initialLoadError: string | null;
 };
 
-export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelProps) {
-  const [leads, setLeads] = useState<DashboardLead[]>([]);
-  const [loading, setLoading] = useState(true);
+export function LeadsPanel({
+  profile,
+  copy,
+  locale,
+  initialLeads,
+  initialLoadError,
+}: LeadsPanelProps) {
+  const [leads, setLeads] = useState<DashboardLead[]>(initialLeads);
   const [view, setView] = useState<LeadsDisplayView>("table");
   const [section, setSection] = useState<LeadsSectionView>("list");
   const [sort, setSort] = useState<LeadSortState>(DEFAULT_LEAD_SORT);
@@ -64,6 +71,7 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
   );
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [whatsappError, setWhatsappError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(initialLoadError);
   const l = copy.leads;
 
   useEffect(() => {
@@ -83,27 +91,34 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
   }, [profile.id]);
 
   useEffect(() => {
-    let cancelled = false;
-    void getWorkspaceLeads(workspaceId).then((data) => {
-      if (!cancelled) {
-        setLeads(data);
-        setLoading(false);
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [workspaceId]);
+    setLeads(initialLeads);
+    setLoadError(initialLoadError);
+  }, [initialLeads, initialLoadError]);
 
   const updateLead = useCallback((leadId: string, patch: Partial<DashboardLead>) => {
     setLeads((prev) =>
       prev.map((item) => (item.id === leadId ? { ...item, ...patch } : item)),
     );
+    void updateLeadAction(leadId, patch).then((result) => {
+      if (result.ok) {
+        setLeads((prev) =>
+          prev.map((item) => (item.id === leadId ? result.lead : item)),
+        );
+      }
+    });
   }, []);
 
   const handleWhatsAppContact = useCallback(
     async (leadId: string, links: LeadWhatsAppLinks) => {
       setWhatsappError(null);
+
+      if (
+        dashboardUser.plan !== "PRO" &&
+        isWhatsAppQuotaExhausted(dashboardUser.plan, dashboardUser.whatsappClicksThisMonth)
+      ) {
+        setUpgradeOpen(true);
+        return;
+      }
 
       if (process.env.NODE_ENV === "development") {
         console.info("[CraftLink WhatsApp]", {
@@ -120,7 +135,6 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
         });
       };
 
-      // Ouvre immédiatement (geste utilisateur) — avant tout await
       const popup = openWhatsAppLinks(links);
 
       if (dashboardUser.plan === "PRO") {
@@ -149,7 +163,7 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
 
       markContacted();
     },
-    [dashboardUser.plan, updateLead],
+    [dashboardUser.plan, dashboardUser.whatsappClicksThisMonth, updateLead],
   );
 
   const handlers: LeadsViewHandlers = useMemo(
@@ -316,6 +330,15 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
         </div>
       ) : null}
 
+      {loadError ? (
+        <div
+          role="alert"
+          className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+        >
+          {loadError}
+        </div>
+      ) : null}
+
       <DashboardViewTabs
         tabs={sectionTabs}
         active={section}
@@ -333,9 +356,7 @@ export function LeadsPanel({ workspaceId, profile, copy, locale }: LeadsPanelPro
       ) : null}
 
       <div className="mt-4">
-        {loading ? (
-          <p className="py-12 text-center text-sm text-slate-400">{copy.loading}</p>
-        ) : section === "calendar" ? (
+        {section === "calendar" ? (
           <LeadsCalendar
             leads={calendarLeads}
             copy={copy}

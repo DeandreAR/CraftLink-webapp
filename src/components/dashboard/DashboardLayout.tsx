@@ -9,6 +9,7 @@ import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { LeadsPanel } from "@/components/dashboard/leads/LeadsPanel";
 import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { VitrinePanel } from "@/components/dashboard/vitrine/VitrinePanel";
+import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
@@ -20,11 +21,19 @@ type DashboardLayoutProps = {
   session: WorkspaceSession;
   copy: DashboardDictionary;
   locale: Locale;
+  initialLeads: DashboardLead[];
+  initialLoadError: string | null;
 };
 
-export function DashboardLayout({ session, copy, locale }: DashboardLayoutProps) {
+export function DashboardLayout({
+  session,
+  copy,
+  locale,
+  initialLeads,
+  initialLoadError,
+}: DashboardLayoutProps) {
   const [tab, setTab] = useState<DashboardTab>("leads");
-  const { profile, workspaceId } = session;
+  const { profile } = session;
   const home = locale === defaultLocale ? "/" : `/${locale}`;
 
   return (
@@ -63,10 +72,11 @@ export function DashboardLayout({ session, copy, locale }: DashboardLayoutProps)
           <div className="mx-auto w-full max-w-6xl">
             {tab === "leads" ? (
               <LeadsPanel
-                workspaceId={workspaceId}
                 profile={profile}
                 copy={copy}
                 locale={locale}
+                initialLeads={initialLeads}
+                initialLoadError={initialLoadError}
               />
             ) : null}
             {tab === "vitrine" ? (

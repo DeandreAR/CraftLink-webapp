@@ -6,6 +6,7 @@ import type { Profile } from "@/domain/profile";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { QrCodeVanModule } from "@/components/dashboard/vitrine/QrCodeVanModule";
 import { VitrineProfileForm } from "@/components/dashboard/vitrine/VitrineProfileForm";
+import { VoiceCaptureSetting } from "@/components/dashboard/vitrine/VoiceCaptureSetting";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
@@ -52,7 +53,10 @@ export function VitrinePanel({ profile, copy, locale }: VitrinePanelProps) {
 
       <div className="mt-6">
         {subTab === "profile" ? (
-          <VitrineProfileForm profile={profile} copy={copy} locale={locale} />
+          <div className="space-y-6">
+            <VitrineProfileForm profile={profile} copy={copy} locale={locale} />
+            <VoiceCaptureSetting profile={profile} copy={copy} locale={locale} />
+          </div>
         ) : null}
         {subTab === "qr" ? (
           <QrCodeVanModule slug={profile.page_slug} copy={copy} />

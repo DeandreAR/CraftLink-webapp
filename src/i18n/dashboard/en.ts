@@ -24,9 +24,9 @@ export const dashboardEn: DashboardDictionary = {
     },
     upgradeModal: {
       eyebrow: "Limit reached",
-      title: "Upgrade to Pro for unlimited shares",
+      title: "Upgrade to Pro for unlimited contact",
       body:
-        "Your Essential plan includes {limit} WhatsApp shares per month. Unlock unlimited shares and voice capture on your form.",
+        "You have reached your limit of 10 WhatsApp contacts this month. Upgrade to Pro to contact your clients without limits!",
       usage: "Usage this month: {used} / {limit} WhatsApp shares",
       cta: "Upgrade to Pro — €19 excl. VAT/month",
       dismiss: "Later",
@@ -194,8 +194,7 @@ export const dashboardEn: DashboardDictionary = {
       title: "Voice capture",
       description:
         "Let clients leave a raw audio message on your request form.",
-      rawAudioNote:
-        "Whisper transcription + AI summary (GPT-4o mini) to auto-fill the dossier.",
+      rawAudioNote: "Raw audio file only — no automatic transcription.",
       proBadge: "Pro plan",
       lockedHint:
         "Voice capture is included in the Pro Artisan plan. Enable it to enrich client dossiers.",
@@ -259,7 +258,8 @@ export const dashboardEn: DashboardDictionary = {
     title: "Team / Collaboration",
     subtitle: "Share account access with your employees.",
     comingSoonTitle: "Coming soon — version 1.1",
-    comingSoonBody: "Coming soon in version 1.1 — Included in your Pro offer.",
+    comingSoonBody:
+      "Coming soon in version 1.1 — Included in your Pro plan.",
     strikethrough: "Share account with employees (V1.1)",
   },
 };

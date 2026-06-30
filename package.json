@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "demo:lead-media": "tsx scripts/generateDemoLeadMedia.ts"
+    "demo:lead-media": "tsx scripts/generateDemoLeadMedia.ts",
+    "seed:leads": "tsx scripts/seedDemoLeads.ts",
+    "debug:leads": "tsx scripts/debugLeads.ts"
   },
   "dependencies": {
+    "22": "^0.0.0",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.1",
     "framer-motion": "^12.38.0",
@@ -29,6 +32,7 @@
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "ws": "^8.21.0"
   }
 }

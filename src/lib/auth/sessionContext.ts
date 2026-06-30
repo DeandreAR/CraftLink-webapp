@@ -1,6 +1,7 @@
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import type { AuthResult } from "@/domain/auth";
 import type { Profile } from "@/domain/profile";
+import { resolveProfileWorkspaceId } from "@/lib/auth/workspaceId";
 import { getSessionWithProfile } from "@/services/authService";
 
 /** Session authentifiée + profil — prête pour filtrer par workspace. */
@@ -12,7 +13,7 @@ export type WorkspaceSession = {
 };
 
 export function workspaceIdFromProfile(profile: Profile): string {
-  return profile.workspace_id;
+  return resolveProfileWorkspaceId(profile.id, profile.workspace_id);
 }
 
 export async function resolveWorkspaceSession(

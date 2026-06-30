@@ -1,12 +1,11 @@
 import type { CraftlinkPlan } from "@/domain/craftlinkPlan";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { Profile } from "@/domain/profile";
+import type { UserProfile } from "@/domain/userProfile";
 import { currentWhatsappMonthKey, normalizeWhatsappClickCount } from "@/lib/dashboard/whatsappQuota";
 
 /** État métier dashboard dérivé du profil artisan. */
-export type DashboardUser = {
-  plan: CraftlinkPlan;
-  whatsappClicksThisMonth: number;
+export type DashboardUser = UserProfile & {
   voiceCaptureEnabled: boolean;
 };
 

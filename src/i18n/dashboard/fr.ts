@@ -24,9 +24,9 @@ export const dashboardFr: DashboardDictionary = {
     },
     upgradeModal: {
       eyebrow: "Limite atteinte",
-      title: "Passez au Plan Pro pour partager sans limite",
+      title: "Passez au Plan Pro pour contacter en illimité",
       body:
-        "Votre plan Essentiel inclut {limit} partages WhatsApp par mois. Débloquez des partages illimités et la capture vocale sur votre formulaire.",
+        "Vous avez atteint votre limite de 10 contacts WhatsApp ce mois-ci. Passez au Plan Pro pour contacter vos clients en illimité !",
       usage: "Utilisation ce mois-ci : {used} / {limit} partages WhatsApp",
       cta: "Passer au Plan Pro — 19 € HT/mois",
       dismiss: "Plus tard",
@@ -194,8 +194,7 @@ export const dashboardFr: DashboardDictionary = {
       title: "Capture vocale",
       description:
         "Permettez à vos clients de laisser un message audio brut sur votre formulaire de demande.",
-      rawAudioNote:
-        "Transcription Whisper + résumé IA (GPT-4o mini) pour remplir automatiquement le dossier.",
+      rawAudioNote: "Fichier audio brut uniquement — pas de transcription automatique.",
       proBadge: "Plan Pro",
       lockedHint:
         "La capture vocale est incluse dans le Plan Pro Artisan. Activez-la pour enrichir vos dossiers clients.",

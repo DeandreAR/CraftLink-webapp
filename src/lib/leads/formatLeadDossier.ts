@@ -1,5 +1,6 @@
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus } from "@/domain/lead";
+import { buildLeadShareUrl } from "@/lib/leads/buildLeadShareUrl";
 
 const DELAY_LABELS: Record<LeadDelayStatus, string> = {
   urgent: "Urgent",
@@ -31,6 +32,7 @@ export function formatLeadDossierMessage(
   const clientName = lead.clientName.trim();
   const company = context?.businessName?.trim() || "notre entreprise";
   const description = resolveDescription(lead);
+  const shareUrl = buildLeadShareUrl(lead.id);
 
   const lines = [
     clientName ? `Bonjour ${clientName},` : "Bonjour,",
@@ -47,17 +49,7 @@ export function formatLeadDossierMessage(
     lines.push(`• Description : ${description}`);
   }
 
-  if (lead.voice) {
-    lines.push(`• Message vocal : ${lead.voice.audioUrl}`);
-    lines.push(`• Résumé du message vocal : ${lead.voice.summary}`);
-  }
-
-  if (lead.photos?.length) {
-    lines.push(`• Photos (${lead.photos.length}) :`);
-    lead.photos.forEach((photo, index) => {
-      lines.push(`  ${index + 1}. ${photo.url}`);
-    });
-  }
+  lines.push(`• Dossier complet : ${shareUrl}`);
 
   lines.push(
     "",
