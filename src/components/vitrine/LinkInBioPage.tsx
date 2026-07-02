@@ -105,6 +105,8 @@ export function LinkInBioPage({
         ) : (
           <div id="vitrine-details" className="flex-1">
             <VitrineDetailsSection
+              pageSlug={artisan.slug}
+              zone={artisan.serviceAreaSummary || artisan.city}
               planTier={planTier}
               profileSettings={profileSettings}
               services={services}

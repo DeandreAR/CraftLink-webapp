@@ -15,6 +15,7 @@ export type LeadRow = {
   request_number: number;
   client_name: string;
   client_phone: string;
+  client_email: string | null;
   created_at: string;
   updated_at: string;
   work_type: string;
@@ -88,6 +89,7 @@ export function mapLeadRowToDashboardLead(row: LeadRow): DashboardLead {
     requestNumber: row.request_number,
     clientName: row.client_name,
     clientPhone: row.client_phone,
+    clientEmail: row.client_email,
     createdAt: row.created_at,
     updatedAt: row.updated_at ?? row.created_at,
     workType: row.work_type,
@@ -114,6 +116,7 @@ export function mapLeadPatchToRow(
 
   if (patch.clientName !== undefined) row.client_name = patch.clientName;
   if (patch.clientPhone !== undefined) row.client_phone = patch.clientPhone;
+  if (patch.clientEmail !== undefined) row.client_email = patch.clientEmail;
   if (patch.workType !== undefined) row.work_type = patch.workType;
   if (patch.zone !== undefined) row.zone = patch.zone;
   if (patch.delayStatus !== undefined) row.delay_status = patch.delayStatus;

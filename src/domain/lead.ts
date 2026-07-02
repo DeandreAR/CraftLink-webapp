@@ -60,6 +60,7 @@ export type DashboardLead = {
   requestNumber: number;
   clientName: string;
   clientPhone: string;
+  clientEmail?: string | null;
   createdAt: string;
   /** Dernière modification (Smart Catch-up, uploads, etc.). */
   updatedAt: string;

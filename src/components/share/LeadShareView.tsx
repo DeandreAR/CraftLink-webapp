@@ -9,10 +9,13 @@ type LeadShareViewProps = {
   mediaExpired: boolean;
   hadMedia: boolean;
   ownerPlan: CraftlinkPlan;
+  showSubmittedBanner?: boolean;
 };
 
 const COPY = {
   title: "Dossier client",
+  submittedBanner:
+    "🎉 Votre demande a bien été transmise à l'artisan ! Un e-mail de confirmation vous a été envoyé.",
   expiredTitle: "Fichiers expirés",
   expiredBody:
     "Fichier expiré (Limite de rétention atteinte). Passez au Plan Pro pour conserver vos fichiers jusqu'à 2 mois.",
@@ -32,9 +35,19 @@ export function LeadShareView({
   businessName,
   mediaExpired,
   hadMedia,
+  showSubmittedBanner = false,
 }: LeadShareViewProps) {
   return (
     <main className="mx-auto min-h-dvh max-w-lg bg-white px-4 py-8">
+      {showSubmittedBanner ? (
+        <div
+          role="status"
+          className="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm font-medium leading-relaxed text-emerald-950"
+        >
+          {COPY.submittedBanner}
+        </div>
+      ) : null}
+
       <header className="mb-6 border-b border-neutral-100 pb-4">
         <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
           {COPY.title}

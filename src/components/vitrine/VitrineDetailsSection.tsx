@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type {
   LeadFormStatus,
@@ -16,11 +17,13 @@ import type { VitrineDictionary } from "@/i18n/types";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import {
   areServicesRequired,
+  buildWorkTypeFromServices,
   getCaptureFormTitle,
   getDefaultDelay,
   shouldShowDelaySelection,
   shouldShowServices,
 } from "@/lib/vitrine/captureForm";
+import { submitPublicLead } from "@/lib/leads/submitPublicLead";
 import { getMetierFormConfig } from "@/lib/vitrine/metierConfigs";
 import { VitrineBackButton } from "@/components/vitrine/VitrineBackButton";
 import { VitrineCollaborationForm } from "@/components/vitrine/VitrineCollaborationForm";
@@ -31,6 +34,8 @@ import { VitrineServicesPicker } from "@/components/vitrine/VitrineServicesPicke
 import { VitrineVoiceCapture } from "@/components/vitrine/VitrineVoiceCapture";
 
 type VitrineDetailsSectionProps = {
+  pageSlug: string;
+  zone: string;
   planTier: PublicPlanTier;
   profileSettings: VitrineProfileSettings;
   services: VitrineService[];
@@ -40,6 +45,8 @@ type VitrineDetailsSectionProps = {
 };
 
 export function VitrineDetailsSection({
+  pageSlug,
+  zone,
   planTier,
   profileSettings,
   services,
@@ -53,6 +60,8 @@ export function VitrineDetailsSection({
 
   return (
     <CaptureFormBody
+      pageSlug={pageSlug}
+      zone={zone}
       planTier={planTier}
       profileSettings={profileSettings}
       services={services}
@@ -64,6 +73,8 @@ export function VitrineDetailsSection({
 }
 
 type CaptureFormBodyProps = {
+  pageSlug: string;
+  zone: string;
   planTier: PublicPlanTier;
   profileSettings: VitrineProfileSettings;
   services: VitrineService[];
@@ -73,6 +84,8 @@ type CaptureFormBodyProps = {
 };
 
 function CaptureFormBody({
+  pageSlug,
+  zone,
   planTier,
   profileSettings,
   services,
@@ -80,6 +93,7 @@ function CaptureFormBody({
   initialIntent,
   onBack,
 }: CaptureFormBodyProps) {
+  const router = useRouter();
   const isPro = isProPublicPlan(planTier);
   const voiceCaptureOn = isPro && profileSettings.voiceCaptureEnabled === true;
   const form = copy.form;
@@ -89,6 +103,7 @@ function CaptureFormBody({
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [urgency, setUrgency] = useState<LeadUrgency>(getDefaultDelay(initialIntent));
   const [projectDescription, setProjectDescription] = useState("");
   const [hasVoice, setHasVoice] = useState(false);
@@ -158,18 +173,31 @@ function CaptureFormBody({
 
     const servicesOk = !servicesRequired || selectedServices.length > 0;
 
-    if (!fullName.trim() || !phone.trim() || !servicesOk) {
+    if (!fullName.trim() || !phone.trim() || !email.trim() || !servicesOk) {
       setStatus("error");
       return;
     }
 
     setStatus("submitting");
     try {
-      await new Promise((r) => setTimeout(r, 1100));
-      void resolvedUrgency;
-      void hasVoice;
-      void photoFiles;
-      setStatus("success");
+      const result = await submitPublicLead({
+        pageSlug,
+        clientName: fullName.trim(),
+        clientPhone: phone.trim(),
+        clientEmail: email.trim(),
+        delayStatus: resolvedUrgency,
+        description: projectDescription.trim(),
+        workType: buildWorkTypeFromServices(services, selectedServices),
+        zone: zone.trim(),
+        openIntent: initialIntent,
+      });
+
+      if (!result.ok) {
+        setStatus("error");
+        return;
+      }
+
+      router.push(`/share/${result.leadId}?submitted=1`);
     } catch {
       setStatus("error");
     }
@@ -227,35 +255,6 @@ function CaptureFormBody({
       <VitrinePhotoUpload copy={copy} onChange={setPhotoFiles} maxPhotos={1} />
     ) : null;
 
-  if (status === "success") {
-    return (
-      <>
-        <motion.section
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mx-4 mb-4 rounded-[24px] border border-emerald-200 bg-emerald-50 p-6 text-center"
-          role="status"
-        >
-          <p className="text-4xl" aria-hidden>
-            ✓
-          </p>
-          <h3 className="mt-2 text-xl font-bold text-emerald-950">{form.successTitle}</h3>
-          <p className="mt-2 text-sm text-emerald-900">{form.successBody}</p>
-          {isPro ? (
-            <p className="mt-3 text-xs text-emerald-800">{form.successSmsFollowUp}</p>
-          ) : null}
-          <button
-            type="button"
-            onClick={onBack}
-            className="mt-5 text-sm font-semibold text-[var(--primary-color)] underline"
-          >
-            {det.back}
-          </button>
-        </motion.section>
-        <VitrineFooter label={copy.poweredBy} />
-      </>
-    );
-  }
 
   return (
     <motion.section
@@ -300,6 +299,21 @@ function CaptureFormBody({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder={form.phonePlaceholder}
+              className="mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-[var(--v-text)]">
+              {form.email}
+            </label>
+            <input
+              required
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={form.emailPlaceholder}
               className="mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]"
             />
           </div>

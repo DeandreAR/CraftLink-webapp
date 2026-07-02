@@ -28,6 +28,8 @@ export const vitrineEn: VitrineDictionary = {
     partnerCompanyPlaceholder: "Business or brand name",
     phone: "Phone",
     phonePlaceholder: "+33 6 12 34 56 78",
+    email: "Email",
+    emailPlaceholder: "you@example.com",
     urgency: "Timeline",
     urgencyOptions: {
       urgent: "🚨 Urgent / Emergency (Within 24–48h)",

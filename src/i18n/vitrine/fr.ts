@@ -28,6 +28,8 @@ export const vitrineFr: VitrineDictionary = {
     partnerCompanyPlaceholder: "Raison sociale ou enseigne",
     phone: "Téléphone",
     phonePlaceholder: "06 12 34 56 78",
+    email: "E-mail",
+    emailPlaceholder: "vous@exemple.fr",
     urgency: "Délai souhaité",
     urgencyOptions: {
       urgent: "🚨 Urgent / Dépannage (Intervention sous 24h à 48h)",

@@ -4,6 +4,7 @@ import { getPublicLeadShare } from "@/services/leadShareService";
 
 type ShareLeadPageProps = {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ submitted?: string }>;
 };
 
 export async function generateMetadata({ params }: ShareLeadPageProps) {
@@ -18,8 +19,9 @@ export async function generateMetadata({ params }: ShareLeadPageProps) {
   };
 }
 
-export default async function ShareLeadPage({ params }: ShareLeadPageProps) {
+export default async function ShareLeadPage({ params, searchParams }: ShareLeadPageProps) {
   const { id } = await params;
+  const { submitted } = await searchParams;
   const share = await getPublicLeadShare(id);
 
   if (!share) {
@@ -40,6 +42,7 @@ export default async function ShareLeadPage({ params }: ShareLeadPageProps) {
       mediaExpired={mediaExpired}
       hadMedia={hadMedia}
       ownerPlan={share.ownerPlan}
+      showSubmittedBanner={submitted === "1"}
     />
   );
 }

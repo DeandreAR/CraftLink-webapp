@@ -15,6 +15,7 @@ const LEAD_SELECT = `
   request_number,
   client_name,
   client_phone,
+  client_email,
   created_at,
   updated_at,
   work_type,

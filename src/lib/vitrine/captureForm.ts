@@ -1,4 +1,4 @@
-import type { LeadUrgency, VitrineOpenIntent } from "@/domain/vitrine";
+import type { LeadUrgency, VitrineOpenIntent, VitrineService } from "@/domain/vitrine";
 import type { VitrineDictionary } from "@/i18n/types";
 import type { MetierFormFields } from "@/lib/vitrine/metierConfigs";
 
@@ -50,3 +50,16 @@ export const DELAY_PILL_ORDER: LeadUrgency[] = [
   "planned",
   "info",
 ];
+
+export function buildWorkTypeFromServices(
+  services: VitrineService[],
+  selectedIds: string[],
+  fallback = "Demande client",
+): string {
+  const titles = selectedIds
+    .map((id) => services.find((service) => service.id === id)?.title?.trim())
+    .filter((title): title is string => Boolean(title));
+
+  return titles.length > 0 ? titles.join(" · ") : fallback;
+}
+

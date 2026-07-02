@@ -638,6 +638,8 @@ export type VitrineDictionary = {
     partnerCompanyPlaceholder: string;
     phone: string;
     phonePlaceholder: string;
+    email: string;
+    emailPlaceholder: string;
     urgency: string;
     urgencyOptions: {
       urgent: string;

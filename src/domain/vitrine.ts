@@ -145,6 +145,7 @@ export type LeadUrgency = "urgent" | "asap" | "planned" | "info";
 export type LeadCapturePayload = {
   fullName: string;
   phone: string;
+  email: string;
   urgency: LeadUrgency;
   serviceIds: string[];
   projectDescription?: string;
