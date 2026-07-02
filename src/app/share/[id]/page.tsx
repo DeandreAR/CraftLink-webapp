@@ -27,7 +27,9 @@ export default async function ShareLeadPage({ params }: ShareLeadPageProps) {
   }
 
   const hadMedia = Boolean(
-    share.lead.voice?.audioUrl || (share.lead.photos?.length ?? 0) > 0,
+    share.lead.voice?.audioUrl ||
+      (share.lead.photos?.length ?? 0) > 0 ||
+      (share.lead.attachments?.length ?? 0) > 0,
   );
   const { lead, mediaExpired } = applyMediaRetention(share.lead, share.ownerPlan);
 

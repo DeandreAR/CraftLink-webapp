@@ -30,7 +30,7 @@ export function formatDurationLabel(
 
 export function leadsForDate(leads: DashboardLead[], date: string): DashboardLead[] {
   return leads.filter(
-    (lead) => lead.schedule?.date === date && lead.workflowStatus !== "archived",
+    (lead) => lead.schedule?.date === date && lead.workflowStatus !== "ARCHIVE",
   );
 }
 

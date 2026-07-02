@@ -24,6 +24,7 @@ export function applyMediaRetention(
       ...lead,
       voice: null,
       photos: [],
+      attachments: [],
     },
   };
 }

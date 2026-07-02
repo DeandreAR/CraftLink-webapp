@@ -207,7 +207,13 @@ export type DashboardDictionary = {
       delay: string;
       calendar: string;
       status: string;
+      quoteDays: string;
+      invoiceDays: string;
       whatsapp: string;
+    };
+    billing: {
+      notSent: string;
+      dayUnit: string;
     };
     filter: {
       label: string;
@@ -236,15 +242,42 @@ export type DashboardDictionary = {
       status: string;
       calendar: string;
       contactStatus: string;
+      quoteDays: string;
+      invoiceDays: string;
       showArchived: string;
       hideArchived: string;
     };
     workflow: {
+      labels: Record<
+        | "A_TRAITER"
+        | "DEVIS_A_FAIRE"
+        | "DEVIS_ENVOYE"
+        | "DEVIS_SIGNE"
+        | "FACTURE_A_ENVOYER"
+        | "FACTURE_ENVOYEE"
+        | "GAGNE_EN_COURS"
+        | "ARCHIVE",
+        string
+      >;
+      hints: Record<
+        | "A_TRAITER"
+        | "DEVIS_A_FAIRE"
+        | "DEVIS_ENVOYE"
+        | "DEVIS_SIGNE"
+        | "FACTURE_A_ENVOYER"
+        | "FACTURE_ENVOYEE"
+        | "GAGNE_EN_COURS"
+        | "ARCHIVE",
+        string
+      >;
+      sectionStatus: string;
+      sectionClient: string;
+      sectionWork: string;
+      sectionAttachments: string;
+      sectionPlanning: string;
       markDone: string;
       archive: string;
       reactivate: string;
-      done: string;
-      archived: string;
     };
     detail: {
       title: string;
@@ -256,6 +289,8 @@ export type DashboardDictionary = {
       transcriptLabel: string;
       photosLabel: string;
       summaryLabel: string;
+      quoteSentOnLabel: string;
+      invoiceSentOnLabel: string;
     };
     emptyArchived: string;
     views: {
@@ -290,6 +325,36 @@ export type DashboardDictionary = {
       emptyDay: string;
       notScheduled: string;
       weekdays: string[];
+    };
+    catchUp: {
+      ariaLabel: string;
+      question: string;
+      quoteSent: string;
+      lost: string;
+      snooze: string;
+    };
+    copyRequest: {
+      label: string;
+      copied: string;
+    };
+    quickReplies: {
+      title: string;
+      quoteFollowup: string;
+      invoiceFollowup: string;
+    };
+    attachments: {
+      title: string;
+      dropHint: string;
+      formats: string;
+      uploading: string;
+      invalidType: string;
+      expiredTitle: string;
+      expiredBody: string;
+      fileExpired: string;
+    };
+    mediaRetention: {
+      expiredTitle: string;
+      expiredBody: string;
     };
   };
   vitrine: {

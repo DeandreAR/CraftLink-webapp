@@ -1,7 +1,20 @@
 import type { DashboardLead } from "@/domain/lead";
 import type { LeadDelayStatus } from "@/domain/lead";
+import { WORKFLOW_SORT_ORDER } from "@/lib/leads/workflowStatusPatch";
+import {
+  daysSinceInvoiceSent,
+  daysSinceQuoteSent,
+} from "@/lib/leads/leadBillingDays";
 
-export type LeadSortKey = "id" | "date" | "name" | "delay" | "calendar" | "contactStatus";
+export type LeadSortKey =
+  | "id"
+  | "date"
+  | "name"
+  | "delay"
+  | "calendar"
+  | "contactStatus"
+  | "quoteDays"
+  | "invoiceDays";
 export type LeadSortDirection = "asc" | "desc";
 
 export type LeadSortState = {
@@ -19,11 +32,6 @@ export const DELAY_STATUS_SORT_ORDER: Record<LeadDelayStatus, number> = {
   info: 3,
 };
 
-const CONTACT_STATUS_SORT_ORDER: Record<DashboardLead["contactStatus"], number> = {
-  pending: 0,
-  contacted: 1,
-};
-
 const DEFAULT_DIRECTION: Record<LeadSortKey, LeadSortDirection> = {
   id: "desc",
   date: "desc",
@@ -31,6 +39,8 @@ const DEFAULT_DIRECTION: Record<LeadSortKey, LeadSortDirection> = {
   delay: "asc",
   calendar: "asc",
   contactStatus: "asc",
+  quoteDays: "desc",
+  invoiceDays: "desc",
 };
 
 export function toggleLeadSort(current: LeadSortState, key: LeadSortKey): LeadSortState {
@@ -77,10 +87,25 @@ export function sortLeads(
     }
     if (sortKey === "contactStatus") {
       const diff =
-        CONTACT_STATUS_SORT_ORDER[a.contactStatus] -
-        CONTACT_STATUS_SORT_ORDER[b.contactStatus];
+        WORKFLOW_SORT_ORDER[a.workflowStatus] - WORKFLOW_SORT_ORDER[b.workflowStatus];
       if (diff !== 0) return factor * diff;
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+    if (sortKey === "quoteDays") {
+      const aDays = daysSinceQuoteSent(a);
+      const bDays = daysSinceQuoteSent(b);
+      if (aDays === null && bDays === null) return 0;
+      if (aDays === null) return factor;
+      if (bDays === null) return -factor;
+      return factor * (aDays - bDays);
+    }
+    if (sortKey === "invoiceDays") {
+      const aDays = daysSinceInvoiceSent(a);
+      const bDays = daysSinceInvoiceSent(b);
+      if (aDays === null && bDays === null) return 0;
+      if (aDays === null) return factor;
+      if (bDays === null) return -factor;
+      return factor * (aDays - bDays);
     }
     return 0;
   });

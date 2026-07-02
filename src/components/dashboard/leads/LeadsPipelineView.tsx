@@ -1,71 +1,73 @@
 "use client";
 
 import { useState } from "react";
-import { LEAD_DELAY_STATUSES } from "@/domain/lead";
-import type { LeadDelayStatus } from "@/domain/lead";
+import { LEAD_WORKFLOW_STATUSES } from "@/domain/lead";
+import type { LeadWorkflowStatus } from "@/domain/lead";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
-import { LeadStatusBadge } from "@/components/dashboard/leads/LeadStatusControls";
+import { LeadWorkflowBadge } from "@/components/dashboard/leads/LeadWorkflowControls";
 import type { LeadsViewBaseProps } from "@/components/dashboard/leads/leadsViewTypes";
-import { delayStatusColumnClass } from "@/components/dashboard/leads/leadsViewShared";
+import { workflowStatusColumnClass } from "@/components/dashboard/leads/leadsViewShared";
 
 type LeadsPipelineViewProps = LeadsViewBaseProps;
 
 export function LeadsPipelineView(props: LeadsPipelineViewProps) {
-  const { leads, copy, onDelayStatusChange } = props;
+  const { leads, copy, onWorkflowStatusChange } = props;
   const l = copy.leads;
   const [draggingId, setDraggingId] = useState<string | null>(null);
-  const [dropTarget, setDropTarget] = useState<LeadDelayStatus | null>(null);
+  const [dropTarget, setDropTarget] = useState<LeadWorkflowStatus | null>(null);
 
-  const handleDrop = (status: LeadDelayStatus) => {
+  const handleDrop = (status: LeadWorkflowStatus) => {
     if (!draggingId) return;
-    onDelayStatusChange(draggingId, status);
+    onWorkflowStatusChange(draggingId, status);
     setDraggingId(null);
     setDropTarget(null);
   };
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2 md:gap-3">
-      {LEAD_DELAY_STATUSES.map((delayStatus) => {
-        const columnLeads = leads.filter((lead) => lead.delayStatus === delayStatus);
-        const isDropTarget = dropTarget === delayStatus;
+    <div className="scrollbar-soft flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3">
+      {LEAD_WORKFLOW_STATUSES.map((workflowStatus) => {
+        const columnLeads = leads.filter((lead) => lead.workflowStatus === workflowStatus);
+        const isDropTarget = dropTarget === workflowStatus;
 
         return (
           <div
-            key={delayStatus}
+            key={workflowStatus}
             onDragOver={(event) => {
               event.preventDefault();
-              setDropTarget(delayStatus);
+              setDropTarget(workflowStatus);
             }}
-            onDragLeave={() => setDropTarget((prev) => (prev === delayStatus ? null : prev))}
+            onDragLeave={() =>
+              setDropTarget((prev) => (prev === workflowStatus ? null : prev))
+            }
             onDrop={(event) => {
               event.preventDefault();
-              handleDrop(delayStatus);
+              handleDrop(workflowStatus);
             }}
-            className={`flex w-[min(100%,260px)] shrink-0 flex-col rounded-lg border bg-white transition ${
+            className={`flex w-[min(82vw,280px)] shrink-0 snap-start flex-col rounded-2xl border bg-white transition ${
               isDropTarget
                 ? "border-black ring-2 ring-black/10"
                 : "border-neutral-200"
-            } ${delayStatusColumnClass(delayStatus)}`}
+            } ${workflowStatusColumnClass(workflowStatus)}`}
           >
-            <div className="border-b border-neutral-100/80 px-3 py-2">
+            <div className="border-b border-neutral-100/80 px-3 py-3">
               <div className="flex items-center justify-between gap-2">
-                <LeadStatusBadge status={delayStatus} copy={copy} />
+                <LeadWorkflowBadge status={workflowStatus} copy={copy} />
                 <span className="text-sm font-bold text-neutral-800">{columnLeads.length}</span>
               </div>
-              <p className="mt-1 line-clamp-2 text-[10px] leading-snug text-neutral-500">
-                {l.delayStatusHints[delayStatus]}
+              <p className="mt-1.5 line-clamp-2 text-[11px] leading-snug text-neutral-500">
+                {l.workflow.hints[workflowStatus]}
               </p>
             </div>
             <ul className="flex flex-1 flex-col gap-2 p-2">
               {columnLeads.length === 0 ? (
                 <li
-                  className={`rounded-md border border-dashed px-2 py-8 text-center text-xs ${
+                  className={`rounded-xl border border-dashed px-2 py-10 text-center text-xs ${
                     isDropTarget
                       ? "border-neutral-400 text-neutral-600"
                       : "border-neutral-200 text-neutral-400"
                   }`}
                 >
-                  {isDropTarget ? "—" : "—"}
+                  —
                 </li>
               ) : (
                 columnLeads.map((lead) => (

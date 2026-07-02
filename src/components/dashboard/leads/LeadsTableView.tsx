@@ -7,10 +7,15 @@ import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppCont
 import type { LeadsViewBaseProps } from "@/components/dashboard/leads/leadsViewTypes";
 import { useResizableColumns } from "@/hooks/useResizableColumns";
 import { buildLeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
+import {
+  daysSinceInvoiceSent,
+  daysSinceQuoteSent,
+  formatBillingDaysCount,
+} from "@/lib/leads/leadBillingDays";
 import type { LeadSortKey, LeadSortState } from "@/lib/leads/sortLeads";
 import { toggleLeadSort } from "@/lib/leads/sortLeads";
+import { LeadWorkflowBadge } from "@/components/dashboard/leads/LeadWorkflowControls";
 import {
-  contactStatusBadgeClass,
   formatLeadDate,
   formatRequestNumber,
   formatScheduleShort,
@@ -28,6 +33,8 @@ type TableColumnKey =
   | "delay"
   | "calendar"
   | "status"
+  | "quoteDays"
+  | "invoiceDays"
   | "whatsapp";
 
 const DEFAULT_WIDTHS: Record<TableColumnKey, number> = {
@@ -39,7 +46,9 @@ const DEFAULT_WIDTHS: Record<TableColumnKey, number> = {
   zone: 120,
   delay: 108,
   calendar: 108,
-  status: 96,
+  status: 120,
+  quoteDays: 76,
+  invoiceDays: 84,
   whatsapp: 56,
 };
 
@@ -148,7 +157,7 @@ export function LeadsTableView({
   const allSelected = leads.length > 0 && leads.every((lead) => selectedIds.has(lead.id));
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-neutral-200/80 bg-white shadow-sm shadow-neutral-100">
+    <div className="scrollbar-soft overflow-x-auto rounded-xl border border-neutral-200/80 bg-white shadow-sm shadow-neutral-100">
       <table className="w-full border-collapse text-left text-sm" style={{ tableLayout: "fixed" }}>
         <colgroup>
           {(Object.keys(DEFAULT_WIDTHS) as TableColumnKey[]).map((key) => (
@@ -234,6 +243,24 @@ export function LeadsTableView({
               onResizeStart={(x) => startResize("status", x)}
               className="hidden sm:table-cell"
             />
+            <SortableHeader
+              label={cols.quoteDays}
+              sortKey="quoteDays"
+              sort={sort}
+              onSortChange={onSortChange}
+              width={widths.quoteDays}
+              onResizeStart={(x) => startResize("quoteDays", x)}
+              className="hidden lg:table-cell"
+            />
+            <SortableHeader
+              label={cols.invoiceDays}
+              sortKey="invoiceDays"
+              sort={sort}
+              onSortChange={onSortChange}
+              width={widths.invoiceDays}
+              onResizeStart={(x) => startResize("invoiceDays", x)}
+              className="hidden lg:table-cell"
+            />
             <th
               className="relative px-3 py-2.5 text-center"
               style={{ width: widths.whatsapp, minWidth: widths.whatsapp }}
@@ -317,13 +344,29 @@ export function LeadsTableView({
                   )}
                 </td>
                 <td className={`hidden px-3 py-2.5 sm:table-cell ${muted ? "opacity-70" : ""}`}>
-                  <span
-                    className={`inline-block rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${contactStatusBadgeClass(lead.contactStatus === "contacted")}`}
-                  >
-                    {lead.contactStatus === "contacted"
-                      ? l.contactStatus.contacted
-                      : l.contactStatus.pending}
-                  </span>
+                  <LeadWorkflowBadge status={lead.workflowStatus} copy={copy} compact />
+                </td>
+                <td
+                  className={`hidden px-3 py-2.5 text-center text-xs font-semibold lg:table-cell ${
+                    muted ? "text-neutral-400" : "text-slate-700"
+                  }`}
+                >
+                  {formatBillingDaysCount(
+                    daysSinceQuoteSent(lead),
+                    l.billing.notSent,
+                    l.billing.dayUnit,
+                  )}
+                </td>
+                <td
+                  className={`hidden px-3 py-2.5 text-center text-xs font-semibold lg:table-cell ${
+                    muted ? "text-neutral-400" : "text-slate-700"
+                  }`}
+                >
+                  {formatBillingDaysCount(
+                    daysSinceInvoiceSent(lead),
+                    l.billing.notSent,
+                    l.billing.dayUnit,
+                  )}
                 </td>
                 <td className="px-3 py-2.5 text-center" onClick={(e) => e.stopPropagation()}>
                   {waLinks ? (

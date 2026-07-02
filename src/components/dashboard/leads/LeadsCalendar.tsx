@@ -37,7 +37,7 @@ export function LeadsCalendar({
   const [cursor, setCursor] = useState(() => new Date());
 
   const scheduledLeads = useMemo(
-    () => leads.filter((lead) => lead.schedule?.date && lead.workflowStatus !== "archived"),
+    () => leads.filter((lead) => lead.schedule?.date && lead.workflowStatus !== "ARCHIVE"),
     [leads],
   );
 

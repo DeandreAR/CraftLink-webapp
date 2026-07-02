@@ -2,7 +2,7 @@ import type { DashboardLead } from "@/domain/lead";
 import type { LeadSchedule } from "@/domain/lead";
 import { getDemoLeadVoice } from "@/lib/leads/demoLeadMedia";
 
-type SeedLeadInput = Omit<DashboardLead, "id" | "requestNumber"> & {
+type SeedLeadInput = Omit<DashboardLead, "id" | "requestNumber" | "updatedAt"> & {
   requestNumber?: number;
 };
 
@@ -51,7 +51,7 @@ export function buildDemoLeadSeeds(): SeedLeadInput[] {
       workType: "Mise aux normes tableau électrique",
       zone: "Antony (92160)",
       delayStatus: "asap",
-      workflowStatus: "active",
+      workflowStatus: "A_TRAITER",
       contactStatus: "pending",
       description:
         "Appartement 65 m², disjoncteur qui saute au four. Souhaite un devis avant vendredi.",
@@ -75,7 +75,7 @@ export function buildDemoLeadSeeds(): SeedLeadInput[] {
       workType: "Dépannage fuite sous évier",
       zone: "Massy (91300)",
       delayStatus: "urgent",
-      workflowStatus: "active",
+      workflowStatus: "A_TRAITER",
       contactStatus: "pending",
       description: "",
       summary: "Fuite active cuisine, accès facile, disponible cet après-midi.",
@@ -93,7 +93,7 @@ export function buildDemoLeadSeeds(): SeedLeadInput[] {
       workType: "Pose de 4 prises supplémentaires",
       zone: "Sceaux (92330)",
       delayStatus: "planned",
-      workflowStatus: "active",
+      workflowStatus: "A_TRAITER",
       contactStatus: "pending",
       description: "Rénovation salon, perçage cloison placo.",
       summary: "Rénovation salon, perçage cloison placo.",
@@ -111,7 +111,7 @@ export function buildDemoLeadSeeds(): SeedLeadInput[] {
       workType: "Installation borne IRVE",
       zone: "Palaiseau (91120)",
       delayStatus: "info",
-      workflowStatus: "active",
+      workflowStatus: "A_TRAITER",
       contactStatus: "pending",
       description: "Garage individuel, distance tableau 8 m.",
       summary: "Garage individuel, distance tableau 8 m.",
@@ -123,7 +123,7 @@ export function buildDemoLeadSeeds(): SeedLeadInput[] {
       workType: "Recherche de panne partielle",
       zone: "Fontenay-aux-Roses (92260)",
       delayStatus: "urgent",
-      workflowStatus: "active",
+      workflowStatus: "A_TRAITER",
       contactStatus: "pending",
       description: "Plus de lumière chambre et SDB.",
       summary: "Plus de lumière chambre et SDB.",

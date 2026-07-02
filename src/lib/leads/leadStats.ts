@@ -1,5 +1,4 @@
-import type { DashboardLead } from "@/domain/lead";
-import type { LeadDelayStatus } from "@/domain/lead";
+import type { DashboardLead, LeadDelayStatus } from "@/domain/lead";
 
 export type LeadsSummaryStats = {
   total: number;
@@ -11,7 +10,7 @@ export type LeadsSummaryStats = {
 };
 
 export function computeLeadsSummary(leads: DashboardLead[]): LeadsSummaryStats {
-  const active = leads.filter((lead) => lead.workflowStatus !== "archived");
+  const active = leads.filter((lead) => lead.workflowStatus !== "ARCHIVE");
 
   const countByDelay = (status: LeadDelayStatus) =>
     active.filter((lead) => lead.delayStatus === status).length;
@@ -22,6 +21,13 @@ export function computeLeadsSummary(leads: DashboardLead[]): LeadsSummaryStats {
     asap: countByDelay("asap"),
     planned: countByDelay("planned"),
     info: countByDelay("info"),
-    done: leads.filter((lead) => lead.workflowStatus === "done").length,
+    done: leads.filter(
+      (lead) =>
+        lead.workflowStatus === "DEVIS_ENVOYE" ||
+        lead.workflowStatus === "DEVIS_SIGNE" ||
+        lead.workflowStatus === "FACTURE_A_ENVOYER" ||
+        lead.workflowStatus === "FACTURE_ENVOYEE" ||
+        lead.workflowStatus === "GAGNE_EN_COURS",
+    ).length,
   };
 }

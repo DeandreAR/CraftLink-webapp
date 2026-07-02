@@ -7,6 +7,7 @@ import {
   mapLeadRowToDashboardLead,
   type LeadRow,
 } from "@/lib/leads/leadMappers";
+import { enrichWorkflowStatusPatch } from "@/lib/leads/workflowStatusPatch";
 
 const LEAD_SELECT = `
   id,
@@ -22,11 +23,14 @@ const LEAD_SELECT = `
   workflow_status,
   contact_status,
   contacted_at,
+  quote_sent_at,
+  invoice_sent_at,
   description,
   summary,
   voice,
   photos,
-  schedule
+  schedule,
+  attachments
 `;
 
 export async function fetchLeadsByWorkspace(
@@ -55,6 +59,27 @@ export async function fetchLeadById(
     .from("leads")
     .select(LEAD_SELECT)
     .eq("id", leadId)
+    .maybeSingle();
+
+  if (error) {
+    return { ok: false, message: error.message };
+  }
+  if (!data) {
+    return { ok: false, message: "Lead introuvable." };
+  }
+
+  return { ok: true, lead: mapLeadRowToDashboardLead(data as LeadRow) };
+}
+
+export async function touchLeadUpdatedAt(
+  supabase: SupabaseClient,
+  leadId: string,
+): Promise<{ ok: true; lead: DashboardLead } | { ok: false; message: string }> {
+  const { data, error } = await supabase
+    .from("leads")
+    .update({ updated_at: new Date().toISOString() })
+    .eq("id", leadId)
+    .select(LEAD_SELECT)
     .maybeSingle();
 
   if (error) {
@@ -109,9 +134,13 @@ export async function updateLeadById(
   leadId: string,
   patch: Partial<DashboardLead>,
 ): Promise<{ ok: true; lead: DashboardLead } | { ok: false; message: string }> {
-  const rowPatch = mapLeadPatchToRow(patch);
+  const existing = await fetchLeadById(supabase, leadId);
+  if (!existing.ok) return existing;
+
+  const enrichedPatch = enrichWorkflowStatusPatch(existing.lead, patch);
+  const rowPatch = mapLeadPatchToRow(enrichedPatch);
   if (Object.keys(rowPatch).length === 0) {
-    return fetchLeadById(supabase, leadId);
+    return existing;
   }
 
   const { data, error } = await supabase

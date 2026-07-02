@@ -24,6 +24,26 @@ export type LeadWhatsAppLinks = {
   api: string;
 };
 
+function buildLinksFromPhoneAndText(phone: string, message: string): LeadWhatsAppLinks {
+  const text = encodeURIComponent(message);
+  const query = `phone=${phone}&text=${text}`;
+  return {
+    web: `https://wa.me/${phone}?text=${text}`,
+    app: `whatsapp://send?${query}`,
+    api: `https://api.whatsapp.com/send?${query}`,
+  };
+}
+
+/** Liens WhatsApp avec un message libre (quick replies). */
+export function buildWhatsAppLinksFromMessage(
+  phoneRaw: string,
+  message: string,
+): LeadWhatsAppLinks | null {
+  const phone = normalizePhoneForWhatsApp(phoneRaw);
+  if (!phone) return null;
+  return buildLinksFromPhoneAndText(phone, message);
+}
+
 /** Liens WhatsApp vers le client avec le dossier lead pré-rempli. */
 export function buildLeadWhatsAppLinks(
   lead: DashboardLead,
@@ -31,12 +51,5 @@ export function buildLeadWhatsAppLinks(
 ): LeadWhatsAppLinks | null {
   const phone = normalizePhoneForWhatsApp(lead.clientPhone);
   if (!phone) return null;
-  const text = encodeURIComponent(formatLeadDossierMessage(lead, { businessName }));
-  const query = `phone=${phone}&text=${text}`;
-  return {
-    // wa.me redirige vers Web WhatsApp sur ordinateur (session navigateur)
-    web: `https://wa.me/${phone}?text=${text}`,
-    app: `whatsapp://send?${query}`,
-    api: `https://api.whatsapp.com/send?${query}`,
-  };
+  return buildLinksFromPhoneAndText(phone, formatLeadDossierMessage(lead, { businessName }));
 }

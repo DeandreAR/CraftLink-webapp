@@ -1,5 +1,6 @@
 import type {
   DashboardLead,
+  LeadAttachment,
   LeadContactStatus,
   LeadDelayStatus,
   LeadPhoto,
@@ -22,11 +23,14 @@ export type LeadRow = {
   workflow_status: string;
   contact_status: string;
   contacted_at: string | null;
+  quote_sent_at: string | null;
+  invoice_sent_at: string | null;
   description: string;
   summary: string;
   voice: LeadVoiceNote | null;
   photos: LeadPhoto[] | null;
   schedule: LeadSchedule | null;
+  attachments: LeadAttachment[] | null;
 };
 
 function parseVoice(raw: unknown): LeadVoiceNote | null {
@@ -61,6 +65,23 @@ function parseSchedule(raw: unknown): LeadSchedule | null {
   };
 }
 
+function parseAttachments(raw: unknown): LeadAttachment[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter(
+      (item): item is LeadAttachment =>
+        Boolean(item && typeof item === "object" && "url" in item && "fileName" in item),
+    )
+    .map((item) => ({
+      id: String(item.id ?? item.url),
+      url: String(item.url),
+      fileName: String(item.fileName),
+      mimeType: String(item.mimeType ?? "application/octet-stream"),
+      uploadedAt: String(item.uploadedAt ?? new Date().toISOString()),
+      storagePath: item.storagePath ? String(item.storagePath) : undefined,
+    }));
+}
+
 export function mapLeadRowToDashboardLead(row: LeadRow): DashboardLead {
   return {
     id: row.id,
@@ -68,17 +89,21 @@ export function mapLeadRowToDashboardLead(row: LeadRow): DashboardLead {
     clientName: row.client_name,
     clientPhone: row.client_phone,
     createdAt: row.created_at,
+    updatedAt: row.updated_at ?? row.created_at,
     workType: row.work_type,
     zone: row.zone,
     delayStatus: row.delay_status as LeadDelayStatus,
     workflowStatus: row.workflow_status as LeadWorkflowStatus,
     contactStatus: row.contact_status as LeadContactStatus,
     contactedAt: row.contacted_at,
+    quoteSentAt: row.quote_sent_at,
+    invoiceSentAt: row.invoice_sent_at,
     description: row.description ?? "",
     summary: row.summary ?? "",
     voice: parseVoice(row.voice),
     photos: parsePhotos(row.photos),
     schedule: parseSchedule(row.schedule),
+    attachments: parseAttachments(row.attachments),
   };
 }
 
@@ -95,11 +120,14 @@ export function mapLeadPatchToRow(
   if (patch.workflowStatus !== undefined) row.workflow_status = patch.workflowStatus;
   if (patch.contactStatus !== undefined) row.contact_status = patch.contactStatus;
   if (patch.contactedAt !== undefined) row.contacted_at = patch.contactedAt;
+  if (patch.quoteSentAt !== undefined) row.quote_sent_at = patch.quoteSentAt;
+  if (patch.invoiceSentAt !== undefined) row.invoice_sent_at = patch.invoiceSentAt;
   if (patch.description !== undefined) row.description = patch.description;
   if (patch.summary !== undefined) row.summary = patch.summary;
   if (patch.voice !== undefined) row.voice = patch.voice;
   if (patch.photos !== undefined) row.photos = patch.photos;
   if (patch.schedule !== undefined) row.schedule = patch.schedule;
+  if (patch.attachments !== undefined) row.attachments = patch.attachments;
 
   return row;
 }

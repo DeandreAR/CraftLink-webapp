@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FaCalendarDays, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
 import { getWhatsAppQuotaAction, registerWhatsAppClickAction } from "@/app/actions/dashboard";
 import type { DashboardLead } from "@/domain/lead";
-import type { LeadDelayStatus, LeadSchedule } from "@/domain/lead";
+import type { LeadDelayStatus, LeadSchedule, LeadWorkflowStatus } from "@/domain/lead";
 import type { Profile } from "@/domain/profile";
 import {
   profileToDashboardUser,
@@ -38,7 +38,10 @@ import { openWhatsAppLinks, resolveWhatsAppUrl } from "@/lib/leads/openWhatsApp"
 import { computeLeadsSummary } from "@/lib/leads/leadStats";
 import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/sortLeads";
 import { LeadsTableToolbar } from "@/components/dashboard/leads/LeadsTableToolbar";
-import { updateLeadAction } from "@/app/actions/leads";
+import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBanner";
+import { catchUpLeadAction, updateLeadAction } from "@/app/actions/leads";
+import { findCatchUpLead } from "@/lib/leads/smartCatchUp";
+import type { CatchUpAction } from "@/lib/leads/smartCatchUp";
 
 export type LeadsDisplayView = "table" | "cards" | "pipeline";
 export type LeadsSectionView = "list" | "calendar";
@@ -72,6 +75,7 @@ export function LeadsPanel({
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [whatsappError, setWhatsappError] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(initialLoadError);
+  const [catchUpBusy, setCatchUpBusy] = useState(false);
   const l = copy.leads;
 
   useEffect(() => {
@@ -108,6 +112,25 @@ export function LeadsPanel({
     });
   }, []);
 
+  const replaceLead = useCallback((lead: DashboardLead) => {
+    setLeads((prev) => prev.map((item) => (item.id === lead.id ? lead : item)));
+  }, []);
+
+  const handleCatchUp = useCallback(
+    (leadId: string, action: CatchUpAction) => {
+      setCatchUpBusy(true);
+      void catchUpLeadAction(leadId, action).then((result) => {
+        setCatchUpBusy(false);
+        if (result.ok) {
+          replaceLead(result.lead);
+        }
+      });
+    },
+    [replaceLead],
+  );
+
+  const catchUpLead = useMemo(() => findCatchUpLead(leads), [leads]);
+
   const handleWhatsAppContact = useCallback(
     async (leadId: string, links: LeadWhatsAppLinks) => {
       setWhatsappError(null);
@@ -129,9 +152,13 @@ export function LeadsPanel({
       }
 
       const markContacted = () => {
+        const lead = leads.find((item) => item.id === leadId);
         updateLead(leadId, {
           contactStatus: "contacted",
           contactedAt: new Date().toISOString(),
+          ...(lead?.workflowStatus === "A_TRAITER"
+            ? { workflowStatus: "DEVIS_A_FAIRE" as const }
+            : {}),
         });
       };
 
@@ -163,7 +190,7 @@ export function LeadsPanel({
 
       markContacted();
     },
-    [dashboardUser.plan, dashboardUser.whatsappClicksThisMonth, updateLead],
+    [dashboardUser.plan, dashboardUser.whatsappClicksThisMonth, updateLead, leads],
   );
 
   const handlers: LeadsViewHandlers = useMemo(
@@ -171,11 +198,10 @@ export function LeadsPanel({
       onOpenDetail: setSelectedLeadId,
       onDelayStatusChange: (leadId, status: LeadDelayStatus) =>
         updateLead(leadId, { delayStatus: status }),
+      onWorkflowStatusChange: (leadId, status: LeadWorkflowStatus) =>
+        updateLead(leadId, { workflowStatus: status }),
       onScheduleChange: (leadId, schedule: LeadSchedule | null) =>
         updateLead(leadId, { schedule }),
-      onMarkDone: (leadId) => updateLead(leadId, { workflowStatus: "done" }),
-      onMarkArchived: (leadId) => updateLead(leadId, { workflowStatus: "archived" }),
-      onReactivate: (leadId) => updateLead(leadId, { workflowStatus: "active" }),
       onWhatsAppContact: (leadId, href) => {
         void handleWhatsAppContact(leadId, href);
       },
@@ -183,14 +209,14 @@ export function LeadsPanel({
     [updateLead, handleWhatsAppContact],
   );
 
-  const archivedCount = leads.filter((item) => item.workflowStatus === "archived").length;
+  const archivedCount = leads.filter((item) => item.workflowStatus === "ARCHIVE").length;
   const summaryStats = useMemo(() => computeLeadsSummary(leads), [leads]);
 
   const displayedLeads = useMemo(() => {
     const archivedFiltered = leads.filter((item) =>
       showArchived
-        ? item.workflowStatus === "archived"
-        : item.workflowStatus !== "archived",
+        ? item.workflowStatus === "ARCHIVE"
+        : item.workflowStatus !== "ARCHIVE",
     );
     const tableFiltered =
       view === "table" ? filterLeads(archivedFiltered, tableFilter) : archivedFiltered;
@@ -240,12 +266,12 @@ export function LeadsPanel({
   };
 
   const bulkMarkDone = () => {
-    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "done" }));
+    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "GAGNE_EN_COURS" }));
     setSelectedIds(new Set());
   };
 
   const bulkArchive = () => {
-    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "archived" }));
+    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "ARCHIVE" }));
     setSelectedIds(new Set());
   };
 
@@ -287,7 +313,7 @@ export function LeadsPanel({
 
   const supportsBulkSelect = section === "list" && (view === "table" || view === "cards");
   const calendarLeads = useMemo(
-    () => leads.filter((item) => item.workflowStatus !== "archived"),
+    () => leads.filter((item) => item.workflowStatus !== "ARCHIVE"),
     [leads],
   );
 
@@ -310,6 +336,15 @@ export function LeadsPanel({
           {quotaLabel}
         </p>
       </header>
+
+      {catchUpLead ? (
+        <SmartCatchUpBanner
+          lead={catchUpLead}
+          copy={copy}
+          onAction={handleCatchUp}
+          busy={catchUpBusy}
+        />
+      ) : null}
 
       {whatsappError ? (
         <div
@@ -467,16 +502,18 @@ export function LeadsPanel({
       {selectedLead ? (
         <LeadDetailPanel
           lead={selectedLead}
+          plan={dashboardUser.plan}
           copy={copy}
           locale={locale}
           businessName={profile.full_name ?? undefined}
           onClose={() => setSelectedLeadId(null)}
+          onLeadUpdated={replaceLead}
           onDelayStatusChange={(status) =>
             handlers.onDelayStatusChange(selectedLead.id, status)
           }
-          onMarkDone={() => handlers.onMarkDone(selectedLead.id)}
-          onMarkArchived={() => handlers.onMarkArchived(selectedLead.id)}
-          onReactivate={() => handlers.onReactivate(selectedLead.id)}
+          onWorkflowStatusChange={(status) =>
+            handlers.onWorkflowStatusChange(selectedLead.id, status)
+          }
           onScheduleChange={(schedule) =>
             handlers.onScheduleChange(selectedLead.id, schedule)
           }

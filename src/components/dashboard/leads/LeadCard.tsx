@@ -3,7 +3,7 @@
 import { FaGripVertical } from "react-icons/fa6";
 import type { DashboardLead } from "@/domain/lead";
 import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
-import { LeadWorkflowActions } from "@/components/dashboard/leads/LeadWorkflowActions";
+import { LeadWorkflowBadge } from "@/components/dashboard/leads/LeadWorkflowControls";
 import { WhatsAppContactButton } from "@/components/dashboard/leads/WhatsAppContactButton";
 import type { LeadsViewBaseProps } from "@/components/dashboard/leads/leadsViewTypes";
 import { buildLeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
@@ -12,7 +12,6 @@ import {
   formatRequestNumber,
   isLeadWorkflowMuted,
   leadRowMutedClass,
-  workflowStatusBadgeClass,
 } from "@/components/dashboard/leads/leadsViewShared";
 
 type LeadCardProps = LeadsViewBaseProps & {
@@ -31,9 +30,6 @@ export function LeadCard({
   businessName,
   onOpenDetail,
   onDelayStatusChange,
-  onMarkDone,
-  onMarkArchived,
-  onReactivate,
   onWhatsAppContact,
   compact = false,
   draggable = false,
@@ -80,20 +76,7 @@ export function LeadCard({
               >
                 {lead.clientName}
               </button>
-              {lead.workflowStatus === "done" ? (
-                <span
-                  className={`rounded-md px-1.5 py-0.5 text-[9px] font-semibold ${workflowStatusBadgeClass("done")}`}
-                >
-                  {l.workflow.done}
-                </span>
-              ) : null}
-              {lead.workflowStatus === "archived" ? (
-                <span
-                  className={`rounded-md px-1.5 py-0.5 text-[9px] font-semibold ${workflowStatusBadgeClass("archived")}`}
-                >
-                  {l.workflow.archived}
-                </span>
-              ) : null}
+              <LeadWorkflowBadge status={lead.workflowStatus} copy={copy} compact />
             </div>
             <LeadStatusPicker
               value={lead.delayStatus}
@@ -139,14 +122,6 @@ export function LeadCard({
             iconOnly={compact}
           />
         ) : null}
-        <LeadWorkflowActions
-          workflowStatus={lead.workflowStatus}
-          copy={copy}
-          onMarkDone={() => onMarkDone(lead.id)}
-          onMarkArchived={() => onMarkArchived(lead.id)}
-          onReactivate={() => onReactivate(lead.id)}
-          compact
-        />
       </div>
     </article>
   );
