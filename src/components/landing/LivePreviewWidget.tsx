@@ -1,4 +1,5 @@
 import { GlassCard } from "@/components/ui/GlassCard";
+import { getAppHostname } from "@/config/app";
 import type { ArtisanPreview } from "@/domain/landing";
 import type { HeroPreviewDictionary } from "@/i18n/types";
 
@@ -103,7 +104,7 @@ export function LivePreviewWidget({
             </h3>
           </div>
           <div className="hidden rounded-2xl border border-[#E5E7EB] bg-white px-3 py-2 text-xs font-semibold text-neutral-700 md:block">
-            craftlink.app/{preview.displayName.toLowerCase().split(" ")[0]}
+            {getAppHostname()}/{preview.displayName.toLowerCase().split(" ")[0]}
           </div>
         </div>
 

@@ -3,6 +3,8 @@ import { LinkInBioPage } from "@/components/vitrine/LinkInBioPage";
 import { getMockVitrineBySlug } from "@/data/mockVitrine";
 import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
+import { buildPublicPagePath } from "@/lib/onboarding/publicPageUrl";
+import { buildPageOpenGraph } from "@/lib/seo/siteMetadata";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -14,9 +16,16 @@ export async function generateMetadata({ params }: Props) {
   if (!data) {
     return { title: "Page introuvable — CraftLink" };
   }
+
+  const title = `${data.artisan.businessName} — Devis & contact`;
+  const description = `${data.artisan.tradeLabel} — ${data.artisan.city}`;
+  const path = buildPublicPagePath(slug);
+
   return {
-    title: `${data.artisan.businessName} — Devis & contact`,
-    description: `${data.artisan.tradeLabel} — ${data.artisan.city}`,
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: buildPageOpenGraph({ title, description, path }),
   };
 }
 

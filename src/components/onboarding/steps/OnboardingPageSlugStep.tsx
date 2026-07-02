@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { GlowButton } from "@/components/ui/GlowButton";
+import { publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
 import {
   sanitizePageSlugInput,
   type PageSlugValidationCode,
@@ -118,7 +119,7 @@ export function OnboardingPageSlugStep({
         </label>
         <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-stretch">
           <span className="flex shrink-0 items-center rounded-xl bg-neutral-100 px-3 py-2.5 text-sm font-medium text-neutral-600">
-            {p.slugPrefix}
+            {publicPageSlugPrefix()}
           </span>
           <input
             id="page-slug"

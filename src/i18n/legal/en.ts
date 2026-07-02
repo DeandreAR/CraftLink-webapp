@@ -16,7 +16,7 @@ export const legalEn: LegalBundleDictionary = {
           title: "Publisher",
           paragraphs: [
             "The craftlink website (the “Site”) is published by CraftLink, a SaaS solution for tradesperson storefronts and lead capture.",
-            "Contact: contact@craftlink.fr",
+            "Contact: contact@getcraftlink.com",
             "Legal status: company registration in progress — definitive details (form, share capital, trade register) will be updated upon incorporation.",
           ],
         },
@@ -51,7 +51,7 @@ export const legalEn: LegalBundleDictionary = {
         },
         {
           title: "Contact",
-          paragraphs: ["For any Site-related question: contact@craftlink.fr"],
+          paragraphs: ["For any Site-related question: contact@getcraftlink.com"],
         },
       ],
     },
@@ -67,7 +67,7 @@ export const legalEn: LegalBundleDictionary = {
           title: "Data controller",
           paragraphs: [
             "CraftLink acts as controller for data collected through the Site and the tradesperson workspace.",
-            "Privacy contact: contact@craftlink.fr",
+            "Privacy contact: contact@getcraftlink.com",
           ],
         },
         {
@@ -118,7 +118,7 @@ export const legalEn: LegalBundleDictionary = {
             "Lodge a complaint with your supervisory authority (in France: CNIL).",
           ],
           paragraphs: [
-            "To exercise your rights: contact@craftlink.fr — we respond within one month.",
+            "To exercise your rights: contact@getcraftlink.com — we respond within one month.",
           ],
         },
         {
@@ -253,7 +253,7 @@ export const legalEn: LegalBundleDictionary = {
         },
         {
           title: "Contact",
-          paragraphs: ["contact@craftlink.fr"],
+          paragraphs: ["contact@getcraftlink.com"],
         },
       ],
     },

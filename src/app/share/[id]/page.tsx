@@ -1,5 +1,6 @@
 import { LeadShareNotFound, LeadShareView } from "@/components/share/LeadShareView";
 import { applyMediaRetention } from "@/lib/leads/applyMediaRetention";
+import { buildAppUrl } from "@/config/app";
 import { getPublicLeadShare } from "@/services/leadShareService";
 
 type ShareLeadPageProps = {
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: ShareLeadPageProps) {
   return {
     title: `${share.lead.workType} — ${share.businessName}`,
     robots: { index: false, follow: false },
+    alternates: { canonical: buildAppUrl(`/share/${id}`) },
   };
 }
 

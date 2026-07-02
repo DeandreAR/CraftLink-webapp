@@ -11,11 +11,14 @@ const supabaseAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() ??
   "";
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://getcraftlink.com";
+
 /**
- * Évite l’avertissement « multiple lockfiles » + expose les variables Supabase au bundle client.
+ * Évite l’avertissement « multiple lockfiles » + expose les variables publiques au bundle client.
  */
 const nextConfig: NextConfig = {
   env: {
+    NEXT_PUBLIC_APP_URL: appUrl,
     NEXT_PUBLIC_SUPABASE_URL: supabaseUrl,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: supabaseAnonKey,
   },

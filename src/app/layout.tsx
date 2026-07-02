@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
+import { buildDefaultSiteMetadata } from "@/lib/seo/siteMetadata";
 import "./globals.css";
 
 const lexend = Lexend({
@@ -9,9 +10,12 @@ const lexend = Lexend({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "CraftLink",
-};
+export const metadata: Metadata = buildDefaultSiteMetadata({
+  title: {
+    default: "CraftLink",
+    template: "%s — CraftLink",
+  },
+});
 
 export default function RootLayout({
   children,

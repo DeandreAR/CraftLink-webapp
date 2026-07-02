@@ -1,7 +1,6 @@
-const LEAD_SHARE_HOST =
-  process.env.NEXT_PUBLIC_LEAD_SHARE_HOST?.replace(/\/$/, "") ?? "https://craftlink.fr";
+import { buildAppUrl } from "@/config/app";
 
-/** URL publique unique du dossier lead (partage WhatsApp). */
+/** URL publique unique du dossier lead (partage client). */
 export function buildLeadShareUrl(leadId: string): string {
-  return `${LEAD_SHARE_HOST}/share/${leadId}`;
+  return buildAppUrl(`/share/${leadId}`);
 }

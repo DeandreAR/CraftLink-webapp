@@ -3,7 +3,7 @@
 import { FaDownload, FaQrcode } from "react-icons/fa6";
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { DashboardDictionary } from "@/i18n/types";
-import { buildPublicPageDisplayUrl } from "@/lib/onboarding/publicPageUrl";
+import { buildPublicPageAbsoluteUrl } from "@/lib/onboarding/publicPageUrl";
 
 type QrCodeVanModuleProps = {
   slug: string | null;
@@ -16,7 +16,7 @@ function buildQrImageUrl(targetUrl: string): string {
 
 export function QrCodeVanModule({ slug, copy }: QrCodeVanModuleProps) {
   const q = copy.qr;
-  const pageUrl = slug?.trim() ? `https://${buildPublicPageDisplayUrl(slug)}` : "";
+  const pageUrl = slug?.trim() ? buildPublicPageAbsoluteUrl(slug) : "";
   const qrSrc = pageUrl ? buildQrImageUrl(pageUrl) : "";
 
   if (!slug?.trim()) {

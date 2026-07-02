@@ -217,7 +217,7 @@ export const onboardingFr: OnboardingDictionary = {
     slugSubtitle:
       "C’est le lien que vous partagerez sur Instagram, WhatsApp ou vos devis. Vous pourrez le modifier plus tard.",
     slugLabel: "Votre URL CraftLink",
-    slugPrefix: "craftlink.app/",
+    slugPrefix: "getcraftlink.com/",
     slugPlaceholder: "dupont-electricite-nantes",
     slugHint:
       "Lettres minuscules, chiffres et tirets uniquement (3 à 48 caractères). Pas de point, slash, @ ni ?.",

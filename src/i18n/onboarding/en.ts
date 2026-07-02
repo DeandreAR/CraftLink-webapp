@@ -214,7 +214,7 @@ export const onboardingEn: OnboardingDictionary = {
     slugSubtitle:
       "This is the link you will share on Instagram, WhatsApp or quotes. You can change it later.",
     slugLabel: "Your CraftLink URL",
-    slugPrefix: "craftlink.app/",
+    slugPrefix: "getcraftlink.com/",
     slugPlaceholder: "smith-electrical-nantes",
     slugHint:
       "Lowercase letters, numbers and hyphens only (3–48 characters). No dots, slashes, @ or ?.",

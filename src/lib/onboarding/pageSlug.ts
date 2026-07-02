@@ -1,33 +1,6 @@
-/** Segments réservés (routes app, i18n, pages légales). */
-export const RESERVED_PAGE_SLUGS = new Set([
-  "fr",
-  "en",
-  "api",
-  "p",
-  "login",
-  "signup",
-  "connexion",
-  "inscription",
-  "onboarding",
-  "dashboard",
-  "cgu",
-  "cookies",
-  "confidentialite",
-  "mentions-legales",
-  "admin",
-  "www",
-  "app",
-  "static",
-  "_next",
-  "icon",
-  "favicon",
-  "robots",
-  "sitemap",
-  "demo",
-  "demo-pro",
-  "demo-essentiel",
-  "demo-banniere",
-]);
+import { APP_RESERVED_SLUGS } from "@/config/reservedSlugs";
+
+export { APP_RESERVED_SLUGS as RESERVED_PAGE_SLUGS };
 
 export type PageSlugValidationCode =
   | "empty"
@@ -85,7 +58,7 @@ export function validatePageSlug(
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(normalized)) {
     return { ok: false, code: "invalid_chars", normalized };
   }
-  if (RESERVED_PAGE_SLUGS.has(normalized)) {
+  if (APP_RESERVED_SLUGS.has(normalized)) {
     return { ok: false, code: "reserved", normalized };
   }
   if (options?.taken) {
@@ -95,4 +68,9 @@ export function validatePageSlug(
   return { ok: true, code: "ok", normalized };
 }
 
-export { buildPublicPagePath, buildPublicPageDisplayUrl, publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
+export {
+  buildPublicPageAbsoluteUrl,
+  buildPublicPageDisplayUrl,
+  buildPublicPagePath,
+  publicPageSlugPrefix,
+} from "@/lib/onboarding/publicPageUrl";

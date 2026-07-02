@@ -64,7 +64,7 @@ export type OnboardingProfileDraft = {
   importExperienceYears?: number;
   /** Réalisations récentes via embed Instagram (pas d’images stockées). */
   portfolioItems?: OnboardingPortfolioItem[];
-  /** Segment URL publique : craftlink.app/p/{pageSlug} */
+  /** Segment URL publique : getcraftlink.com/{pageSlug} */
   pageSlug: string;
   pageSlugConfirmed: boolean;
 };

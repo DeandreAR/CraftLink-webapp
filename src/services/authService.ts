@@ -5,6 +5,9 @@ import type {
   SignUpFormInput,
 } from "@/domain/auth";
 import type { Profile } from "@/domain/profile";
+import { buildAppUrl } from "@/config/app";
+import { defaultLocale } from "@/i18n/config";
+import { authPath } from "@/lib/auth/paths";
 import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
 import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -132,6 +135,7 @@ export async function signUpWithProfile(
     email,
     password,
     options: {
+      emailRedirectTo: buildAppUrl(authPath(defaultLocale, "onboarding")),
       data: {
         full_name: input.fullName?.trim() || null,
         whatsapp_number: input.proPhoneNumber?.trim() || null,

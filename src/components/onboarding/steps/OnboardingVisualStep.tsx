@@ -8,6 +8,7 @@ import { authLabelClassName } from "@/components/auth/authFormStyles";
 import { ImageUploadZone } from "@/components/onboarding/ImageUploadZone";
 import { OnboardingVitrinePreview } from "@/components/onboarding/OnboardingVitrinePreview";
 import { GlowButton } from "@/components/ui/GlowButton";
+import { publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
 import {
   buildOnboardingPreviewProps,
   previewFontFamily,
@@ -90,7 +91,7 @@ export function OnboardingVisualStep({
         <p className="mt-1 text-sm text-neutral-600">{v.subtitle}</p>
         {profile.pageSlugConfirmed && profile.pageSlug ? (
           <p className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-center text-sm">
-            <span className="text-neutral-500">{copy.pro.slugPrefix}</span>
+            <span className="text-neutral-500">{publicPageSlugPrefix()}</span>
             <span className="font-bold text-neutral-900">{profile.pageSlug}</span>
           </p>
         ) : null}

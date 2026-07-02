@@ -17,7 +17,7 @@ import {
 import type { StripeCheckoutPriceKey } from "@/lib/stripe/checkoutTypes";
 import {
   buildPublicPageDisplayUrl,
-  PUBLIC_PAGE_HOST,
+  publicPageSlugPrefix,
 } from "@/lib/onboarding/publicPageUrl";
 import {
   buildOnboardingPreviewProps,
@@ -96,7 +96,7 @@ export function OnboardingProValidateStep({
         </p>
         <div className="mx-auto mt-2 max-w-xl rounded-[20px] border border-[#EFA188]/40 bg-white px-4 py-3 text-center shadow-[0_8px_28px_rgba(239,161,136,0.18)]">
           <p className="break-all text-base font-extrabold leading-snug tracking-tight text-neutral-900 sm:text-xl">
-            <span className="font-semibold text-neutral-400">{PUBLIC_PAGE_HOST}/</span>
+            <span className="font-semibold text-neutral-400">{publicPageSlugPrefix()}</span>
             <span className="text-[#c45c3e]">{slugSegment}</span>
           </p>
           <p className="mt-1 text-[11px] text-neutral-500">{publicUrl}</p>

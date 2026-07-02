@@ -1,3 +1,4 @@
+import { getTransactionalFromEmail } from "@/config/app";
 import { Resend } from "resend";
 
 let resendClient: Resend | null | undefined;
@@ -16,5 +17,4 @@ export function getResendClient(): Resend | null {
   return resendClient;
 }
 
-export const RESEND_FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL?.trim() ?? "CraftLink <notifications@craftlink.fr>";
+export const RESEND_FROM_EMAIL = getTransactionalFromEmail();
