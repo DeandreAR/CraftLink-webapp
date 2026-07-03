@@ -41,6 +41,7 @@ export default async function ShareLeadPage({ params, searchParams }: ShareLeadP
     <LeadShareView
       lead={lead}
       businessName={share.businessName}
+      artisanPageSlug={share.artisanPageSlug}
       mediaExpired={mediaExpired}
       hadMedia={hadMedia}
       ownerPlan={share.ownerPlan}

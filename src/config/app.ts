@@ -1,10 +1,19 @@
 const DEFAULT_APP_URL = "https://getcraftlink.com";
 
+function normalizeBaseUrl(raw: string): string {
+  return raw.trim().replace(/\/+$/, "");
+}
+
 /** URL publique du site (avec protocole, sans slash final). */
 export function getAppUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_APP_URL?.trim();
-  if (!raw) return DEFAULT_APP_URL;
-  return raw.replace(/\/+$/, "");
+  const explicit =
+    process.env.APP_URL?.trim() ?? process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (explicit) return normalizeBaseUrl(explicit);
+
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) return `https://${normalizeBaseUrl(vercel)}`;
+
+  return DEFAULT_APP_URL;
 }
 
 /** Nom de domaine affiché (sans protocole). */

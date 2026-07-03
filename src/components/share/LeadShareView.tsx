@@ -1,11 +1,14 @@
 import type { DashboardLead } from "@/domain/lead";
 import type { CraftlinkPlan } from "@/domain/craftlinkPlan";
+import { buildPublicPagePath } from "@/lib/onboarding/publicPageUrl";
+import { clientShareWorkflowLabel } from "@/lib/leads/clientShareStatus";
 import { leadDelayStatusLabel } from "@/lib/leads/formatLeadDossier";
 import { formatLeadDate, formatRequestNumber } from "@/components/dashboard/leads/leadsViewShared";
 
 type LeadShareViewProps = {
   lead: DashboardLead;
   businessName: string;
+  artisanPageSlug?: string | null;
   mediaExpired: boolean;
   hadMedia: boolean;
   ownerPlan: CraftlinkPlan;
@@ -13,30 +16,39 @@ type LeadShareViewProps = {
 };
 
 const COPY = {
-  title: "Dossier client",
+  title: "Suivi de votre demande",
+  intro:
+    "Retrouvez ici le récapitulatif de votre demande. L'artisan a bien été notifié et reviendra vers vous.",
   submittedBanner:
     "🎉 Votre demande a bien été transmise à l'artisan ! Un e-mail de confirmation vous a été envoyé.",
+  progress: "Avancement",
+  artisan: "Artisan",
+  viewArtisanPage: "Voir la page de l'artisan",
   expiredTitle: "Fichiers expirés",
   expiredBody:
     "Fichier expiré (Limite de rétention atteinte). Passez au Plan Pro pour conserver vos fichiers jusqu'à 2 mois.",
   work: "Travaux",
   zone: "Zone",
-  status: "Statut",
-  description: "Description",
+  delay: "Délai souhaité",
+  description: "Votre message",
   voice: "Message vocal",
   photos: "Photos",
   notFound: "Dossier introuvable",
-  notFoundBody: "Ce lien n'est plus valide ou la demande a été supprimée.",
-  poweredBy: "Dossier partagé via CraftLink",
+  notFoundBody:
+    "Ce lien n'est plus valide ou la demande a été supprimée. Contactez directement votre artisan si besoin.",
+  poweredBy: "Suivi partagé via CraftLink",
 };
 
 export function LeadShareView({
   lead,
   businessName,
+  artisanPageSlug,
   mediaExpired,
   hadMedia,
   showSubmittedBanner = false,
 }: LeadShareViewProps) {
+  const artisanHref = artisanPageSlug ? buildPublicPagePath(artisanPageSlug) : null;
+
   return (
     <main className="mx-auto min-h-dvh max-w-lg bg-white px-4 py-8">
       {showSubmittedBanner ? (
@@ -46,37 +58,67 @@ export function LeadShareView({
         >
           {COPY.submittedBanner}
         </div>
-      ) : null}
+      ) : (
+        <div
+          role="status"
+          className="mb-6 rounded-2xl border border-sky-100 bg-sky-50 px-4 py-4 text-sm leading-relaxed text-sky-950"
+        >
+          {COPY.intro}
+        </div>
+      )}
 
       <header className="mb-6 border-b border-neutral-100 pb-4">
         <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
           {COPY.title}
         </p>
-        <h1 className="mt-1 text-xl font-bold text-slate-900">{lead.workType}</h1>
+        <h1 className="mt-1 text-xl font-bold text-slate-900">
+          {lead.workType?.trim() || "Demande de travaux"}
+        </h1>
         <p className="mt-1 text-sm text-slate-600">
-          {businessName} · #{formatRequestNumber(lead.requestNumber)}
+          {businessName} · Dossier #{formatRequestNumber(lead.requestNumber)}
         </p>
         <p className="mt-0.5 text-xs text-slate-400">
-          {formatLeadDate(lead.createdAt, "fr")}
+          Demande du {formatLeadDate(lead.createdAt, "fr")}
         </p>
       </header>
+
+      <section className="mb-6 rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+          {COPY.progress}
+        </p>
+        <p className="mt-1 text-base font-semibold text-slate-900">
+          {clientShareWorkflowLabel(lead.workflowStatus)}
+        </p>
+      </section>
 
       <dl className="space-y-4 text-sm">
         <div>
           <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-            {COPY.work}
+            {COPY.artisan}
           </dt>
-          <dd className="mt-0.5 font-medium text-slate-900">{lead.workType}</dd>
+          <dd className="mt-0.5 font-medium text-slate-900">{businessName}</dd>
+          {artisanHref ? (
+            <dd className="mt-2">
+              <a
+                href={artisanHref}
+                className="text-sm font-semibold text-[#c45c3e] underline-offset-2 hover:underline"
+              >
+                {COPY.viewArtisanPage}
+              </a>
+            </dd>
+          ) : null}
         </div>
+        {lead.zone?.trim() ? (
+          <div>
+            <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+              {COPY.zone}
+            </dt>
+            <dd className="mt-0.5 text-slate-800">{lead.zone}</dd>
+          </div>
+        ) : null}
         <div>
           <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-            {COPY.zone}
-          </dt>
-          <dd className="mt-0.5 text-slate-800">{lead.zone}</dd>
-        </div>
-        <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
-            {COPY.status}
+            {COPY.delay}
           </dt>
           <dd className="mt-0.5 text-slate-800">{leadDelayStatusLabel(lead.delayStatus)}</dd>
         </div>

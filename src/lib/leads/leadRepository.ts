@@ -96,6 +96,7 @@ export async function touchLeadUpdatedAt(
 export type PublicLeadShareRow = {
   lead: DashboardLead;
   businessName: string;
+  artisanPageSlug: string | null;
   ownerPlan: CraftlinkPlan;
 };
 
@@ -117,7 +118,7 @@ export async function fetchPublicLeadShare(
 
   const { data: profileData } = await supabase
     .from("profiles")
-    .select("plan_tier, full_name")
+    .select("plan_tier, full_name, page_slug")
     .eq("workspace_id", row.workspace_id)
     .order("created_at", { ascending: true })
     .limit(1)
@@ -126,6 +127,7 @@ export async function fetchPublicLeadShare(
   return {
     lead: mapLeadRowToDashboardLead(row),
     businessName: (profileData?.full_name as string | null)?.trim() || "Artisan CraftLink",
+    artisanPageSlug: (profileData?.page_slug as string | null)?.trim() || null,
     ownerPlan: resolveCraftlinkPlan(String(profileData?.plan_tier ?? "")),
   };
 }
