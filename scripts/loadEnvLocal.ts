@@ -17,13 +17,17 @@ export function loadEnvLocal(): void {
     if (eq === -1) continue;
     const key = trimmed.slice(0, eq).trim();
     let value = trimmed.slice(eq + 1).trim();
+    const hashIdx = value.indexOf(" #");
+    if (hashIdx !== -1) {
+      value = value.slice(0, hashIdx).trim();
+    }
     if (
       (value.startsWith('"') && value.endsWith('"')) ||
       (value.startsWith("'") && value.endsWith("'"))
     ) {
       value = value.slice(1, -1);
     }
-    if (!process.env[key]) {
+    if (key && process.env[key] === undefined) {
       process.env[key] = value;
     }
   }
