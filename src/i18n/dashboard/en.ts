@@ -6,7 +6,7 @@ export const dashboardEn: DashboardDictionary = {
   tabs: {
     leads: "Leads",
     vitrine: "My page",
-    partners: "Partners",
+    partners: "Partnerships",
     account: "Account",
   },
   leads: {
@@ -232,6 +232,11 @@ export const dashboardEn: DashboardDictionary = {
   vitrine: {
     title: "My storefront page",
     subtitle: "What visitors see on your public CraftLink page.",
+    editorSections: {
+      general: "Identity & area",
+      content: "Content & services",
+      visual: "Look & visuals",
+    },
     subTabs: {
       profile: "Profile",
       capture: "Capture",
@@ -273,15 +278,66 @@ export const dashboardEn: DashboardDictionary = {
     printHint: "PNG format — print on sticker or business card.",
   },
   partners: {
-    title: "Partners & Brands",
-    subtitle: "Show trusted suppliers on your storefront page.",
+    title: "Partnership requests",
+    subtitle: "Brands, manufacturers and advertisers reaching out via your storefront.",
     lockedTitle: "Available on Pro plan",
     lockedBody:
-      "Partners & Brands is included in the Pro Artisan plan. Upgrade to unlock it.",
+      "The « Partnerships & Brands » form and this inbox are included in the Pro Artisan plan.",
     upgradeCta: "Upgrade to Pro",
-    placeholder: "e.g. local supplier, brand…",
-    add: "Add partner",
-    empty: "No partners added yet.",
+    empty: "No partnership requests yet.",
+    emptyHint:
+      "Brands submit the form via the « Partnerships & Brands » button on your Pro storefront.",
+    loadError: "Could not load partnership requests.",
+    pendingCount: "{count} pending",
+    showArchived: "Show archived",
+    columns: {
+      company: "Company",
+      contact: "Contact",
+      type: "Type",
+      date: "Received",
+      status: "Status",
+    },
+    types: {
+      advertising: "Advertising & Media",
+      ugc: "UGC Campaign",
+      product_test: "Product testing",
+      other: "Other",
+    },
+    budgetRanges: {
+      under_5k: "Under €5,000",
+      from_5k_to_15k: "€5,000 – €15,000",
+      from_15k_to_50k: "€15,000 – €50,000",
+      over_50k: "Over €50,000",
+      undisclosed: "Not disclosed",
+    },
+    status: {
+      A_TRAITER: "To review",
+      CONTACTE: "Contacted",
+      ARCHIVE: "Archived",
+    },
+    detail: {
+      title: "Request details",
+      company: "Company",
+      contact: "Contact",
+      jobTitle: "Job title",
+      email: "Email",
+      phone: "Phone",
+      type: "Partnership type",
+      budget: "Budget",
+      budgetNotProvided: "Not provided",
+      message: "Brief / Message",
+      receivedAt: "Received on",
+      markContacted: "Mark as contacted",
+      markPending: "Mark as pending",
+      archive: "Archive",
+      close: "Close",
+      contactCta: "Contact by email",
+      contactBySms: "SMS",
+      contactByWhatsApp: "WhatsApp",
+      contactEmailSubject: "Partnership — {company}",
+      contactMessage:
+        "Hello {contactName},\n\nThank you for your partnership proposal ({partnershipType}) with {company}.\n\n",
+    },
   },
   billing: {
     title: "Subscription & Billing",

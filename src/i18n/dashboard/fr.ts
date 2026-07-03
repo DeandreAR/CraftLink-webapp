@@ -6,7 +6,7 @@ export const dashboardFr: DashboardDictionary = {
   tabs: {
     leads: "Leads",
     vitrine: "Ma page",
-    partners: "Partenaires",
+    partners: "Partenariats",
     account: "Compte",
   },
   leads: {
@@ -232,6 +232,11 @@ export const dashboardFr: DashboardDictionary = {
   vitrine: {
     title: "Ma page vitrine",
     subtitle: "Éléments visibles sur votre page publique CraftLink.",
+    editorSections: {
+      general: "Identité & zone",
+      content: "Contenu & prestations",
+      visual: "Apparence & visuels",
+    },
     subTabs: {
       profile: "Profil",
       capture: "Capture",
@@ -273,15 +278,67 @@ export const dashboardFr: DashboardDictionary = {
     printHint: "Format PNG — imprimez sur autocollant ou carte de visite.",
   },
   partners: {
-    title: "Partenaires & Marques",
-    subtitle: "Affichez vos fournisseurs de confiance sur votre page vitrine.",
+    title: "Demandes de partenariat",
+    subtitle:
+      "Marques, fabricants et annonceurs qui souhaitent collaborer via votre page vitrine.",
     lockedTitle: "Disponible sur le Plan Pro",
     lockedBody:
-      "La section Partenaires & Marques est réservée à l'offre Pro Artisan. Passez au Pro pour la débloquer.",
+      "Le formulaire « Partenariats & Marques » et ce tableau de bord sont réservés à l'offre Pro Artisan.",
     upgradeCta: "Passer au Plan Pro",
-    placeholder: "Ex. Legrand, Schneider, Point.P…",
-    add: "Ajouter un partenaire",
-    empty: "Aucun partenaire ajouté.",
+    empty: "Aucune demande de partenariat pour le moment.",
+    emptyHint:
+      "Les marques remplissent le formulaire via le bouton « Partenariats & Marques » sur votre vitrine Pro.",
+    loadError: "Impossible de charger les demandes de partenariat.",
+    pendingCount: "{count} à traiter",
+    showArchived: "Afficher les archives",
+    columns: {
+      company: "Entreprise",
+      contact: "Contact",
+      type: "Type",
+      date: "Reçue le",
+      status: "Statut",
+    },
+    types: {
+      advertising: "Publicité & Média",
+      ugc: "Campagne UGC",
+      product_test: "Test de produit",
+      other: "Autre",
+    },
+    budgetRanges: {
+      under_5k: "Moins de 5 000 €",
+      from_5k_to_15k: "5 000 € – 15 000 €",
+      from_15k_to_50k: "15 000 € – 50 000 €",
+      over_50k: "Plus de 50 000 €",
+      undisclosed: "Non communiqué",
+    },
+    status: {
+      A_TRAITER: "À traiter",
+      CONTACTE: "Contacté",
+      ARCHIVE: "Archivé",
+    },
+    detail: {
+      title: "Détail de la demande",
+      company: "Entreprise",
+      contact: "Contact",
+      jobTitle: "Poste",
+      email: "E-mail",
+      phone: "Téléphone",
+      type: "Type de partenariat",
+      budget: "Budget",
+      budgetNotProvided: "Non renseigné",
+      message: "Brief / Message",
+      receivedAt: "Reçue le",
+      markContacted: "Marquer comme contacté",
+      markPending: "Remettre à traiter",
+      archive: "Archiver",
+      close: "Fermer",
+      contactCta: "Contacter par e-mail",
+      contactBySms: "SMS",
+      contactByWhatsApp: "WhatsApp",
+      contactEmailSubject: "Partenariat — {company}",
+      contactMessage:
+        "Bonjour {contactName},\n\nMerci pour votre proposition de partenariat ({partnershipType}) avec {company}.\n\n",
+    },
   },
   billing: {
     title: "Abonnement & Facturation",

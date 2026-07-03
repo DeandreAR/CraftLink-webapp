@@ -29,7 +29,8 @@ type OnboardingVisualStepProps = {
   profile: OnboardingProfileDraft;
   services: OnboardingService[];
   onChange: (patch: Partial<OnboardingProfileDraft>) => void;
-  onCreatePage: () => void;
+  onCreatePage?: () => void;
+  showCreatePageButton?: boolean;
 };
 
 export function OnboardingVisualStep({
@@ -40,6 +41,7 @@ export function OnboardingVisualStep({
   services,
   onChange,
   onCreatePage,
+  showCreatePageButton = true,
 }: OnboardingVisualStepProps) {
   const v = copy.visual;
 
@@ -188,9 +190,11 @@ export function OnboardingVisualStep({
         />
       </div>
 
-      <GlowButton type="button" onClick={onCreatePage} className="w-full justify-center">
-        {v.createPage}
-      </GlowButton>
+      {showCreatePageButton && onCreatePage ? (
+        <GlowButton type="button" onClick={onCreatePage} className="w-full justify-center">
+          {v.createPage}
+        </GlowButton>
+      ) : null}
     </div>
   );
 }

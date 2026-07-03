@@ -13,6 +13,7 @@ import {
 } from "react-icons/lu";
 import type { LeadFormStatus } from "@/domain/vitrine";
 import type { VitrineDictionary } from "@/i18n/types";
+import { submitPartnershipRequest } from "@/lib/partnerships/submitPartnershipRequest";
 import { VitrineBackButton } from "@/components/vitrine/VitrineBackButton";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
 
@@ -26,6 +27,7 @@ type BudgetRange =
   | "undisclosed";
 
 type VitrineCollaborationFormProps = {
+  pageSlug: string;
   copy: VitrineDictionary;
   onBack: () => void;
 };
@@ -34,6 +36,7 @@ const inputClass =
   "mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none transition focus:border-[var(--primary-color)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--primary-color)_15%,transparent)]";
 
 export function VitrineCollaborationForm({
+  pageSlug,
   copy,
   onBack,
 }: VitrineCollaborationFormProps) {
@@ -74,7 +77,8 @@ export function VitrineCollaborationForm({
 
     setStatus("submitting");
     try {
-      const payload = {
+      const result = await submitPartnershipRequest({
+        pageSlug,
         companyName: companyName.trim(),
         contactName: contactName.trim(),
         jobTitle: jobTitle.trim(),
@@ -84,9 +88,13 @@ export function VitrineCollaborationForm({
         budgetRange: budget || null,
         budgetApproximate: budgetCustom.trim() || null,
         message: message.trim(),
-      };
-      await new Promise((r) => setTimeout(r, 1100));
-      void payload;
+      });
+
+      if (!result.ok) {
+        setStatus("error");
+        return;
+      }
+
       setStatus("success");
     } catch {
       setStatus("error");

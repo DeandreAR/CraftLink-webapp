@@ -360,6 +360,11 @@ export type DashboardDictionary = {
   vitrine: {
     title: string;
     subtitle: string;
+    editorSections: {
+      general: string;
+      content: string;
+      visual: string;
+    };
     subTabs: {
       profile: string;
       capture: string;
@@ -404,9 +409,58 @@ export type DashboardDictionary = {
     lockedTitle: string;
     lockedBody: string;
     upgradeCta: string;
-    placeholder: string;
-    add: string;
     empty: string;
+    emptyHint: string;
+    loadError: string;
+    pendingCount: string;
+    showArchived: string;
+    columns: {
+      company: string;
+      contact: string;
+      type: string;
+      date: string;
+      status: string;
+    };
+    types: {
+      advertising: string;
+      ugc: string;
+      product_test: string;
+      other: string;
+    };
+    budgetRanges: {
+      under_5k: string;
+      from_5k_to_15k: string;
+      from_15k_to_50k: string;
+      over_50k: string;
+      undisclosed: string;
+    };
+    status: {
+      A_TRAITER: string;
+      CONTACTE: string;
+      ARCHIVE: string;
+    };
+    detail: {
+      title: string;
+      company: string;
+      contact: string;
+      jobTitle: string;
+      email: string;
+      phone: string;
+      type: string;
+      budget: string;
+      budgetNotProvided: string;
+      message: string;
+      receivedAt: string;
+      markContacted: string;
+      markPending: string;
+      archive: string;
+      close: string;
+      contactCta: string;
+      contactBySms: string;
+      contactByWhatsApp: string;
+      contactEmailSubject: string;
+      contactMessage: string;
+    };
   };
   billing: {
     title: string;

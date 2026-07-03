@@ -5,9 +5,9 @@ import { FaPen, FaQrcode } from "react-icons/fa6";
 import type { Profile } from "@/domain/profile";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { QrCodeVanModule } from "@/components/dashboard/vitrine/QrCodeVanModule";
-import { VitrineProfileForm } from "@/components/dashboard/vitrine/VitrineProfileForm";
+import { VitrineEditor } from "@/components/dashboard/vitrine/VitrineEditor";
 import { VoiceCaptureSetting } from "@/components/dashboard/vitrine/VoiceCaptureSetting";
-import type { DashboardDictionary } from "@/i18n/types";
+import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
 type VitrineSubTab = "profile" | "qr";
@@ -15,10 +15,18 @@ type VitrineSubTab = "profile" | "qr";
 type VitrinePanelProps = {
   profile: Profile;
   copy: DashboardDictionary;
+  onboardingCopy: OnboardingDictionary;
+  vitrineCopy: VitrineDictionary;
   locale: Locale;
 };
 
-export function VitrinePanel({ profile, copy, locale }: VitrinePanelProps) {
+export function VitrinePanel({
+  profile,
+  copy,
+  onboardingCopy,
+  vitrineCopy,
+  locale,
+}: VitrinePanelProps) {
   const [subTab, setSubTab] = useState<VitrineSubTab>("profile");
   const v = copy.vitrine;
 
@@ -54,7 +62,13 @@ export function VitrinePanel({ profile, copy, locale }: VitrinePanelProps) {
       <div className="mt-6">
         {subTab === "profile" ? (
           <div className="space-y-6">
-            <VitrineProfileForm profile={profile} copy={copy} locale={locale} />
+            <VitrineEditor
+              profile={profile}
+              copy={copy}
+              onboardingCopy={onboardingCopy}
+              vitrineCopy={vitrineCopy}
+              locale={locale}
+            />
             <VoiceCaptureSetting profile={profile} copy={copy} locale={locale} />
           </div>
         ) : null}

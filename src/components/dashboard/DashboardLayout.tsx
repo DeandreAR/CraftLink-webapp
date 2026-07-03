@@ -10,7 +10,8 @@ import { LeadsPanel } from "@/components/dashboard/leads/LeadsPanel";
 import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { VitrinePanel } from "@/components/dashboard/vitrine/VitrinePanel";
 import type { DashboardLead } from "@/domain/lead";
-import type { DashboardDictionary } from "@/i18n/types";
+import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
+import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
 import type { WorkspaceSession } from "@/lib/auth/sessionContext";
@@ -20,17 +21,25 @@ export type DashboardTab = "leads" | "vitrine" | "partners" | "account";
 type DashboardLayoutProps = {
   session: WorkspaceSession;
   copy: DashboardDictionary;
+  onboardingCopy: OnboardingDictionary;
+  vitrineCopy: VitrineDictionary;
   locale: Locale;
   initialLeads: DashboardLead[];
   initialLoadError: string | null;
+  initialPartnershipRequests: DashboardPartnershipRequest[];
+  initialPartnershipLoadError: string | null;
 };
 
 export function DashboardLayout({
   session,
   copy,
+  onboardingCopy,
+  vitrineCopy,
   locale,
   initialLeads,
   initialLoadError,
+  initialPartnershipRequests,
+  initialPartnershipLoadError,
 }: DashboardLayoutProps) {
   const [tab, setTab] = useState<DashboardTab>("leads");
   const { profile } = session;
@@ -80,10 +89,22 @@ export function DashboardLayout({
               />
             ) : null}
             {tab === "vitrine" ? (
-              <VitrinePanel profile={profile} copy={copy} locale={locale} />
+              <VitrinePanel
+                profile={profile}
+                copy={copy}
+                onboardingCopy={onboardingCopy}
+                vitrineCopy={vitrineCopy}
+                locale={locale}
+              />
             ) : null}
             {tab === "partners" ? (
-              <PartnersPanel profile={profile} copy={copy} locale={locale} />
+              <PartnersPanel
+                profile={profile}
+                copy={copy}
+                locale={locale}
+                initialRequests={initialPartnershipRequests}
+                initialLoadError={initialPartnershipLoadError}
+              />
             ) : null}
             {tab === "account" ? (
               <AccountPanel profile={profile} copy={copy} locale={locale} />

@@ -55,7 +55,7 @@ export function VitrineDetailsSection({
   onBack,
 }: VitrineDetailsSectionProps) {
   if (initialIntent === "collaboration") {
-    return <VitrineCollaborationForm copy={copy} onBack={onBack} />;
+    return <VitrineCollaborationForm pageSlug={pageSlug} copy={copy} onBack={onBack} />;
   }
 
   return (

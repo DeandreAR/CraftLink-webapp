@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
+import type { StoredVitrineConfig } from "@/domain/vitrinePresentation";
 import {
   canOpenWhatsAppContact,
   currentWhatsappMonthKey,
@@ -19,6 +20,7 @@ import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 export type UpdateDashboardProfileInput = {
   fullName: string;
   phone: string;
+  vitrine: StoredVitrineConfig;
 };
 
 export type UpdateDashboardProfileResult =
@@ -42,6 +44,7 @@ export async function updateDashboardProfileAction(
     .update({
       full_name: input.fullName.trim() || null,
       whatsapp_number: input.phone.trim() || null,
+      vitrine_presentation: input.vitrine,
       updated_at: new Date().toISOString(),
     })
     .eq("id", user.id);
@@ -50,8 +53,20 @@ export async function updateDashboardProfileAction(
     return { ok: false, message: error.message };
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("page_slug")
+    .eq("id", user.id)
+    .maybeSingle();
+
   revalidatePath("/dashboard");
   revalidatePath("/[lang]/dashboard", "page");
+
+  const slug = (profile?.page_slug as string | null)?.trim();
+  if (slug) {
+    revalidatePath(`/${slug}`);
+    revalidatePath(`/v/${slug}`);
+  }
 
   return { ok: true };
 }

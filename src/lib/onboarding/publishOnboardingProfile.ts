@@ -1,5 +1,6 @@
 import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
 import { validatePageSlug } from "@/lib/onboarding/pageSlug";
+import { buildStoredVitrineFromOnboarding } from "@/lib/vitrine/storedVitrinePresentation";
 import { createClient } from "@/lib/supabase/client";
 
 export type PublishOnboardingResult =
@@ -55,6 +56,7 @@ async function persistOnboardingProfile(
         full_name: profile.businessName.trim(),
         whatsapp_number: profile.phone.trim(),
         page_slug: slug,
+        vitrine_presentation: buildStoredVitrineFromOnboarding(profile, services),
         ...(options.markComplete
           ? { onboarding_completed_at: new Date().toISOString() }
           : {}),
