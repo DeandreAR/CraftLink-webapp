@@ -39,10 +39,6 @@ export const APP_RESERVED_SLUGS = new Set<string>([
   "v",
   "p",
   // Marketing & contenu
-  "demo",
-  "demo-pro",
-  "demo-essentiel",
-  "demo-banniere",
   "blog",
   "docs",
   "help",

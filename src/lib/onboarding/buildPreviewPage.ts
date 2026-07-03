@@ -196,7 +196,7 @@ export function buildOnboardingPreviewProps(
         ...(plan === "PRO" ? { primaryQuote: "Besoin d'un devis rapide ?" } : {}),
         secondaryInfo: "Poser une Question",
         secondaryUrgent: "Demander un RDV Urgent",
-        collaboration: "Collaboration (Partenaires)",
+        collaboration: "Partenariats & Marques",
       },
       voiceCaptureEnabled: false,
     },

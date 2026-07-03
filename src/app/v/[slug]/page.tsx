@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { LinkInBioPage } from "@/components/vitrine/LinkInBioPage";
-import { getMockVitrineBySlug } from "@/data/mockVitrine";
 import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPublicPagePath } from "@/lib/onboarding/publicPageUrl";
 import { buildPageOpenGraph } from "@/lib/seo/siteMetadata";
+import { fetchPublicVitrinePage } from "@/lib/vitrine/fetchPublicVitrinePage";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -12,13 +12,15 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const data = getMockVitrineBySlug(slug);
+  const data = await fetchPublicVitrinePage(slug);
   if (!data) {
     return { title: "Page introuvable — CraftLink" };
   }
 
   const title = `${data.artisan.businessName} — Devis & contact`;
-  const description = `${data.artisan.tradeLabel} — ${data.artisan.city}`;
+  const description = data.artisan.city
+    ? `${data.artisan.tradeLabel} — ${data.artisan.city}`
+    : data.artisan.tradeLabel;
   const path = buildPublicPagePath(slug);
 
   return {
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function PublicVitrinePage({ params }: Props) {
   const { slug } = await params;
-  const data = getMockVitrineBySlug(slug);
+  const data = await fetchPublicVitrinePage(slug);
   if (!data) {
     notFound();
   }

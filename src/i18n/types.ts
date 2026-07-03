@@ -693,42 +693,59 @@ export type VitrineDictionary = {
     invalidType: string;
   };
   collaboration: {
-    title: string;
-    profilePeer: string;
-    profileBrand: string;
-    companyPeer: string;
-    companyBrand: string;
-    contactName: string;
-    jobTitle: string;
-    phone: string;
-    email: string;
-    activityType: string;
-    activityOptions: {
-      architect: string;
-      project_manager: string;
-      artisan: string;
-      builder: string;
-      real_estate: string;
-      other: string;
+    hero: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      cta: string;
     };
-    needType: string;
-    needOptions: {
-      subcontracting: string;
-      project_offer: string;
-      local_partnership: string;
+    stats: {
+      artisans: { value: string; label: string };
+      engagement: { value: string; label: string };
+      opportunities: { value: string; label: string };
     };
-    partnershipType: string;
-    partnershipOptions: {
-      product_placement: string;
-      material_donation: string;
-      affiliate_program: string;
-      media_campaign: string;
+    offers: {
+      title: string;
+      subtitle: string;
+      advertising: { title: string; description: string; bullets: string[] };
+      ugc: { title: string; description: string; bullets: string[] };
+      productTest: { title: string; description: string; bullets: string[] };
     };
-    description: string;
-    descriptionPeerPlaceholder: string;
-    descriptionBrandPlaceholder: string;
-    filesPeerLabel: string;
-    filesBrandLabel: string;
+    form: {
+      title: string;
+      subtitle: string;
+      companyName: string;
+      contactName: string;
+      jobTitle: string;
+      email: string;
+      phone: string;
+      partnershipType: string;
+      partnershipOptions: {
+        advertising: string;
+        ugc: string;
+        product_test: string;
+        other: string;
+      };
+      budget: string;
+      budgetOptional: string;
+      budgetOr: string;
+      budgetCustom: string;
+      budgetCustomPlaceholder: string;
+      budgetOptions: {
+        under_5k: string;
+        from_5k_to_15k: string;
+        from_15k_to_50k: string;
+        over_50k: string;
+        undisclosed: string;
+      };
+      message: string;
+      messagePlaceholder: string;
+      submit: string;
+      submitting: string;
+      errorBody: string;
+      successTitle: string;
+      successBody: string;
+    };
     files: {
       dropHint: string;
       browse: string;
@@ -737,11 +754,6 @@ export type VitrineDictionary = {
       invalidType: string;
       invalidVideo: string;
     };
-    submit: string;
-    submitting: string;
-    successTitle: string;
-    successBody: string;
-    errorBody: string;
   };
   services: {
     priceHt: string;

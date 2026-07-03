@@ -151,7 +151,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
   cta: {
     secondaryInfo: "Poser une Question",
     secondaryUrgent: "Demander un RDV Urgent",
-    collaboration: "Collaboration (Partenaires)",
+    collaboration: "Partenariats & Marques",
   },
   voiceCaptureEnabled: false,
 };
@@ -170,7 +170,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     primaryQuote: "Besoin d'un devis rapide ?",
     secondaryInfo: "Poser une Question",
     secondaryUrgent: "Demander un RDV Urgent",
-    collaboration: "Collaboration (Partenaires)",
+    collaboration: "Partenariats & Marques",
   },
   voiceCaptureEnabled: true,
 };
