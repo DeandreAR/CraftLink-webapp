@@ -1,5 +1,4 @@
 import { Navbar } from "@/components/landing/Navbar";
-import { LandingPaintBackground } from "@/components/landing/LandingPaintBackground";
 import { BentoFeatureCard } from "@/components/landing/BentoFeatureCard";
 import {
   IconChart,
@@ -13,6 +12,7 @@ import {
 } from "@/components/landing/Icons";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
 import { HeroAsideShowcase } from "@/components/landing/HeroAsideShowcase";
+import { LandingHeroDiagonalBrush } from "@/components/landing/LandingHeroDiagonalBrush";
 import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
 import { LandingCta } from "@/components/landing/LandingCta";
 import { LandingSectionHeader } from "@/components/landing/LandingSectionHeader";
@@ -21,6 +21,7 @@ import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
 import { PourquoiPillarCard } from "@/components/landing/PourquoiPillarCard";
+import { LandingPaintBackground } from "@/components/landing/LandingPaintBackground";
 import { onboardingPath } from "@/lib/auth/paths";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -163,31 +164,34 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
       <main className="landing-main relative">
         {/* Hero */}
-        <section className="landing-hero relative min-h-[min(92vh,920px)] overflow-x-hidden overflow-y-visible text-[#1E1E1C]">
-          <LandingPaintBackground variant="hero" />
+        <section className="landing-hero relative overflow-x-hidden overflow-y-visible bg-[#FDFBF7]">
+          <LandingHeroDiagonalBrush />
 
-          <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-12 md:px-6 md:pb-24 md:pt-16">
+          <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
             <div className="landing-hero-body grid items-start gap-10 md:gap-8">
               <div className="landing-hero-body-col min-w-0">
-                <span className="lk-eyebrow">{dict.hero.pill}</span>
+                <p className="landing-hero-pill inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700">
+                  <span className="h-2 w-2 rounded-full bg-[#EFA188]" />
+                  {dict.hero.pill}
+                </p>
 
-                <div className="landing-hero-grid mt-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)] lg:gap-x-10">
+                <div className="landing-hero-grid mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,1.12fr)] lg:gap-x-6">
                   <div className="landing-hero-copy min-w-0 w-full self-center lg:max-w-none">
-                    <div className="landing-hero-title-wrap relative z-20 mb-6 max-w-2xl lg:max-w-xl">
+                    <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
                       <HeroTypingTitle
-                        className="landing-hero-title text-[#1E1E1C]"
+                        className="landing-hero-title"
                         intro={dict.hero.typingTitle.intro}
                         channels={dict.hero.typingTitle.channels}
                       />
                     </div>
-                    <p className="landing-hero-lead max-w-2xl text-base leading-relaxed text-[#1E1E1C] md:max-w-none md:text-lg">
+                    <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-lg">
                       {dict.hero.lead}
                     </p>
-                    <p className="mt-4 max-w-2xl text-base font-bold leading-relaxed text-[#1E1E1C] md:max-w-none">
+                    <p className="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-neutral-900 md:max-w-none">
                       {dict.hero.controlPhrase}
                     </p>
 
-                    <div className="landing-hero-ctas mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                    <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                       <LandingCta href={onboardingPath(lang)} variant="peach">
                         {dict.hero.ctaPrimary}
                       </LandingCta>
@@ -214,6 +218,12 @@ export async function LandingHome({ lang }: { lang: Locale }) {
             </div>
           </div>
         </section>
+
+        {/* Transition douce hero → contenu */}
+        <div
+          className="landing-hero-divider pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-neutral-200 to-transparent"
+          aria-hidden
+        />
 
         <DemoVideoSection copy={dict.demoVideo} />
 

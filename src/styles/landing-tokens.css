@@ -22,51 +22,6 @@
   color: var(--lk-ink);
 }
 
-.landing-page .landing-hero-title-wrap {
-  position: relative;
-  isolation: isolate;
-  background: #ffffff;
-  border: 2px solid color-mix(in srgb, var(--lk-peach) 45%, white);
-  border-radius: 1.35rem;
-  padding: 2rem 2rem 2rem 2.65rem;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.95),
-    0 2px 0 color-mix(in srgb, var(--lk-peach) 55%, transparent),
-    0 22px 56px rgba(33, 33, 41, 0.14),
-    0 8px 28px rgba(239, 161, 136, 0.22);
-}
-
-.landing-page .landing-hero-title-wrap::before {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--lk-peach) 70%, white) 0%,
-    color-mix(in srgb, var(--lk-lavender) 40%, white) 100%
-  );
-  opacity: 0.55;
-}
-
-.landing-page .landing-hero-title-wrap::after {
-  content: "";
-  position: absolute;
-  left: 1.25rem;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  border-radius: 9999px;
-  background: var(--lk-peach);
-}
-
-@media (min-width: 768px) {
-  .landing-page .landing-hero-title-wrap {
-    padding: 2.5rem 2.5rem 2.5rem 3rem;
-  }
-}
-
 .landing-page .lk-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -174,8 +129,4 @@
     transparent
   );
   opacity: 0.85;
-}
-
-.landing-page .landing-hero {
-  --lk-hero-ink: #1e1e1c;
 }
