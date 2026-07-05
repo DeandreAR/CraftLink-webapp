@@ -18,7 +18,7 @@ export function PricingComparisonSection({
   return (
     <section
       id="tarifs"
-      className="lk-section-alt scroll-mt-28 border-t border-neutral-100"
+      className="lk-section-alt scroll-mt-28"
       aria-labelledby="pricing-comparison-heading"
     >
       <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">

@@ -87,7 +87,16 @@
 }
 
 .landing-page .lk-section-alt {
-  background: #ffffff;
+  background: color-mix(in srgb, white 28%, var(--lk-cream));
+}
+
+.landing-page .landing-main {
+  overflow-x: clip;
+}
+
+.landing-page .landing-footer {
+  background: var(--lk-cream);
+  border-color: color-mix(in srgb, var(--lk-peach) 22%, transparent);
 }
 
 .landing-page .lk-section-warm {

@@ -19,9 +19,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function HomePage() {
-  return (
-    <div className="landing-page">
-      <LandingHome lang={defaultLocale} />
-    </div>
-  );
+  return <LandingHome lang={defaultLocale} />;
 }

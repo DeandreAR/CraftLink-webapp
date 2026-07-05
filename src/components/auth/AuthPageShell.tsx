@@ -1,8 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { MeshBackground } from "@/components/landing/MeshBackground";
-import { GlowButton } from "@/components/ui/GlowButton";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { LandingCta } from "@/components/landing/LandingCta";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
 
@@ -34,22 +32,16 @@ export function AuthPageShell({
   const home = lang === defaultLocale ? "/" : `/${lang}`;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white text-black">
-      <MeshBackground intensity="subtle" />
-
-      <header className="relative z-10 border-b border-neutral-200/80 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-          <Link
-            href={home}
-            className="landing-nav-logo inline-flex shrink-0 items-center text-black"
-            aria-label="CraftLink"
-          >
+    <div className="landing-page relative min-h-screen overflow-x-clip bg-[#FDFBF7] text-[#212129]">
+      <header className="sticky top-0 z-50 border-b border-[#EFA188]/25 bg-[#FDFBF7]/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 md:px-6">
+          <Link href={home} className="inline-flex shrink-0 items-center" aria-label="CraftLink">
             <img
               src="/images/logo_main.png"
               alt="CraftLink"
               width={1731}
               height={350}
-              className="landing-nav-logo-img block h-6 w-auto max-w-none md:h-7"
+              className="block h-6 w-auto md:h-7"
               decoding="async"
             />
           </Link>
@@ -57,39 +49,34 @@ export function AuthPageShell({
           <div className="flex items-center gap-2">
             <Link
               href={home}
-              className="hidden rounded-xl px-3 py-2 text-sm font-medium text-neutral-600 transition hover:text-black sm:inline-flex"
+              className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-[#5b6478] transition hover:text-[#EFA188] sm:inline-flex"
             >
               ← {backToHomeLabel}
             </Link>
-            <GlowButton href={alternateHref} variant="secondary" className="text-sm">
+            <LandingCta href={alternateHref} variant="peach" className="px-3 py-2 text-sm md:px-4">
               {alternateLabel}
-            </GlowButton>
+            </LandingCta>
           </div>
         </div>
       </header>
 
       <main className={`relative z-10 mx-auto px-4 py-10 md:px-6 md:py-14 ${contentClassName}`}>
-        <GlassCard
-          rounded="2xl"
-          className="border border-neutral-200/90 bg-white/95 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.06)] backdrop-blur-sm md:p-8"
-        >
+        <div className="rounded-[1.75rem] border-2 border-[#212129]/10 bg-white/95 p-6 shadow-[0_24px_64px_rgba(33,33,41,0.08)] backdrop-blur-sm md:p-8">
           {!hideBrandPill ? (
-            <p className="inline-flex items-center gap-2 rounded-full border border-[#EFA188]/30 bg-[#EFA188]/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-neutral-900">
-              <span className="h-2 w-2 rounded-full bg-[#EFA188]" aria-hidden />
-            </p>
+            <span className="lk-eyebrow">CraftLink</span>
           ) : null}
           {!hideHeading && title ? (
             <h1
-              className={`${hideBrandPill ? "" : "mt-4"} text-3xl font-bold tracking-tight text-black md:text-4xl`}
+              className={`lk-display ${hideBrandPill ? "" : "mt-5"} text-3xl md:text-4xl`}
             >
               {title}
             </h1>
           ) : null}
           {!hideHeading && subtitle ? (
-            <p className="mt-3 text-base leading-relaxed text-neutral-600">{subtitle}</p>
+            <p className="lk-lead mt-3 text-base md:text-lg">{subtitle}</p>
           ) : null}
           <div className={hideHeading ? "mt-0" : "mt-8"}>{children}</div>
-        </GlassCard>
+        </div>
       </main>
     </div>
   );

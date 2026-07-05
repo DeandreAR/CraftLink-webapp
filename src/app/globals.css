@@ -2,8 +2,8 @@
 @import "../styles/landing-tokens.css" layer(components);
 
 :root {
-  --background: #ffffff;
-  --foreground: #0b1020;
+  --background: #fdfbf7;
+  --foreground: #212129;
   --muted: #5b6478;
   --brand: #efa188;
   --border: #e5e7eb;

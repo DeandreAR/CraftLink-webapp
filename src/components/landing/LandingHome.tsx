@@ -21,7 +21,6 @@ import { FeaturesFlowSchema } from "@/components/landing/FeaturesFlowSchema";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DemoVideoSection } from "@/components/landing/DemoVideoSection";
 import { PourquoiPillarCard } from "@/components/landing/PourquoiPillarCard";
-import { LandingPaintBackground } from "@/components/landing/LandingPaintBackground";
 import { onboardingPath } from "@/lib/auth/paths";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -159,13 +158,13 @@ export async function LandingHome({ lang }: { lang: Locale }) {
   const pricingModel = buildPricingSectionModel(dict.pricingComparison);
 
   return (
-    <div className="landing-home min-h-screen bg-[#FDFBF7] text-[#212129]">
+    <div className="landing-page landing-home min-h-screen bg-[#FDFBF7] text-[#212129]">
       <Navbar basePath={basePath} labels={dict.nav} />
 
       <main className="landing-main relative">
         {/* Hero */}
-        <section className="landing-hero relative overflow-x-hidden overflow-y-visible bg-[#FDFBF7]">
-          <LandingHeroDiagonalBrush />
+        <section className="landing-hero relative overflow-visible bg-[#FDFBF7]">
+          <LandingHeroDiagonalBrush variant="hero" />
 
           <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
             <div className="landing-hero-body grid items-start gap-10 md:gap-8">
@@ -218,12 +217,6 @@ export async function LandingHome({ lang }: { lang: Locale }) {
             </div>
           </div>
         </section>
-
-        {/* Transition douce hero → contenu */}
-        <div
-          className="landing-hero-divider pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-neutral-200 to-transparent"
-          aria-hidden
-        />
 
         <DemoVideoSection copy={dict.demoVideo} />
 
@@ -476,8 +469,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         <LandingFaqDisclosure blocks={faqBlocks} copy={dict.faqUi} />
 
         {/* CTA inscription */}
-        <section id="cta" className="landing-cta relative scroll-mt-28 overflow-hidden py-20 md:py-24">
-          <LandingPaintBackground variant="cta" />
+        <section id="cta" className="landing-cta relative scroll-mt-28 overflow-visible bg-[#FDFBF7] py-20 md:py-24">
+          <LandingHeroDiagonalBrush variant="cta" />
           <div className="landing-cta-inner relative z-10 mx-auto max-w-6xl px-4 md:px-6">
             <div className="rounded-[1.75rem] border-2 border-[#212129] bg-white/95 p-8 shadow-[0_24px_64px_rgba(33,33,41,0.1)] backdrop-blur-sm md:p-12">
               <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">

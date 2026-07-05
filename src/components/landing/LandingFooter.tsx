@@ -15,7 +15,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
   const copyright = footer.copyright.replace("{year}", String(year));
 
   return (
-    <footer className="landing-footer border-t border-neutral-200 bg-white">
+    <footer className="landing-footer border-t border-[#EFA188]/20 bg-[#FDFBF7]">
       <div className="landing-footer-inner mx-auto max-w-6xl px-4 py-10 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div className="max-w-md">
