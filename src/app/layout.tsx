@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lexend } from "next/font/google";
+import { Fraunces, Lexend } from "next/font/google";
 import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
 import { buildDefaultSiteMetadata } from "@/lib/seo/siteMetadata";
 import "./globals.css";
@@ -7,6 +7,13 @@ import "./globals.css";
 const lexend = Lexend({
   variable: "--font-lexend",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  variable: "--font-landing-display",
+  subsets: ["latin"],
+  weight: ["600", "700"],
   display: "swap",
 });
 
@@ -23,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${lexend.variable} h-full antialiased`}>
+    <html lang="fr" className={`${lexend.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="min-h-full font-sans">
         {children}
         <CookieConsentRoot />

@@ -15,7 +15,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
   const copyright = footer.copyright.replace("{year}", String(year));
 
   return (
-    <footer className="landing-footer border-t border-neutral-200/70 bg-white">
+    <footer className="landing-footer border-t border-neutral-200 bg-white">
       <div className="landing-footer-inner mx-auto max-w-6xl px-4 py-10 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div className="max-w-md">
@@ -33,7 +33,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
               <li>
                 <Link
                   href={getLegalHref(lang, "mentionsLegales")}
-                  className="text-neutral-600 transition hover:text-black"
+                  className="text-neutral-600 transition hover:text-[#EFA188]"
                 >
                   {footer.links.mentionsLegales}
                 </Link>
@@ -41,7 +41,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
               <li>
                 <Link
                   href={getLegalHref(lang, "privacy")}
-                  className="text-neutral-600 transition hover:text-black"
+                  className="text-neutral-600 transition hover:text-[#EFA188]"
                 >
                   {footer.links.privacy}
                 </Link>
@@ -49,7 +49,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
               <li>
                 <Link
                   href={getLegalHref(lang, "cookies")}
-                  className="text-neutral-600 transition hover:text-black"
+                  className="text-neutral-600 transition hover:text-[#EFA188]"
                 >
                   {footer.links.cookies}
                 </Link>
@@ -57,7 +57,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
               <li>
                 <Link
                   href={getLegalHref(lang, "terms")}
-                  className="text-neutral-600 transition hover:text-black"
+                  className="text-neutral-600 transition hover:text-[#EFA188]"
                 >
                   {footer.links.terms}
                 </Link>
@@ -65,7 +65,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
               <li>
                 <button
                   type="button"
-                  className="text-left text-neutral-600 transition hover:text-black"
+                  className="text-left text-neutral-600 transition hover:text-[#EFA188]"
                   onClick={() =>
                     window.dispatchEvent(
                       new CustomEvent("craftlink:open-cookie-settings"),
