@@ -40,6 +40,8 @@ export function mapStoredConfigToVitrinePage(
     page_slug: slug,
     onboarding_completed_at: null,
     vitrine_presentation: config,
+    created_at: null,
+    updated_at: null,
   };
 
   const { profileDraft, services } = profileToEditorState(pseudoProfile);
@@ -67,7 +69,10 @@ export function mapStoredConfigToVitrinePage(
     theme: preview.theme,
     profileSettings: {
       ...preview.profileSettings,
-      showCollaborationButton: planTier === "PRO",
+      visibility: {
+        ...preview.profileSettings.visibility,
+        showCollaborationButton: planTier === "PRO",
+      },
       voiceCaptureEnabled: Boolean(row.voice_capture_enabled),
     },
   };

@@ -163,7 +163,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
       <main className="landing-main relative">
         {/* Hero */}
-        <section className="landing-hero relative min-h-[min(92vh,920px)] overflow-x-hidden overflow-y-visible">
+        <section className="landing-hero relative min-h-[min(92vh,920px)] overflow-x-hidden overflow-y-visible text-[#1E1E1C]">
           <LandingPaintBackground variant="hero" />
 
           <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-12 md:px-6 md:pb-24 md:pt-16">
@@ -173,17 +173,17 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
                 <div className="landing-hero-grid mt-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)] lg:gap-x-10">
                   <div className="landing-hero-copy min-w-0 w-full self-center lg:max-w-none">
-                    <div className="landing-hero-title-wrap relative z-10 mb-6 max-w-2xl lg:max-w-xl">
+                    <div className="landing-hero-title-wrap relative z-20 mb-6 max-w-2xl lg:max-w-xl">
                       <HeroTypingTitle
-                        className="landing-hero-title"
+                        className="landing-hero-title text-[#1E1E1C]"
                         intro={dict.hero.typingTitle.intro}
                         channels={dict.hero.typingTitle.channels}
                       />
                     </div>
-                    <p className="lk-lead landing-hero-lead max-w-2xl text-base md:max-w-none md:text-lg">
+                    <p className="landing-hero-lead max-w-2xl text-base leading-relaxed text-[#1E1E1C] md:max-w-none md:text-lg">
                       {dict.hero.lead}
                     </p>
-                    <p className="mt-4 max-w-2xl text-base font-bold leading-relaxed text-[#212129] md:max-w-none">
+                    <p className="mt-4 max-w-2xl text-base font-bold leading-relaxed text-[#1E1E1C] md:max-w-none">
                       {dict.hero.controlPhrase}
                     </p>
 

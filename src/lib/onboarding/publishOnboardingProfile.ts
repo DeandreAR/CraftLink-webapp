@@ -21,6 +21,7 @@ async function isSlugAvailableClient(slug: string): Promise<boolean> {
 
 async function persistOnboardingProfile(
   profile: OnboardingProfileDraft,
+  services: OnboardingService[],
   options: { setProPlan: boolean; markComplete: boolean },
 ): Promise<PublishOnboardingResult> {
   const validation = validatePageSlug(profile.pageSlug);
@@ -85,7 +86,10 @@ export async function saveOnboardingDraft(
   profile: OnboardingProfileDraft,
   services: OnboardingService[],
 ): Promise<PublishOnboardingResult> {
-  return persistOnboardingProfile(profile, { setProPlan: false, markComplete: false });
+  return persistOnboardingProfile(profile, services, {
+    setProPlan: false,
+    markComplete: false,
+  });
 }
 
 /**
@@ -95,7 +99,7 @@ export async function publishOnboardingProfile(
   profile: OnboardingProfileDraft,
   services: OnboardingService[],
 ): Promise<PublishOnboardingResult> {
-  return persistOnboardingProfile(profile, {
+  return persistOnboardingProfile(profile, services, {
     setProPlan: profile.plan === "PRO",
     markComplete: true,
   });
