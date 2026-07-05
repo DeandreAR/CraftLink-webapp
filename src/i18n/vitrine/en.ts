@@ -4,6 +4,7 @@ export const vitrineEn: VitrineDictionary = {
   presentation: {
     quoteFreeHint: "100% free quote · No commitment",
     portfolioTitle: "Recent work",
+    affiliateLinksTitle: "Partner links",
   },
   details: {
     back: "Back to profile",

@@ -47,6 +47,7 @@ function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequir
       googleBusinessUrl: "",
       ...profile.social,
     },
+    affiliateLinks: profile.affiliateLinks ?? [],
     visual: {
       fontId: "inter" as const,
       accentColor: "#9a8468",

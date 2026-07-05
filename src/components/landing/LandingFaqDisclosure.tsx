@@ -18,7 +18,7 @@ export function LandingFaqDisclosure({ blocks, copy }: LandingFaqDisclosureProps
   return (
     <section
       id="faq"
-      className="lk-section scroll-mt-28"
+      className="lk-section relative z-10 scroll-mt-28 bg-[#FDFBF7]"
       aria-labelledby="faq-heading"
     >
       <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">

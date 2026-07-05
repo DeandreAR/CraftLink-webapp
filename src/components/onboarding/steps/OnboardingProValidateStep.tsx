@@ -8,7 +8,7 @@ import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import { OnboardingVitrinePreview } from "@/components/onboarding/OnboardingVitrinePreview";
 import { ProEditableFieldsChecklist } from "@/components/onboarding/pro/ProEditableFieldsChecklist";
 import { StripeCheckoutButton } from "@/components/stripe/StripeCheckoutButton";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import {
   proCheckoutCancelPath,
   proCheckoutSuccessPath,
@@ -151,7 +151,7 @@ export function OnboardingProValidateStep({
           >
             {publishing ? p.publishing : p.validateYes}
           </StripeCheckoutButton>
-          <GlowButton
+          <LandingCta
             type="button"
             variant="secondary"
             onClick={onEdit}
@@ -159,7 +159,7 @@ export function OnboardingProValidateStep({
             className="w-full justify-center sm:min-w-[160px] sm:flex-1"
           >
             {p.validateNo}
-          </GlowButton>
+          </LandingCta>
         </div>
       </footer>
     </div>,

@@ -9,6 +9,7 @@ import type {
 import { resolvePrimaryQuoteLabel } from "@/lib/vitrine/ctaLabels";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import type { VitrineDictionary } from "@/i18n/types";
+import { VitrineAffiliateLinks } from "@/components/vitrine/VitrineAffiliateLinks";
 import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
 import { VitrineInterventionTags } from "@/components/vitrine/VitrineInterventionTags";
@@ -52,6 +53,8 @@ export function VitrinePresentation({
     artisan.interventions.length > 0;
   const showServicesOnPresentation =
     visibility.showServicesOnPresentation && services.length > 0;
+  const showAffiliateLinks =
+    visibility.showAffiliateLinks && (artisan.affiliateLinks?.length ?? 0) > 0;
   const useBrandCta = isProPublicPlan(planTier);
 
   return (
@@ -94,6 +97,13 @@ export function VitrinePresentation({
         theme={theme}
         onAction={onOpenDetails}
       />
+
+      {showAffiliateLinks ? (
+        <VitrineAffiliateLinks
+          links={artisan.affiliateLinks ?? []}
+          title={copy.presentation.affiliateLinksTitle}
+        />
+      ) : null}
 
       {showServicesOnPresentation ? (
         <VitrineServicesPublicList

@@ -28,7 +28,7 @@ import {
 import { OnboardingPageSlugStep } from "@/components/onboarding/steps/OnboardingPageSlugStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
 import { OnboardingUpsellModal } from "@/components/onboarding/OnboardingUpsellModal";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import { authPath } from "@/lib/auth/paths";
 import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
 import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
@@ -282,24 +282,25 @@ export function ArtisanOnboardingWizard({
 
       <div className="mt-6 flex gap-3">
         {phase !== "general" ? (
-          <GlowButton
+          <LandingCta
             type="button"
             variant="secondary"
             onClick={goBack}
             className="flex-1 justify-center"
           >
             {copy.back}
-          </GlowButton>
+          </LandingCta>
         ) : null}
         {phase !== "visual" ? (
-          <GlowButton
+          <LandingCta
             type="button"
+            variant="peach"
             onClick={goNext}
             disabled={!canGoNext}
             className="flex-1 justify-center disabled:opacity-50"
           >
             {copy.next}
-          </GlowButton>
+          </LandingCta>
         ) : null}
       </div>
 

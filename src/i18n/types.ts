@@ -414,6 +414,18 @@ export type DashboardDictionary = {
     loadError: string;
     pendingCount: string;
     showArchived: string;
+    affiliateLinks: {
+      title: string;
+      hint: string;
+      nameLabel: string;
+      namePlaceholder: string;
+      urlLabel: string;
+      urlPlaceholder: string;
+      add: string;
+      remove: string;
+      maxReached: string;
+      empty: string;
+    };
     columns: {
       company: string;
       contact: string;
@@ -668,6 +680,7 @@ export type VitrineDictionary = {
   presentation: {
     quoteFreeHint: string;
     portfolioTitle: string;
+    affiliateLinksTitle: string;
   };
   details: {
     back: string;
@@ -882,6 +895,18 @@ export type OnboardingDictionary = {
     googleBusinessLabel: string;
     googleBusinessHint: string;
     googleBusinessPlaceholder: string;
+  };
+  affiliateLinks: {
+    title: string;
+    hint: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    urlLabel: string;
+    urlPlaceholder: string;
+    add: string;
+    remove: string;
+    maxReached: string;
+    empty: string;
   };
   visual: {
     title: string;

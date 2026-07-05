@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { signOutAction } from "@/app/actions/auth";
 import { AccountPanel } from "@/components/dashboard/account/AccountPanel";
@@ -30,6 +31,13 @@ type DashboardLayoutProps = {
   initialPartnershipLoadError: string | null;
 };
 
+const TAB_MOTION = {
+  initial: { opacity: 0, y: 14 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] as const },
+};
+
 export function DashboardLayout({
   session,
   copy,
@@ -46,7 +54,7 @@ export function DashboardLayout({
   const home = locale === defaultLocale ? "/" : `/${locale}`;
 
   return (
-    <div className="flex min-h-screen bg-[#f4f5f7] text-slate-900">
+    <div className="landing-page flex min-h-screen bg-[#f4f5f7] text-slate-900">
       <DashboardSidebar
         active={tab}
         onChange={setTab}
@@ -70,7 +78,7 @@ export function DashboardLayout({
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="text-xs font-semibold text-neutral-500"
+              className="text-xs font-semibold text-neutral-500 transition hover:text-[#EFA188]"
             >
               {copy.signOut}
             </button>
@@ -79,36 +87,40 @@ export function DashboardLayout({
 
         <main className="flex-1 overflow-x-auto px-4 py-5 pb-[4.5rem] md:px-8 md:py-8 md:pb-8">
           <div className="mx-auto w-full max-w-6xl">
-            {tab === "leads" ? (
-              <LeadsPanel
-                profile={profile}
-                copy={copy}
-                locale={locale}
-                initialLeads={initialLeads}
-                initialLoadError={initialLoadError}
-              />
-            ) : null}
-            {tab === "vitrine" ? (
-              <VitrinePanel
-                profile={profile}
-                copy={copy}
-                onboardingCopy={onboardingCopy}
-                vitrineCopy={vitrineCopy}
-                locale={locale}
-              />
-            ) : null}
-            {tab === "partners" ? (
-              <PartnersPanel
-                profile={profile}
-                copy={copy}
-                locale={locale}
-                initialRequests={initialPartnershipRequests}
-                initialLoadError={initialPartnershipLoadError}
-              />
-            ) : null}
-            {tab === "account" ? (
-              <AccountPanel profile={profile} copy={copy} locale={locale} />
-            ) : null}
+            <AnimatePresence mode="wait">
+              <motion.div key={tab} {...TAB_MOTION}>
+                {tab === "leads" ? (
+                  <LeadsPanel
+                    profile={profile}
+                    copy={copy}
+                    locale={locale}
+                    initialLeads={initialLeads}
+                    initialLoadError={initialLoadError}
+                  />
+                ) : null}
+                {tab === "vitrine" ? (
+                  <VitrinePanel
+                    profile={profile}
+                    copy={copy}
+                    onboardingCopy={onboardingCopy}
+                    vitrineCopy={vitrineCopy}
+                    locale={locale}
+                  />
+                ) : null}
+                {tab === "partners" ? (
+                  <PartnersPanel
+                    profile={profile}
+                    copy={copy}
+                    locale={locale}
+                    initialRequests={initialPartnershipRequests}
+                    initialLoadError={initialPartnershipLoadError}
+                  />
+                ) : null}
+                {tab === "account" ? (
+                  <AccountPanel profile={profile} copy={copy} locale={locale} />
+                ) : null}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </main>
 

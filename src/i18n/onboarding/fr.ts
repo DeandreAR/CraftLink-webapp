@@ -73,6 +73,19 @@ export const onboardingFr: OnboardingDictionary = {
       "Collez le lien de votre fiche pour afficher le nombre d'avis et la note sur votre page.",
     googleBusinessPlaceholder: "https://g.page/… ou https://maps.google.com/…",
   },
+  affiliateLinks: {
+    title: "Liens d'affiliation & codes partenaires",
+    hint:
+      "Ajoutez vos liens avec un nom personnalisé (ex. code promo, affiliation marque). Affichés sur votre page Pro.",
+    nameLabel: "Nom du lien",
+    namePlaceholder: "Ex. Code Leroy Merlin -10%",
+    urlLabel: "URL du lien",
+    urlPlaceholder: "https://…",
+    add: "Ajouter un lien",
+    remove: "Supprimer",
+    maxReached: "Maximum de 12 liens atteint.",
+    empty: "Aucun lien pour l'instant — ajoutez vos codes affiliation ou partenaires.",
+  },
   visual: {
     title: "Personnalisation visuelle",
     subtitle: "Médias, police et couleur des boutons secondaires.",

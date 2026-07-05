@@ -5,7 +5,7 @@ import type { ProImportPlatform } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import { SERVER_CONFIG_ERROR } from "@/lib/onboarding/proImport/api/constants";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
 import {
@@ -130,7 +130,7 @@ export function ProB2BImportPanel({
         <p className="text-xs text-neutral-600">{imp.googleImportHint}</p>
       ) : null}
 
-      <GlowButton
+      <LandingCta
         type="button"
         onClick={() => void handleGenerate()}
         className="w-full justify-center"
@@ -141,7 +141,7 @@ export function ProB2BImportPanel({
         }
       >
         {imp.generate}
-      </GlowButton>
+      </LandingCta>
     </div>
   );
 }

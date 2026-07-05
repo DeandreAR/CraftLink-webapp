@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { signOutAction } from "@/app/actions/auth";
 import type { DashboardTab } from "@/components/dashboard/DashboardLayout";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -54,21 +55,28 @@ export function DashboardSidebar({
               key={id}
               type="button"
               onClick={() => onChange(id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition ${
+              className={`relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors duration-200 ${
                 isActive
-                  ? "bg-white/10 text-white shadow-sm"
+                  ? "text-white"
                   : "text-neutral-400 hover:bg-white/5 hover:text-neutral-200"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
+              {isActive ? (
+                <motion.span
+                  layoutId="dashboard-nav-active"
+                  className="absolute inset-0 rounded-xl bg-white/10 shadow-sm ring-1 ring-[#EFA188]/35"
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                />
+              ) : null}
               <span
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
-                  isActive ? "bg-[#EFA188]/20 text-[#EFA188]" : "bg-white/5 text-neutral-400"
+                className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-200 ${
+                  isActive ? "bg-[#EFA188]/25 text-[#EFA188]" : "bg-white/5 text-neutral-400"
                 }`}
               >
                 <Icon className="h-4 w-4" aria-hidden />
               </span>
-              {labels[id]}
+              <span className="relative">{labels[id]}</span>
             </button>
           );
         })}

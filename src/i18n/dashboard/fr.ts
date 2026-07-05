@@ -291,6 +291,19 @@ export const dashboardFr: DashboardDictionary = {
     loadError: "Impossible de charger les demandes de partenariat.",
     pendingCount: "{count} à traiter",
     showArchived: "Afficher les archives",
+    affiliateLinks: {
+      title: "Liens d'affiliation & codes partenaires",
+      hint:
+        "Nommez chaque lien (code promo, affiliation…) — ils apparaissent sur votre vitrine Pro.",
+      nameLabel: "Nom du lien",
+      namePlaceholder: "Ex. Affiliation Amazon",
+      urlLabel: "URL",
+      urlPlaceholder: "https://…",
+      add: "Ajouter un lien",
+      remove: "Supprimer",
+      maxReached: "Maximum de 12 liens.",
+      empty: "Ajoutez vos liens d'affiliation pour les partager sur votre page.",
+    },
     columns: {
       company: "Entreprise",
       contact: "Contact",

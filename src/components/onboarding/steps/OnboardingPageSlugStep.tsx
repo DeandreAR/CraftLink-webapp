@@ -5,7 +5,7 @@ import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import { publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
 import {
   sanitizePageSlugInput,
@@ -154,8 +154,9 @@ export function OnboardingPageSlugStep({
         ) : null}
       </div>
 
-      <GlowButton
+      <LandingCta
         type="button"
+        variant="peach"
         disabled={!canConfirm || checking}
         onClick={() => {
           onChange({ pageSlug: input, pageSlugConfirmed: true });
@@ -164,7 +165,7 @@ export function OnboardingPageSlugStep({
         className="w-full justify-center text-base py-3.5"
       >
         {p.slugConfirm}
-      </GlowButton>
+      </LandingCta>
     </div>
   );
 }

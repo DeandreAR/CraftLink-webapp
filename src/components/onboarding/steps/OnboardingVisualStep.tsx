@@ -7,7 +7,7 @@ import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import { authLabelClassName } from "@/components/auth/authFormStyles";
 import { ImageUploadZone } from "@/components/onboarding/ImageUploadZone";
 import { OnboardingVitrinePreview } from "@/components/onboarding/OnboardingVitrinePreview";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import { publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
 import {
   buildOnboardingPreviewProps,
@@ -191,9 +191,9 @@ export function OnboardingVisualStep({
       </div>
 
       {showCreatePageButton && onCreatePage ? (
-        <GlowButton type="button" onClick={onCreatePage} className="w-full justify-center">
+        <LandingCta type="button" variant="peach" onClick={onCreatePage} className="w-full justify-center">
           {v.createPage}
-        </GlowButton>
+        </LandingCta>
       ) : null}
     </div>
   );

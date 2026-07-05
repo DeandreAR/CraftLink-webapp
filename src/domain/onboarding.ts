@@ -15,6 +15,13 @@ export type OnboardingCurrency = "EUR" | "USD";
 /** Interventions (tags) OU description — pas les deux. */
 export type OnboardingPresentationMode = "interventions" | "about";
 
+export type OnboardingAffiliateLink = {
+  id: string;
+  /** Nom affiché (ex. « Code Leroy Merlin », « Affiliation Amazon »). */
+  label: string;
+  url: string;
+};
+
 export type OnboardingSocialDraft = {
   instagram: string;
   facebook: string;
@@ -54,6 +61,7 @@ export type OnboardingProfileDraft = {
   selectedInterventions: string[];
   aboutText: string;
   social: OnboardingSocialDraft;
+  affiliateLinks: OnboardingAffiliateLink[];
   visual: OnboardingVisualDraft;
   importPlatform?: ProImportPlatform;
   importIdentifier?: string;
@@ -112,6 +120,7 @@ export const defaultOnboardingProfile = (
   selectedInterventions: [],
   aboutText: "",
   social: defaultSocialDraft(),
+  affiliateLinks: [],
   visual: defaultVisualDraft(),
   pageSlug: "",
   pageSlugConfirmed: false,

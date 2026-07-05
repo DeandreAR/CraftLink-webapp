@@ -28,7 +28,7 @@ import { OnboardingPageSlugStep } from "@/components/onboarding/steps/Onboarding
 import { OnboardingProGapStep } from "@/components/onboarding/steps/OnboardingProGapStep";
 import { OnboardingProValidateStep } from "@/components/onboarding/steps/OnboardingProValidateStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import { authPath } from "@/lib/auth/paths";
 import { resolveNextPhaseAfterProfileUpdate } from "@/lib/onboarding/proOnboardingFlow";
 import {
@@ -371,14 +371,14 @@ export function ProOnboardingWizard({
       {showManualProgress && phase !== "manual-visual" ? (
         <div className="mt-6 flex gap-3">
           {phase !== "manual-general" ? (
-            <GlowButton
+            <LandingCta
               type="button"
               variant="secondary"
               onClick={goManualBack}
               className="flex-1 justify-center"
             >
               {copy.back}
-            </GlowButton>
+            </LandingCta>
           ) : (
             <Link
               href={authPath(lang, "login")}
@@ -387,9 +387,9 @@ export function ProOnboardingWizard({
               ← {copy.back}
             </Link>
           )}
-          <GlowButton type="button" onClick={goManualNext} className="flex-1 justify-center">
+          <LandingCta type="button" variant="peach" onClick={goManualNext} className="flex-1 justify-center">
             {copy.next}
-          </GlowButton>
+          </LandingCta>
         </div>
       ) : null}
     </div>

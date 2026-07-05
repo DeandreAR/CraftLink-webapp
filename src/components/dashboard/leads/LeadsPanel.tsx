@@ -321,7 +321,7 @@ export function LeadsPanel({
     <section className="space-y-0">
       <header className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-[1.75rem]">
+          <h1 className="lk-display text-2xl md:text-[1.75rem]">
             {l.title}
           </h1>
           <p className="mt-0.5 text-sm text-slate-500">{l.subtitle}</p>

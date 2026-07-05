@@ -3,15 +3,24 @@
 import { useEffect, useMemo, useState } from "react";
 import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
+import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
+import { buildDemoPartnershipRequest } from "@/lib/partnerships/demoPartnershipRequest";
 import {
   formatPartnershipDate,
   partnershipStatusBadgeClass,
 } from "@/lib/partnerships/partnershipDisplay";
+
+function withDemoRequestIfEmpty(requests: DashboardPartnershipRequest[]): DashboardPartnershipRequest[] {
+  if (requests.length > 0 || process.env.NODE_ENV !== "development") {
+    return requests;
+  }
+  return [buildDemoPartnershipRequest()];
+}
 
 type PartnersPanelProps = {
   profile: Profile;
@@ -142,11 +151,11 @@ export function PartnersPanel({
   const pro = resolveCraftlinkPlan(profile.plan_tier) === "PRO";
   const p = copy.partners;
 
-  const [requests, setRequests] = useState(initialRequests);
+  const [requests, setRequests] = useState(() => withDemoRequestIfEmpty(initialRequests));
   const [loadError] = useState(initialLoadError);
   const [showArchived, setShowArchived] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(
-    initialRequests[0]?.id ?? null,
+    () => withDemoRequestIfEmpty(initialRequests)[0]?.id ?? null,
   );
 
   const visibleRequests = useMemo(
@@ -165,7 +174,7 @@ export function PartnersPanel({
   const selectedRequest = visibleRequests.find((request) => request.id === selectedId) ?? null;
 
   useEffect(() => {
-    setRequests(initialRequests);
+    setRequests(withDemoRequestIfEmpty(initialRequests));
   }, [initialRequests]);
 
   const handleUpdated = (updated: DashboardPartnershipRequest) => {
@@ -217,13 +226,15 @@ export function PartnersPanel({
           />
         ) : null}
       </div>
+
+      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
     </div>
   );
 
   return (
     <section className="space-y-6">
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-[1.75rem]">
+        <h1 className="lk-display text-2xl md:text-[1.75rem]">
           {copy.tabs.partners}
         </h1>
         <p className="mt-1 text-sm text-slate-500">{p.subtitle}</p>

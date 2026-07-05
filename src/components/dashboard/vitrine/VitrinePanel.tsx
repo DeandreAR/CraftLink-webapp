@@ -46,7 +46,7 @@ export function VitrinePanel({
   return (
     <section>
       <header className="mb-1">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-[1.75rem]">
+        <h1 className="lk-display text-2xl md:text-[1.75rem]">
           {v.title}
         </h1>
         <p className="mt-1 text-sm text-slate-500">{v.subtitle}</p>

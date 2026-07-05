@@ -7,6 +7,7 @@ import type { DashboardPartnershipRequest, PartnershipWorkflowStatus } from "@/d
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { buildPartnershipContactLinks } from "@/lib/partnerships/buildPartnershipContactLinks";
+import { isDemoPartnershipRequest } from "@/lib/partnerships/demoPartnershipRequest";
 import {
   formatPartnershipBudget,
   formatPartnershipDate,
@@ -41,6 +42,15 @@ export function PartnershipRequestDetail({
   const d = p.detail;
 
   const setStatus = async (workflowStatus: PartnershipWorkflowStatus) => {
+    if (isDemoPartnershipRequest(request.id)) {
+      onUpdated({
+        ...request,
+        workflowStatus,
+        updatedAt: new Date().toISOString(),
+      });
+      return;
+    }
+
     const result = await updatePartnershipRequestAction({
       requestId: request.id,
       workflowStatus,

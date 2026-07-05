@@ -16,7 +16,7 @@ export function AccountPanel({ profile, copy, locale }: AccountPanelProps) {
   return (
     <section className="space-y-6">
       <header>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-[1.75rem]">
+        <h1 className="lk-display text-2xl md:text-[1.75rem]">
           {copy.account.title}
         </h1>
         <p className="mt-1 text-sm text-slate-500">{copy.account.subtitle}</p>

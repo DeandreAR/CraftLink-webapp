@@ -34,6 +34,8 @@ export type VitrineVisibilitySettings = {
   showInterventionTags: boolean;
   showCollaborationButton: boolean;
   showPortfolioGallery: boolean;
+  /** Liens d'affiliation / codes partenaires nommés (Pro). */
+  showAffiliateLinks: boolean;
   /** Affiche la liste des prestations sur la page de présentation (pas le formulaire). */
   showServicesOnPresentation: boolean;
   contentBlockMode: VitrineContentBlockMode;
@@ -91,6 +93,12 @@ export type SocialLinkType =
   | "website"
   | "whatsapp";
 
+export type VitrineAffiliateLink = {
+  id: string;
+  label: string;
+  href: string;
+};
+
 export type VitrineSocialLink = {
   id: string;
   type: SocialLinkType;
@@ -128,6 +136,7 @@ export type ArtisanVitrineProfile = {
   /** Fiche Google Business (avis + note cliquables). */
   googleBusinessUrl?: string | null;
   socialLinks: VitrineSocialLink[];
+  affiliateLinks: VitrineAffiliateLink[];
   portfolioItems?: VitrinePortfolioItem[];
   aboutSection?: VitrineAboutSection | null;
 };

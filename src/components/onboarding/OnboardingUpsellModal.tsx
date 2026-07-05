@@ -2,7 +2,7 @@
 
 import type { OnboardingPlan } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 
 type OnboardingUpsellModalProps = {
   open: boolean;
@@ -45,7 +45,7 @@ export function OnboardingUpsellModal({
                 <li key={f}>· {f}</li>
               ))}
             </ul>
-            <GlowButton
+            <LandingCta
               type="button"
               variant="secondary"
               disabled={loading}
@@ -53,7 +53,7 @@ export function OnboardingUpsellModal({
               className="mt-4 w-full justify-center"
             >
               {u.chooseEssential}
-            </GlowButton>
+            </LandingCta>
           </article>
 
           <article className="rounded-[24px] border-2 border-black bg-black p-5 text-white">
@@ -64,14 +64,14 @@ export function OnboardingUpsellModal({
                 <li key={f}>· {f}</li>
               ))}
             </ul>
-            <GlowButton
+            <LandingCta
               type="button"
               disabled={loading}
               onClick={() => onChoose("PRO")}
               className="mt-4 w-full justify-center bg-white text-black hover:scale-[1.02]"
             >
               {u.choosePro}
-            </GlowButton>
+            </LandingCta>
           </article>
         </div>
 

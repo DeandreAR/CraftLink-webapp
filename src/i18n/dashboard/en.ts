@@ -290,6 +290,19 @@ export const dashboardEn: DashboardDictionary = {
     loadError: "Could not load partnership requests.",
     pendingCount: "{count} pending",
     showArchived: "Show archived",
+    affiliateLinks: {
+      title: "Affiliate & partner links",
+      hint:
+        "Give each link a name (promo code, affiliation…) — shown on your Pro storefront.",
+      nameLabel: "Link name",
+      namePlaceholder: "E.g. Amazon affiliate",
+      urlLabel: "URL",
+      urlPlaceholder: "https://…",
+      add: "Add a link",
+      remove: "Remove",
+      maxReached: "Maximum of 12 links.",
+      empty: "Add affiliate links to share them on your public page.",
+    },
     columns: {
       company: "Company",
       contact: "Contact",

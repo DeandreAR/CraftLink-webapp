@@ -72,6 +72,19 @@ export const onboardingEn: OnboardingDictionary = {
       "Paste your profile link to show review count and star rating on your page.",
     googleBusinessPlaceholder: "https://g.page/… or https://maps.google.com/…",
   },
+  affiliateLinks: {
+    title: "Affiliate & partner links",
+    hint:
+      "Add links with a custom name (e.g. promo code, brand affiliation). Shown on your Pro page.",
+    nameLabel: "Link name",
+    namePlaceholder: "E.g. Leroy Merlin -10% code",
+    urlLabel: "Link URL",
+    urlPlaceholder: "https://…",
+    add: "Add a link",
+    remove: "Remove",
+    maxReached: "Maximum of 12 links reached.",
+    empty: "No links yet — add your affiliate or partner codes.",
+  },
   visual: {
     title: "Visual customization",
     subtitle: "Media, font and secondary button colour.",

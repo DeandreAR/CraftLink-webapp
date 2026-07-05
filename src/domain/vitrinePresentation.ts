@@ -1,4 +1,5 @@
 import type {
+  OnboardingAffiliateLink,
   OnboardingPortfolioItem,
   OnboardingPresentationMode,
   OnboardingProfileDraft,
@@ -27,6 +28,7 @@ export type StoredVitrineProfilePart = {
   selectedInterventions: string[];
   aboutText: string;
   social: OnboardingSocialDraft;
+  affiliateLinks: OnboardingAffiliateLink[];
   visual: OnboardingVisualDraft;
   portfolioItems?: OnboardingPortfolioItem[];
   importPlatform?: ProImportPlatform;
@@ -62,6 +64,7 @@ export const EMPTY_STORED_VITRINE_PROFILE: StoredVitrineProfilePart = {
   selectedInterventions: [],
   aboutText: "",
   social: defaultSocialDraft(),
+  affiliateLinks: [],
   visual: defaultVisualDraft(),
   portfolioItems: [],
 };
@@ -102,6 +105,21 @@ function parseLegacyPresentation(raw: Record<string, unknown>): StoredVitrineCon
     },
     services: [],
   };
+}
+
+function parseAffiliateLinks(raw: unknown): OnboardingAffiliateLink[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((item) => {
+      if (!item || typeof item !== "object") return null;
+      const row = item as Record<string, unknown>;
+      const label = typeof row.label === "string" ? row.label.trim() : "";
+      const url = typeof row.url === "string" ? row.url.trim() : "";
+      const id = typeof row.id === "string" && row.id ? row.id : crypto.randomUUID();
+      if (!label || !url) return null;
+      return { id, label, url };
+    })
+    .filter((item): item is OnboardingAffiliateLink => item !== null);
 }
 
 function parseSocial(raw: unknown): OnboardingSocialDraft {
@@ -162,6 +180,7 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
       : [],
     aboutText: typeof row.aboutText === "string" ? row.aboutText : "",
     social: parseSocial(row.social),
+    affiliateLinks: parseAffiliateLinks(row.affiliateLinks),
     visual: parseVisual(row.visual),
     portfolioItems: Array.isArray(row.portfolioItems)
       ? (row.portfolioItems as OnboardingPortfolioItem[])
@@ -229,6 +248,7 @@ export function profileToEditorState(profile: Profile): {
     selectedInterventions: config.profile.selectedInterventions,
     aboutText: config.profile.aboutText,
     social: config.profile.social,
+    affiliateLinks: config.profile.affiliateLinks,
     visual: config.profile.visual,
     portfolioItems: config.profile.portfolioItems,
     importPlatform: config.profile.importPlatform,
@@ -256,6 +276,7 @@ export function editorStateToStoredConfig(
       selectedInterventions: profileDraft.selectedInterventions,
       aboutText: profileDraft.aboutText.trim(),
       social: profileDraft.social,
+      affiliateLinks: profileDraft.affiliateLinks,
       visual: profileDraft.visual,
       portfolioItems: profileDraft.portfolioItems,
       importPlatform: profileDraft.importPlatform,

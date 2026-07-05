@@ -12,12 +12,13 @@ import {
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import {
   getInterventionsForMetier,
   MAX_INTERVENTION_TAGS,
 } from "@/lib/onboarding/interventionTags";
 import { ONBOARDING_SOCIAL_FIELDS } from "@/lib/onboarding/socialLinks";
+import { AffiliateLinksEditor } from "@/components/onboarding/AffiliateLinksEditor";
 import { formatOnboardingPriceLabel } from "@/lib/onboarding/toVitrineServices";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 
@@ -252,7 +253,7 @@ export function OnboardingInterventionsStep({
                 disabled={atTagMax || tagsLocked}
                 className={`${authFieldClassName} mt-0 flex-1`}
               />
-              <GlowButton
+              <LandingCta
                 type="button"
                 variant="secondary"
                 disabled={atTagMax || !customTag.trim() || tagsLocked}
@@ -260,7 +261,7 @@ export function OnboardingInterventionsStep({
                 className="shrink-0 self-end"
               >
                 {i.addCustomTag}
-              </GlowButton>
+              </LandingCta>
             </div>
 
             {selected.length > 0 ? (
@@ -430,7 +431,7 @@ export function OnboardingInterventionsStep({
                 </div>
               ) : null}
             </div>
-            <GlowButton
+            <LandingCta
               type="button"
               variant="secondary"
               disabled={atServiceMax || !serviceName.trim()}
@@ -438,7 +439,7 @@ export function OnboardingInterventionsStep({
               className="w-full justify-center disabled:opacity-50"
             >
               {s.add}
-            </GlowButton>
+            </LandingCta>
             {atServiceMax ? (
               <p className="text-center text-xs text-neutral-500">{s.maxReached}</p>
             ) : null}
@@ -502,6 +503,15 @@ export function OnboardingInterventionsStep({
               />
             </div>
           </div>
+
+          {profile.plan === "PRO" ? (
+            <AffiliateLinksEditor
+              links={profile.affiliateLinks ?? []}
+              onChange={(affiliateLinks) => onProfileChange({ affiliateLinks })}
+              copy={copy.affiliateLinks}
+              optionalBadge={i.optionalBadge}
+            />
+          ) : null}
         </>
       )}
     </div>

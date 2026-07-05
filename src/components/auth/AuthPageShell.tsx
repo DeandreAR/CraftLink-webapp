@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { LandingHeroDiagonalBrush } from "@/components/landing/LandingHeroDiagonalBrush";
 import { LandingCta } from "@/components/landing/LandingCta";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
@@ -15,6 +16,7 @@ type AuthPageShellProps = {
   contentClassName?: string;
   hideBrandPill?: boolean;
   hideHeading?: boolean;
+  showBrush?: boolean;
 };
 
 export function AuthPageShell({
@@ -28,11 +30,18 @@ export function AuthPageShell({
   contentClassName = "max-w-lg",
   hideBrandPill = false,
   hideHeading = false,
+  showBrush = false,
 }: AuthPageShellProps) {
   const home = lang === defaultLocale ? "/" : `/${lang}`;
 
   return (
     <div className="landing-page relative min-h-screen overflow-x-clip bg-[#FDFBF7] text-[#212129]">
+      {showBrush ? (
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-x-clip overflow-y-hidden opacity-45">
+          <LandingHeroDiagonalBrush variant="hero" />
+        </div>
+      ) : null}
+
       <header className="sticky top-0 z-50 border-b border-[#EFA188]/25 bg-[#FDFBF7]/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 md:px-6">
           <Link href={home} className="inline-flex shrink-0 items-center" aria-label="CraftLink">

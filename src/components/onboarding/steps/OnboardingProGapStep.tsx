@@ -5,7 +5,7 @@ import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
 import { GeoCityAutocomplete } from "@/components/onboarding/GeoCityAutocomplete";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { LandingCta } from "@/components/landing/LandingCta";
 import { getMetierOptions } from "@/lib/onboarding/metierOptions";
 import type { ProRequiredFieldKey } from "@/lib/onboarding/proRequiredFields";
 import type { CitySelection } from "@/lib/onboarding/geoApi";
@@ -119,9 +119,9 @@ export function OnboardingProGapStep({
         </div>
       ))}
 
-      <GlowButton type="button" onClick={onContinue} className="w-full justify-center">
+      <LandingCta type="button" variant="peach" onClick={onContinue} className="w-full justify-center">
         {p.gapContinue}
-      </GlowButton>
+      </LandingCta>
     </div>
   );
 }

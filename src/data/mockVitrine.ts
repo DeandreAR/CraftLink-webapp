@@ -104,6 +104,7 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
       href: "https://linkedin.com",
     },
   ],
+  affiliateLinks: [],
   portfolioItems: [
     {
       id: "work-renovation-avant-apres",
@@ -144,6 +145,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showStatBadges: true,
     showInterventionTags: true,
     showCollaborationButton: false,
+    showAffiliateLinks: false,
     showPortfolioGallery: true,
     showServicesOnPresentation: true,
     contentBlockMode: "interventions",
@@ -162,6 +164,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showStatBadges: true,
     showInterventionTags: true,
     showCollaborationButton: true,
+    showAffiliateLinks: true,
     showPortfolioGallery: true,
     showServicesOnPresentation: false,
     contentBlockMode: "about",

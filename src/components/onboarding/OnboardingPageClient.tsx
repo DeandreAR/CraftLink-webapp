@@ -40,6 +40,7 @@ export function OnboardingPageClient({
       contentClassName="max-w-5xl"
       hideBrandPill
       hideHeading={celebrationActive}
+      showBrush
     >
       <ArtisanOnboardingWizard
         lang={lang}

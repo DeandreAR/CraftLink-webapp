@@ -469,7 +469,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
         <LandingFaqDisclosure blocks={faqBlocks} copy={dict.faqUi} />
 
         {/* CTA inscription */}
-        <section id="cta" className="landing-cta relative scroll-mt-28 overflow-visible bg-[#FDFBF7] py-20 md:py-24">
+        <section id="cta" className="landing-cta relative isolate scroll-mt-28 overflow-x-clip overflow-y-hidden bg-[#FDFBF7] py-20 md:py-24">
           <LandingHeroDiagonalBrush variant="cta" />
           <div className="landing-cta-inner relative z-10 mx-auto max-w-6xl px-4 md:px-6">
             <div className="rounded-[1.75rem] border-2 border-[#212129] bg-white/95 p-8 shadow-[0_24px_64px_rgba(33,33,41,0.1)] backdrop-blur-sm md:p-12">
