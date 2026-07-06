@@ -275,16 +275,17 @@
     },
     "featureMatrix": [
       {
-        "label": "Pro page + single link (bio, listings)",
+        "label": "**Pro page + single link** (bio, listings)",
         "essential": true,
         "pro": true
       },
       {
         "labelEssential": "Instant AI page creation (Instagram, Facebook or Google Business link)",
-        "labelPro": "AI-enriched page creation (via your social profiles or Google listing)",
+        "labelPro": "Page creation enriched **by AI** (via your social profiles or Google listing)",
         "label": "AI page creation",
-        "essential": true,
-        "pro": true
+        "essential": false,
+        "pro": true,
+        "showEssential": false
       },
       {
         "label": "Printable van QR code (generic)",
@@ -297,44 +298,50 @@
         "pro": true
       },
       {
-        "label": "Mobile-first layout & direct WhatsApp",
+        "label": "Mobile-first layout & **direct WhatsApp**",
         "essential": true,
         "pro": true
       },
       {
-        "label": "Lead CRM — full list always visible",
+        "labelEssential": "Limited to **10 leads/month** (blurred beyond that)",
+        "labelPro": "**Unlimited leads** (no blocking)",
+        "label": "Lead CRM",
         "essential": true,
-        "pro": true
+        "pro": true,
+        "essentialLimit": true
       },
       {
-        "labelEssential": "10 WhatsApp shares/month from the CRM",
-        "labelPro": "Unlimited WhatsApp shares from the CRM",
+        "labelEssential": "**10 WhatsApp shares/month** from the CRM",
+        "labelPro": "**Unlimited WhatsApp shares** from the CRM",
         "label": "Client contact via WhatsApp",
         "essential": true,
         "pro": true,
         "essentialLimit": true
       },
       {
-        "label": "Voice capture (raw audio file)",
+        "labelEssential": "❌ Voice capture & AI qualification",
+        "labelPro": "**Voice capture & automatic AI transcription** of customer needs",
+        "label": "Voice capture & AI qualification",
         "essential": false,
         "pro": true
       },
       {
-        "labelEssential": "No automatic SMS acknowledgement to the end customer",
-        "labelPro": "Automatic SMS acknowledgement to the end customer",
-        "label": "SMS acknowledgement",
+        "labelEssential": "No automatic acknowledgement",
+        "labelPro": "**Automatic SMS/email acknowledgement** to the end customer",
+        "label": "Automatic acknowledgement",
         "essential": false,
         "pro": true,
         "highlightPro": true
       },
       {
-        "label": "Dedicated “Partners & Brands” section",
+        "labelPro": "**“Partners & Brands” section** + **named affiliate links**",
+        "label": "“Partners & Brands” section + affiliate links",
         "essential": false,
         "pro": true
       },
       {
         "labelEssential": "Personal onboarding at signup",
-        "labelPro": "Personal onboarding (optional & 100% free)",
+        "labelPro": "**Personal onboarding** (optional & **100% free**)",
         "label": "Personal onboarding",
         "essential": false,
         "pro": true

@@ -29,6 +29,30 @@ function getFeatureLabel(row: FeatureMatrixRowJson, tierKey: TierKey): string {
   return row.label;
 }
 
+/** Rendu inline `**gras**` depuis les libellés i18n. */
+function FeatureLabel({ text, className }: { text: string; className?: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+
+  return (
+    <span className={className}>
+      {parts.map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={index} className="font-semibold text-inherit">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return part;
+      })}
+    </span>
+  );
+}
+
+function isExcludedFeatureLabel(label: string): boolean {
+  return label.trimStart().startsWith("❌");
+}
+
 function IconCheck({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" className={className} fill="none" aria-hidden>
@@ -121,32 +145,38 @@ function TierFeatureList({
             tierKey === "essential" && row.essentialLimit && included;
           const isHighlight =
             tierKey === "pro" && row.highlightPro && included;
+          const isExcludedLabel = !included && isExcludedFeatureLabel(label);
 
           return (
             <li
-              key={`${tierKey}-${label}`}
+              key={`${tierKey}-${row.label}-${label}`}
               className={`flex gap-2.5 leading-snug ${
                 included ? "text-neutral-900" : "text-neutral-400"
               }`}
             >
-              <FeatureStatusIcon
-                tierKey={tierKey}
-                row={row}
-                included={included}
-              />
-              <span
+              {!isExcludedLabel ? (
+                <FeatureStatusIcon
+                  tierKey={tierKey}
+                  row={row}
+                  included={included}
+                />
+              ) : (
+                <span className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              )}
+              <FeatureLabel
+                text={label}
                 className={
                   !included
-                    ? "line-through decoration-neutral-300/90"
+                    ? isExcludedLabel
+                      ? "text-neutral-400 line-through decoration-neutral-300/90"
+                      : "line-through decoration-neutral-300/90"
                     : isHighlight
-                      ? "font-semibold text-black"
+                      ? "text-black"
                       : isLimit
                         ? "text-neutral-800"
                         : undefined
                 }
-              >
-                {label}
-              </span>
+              />
             </li>
           );
         })}

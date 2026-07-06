@@ -275,16 +275,17 @@
     },
     "featureMatrix": [
       {
-        "label": "Page pro + lien unique (bio, fiches)",
+        "label": "**Page pro + lien unique** (bio, fiches)",
         "essential": true,
         "pro": true
       },
       {
         "labelEssential": "Création de page instantanée via IA (Lien Instagram, Facebook ou Google My Business)",
-        "labelPro": "Création de page enrichie par IA (via vos réseaux sociaux ou fiche Google)",
+        "labelPro": "Création de page enrichie **par IA** (via vos réseaux sociaux ou fiche Google)",
         "label": "Création de page via IA",
-        "essential": true,
-        "pro": true
+        "essential": false,
+        "pro": true,
+        "showEssential": false
       },
       {
         "label": "QR Code Camion imprimable (Générique)",
@@ -297,44 +298,50 @@
         "pro": true
       },
       {
-        "label": "Mise en page mobile-first & WhatsApp direct",
+        "label": "Mise en page mobile-first & **WhatsApp direct**",
         "essential": true,
         "pro": true
       },
       {
-        "label": "CRM leads — liste complète visible",
+        "labelEssential": "Accès limité à **10 leads/mois** (Affichage flouté au-delà)",
+        "labelPro": "**Leads illimités** (Aucun blocage)",
+        "label": "CRM leads",
         "essential": true,
-        "pro": true
+        "pro": true,
+        "essentialLimit": true
       },
       {
-        "labelEssential": "10 partages WhatsApp/mois depuis le CRM",
-        "labelPro": "Partages WhatsApp illimités depuis le CRM",
+        "labelEssential": "**10 partages WhatsApp/mois** depuis le CRM",
+        "labelPro": "**Partages WhatsApp illimités** depuis le CRM",
         "label": "Contact client via WhatsApp",
         "essential": true,
         "pro": true,
         "essentialLimit": true
       },
       {
-        "label": "Capture vocale (fichier audio brut)",
+        "labelEssential": "❌ Capture vocale & Qualification IA",
+        "labelPro": "**Capture vocale & Transcription IA automatique** du besoin client",
+        "label": "Capture vocale & qualification IA",
         "essential": false,
         "pro": true
       },
       {
-        "labelEssential": "Pas d'accusé de réception SMS automatique",
-        "labelPro": "Accusé de réception SMS automatique au client final",
-        "label": "Accusé de réception SMS",
+        "labelEssential": "Pas d'accusé de réception automatique",
+        "labelPro": "**Accusé de réception SMS/e-mail automatique** au client final",
+        "label": "Accusé de réception automatique",
         "essential": false,
         "pro": true,
         "highlightPro": true
       },
       {
-        "label": "Section « Partenaires & Marques » dédiée",
+        "labelPro": "**Section « Partenaires & Marques »** + **liens d'affiliation** nommés",
+        "label": "Section « Partenaires & Marques » + liens d'affiliation",
         "essential": false,
         "pro": true
       },
       {
         "labelEssential": "Onboarding personnalisé au démarrage",
-        "labelPro": "Onboarding personnalisé (Optionnel & 100% Gratuit)",
+        "labelPro": "**Onboarding personnalisé** (Optionnel & **100% Gratuit**)",
         "label": "Onboarding personnalisé",
         "essential": false,
         "pro": true
