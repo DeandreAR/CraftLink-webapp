@@ -5,6 +5,12 @@ export const vitrineFr: VitrineDictionary = {
     quoteFreeHint: "Devis 100% gratuit · Sans engagement",
     portfolioTitle: "Réalisations récentes",
     affiliateLinksTitle: "Mes liens partenaires",
+    urgencyWhatsAppMessage:
+      "Bonjour, j'ai une URGENCE dépannage et je viens de voir votre page CraftLink. Êtes-vous disponible rapidement ?",
+    urgencyClickLeadDescription:
+      "Le client a cliqué sur « Signaler une urgence WhatsApp » et a été redirigé vers WhatsApp. Coordonnées non renseignées.",
+    urgencyWhatsAppUnavailable:
+      "Numéro WhatsApp indisponible — utilisez le formulaire de contact.",
   },
   details: {
     back: "Retour à la présentation",

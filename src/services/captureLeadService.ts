@@ -2,7 +2,10 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   PublicLeadCaptureInput,
   PublicLeadCaptureResult,
+  UrgencyClickCaptureInput,
+  UrgencyClickCaptureResult,
 } from "@/domain/captureLead";
+import { validateUrgencyClickCaptureInput } from "@/domain/captureLead";
 import { validatePublicLeadCaptureInput } from "@/domain/captureLead";
 import {
   sendClientAcknowledgmentEmail,
@@ -128,5 +131,47 @@ export async function capturePublicLead(
     }
   }
 
+  return { ok: true, leadId: lead.id };
+}
+
+const URGENCY_CLICK_WORK_TYPE = "Urgence WhatsApp — clic direct";
+
+/**
+ * Clic urgence WhatsApp : trace minimale dans le CRM (sans coordonnées client).
+ */
+export async function captureUrgencyClick(
+  supabase: SupabaseClient,
+  input: UrgencyClickCaptureInput,
+): Promise<UrgencyClickCaptureResult> {
+  const validationError = validateUrgencyClickCaptureInput(input);
+  if (validationError) {
+    return { ok: false, message: validationError };
+  }
+
+  const artisanContext = await resolveArtisanByPageSlug(supabase, input.pageSlug);
+  if (!artisanContext) {
+    return { ok: false, message: "Artisan introuvable pour cette page." };
+  }
+
+  const description = input.leadDescription.trim();
+  const zone = input.zone?.trim() ?? "";
+
+  const inserted = await insertPublicLead(supabase, artisanContext.workspaceId, {
+    pageSlug: input.pageSlug,
+    clientName: "Visiteur (urgence WhatsApp)",
+    clientPhone: "Non renseigné",
+    clientEmail: "urgence-whatsapp@craftlink.local",
+    delayStatus: "urgent",
+    description,
+    workType: URGENCY_CLICK_WORK_TYPE,
+    zone,
+    openIntent: "urgent",
+  });
+
+  if (!inserted.ok) {
+    return { ok: false, message: inserted.message };
+  }
+
+  const lead = mapLeadRowToDashboardLead(inserted.row);
   return { ok: true, leadId: lead.id };
 }

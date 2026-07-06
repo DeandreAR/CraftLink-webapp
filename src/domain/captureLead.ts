@@ -1,6 +1,24 @@
 import type { LeadDelayStatus } from "@/domain/lead";
 import type { VitrineOpenIntent } from "@/domain/vitrine";
 
+export type UrgencyClickCaptureInput = {
+  pageSlug: string;
+  zone?: string;
+  leadDescription: string;
+};
+
+export type UrgencyClickCaptureResult =
+  | { ok: true; leadId: string }
+  | { ok: false; message: string };
+
+export function validateUrgencyClickCaptureInput(
+  input: UrgencyClickCaptureInput,
+): string | null {
+  if (!input.pageSlug.trim()) return "Page artisan introuvable.";
+  if (!input.leadDescription.trim()) return "Description requise.";
+  return null;
+}
+
 export type PublicLeadCaptureInput = {
   pageSlug: string;
   clientName: string;

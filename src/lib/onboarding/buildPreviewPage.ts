@@ -150,6 +150,7 @@ export function buildOnboardingPreviewProps(
     artisan: {
       slug: profile.pageSlug.trim() || "apercu",
       businessName: profile.businessName.trim(),
+      phone: profile.phone.trim() || undefined,
       tradeLabel,
       city: profile.city.trim(),
       metierKey: metierKey || undefined,
@@ -200,7 +201,7 @@ export function buildOnboardingPreviewProps(
       cta: {
         ...(plan === "PRO" ? { primaryQuote: "Besoin d'un devis rapide ?" } : {}),
         secondaryInfo: "Poser une Question",
-        secondaryUrgent: "Demander un RDV Urgent",
+        secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
         collaboration: "Partenariats & Marques",
       },
       voiceCaptureEnabled: false,

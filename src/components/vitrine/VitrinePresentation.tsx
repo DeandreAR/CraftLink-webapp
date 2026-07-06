@@ -92,6 +92,10 @@ export function VitrinePresentation({
       />
 
       <VitrineActionButtons
+        pageSlug={artisan.slug}
+        artisanPhone={artisan.phone}
+        serviceZone={artisan.serviceAreaSummary || artisan.city}
+        copy={copy}
         planTier={planTier}
         profileSettings={profileSettings}
         theme={theme}

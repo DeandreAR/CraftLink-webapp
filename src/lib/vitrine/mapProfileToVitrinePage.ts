@@ -10,6 +10,7 @@ import type { Profile } from "@/domain/profile";
 
 type ProfileVitrineRow = {
   full_name: string | null;
+  whatsapp_number: string | null;
   plan_tier: string | null;
   page_slug: string | null;
   voice_capture_enabled: boolean | null;
@@ -36,7 +37,7 @@ export function mapStoredConfigToVitrinePage(
     role: "ADMIN",
     plan_tier: planTier === "PRO" ? "PRO" : "ALL_SOURCES",
     full_name: row.full_name,
-    whatsapp_number: null,
+    whatsapp_number: row.whatsapp_number,
     page_slug: slug,
     onboarding_completed_at: null,
     vitrine_presentation: config,

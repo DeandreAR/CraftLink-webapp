@@ -36,6 +36,7 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
   return mapStoredConfigToVitrinePage(
     {
       full_name: data.full_name,
+      whatsapp_number: data.whatsapp_number,
       plan_tier: data.plan_tier,
       page_slug: data.page_slug,
       voice_capture_enabled: data.voice_capture_enabled,

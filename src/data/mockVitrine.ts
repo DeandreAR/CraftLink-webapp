@@ -49,6 +49,7 @@ const MOCK_SERVICES: VitrineService[] = [
 
 const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
   businessName: "John Carter Électricité",
+  phone: "+33612345678",
   tradeLabel: "Électricien Spécialisé",
   metierKey: "ELECTRICIEN",
   city: "Nantes",
@@ -152,7 +153,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
   },
   cta: {
     secondaryInfo: "Poser une Question",
-    secondaryUrgent: "Demander un RDV Urgent",
+    secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
     collaboration: "Partenariats & Marques",
   },
   voiceCaptureEnabled: false,
@@ -172,7 +173,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
   cta: {
     primaryQuote: "Besoin d'un devis rapide ?",
     secondaryInfo: "Poser une Question",
-    secondaryUrgent: "Demander un RDV Urgent",
+    secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
     collaboration: "Partenariats & Marques",
   },
   voiceCaptureEnabled: true,

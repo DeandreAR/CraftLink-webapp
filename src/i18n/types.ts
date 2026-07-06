@@ -681,6 +681,9 @@ export type VitrineDictionary = {
     quoteFreeHint: string;
     portfolioTitle: string;
     affiliateLinksTitle: string;
+    urgencyWhatsAppMessage: string;
+    urgencyClickLeadDescription: string;
+    urgencyWhatsAppUnavailable: string;
   };
   details: {
     back: string;

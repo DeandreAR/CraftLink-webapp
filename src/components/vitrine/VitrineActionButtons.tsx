@@ -7,10 +7,17 @@ import type {
   VitrineProfileSettings,
   VitrineTheme,
 } from "@/domain/vitrine";
+import type { VitrineDictionary } from "@/i18n/types";
+import { submitUrgencyClick } from "@/lib/leads/submitUrgencyClick";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
+import { buildUrgencyWhatsAppUrl } from "@/lib/vitrine/buildUrgencyWhatsApp";
 import { LuCalendarClock, LuInfo, LuShare2 } from "react-icons/lu";
 
 type VitrineActionButtonsProps = {
+  pageSlug: string;
+  artisanPhone?: string;
+  serviceZone?: string;
+  copy: VitrineDictionary;
   planTier: PublicPlanTier;
   profileSettings: VitrineProfileSettings;
   theme: VitrineTheme;
@@ -31,6 +38,10 @@ function secondaryButtonStyle(accent: string): CSSProperties {
 }
 
 export function VitrineActionButtons({
+  pageSlug,
+  artisanPhone = "",
+  serviceZone = "",
+  copy,
   planTier,
   profileSettings,
   theme,
@@ -40,6 +51,28 @@ export function VitrineActionButtons({
   const isPro = isProPublicPlan(planTier);
   const accent = theme.accent;
   const secondaryStyle = secondaryButtonStyle(accent);
+
+  const handleUrgentClick = () => {
+    const whatsappUrl = buildUrgencyWhatsAppUrl(
+      artisanPhone,
+      copy.presentation.urgencyWhatsAppMessage,
+    );
+
+    if (!whatsappUrl) {
+      onAction("urgent");
+      return;
+    }
+
+    void submitUrgencyClick({
+      pageSlug,
+      zone: serviceZone,
+      leadDescription: copy.presentation.urgencyClickLeadDescription,
+    }).catch(() => {
+      /* La redirection WhatsApp prime ; l'échec CRM ne bloque pas le client. */
+    });
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <div className="mt-5 space-y-3.5">
@@ -55,9 +88,10 @@ export function VitrineActionButtons({
 
       <button
         type="button"
-        onClick={() => onAction("urgent")}
+        onClick={handleUrgentClick}
         className={secondaryClass}
         style={secondaryStyle}
+        aria-label={cta.secondaryUrgent}
       >
         <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
         <span>{cta.secondaryUrgent}</span>

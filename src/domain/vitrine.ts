@@ -124,6 +124,8 @@ export type VitrinePortfolioItem = {
 export type ArtisanVitrineProfile = {
   slug: string;
   businessName: string;
+  /** Téléphone pro / WhatsApp de l'artisan (contact urgence). */
+  phone?: string;
   tradeLabel: string;
   /** Pilote le formulaire de capture (titres, placeholders, champs optionnels). */
   metierKey?: MetierKey;

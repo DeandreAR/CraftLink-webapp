@@ -5,8 +5,8 @@ function digitsOnly(phone: string): string {
   return phone.replace(/\D/g, "");
 }
 
-/** Normalise un numéro FR (06… → 336…). */
-function normalizePhoneForWhatsApp(phone: string): string {
+/** Normalise un numéro FR (06… → 336…) — chiffres internationaux sans « + ». */
+export function normalizePhoneForWhatsApp(phone: string): string {
   let digits = digitsOnly(phone);
   if (!digits) return "";
   if (digits.startsWith("0")) {
