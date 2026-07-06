@@ -633,7 +633,9 @@ export type LegalPageJson = {
 };
 
 export type FooterDictionary = {
-  copyright: string;
+  copyrightBefore: string;
+  copyrightLink: string;
+  copyrightAfter: string;
   tagline: string;
   legalNavLabel: string;
   manageCookies: string;

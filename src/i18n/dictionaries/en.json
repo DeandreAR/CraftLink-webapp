@@ -361,7 +361,9 @@
     ]
   },
   "footer": {
-    "copyright": "© {year} CraftLink — Pro tradesperson page & lead capture.",
+    "copyrightBefore": "© {year} ",
+    "copyrightLink": "CraftLink by AnkoUnity",
+    "copyrightAfter": ". All rights reserved.",
     "tagline": "Express storefront for construction trades.",
     "legalNavLabel": "Legal information",
     "manageCookies": "Manage cookies",

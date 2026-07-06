@@ -361,7 +361,9 @@
     ]
   },
   "footer": {
-    "copyright": "© {year} CraftLink — Page pro artisan, capture de leads.",
+    "copyrightBefore": "© {year} ",
+    "copyrightLink": "CraftLink by AnkoUnity",
+    "copyrightAfter": ". Tous droits réservés.",
     "tagline": "Vitrine express pour artisans du bâtiment.",
     "legalNavLabel": "Informations légales",
     "manageCookies": "Gérer les cookies",

@@ -3,7 +3,7 @@ import type { LegalBundleDictionary } from "@/i18n/types";
 export const legalFr: LegalBundleDictionary = {
   backToHome: "Retour à l’accueil",
   lastUpdated: "Dernière mise à jour",
-  updatedDate: "22 mai 2026",
+  updatedDate: "7 juillet 2026",
   pages: {
     mentionsLegales: {
       metaTitle: "Mentions légales — CraftLink",
@@ -16,14 +16,14 @@ export const legalFr: LegalBundleDictionary = {
         {
           title: "Éditeur du site",
           paragraphs: [
-            "Le site craftlink (ci-après « le Site ») est édité par CraftLink, solution SaaS de vitrine et capture de leads pour artisans.",
-            "Contact : contact@getcraftlink.com",
-            "Statut juridique : société en cours d’immatriculation — les informations définitives (forme, capital, RCS) seront complétées dès immatriculation.",
+            "Le site CraftLink (ci-après « le Site ») et le service SaaS associé sont édités et exploités par la société AnkoUnity, dont le siège social est situé 56 Avenue de la Paix, 94260 Fresnes, immatriculée au RCS de Créteil sous le numéro 843 812 611.",
+            "Activité : commercialisation et développement d'applications web et mobiles et création de solutions d'automatisation.",
+            "Contact : contact@craftlink.fr",
           ],
         },
         {
           title: "Directeur de la publication",
-          paragraphs: ["Le directeur de la publication est le représentant légal de CraftLink."],
+          paragraphs: ["Le directeur de la publication est le représentant légal de la société AnkoUnity."],
         },
         {
           title: "Hébergement",
@@ -41,7 +41,7 @@ export const legalFr: LegalBundleDictionary = {
         {
           title: "Responsabilité",
           paragraphs: [
-            "CraftLink s’efforce d’assurer l’exactitude des informations publiées. L’éditeur ne saurait être tenu responsable des dommages liés à l’usage du Site ou à l’indisponibilité temporaire du service.",
+            "CraftLink s’efforce d’assurer l’exactitude des informations publiées. AnkoUnity ne saurait être tenue responsable des dommages liés à l’usage du Site ou à l’indisponibilité temporaire du service.",
           ],
         },
         {
@@ -53,7 +53,7 @@ export const legalFr: LegalBundleDictionary = {
         {
           title: "Contact",
           paragraphs: [
-            "Pour toute question relative au Site : contact@getcraftlink.com",
+            "Pour toute question relative au Site : contact@craftlink.fr",
           ],
         },
       ],
@@ -69,8 +69,8 @@ export const legalFr: LegalBundleDictionary = {
         {
           title: "Responsable de traitement",
           paragraphs: [
-            "CraftLink agit en qualité de responsable de traitement pour les données collectées via le Site et l’espace artisan.",
-            "Contact données personnelles : contact@getcraftlink.com",
+            "AnkoUnity agit en qualité de responsable de traitement pour les données collectées via le Site et l’espace artisan (marque CraftLink).",
+            "Contact données personnelles : contact@craftlink.fr",
           ],
         },
         {
@@ -121,7 +121,7 @@ export const legalFr: LegalBundleDictionary = {
             "Droit d’introduire une réclamation auprès de la CNIL (www.cnil.fr).",
           ],
           paragraphs: [
-            "Pour exercer vos droits : contact@getcraftlink.com — nous répondons sous un délai d’un mois.",
+            "Pour exercer vos droits : contact@craftlink.fr — nous répondons sous un délai d’un mois.",
           ],
         },
         {
@@ -191,7 +191,7 @@ export const legalFr: LegalBundleDictionary = {
         "CGU du service CraftLink : objet, accès, obligations et responsabilités.",
       title: "Conditions générales d’utilisation (CGU)",
       intro:
-        "Les présentes CGU régissent l’accès et l’utilisation du service CraftLink par les artisans et visiteurs du Site.",
+        "Les présentes CGU régissent l’accès et l’utilisation du service CraftLink, édité et exploité par la société AnkoUnity (RCS Créteil 843 812 611), par les artisans et visiteurs du Site.",
       sections: [
         {
           title: "Objet",
@@ -220,9 +220,11 @@ export const legalFr: LegalBundleDictionary = {
           ],
         },
         {
-          title: "Tarification",
+          title: "Tarification, facturation et conditions générales de vente (CGV)",
           paragraphs: [
-            "Les offres Essentiel, Pro et Options sont décrites sur le Site. CraftLink peut faire évoluer ses tarifs avec information préalable des abonnés.",
+            "Les offres Essentiel, Pro et Options sont décrites sur le Site. Les abonnements et transactions sont conclus avec la société AnkoUnity, éditrice du service CraftLink.",
+            "Les prix affichés sont indiqués hors taxes (HT) lorsque applicable. TVA non applicable, article 293 B du Code général des impôts (CGI).",
+            "AnkoUnity peut faire évoluer ses tarifs avec information préalable des abonnés.",
           ],
         },
         {
@@ -257,7 +259,7 @@ export const legalFr: LegalBundleDictionary = {
         },
         {
           title: "Contact",
-          paragraphs: ["contact@getcraftlink.com"],
+          paragraphs: ["contact@craftlink.fr"],
         },
       ],
     },

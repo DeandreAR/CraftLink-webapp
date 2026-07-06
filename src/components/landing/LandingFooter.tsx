@@ -12,14 +12,23 @@ type LandingFooterProps = {
 
 export function LandingFooter({ lang, footer }: LandingFooterProps) {
   const year = new Date().getFullYear();
-  const copyright = footer.copyright.replace("{year}", String(year));
+  const copyrightBefore = footer.copyrightBefore.replace("{year}", String(year));
 
   return (
     <footer className="landing-footer border-t border-[#EFA188]/20 bg-[#FDFBF7]">
       <div className="landing-footer-inner mx-auto max-w-6xl px-4 py-10 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div className="max-w-md">
-            <p className="text-sm font-medium text-neutral-700">{copyright}</p>
+            <p className="text-sm font-medium text-neutral-700">
+              {copyrightBefore}
+              <Link
+                href={getLegalHref(lang, "mentionsLegales")}
+                className="font-semibold text-neutral-800 underline decoration-[#EFA188]/60 underline-offset-2 transition hover:text-[#EFA188]"
+              >
+                {footer.copyrightLink}
+              </Link>
+              {footer.copyrightAfter}
+            </p>
             <p className="mt-1 text-sm text-neutral-500">{footer.tagline}</p>
           </div>
           <nav
