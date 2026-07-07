@@ -46,7 +46,7 @@ export function useSessionProfile() {
         error: formatAuthDebugMessage(
           "supabase.createClient",
           error instanceof Error ? error : null,
-          "Configuration Supabase indisponible côté client.",
+          "Service temporairement indisponible. Réessayez dans quelques instants.",
         ),
       });
       return;
@@ -78,7 +78,7 @@ export function useSessionProfile() {
         error: formatAuthDebugMessage(
           "auth.getUser",
           authError,
-          authError.message,
+          "Session expirée. Reconnectez-vous.",
         ),
       });
       return;

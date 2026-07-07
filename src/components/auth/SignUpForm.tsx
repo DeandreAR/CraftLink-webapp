@@ -5,10 +5,12 @@ import {
   signUpAction,
   type AuthActionState,
 } from "@/app/actions/auth";
+import { SignUpEmailConfirmation } from "@/components/auth/SignUpEmailConfirmation";
 import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
 import { ProPhoneInput } from "@/components/auth/ProPhoneInput";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { HONEYPOT_FIELD_NAME, isHoneypotTriggered } from "@/lib/auth/honeypot";
+import { authPath } from "@/lib/auth/paths";
 import type { AuthSignUpDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
@@ -32,6 +34,16 @@ export function SignUpForm({ lang, copy }: SignUpFormProps) {
     },
     [],
   );
+
+  if (state.emailConfirmationPending && state.confirmationEmail) {
+    return (
+      <SignUpEmailConfirmation
+        copy={copy}
+        email={state.confirmationEmail}
+        loginHref={authPath(lang, "login")}
+      />
+    );
+  }
 
   return (
     <form action={formAction} onSubmit={handleSubmit} className="space-y-5">

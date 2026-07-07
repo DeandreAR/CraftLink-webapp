@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
 import { ArtisanOnboardingWizard } from "@/components/onboarding/ArtisanOnboardingWizard";
+import { OnboardingEmailConfirmedBanner } from "@/components/onboarding/OnboardingEmailConfirmedBanner";
 import type { OnboardingPlanIntent } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import { authPath } from "@/lib/auth/paths";
@@ -14,6 +15,7 @@ type OnboardingPageClientProps = {
   vitrineCopy: VitrineDictionary;
   loginLabel: string;
   planIntent?: OnboardingPlanIntent;
+  emailConfirmed?: boolean;
 };
 
 export function OnboardingPageClient({
@@ -22,6 +24,7 @@ export function OnboardingPageClient({
   vitrineCopy,
   loginLabel,
   planIntent = "choice",
+  emailConfirmed = false,
 }: OnboardingPageClientProps) {
   const [celebrationActive, setCelebrationActive] = useState(false);
 
@@ -42,6 +45,12 @@ export function OnboardingPageClient({
       hideHeading={celebrationActive}
       showBrush
     >
+      {emailConfirmed ? (
+        <OnboardingEmailConfirmedBanner
+          title={copy.emailConfirmed.title}
+          message={copy.emailConfirmed.message}
+        />
+      ) : null}
       <ArtisanOnboardingWizard
         lang={lang}
         copy={copy}

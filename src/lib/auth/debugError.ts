@@ -7,48 +7,34 @@ type SupabaseLikeError = {
   hint?: string;
 };
 
-/** En dev, les erreurs Supabase brutes sont visibles dans l’UI pour le débogage. */
-export function isAuthDebugEnabled(): boolean {
-  return process.env.NODE_ENV === "development";
-}
+export const AUTH_GENERIC_ERROR =
+  "Une erreur est survenue. Réessayez dans quelques instants.";
+
+export const AUTH_SERVICE_UNAVAILABLE =
+  "Le service est momentanément indisponible. Réessayez dans quelques instants ou contactez le support.";
 
 export function logAuthError(context: string, error: unknown): void {
   console.error(`Détail du bug auth [${context}]:`, error);
 }
 
+/** Log technique en console ; retourne uniquement le message affiché à l'utilisateur. */
 export function formatAuthDebugMessage(
   context: string,
-  error: SupabaseLikeError | AuthError | null | undefined,
-  fallback: string,
+  error: SupabaseLikeError | AuthError | unknown,
+  clientMessage: string,
 ): string {
-  if (error) {
-    logAuthError(context, error);
-  }
-
-  if (!isAuthDebugEnabled()) {
-    return fallback;
-  }
-
-  if (!error?.message) {
-    return `[Debug ${context}] ${fallback}`;
-  }
-
-  const parts = [
-    error.message,
-    error.code ? `code=${error.code}` : null,
-    "details" in error && error.details ? String(error.details) : null,
-    "hint" in error && error.hint ? `hint: ${error.hint}` : null,
-  ].filter(Boolean);
-
-  return `[Debug ${context}] ${parts.join(" · ")}`;
+  logAuthError(context, error ?? clientMessage);
+  return clientMessage;
 }
 
-export function formatConfigDebugMessage(context: string, detail: string): string {
-  logAuthError(context, detail);
-  if (!isAuthDebugEnabled()) {
-    return "Le service est momentanément indisponible. Réessayez dans quelques minutes ou contactez le support.";
-  }
-  return `[Debug ${context}] ${detail}`;
+/** Log technique en console ; retourne uniquement le message affiché à l'utilisateur. */
+export function formatConfigDebugMessage(
+  context: string,
+  clientMessage: string,
+  technicalDetail?: unknown,
+): string {
+  logAuthError(context, technicalDetail ?? clientMessage);
+  return clientMessage;
 }
 
 export function isPostgrestError(error: unknown): error is PostgrestError {

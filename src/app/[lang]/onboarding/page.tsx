@@ -6,12 +6,12 @@ import { prepareOnboardingPage } from "@/lib/auth/prepareOnboardingPage";
 
 type Props = {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ plan?: string }>;
+  searchParams: Promise<{ plan?: string; confirmed?: string }>;
 };
 
 export default async function LangOnboardingPage({ params, searchParams }: Props) {
   const { lang: raw } = await params;
-  const { plan } = await searchParams;
+  const { plan, confirmed } = await searchParams;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
   await prepareOnboardingPage(lang);
@@ -25,6 +25,7 @@ export default async function LangOnboardingPage({ params, searchParams }: Props
       vitrineCopy={dict.vitrine}
       loginLabel={dict.nav.login}
       planIntent={planIntent}
+      emailConfirmed={confirmed === "1"}
     />
   );
 }

@@ -15,14 +15,34 @@ const initial: AuthActionState = {};
 type SignInFormProps = {
   lang: Locale;
   copy: AuthSignInDictionary;
+  authError?: string | null;
 };
 
-export function SignInForm({ lang, copy }: SignInFormProps) {
+function resolveAuthCallbackMessage(
+  code: string | null | undefined,
+  copy: AuthSignInDictionary,
+): string | null {
+  if (code === "confirmation_failed") return copy.confirmationError;
+  if (code === "confirmation_missing") return copy.confirmationMissing;
+  return null;
+}
+
+export function SignInForm({ lang, copy, authError }: SignInFormProps) {
   const [state, formAction, pending] = useActionState(signInAction, initial);
+  const callbackMessage = resolveAuthCallbackMessage(authError, copy);
 
   return (
     <form action={formAction} className="space-y-5">
       <input type="hidden" name="locale" value={lang} />
+
+      {callbackMessage ? (
+        <p
+          className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+          role="alert"
+        >
+          {callbackMessage}
+        </p>
+      ) : null}
 
       {state.error ? (
         <p

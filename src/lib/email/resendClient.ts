@@ -1,4 +1,4 @@
-import { getTransactionalFromEmail } from "@/config/app";
+import { getResendFromEmail } from "@/config/resend";
 import { Resend } from "resend";
 
 let resendClient: Resend | null | undefined;
@@ -17,4 +17,4 @@ export function getResendClient(): Resend | null {
   return resendClient;
 }
 
-export const RESEND_FROM_EMAIL = getTransactionalFromEmail();
+export const RESEND_FROM_EMAIL = getResendFromEmail();

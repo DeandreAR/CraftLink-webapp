@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import type { Locale } from "@/i18n/config";
-import { formatConfigDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import { formatConfigDebugMessage, logAuthError, AUTH_SERVICE_UNAVAILABLE } from "@/lib/auth/debugError";
 import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
 import { rethrowIfNextNavigationError } from "@/lib/next/navigationErrors";
@@ -21,7 +21,8 @@ export async function prepareAuthPage(
       status: "unavailable",
       message: formatConfigDebugMessage(
         "supabase.config",
-        "Variables placeholder détectées dans .env.local (ex. ton_url_supabase / ta_cle_anon). Remplacez par l’URL et la clé anon JWT du dashboard Supabase, sauvegardez le fichier, puis redémarrez npm run dev.",
+        AUTH_SERVICE_UNAVAILABLE,
+        "Configuration Supabase manquante ou placeholder",
       ),
     };
   }
@@ -45,7 +46,8 @@ export async function prepareAuthPage(
       status: "unavailable",
       message: formatConfigDebugMessage(
         "supabase.prepareAuthPage",
-        error instanceof Error ? error.message : "Erreur d’initialisation Supabase.",
+        AUTH_SERVICE_UNAVAILABLE,
+        error instanceof Error ? error.message : error,
       ),
     };
   }

@@ -4,12 +4,12 @@ import { getDictionary } from "@/i18n/getDictionary";
 import { prepareOnboardingPage } from "@/lib/auth/prepareOnboardingPage";
 
 type Props = {
-  searchParams: Promise<{ plan?: string }>;
+  searchParams: Promise<{ plan?: string; confirmed?: string }>;
 };
 
 export default async function OnboardingRootPage({ searchParams }: Props) {
   await prepareOnboardingPage(defaultLocale);
-  const { plan } = await searchParams;
+  const { plan, confirmed } = await searchParams;
   const dict = await getDictionary(defaultLocale);
   const planIntent = plan === "pro" ? "pro" : "choice";
 
@@ -20,6 +20,7 @@ export default async function OnboardingRootPage({ searchParams }: Props) {
       vitrineCopy={dict.vitrine}
       loginLabel={dict.nav.login}
       planIntent={planIntent}
+      emailConfirmed={confirmed === "1"}
     />
   );
 }

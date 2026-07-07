@@ -24,11 +24,13 @@
       "password": "Password",
       "submit": "Log in",
       "submitting": "Signing in…",
-      "goToSignUp": "Create an account"
+      "goToSignUp": "Create an account",
+      "confirmationError": "The confirmation link is invalid or expired. Try signing up again or request a new email.",
+      "confirmationMissing": "Incomplete confirmation link. Open the link from your email or log in."
     },
     "signUp": {
       "title": "Create my account",
-      "subtitle": "Free signup — your pro page is ready in seconds.",
+      "subtitle": "Free signup — we'll email you a confirmation link to activate your account.",
       "fullName": "Name / business (optional)",
       "proPhone": "Business phone (optional)",
       "proPhonePlaceholder": "7123 456789",
@@ -38,7 +40,12 @@
       "confirmPassword": "Confirm password",
       "submit": "Create my account",
       "submitting": "Creating…",
-      "goToSignIn": "Already registered? Log in"
+      "goToSignIn": "Already registered? Log in",
+      "confirmationTitle": "Account created — check your email",
+      "confirmationLead": "We sent a confirmation link to:",
+      "confirmationSpam": "Check your spam or Promotions folder if you don't see it.",
+      "confirmationAfterClick": "After clicking the link, you'll be signed in and can finish setting up your page.",
+      "confirmationLoginCta": "Back to log in"
     },
     "dashboard": {
       "title": "Dashboard",

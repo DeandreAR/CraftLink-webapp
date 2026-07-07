@@ -9,6 +9,7 @@ type OnboardingPageProps = {
   vitrineCopy: VitrineDictionary;
   loginLabel: string;
   planIntent?: OnboardingPlanIntent;
+  emailConfirmed?: boolean;
 };
 
 export function OnboardingPage({
@@ -17,6 +18,7 @@ export function OnboardingPage({
   vitrineCopy,
   loginLabel,
   planIntent = "choice",
+  emailConfirmed = false,
 }: OnboardingPageProps) {
   return (
     <OnboardingPageClient
@@ -25,6 +27,7 @@ export function OnboardingPage({
       vitrineCopy={vitrineCopy}
       loginLabel={loginLabel}
       planIntent={planIntent}
+      emailConfirmed={emailConfirmed}
     />
   );
 }

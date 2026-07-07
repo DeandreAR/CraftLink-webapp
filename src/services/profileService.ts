@@ -6,10 +6,7 @@ import {
   DEFAULT_PLAN_TIER,
   SIGNUP_PLAN_TIER_CANDIDATES,
 } from "@/config/planTier";
-import {
-  formatAuthDebugMessage,
-  logAuthError,
-} from "@/lib/auth/debugError";
+import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
 
 const PROFILE_SELECT_TIERS = [
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, vitrine_presentation, created_at, updated_at",
@@ -185,7 +182,7 @@ export async function createProfileForNewUser(
       error: formatAuthDebugMessage(
         "profiles.insert",
         null,
-        "Profil créé mais introuvable après insertion.",
+        "Impossible de finaliser votre inscription. Réessayez ou contactez le support.",
       ),
     };
   }

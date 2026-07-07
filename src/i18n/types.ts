@@ -115,6 +115,8 @@ export type AuthSignInDictionary = {
   submit: string;
   submitting: string;
   goToSignUp: string;
+  confirmationError: string;
+  confirmationMissing: string;
 };
 
 export type AuthSignUpDictionary = {
@@ -130,6 +132,11 @@ export type AuthSignUpDictionary = {
   submit: string;
   submitting: string;
   goToSignIn: string;
+  confirmationTitle: string;
+  confirmationLead: string;
+  confirmationSpam: string;
+  confirmationAfterClick: string;
+  confirmationLoginCta: string;
 };
 
 export type AuthShellDictionary = {
@@ -837,6 +844,10 @@ export type VitrineDictionary = {
 export type OnboardingDictionary = {
   title: string;
   subtitle: string;
+  emailConfirmed: {
+    title: string;
+    message: string;
+  };
   back: string;
   next: string;
   stepLabel: string;

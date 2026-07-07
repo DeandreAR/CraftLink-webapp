@@ -3,6 +3,11 @@ import type { OnboardingDictionary } from "@/i18n/types";
 export const onboardingEn: OnboardingDictionary = {
   title: "Set up your CraftLink page",
   subtitle: "Gather your details, services and style in a few minutes.",
+  emailConfirmed: {
+    title: "Email confirmed — account activated",
+    message:
+      "Thank you! Your email address is verified. You can continue setting up your tradesperson page.",
+  },
   back: "Back",
   next: "Continue",
   stepLabel: "Step {current} of {total}",

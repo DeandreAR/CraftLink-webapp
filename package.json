@@ -9,7 +9,9 @@
     "lint": "eslint",
     "demo:lead-media": "tsx scripts/generateDemoLeadMedia.ts",
     "seed:leads": "tsx scripts/seedDemoLeads.ts",
-    "debug:leads": "tsx scripts/debugLeads.ts"
+    "debug:leads": "tsx scripts/debugLeads.ts",
+    "resend:supabase-smtp": "tsx scripts/printResendSupabaseSmtp.ts",
+    "resend:test-auth": "tsx scripts/testResendAuthEmail.ts"
   },
   "dependencies": {
     "22": "^0.0.0",
