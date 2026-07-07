@@ -115,6 +115,8 @@ export type AuthSignInDictionary = {
   submit: string;
   submitting: string;
   goToSignUp: string;
+  confirmationError: string;
+  confirmationMissing: string;
 };
 
 export type AuthSignUpDictionary = {
@@ -130,6 +132,11 @@ export type AuthSignUpDictionary = {
   submit: string;
   submitting: string;
   goToSignIn: string;
+  confirmationTitle: string;
+  confirmationLead: string;
+  confirmationSpam: string;
+  confirmationAfterClick: string;
+  confirmationLoginCta: string;
 };
 
 export type AuthShellDictionary = {
@@ -147,6 +154,371 @@ export type AuthDashboardDictionary = {
   name: string;
   signOut: string;
   placeholder: string;
+};
+
+export type DashboardDictionary = {
+  loading: string;
+  signOut: string;
+  tabs: {
+    leads: string;
+    vitrine: string;
+    partners: string;
+    account: string;
+  };
+  leads: {
+    title: string;
+    subtitle: string;
+    empty: string;
+    whatsappQuota: {
+      unlimited: string;
+      limited: string;
+    };
+    whatsappError: {
+      title: string;
+      dismiss: string;
+    };
+    upgradeModal: {
+      eyebrow: string;
+      title: string;
+      body: string;
+      usage: string;
+      cta: string;
+      dismiss: string;
+      proBenefits: string[];
+    };
+    summary: {
+      total: string;
+      urgent: string;
+      asap: string;
+      planned: string;
+      info: string;
+      done: string;
+    };
+    bulk: {
+      selected: string;
+      markDone: string;
+      archive: string;
+      clear: string;
+      selectAll: string;
+      selectOne: string;
+    };
+    pipeline: {
+      singleDragHint: string;
+    };
+    columns: {
+      id: string;
+      name: string;
+      requestDate: string;
+      work: string;
+      zone: string;
+      delay: string;
+      calendar: string;
+      status: string;
+      quoteDays: string;
+      invoiceDays: string;
+      whatsapp: string;
+    };
+    billing: {
+      notSent: string;
+      dayUnit: string;
+    };
+    filter: {
+      label: string;
+      calendar: string;
+      contact: string;
+      all: string;
+      scheduled: string;
+      unscheduled: string;
+      pending: string;
+      contacted: string;
+    };
+    contactStatus: {
+      pending: string;
+      contacted: string;
+    };
+    contactWhatsApp: string;
+    delayStatus: Record<"urgent" | "asap" | "planned" | "info", string>;
+    delayStatusHints: Record<"urgent" | "asap" | "planned" | "info", string>;
+    statusLegendTitle: string;
+    sort: {
+      label: string;
+      id: string;
+      date: string;
+      name: string;
+      delay: string;
+      status: string;
+      calendar: string;
+      contactStatus: string;
+      quoteDays: string;
+      invoiceDays: string;
+      showArchived: string;
+      hideArchived: string;
+    };
+    workflow: {
+      labels: Record<
+        | "A_TRAITER"
+        | "DEVIS_A_FAIRE"
+        | "DEVIS_ENVOYE"
+        | "DEVIS_SIGNE"
+        | "FACTURE_A_ENVOYER"
+        | "FACTURE_ENVOYEE"
+        | "GAGNE_EN_COURS"
+        | "ARCHIVE",
+        string
+      >;
+      hints: Record<
+        | "A_TRAITER"
+        | "DEVIS_A_FAIRE"
+        | "DEVIS_ENVOYE"
+        | "DEVIS_SIGNE"
+        | "FACTURE_A_ENVOYER"
+        | "FACTURE_ENVOYEE"
+        | "GAGNE_EN_COURS"
+        | "ARCHIVE",
+        string
+      >;
+      sectionStatus: string;
+      sectionClient: string;
+      sectionWork: string;
+      sectionAttachments: string;
+      sectionPlanning: string;
+      markDone: string;
+      archive: string;
+      reactivate: string;
+    };
+    detail: {
+      title: string;
+      close: string;
+      phoneLabel: string;
+      descriptionLabel: string;
+      voiceLabel: string;
+      voiceSummaryLabel: string;
+      transcriptLabel: string;
+      photosLabel: string;
+      summaryLabel: string;
+      quoteSentOnLabel: string;
+      invoiceSentOnLabel: string;
+    };
+    emptyArchived: string;
+    views: {
+      ariaLabel: string;
+      sectionAriaLabel: string;
+      listSection: string;
+      calendarSection: string;
+      table: string;
+      cards: string;
+      pipeline: string;
+    };
+    schedule: {
+      title: string;
+      hint: string;
+      dateLabel: string;
+      durationLabel: string;
+      minutesValueLabel: string;
+      hoursValueLabel: string;
+      minutesUnit: string;
+      hoursUnit: string;
+      durationPresets: Record<"minutes" | "hours" | "half_day" | "full_day", string>;
+      save: string;
+      clear: string;
+      savedHint: string;
+    };
+    calendar: {
+      views: Record<"day" | "week" | "month", string>;
+      prev: string;
+      next: string;
+      weekOf: string;
+      rangeHint: string;
+      emptyDay: string;
+      notScheduled: string;
+      weekdays: string[];
+    };
+    catchUp: {
+      ariaLabel: string;
+      question: string;
+      quoteSent: string;
+      lost: string;
+      snooze: string;
+    };
+    copyRequest: {
+      label: string;
+      copied: string;
+    };
+    quickReplies: {
+      title: string;
+      quoteFollowup: string;
+      invoiceFollowup: string;
+    };
+    attachments: {
+      title: string;
+      dropHint: string;
+      formats: string;
+      uploading: string;
+      invalidType: string;
+      expiredTitle: string;
+      expiredBody: string;
+      fileExpired: string;
+    };
+    mediaRetention: {
+      expiredTitle: string;
+      expiredBody: string;
+    };
+  };
+  vitrine: {
+    title: string;
+    subtitle: string;
+    editorSections: {
+      general: string;
+      content: string;
+      visual: string;
+    };
+    subTabs: {
+      profile: string;
+      capture: string;
+      qr: string;
+      partners: string;
+    };
+    fields: {
+      businessName: string;
+      trade: string;
+      description: string;
+      city: string;
+      phone: string;
+      pageUrl: string;
+      instagram: string;
+      facebook: string;
+      google: string;
+    };
+    save: string;
+    saving: string;
+    saved: string;
+    saveError: string;
+    viewPage: string;
+    editPage: string;
+    voiceCapture: {
+      title: string;
+      description: string;
+      rawAudioNote: string;
+      proBadge: string;
+      lockedHint: string;
+      upgradeCta: string;
+    };
+  };
+  qr: {
+    title: string;
+    subtitle: string;
+    download: string;
+    printHint: string;
+  };
+  partners: {
+    title: string;
+    subtitle: string;
+    lockedTitle: string;
+    lockedBody: string;
+    upgradeCta: string;
+    empty: string;
+    emptyHint: string;
+    loadError: string;
+    pendingCount: string;
+    showArchived: string;
+    affiliateLinks: {
+      title: string;
+      hint: string;
+      nameLabel: string;
+      namePlaceholder: string;
+      urlLabel: string;
+      urlPlaceholder: string;
+      add: string;
+      remove: string;
+      maxReached: string;
+      empty: string;
+    };
+    columns: {
+      company: string;
+      contact: string;
+      type: string;
+      date: string;
+      status: string;
+    };
+    types: {
+      advertising: string;
+      ugc: string;
+      product_test: string;
+      other: string;
+    };
+    budgetRanges: {
+      under_5k: string;
+      from_5k_to_15k: string;
+      from_15k_to_50k: string;
+      over_50k: string;
+      undisclosed: string;
+    };
+    status: {
+      A_TRAITER: string;
+      CONTACTE: string;
+      ARCHIVE: string;
+    };
+    detail: {
+      title: string;
+      company: string;
+      contact: string;
+      jobTitle: string;
+      email: string;
+      phone: string;
+      type: string;
+      budget: string;
+      budgetNotProvided: string;
+      message: string;
+      receivedAt: string;
+      markContacted: string;
+      markPending: string;
+      archive: string;
+      close: string;
+      contactCta: string;
+      contactBySms: string;
+      contactByWhatsApp: string;
+      contactEmailSubject: string;
+      contactMessage: string;
+    };
+  };
+  billing: {
+    title: string;
+    currentPlan: string;
+    essential: string;
+    essentialPrice: string;
+    pro: string;
+    proPriceMonthly: string;
+    proPriceAnnual: string;
+    manageStripe: string;
+    upgradePro: string;
+    portalError: string;
+    essentialFeatures: string;
+    proFeatures: string;
+  };
+  account: {
+    title: string;
+    subtitle: string;
+    delete: {
+      title: string;
+      body: string;
+      bullets: string[];
+      cta: string;
+      modalTitle: string;
+      modalBody: string;
+      confirmLabel: string;
+      confirmWord: string;
+      confirmCta: string;
+      deleting: string;
+      cancel: string;
+    };
+  };
+  team: {
+    title: string;
+    subtitle: string;
+    comingSoonTitle: string;
+    comingSoonBody: string;
+    strikethrough: string;
+  };
 };
 
 export type AuthDictionary = {
@@ -268,7 +640,9 @@ export type LegalPageJson = {
 };
 
 export type FooterDictionary = {
-  copyright: string;
+  copyrightBefore: string;
+  copyrightLink: string;
+  copyrightAfter: string;
   tagline: string;
   legalNavLabel: string;
   manageCookies: string;
@@ -315,6 +689,10 @@ export type VitrineDictionary = {
   presentation: {
     quoteFreeHint: string;
     portfolioTitle: string;
+    affiliateLinksTitle: string;
+    urgencyWhatsAppMessage: string;
+    urgencyClickLeadDescription: string;
+    urgencyWhatsAppUnavailable: string;
   };
   details: {
     back: string;
@@ -339,6 +717,8 @@ export type VitrineDictionary = {
     partnerCompanyPlaceholder: string;
     phone: string;
     phonePlaceholder: string;
+    email: string;
+    emailPlaceholder: string;
     urgency: string;
     urgencyOptions: {
       urgent: string;
@@ -392,42 +772,59 @@ export type VitrineDictionary = {
     invalidType: string;
   };
   collaboration: {
-    title: string;
-    profilePeer: string;
-    profileBrand: string;
-    companyPeer: string;
-    companyBrand: string;
-    contactName: string;
-    jobTitle: string;
-    phone: string;
-    email: string;
-    activityType: string;
-    activityOptions: {
-      architect: string;
-      project_manager: string;
-      artisan: string;
-      builder: string;
-      real_estate: string;
-      other: string;
+    hero: {
+      eyebrow: string;
+      title: string;
+      subtitle: string;
+      cta: string;
     };
-    needType: string;
-    needOptions: {
-      subcontracting: string;
-      project_offer: string;
-      local_partnership: string;
+    stats: {
+      artisans: { value: string; label: string };
+      engagement: { value: string; label: string };
+      opportunities: { value: string; label: string };
     };
-    partnershipType: string;
-    partnershipOptions: {
-      product_placement: string;
-      material_donation: string;
-      affiliate_program: string;
-      media_campaign: string;
+    offers: {
+      title: string;
+      subtitle: string;
+      advertising: { title: string; description: string; bullets: string[] };
+      ugc: { title: string; description: string; bullets: string[] };
+      productTest: { title: string; description: string; bullets: string[] };
     };
-    description: string;
-    descriptionPeerPlaceholder: string;
-    descriptionBrandPlaceholder: string;
-    filesPeerLabel: string;
-    filesBrandLabel: string;
+    form: {
+      title: string;
+      subtitle: string;
+      companyName: string;
+      contactName: string;
+      jobTitle: string;
+      email: string;
+      phone: string;
+      partnershipType: string;
+      partnershipOptions: {
+        advertising: string;
+        ugc: string;
+        product_test: string;
+        other: string;
+      };
+      budget: string;
+      budgetOptional: string;
+      budgetOr: string;
+      budgetCustom: string;
+      budgetCustomPlaceholder: string;
+      budgetOptions: {
+        under_5k: string;
+        from_5k_to_15k: string;
+        from_15k_to_50k: string;
+        over_50k: string;
+        undisclosed: string;
+      };
+      message: string;
+      messagePlaceholder: string;
+      submit: string;
+      submitting: string;
+      errorBody: string;
+      successTitle: string;
+      successBody: string;
+    };
     files: {
       dropHint: string;
       browse: string;
@@ -436,16 +833,240 @@ export type VitrineDictionary = {
       invalidType: string;
       invalidVideo: string;
     };
-    submit: string;
-    submitting: string;
-    successTitle: string;
-    successBody: string;
-    errorBody: string;
   };
   services: {
     priceHt: string;
+    surDevis: string;
   };
   poweredBy: string;
+};
+
+export type OnboardingDictionary = {
+  title: string;
+  subtitle: string;
+  emailConfirmed: {
+    title: string;
+    message: string;
+  };
+  back: string;
+  next: string;
+  stepLabel: string;
+  plan: {
+    title: string;
+    free: string;
+    freeHint: string;
+    pro: string;
+    proHint: string;
+  };
+  badge: {
+    label: string;
+    essential: string;
+    pro: string;
+  };
+  errors: {
+    general: {
+      businessName: string;
+      metierKey: string;
+      city: string;
+    };
+    interventions: {
+      metierKey: string;
+      presentationRequired: string;
+    };
+  };
+  general: {
+    title: string;
+    subtitle: string;
+    companyLabel: string;
+    companyPlaceholder: string;
+    metierLabel: string;
+    cityLabel: string;
+    cityPlaceholder: string;
+    cityNoResults: string;
+    radiusLabel: string;
+  };
+  interventions: {
+    title: string;
+    subtitle: string;
+    optionalBadge: string;
+    requiredBadge: string;
+    tagsLabel: string;
+    tagsHint: string;
+    customTagPlaceholder: string;
+    addCustomTag: string;
+    selectedListLabel: string;
+    removeTag: string;
+    orDivider: string;
+    switchToTags: string;
+    switchToAbout: string;
+    aboutLabel: string;
+    aboutHint: string;
+    aboutPlaceholder: string;
+    selectionCounter: string;
+    tagsMaxReached: string;
+    selectMetierFirst: string;
+    socialTitle: string;
+    socialHint: string;
+    socialPlaceholder: string;
+    googleBusinessLabel: string;
+    googleBusinessHint: string;
+    googleBusinessPlaceholder: string;
+  };
+  affiliateLinks: {
+    title: string;
+    hint: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    urlLabel: string;
+    urlPlaceholder: string;
+    add: string;
+    remove: string;
+    maxReached: string;
+    empty: string;
+  };
+  visual: {
+    title: string;
+    subtitle: string;
+    avatarLabel: string;
+    bannerLabel: string;
+    uploadHint: string;
+    errorType: string;
+    errorSize: string;
+    fontLabel: string;
+    colorLabel: string;
+    colorHint: string;
+    colorPickerLabel: string;
+    previewTitle: string;
+    previewHint: string;
+    portfolioLaterHint: string;
+    createPage: string;
+  };
+  upsell: {
+    title: string;
+    subtitle: string;
+    essentialName: string;
+    essentialPrice: string;
+    essentialFeatures: string[];
+    proName: string;
+    proPrice: string;
+    proFeatures: string[];
+    chooseEssential: string;
+    choosePro: string;
+    cancel: string;
+    creating: string;
+  };
+  import: {
+    title: string;
+    lead: string;
+    platformGoogle: string;
+    platformInstagram: string;
+    platformFacebook: string;
+    platformLabel: string;
+    identifierLabel: string;
+    placeholderGoogle: string;
+    googleImportHint: string;
+    placeholderInstagram: string;
+    placeholderFacebook: string;
+    generate: string;
+    generating: string;
+    manualLink: string;
+    loadingHint: string;
+    importError: string;
+    serverConfigError: string;
+    quotaFallbackMessage: string;
+  };
+  free: {
+    companyLabel: string;
+    companyPlaceholder: string;
+    metierLabel: string;
+    cityLabel: string;
+    cityPlaceholder: string;
+    radiusLabel: string;
+    previewTitle: string;
+    previewHint: string;
+    defaultBusinessName: string;
+    quoteCta: string;
+  };
+  services: {
+    title: string;
+    optionalBadge: string;
+    subtitle: string;
+    skip: string;
+    add: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    priceLabel: string;
+    pricePrefix: string;
+    priceSuffixEur: string;
+    priceSuffixUsd: string;
+    surDevisOption: string;
+    amountOption: string;
+    currencyEur: string;
+    currencyUsd: string;
+    maxReached: string;
+    listTitle: string;
+    finish: string;
+  };
+  complete: {
+    title: string;
+    body: string;
+    yourUrl: string;
+    cta: string;
+    autoRedirect: string;
+  };
+  publicServices: {
+    title: string;
+    surDevis: string;
+  };
+  pro: {
+    choiceTitle: string;
+    choiceSubtitle: string;
+    autoCardTitle: string;
+    autoCardHint: string;
+    manualCardTitle: string;
+    manualCardHint: string;
+    manualCardCta: string;
+    gapTitle: string;
+    gapSubtitle: string;
+    gapLeadTemplate: string;
+    gapContinue: string;
+    fieldLabels: {
+      businessName: string;
+      phone: string;
+      city: string;
+      metierKey: string;
+    };
+    phoneLabel: string;
+    phonePlaceholder: string;
+    phoneError: string;
+    validateBanner: string;
+    validateYes: string;
+    validateNo: string;
+    publishing: string;
+    publishError: string;
+    slugTitle: string;
+    slugSubtitle: string;
+    slugLabel: string;
+    slugPrefix: string;
+    slugPlaceholder: string;
+    slugHint: string;
+    slugChecking: string;
+    slugAvailable: string;
+    slugConfirm: string;
+    slugYourUrl: string;
+    slugEditLink: string;
+    slugErrors: {
+      empty: string;
+      tooShort: string;
+      tooLong: string;
+      invalidChars: string;
+      invalidEdges: string;
+      reserved: string;
+      taken: string;
+    };
+    editableFieldsTitle: string;
+    editableFieldsList: string[];
+  };
 };
 
 export type Dictionary = {
@@ -462,4 +1083,6 @@ export type Dictionary = {
   cookieConsent: CookieConsentDictionary;
   legal: LegalBundleDictionary;
   vitrine: VitrineDictionary;
+  onboarding: OnboardingDictionary;
+  dashboard: DashboardDictionary;
 };

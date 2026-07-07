@@ -10,6 +10,7 @@ type AuthConnexionPageProps = {
   copy: AuthDictionary;
   unavailable?: boolean;
   unavailableMessage?: string;
+  authError?: string | null;
 };
 
 export function AuthConnexionPage({
@@ -17,6 +18,7 @@ export function AuthConnexionPage({
   copy,
   unavailable = false,
   unavailableMessage,
+  authError,
 }: AuthConnexionPageProps) {
   return (
     <AuthPageShell
@@ -32,7 +34,7 @@ export function AuthConnexionPage({
           message={unavailableMessage ?? copy.serviceUnavailable}
         />
       ) : (
-        <SignInForm lang={lang} copy={copy.signIn} />
+        <SignInForm lang={lang} copy={copy.signIn} authError={authError} />
       )}
     </AuthPageShell>
   );

@@ -24,11 +24,13 @@
       "password": "Password",
       "submit": "Log in",
       "submitting": "Signing in…",
-      "goToSignUp": "Create an account"
+      "goToSignUp": "Create an account",
+      "confirmationError": "The confirmation link is invalid or expired. Try signing up again or request a new email.",
+      "confirmationMissing": "Incomplete confirmation link. Open the link from your email or log in."
     },
     "signUp": {
       "title": "Create my account",
-      "subtitle": "Free signup — your pro page is ready in seconds.",
+      "subtitle": "Free signup — we'll email you a confirmation link to activate your account.",
       "fullName": "Name / business (optional)",
       "proPhone": "Business phone (optional)",
       "proPhonePlaceholder": "7123 456789",
@@ -38,7 +40,12 @@
       "confirmPassword": "Confirm password",
       "submit": "Create my account",
       "submitting": "Creating…",
-      "goToSignIn": "Already registered? Log in"
+      "goToSignIn": "Already registered? Log in",
+      "confirmationTitle": "Account created — check your email",
+      "confirmationLead": "We sent a confirmation link to:",
+      "confirmationSpam": "Check your spam or Promotions folder if you don't see it.",
+      "confirmationAfterClick": "After clicking the link, you'll be signed in and can finish setting up your page.",
+      "confirmationLoginCta": "Back to log in"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -235,7 +242,7 @@
       "name": "ESSENTIAL",
       "pitch": "Publish fast and test your first leads.",
       "cta": "Create my page",
-      "href": "#cta",
+      "href": "/onboarding",
       "pricing": {
         "monthly": { "amount": "€0 excl. VAT / month" },
         "annual": { "amount": "€0 excl. VAT / month" }
@@ -243,9 +250,9 @@
     },
     "tierPro": {
       "name": "PRO TRADESPERSON",
-      "pitch": "Early Bird offer — AI qualification, unlimited leads and a stronger pro image.",
+      "pitch": "Early Bird — unlimited WhatsApp contacts, voice capture, and a stronger pro image.",
       "cta": "Join Pro Beta",
-      "href": "#cta",
+      "href": "/onboarding?plan=pro",
       "badge": "EARLY BIRD",
       "futurePrice": "€29 excl. VAT/month",
       "reassurance": "Full autonomy OR a free 15‑min guided onboarding — your choice.",
@@ -275,16 +282,17 @@
     },
     "featureMatrix": [
       {
-        "label": "Pro page + single link (bio, listings)",
+        "label": "**Pro page + single link** (bio, listings)",
         "essential": true,
         "pro": true
       },
       {
         "labelEssential": "Instant AI page creation (Instagram, Facebook or Google Business link)",
-        "labelPro": "AI-enriched page creation (via your social profiles or Google listing)",
+        "labelPro": "Page creation enriched **by AI** (via your social profiles or Google listing)",
         "label": "AI page creation",
-        "essential": true,
-        "pro": true
+        "essential": false,
+        "pro": true,
+        "showEssential": false
       },
       {
         "label": "Printable van QR code (generic)",
@@ -297,39 +305,50 @@
         "pro": true
       },
       {
-        "label": "Mobile-first layout & direct WhatsApp",
+        "label": "Mobile-first layout & **direct WhatsApp**",
         "essential": true,
         "pro": true
       },
       {
-        "label": "Voice capture & AI transcription",
-        "essential": false,
-        "pro": true
-      },
-      {
-        "labelEssential": "Limited to 15 leads/month (blurred display beyond)",
-        "labelPro": "Unlimited leads (no blocking)",
-        "label": "Lead volume",
+        "labelEssential": "Limited to **10 leads/month** (blurred beyond that)",
+        "labelPro": "**Unlimited leads** (no blocking)",
+        "label": "Lead CRM",
         "essential": true,
         "pro": true,
         "essentialLimit": true
       },
       {
-        "labelEssential": "No automatic SMS acknowledgement to the end customer",
-        "labelPro": "Automatic SMS acknowledgement to the end customer",
-        "label": "SMS acknowledgement",
+        "labelEssential": "**10 WhatsApp shares/month** from the CRM",
+        "labelPro": "**Unlimited WhatsApp shares** from the CRM",
+        "label": "Client contact via WhatsApp",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "❌ Voice capture & AI qualification",
+        "labelPro": "**Voice capture & automatic AI transcription** of customer needs",
+        "label": "Voice capture & AI qualification",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "labelEssential": "No automatic acknowledgement",
+        "labelPro": "**Automatic SMS/email acknowledgement** to the end customer",
+        "label": "Automatic acknowledgement",
         "essential": false,
         "pro": true,
         "highlightPro": true
       },
       {
-        "label": "Dedicated “Partners & Brands” section",
+        "labelPro": "**“Partners & Brands” section** + **named affiliate links**",
+        "label": "“Partners & Brands” section + affiliate links",
         "essential": false,
         "pro": true
       },
       {
         "labelEssential": "Personal onboarding at signup",
-        "labelPro": "Personal onboarding (optional & 100% free)",
+        "labelPro": "**Personal onboarding** (optional & **100% free**)",
         "label": "Personal onboarding",
         "essential": false,
         "pro": true
@@ -349,7 +368,9 @@
     ]
   },
   "footer": {
-    "copyright": "© {year} CraftLink — Pro tradesperson page & lead capture.",
+    "copyrightBefore": "© {year} ",
+    "copyrightLink": "CraftLink by AnkoUnity",
+    "copyrightAfter": ". All rights reserved.",
     "tagline": "Express storefront for construction trades.",
     "legalNavLabel": "Legal information",
     "manageCookies": "Manage cookies",

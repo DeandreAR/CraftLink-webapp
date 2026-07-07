@@ -4,6 +4,13 @@ export const vitrineEn: VitrineDictionary = {
   presentation: {
     quoteFreeHint: "100% free quote · No commitment",
     portfolioTitle: "Recent work",
+    affiliateLinksTitle: "Partner links",
+    urgencyWhatsAppMessage:
+      "Hello, I have an URGENT repair need and I just saw your CraftLink page. Are you available soon?",
+    urgencyClickLeadDescription:
+      "The customer tapped “Report urgency on WhatsApp” and was redirected to WhatsApp. No contact details provided.",
+    urgencyWhatsAppUnavailable:
+      "WhatsApp number unavailable — please use the contact form.",
   },
   details: {
     back: "Back to profile",
@@ -17,7 +24,7 @@ export const vitrineEn: VitrineDictionary = {
       quote: "Your quote request",
       urgent: "Your urgent repair request",
       info: "Your question",
-      collaboration: "Co-develop & Partnerships",
+      collaboration: "Partnerships & Brands",
     },
     delayLabel: "When do you need help?",
   },
@@ -28,6 +35,8 @@ export const vitrineEn: VitrineDictionary = {
     partnerCompanyPlaceholder: "Business or brand name",
     phone: "Phone",
     phonePlaceholder: "+33 6 12 34 56 78",
+    email: "Email",
+    emailPlaceholder: "you@example.com",
     urgency: "Timeline",
     urgencyOptions: {
       urgent: "🚨 Urgent / Emergency (Within 24–48h)",
@@ -83,44 +92,91 @@ export const vitrineEn: VitrineDictionary = {
     invalidType: "Only image files are accepted (no video).",
   },
   collaboration: {
-    title: "Co-develop & Partnerships",
-    profilePeer: "I'm a Peer / Building professional",
-    profileBrand: "I'm a Brand / Manufacturer",
-    companyPeer: "Company / business name",
-    companyBrand: "Brand / company name",
-    contactName: "Contact name",
-    jobTitle: "Job title",
-    phone: "Phone",
-    email: "Email",
-    activityType: "Activity type",
-    activityOptions: {
-      architect: "Architect",
-      project_manager: "Project manager",
-      artisan: "Tradesperson",
-      builder: "Builder",
-      real_estate: "Real estate agency",
-      other: "Other",
+    hero: {
+      eyebrow: "Advertisers & construction brands",
+      title: "Reach France's largest community of building trades professionals",
+      subtitle:
+        "Media campaigns, authentic UGC content and on-site product tests with qualified pros. A direct channel to decision-makers in the field.",
+      cta: "Become a Partner",
     },
-    needType: "Type of need",
-    needOptions: {
-      subcontracting: "Subcontracting",
-      project_offer: "Project proposal",
-      local_partnership: "Local partnership",
+    stats: {
+      artisans: { value: "2,500+", label: "active tradespeople" },
+      engagement: { value: "68%", label: "average engagement rate" },
+      opportunities: { value: "12k+", label: "opportunities generated / year" },
     },
-    partnershipType: "Partnership type",
-    partnershipOptions: {
-      product_placement: "Product placement",
-      material_donation: "Material donation",
-      affiliate_program: "Affiliate program",
-      media_campaign: "Media campaign",
+    offers: {
+      title: "How we collaborate",
+      subtitle:
+        "Formats built for awareness, conversion and product proof on the job site.",
+      advertising: {
+        title: "Advertising & Media",
+        description:
+          "Premium visibility with a highly targeted, engaged construction audience.",
+        bullets: [
+          "Banners & placements on our storefronts",
+          "Targeted newsletters and push notifications",
+          "Sponsored editorial content",
+        ],
+      },
+      ugc: {
+        title: "UGC Campaigns",
+        description:
+          "Authentic content produced by tradespeople from our community.",
+        bullets: [
+          "Job-site testimonials & unboxings",
+          "Reels, stories and social posts",
+          "Creative brief and moderation included",
+        ],
+      },
+      productTest: {
+        title: "Product Testing",
+        description:
+          "Have your tools, equipment or software tested and recommended in the field.",
+        bullets: [
+          "Profiled tradesperson selection",
+          "Detailed field feedback",
+          "Brand placement & verified reviews",
+        ],
+      },
     },
-    description: "Description",
-    descriptionPeerPlaceholder:
-      "Briefly describe the project, job site location and scheduling constraints…",
-    descriptionBrandPlaceholder:
-      "Briefly describe your brand, materials involved and visibility expectations…",
-    filesPeerLabel: "Add plans or job site documents (Images or PDF)",
-    filesBrandLabel: "Add campaign brief, catalogue or contract proposal (Images or PDF)",
+    form: {
+      title: "Propose a partnership",
+      subtitle:
+        "Describe your project in a few minutes. Our team will get back to you within 2 business days.",
+      companyName: "Company name",
+      contactName: "Contact name",
+      jobTitle: "Job title",
+      email: "Work email",
+      phone: "Phone",
+      partnershipType: "Desired partnership type",
+      partnershipOptions: {
+        advertising: "Advertising & Media",
+        ugc: "UGC Campaign",
+        product_test: "Product testing",
+        other: "Other",
+      },
+      budget: "Estimated budget",
+      budgetOptional: "optional",
+      budgetOr: "or",
+      budgetCustom: "Approximate amount",
+      budgetCustomPlaceholder: "e.g. €8,000, 12k, range €10–20k…",
+      budgetOptions: {
+        under_5k: "Under €5,000",
+        from_5k_to_15k: "€5,000 – €15,000",
+        from_15k_to_50k: "€15,000 – €50,000",
+        over_50k: "Over €50,000",
+        undisclosed: "Not disclosed",
+      },
+      message: "Message / Project brief",
+      messagePlaceholder:
+        "Goals, targets, timeline, products involved, expected KPIs…",
+      submit: "Send my proposal",
+      submitting: "Sending…",
+      errorBody: "Check required fields and try again.",
+      successTitle: "Proposal sent",
+      successBody:
+        "Thank you! Our partnerships team is reviewing your brief and will be in touch shortly.",
+    },
     files: {
       dropHint: "Drop your files here (images or PDF)",
       browse: "Browse",
@@ -129,14 +185,10 @@ export const vitrineEn: VitrineDictionary = {
       invalidType: "Only images (JPEG, PNG) and PDF are accepted.",
       invalidVideo: "Video files are not accepted.",
     },
-    submit: "Send partnership request",
-    submitting: "Sending…",
-    successTitle: "Request sent",
-    successBody: "Your partnership request has been sent to the tradesperson.",
-    errorBody: "Check required fields and try again.",
   },
   services: {
     priceHt: "excl. VAT",
+    surDevis: "On quote",
   },
   poweredBy: "Powered by CraftLink",
 };

@@ -1,12 +1,15 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { SignInFormInput, SignUpFormInput } from "@/domain/auth";
-import { formatConfigDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import { formatConfigDebugMessage, logAuthError, AUTH_SERVICE_UNAVAILABLE } from "@/lib/auth/debugError";
+import { getAuthCallbackBaseUrl } from "@/lib/auth/requestAppUrl";
 import {
   HONEYPOT_FIELD_NAME,
   isHoneypotTriggered,
 } from "@/lib/auth/honeypot";
+import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
 import {
   getSupabaseConfig,
@@ -27,12 +30,16 @@ function localeFromForm(formData: FormData): Locale {
 export type AuthActionState = {
   error?: string;
   success?: string;
+  /** Inscription OK mais e-mail non confirmé — afficher l'écran « consultez votre boîte ». */
+  emailConfirmationPending?: boolean;
+  confirmationEmail?: string;
 };
 
 function configUnavailableMessage(): string {
   return formatConfigDebugMessage(
     "supabase.config",
-    "Variables placeholder dans .env.local (ex. ton_url_supabase). Mettez l’URL et la clé anon JWT Supabase, sauvegardez, redémarrez npm run dev.",
+    AUTH_SERVICE_UNAVAILABLE,
+    "Configuration Supabase manquante ou placeholder",
   );
 }
 
@@ -47,7 +54,8 @@ async function getServerSupabaseClient() {
     return {
       error: formatConfigDebugMessage(
         "supabase.createClient",
-        error instanceof Error ? error.message : "Impossible d’initialiser Supabase.",
+        AUTH_SERVICE_UNAVAILABLE,
+        error instanceof Error ? error.message : error,
       ),
     };
   }
@@ -80,7 +88,8 @@ export async function signUpAction(
   }
 
   const supabase = supabaseResult.client!;
-  const result = await signUpWithProfile(supabase, input);
+  const appUrl = getAuthCallbackBaseUrl(await headers());
+  const result = await signUpWithProfile(supabase, input, { appUrl });
 
   if (!result.ok) {
     return { error: result.error };
@@ -88,12 +97,12 @@ export async function signUpAction(
 
   if (result.data.needsEmailConfirmation) {
     return {
-      success:
-        "Compte créé. Vérifiez votre e-mail pour confirmer, puis connectez-vous.",
+      emailConfirmationPending: true,
+      confirmationEmail: input.email.trim().toLowerCase(),
     };
   }
 
-  redirect(authPath(localeFromForm(formData), "dashboard"));
+  redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
 }
 
 export async function signInAction(
@@ -121,12 +130,13 @@ export async function signInAction(
     return {
       error: formatConfigDebugMessage(
         "profile.missing.afterSignIn",
-        "Connexion OK mais aucune ligne dans public.profiles pour cet utilisateur (id / workspace_id).",
+        "Connexion impossible : espace artisan introuvable. Contactez le support.",
+        "Profil absent après connexion",
       ),
     };
   }
 
-  redirect(authPath(localeFromForm(formData), "dashboard"));
+  redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
 }
 
 export async function signOutAction(formData: FormData) {

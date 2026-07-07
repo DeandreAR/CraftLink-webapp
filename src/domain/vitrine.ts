@@ -34,6 +34,10 @@ export type VitrineVisibilitySettings = {
   showInterventionTags: boolean;
   showCollaborationButton: boolean;
   showPortfolioGallery: boolean;
+  /** Liens d'affiliation / codes partenaires nommés (Pro). */
+  showAffiliateLinks: boolean;
+  /** Affiche la liste des prestations sur la page de présentation (pas le formulaire). */
+  showServicesOnPresentation: boolean;
   contentBlockMode: VitrineContentBlockMode;
 };
 
@@ -48,6 +52,8 @@ export type VitrineCtaLabels = {
 export type VitrineProfileSettings = {
   visibility: VitrineVisibilitySettings;
   cta: VitrineCtaLabels;
+  /** Capture vocale (fichier audio brut) — Pro uniquement, activable depuis le dashboard. */
+  voiceCaptureEnabled?: boolean;
 };
 
 export type VitrineStatBadgeKind =
@@ -68,6 +74,8 @@ export type VitrineStatBadge = {
 export type VitrineMedia = {
   /** Bannière pleine largeur (si pas de collage). */
   bannerUrl?: string | null;
+  /** Bannière dégradée (import Instagram — aucune image stockée). */
+  bannerGradient?: { from: string; to: string } | null;
   /** Grille 3 visuels : haut-gauche, bas-gauche, droite (pleine hauteur). */
   bannerCollage?: [string | null, string | null, string | null];
   avatarUrl?: string | null;
@@ -79,9 +87,17 @@ export type SocialLinkType =
   | "facebook"
   | "linkedin"
   | "tiktok"
+  | "threads"
+  | "snapchat"
   | "google"
   | "website"
   | "whatsapp";
+
+export type VitrineAffiliateLink = {
+  id: string;
+  label: string;
+  href: string;
+};
 
 export type VitrineSocialLink = {
   id: string;
@@ -97,7 +113,7 @@ export type { MetierKey };
 /** Média portfolio sous les CTA (images ou embed Instagram). */
 export type VitrinePortfolioItem = {
   id: string;
-  type: "image" | "instagram_embed";
+  type: "image" | "instagram_embed" | "instagram_profile_embed";
   /** URL image directe ou vignette. */
   imageUrl?: string;
   /** URL embed Instagram (blockquote / iframe). */
@@ -108,6 +124,8 @@ export type VitrinePortfolioItem = {
 export type ArtisanVitrineProfile = {
   slug: string;
   businessName: string;
+  /** Téléphone pro / WhatsApp de l'artisan (contact urgence). */
+  phone?: string;
   tradeLabel: string;
   /** Pilote le formulaire de capture (titres, placeholders, champs optionnels). */
   metierKey?: MetierKey;
@@ -120,6 +138,7 @@ export type ArtisanVitrineProfile = {
   /** Fiche Google Business (avis + note cliquables). */
   googleBusinessUrl?: string | null;
   socialLinks: VitrineSocialLink[];
+  affiliateLinks: VitrineAffiliateLink[];
   portfolioItems?: VitrinePortfolioItem[];
   aboutSection?: VitrineAboutSection | null;
 };
@@ -137,6 +156,7 @@ export type LeadUrgency = "urgent" | "asap" | "planned" | "info";
 export type LeadCapturePayload = {
   fullName: string;
   phone: string;
+  email: string;
   urgency: LeadUrgency;
   serviceIds: string[];
   projectDescription?: string;

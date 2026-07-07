@@ -5,8 +5,13 @@ import type {
   SignUpFormInput,
 } from "@/domain/auth";
 import type { Profile } from "@/domain/profile";
-import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
+import { defaultLocale } from "@/i18n/config";
+import { buildAuthCallbackUrl } from "@/lib/auth/emailConfirmationRedirect";
+import { authPath } from "@/lib/auth/paths";
+import { formatAuthDebugMessage, formatConfigDebugMessage, logAuthError, AUTH_GENERIC_ERROR } from "@/lib/auth/debugError";
+import { normalizeSupabaseConfirmationLink } from "@/lib/auth/requestAppUrl";
 import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
+import { sendSignupConfirmationEmail } from "@/lib/email/sendSignupConfirmationEmail";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   createProfileForNewUser,
@@ -26,10 +31,20 @@ function mapAuthError(message: string): string {
   if (lower.includes("user already registered")) {
     return "Cet e-mail est déjà utilisé. Connectez-vous ou réinitialisez votre mot de passe.";
   }
+  if (
+    lower.includes("already been registered") ||
+    lower.includes("already exists") ||
+    lower.includes("duplicate")
+  ) {
+    return "Cet e-mail est déjà utilisé. Connectez-vous ou réinitialisez votre mot de passe.";
+  }
+  if (lower.includes("error sending confirmation email")) {
+    return "Impossible d'envoyer l'e-mail de confirmation. Réessayez dans quelques instants.";
+  }
   if (lower.includes("password") && lower.includes("short")) {
     return `Le mot de passe doit contenir au moins ${MIN_PASSWORD_LENGTH} caractères.`;
   }
-  return message;
+  return AUTH_GENERIC_ERROR;
 }
 
 async function rollbackAuthUser(userId: string): Promise<void> {
@@ -103,17 +118,17 @@ async function ensureProfileAfterSignUp(
     ok: false,
     error: formatAuthDebugMessage(
       "profile_init",
-      null,
-      withSession.error ??
-        "Votre compte a été créé mais l’initialisation de l’espace artisan a échoué. Réessayez l’inscription ou contactez le support.",
+      withSession.error,
+      "Votre compte n'a pas pu être finalisé. Réessayez l'inscription ou contactez le support.",
     ),
     code: withSession.code ?? "profile_init_failed",
   };
 }
 
 export async function signUpWithProfile(
-  supabase: SupabaseClient,
+  _supabase: SupabaseClient,
   input: SignUpFormInput,
+  options?: { appUrl?: string },
 ): Promise<AuthResult<{ user: User; profile: Profile; needsEmailConfirmation: boolean }>> {
   const email = input.email.trim().toLowerCase();
   const password = input.password;
@@ -128,30 +143,46 @@ export async function signUpWithProfile(
     };
   }
 
-  const { data, error } = await supabase.auth.signUp({
+  const onboardingPath = authPath(defaultLocale, "onboarding");
+  const appUrl = options?.appUrl ?? undefined;
+  const redirectTo = buildAuthCallbackUrl(onboardingPath, appUrl);
+
+  const admin = createAdminClient();
+  if (!admin) {
+    return {
+      ok: false,
+      error: formatConfigDebugMessage(
+        "auth.signUp.admin",
+        "Inscription momentanément indisponible. Réessayez plus tard ou contactez le support.",
+        "SUPABASE_SERVICE_ROLE_KEY absente",
+      ),
+      code: "admin_client_missing",
+    };
+  }
+
+  const { data: createData, error: createError } = await admin.auth.admin.createUser({
     email,
     password,
-    options: {
-      data: {
-        full_name: input.fullName?.trim() || null,
-        whatsapp_number: input.proPhoneNumber?.trim() || null,
-      },
+    email_confirm: false,
+    user_metadata: {
+      full_name: input.fullName?.trim() || null,
+      whatsapp_number: input.proPhoneNumber?.trim() || null,
     },
   });
 
-  if (error) {
+  if (createError) {
     return {
       ok: false,
       error: formatAuthDebugMessage(
         "auth.signUp",
-        error,
-        mapAuthError(error.message),
+        createError,
+        mapAuthError(createError.message),
       ),
-      code: error.code,
+      code: createError.code,
     };
   }
 
-  if (!data.user) {
+  if (!createData.user) {
     return {
       ok: false,
       error: formatAuthDebugMessage(
@@ -162,19 +193,61 @@ export async function signUpWithProfile(
     };
   }
 
-  const profileResult = await ensureProfileAfterSignUp(supabase, data.user, input);
+  const user = createData.user;
+
+  const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+    type: "signup",
+    email,
+    password,
+    options: { redirectTo },
+  });
+
+  const confirmationUrl = linkData?.properties?.action_link
+    ? normalizeSupabaseConfirmationLink(linkData.properties.action_link, redirectTo)
+    : undefined;
+  if (linkError || !confirmationUrl) {
+    await rollbackAuthUser(user.id);
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.signUp.link",
+        linkError,
+        "Impossible de générer le lien de confirmation. Réessayez dans quelques instants.",
+      ),
+      code: linkError?.code ?? "confirmation_link_failed",
+    };
+  }
+
+  const emailResult = await sendSignupConfirmationEmail({
+    to: email,
+    confirmationUrl,
+    siteUrl: appUrl,
+  });
+
+  if (!emailResult.ok) {
+    await rollbackAuthUser(user.id);
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.signUp.email",
+        emailResult.error,
+        "Impossible d'envoyer l'e-mail de confirmation. Vérifiez votre adresse e-mail ou réessayez dans quelques instants.",
+      ),
+      code: "confirmation_email_failed",
+    };
+  }
+
+  const profileResult = await ensureProfileAfterSignUp(admin, user, input);
   if (!profileResult.ok) {
     return profileResult;
   }
 
-  const needsEmailConfirmation = !data.session;
-
   return {
     ok: true,
     data: {
-      user: data.user,
+      user,
       profile: profileResult.data,
-      needsEmailConfirmation,
+      needsEmailConfirmation: true,
     },
   };
 }
@@ -291,7 +364,7 @@ export async function getSessionWithProfile(
       error: formatAuthDebugMessage(
         "profile.missing",
         null,
-        "Profil artisan introuvable (workspace_id). Contactez le support ou réinscrivez-vous.",
+        "Profil artisan introuvable. Contactez le support ou réinscrivez-vous.",
       ),
       code: "profile_missing",
     };
@@ -308,7 +381,7 @@ export async function signOut(supabase: SupabaseClient): Promise<AuthResult<null
   if (error) {
     return {
       ok: false,
-      error: formatAuthDebugMessage("auth.signOut", error, error.message),
+      error: formatAuthDebugMessage("auth.signOut", error, "Impossible de se déconnecter. Réessayez."),
       code: error.code,
     };
   }

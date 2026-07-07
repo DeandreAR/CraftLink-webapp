@@ -49,6 +49,7 @@ const MOCK_SERVICES: VitrineService[] = [
 
 const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
   businessName: "John Carter Électricité",
+  phone: "+33612345678",
   tradeLabel: "Électricien Spécialisé",
   metierKey: "ELECTRICIEN",
   city: "Nantes",
@@ -104,6 +105,7 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
       href: "https://linkedin.com",
     },
   ],
+  affiliateLinks: [],
   portfolioItems: [
     {
       id: "work-renovation-avant-apres",
@@ -144,14 +146,17 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showStatBadges: true,
     showInterventionTags: true,
     showCollaborationButton: false,
+    showAffiliateLinks: false,
     showPortfolioGallery: true,
+    showServicesOnPresentation: true,
     contentBlockMode: "interventions",
   },
   cta: {
     secondaryInfo: "Poser une Question",
-    secondaryUrgent: "Demander un RDV Urgent",
-    collaboration: "Collaboration (Partenaires)",
+    secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
+    collaboration: "Partenariats & Marques",
   },
+  voiceCaptureEnabled: false,
 };
 
 const SETTINGS_PRO: VitrineProfileSettings = {
@@ -160,15 +165,18 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showStatBadges: true,
     showInterventionTags: true,
     showCollaborationButton: true,
+    showAffiliateLinks: true,
     showPortfolioGallery: true,
+    showServicesOnPresentation: false,
     contentBlockMode: "about",
   },
   cta: {
     primaryQuote: "Besoin d'un devis rapide ?",
     secondaryInfo: "Poser une Question",
-    secondaryUrgent: "Demander un RDV Urgent",
-    collaboration: "Collaboration (Partenaires)",
+    secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
+    collaboration: "Partenariats & Marques",
   },
+  voiceCaptureEnabled: true,
 };
 
 const THEME_ESSENTIAL: VitrineTheme = {

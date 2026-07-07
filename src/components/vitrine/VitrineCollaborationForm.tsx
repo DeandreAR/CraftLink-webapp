@@ -1,96 +1,100 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import {
+  LuArrowDown,
+  LuMegaphone,
+  LuPackage,
+  LuSparkles,
+  LuTrendingUp,
+  LuUsers,
+  LuVideo,
+} from "react-icons/lu";
 import type { LeadFormStatus } from "@/domain/vitrine";
 import type { VitrineDictionary } from "@/i18n/types";
+import { submitPartnershipRequest } from "@/lib/partnerships/submitPartnershipRequest";
 import { VitrineBackButton } from "@/components/vitrine/VitrineBackButton";
-import { VitrineFileUpload } from "@/components/vitrine/VitrineFileUpload";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
 
-type CollaborationProfile = "peer" | "brand";
+type PartnershipType = "advertising" | "ugc" | "product_test" | "other";
 
-type PeerActivity =
-  | "architect"
-  | "project_manager"
-  | "artisan"
-  | "builder"
-  | "real_estate"
-  | "other";
-
-type PeerNeed = "subcontracting" | "project_offer" | "local_partnership";
-
-type BrandPartnership =
-  | "product_placement"
-  | "material_donation"
-  | "affiliate_program"
-  | "media_campaign";
+type BudgetRange =
+  | "under_5k"
+  | "from_5k_to_15k"
+  | "from_15k_to_50k"
+  | "over_50k"
+  | "undisclosed";
 
 type VitrineCollaborationFormProps = {
+  pageSlug: string;
   copy: VitrineDictionary;
   onBack: () => void;
 };
 
 const inputClass =
-  "mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none focus:border-[var(--primary-color)]";
+  "mt-1.5 w-full rounded-2xl border border-[var(--v-muted)]/25 bg-[var(--v-surface)] px-4 py-3.5 text-base outline-none transition focus:border-[var(--primary-color)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--primary-color)_15%,transparent)]";
 
 export function VitrineCollaborationForm({
+  pageSlug,
   copy,
   onBack,
 }: VitrineCollaborationFormProps) {
   const c = copy.collaboration;
+  const formSectionRef = useRef<HTMLElement>(null);
+
   const [status, setStatus] = useState<LeadFormStatus>("idle");
-  const [profile, setProfile] = useState<CollaborationProfile>("peer");
   const [companyName, setCompanyName] = useState("");
   const [contactName, setContactName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
-  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [peerActivity, setPeerActivity] = useState<PeerActivity>("artisan");
-  const [peerNeeds, setPeerNeeds] = useState<PeerNeed[]>([]);
-  const [brandPartnerships, setBrandPartnerships] = useState<BrandPartnership[]>([]);
-  const [description, setDescription] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
+  const [phone, setPhone] = useState("");
+  const [partnershipType, setPartnershipType] = useState<PartnershipType>("advertising");
+  const [budget, setBudget] = useState<BudgetRange | "">("");
+  const [budgetCustom, setBudgetCustom] = useState("");
+  const [message, setMessage] = useState("");
 
-  const togglePeerNeed = (need: PeerNeed) => {
-    setPeerNeeds((prev) =>
-      prev.includes(need) ? prev.filter((n) => n !== need) : [...prev, need],
-    );
-  };
-
-  const toggleBrandPartnership = (item: BrandPartnership) => {
-    setBrandPartnerships((prev) =>
-      prev.includes(item) ? prev.filter((n) => n !== item) : [...prev, item],
-    );
+  const scrollToForm = () => {
+    formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (status === "submitting") return;
 
-    const baseOk =
+    const isValid =
       companyName.trim() &&
       contactName.trim() &&
-      phone.trim() &&
+      jobTitle.trim() &&
       email.trim() &&
-      description.trim();
+      phone.trim() &&
+      message.trim();
 
-    const profileOk =
-      profile === "peer"
-        ? peerNeeds.length > 0
-        : brandPartnerships.length > 0;
-
-    const brandOk = profile === "brand" ? jobTitle.trim() : true;
-
-    if (!baseOk || !profileOk || !brandOk) {
+    if (!isValid) {
       setStatus("error");
       return;
     }
 
     setStatus("submitting");
     try {
-      await new Promise((r) => setTimeout(r, 1100));
-      void files;
+      const result = await submitPartnershipRequest({
+        pageSlug,
+        companyName: companyName.trim(),
+        contactName: contactName.trim(),
+        jobTitle: jobTitle.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        partnershipType,
+        budgetRange: budget || null,
+        budgetApproximate: budgetCustom.trim() || null,
+        message: message.trim(),
+      });
+
+      if (!result.ok) {
+        setStatus("error");
+        return;
+      }
+
       setStatus("success");
     } catch {
       setStatus("error");
@@ -109,8 +113,10 @@ export function VitrineCollaborationForm({
           <p className="text-4xl" aria-hidden>
             ✓
           </p>
-          <h3 className="mt-2 text-xl font-bold text-emerald-950">{c.successTitle}</h3>
-          <p className="mt-2 text-sm text-emerald-900">{c.successBody}</p>
+          <h3 className="mt-2 text-xl font-bold text-emerald-950">
+            {c.form.successTitle}
+          </h3>
+          <p className="mt-2 text-sm text-emerald-900">{c.form.successBody}</p>
           <button
             type="button"
             onClick={onBack}
@@ -124,75 +130,175 @@ export function VitrineCollaborationForm({
     );
   }
 
+  const statItems = [
+    { icon: LuUsers, ...c.stats.artisans },
+    { icon: LuTrendingUp, ...c.stats.engagement },
+    { icon: LuSparkles, ...c.stats.opportunities },
+  ];
+
+  const offerItems = [
+    {
+      icon: LuMegaphone,
+      accent: "bg-[#D6BCFA]/40 text-violet-900",
+      ...c.offers.advertising,
+    },
+    {
+      icon: LuVideo,
+      accent: "bg-[#B2F5EA]/50 text-teal-900",
+      ...c.offers.ugc,
+    },
+    {
+      icon: LuPackage,
+      accent: "bg-[#EFA188]/25 text-orange-950",
+      ...c.offers.productTest,
+    },
+  ];
+
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.35 }}
-      className="px-4 pb-4"
+      className="pb-4"
     >
-      <VitrineBackButton label={copy.details.back} onClick={onBack} />
+      <div className="px-4">
+        <VitrineBackButton label={copy.details.back} onClick={onBack} />
+      </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="rounded-[24px] border border-[var(--v-muted)]/15 bg-[var(--v-surface)] p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]"
+      {/* Hero */}
+      <section className="relative overflow-hidden px-4 pb-8 pt-2">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-16 -top-10 h-48 w-48 rounded-full bg-[color-mix(in_srgb,var(--primary-color)_12%,white)] blur-3xl"
+        />
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--primary-color)]">
+          {c.hero.eyebrow}
+        </p>
+        <h1 className="mt-3 text-[1.65rem] font-extrabold leading-tight tracking-tight text-[var(--v-text)] sm:text-3xl">
+          {c.hero.title}
+        </h1>
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-[var(--v-muted)] sm:text-base">
+          {c.hero.subtitle}
+        </p>
+        <button
+          type="button"
+          onClick={scrollToForm}
+          className="mt-6 inline-flex min-h-[3.25rem] items-center gap-2 rounded-[20px] bg-black px-6 text-sm font-bold text-white shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition hover:bg-slate-900"
+        >
+          {c.hero.cta}
+          <LuArrowDown className="h-4 w-4" aria-hidden />
+        </button>
+      </section>
+
+      {/* Stats */}
+      <section
+        aria-label={c.stats.artisans.label}
+        className="border-y border-[var(--v-muted)]/10 bg-[color-mix(in_srgb,var(--primary-color)_4%,white)] px-4 py-6"
       >
-        <h2 className="text-lg font-bold text-[var(--v-text)]">{c.title}</h2>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {statItems.map(({ icon: Icon, value, label }) => (
+            <li
+              key={label}
+              className="rounded-[20px] border border-[var(--v-muted)]/10 bg-[var(--v-surface)] px-4 py-4 text-center shadow-[0_8px_24px_rgba(15,23,42,0.04)]"
+            >
+              <Icon
+                className="mx-auto h-5 w-5 text-[var(--primary-color)]"
+                aria-hidden
+              />
+              <p className="mt-2 text-2xl font-extrabold tracking-tight text-[var(--v-text)]">
+                {value}
+              </p>
+              <p className="mt-1 text-xs font-medium leading-snug text-[var(--v-muted)]">
+                {label}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <button
-            type="button"
-            onClick={() => setProfile("peer")}
-            className={`rounded-2xl border-2 px-3 py-3.5 text-left text-xs font-bold leading-snug transition ${
-              profile === "peer"
-                ? "border-[var(--primary-color)] bg-[color-mix(in_srgb,var(--primary-color)_10%,white)] text-[var(--v-text)]"
-                : "border-[var(--v-muted)]/20 bg-[var(--bg-color)] text-[var(--v-muted)]"
-            }`}
-          >
-            {c.profilePeer}
-          </button>
-          <button
-            type="button"
-            onClick={() => setProfile("brand")}
-            className={`rounded-2xl border-2 px-3 py-3.5 text-left text-xs font-bold leading-snug transition ${
-              profile === "brand"
-                ? "border-[var(--primary-color)] bg-[color-mix(in_srgb,var(--primary-color)_10%,white)] text-[var(--v-text)]"
-                : "border-[var(--v-muted)]/20 bg-[var(--bg-color)] text-[var(--v-muted)]"
-            }`}
-          >
-            {c.profileBrand}
-          </button>
-        </div>
+      {/* Offers */}
+      <section className="px-4 py-8">
+        <h2 className="text-xl font-bold text-[var(--v-text)]">{c.offers.title}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--v-muted)]">
+          {c.offers.subtitle}
+        </p>
+        <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+          {offerItems.map(({ icon: Icon, accent, title, description, bullets }) => (
+            <li
+              key={title}
+              className="flex flex-col rounded-[24px] border border-[var(--v-muted)]/12 bg-[var(--v-surface)] p-5 shadow-[0_12px_32px_rgba(15,23,42,0.05)]"
+            >
+              <span
+                className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl ${accent}`}
+              >
+                <Icon className="h-5 w-5" aria-hidden />
+              </span>
+              <h3 className="mt-4 text-base font-bold text-[var(--v-text)]">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--v-muted)]">
+                {description}
+              </p>
+              <ul className="mt-4 space-y-2 border-t border-[var(--v-muted)]/10 pt-4">
+                {bullets.map((item) => (
+                  <li
+                    key={item}
+                    className="flex gap-2 text-xs leading-relaxed text-[var(--v-text)]"
+                  >
+                    <span
+                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--primary-color)]"
+                      aria-hidden
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        <div className="mt-5 grid gap-4">
-          <div>
-            <label className="text-sm font-semibold text-[var(--v-text)]">
-              {profile === "peer" ? c.companyPeer : c.companyBrand}
-            </label>
-            <input
-              required
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              className={inputClass}
-            />
-          </div>
+      {/* Form */}
+      <section
+        id="partnership-form"
+        ref={formSectionRef}
+        className="scroll-mt-4 px-4 pb-2"
+      >
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-[28px] border border-[var(--v-muted)]/15 bg-[var(--v-surface)] p-5 shadow-[0_20px_48px_rgba(15,23,42,0.08)] sm:p-7"
+        >
+          <h2 className="text-xl font-bold text-[var(--v-text)]">{c.form.title}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--v-muted)]">
+            {c.form.subtitle}
+          </p>
 
-          <div>
-            <label className="text-sm font-semibold text-[var(--v-text)]">
-              {c.contactName}
-            </label>
-            <input
-              required
-              value={contactName}
-              onChange={(e) => setContactName(e.target.value)}
-              className={inputClass}
-            />
-          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.companyName}
+              </label>
+              <input
+                required
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                className={inputClass}
+              />
+            </div>
 
-          {profile === "brand" ? (
             <div>
               <label className="text-sm font-semibold text-[var(--v-text)]">
-                {c.jobTitle}
+                {c.form.contactName}
+              </label>
+              <input
+                required
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.jobTitle}
               </label>
               <input
                 required
@@ -201,146 +307,125 @@ export function VitrineCollaborationForm({
                 className={inputClass}
               />
             </div>
+
+            <div>
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.email}
+              </label>
+              <input
+                required
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.phone}
+              </label>
+              <input
+                required
+                type="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.partnershipType}
+              </label>
+              <select
+                required
+                value={partnershipType}
+                onChange={(e) => setPartnershipType(e.target.value as PartnershipType)}
+                className={inputClass}
+              >
+                {(Object.keys(c.form.partnershipOptions) as PartnershipType[]).map(
+                  (key) => (
+                    <option key={key} value={key}>
+                      {c.form.partnershipOptions[key]}
+                    </option>
+                  ),
+                )}
+              </select>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.budget}{" "}
+                <span className="font-normal text-[var(--v-muted)]">
+                  ({c.form.budgetOptional})
+                </span>
+              </label>
+              <select
+                value={budget}
+                onChange={(e) => setBudget(e.target.value as BudgetRange | "")}
+                className={inputClass}
+              >
+                <option value="">—</option>
+                {(Object.keys(c.form.budgetOptions) as BudgetRange[]).map((key) => (
+                  <option key={key} value={key}>
+                    {c.form.budgetOptions[key]}
+                  </option>
+                ))}
+              </select>
+              <p className="my-2 text-center text-xs font-medium text-[var(--v-muted)]">
+                {c.form.budgetOr}
+              </p>
+              <label className="sr-only" htmlFor="partnership-budget-custom">
+                {c.form.budgetCustom}
+              </label>
+              <input
+                id="partnership-budget-custom"
+                type="text"
+                value={budgetCustom}
+                onChange={(e) => setBudgetCustom(e.target.value)}
+                placeholder={c.form.budgetCustomPlaceholder}
+                className={inputClass}
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="text-sm font-semibold text-[var(--v-text)]">
+                {c.form.message}
+              </label>
+              <textarea
+                required
+                rows={5}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder={c.form.messagePlaceholder}
+                className={`${inputClass} resize-y`}
+              />
+            </div>
+          </div>
+
+          {status === "error" ? (
+            <p
+              className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900"
+              role="alert"
+            >
+              {c.form.errorBody}
+            </p>
           ) : null}
 
-          <div>
-            <label className="text-sm font-semibold text-[var(--v-text)]">
-              {c.phone}
-            </label>
-            <input
-              required
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className={inputClass}
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-semibold text-[var(--v-text)]">
-              {c.email}
-            </label>
-            <input
-              required
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={inputClass}
-            />
-          </div>
-
-          {profile === "peer" ? (
-            <>
-              <div>
-                <label className="text-sm font-semibold text-[var(--v-text)]">
-                  {c.activityType}
-                </label>
-                <select
-                  value={peerActivity}
-                  onChange={(e) => setPeerActivity(e.target.value as PeerActivity)}
-                  className={inputClass}
-                >
-                  {(Object.keys(c.activityOptions) as PeerActivity[]).map((key) => (
-                    <option key={key} value={key}>
-                      {c.activityOptions[key]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold text-[var(--v-text)]">{c.needType}</p>
-                <ul className="mt-2 flex flex-wrap gap-2">
-                  {(Object.keys(c.needOptions) as PeerNeed[]).map((need) => {
-                    const active = peerNeeds.includes(need);
-                    return (
-                      <li key={need}>
-                        <button
-                          type="button"
-                          onClick={() => togglePeerNeed(need)}
-                          className={`rounded-full border-2 px-3 py-1.5 text-xs font-semibold transition ${
-                            active
-                              ? "border-[var(--primary-color)] bg-[color-mix(in_srgb,var(--primary-color)_10%,white)]"
-                              : "border-[var(--v-muted)]/20"
-                          }`}
-                        >
-                          {c.needOptions[need]}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </>
-          ) : (
-            <div>
-              <p className="text-sm font-semibold text-[var(--v-text)]">
-                {c.partnershipType}
-              </p>
-              <ul className="mt-2 space-y-2">
-                {(Object.keys(c.partnershipOptions) as BrandPartnership[]).map((item) => (
-                  <li key={item}>
-                    <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-[var(--v-muted)]/15 p-3">
-                      <input
-                        type="checkbox"
-                        className="mt-0.5 h-4 w-4 accent-[var(--primary-color)]"
-                        checked={brandPartnerships.includes(item)}
-                        onChange={() => toggleBrandPartnership(item)}
-                      />
-                      <span className="text-sm text-[var(--v-text)]">
-                        {c.partnershipOptions[item]}
-                      </span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <div>
-            <label className="text-sm font-semibold text-[var(--v-text)]">
-              {c.description}
-            </label>
-            <textarea
-              required
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder={
-                profile === "peer"
-                  ? c.descriptionPeerPlaceholder
-                  : c.descriptionBrandPlaceholder
-              }
-              className={`${inputClass} resize-y`}
-            />
-          </div>
-        </div>
-
-        <VitrineFileUpload
-          copy={copy}
-          label={profile === "peer" ? c.filesPeerLabel : c.filesBrandLabel}
-          onChange={setFiles}
-        />
-
-        {status === "error" ? (
-          <p
-            className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900"
-            role="alert"
+          <button
+            type="submit"
+            disabled={status === "submitting"}
+            className="mt-6 flex min-h-[3.5rem] w-full items-center justify-center rounded-[20px] bg-black text-base font-bold text-white transition hover:bg-slate-900 disabled:opacity-60"
           >
-            {c.errorBody}
-          </p>
-        ) : null}
-
-        <button
-          type="submit"
-          disabled={status === "submitting"}
-          className="mt-5 flex min-h-[3.5rem] w-full items-center justify-center rounded-[20px] bg-[var(--primary-color)] text-base font-bold text-[var(--v-primary-fg)] disabled:opacity-60"
-        >
-          {status === "submitting" ? c.submitting : c.submit}
-        </button>
-      </form>
+            {status === "submitting" ? c.form.submitting : c.form.submit}
+          </button>
+        </form>
+      </section>
 
       <VitrineFooter label={copy.poweredBy} />
-    </motion.section>
+    </motion.div>
   );
 }

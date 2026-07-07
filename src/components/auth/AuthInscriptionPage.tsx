@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AuthPageShell } from "@/components/auth/AuthPageShell";
 import { AuthServiceUnavailable } from "@/components/auth/AuthServiceUnavailable";
 import { SignUpForm } from "@/components/auth/SignUpForm";

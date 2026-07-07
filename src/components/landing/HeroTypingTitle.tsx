@@ -57,7 +57,7 @@ export function HeroTypingTitle({
 
   return (
     <h1
-      className={`text-4xl font-bold leading-tight text-[#212129] md:text-5xl lg:text-[2.75rem] ${className}`.trim()}
+      className={`lk-display text-[2.35rem] leading-[1.08] md:text-5xl lg:text-[3rem] ${className}`.trim()}
     >
       {intro}
       <span style={{ color: currentColor }}>{displayText}</span>

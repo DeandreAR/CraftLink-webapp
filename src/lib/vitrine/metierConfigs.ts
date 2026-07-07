@@ -105,6 +105,14 @@ export const METIER_CONFIGS = {
     },
     fields: { showUrgency: false, showDimensions: true, showAccess: true },
   },
+  RENOVATION_GENERALE: {
+    title: { fr: "Projet de Rénovation Générale", en: "General Renovation Project" },
+    placeholder: {
+      fr: "Ex: Rénovation complète d'un appartement de 80 m²...",
+      en: "Ex: Full renovation of an 80 m² apartment...",
+    },
+    fields: { showUrgency: false, showDimensions: true, showAccess: true },
+  },
 } as const satisfies Record<string, MetierConfig>;
 
 export type ResolvedMetierFormConfig = {

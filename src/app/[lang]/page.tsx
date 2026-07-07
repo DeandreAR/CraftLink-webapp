@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { LandingHome } from "@/components/landing/LandingHome";
 import { getDictionary } from "@/i18n/getDictionary";
 import { isLocale, locales, type Locale } from "@/i18n/config";
+import { buildPageOpenGraph } from "@/lib/seo/siteMetadata";
 
 type LangPageProps = {
   params: Promise<{ lang: string }>;
@@ -16,9 +17,16 @@ export async function generateMetadata({
     return {};
   }
   const dict = await getDictionary(raw);
+  const path = `/${raw}`;
   return {
     title: dict.meta.title,
     description: dict.meta.description,
+    alternates: { canonical: path },
+    openGraph: buildPageOpenGraph({
+      title: dict.meta.title,
+      description: dict.meta.description,
+      path,
+    }),
   };
 }
 

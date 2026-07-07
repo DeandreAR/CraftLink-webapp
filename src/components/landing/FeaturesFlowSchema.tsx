@@ -86,7 +86,7 @@ export function FeaturesFlowSchema({ flow, className = "" }: FeaturesFlowSchemaP
       className={`landing-features-flow mt-8 ${className}`.trim()}
       aria-label={flow.figureAlt}
     >
-      <div className="overflow-x-auto rounded-[1.5rem] border border-neutral-800/20 bg-neutral-950 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.18)] md:p-6">
+      <div className="overflow-x-auto rounded-2xl border-2 border-[#EFA188]/35 bg-neutral-950 p-4 shadow-[0_24px_60px_rgba(239,161,136,0.12)] md:p-6">
         <div className="flex min-w-[52rem] items-stretch gap-2 md:gap-3">
           {/* 1 — Sources */}
           <div className="flex w-[11.5rem] shrink-0 flex-col">

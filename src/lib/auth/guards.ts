@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { isOnboardingComplete } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
 import {
   resolveWorkspaceSession,
@@ -20,6 +21,10 @@ export async function requireSessionProfile(
 
   if (!session.data) {
     redirect(authPath(lang, "login"));
+  }
+
+  if (!isOnboardingComplete(session.data.profile)) {
+    redirect(authPath(lang, "onboarding"));
   }
 
   return session.data;

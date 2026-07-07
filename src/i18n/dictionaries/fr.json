@@ -24,11 +24,13 @@
       "password": "Mot de passe",
       "submit": "Se connecter",
       "submitting": "Connexion…",
-      "goToSignUp": "Créer un compte"
+      "goToSignUp": "Créer un compte",
+      "confirmationError": "Le lien de confirmation est invalide ou a expiré. Réessayez de vous inscrire.",
+      "confirmationMissing": "Lien de confirmation incomplet. Ouvrez le lien reçu par e-mail ou connectez-vous."
     },
     "signUp": {
       "title": "Créer mon compte",
-      "subtitle": "Inscription gratuite — votre page pro est prête en quelques secondes.",
+      "subtitle": "Inscription gratuite — un e-mail de confirmation vous sera envoyé pour activer votre compte.",
       "fullName": "Nom / raison sociale (optionnel)",
       "proPhone": "Numéro pro (optionnel)",
       "proPhonePlaceholder": "6 12 34 56 78",
@@ -38,7 +40,12 @@
       "confirmPassword": "Confirmer le mot de passe",
       "submit": "Créer mon compte",
       "submitting": "Création…",
-      "goToSignIn": "Déjà inscrit ? Se connecter"
+      "goToSignIn": "Déjà inscrit ? Se connecter",
+      "confirmationTitle": "Compte créé — consultez votre e-mail",
+      "confirmationLead": "Nous avons envoyé un lien de confirmation à :",
+      "confirmationSpam": "Pensez à vérifier vos spams ou l’onglet « Promotions ».",
+      "confirmationAfterClick": "Après avoir cliqué sur le lien, vous serez connecté et pourrez poursuivre la configuration de votre page.",
+      "confirmationLoginCta": "Retour à la connexion"
     },
     "dashboard": {
       "title": "Tableau de bord",
@@ -235,7 +242,7 @@
       "name": "ESSENTIEL",
       "pitch": "Pour publier vite et tester vos premiers leads.",
       "cta": "Créer ma page",
-      "href": "#cta",
+      "href": "/onboarding",
       "pricing": {
         "monthly": { "amount": "0€ HT / mois" },
         "annual": { "amount": "0€ HT / mois" }
@@ -243,9 +250,9 @@
     },
     "tierPro": {
       "name": "PRO ARTISAN",
-      "pitch": "Offre Early Bird — qualification IA, leads illimités et image pro renforcée.",
+      "pitch": "Offre Early Bird — contacts WhatsApp illimités, capture vocale et image pro renforcée.",
       "cta": "Rejoindre la Bêta Pro",
-      "href": "#cta",
+      "href": "/onboarding?plan=pro",
       "badge": "EARLY BIRD",
       "futurePrice": "29€ HT/mois",
       "reassurance": "Autonomie totale OU onboarding guidé en 15 min, c'est vous qui choisissez.",
@@ -275,16 +282,17 @@
     },
     "featureMatrix": [
       {
-        "label": "Page pro + lien unique (bio, fiches)",
+        "label": "**Page pro + lien unique** (bio, fiches)",
         "essential": true,
         "pro": true
       },
       {
         "labelEssential": "Création de page instantanée via IA (Lien Instagram, Facebook ou Google My Business)",
-        "labelPro": "Création de page enrichie par IA (via vos réseaux sociaux ou fiche Google)",
+        "labelPro": "Création de page enrichie **par IA** (via vos réseaux sociaux ou fiche Google)",
         "label": "Création de page via IA",
-        "essential": true,
-        "pro": true
+        "essential": false,
+        "pro": true,
+        "showEssential": false
       },
       {
         "label": "QR Code Camion imprimable (Générique)",
@@ -297,39 +305,50 @@
         "pro": true
       },
       {
-        "label": "Mise en page mobile-first & WhatsApp direct",
+        "label": "Mise en page mobile-first & **WhatsApp direct**",
         "essential": true,
         "pro": true
       },
       {
-        "label": "Capture vocale & transcription IA",
-        "essential": false,
-        "pro": true
-      },
-      {
-        "labelEssential": "Accès limité à 15 leads/mois (Affichage flouté au-delà)",
-        "labelPro": "Leads illimités (Aucun blocage)",
-        "label": "Volume de leads",
+        "labelEssential": "Accès limité à **10 leads/mois** (Affichage flouté au-delà)",
+        "labelPro": "**Leads illimités** (Aucun blocage)",
+        "label": "CRM leads",
         "essential": true,
         "pro": true,
         "essentialLimit": true
       },
       {
-        "labelEssential": "Pas d'accusé de réception SMS automatique",
-        "labelPro": "Accusé de réception SMS automatique au client final",
-        "label": "Accusé de réception SMS",
+        "labelEssential": "**10 partages WhatsApp/mois** depuis le CRM",
+        "labelPro": "**Partages WhatsApp illimités** depuis le CRM",
+        "label": "Contact client via WhatsApp",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "❌ Capture vocale & Qualification IA",
+        "labelPro": "**Capture vocale & Transcription IA automatique** du besoin client",
+        "label": "Capture vocale & qualification IA",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "labelEssential": "Pas d'accusé de réception automatique",
+        "labelPro": "**Accusé de réception SMS/e-mail automatique** au client final",
+        "label": "Accusé de réception automatique",
         "essential": false,
         "pro": true,
         "highlightPro": true
       },
       {
-        "label": "Section « Partenaires & Marques » dédiée",
+        "labelPro": "**Section « Partenaires & Marques »** + **liens d'affiliation** nommés",
+        "label": "Section « Partenaires & Marques » + liens d'affiliation",
         "essential": false,
         "pro": true
       },
       {
         "labelEssential": "Onboarding personnalisé au démarrage",
-        "labelPro": "Onboarding personnalisé (Optionnel & 100% Gratuit)",
+        "labelPro": "**Onboarding personnalisé** (Optionnel & **100% Gratuit**)",
         "label": "Onboarding personnalisé",
         "essential": false,
         "pro": true
@@ -349,7 +368,9 @@
     ]
   },
   "footer": {
-    "copyright": "© {year} CraftLink — Page pro artisan, capture de leads.",
+    "copyrightBefore": "© {year} ",
+    "copyrightLink": "CraftLink by AnkoUnity",
+    "copyrightAfter": ". Tous droits réservés.",
     "tagline": "Vitrine express pour artisans du bâtiment.",
     "legalNavLabel": "Informations légales",
     "manageCookies": "Gérer les cookies",

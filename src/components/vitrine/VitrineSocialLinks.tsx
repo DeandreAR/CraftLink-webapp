@@ -4,6 +4,8 @@ import { LuGlobe } from "react-icons/lu";
 import {
   SiFacebook,
   SiInstagram,
+  SiSnapchat,
+  SiThreads,
   SiTiktok,
 } from "react-icons/si";
 import type { SocialLinkType, VitrineSocialLink } from "@/domain/vitrine";
@@ -13,6 +15,8 @@ const SOCIAL_ICONS: Partial<Record<SocialLinkType, IconType>> = {
   facebook: SiFacebook,
   linkedin: FaLinkedinIn,
   tiktok: SiTiktok,
+  threads: SiThreads,
+  snapchat: SiSnapchat,
   website: LuGlobe,
 };
 
@@ -22,6 +26,8 @@ const VISIBLE_SOCIAL_TYPES: SocialLinkType[] = [
   "facebook",
   "linkedin",
   "tiktok",
+  "threads",
+  "snapchat",
   "website",
 ];
 

@@ -6,8 +6,11 @@ const supabaseAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ??
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim();
 
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
+export async function updateSession(
+  request: NextRequest,
+  initialResponse?: NextResponse,
+) {
+  let supabaseResponse = initialResponse ?? NextResponse.next({ request });
 
   if (!supabaseUrl?.startsWith("http") || !supabaseAnonKey) {
     return supabaseResponse;

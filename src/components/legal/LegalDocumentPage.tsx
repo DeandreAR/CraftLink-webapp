@@ -15,19 +15,17 @@ type LegalDocumentPageProps = {
 function LegalSection({ section }: { section: LegalSectionJson }) {
   return (
     <section className="mt-8">
-      <h2 className="text-lg font-bold tracking-tight text-black md:text-xl">
-        {section.title}
-      </h2>
+      <h2 className="lk-display text-lg md:text-xl">{section.title}</h2>
       {section.paragraphs?.map((p) => (
         <p
           key={p.slice(0, 48)}
-          className="mt-3 text-sm leading-relaxed text-neutral-700 md:text-base"
+          className="lk-lead mt-3 text-sm md:text-base"
         >
           {p}
         </p>
       ))}
       {section.list?.length ? (
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-neutral-700 md:text-base">
+        <ul className="lk-lead mt-3 list-disc space-y-2 pl-5 text-sm md:text-base">
           {section.list.map((item) => (
             <li key={item.slice(0, 48)}>{item}</li>
           ))}
@@ -47,45 +45,41 @@ export function LegalDocumentPage({
   const homeHref = basePath || "/";
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="landing-page min-h-screen bg-[#FDFBF7] text-[#212129]">
       <Navbar basePath={basePath || "/"} labels={dict.nav} />
       <main className="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
         <Link
           href={homeHref}
-          className="text-sm font-semibold text-neutral-600 transition hover:text-black"
+          className="text-sm font-semibold text-[#5b6478] transition hover:text-[#EFA188]"
         >
           ← {dict.legal.backToHome}
         </Link>
-        <h1 className="mt-6 text-3xl font-bold tracking-tight text-black md:text-4xl">
-          {page.title}
-        </h1>
-        <p className="mt-2 text-xs font-medium uppercase tracking-[0.14em] text-neutral-500">
+        <h1 className="lk-display mt-6 text-3xl md:text-4xl">{page.title}</h1>
+        <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-[#5b6478]">
           {dict.legal.lastUpdated} : {dict.legal.updatedDate}
         </p>
         {page.intro ? (
-          <p className="mt-6 text-base leading-relaxed text-neutral-700 md:text-lg">
-            {page.intro}
-          </p>
+          <p className="lk-lead mt-6 text-base md:text-lg">{page.intro}</p>
         ) : null}
-        <div className="mt-4 border-t border-neutral-200 pt-2">
+        <div className="mt-4 border-t border-[#EFA188]/20 pt-2">
           {page.sections.map((section) => (
             <LegalSection key={section.title} section={section} />
           ))}
         </div>
         <nav
-          className="mt-12 flex flex-wrap gap-3 border-t border-neutral-200 pt-8 text-sm font-semibold"
+          className="mt-12 flex flex-wrap gap-3 border-t border-[#EFA188]/20 pt-8 text-sm font-semibold"
           aria-label={dict.footer.legalNavLabel}
         >
-          <Link href={getLegalHref(lang, "mentionsLegales")} className="text-neutral-600 hover:text-black">
+          <Link href={getLegalHref(lang, "mentionsLegales")} className="text-[#5b6478] hover:text-[#EFA188]">
             {dict.footer.links.mentionsLegales}
           </Link>
-          <Link href={getLegalHref(lang, "privacy")} className="text-neutral-600 hover:text-black">
+          <Link href={getLegalHref(lang, "privacy")} className="text-[#5b6478] hover:text-[#EFA188]">
             {dict.footer.links.privacy}
           </Link>
-          <Link href={getLegalHref(lang, "cookies")} className="text-neutral-600 hover:text-black">
+          <Link href={getLegalHref(lang, "cookies")} className="text-[#5b6478] hover:text-[#EFA188]">
             {dict.footer.links.cookies}
           </Link>
-          <Link href={getLegalHref(lang, "terms")} className="text-neutral-600 hover:text-black">
+          <Link href={getLegalHref(lang, "terms")} className="text-[#5b6478] hover:text-[#EFA188]">
             {dict.footer.links.terms}
           </Link>
         </nav>

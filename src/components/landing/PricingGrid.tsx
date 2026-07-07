@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { getWhatsAppHref } from "@/config/contact";
-import { GlowButton } from "@/components/ui/GlowButton";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { LandingCta } from "@/components/landing/LandingCta";
+import type { Locale } from "@/i18n/config";
+import { defaultLocale } from "@/i18n/config";
+import { onboardingPath } from "@/lib/auth/paths";
 import type { FeatureMatrixRowJson, PricingComparisonDictionary } from "@/i18n/types";
 import type { PricingSectionModel, TierKey } from "@/services/pricingComparisonSection";
 
@@ -13,6 +15,7 @@ type BillingPeriod = "monthly" | "annual";
 type PricingGridProps = {
   model: PricingSectionModel;
   basePath: string;
+  locale?: Locale;
 };
 
 function isFeatureVisible(row: FeatureMatrixRowJson, tierKey: TierKey): boolean {
@@ -24,6 +27,30 @@ function getFeatureLabel(row: FeatureMatrixRowJson, tierKey: TierKey): string {
   if (tierKey === "essential" && row.labelEssential) return row.labelEssential;
   if (tierKey === "pro" && row.labelPro) return row.labelPro;
   return row.label;
+}
+
+/** Rendu inline `**gras**` depuis les libellés i18n. */
+function FeatureLabel({ text, className }: { text: string; className?: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+
+  return (
+    <span className={className}>
+      {parts.map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={index} className="font-semibold text-inherit">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return part;
+      })}
+    </span>
+  );
+}
+
+function isExcludedFeatureLabel(label: string): boolean {
+  return label.trimStart().startsWith("❌");
 }
 
 function IconCheck({ className }: { className?: string }) {
@@ -118,32 +145,38 @@ function TierFeatureList({
             tierKey === "essential" && row.essentialLimit && included;
           const isHighlight =
             tierKey === "pro" && row.highlightPro && included;
+          const isExcludedLabel = !included && isExcludedFeatureLabel(label);
 
           return (
             <li
-              key={`${tierKey}-${label}`}
+              key={`${tierKey}-${row.label}-${label}`}
               className={`flex gap-2.5 leading-snug ${
                 included ? "text-neutral-900" : "text-neutral-400"
               }`}
             >
-              <FeatureStatusIcon
-                tierKey={tierKey}
-                row={row}
-                included={included}
-              />
-              <span
+              {!isExcludedLabel ? (
+                <FeatureStatusIcon
+                  tierKey={tierKey}
+                  row={row}
+                  included={included}
+                />
+              ) : (
+                <span className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              )}
+              <FeatureLabel
+                text={label}
                 className={
                   !included
-                    ? "line-through decoration-neutral-300/90"
+                    ? isExcludedLabel
+                      ? "text-neutral-400 line-through decoration-neutral-300/90"
+                      : "line-through decoration-neutral-300/90"
                     : isHighlight
-                      ? "font-semibold text-black"
+                      ? "text-black"
                       : isLimit
                         ? "text-neutral-800"
                         : undefined
                 }
-              >
-                {label}
-              </span>
+              />
             </li>
           );
         })}
@@ -172,9 +205,7 @@ function ProBillingSwitch({
         type="button"
         onClick={() => onChange("monthly")}
         className={`flex-1 rounded-full px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-          !isAnnual
-            ? "bg-black text-white shadow-sm"
-            : "text-neutral-600 hover:text-black"
+          !isAnnual ? "bg-black text-white" : "text-neutral-600 hover:text-black"
         }`}
         aria-pressed={!isAnnual}
       >
@@ -184,9 +215,7 @@ function ProBillingSwitch({
         type="button"
         onClick={() => onChange("annual")}
         className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-          isAnnual
-            ? "bg-black text-white shadow-sm"
-            : "text-neutral-600 hover:text-black"
+          isAnnual ? "bg-black text-white" : "text-neutral-600 hover:text-black"
         }`}
         aria-pressed={isAnnual}
       >
@@ -199,7 +228,7 @@ function ProBillingSwitch({
   );
 }
 
-export function PricingGrid({ model, basePath }: PricingGridProps) {
+export function PricingGrid({ model, basePath, locale = defaultLocale }: PricingGridProps) {
   const { copy } = model;
   const [proPeriod, setProPeriod] = useState<BillingPeriod>("monthly");
   const withBase = (hash: string) => `${basePath}${hash}`;
@@ -221,44 +250,35 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
         transition={{ duration: 0.4 }}
         className="mt-10 flex justify-center"
       >
-        <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#EFA188]/50 bg-gradient-to-r from-[#EFA188]/20 via-[#EFA188]/10 to-[#D6BCFA]/20 px-5 py-2.5 text-center text-[11px] font-bold uppercase leading-snug tracking-[0.12em] text-neutral-900 shadow-[0_8px_24px_rgba(239,161,136,0.25)] sm:text-xs">
+        <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#EFA188]/40 bg-[#EFA188]/15 px-5 py-2.5 text-center text-[11px] font-semibold uppercase leading-snug tracking-[0.12em] text-neutral-800 sm:text-xs">
           {copy.betaPioneerBadge}
         </span>
       </motion.div>
 
       <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-10 lg:grid-cols-3 lg:items-stretch">
-        <GlassCard
-          rounded="2xl"
-          className="flex flex-col border border-neutral-200 bg-white p-6 shadow-[0_12px_32px_rgba(0,0,0,0.04)] md:p-8"
-        >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-600">
+        <div className="flex flex-col rounded-2xl border border-neutral-200 bg-white p-6 md:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
             {essential.name}
           </p>
-          <p className="mt-2 text-base font-medium text-neutral-700">
-            {essential.pitch}
-          </p>
-          <p className="mt-5 text-3xl font-bold tracking-tight text-black md:text-4xl">
+          <p className="mt-2 text-base font-medium text-neutral-700">{essential.pitch}</p>
+          <p className="mt-5 text-3xl font-bold tracking-tight text-neutral-900 md:text-4xl">
             {essentialPrice.amount}
           </p>
           {essentialPrice.footnote ? (
             <p className="mt-1 text-xs text-neutral-500">{essentialPrice.footnote}</p>
           ) : (
-            <p className="mt-1 text-xs text-neutral-400">&nbsp;</p>
+            <p className="mt-1 text-xs text-transparent">&nbsp;</p>
           )}
           <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
             {copy.featuresColumnTitle}
           </p>
           <TierFeatureList tierKey="essential" rows={model.featureMatrix} />
           <div className="mt-8">
-            <GlowButton
-              href={withBase(essential.hrefSuffix)}
-              variant="secondary"
-              className="w-full justify-center"
-            >
+            <LandingCta href={withBase(essential.hrefSuffix)} variant="secondary" className="w-full justify-center">
               {essential.cta}
-            </GlowButton>
+            </LandingCta>
           </div>
-        </GlassCard>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -266,10 +286,10 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, delay: 0.08 }}
           whileHover={{ y: -4, scale: 1.01 }}
-          className="relative flex flex-col overflow-hidden rounded-[28px] border-2 border-black bg-white p-6 shadow-[0_28px_64px_rgba(0,0,0,0.16)] ring-4 ring-[#EFA188]/25 md:p-8 lg:scale-[1.03] lg:shadow-[0_32px_72px_rgba(239,161,136,0.22)]"
+          className="relative flex flex-col overflow-hidden rounded-2xl border-2 border-black bg-white p-6 md:p-8 lg:scale-[1.02]"
         >
           <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#EFA188] via-[#D6BCFA] to-[#B2F5EA]"
+            className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#EFA188] via-[#D6BCFA] to-[#B2F5EA]"
             aria-hidden
           />
 
@@ -313,13 +333,9 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
           <TierFeatureList tierKey="pro" rows={model.featureMatrix} />
 
           <div className="mt-8">
-            <GlowButton
-              href={withBase(pro.hrefSuffix)}
-              variant="primary"
-              className="w-full justify-center border-2 border-black bg-black text-white shadow-[0_12px_28px_rgba(0,0,0,0.2)] hover:scale-[1.02]"
-            >
+            <LandingCta href={onboardingPath(locale, { plan: "pro", billing: proPeriod })} className="w-full justify-center">
               {pro.cta}
-            </GlowButton>
+            </LandingCta>
           </div>
           {copy.tierPro.reassurance ? (
             <p className="mt-3 text-center text-xs leading-relaxed text-neutral-600">
@@ -328,29 +344,22 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
           ) : null}
         </motion.div>
 
-        <GlassCard
-          rounded="2xl"
-          className="flex flex-col border border-dashed border-neutral-300 bg-neutral-50/80 p-6 md:p-8"
-        >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-600">
+        <div className="flex flex-col rounded-2xl border border-dashed border-neutral-300 bg-neutral-50/80 p-6 md:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
             {copy.tierCustom.name}
           </p>
-          <p className="mt-2 text-base font-medium text-neutral-700">
-            {copy.tierCustom.pitch}
-          </p>
-          <p className="mt-5 text-3xl font-bold tracking-tight text-black md:text-4xl">
+          <p className="mt-2 text-base font-medium text-neutral-700">{copy.tierCustom.pitch}</p>
+          <p className="mt-5 text-3xl font-bold tracking-tight text-neutral-900 md:text-4xl">
             {copy.tierCustom.priceLabel}
           </p>
-          <p className="mt-4 text-sm leading-relaxed text-neutral-600">
-            {copy.tierCustom.description}
-          </p>
+          <p className="mt-4 text-sm leading-relaxed text-neutral-600">{copy.tierCustom.description}</p>
           <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
             {copy.featuresColumnTitle}
           </p>
           <ul className="mt-4 flex-1 space-y-2.5 text-sm">
             {copy.tierCustom.bullets.map((item) => (
               <li key={item} className="flex gap-2.5 leading-snug text-neutral-900">
-                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-neutral-900">
+                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center">
                   <IconCheck className="h-3.5 w-3.5" />
                 </span>
                 <span>{item}</span>
@@ -358,27 +367,24 @@ export function PricingGrid({ model, basePath }: PricingGridProps) {
             ))}
           </ul>
           <div className="mt-8">
-            <GlowButton
+            <LandingCta
               href={getWhatsAppHref(copy.tierCustom.whatsappMessage)}
               external
-              className="w-full justify-center bg-[#25D366] text-white hover:bg-[#20BD5A]"
+              className="w-full justify-center !bg-[#25D366] !text-white hover:!bg-[#20BD5A]"
             >
               {copy.tierCustom.cta}
-            </GlowButton>
+            </LandingCta>
           </div>
-        </GlassCard>
+        </div>
       </div>
 
-      <div className="mt-10 rounded-2xl border border-[#B2F5EA]/40 bg-[#B2F5EA]/[0.12] p-6 md:p-8">
+      <div className="mt-10 rounded-2xl border border-[#B2F5EA]/40 bg-[#B2F5EA]/10 p-6 md:p-8">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800">
           {copy.proAdvantagesTitle}
         </p>
         <ul className="mt-5 grid gap-3 sm:grid-cols-2">
           {model.proAdvantages.map((line) => (
-            <li
-              key={line}
-              className="flex gap-2 text-sm leading-snug text-neutral-900 md:text-base"
-            >
+            <li key={line} className="flex gap-2 text-sm leading-snug text-neutral-900 md:text-base">
               <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-[#0F766E]">
                 <IconCheck className="h-3.5 w-3.5" />
               </span>

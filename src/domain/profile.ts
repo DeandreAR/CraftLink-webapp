@@ -1,4 +1,5 @@
 import type { PlanTierValue } from "@/config/planTier";
+import type { StoredVitrineConfig } from "@/domain/vitrinePresentation";
 
 /** Rôle dans l’espace de travail (multi-tenant). */
 export type ProfileRole = "ADMIN";
@@ -13,6 +14,12 @@ export type Profile = {
   plan_tier: PlanTier;
   full_name: string | null;
   whatsapp_number: string | null;
+  page_slug: string | null;
+  onboarding_completed_at: string | null;
+  whatsapp_clicks_this_month?: number;
+  whatsapp_clicks_month_key?: string | null;
+  voice_capture_enabled?: boolean;
+  vitrine_presentation?: StoredVitrineConfig | null;
   created_at: string | null;
   updated_at: string | null;
 };

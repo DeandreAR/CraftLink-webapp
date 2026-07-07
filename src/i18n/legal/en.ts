@@ -3,7 +3,7 @@ import type { LegalBundleDictionary } from "@/i18n/types";
 export const legalEn: LegalBundleDictionary = {
   backToHome: "Back to home",
   lastUpdated: "Last updated",
-  updatedDate: "22 May 2026",
+  updatedDate: "7 July 2026",
   pages: {
     mentionsLegales: {
       metaTitle: "Legal notice — CraftLink",
@@ -15,14 +15,14 @@ export const legalEn: LegalBundleDictionary = {
         {
           title: "Publisher",
           paragraphs: [
-            "The craftlink website (the “Site”) is published by CraftLink, a SaaS solution for tradesperson storefronts and lead capture.",
+            "The CraftLink website (the “Site”) and the associated SaaS service are published and operated by AnkoUnity, registered office: 56 Avenue de la Paix, 94260 Fresnes, France, registered with the Créteil Trade and Companies Register (RCS) under number 843 812 611.",
+            "Business activity: marketing and development of web and mobile applications and creation of automation solutions.",
             "Contact: contact@craftlink.fr",
-            "Legal status: company registration in progress — definitive details (form, share capital, trade register) will be updated upon incorporation.",
           ],
         },
         {
           title: "Publication director",
-          paragraphs: ["The publication director is CraftLink’s legal representative."],
+          paragraphs: ["The publication director is AnkoUnity’s legal representative."],
         },
         {
           title: "Hosting",
@@ -66,7 +66,7 @@ export const legalEn: LegalBundleDictionary = {
         {
           title: "Data controller",
           paragraphs: [
-            "CraftLink acts as controller for data collected through the Site and the tradesperson workspace.",
+            "AnkoUnity acts as controller for data collected through the Site and the tradesperson workspace (CraftLink brand).",
             "Privacy contact: contact@craftlink.fr",
           ],
         },
@@ -187,7 +187,7 @@ export const legalEn: LegalBundleDictionary = {
         "CraftLink terms: scope, access, obligations and liability.",
       title: "Terms of use",
       intro:
-        "These terms govern access to and use of the CraftLink service by tradespeople and Site visitors.",
+        "These terms govern access to and use of the CraftLink service, published and operated by AnkoUnity (RCS Créteil 843 812 611), by tradespeople and Site visitors.",
       sections: [
         {
           title: "Purpose",
@@ -216,9 +216,11 @@ export const legalEn: LegalBundleDictionary = {
           ],
         },
         {
-          title: "Pricing",
+          title: "Pricing, billing and general terms of sale (GTC)",
           paragraphs: [
-            "Essential, Pro and Options plans are described on the Site. CraftLink may change pricing with prior notice to subscribers.",
+            "Essential, Pro and Options plans are described on the Site. Subscriptions and transactions are entered into with AnkoUnity, publisher of the CraftLink service.",
+            "Prices shown are excluding tax (excl. VAT) where applicable. VAT not applicable — article 293 B of the French General Tax Code (CGI).",
+            "AnkoUnity may change pricing with prior notice to subscribers.",
           ],
         },
         {

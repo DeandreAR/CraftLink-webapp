@@ -4,6 +4,13 @@ export const vitrineFr: VitrineDictionary = {
   presentation: {
     quoteFreeHint: "Devis 100% gratuit · Sans engagement",
     portfolioTitle: "Réalisations récentes",
+    affiliateLinksTitle: "Mes liens partenaires",
+    urgencyWhatsAppMessage:
+      "Bonjour, j'ai une URGENCE dépannage et je viens de voir votre page CraftLink. Êtes-vous disponible rapidement ?",
+    urgencyClickLeadDescription:
+      "Le client a cliqué sur « Signaler une urgence WhatsApp » et a été redirigé vers WhatsApp. Coordonnées non renseignées.",
+    urgencyWhatsAppUnavailable:
+      "Numéro WhatsApp indisponible — utilisez le formulaire de contact.",
   },
   details: {
     back: "Retour à la présentation",
@@ -17,7 +24,7 @@ export const vitrineFr: VitrineDictionary = {
       quote: "Votre demande de devis",
       urgent: "Votre demande de dépannage urgent",
       info: "Votre question",
-      collaboration: "Co-développer & Partenariats",
+      collaboration: "Partenariats & Marques",
     },
     delayLabel: "Quand souhaitez-vous intervenir ?",
   },
@@ -28,6 +35,8 @@ export const vitrineFr: VitrineDictionary = {
     partnerCompanyPlaceholder: "Raison sociale ou enseigne",
     phone: "Téléphone",
     phonePlaceholder: "06 12 34 56 78",
+    email: "E-mail",
+    emailPlaceholder: "vous@exemple.fr",
     urgency: "Délai souhaité",
     urgencyOptions: {
       urgent: "🚨 Urgent / Dépannage (Intervention sous 24h à 48h)",
@@ -83,46 +92,91 @@ export const vitrineFr: VitrineDictionary = {
     invalidType: "Seuls les fichiers image sont acceptés (pas de vidéo).",
   },
   collaboration: {
-    title: "Co-développer & Partenariats",
-    profilePeer: "Je suis un Confrère / Pro du bâtiment",
-    profileBrand: "Je suis une Marque / Fabricant",
-    companyPeer: "Nom de la structure / entreprise",
-    companyBrand: "Nom de la marque / entreprise",
-    contactName: "Nom du contact",
-    jobTitle: "Poste occupé",
-    phone: "Téléphone",
-    email: "E-mail",
-    activityType: "Type d'activité",
-    activityOptions: {
-      architect: "Architecte",
-      project_manager: "Maître d'œuvre",
-      artisan: "Artisan",
-      builder: "Constructeur",
-      real_estate: "Agence Immobilière",
-      other: "Autre",
+    hero: {
+      eyebrow: "Espace annonceurs & marques BTP",
+      title: "Touchez la plus grande communauté d'artisans du BTP en France",
+      subtitle:
+        "Campagnes média, contenus UGC authentiques et tests produits auprès de professionnels qualifiés. Un canal direct vers des décideurs sur le terrain.",
+      cta: "Devenir Partenaire",
     },
-    needType: "Type de besoin",
-    needOptions: {
-      subcontracting: "Sous-traitance",
-      project_offer: "Proposition de chantier",
-      local_partnership: "Partenariat local",
+    stats: {
+      artisans: { value: "+2 500", label: "artisans actifs" },
+      engagement: { value: "68 %", label: "taux d'engagement moyen" },
+      opportunities: { value: "12 k+", label: "opportunités générées / an" },
     },
-    partnershipType: "Type de partenariat",
-    partnershipOptions: {
-      product_placement: "Placement de produit",
-      material_donation: "Dotation de matériel",
-      affiliate_program: "Programme d'affiliation",
-      media_campaign: "Campagne média",
+    offers: {
+      title: "Nos modalités de collaboration",
+      subtitle:
+        "Des formats pensés pour la notoriété, la conversion et la preuve produit sur le terrain.",
+      advertising: {
+        title: "Publicité & Média",
+        description:
+          "Visibilité premium auprès d'une audience BTP ultra-ciblée et engagée.",
+        bullets: [
+          "Bannières & encarts sur nos vitrines",
+          "Newsletters et push ciblés",
+          "Sponsoring de contenus éditoriaux",
+        ],
+      },
+      ugc: {
+        title: "Campagnes UGC",
+        description:
+          "Des contenus authentiques produits par des artisans de notre communauté.",
+        bullets: [
+          "Témoignages chantier & unboxing",
+          "Reels, stories et posts sociaux",
+          "Brief créatif et modération inclus",
+        ],
+      },
+      productTest: {
+        title: "Tests de Produits",
+        description:
+          "Faites tester et recommander vos outils, équipements ou logiciels sur le terrain.",
+        bullets: [
+          "Sélection d'artisans profilés",
+          "Retours terrain détaillés",
+          "Placement de marque & avis vérifiés",
+        ],
+      },
     },
-    description: "Description",
-    descriptionPeerPlaceholder:
-      "Décrivez brièvement le projet, la localisation du chantier et vos contraintes de planning…",
-    descriptionBrandPlaceholder:
-      "Décrivez brièvement votre marque, le matériel concerné et vos attentes en termes de visibilité…",
-    filesPeerLabel:
-      "Ajouter vos plans ou descriptifs de chantier (Images ou PDF)",
-    filesBrandLabel:
-      "Ajouter votre brief de campagne, catalogue ou proposition de contrat (Images ou PDF)",
+    form: {
+      title: "Proposer un partenariat",
+      subtitle:
+        "Décrivez votre projet en quelques minutes. Notre équipe revient vers vous sous 48 h ouvrées.",
+      companyName: "Nom de l'entreprise",
+      contactName: "Nom du contact",
+      jobTitle: "Poste",
+      email: "E-mail professionnel",
+      phone: "Téléphone",
+      partnershipType: "Type de partenariat souhaité",
+      partnershipOptions: {
+        advertising: "Publicité & Média",
+        ugc: "Campagne UGC",
+        product_test: "Test de produit",
+        other: "Autre",
+      },
+      budget: "Budget estimé",
+      budgetOptional: "optionnel",
+      budgetOr: "ou",
+      budgetCustom: "Montant approximatif",
+      budgetCustomPlaceholder: "Ex. 8 000 €, 12 k€, fourchette 10–20 k€…",
+      budgetOptions: {
+        under_5k: "Moins de 5 000 €",
+        from_5k_to_15k: "5 000 € – 15 000 €",
+        from_15k_to_50k: "15 000 € – 50 000 €",
+        over_50k: "Plus de 50 000 €",
+        undisclosed: "Non communiqué",
+      },
+      message: "Message / Brief du projet",
+      messagePlaceholder:
+        "Objectifs, cibles, calendrier, produits concernés, KPIs attendus…",
+      submit: "Envoyer ma proposition",
+      submitting: "Envoi en cours…",
+      errorBody: "Vérifiez les champs obligatoires et réessayez.",
+      successTitle: "Proposition envoyée",
+      successBody:
+        "Merci ! Notre équipe partenariats analyse votre brief et vous recontacte très vite.",
+    },
     files: {
       dropHint: "Glissez vos fichiers ici (images ou PDF)",
       browse: "Parcourir",
@@ -131,14 +185,10 @@ export const vitrineFr: VitrineDictionary = {
       invalidType: "Seuls les images (JPEG, PNG) et PDF sont acceptés.",
       invalidVideo: "Les fichiers vidéo ne sont pas acceptés.",
     },
-    submit: "Envoyer ma demande de partenariat",
-    submitting: "Envoi en cours…",
-    successTitle: "Demande envoyée",
-    successBody: "Votre demande de partenariat a bien été transmise à l'artisan.",
-    errorBody: "Vérifiez les champs obligatoires et réessayez.",
   },
   services: {
     priceHt: "HT",
+    surDevis: "Sur devis",
   },
   poweredBy: "Propulsé par CraftLink",
 };

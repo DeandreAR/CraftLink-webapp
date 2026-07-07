@@ -1,40 +1,77 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import type {
   PublicPlanTier,
   VitrineOpenIntent,
   VitrineProfileSettings,
+  VitrineTheme,
 } from "@/domain/vitrine";
+import type { VitrineDictionary } from "@/i18n/types";
+import { submitUrgencyClick } from "@/lib/leads/submitUrgencyClick";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
+import { buildUrgencyWhatsAppUrl } from "@/lib/vitrine/buildUrgencyWhatsApp";
 import { LuCalendarClock, LuInfo, LuShare2 } from "react-icons/lu";
 
 type VitrineActionButtonsProps = {
+  pageSlug: string;
+  artisanPhone?: string;
+  serviceZone?: string;
+  copy: VitrineDictionary;
   planTier: PublicPlanTier;
   profileSettings: VitrineProfileSettings;
+  theme: VitrineTheme;
   onAction: (intent: VitrineOpenIntent) => void;
 };
 
-const BORDER = "#9a8468";
-const TEXT = "#4a4035";
-
-const secondaryClass =
-  "relative flex min-h-[3.45rem] w-full items-center justify-center rounded-full border-2 px-12 text-center text-sm font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_3px_10px_rgba(154,132,104,0.22)] transition active:scale-[0.98]";
-
 const iconClass = "absolute left-5 h-6 w-6 shrink-0";
 
+const secondaryClass =
+  "relative flex min-h-[3.45rem] w-full items-center justify-center rounded-full border-2 px-12 text-center text-sm font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_3px_10px_rgba(0,0,0,0.12)] transition active:scale-[0.98]";
+
+function secondaryButtonStyle(accent: string): CSSProperties {
+  return {
+    background: `linear-gradient(180deg, color-mix(in srgb, ${accent} 8%, white) 0%, color-mix(in srgb, ${accent} 18%, white) 100%)`,
+    borderColor: accent,
+    color: `color-mix(in srgb, ${accent} 72%, black)`,
+  };
+}
+
 export function VitrineActionButtons({
+  pageSlug,
+  artisanPhone = "",
+  serviceZone = "",
+  copy,
   planTier,
   profileSettings,
+  theme,
   onAction,
 }: VitrineActionButtonsProps) {
   const { visibility, cta } = profileSettings;
   const isPro = isProPublicPlan(planTier);
+  const accent = theme.accent;
+  const secondaryStyle = secondaryButtonStyle(accent);
 
-  const secondaryStyle = {
-    background:
-      "linear-gradient(180deg, #faf6f0 0%, #f0e6d6 48%, #ebe0cf 100%)",
-    borderColor: BORDER,
-    color: TEXT,
+  const handleUrgentClick = () => {
+    const whatsappUrl = buildUrgencyWhatsAppUrl(
+      artisanPhone,
+      copy.presentation.urgencyWhatsAppMessage,
+    );
+
+    if (!whatsappUrl) {
+      onAction("urgent");
+      return;
+    }
+
+    void submitUrgencyClick({
+      pageSlug,
+      zone: serviceZone,
+      leadDescription: copy.presentation.urgencyClickLeadDescription,
+    }).catch(() => {
+      /* La redirection WhatsApp prime ; l'échec CRM ne bloque pas le client. */
+    });
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -45,17 +82,18 @@ export function VitrineActionButtons({
         className={secondaryClass}
         style={secondaryStyle}
       >
-        <LuInfo className={iconClass} strokeWidth={2.75} style={{ color: BORDER }} aria-hidden />
+        <LuInfo className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
         <span>{cta.secondaryInfo}</span>
       </button>
 
       <button
         type="button"
-        onClick={() => onAction("urgent")}
+        onClick={handleUrgentClick}
         className={secondaryClass}
         style={secondaryStyle}
+        aria-label={cta.secondaryUrgent}
       >
-        <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: BORDER }} aria-hidden />
+        <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
         <span>{cta.secondaryUrgent}</span>
       </button>
 
@@ -66,7 +104,7 @@ export function VitrineActionButtons({
           className={secondaryClass}
           style={secondaryStyle}
         >
-          <LuShare2 className={iconClass} strokeWidth={2.75} style={{ color: BORDER }} aria-hidden />
+          <LuShare2 className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
           <span>{cta.collaboration}</span>
         </button>
       ) : null}
