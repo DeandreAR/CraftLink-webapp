@@ -10,7 +10,8 @@
     "tarifs": "Tarifs",
     "faq": "FAQ",
     "login": "Connexion",
-    "createAccount": "Créer mon compte"
+    "createAccount": "Créer mon compte",
+    "languageSwitcherLabel": "Choisir la langue"
   },
   "auth": {
     "serviceUnavailable": "Le service est momentanément indisponible. Réessayez dans quelques minutes ou contactez le support.",
@@ -88,8 +89,8 @@
     "lead": "Transformez vos abonnés en demandes de devis qualifiées. CraftLink, c’est votre vitrine pro et votre formulaire de demande en un seul lien. Fini le chaos entre vos DM et vos mails : partagez un seul lien sur vos réseaux sociaux et votre fiche Google pour que vos prospects déposent une demande vocale ou écrite. Notre outil traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
     "controlPhrase": "Vous partagez votre lien, vous gardez le contrôle, et vous facilitez le passage à l’action.",
     "ctaPrimary": "Créer ma page gratuitement",
-    "ctaSecondary": "Voir l'application en action (45s)",
-    "ctaSecondaryHref": "#demo-video",
+    "ctaSecondary": "Découvrir les fonctionnalités",
+    "ctaSecondaryHref": "#features",
     "preview": {
       "eyebrow": "Live preview",
       "title": "Votre profil artisan, prêt à partager",
@@ -113,6 +114,7 @@
   },
   "demoVideo": {
     "sectionId": "demo-video",
+    "eyebrow": "Démo · 45 secondes",
     "title": "Comment ça marche ?",
     "subtitle": "Découvrez comment CraftLink qualifie vos leads en moins d'une minute.",
     "placeholder": "Vidéo de démonstration — lien à intégrer prochainement"

@@ -46,7 +46,7 @@ export function LegalDocumentPage({
 
   return (
     <div className="landing-page min-h-screen bg-[#FDFBF7] text-[#212129]">
-      <Navbar basePath={basePath || "/"} labels={dict.nav} />
+      <Navbar lang={lang} labels={dict.nav} />
       <main className="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
         <Link
           href={homeHref}

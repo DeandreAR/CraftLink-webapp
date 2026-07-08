@@ -1,3 +1,5 @@
+import type { LandingExtendedDictionary } from "@/i18n/landing/types";
+
 export type ComparisonRowJson = {
   criterion: string;
   classic: string;
@@ -48,6 +50,7 @@ export type BillingDictionary = {
 
 export type DemoVideoDictionary = {
   sectionId: string;
+  eyebrow: string;
   title: string;
   subtitle: string;
   placeholder: string;
@@ -105,6 +108,7 @@ export type NavDictionary = {
   faq: string;
   login: string;
   createAccount: string;
+  languageSwitcherLabel: string;
 };
 
 export type AuthSignInDictionary = {
@@ -1142,4 +1146,5 @@ export type Dictionary = {
   vitrine: VitrineDictionary;
   onboarding: OnboardingDictionary;
   dashboard: DashboardDictionary;
+  landing: LandingExtendedDictionary;
 };

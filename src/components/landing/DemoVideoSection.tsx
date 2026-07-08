@@ -12,7 +12,7 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
       aria-labelledby="demo-video-heading"
     >
       <div className="mx-auto max-w-4xl px-4 py-14 text-center md:px-6 md:py-16">
-        <span className="lk-eyebrow">Démo · 45 secondes</span>
+        <span className="lk-eyebrow">{copy.eyebrow}</span>
         <h2 id="demo-video-heading" className="lk-display mt-5 text-3xl md:text-4xl">
           {copy.title}
         </h2>

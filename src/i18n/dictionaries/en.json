@@ -10,7 +10,8 @@
     "tarifs": "Pricing",
     "faq": "FAQ",
     "login": "Log in",
-    "createAccount": "Create my account"
+    "createAccount": "Create my account",
+    "languageSwitcherLabel": "Choose language"
   },
   "auth": {
     "serviceUnavailable": "This service is temporarily unavailable. Please try again in a few minutes or contact support.",
@@ -88,8 +89,8 @@
     "lead": "Turn followers into qualified quote requests. CraftLink is your pro storefront and request form in one link. End the chaos across DMs and email: share one link on your social profiles and Google listing so prospects can send a voice or written brief. Our tool shapes the information and delivers a structured dossier straight to the messenger you already use.",
     "controlPhrase": "You share your link, stay in control, and make it easy to take action.",
     "ctaPrimary": "Create my page for free",
-    "ctaSecondary": "See the app in action (45s)",
-    "ctaSecondaryHref": "#demo-video",
+    "ctaSecondary": "Explore features",
+    "ctaSecondaryHref": "#features",
     "preview": {
       "eyebrow": "Live preview",
       "title": "Your tradesperson profile, ready to share",
@@ -113,6 +114,7 @@
   },
   "demoVideo": {
     "sectionId": "demo-video",
+    "eyebrow": "Demo · 45 seconds",
     "title": "How does it work?",
     "subtitle": "See how CraftLink qualifies your leads in under a minute.",
     "placeholder": "Demo video — embed link coming soon"
