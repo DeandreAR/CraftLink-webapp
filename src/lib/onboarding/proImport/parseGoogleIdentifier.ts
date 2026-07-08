@@ -28,6 +28,23 @@ function isGoogleMapsHost(hostname: string): boolean {
   );
 }
 
+/** Liens courts / partage GMB reconnus mais pas toujours résolvables en place_id direct. */
+function isGoogleBusinessUrlHost(hostname: string): boolean {
+  return (
+    isGoogleMapsHost(hostname) ||
+    hostname === "share.google" ||
+    hostname.endsWith(".share.google") ||
+    hostname === "business.google.com" ||
+    hostname.endsWith(".business.google.com")
+  );
+}
+
+export function isShareGoogleUrl(raw: string): boolean {
+  const url = tryParseUrl(raw.trim());
+  if (!url) return /^share\.google\//i.test(raw.trim());
+  return url.hostname === "share.google" || url.hostname.endsWith(".share.google");
+}
+
 function isRawPlaceId(value: string): boolean {
   return /^ChIJ[\w-]+$/i.test(value) || /^EhI[\w-]+$/i.test(value);
 }
@@ -53,12 +70,19 @@ export function parseGoogleIdentifier(raw: string): ParsedGoogleIdentifier {
   }
 
   const url = tryParseUrl(trimmed);
-  if (url && isGoogleMapsHost(url.hostname)) {
+  if (url && isGoogleBusinessUrlHost(url.hostname)) {
     const queryPlaceId = url.searchParams.get("place_id");
     if (queryPlaceId) {
       return { kind: "place_id", placeId: queryPlaceId, sourceUrl: url.href };
     }
     return { kind: "url", url: url.href };
+  }
+
+  if (/^share\.google\//i.test(trimmed)) {
+    const normalized = tryParseUrl(trimmed);
+    if (normalized) {
+      return { kind: "url", url: normalized.href };
+    }
   }
 
   if (/^g\.page\//i.test(trimmed)) {

@@ -32,6 +32,8 @@ export type UnifiedImportData = {
 export type ImportApiSuccessResponse = {
   success: true;
   data: UnifiedImportData;
+  magicImportSuccessCount?: number;
+  magicImportRemaining?: number;
 };
 
 export type ImportApiErrorResponse = {

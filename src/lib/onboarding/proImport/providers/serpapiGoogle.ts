@@ -5,6 +5,11 @@ import {
 } from "@/lib/onboarding/proImport/googlePlaceServices";
 import { isStreetViewPhotoUrl } from "@/lib/onboarding/proImport/googlePhotoProxy";
 import { parseGoogleIdentifier } from "@/lib/onboarding/proImport/parseGoogleIdentifier";
+import { resolveGoogleMapsInput } from "@/lib/onboarding/proImport/resolveGoogleMapsInput";
+import {
+  IMPORT_GOOGLE_NOT_FOUND,
+  IMPORT_PROVIDER_ERROR,
+} from "@/lib/onboarding/proImport/api/constants";
 import { providerFetch } from "@/lib/onboarding/proImport/api/providerHttp";
 import {
   throwIfQuotaHttpStatus,
@@ -135,13 +140,13 @@ async function serpMapsSearch(
 
   if (!response.ok) {
     throwIfQuotaHttpStatus(response.status, text);
-    throw new Error(`SerpApi HTTP ${response.status}: ${text.slice(0, 200)}`);
+    throw new Error(IMPORT_PROVIDER_ERROR);
   }
 
   const data = JSON.parse(text) as SerpMapsResponse;
   if (data.error) {
     throwIfQuotaInProviderError(data.error);
-    throw new Error(data.error);
+    throw new Error(IMPORT_PROVIDER_ERROR);
   }
   return data;
 }
@@ -218,7 +223,7 @@ async function fetchByPlaceId(
   });
 
   if (!details.place_results?.title) {
-    throw new Error("Aucune fiche Google My Business trouvée pour cet identifiant.");
+    throw new Error(IMPORT_GOOGLE_NOT_FOUND);
   }
 
   const enriched = await enrichPlaceDetails(apiKey, details.place_results, placeId, {
@@ -246,7 +251,7 @@ async function fetchBySearchQuery(
 
   const first = search.local_results?.[0];
   if (!first?.title) {
-    throw new Error("Aucune fiche Google My Business trouvée pour cette recherche.");
+    throw new Error(IMPORT_GOOGLE_NOT_FOUND);
   }
 
   const placeId = first.place_id;
@@ -254,12 +259,12 @@ async function fetchBySearchQuery(
   return toGooglePayload(enriched, placeId);
 }
 
-/**
- * Google My Business via SerpApi (engine=google_maps).
- * Accepte nom + ville, lien Google Maps / g.page, ou place_id.
- * @see https://serpapi.com/google-maps-api
- */
-export async function fetchGoogleFromSerpApi(
+type FetchGoogleFromSerpApiOptions = {
+  /** Recherche de secours si le lien (ex. share.google) ne se résout pas. */
+  fallbackQuery?: string;
+};
+
+async function fetchGoogleFromSerpApiOnce(
   identifier: string,
   apiKey: string,
 ): Promise<GooglePlaceApiResponse> {
@@ -271,4 +276,27 @@ export async function fetchGoogleFromSerpApi(
 
   const query = parsed.kind === "url" ? parsed.url : parsed.query;
   return fetchBySearchQuery(apiKey, query);
+}
+
+/**
+ * Google My Business via SerpApi (engine=google_maps).
+ * Accepte nom + ville, lien Google Maps / g.page / share.google, ou place_id.
+ * @see https://serpapi.com/google-maps-api
+ */
+export async function fetchGoogleFromSerpApi(
+  identifier: string,
+  apiKey: string,
+  options?: FetchGoogleFromSerpApiOptions,
+): Promise<GooglePlaceApiResponse> {
+  const resolved = await resolveGoogleMapsInput(identifier);
+
+  try {
+    return await fetchGoogleFromSerpApiOnce(resolved, apiKey);
+  } catch (error) {
+    const fallback = options?.fallbackQuery?.trim();
+    if (!fallback || fallback === resolved || fallback === identifier) {
+      throw error;
+    }
+    return fetchGoogleFromSerpApiOnce(fallback, apiKey);
+  }
 }

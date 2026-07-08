@@ -1,7 +1,17 @@
 import type { ProImportPlatform } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
-import { SERVER_CONFIG_ERROR, FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED } from "@/lib/onboarding/proImport/api/constants";
+import {
+  APIFY_AUTH_ERROR,
+  FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED,
+  IMPORT_FACEBOOK_NOT_FOUND,
+  IMPORT_GOOGLE_NOT_FOUND,
+  IMPORT_INSTAGRAM_NOT_FOUND,
+  IMPORT_INVALID_IDENTIFIER,
+  IMPORT_PROVIDER_ERROR,
+  IMPORT_QUOTA_EXCEEDED,
+  SERVER_CONFIG_ERROR,
+} from "@/lib/onboarding/proImport/api/constants";
 
 function platformLabel(
   platform: ProImportPlatform,
@@ -22,48 +32,43 @@ export function resolveImportClientMessage(
   }
 
   const raw = error instanceof Error ? error.message : "";
-  if (raw === SERVER_CONFIG_ERROR) {
-    return copy.serverConfigError;
+
+  if (raw === IMPORT_QUOTA_EXCEEDED) {
+    return copy.importQuotaExceeded;
   }
 
-  if (/identifiant invalide|invalid identifier/i.test(raw)) {
+  if (raw === IMPORT_INVALID_IDENTIFIER) {
     return copy.importErrorInvalidIdentifier;
   }
 
+  if (
+    raw === SERVER_CONFIG_ERROR ||
+    raw === APIFY_AUTH_ERROR ||
+    raw === IMPORT_PROVIDER_ERROR ||
+    raw === FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED
+  ) {
+    if (platform === "facebook") {
+      return copy.importErrorFacebookProvider;
+    }
+    return copy.importErrorProvider;
+  }
+
   if (platform === "google") {
-    if (/introuvable|not found|aucune fiche/i.test(raw)) {
+    if (raw === IMPORT_GOOGLE_NOT_FOUND) {
       return copy.importErrorGoogleNotFound;
     }
   }
 
   if (platform === "instagram") {
-    if (/introuvable|invalide|not found|expired|username/i.test(raw)) {
+    if (raw === IMPORT_INSTAGRAM_NOT_FOUND) {
       return copy.importErrorInstagramNotFound;
     }
   }
 
   if (platform === "facebook") {
-    if (
-      raw === FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED ||
-      /not subscribed|subscription/i.test(raw)
-    ) {
-      return copy.importErrorFacebookProvider;
-    }
-    if (/introuvable|not found|vérifiez/i.test(raw)) {
+    if (raw === IMPORT_FACEBOOK_NOT_FOUND) {
       return copy.importErrorFacebookNotFound;
     }
-  }
-
-  if (/HTTP 429|quota|rate.?limit|temporarily unavailable/i.test(raw)) {
-    return copy.importErrorProvider;
-  }
-
-  if (/HTTP 5\d\d|réseau|network|fetch failed/i.test(raw)) {
-    return copy.importErrorProvider;
-  }
-
-  if (raw && raw.length < 120 && !/HTTP \d+:/.test(raw)) {
-    return raw;
   }
 
   return copy.importErrorGeneric.replace("{platform}", platformLabel(platform, copy));

@@ -76,8 +76,27 @@ export const onboardingFr: OnboardingDictionary = {
     socialPlaceholder: "@votrecompte ou https://…",
     googleBusinessLabel: "Fiche Google My Business",
     googleBusinessHint:
-      "Collez le lien de votre fiche pour afficher le nombre d'avis et la note sur votre page.",
+      "Collez ici le lien copié depuis Google Maps — vos avis et votre note s’afficheront sur votre page.",
+    googleBusinessShareGuideTitle: "Où trouver le lien à coller ?",
+    googleBusinessShareSteps: [
+      "Ouvrez Google Maps (application ou maps.google.com).",
+      "Recherchez le nom de votre entreprise.",
+      "Ouvrez votre fiche Google (page avec avis, horaires et photos).",
+      "Appuyez sur « Partager ».",
+      "Choisissez « Copier le lien ».",
+      "Collez ce lien ci-dessous — il commence souvent par https://g.page/… ou https://maps.google.com/…",
+    ],
     googleBusinessPlaceholder: "https://g.page/… ou https://maps.google.com/…",
+    socialFollowersCountLabel: "Nombre d'abonnés",
+    socialFollowersPlaceholder: "Ex. 1250",
+    socialFollowersShowLabel: "Afficher sur ma page",
+    googleStatsLoading: "Récupération des avis Google…",
+    googleStatsFetchError:
+      "Impossible de récupérer les avis automatiquement — saisissez-les manuellement.",
+    googleReviewCountLabel: "Nombre d'avis",
+    googleRatingLabel: "Note Google",
+    googleReviewCountPlaceholder: "Ex. 48",
+    googleRatingPlaceholder: "Ex. 4,9",
   },
   affiliateLinks: {
     title: "Liens d'affiliation & codes partenaires",
@@ -167,8 +186,11 @@ export const onboardingFr: OnboardingDictionary = {
       "Connexion au service d'import temporairement impossible. Réessayez dans quelques minutes ou continuez manuellement.",
     importErrorGeneric:
       "Import {platform} impossible pour le moment. Réessayez ou continuez sans import.",
+    importQuotaExceeded:
+      "Vous avez utilisé vos 3 imports automatiques. Complétez votre page manuellement.",
+    importRemainingHint: "Il vous reste {count} import(s) automatique(s).",
     serverConfigError:
-      "Import indisponible : configurez SERPAPI_KEY, ROCKETAPI_KEY et RAPIDAPI_KEY côté serveur (.env.local).",
+      "Import indisponible : configurez SERPAPI_KEY et APIFY_TOKEN côté serveur (.env.local).",
     quotaFallbackMessage:
       "L'import automatique est temporairement indisponible. Complétez votre page manuellement — cela ne prend que quelques minutes.",
   },

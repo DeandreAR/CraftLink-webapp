@@ -947,7 +947,18 @@ export type OnboardingDictionary = {
     socialPlaceholder: string;
     googleBusinessLabel: string;
     googleBusinessHint: string;
+    googleBusinessShareGuideTitle: string;
+    googleBusinessShareSteps: string[];
     googleBusinessPlaceholder: string;
+    socialFollowersCountLabel: string;
+    socialFollowersPlaceholder: string;
+    socialFollowersShowLabel: string;
+    googleStatsLoading: string;
+    googleStatsFetchError: string;
+    googleReviewCountLabel: string;
+    googleRatingLabel: string;
+    googleReviewCountPlaceholder: string;
+    googleRatingPlaceholder: string;
   };
   affiliateLinks: {
     title: string;
@@ -1016,6 +1027,8 @@ export type OnboardingDictionary = {
     importErrorFacebookProvider: string;
     importErrorProvider: string;
     importErrorGeneric: string;
+    importQuotaExceeded: string;
+    importRemainingHint: string;
     serverConfigError: string;
     quotaFallbackMessage: string;
   };

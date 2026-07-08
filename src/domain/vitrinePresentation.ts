@@ -16,6 +16,7 @@ import {
 import type { Profile } from "@/domain/profile";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+import type { OnboardingSocialFollowers } from "@/lib/onboarding/socialFollowers";
 import { parsePortfolioItems } from "@/lib/portfolio/normalizePortfolioItem";
 
 /** Champs vitrine persistés (hors colonnes `profiles`). */
@@ -37,6 +38,8 @@ export type StoredVitrineProfilePart = {
   importGoogleReviewCount?: number;
   importExperienceYears?: number;
   importFollowerCount?: number;
+  socialFollowers?: OnboardingSocialFollowers;
+  magicImportSuccessCount?: number;
 };
 
 export type StoredVitrineConfig = {
@@ -154,6 +157,26 @@ function parseVisual(raw: unknown): OnboardingVisualDraft {
   };
 }
 
+function parseSocialFollowers(raw: unknown): OnboardingSocialFollowers | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const row = raw as Record<string, unknown>;
+  const result: OnboardingSocialFollowers = {};
+
+  for (const key of ["instagram", "facebook", "tiktok", "threads", "snapchat"] as const) {
+    const entry = row[key];
+    if (!entry || typeof entry !== "object") continue;
+    const stat = entry as Record<string, unknown>;
+    const count = typeof stat.count === "number" ? Math.max(0, Math.round(stat.count)) : 0;
+    if (count <= 0) continue;
+    result[key] = {
+      count,
+      show: stat.show !== false,
+    };
+  }
+
+  return Object.keys(result).length > 0 ? result : undefined;
+}
+
 function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
   if (!raw || typeof raw !== "object") {
     return {
@@ -199,6 +222,11 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
       typeof row.importExperienceYears === "number" ? row.importExperienceYears : undefined,
     importFollowerCount:
       typeof row.importFollowerCount === "number" ? row.importFollowerCount : undefined,
+    socialFollowers: parseSocialFollowers(row.socialFollowers),
+    magicImportSuccessCount:
+      typeof row.magicImportSuccessCount === "number"
+        ? Math.max(0, Math.min(3, Math.round(row.magicImportSuccessCount)))
+        : undefined,
   };
 }
 
@@ -258,6 +286,8 @@ export function profileToEditorState(profile: Profile): {
     importGoogleReviewCount: config.profile.importGoogleReviewCount,
     importExperienceYears: config.profile.importExperienceYears,
     importFollowerCount: config.profile.importFollowerCount,
+    socialFollowers: config.profile.socialFollowers,
+    magicImportSuccessCount: config.profile.magicImportSuccessCount,
   };
 
   return { profileDraft, services: config.services };
@@ -287,6 +317,8 @@ export function editorStateToStoredConfig(
       importGoogleReviewCount: profileDraft.importGoogleReviewCount,
       importExperienceYears: profileDraft.importExperienceYears,
       importFollowerCount: profileDraft.importFollowerCount,
+      socialFollowers: profileDraft.socialFollowers,
+      magicImportSuccessCount: profileDraft.magicImportSuccessCount,
     },
     services,
   };

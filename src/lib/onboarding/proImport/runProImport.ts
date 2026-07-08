@@ -21,6 +21,8 @@ export type ProImportPipelineResult = ProImportRunResult & {
   services: OnboardingService[];
   missingFields: ReturnType<typeof getMissingProRequiredFields>;
   source: "live";
+  magicImportSuccessCount?: number;
+  magicImportRemaining?: number;
 };
 
 export async function extractBrandColorFromAvatar(
@@ -42,7 +44,7 @@ export async function runProImportPipeline(
   platform: ProImportPlatform,
   identifier: string,
 ): Promise<ProImportPipelineResult> {
-  const { mapped, profile: profilePatch, services, missingFields, source } =
+  const { mapped, profile: profilePatch, services, missingFields, source, magicImportSuccessCount, magicImportRemaining } =
     await fetchProImportApi(platform, identifier);
 
   const brandColor = await extractBrandColorFromAvatar(mapped.avatarUrl, platform);
@@ -73,5 +75,7 @@ export async function runProImportPipeline(
     services,
     missingFields: missingFields.length > 0 ? missingFields : getMissingProRequiredFields(draft),
     source,
+    magicImportSuccessCount,
+    magicImportRemaining,
   };
 }

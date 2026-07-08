@@ -4,11 +4,11 @@ import type {
   OnboardingService,
 } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
-import { buildFollowersBadgeLabel } from "@/lib/vitrine/formatFollowerCount";
 import type { LinkInBioPageProps } from "@/components/vitrine/LinkInBioPage";
 import { getMetierLabel } from "@/lib/onboarding/metierOptions";
 import { getFontById } from "@/lib/onboarding/onboardingFonts";
 import { onboardingSocialToVitrineLinks } from "@/lib/onboarding/socialLinks";
+import { resolveSocialFollowers } from "@/lib/onboarding/socialFollowers";
 import { onboardingAffiliateToVitrineLinks } from "@/lib/onboarding/affiliateLinks";
 import { onboardingServicesToVitrine } from "@/lib/onboarding/toVitrineServices";
 import { resolveTradeLabelFallback } from "@/lib/onboarding/proImport/toProfileDraft";
@@ -37,50 +37,33 @@ function buildStatBadges(
   const googleRating = profile.importGoogleRating;
   const googleReviews = profile.importGoogleReviewCount;
 
-  if (
-    hasGoogleBusiness &&
-    googleRating != null &&
-    googleReviews != null &&
-    profile.importPlatform === "google"
-  ) {
-    return [
-      {
+  if (hasGoogleBusiness) {
+    const googleBadges: VitrineStatBadge[] = [];
+
+    if (googleReviews != null && googleReviews > 0) {
+      googleBadges.push({
         id: "reviews",
         label: `${googleReviews}+ Avis Google`,
         kind: "google_reviews",
-      },
-      {
+      });
+    }
+
+    if (googleRating != null && googleRating > 0) {
+      googleBadges.push({
         id: "rating",
         label: String(googleRating),
         kind: "google_rating",
         rating: String(googleRating),
         starCount: 5,
-      },
-    ];
+      });
+    }
+
+    if (googleBadges.length > 0) {
+      return googleBadges;
+    }
   }
 
   const badges: VitrineStatBadge[] = [];
-
-  const followerCount = profile.importFollowerCount;
-  if (followerCount != null && followerCount > 0) {
-    const socialHref =
-      profile.importPlatform === "instagram"
-        ? profile.social.instagram.trim() || undefined
-        : profile.importPlatform === "facebook"
-          ? profile.social.facebook.trim() || undefined
-          : undefined;
-
-    badges.push({
-      id: "followers",
-      label: buildFollowersBadgeLabel(
-        followerCount,
-        vitrineCopy.presentation.followersLabel,
-        locale,
-      ),
-      kind: "default",
-      href: socialHref,
-    });
-  }
 
   if (
     profile.importPlatform === "instagram" &&
@@ -143,7 +126,13 @@ export function buildOnboardingPreviewProps(
   const bannerUrl = useBrandBanner ? null : profile.visual.bannerPreviewUrl;
   const avatarUrl = profile.visual.avatarPreviewUrl;
 
-  const socialLinks = onboardingSocialToVitrineLinks(profile.social);
+  const socialFollowers = resolveSocialFollowers(profile);
+  const socialLinks = onboardingSocialToVitrineLinks(
+    profile.social,
+    socialFollowers,
+    vitrineCopy.presentation.followersLabel,
+    locale,
+  );
   const affiliateLinks = onboardingAffiliateToVitrineLinks(profile.affiliateLinks ?? []);
   const hasSocial = socialLinks.length > 0;
   const hasAffiliateLinks = affiliateLinks.length > 0 && plan === "PRO";

@@ -34,3 +34,21 @@ export function estimateWhisperCostUsd(requestCount: number): number {
 export function usdToEur(amountUsd: number): number {
   return amountUsd * USD_TO_EUR;
 }
+
+/** Apify — Instagram (posts + abonnés), estimation par import réussi. */
+export function estimateApifyInstagramImportUsd(): number {
+  return 0.006;
+}
+
+/** Apify — Facebook posts scraper, estimation par import réussi. */
+export function estimateApifyFacebookImportUsd(): number {
+  return 0.004;
+}
+
+/** SerpApi — recherche Google Maps / avis, estimation par import réussi. */
+export function estimateSerpApiGoogleImportUsd(): number {
+  return 0.01;
+}
+
+/** Quota stockage Supabase gratuit (1 Go) — indicatif pour la jauge admin. */
+export const SUPABASE_FREE_STORAGE_BYTES = 1_073_741_824;

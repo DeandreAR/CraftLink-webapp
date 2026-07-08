@@ -66,4 +66,30 @@ body {
   .scrollbar-soft::-webkit-scrollbar-thumb:hover {
     background: rgba(15, 23, 42, 0.35);
   }
+
+  .scrollbar-white {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.92) transparent;
+  }
+
+  .scrollbar-white::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-white::-webkit-scrollbar-track {
+    margin: 4px 0;
+    background: transparent;
+    border-radius: 999px;
+  }
+
+  .scrollbar-white::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
+  }
+
+  .scrollbar-white::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 1);
+  }
 }

@@ -144,6 +144,8 @@ export function ProOnboardingWizard({
       ...profile,
       ...result.profile,
       plan: "PRO",
+      magicImportSuccessCount:
+        result.magicImportSuccessCount ?? profile.magicImportSuccessCount,
       visual: {
         ...defaultVisualDraft(),
         ...profile.visual,
@@ -287,6 +289,7 @@ export function ProOnboardingWizard({
         <>
           <OnboardingProChoiceStep
             copy={copy}
+            magicImportSuccessCount={profile.magicImportSuccessCount ?? 0}
             onStartManual={() => {
               dispatch({ type: "SET_IMPORT_ERROR", error: null });
               dispatch({ type: "SET_IMPORT_NOTICE", notice: null });

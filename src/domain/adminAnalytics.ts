@@ -2,7 +2,7 @@
 export type ApiUsageLogRow = {
   id: string;
   created_at: string;
-  provider: "openai" | "anthropic" | "rocketapi" | string;
+  provider: "openai" | "apify" | "serpapi" | string;
   model: string;
   operation: "whisper_transcribe" | "chat_completion" | "import_scrape" | string;
   input_tokens: number;
@@ -64,15 +64,25 @@ export type AdminActivityEvent = {
   occurredAt: string;
 };
 
+export type AdminStorageSnapshot = {
+  galleryObjectCount: number;
+  galleryBytes: number;
+  galleryLimitBytes: number;
+  usagePercent: number;
+  isMock: boolean;
+};
+
 export type AdminAnalyticsDataSource = {
   profilesLive: boolean;
   leadsLive: boolean;
+  storageLive: boolean;
   apiUsageMock: boolean;
 };
 
 export type AdminAnalyticsDashboard = {
   generatedAt: string;
   kpis: AdminKpiSnapshot;
+  storage: AdminStorageSnapshot;
   apiUsage: ApiUsageSummary;
   recentActivity: AdminActivityEvent[];
   dataSource: AdminAnalyticsDataSource;

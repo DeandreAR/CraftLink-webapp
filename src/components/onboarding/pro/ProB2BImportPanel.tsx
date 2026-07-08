@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useState, type CSSProperties } from "react";
+import { useCallback, useMemo, useState, type CSSProperties } from "react";
 import type { ProImportPlatform } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
 import { LandingCta } from "@/components/landing/LandingCta";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
+import { MAX_MAGIC_IMPORT_SUCCESS } from "@/lib/onboarding/proImport/api/magicImportQuota";
 import { resolveImportClientMessage } from "@/lib/onboarding/proImport/resolveImportClientMessage";
 import {
   runProImportPipeline,
@@ -15,9 +16,9 @@ import {
 
 type ProB2BImportPanelProps = {
   copy: OnboardingDictionary;
+  magicImportSuccessCount?: number;
   onSuccess: (result: ProImportPipelineResult) => void;
   onError: (message: string) => void;
-  /** Bascule fluide vers le parcours manuel (quota API / réseau). */
   onFallbackToManual: () => void;
 };
 
@@ -25,6 +26,7 @@ const PLATFORMS: ProImportPlatform[] = ["google", "instagram", "facebook"];
 
 export function ProB2BImportPanel({
   copy,
+  magicImportSuccessCount = 0,
   onSuccess,
   onError,
   onFallbackToManual,
@@ -34,6 +36,13 @@ export function ProB2BImportPanel({
   const [identifier, setIdentifier] = useState("");
   const [loading, setLoading] = useState(false);
   const [brandColor, setBrandColor] = useState<string | null>(null);
+  const [localUsed, setLocalUsed] = useState(magicImportSuccessCount);
+
+  const importsRemaining = useMemo(
+    () => Math.max(0, MAX_MAGIC_IMPORT_SUCCESS - localUsed),
+    [localUsed],
+  );
+  const canImport = importsRemaining > 0;
 
   const placeholder =
     platform === "google"
@@ -49,12 +58,17 @@ export function ProB2BImportPanel({
   };
 
   const handleGenerate = useCallback(async () => {
-    if (loading) return;
+    if (loading || !canImport) return;
     setLoading(true);
     setBrandColor(null);
     try {
       const result = await runProImportPipeline(platform, identifier);
       setBrandColor(result.brandColor);
+      if (result.magicImportSuccessCount != null) {
+        setLocalUsed(result.magicImportSuccessCount);
+      } else {
+        setLocalUsed((prev) => Math.min(MAX_MAGIC_IMPORT_SUCCESS, prev + 1));
+      }
       onSuccess(result);
     } catch (error) {
       if (isProImportDegradedError(error)) {
@@ -68,16 +82,10 @@ export function ProB2BImportPanel({
     }
   }, [
     loading,
+    canImport,
     platform,
     identifier,
-    imp.importErrorInvalidIdentifier,
-    imp.importErrorGoogleNotFound,
-    imp.importErrorInstagramNotFound,
-    imp.importErrorFacebookNotFound,
-    imp.importErrorFacebookProvider,
-    imp.importErrorProvider,
-    imp.importErrorGeneric,
-    imp.quotaFallbackMessage,
+    imp,
     onSuccess,
     onError,
     onFallbackToManual,
@@ -93,6 +101,10 @@ export function ProB2BImportPanel({
 
   return (
     <div className="space-y-4" style={panelStyle}>
+      <p className="text-xs text-neutral-600">
+        {imp.importRemainingHint.replace("{count}", String(importsRemaining))}
+      </p>
+
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
         <label className="sr-only" htmlFor="pro-import-platform">
           {imp.platformLabel}
@@ -101,6 +113,7 @@ export function ProB2BImportPanel({
           id="pro-import-platform"
           value={platform}
           onChange={(e) => setPlatform(e.target.value as ProImportPlatform)}
+          disabled={!canImport}
           className={`${authFieldClassName} mt-0 shrink-0 sm:max-w-[240px]`}
         >
           {PLATFORMS.map((id) => (
@@ -121,6 +134,7 @@ export function ProB2BImportPanel({
               void handleGenerate();
             }
           }}
+          disabled={!canImport}
           placeholder={placeholder}
           aria-label={imp.identifierLabel}
           className={`${authFieldClassName} mt-0 min-w-0 flex-1`}
@@ -131,10 +145,15 @@ export function ProB2BImportPanel({
         <p className="text-xs text-neutral-600">{imp.googleImportHint}</p>
       ) : null}
 
+      {!canImport ? (
+        <p className="text-sm font-medium text-neutral-700">{imp.importQuotaExceeded}</p>
+      ) : null}
+
       <LandingCta
         type="button"
         onClick={() => void handleGenerate()}
-        className="w-full justify-center"
+        disabled={!canImport}
+        className="w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
         style={
           brandColor
             ? { backgroundColor: "var(--primary-color)", borderColor: "var(--primary-color)" }

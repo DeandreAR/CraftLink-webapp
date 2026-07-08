@@ -17,7 +17,7 @@ export type GooglePlaceApiResponse = {
   googlePhotos?: string[];
 };
 
-/** Réponse type RocketAPI — Instagram */
+/** Profil Instagram normalisé (Apify posts scraper → bundle). */
 export type InstagramProfileApiResponse = {
   response: {
     body: {
@@ -29,7 +29,7 @@ export type InstagramProfileApiResponse = {
   };
 };
 
-/** Réponse type RapidAPI — Facebook Page */
+/** Page Facebook normalisée (Apify posts scraper). */
 export type FacebookPageApiResponse = {
   page_data: {
     name: string;

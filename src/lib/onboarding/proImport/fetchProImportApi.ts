@@ -1,8 +1,11 @@
 import type { OnboardingProfileDraft, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
 import {
+  IMPORT_PROVIDER_ERROR,
+  IMPORT_QUOTA_EXCEEDED,
   PROVIDER_QUOTA_EXHAUSTED,
   SERVER_CONFIG_ERROR,
 } from "@/lib/onboarding/proImport/api/constants";
+import { sanitizeImportErrorForClient } from "@/lib/onboarding/proImport/api/importErrorCodes";
 import { ProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
 import type { ImportApiResponse } from "@/lib/onboarding/proImport/api/unifiedImportData";
 import { unifiedToMappedImportData } from "@/lib/onboarding/proImport/api/unifiedToMapped";
@@ -23,6 +26,8 @@ export type ClientProImportApiResult = {
   services: OnboardingService[];
   missingFields: ProRequiredFieldKey[];
   source: "live";
+  magicImportSuccessCount?: number;
+  magicImportRemaining?: number;
 };
 
 function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequiredFieldKey[] {
@@ -94,12 +99,20 @@ export async function fetchProImportApi(
   }
 
   if (!response.ok) {
-    const message = "error" in json ? json.error : "Import impossible.";
-    throw new Error(message === SERVER_CONFIG_ERROR ? SERVER_CONFIG_ERROR : message);
+    const message =
+      "error" in json && typeof json.error === "string" ? json.error : IMPORT_PROVIDER_ERROR;
+    if (response.status === 429 && message === IMPORT_QUOTA_EXCEEDED) {
+      throw new Error(IMPORT_QUOTA_EXCEEDED);
+    }
+    throw new Error(
+      message === SERVER_CONFIG_ERROR
+        ? IMPORT_PROVIDER_ERROR
+        : sanitizeImportErrorForClient(message),
+    );
   }
 
   if (!("success" in json) || json.success !== true || !json.data) {
-    throw new Error("Réponse serveur invalide.");
+    throw new Error(IMPORT_PROVIDER_ERROR);
   }
 
   const mapped = unifiedToMappedImportData(json.data, platform, identifier);
@@ -112,5 +125,13 @@ export async function fetchProImportApi(
     services: mapped.services ?? [],
     missingFields,
     source: "live",
+    magicImportSuccessCount:
+      "magicImportSuccessCount" in json && typeof json.magicImportSuccessCount === "number"
+        ? json.magicImportSuccessCount
+        : undefined,
+    magicImportRemaining:
+      "magicImportRemaining" in json && typeof json.magicImportRemaining === "number"
+        ? json.magicImportRemaining
+        : undefined,
   };
 }

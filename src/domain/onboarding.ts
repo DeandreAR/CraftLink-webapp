@@ -1,4 +1,5 @@
 import type { OnboardingFontId } from "@/lib/onboarding/onboardingFonts";
+import type { OnboardingSocialFollowers } from "@/lib/onboarding/socialFollowers";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 
 export type OnboardingPlan = "FREE" | "PRO";
@@ -82,6 +83,10 @@ export type OnboardingProfileDraft = {
   importExperienceYears?: number;
   /** Abonnés / followers (import Instagram ou Facebook). */
   importFollowerCount?: number;
+  /** Abonnés par réseau + visibilité (éditable dashboard). */
+  socialFollowers?: OnboardingSocialFollowers;
+  /** Imports automatiques réussis (max 3 par compte). */
+  magicImportSuccessCount?: number;
   /** Réalisations récentes via embed Instagram (pas d’images stockées). */
   portfolioItems?: OnboardingPortfolioItem[];
   /** Segment URL publique : getcraftlink.com/{pageSlug} */

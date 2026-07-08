@@ -20,9 +20,9 @@ type KpiItem = {
 export function AdminKpiGrid({ kpis }: AdminKpiGridProps) {
   const items: KpiItem[] = [
     {
-      label: "Artisans inscrits",
+      label: "Inscriptions",
       value: formatInteger(kpis.totalArtisans),
-      hint: `+${formatInteger(kpis.artisansDelta7d)} sur 7 jours`,
+      hint: `+${formatInteger(kpis.artisansDelta7d)} nouveaux inscrits sur 7 jours`,
       accent: "text-white",
     },
     {

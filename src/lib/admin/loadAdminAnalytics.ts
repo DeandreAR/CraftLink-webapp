@@ -1,8 +1,9 @@
 import type {
   AdminActivityEvent,
   AdminAnalyticsDashboard,
+  AdminStorageSnapshot,
 } from "@/domain/adminAnalytics";
-import { PRO_MONTHLY_SUBSCRIPTION_EUR } from "@/lib/admin/apiCostEstimates";
+import { PRO_MONTHLY_SUBSCRIPTION_EUR, SUPABASE_FREE_STORAGE_BYTES } from "@/lib/admin/apiCostEstimates";
 import {
   buildMockAdminAnalyticsDashboard,
   buildMockApiUsage,
@@ -141,6 +142,33 @@ async function tryLoadApiUsageFromDb(
   };
 }
 
+async function tryLoadStorageFromDb(): Promise<AdminStorageSnapshot | null> {
+  const supabase = createAdminClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.rpc("admin_gallery_storage_stats");
+
+  if (error || !data?.length) {
+    return null;
+  }
+
+  const row = data[0] as { object_count?: number; total_bytes?: number };
+  const galleryObjectCount = Number(row.object_count ?? 0);
+  const galleryBytes = Number(row.total_bytes ?? 0);
+  const usagePercent =
+    SUPABASE_FREE_STORAGE_BYTES > 0
+      ? Math.round((galleryBytes / SUPABASE_FREE_STORAGE_BYTES) * 1000) / 10
+      : 0;
+
+  return {
+    galleryObjectCount,
+    galleryBytes,
+    galleryLimitBytes: SUPABASE_FREE_STORAGE_BYTES,
+    usagePercent,
+    isMock: false,
+  };
+}
+
 /** Charge les métriques admin (live Supabase + mock API si table absente). */
 export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashboard> {
   const supabase = createAdminClient();
@@ -205,6 +233,9 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
   const apiUsage =
     (await tryLoadApiUsageFromDb(activePro)) ?? buildMockApiUsage(activePro);
 
+  const storage =
+    (await tryLoadStorageFromDb()) ?? fallback.storage;
+
   const activity: AdminActivityEvent[] = [
     ...(recentProfilesRes.data ?? []).map(mapProfileToActivity),
     ...(recentLeadsRes.data ?? []).map(mapLeadToActivity),
@@ -229,10 +260,12 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
       urgencyLeads,
     },
     apiUsage,
+    storage,
     recentActivity,
     dataSource: {
       profilesLive,
       leadsLive,
+      storageLive: !storage.isMock,
       apiUsageMock: apiUsage.isMock,
     },
   };

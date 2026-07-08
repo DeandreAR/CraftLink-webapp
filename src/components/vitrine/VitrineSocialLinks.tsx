@@ -20,7 +20,6 @@ const SOCIAL_ICONS: Partial<Record<SocialLinkType, IconType>> = {
   website: LuGlobe,
 };
 
-/** Réseaux affichés sous l’avatar (hors Google / WhatsApp). */
 const VISIBLE_SOCIAL_TYPES: SocialLinkType[] = [
   "instagram",
   "facebook",
@@ -43,13 +42,13 @@ export function VitrineSocialLinks({ links }: VitrineSocialLinksProps) {
   if (visibleLinks.length === 0) return null;
 
   return (
-    <ul className="flex flex-wrap items-center justify-center gap-4">
+    <ul className="flex flex-wrap items-start justify-center gap-5">
       {visibleLinks.map((link) => {
         const Icon = SOCIAL_ICONS[link.type];
         if (!Icon) return null;
 
         return (
-          <li key={link.id}>
+          <li key={link.id} className="flex max-w-[5.5rem] flex-col items-center gap-1">
             <a
               href={link.href}
               target="_blank"
@@ -60,6 +59,11 @@ export function VitrineSocialLinks({ links }: VitrineSocialLinksProps) {
             >
               <Icon className="h-[1.35rem] w-[1.35rem]" aria-hidden />
             </a>
+            {link.followerLabel ? (
+              <span className="text-center text-[9px] font-medium leading-tight text-neutral-500">
+                {link.followerLabel}
+              </span>
+            ) : null}
           </li>
         );
       })}

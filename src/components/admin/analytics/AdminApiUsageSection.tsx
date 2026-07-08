@@ -20,7 +20,7 @@ export function AdminApiUsageSection({ apiUsage }: AdminApiUsageSectionProps) {
   return (
     <AdminSection
       title="Tracking APIs & coûts"
-      description="Suivi Whisper (audio), GPT-4o mini (qualification) et estimation de marge par artisan Pro."
+      description="Suivi OpenAI (Whisper, GPT-4o mini), Apify (imports Instagram/Facebook) et SerpApi (Google Maps)."
       badge={
         apiUsage.isMock ? (
           <AdminBadge tone="warning">Données mock — table api_usage_logs</AdminBadge>
@@ -42,19 +42,19 @@ export function AdminApiUsageSection({ apiUsage }: AdminApiUsageSectionProps) {
           </p>
           <dl className="mt-5 space-y-3 border-t border-zinc-800 pt-4 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Requêtes LLM</dt>
+              <dt className="text-zinc-500">Requêtes totales</dt>
               <dd className="font-medium text-zinc-200">
                 {formatInteger(apiUsage.totalRequests)}
               </dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Tokens input</dt>
+              <dt className="text-zinc-500">Tokens LLM (input)</dt>
               <dd className="font-medium text-zinc-200">
                 {formatInteger(apiUsage.totalInputTokens)}
               </dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-zinc-500">Tokens output</dt>
+              <dt className="text-zinc-500">Tokens LLM (output)</dt>
               <dd className="font-medium text-zinc-200">
                 {formatInteger(apiUsage.totalOutputTokens)}
               </dd>

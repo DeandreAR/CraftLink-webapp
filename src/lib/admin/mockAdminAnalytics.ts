@@ -4,21 +4,42 @@ import type {
   ApiUsageSummary,
 } from "@/domain/adminAnalytics";
 import {
+  estimateApifyFacebookImportUsd,
+  estimateApifyInstagramImportUsd,
   estimateChatCostUsd,
+  estimateSerpApiGoogleImportUsd,
   estimateWhisperCostUsd,
   PRO_MONTHLY_SUBSCRIPTION_EUR,
+  SUPABASE_FREE_STORAGE_BYTES,
   usdToEur,
 } from "@/lib/admin/apiCostEstimates";
+
+function buildMockStorage(): AdminAnalyticsDashboard["storage"] {
+  const galleryBytes = 156_432_128;
+  return {
+    galleryObjectCount: 247,
+    galleryBytes,
+    galleryLimitBytes: SUPABASE_FREE_STORAGE_BYTES,
+    usagePercent: Math.round((galleryBytes / SUPABASE_FREE_STORAGE_BYTES) * 1000) / 10,
+    isMock: true,
+  };
+}
 
 function buildMockApiUsage(proSubscriberCount: number): ApiUsageSummary {
   const whisperRequests = 142;
   const gptRequests = 118;
+  const instagramImports = 67;
+  const facebookImports = 34;
+  const googleImports = 28;
   const gptInputTokens = 186_400;
   const gptOutputTokens = 42_800;
 
   const whisperUsd = estimateWhisperCostUsd(whisperRequests);
   const gptUsd = estimateChatCostUsd("gpt-4o-mini", gptInputTokens, gptOutputTokens);
-  const totalCostUsd = whisperUsd + gptUsd;
+  const instagramUsd = instagramImports * estimateApifyInstagramImportUsd();
+  const facebookUsd = facebookImports * estimateApifyFacebookImportUsd();
+  const googleUsd = googleImports * estimateSerpApiGoogleImportUsd();
+  const totalCostUsd = whisperUsd + gptUsd + instagramUsd + facebookUsd + googleUsd;
   const totalCostEur = usdToEur(totalCostUsd);
   const avgApiCostPerProUserEur =
     proSubscriberCount > 0 ? totalCostEur / proSubscriberCount : 0;
@@ -29,7 +50,8 @@ function buildMockApiUsage(proSubscriberCount: number): ApiUsageSummary {
 
   return {
     monthLabel,
-    totalRequests: whisperRequests + gptRequests,
+    totalRequests:
+      whisperRequests + gptRequests + instagramImports + facebookImports + googleImports,
     totalInputTokens: gptInputTokens,
     totalOutputTokens: gptOutputTokens,
     totalCostUsd,
@@ -57,6 +79,33 @@ function buildMockApiUsage(proSubscriberCount: number): ApiUsageSummary {
         inputTokens: gptInputTokens,
         outputTokens: gptOutputTokens,
         estimatedCostUsd: gptUsd,
+      },
+      {
+        provider: "Apify",
+        model: "instagram-import",
+        operation: "Import Instagram (posts + abonnés)",
+        requestCount: instagramImports,
+        inputTokens: 0,
+        outputTokens: 0,
+        estimatedCostUsd: instagramUsd,
+      },
+      {
+        provider: "Apify",
+        model: "facebook-posts-scraper",
+        operation: "Import Facebook (publications)",
+        requestCount: facebookImports,
+        inputTokens: 0,
+        outputTokens: 0,
+        estimatedCostUsd: facebookUsd,
+      },
+      {
+        provider: "SerpApi",
+        model: "google_maps",
+        operation: "Import Google (fiche + avis)",
+        requestCount: googleImports,
+        inputTokens: 0,
+        outputTokens: 0,
+        estimatedCostUsd: googleUsd,
       },
     ],
   };
@@ -125,7 +174,7 @@ function buildMockActivity(): AdminActivityEvent[] {
     {
       id: "evt-09",
       type: "api_failure",
-      title: "Échec API RocketAPI",
+      title: "Échec API Apify",
       detail: "Import Instagram — profil introuvable (@atelier_demo)",
       occurredAt: new Date(base - 28 * 3_600_000).toISOString(),
     },
@@ -158,10 +207,12 @@ export function buildMockAdminAnalyticsDashboard(): AdminAnalyticsDashboard {
       urgencyLeads: 96,
     },
     apiUsage: buildMockApiUsage(activePro),
+    storage: buildMockStorage(),
     recentActivity: buildMockActivity(),
     dataSource: {
       profilesLive: false,
       leadsLive: false,
+      storageLive: false,
       apiUsageMock: true,
     },
   };

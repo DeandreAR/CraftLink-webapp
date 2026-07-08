@@ -75,8 +75,27 @@ export const onboardingEn: OnboardingDictionary = {
     socialPlaceholder: "@yourhandle or https://…",
     googleBusinessLabel: "Google Business Profile",
     googleBusinessHint:
-      "Paste your profile link to show review count and star rating on your page.",
+      "Paste here the link copied from Google Maps — your reviews and rating will show on your page.",
+    googleBusinessShareGuideTitle: "Where to find the link to paste?",
+    googleBusinessShareSteps: [
+      "Open Google Maps (app or maps.google.com).",
+      "Search for your business name.",
+      "Open your Google profile (page with reviews, hours, and photos).",
+      "Tap « Share ».",
+      "Choose « Copy link ».",
+      "Paste that link below — it often starts with https://g.page/… or https://maps.google.com/…",
+    ],
     googleBusinessPlaceholder: "https://g.page/… or https://maps.google.com/…",
+    socialFollowersCountLabel: "Follower count",
+    socialFollowersPlaceholder: "E.g. 1250",
+    socialFollowersShowLabel: "Show on my page",
+    googleStatsLoading: "Fetching Google reviews…",
+    googleStatsFetchError:
+      "Could not fetch reviews automatically — enter them manually.",
+    googleReviewCountLabel: "Review count",
+    googleRatingLabel: "Google rating",
+    googleReviewCountPlaceholder: "E.g. 48",
+    googleRatingPlaceholder: "E.g. 4.9",
   },
   affiliateLinks: {
     title: "Affiliate & partner links",
@@ -165,8 +184,11 @@ export const onboardingEn: OnboardingDictionary = {
       "Import service is temporarily unavailable. Try again in a few minutes or continue manually.",
     importErrorGeneric:
       "{platform} import failed for now. Try again or continue without import.",
+    importQuotaExceeded:
+      "You have used all 3 automatic imports. Complete your page manually.",
+    importRemainingHint: "You have {count} automatic import(s) remaining.",
     serverConfigError:
-      "Import unavailable: set SERPAPI_KEY, ROCKETAPI_KEY and RAPIDAPI_KEY on the server (.env.local).",
+      "Import unavailable: set SERPAPI_KEY and APIFY_TOKEN on the server (.env.local).",
     quotaFallbackMessage:
       "Automated import is temporarily unavailable. Complete your page manually — it only takes a few minutes.",
   },

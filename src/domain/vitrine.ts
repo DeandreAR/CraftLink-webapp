@@ -104,6 +104,8 @@ export type VitrineSocialLink = {
   type: SocialLinkType;
   label: string;
   href: string;
+  /** Libellé formaté ex. « 12k abonnés » — affiché sous l’icône si défini. */
+  followerLabel?: string;
 };
 
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";

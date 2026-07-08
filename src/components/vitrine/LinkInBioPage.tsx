@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   ArtisanVitrineProfile,
   PublicPlanTier,
@@ -55,6 +55,14 @@ export function LinkInBioPage({
   const showSocial =
     profileSettings.visibility.showSocialLinks && artisan.socialLinks.length > 0;
 
+  useEffect(() => {
+    if (embedded) return;
+    document.documentElement.classList.add("scrollbar-hide");
+    return () => {
+      document.documentElement.classList.remove("scrollbar-hide");
+    };
+  }, [embedded]);
+
   const openDetails = (intent: VitrineOpenIntent) => {
     setOpenIntent(intent);
     setInteractionState("DETAILS_VISIBLE");
@@ -78,7 +86,7 @@ export function LinkInBioPage({
         className={
           embedded
             ? "mx-auto flex w-full max-w-md flex-col overflow-x-hidden bg-white"
-            : "mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
+            : "mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
         }
         style={{
           ...vitrineThemeStyle(theme),

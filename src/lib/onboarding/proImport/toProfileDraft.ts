@@ -4,6 +4,7 @@ import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import { inferTradeLabelFromBio } from "@/lib/onboarding/proImport/inferFromInstagramBio";
 import { suggestPageSlugFromName } from "@/lib/onboarding/pageSlug";
 import type { MappedProImportData } from "@/lib/onboarding/proImport/types";
+import { followerStatFromImport } from "@/lib/onboarding/socialFollowers";
 
 export function mappedImportToProfileDraft(
   mapped: MappedProImportData,
@@ -57,6 +58,7 @@ export function mappedImportToProfileDraft(
     importGoogleReviewCount: mapped.reviews,
     importExperienceYears: mapped.experienceYears ?? undefined,
     importFollowerCount: mapped.followerCount ?? undefined,
+    socialFollowers: followerStatFromImport(mapped.platform, mapped.followerCount),
     portfolioItems: mapped.portfolioItems,
     pageSlug: suggestPageSlugFromName(mapped.name) || "",
     pageSlugConfirmed: false,

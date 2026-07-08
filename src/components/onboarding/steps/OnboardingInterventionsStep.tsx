@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   MAX_ONBOARDING_SERVICES,
   type OnboardingCurrency,
@@ -18,6 +18,11 @@ import {
   MAX_INTERVENTION_TAGS,
 } from "@/lib/onboarding/interventionTags";
 import { ONBOARDING_SOCIAL_FIELDS } from "@/lib/onboarding/socialLinks";
+import { fetchGoogleBusinessStats } from "@/lib/onboarding/fetchGoogleBusinessStats";
+import {
+  patchSocialFollower,
+  type SocialNetworkKey,
+} from "@/lib/onboarding/socialFollowers";
 import { AffiliateLinksEditor } from "@/components/onboarding/AffiliateLinksEditor";
 import { formatOnboardingPriceLabel } from "@/lib/onboarding/toVitrineServices";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
@@ -78,6 +83,66 @@ export function OnboardingInterventionsStep({
   const [priceInput, setPriceInput] = useState("");
   const [priceMode, setPriceMode] = useState<OnboardingServicePriceMode>("amount");
   const [currency, setCurrency] = useState<OnboardingCurrency>("EUR");
+  const [googleStatsLoading, setGoogleStatsLoading] = useState(false);
+  const [googleStatsError, setGoogleStatsError] = useState<string | null>(null);
+  const lastFetchedGoogleUrlRef = useRef<string | null>(null);
+
+  const enrichGoogleBusinessStats = useCallback(
+    async (url: string) => {
+      const trimmed = url.trim();
+      if (trimmed.length < 8) return;
+
+      const fallbackQuery = [profile.businessName, profile.city]
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .join(" ");
+
+      setGoogleStatsLoading(true);
+      setGoogleStatsError(null);
+
+      try {
+        const stats = await fetchGoogleBusinessStats(trimmed, fallbackQuery || undefined);
+        lastFetchedGoogleUrlRef.current = trimmed;
+        onProfileChange({
+          importGoogleRating: stats.rating ?? undefined,
+          importGoogleReviewCount: stats.reviews ?? undefined,
+          ...(stats.googleBusinessUrl
+            ? { social: { ...profile.social, googleBusinessUrl: stats.googleBusinessUrl } }
+            : {}),
+        });
+      } catch {
+        lastFetchedGoogleUrlRef.current = null;
+        setGoogleStatsError(i.googleStatsFetchError);
+      } finally {
+        setGoogleStatsLoading(false);
+      }
+    },
+    [i.googleStatsFetchError, onProfileChange, profile.businessName, profile.city, profile.social],
+  );
+
+  useEffect(() => {
+    const url = profile.social.googleBusinessUrl.trim();
+    if (!url || lastFetchedGoogleUrlRef.current === url) return;
+
+    const hasStats =
+      (profile.importGoogleRating != null && profile.importGoogleRating > 0) ||
+      (profile.importGoogleReviewCount != null && profile.importGoogleReviewCount > 0);
+
+    if (hasStats) {
+      lastFetchedGoogleUrlRef.current = url;
+      return;
+    }
+
+    void enrichGoogleBusinessStats(url);
+    // enrichGoogleBusinessStats volontairement exclu pour éviter une boucle de fetch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    profile.importGoogleRating,
+    profile.importGoogleReviewCount,
+    profile.social.googleBusinessUrl,
+  ]);
+
+  const hasGoogleBusinessUrl = profile.social.googleBusinessUrl.trim().length > 0;
 
   const metierKey = profile.metierKey as MetierKey | "";
   const availableTags =
@@ -460,60 +525,206 @@ export function OnboardingInterventionsStep({
               ))}
             </ul>
           ) : null}
-
-          <div className="rounded-[24px] border border-neutral-200 bg-white p-4 space-y-4">
-            <div>
-              <p className="inline-flex flex-wrap items-center text-sm font-bold text-neutral-900">
-                {i.socialTitle}
-                <OptionalBadge label={i.optionalBadge} />
-              </p>
-              <p className="mt-1 text-xs text-neutral-600">{i.socialHint}</p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {ONBOARDING_SOCIAL_FIELDS.map(({ key, label }) => (
-                <div key={key}>
-                  <label htmlFor={`social-${key}`} className={authLabelClassName}>
-                    {label}
-                  </label>
-                  <input
-                    id={`social-${key}`}
-                    type="text"
-                    value={profile.social[key]}
-                    onChange={(e) => patchSocial(profile, onProfileChange, key, e.target.value)}
-                    placeholder={i.socialPlaceholder}
-                    className={authFieldClassName}
-                  />
-                </div>
-              ))}
-            </div>
-            <div>
-              <label htmlFor="google-business" className={authLabelClassName}>
-                {i.googleBusinessLabel}
-              </label>
-              <p className="mt-0.5 text-xs text-neutral-600">{i.googleBusinessHint}</p>
-              <input
-                id="google-business"
-                type="url"
-                value={profile.social.googleBusinessUrl}
-                onChange={(e) =>
-                  patchSocial(profile, onProfileChange, "googleBusinessUrl", e.target.value)
-                }
-                placeholder={i.googleBusinessPlaceholder}
-                className={authFieldClassName}
-              />
-            </div>
-          </div>
-
-          {profile.plan === "PRO" ? (
-            <AffiliateLinksEditor
-              links={profile.affiliateLinks ?? []}
-              onChange={(affiliateLinks) => onProfileChange({ affiliateLinks })}
-              copy={copy.affiliateLinks}
-              optionalBadge={i.optionalBadge}
-            />
-          ) : null}
         </>
       )}
+
+      <div className="rounded-[24px] border border-neutral-200 bg-white p-4 space-y-4">
+        <div>
+          <p className="inline-flex flex-wrap items-center text-sm font-bold text-neutral-900">
+            {i.socialTitle}
+            <OptionalBadge label={i.optionalBadge} />
+          </p>
+          <p className="mt-1 text-xs text-neutral-600">{i.socialHint}</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {ONBOARDING_SOCIAL_FIELDS.map(({ key, networkKey, label }) => {
+            const hasUrl = profile.social[key].trim().length > 0;
+            const stat = profile.socialFollowers?.[networkKey as SocialNetworkKey];
+
+            return (
+              <div key={key} className="sm:col-span-1">
+                <label htmlFor={`social-${key}`} className={authLabelClassName}>
+                  {label}
+                </label>
+                <input
+                  id={`social-${key}`}
+                  type="text"
+                  value={profile.social[key]}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    patchSocial(profile, onProfileChange, key, value);
+                    if (!value.trim()) {
+                      onProfileChange({
+                        socialFollowers: patchSocialFollower(
+                          profile.socialFollowers,
+                          networkKey as SocialNetworkKey,
+                          null,
+                        ),
+                      });
+                    }
+                  }}
+                  placeholder={i.socialPlaceholder}
+                  className={authFieldClassName}
+                />
+                {hasUrl ? (
+                  <div className="mt-2 space-y-2 rounded-xl border border-neutral-100 bg-neutral-50/80 p-2.5">
+                    <label
+                      htmlFor={`social-followers-${key}`}
+                      className="text-[11px] font-semibold text-neutral-600"
+                    >
+                      {i.socialFollowersCountLabel}
+                    </label>
+                    <input
+                      id={`social-followers-${key}`}
+                      type="number"
+                      min={0}
+                      inputMode="numeric"
+                      value={stat?.count ?? ""}
+                      onChange={(e) => {
+                        const parsed = Number.parseInt(e.target.value, 10);
+                        const count = Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
+                        onProfileChange({
+                          socialFollowers: patchSocialFollower(
+                            profile.socialFollowers,
+                            networkKey as SocialNetworkKey,
+                            { count, show: stat?.show ?? true },
+                          ),
+                        });
+                      }}
+                      placeholder={i.socialFollowersPlaceholder}
+                      className={`${authFieldClassName} mt-0`}
+                    />
+                    <label className="flex cursor-pointer items-center gap-2 text-[11px] text-neutral-600">
+                      <input
+                        type="checkbox"
+                        className="h-3.5 w-3.5 rounded border-neutral-300"
+                        checked={stat?.show ?? true}
+                        onChange={(e) => {
+                          onProfileChange({
+                            socialFollowers: patchSocialFollower(
+                              profile.socialFollowers,
+                              networkKey as SocialNetworkKey,
+                              {
+                                count: stat?.count ?? 0,
+                                show: e.target.checked,
+                              },
+                            ),
+                          });
+                        }}
+                      />
+                      {i.socialFollowersShowLabel}
+                    </label>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+        <div>
+          <label htmlFor="google-business" className={authLabelClassName}>
+            {i.googleBusinessLabel}
+          </label>
+          <p className="mt-0.5 text-xs text-neutral-600">{i.googleBusinessHint}</p>
+
+          <div className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50/80 p-3.5">
+            <p className="text-xs font-bold text-neutral-900">{i.googleBusinessShareGuideTitle}</p>
+            <ol className="mt-2.5 space-y-1.5 text-xs leading-relaxed text-neutral-600">
+              {i.googleBusinessShareSteps.map((step, index) => (
+                <li key={step} className="flex gap-2">
+                  <span className="shrink-0 font-bold tabular-nums text-neutral-400">
+                    {index + 1}.
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <input
+            id="google-business"
+            type="url"
+            value={profile.social.googleBusinessUrl}
+            onChange={(e) => {
+              const value = e.target.value;
+              patchSocial(profile, onProfileChange, "googleBusinessUrl", value);
+              if (!value.trim()) {
+                lastFetchedGoogleUrlRef.current = null;
+                setGoogleStatsError(null);
+                onProfileChange({
+                  importGoogleRating: undefined,
+                  importGoogleReviewCount: undefined,
+                });
+              }
+            }}
+            onBlur={(e) => {
+              void enrichGoogleBusinessStats(e.target.value);
+            }}
+            placeholder={i.googleBusinessPlaceholder}
+            className={`${authFieldClassName} mt-3`}
+          />
+          {googleStatsLoading ? (
+            <p className="mt-2 text-xs text-neutral-500">{i.googleStatsLoading}</p>
+          ) : null}
+          {googleStatsError ? (
+            <p className="mt-2 text-xs text-amber-700">{googleStatsError}</p>
+          ) : null}
+          {hasGoogleBusinessUrl ? (
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div>
+                <label htmlFor="google-review-count" className={authLabelClassName}>
+                  {i.googleReviewCountLabel}
+                </label>
+                <input
+                  id="google-review-count"
+                  type="number"
+                  min={0}
+                  inputMode="numeric"
+                  value={profile.importGoogleReviewCount ?? ""}
+                  onChange={(e) => {
+                    const parsed = Number.parseInt(e.target.value, 10);
+                    const count = Number.isFinite(parsed) ? Math.max(0, parsed) : undefined;
+                    onProfileChange({ importGoogleReviewCount: count });
+                  }}
+                  placeholder={i.googleReviewCountPlaceholder}
+                  className={authFieldClassName}
+                />
+              </div>
+              <div>
+                <label htmlFor="google-rating" className={authLabelClassName}>
+                  {i.googleRatingLabel}
+                </label>
+                <input
+                  id="google-rating"
+                  type="number"
+                  min={0}
+                  max={5}
+                  step={0.1}
+                  inputMode="decimal"
+                  value={profile.importGoogleRating ?? ""}
+                  onChange={(e) => {
+                    const parsed = Number.parseFloat(e.target.value);
+                    const rating = Number.isFinite(parsed)
+                      ? Math.min(5, Math.max(0, parsed))
+                      : undefined;
+                    onProfileChange({ importGoogleRating: rating });
+                  }}
+                  placeholder={i.googleRatingPlaceholder}
+                  className={authFieldClassName}
+                />
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {profile.plan === "PRO" && metierKey ? (
+        <AffiliateLinksEditor
+          links={profile.affiliateLinks ?? []}
+          onChange={(affiliateLinks) => onProfileChange({ affiliateLinks })}
+          copy={copy.affiliateLinks}
+          optionalBadge={i.optionalBadge}
+        />
+      ) : null}
     </div>
   );
 }
