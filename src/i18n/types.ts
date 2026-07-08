@@ -647,6 +647,31 @@ export type PourquoiDictionary = {
   pillars: PourquoiPillarJson[];
 };
 
+export type HeroAsideShowcaseDictionary = {
+  url: string;
+  instagramHandle: string;
+  businessName: string;
+  trade: string;
+  followers: string;
+  posts: string;
+  following: string;
+  bioLine: string;
+  ctaMessage: string;
+  ctaQuote: string;
+  ctaServices: string;
+  flowLabel: string;
+  statPosts: string;
+  statFollowers: string;
+  statFollowing: string;
+  follow: string;
+  followersOnPage: string;
+  portfolioTitle: string;
+  linkInBio: string;
+  category: string;
+  highlightLabels: [string, string, string];
+  reelsTab: string;
+};
+
 export type HeroDictionary = {
   pill: string;
   titleBefore: string;
@@ -654,6 +679,7 @@ export type HeroDictionary = {
   titleAfter: string;
   typingTitle: HeroTypingTitleDictionary;
   asideShowcaseAlt: string;
+  asideShowcase: HeroAsideShowcaseDictionary;
   lead: string;
   controlPhrase: string;
   ctaPrimary: string;

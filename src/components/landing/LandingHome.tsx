@@ -37,8 +37,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                   {dict.hero.pill}
                 </p>
 
-                <div className="landing-hero-grid mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,1.12fr)] lg:gap-x-6">
-                  <div className="landing-hero-copy min-w-0 w-full self-center lg:max-w-none">
+                <div className="landing-hero-grid mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,1.12fr)] lg:gap-x-10">
+                  <div className="landing-hero-copy min-w-0 w-full lg:max-w-none">
                     <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
                       <HeroTypingTitle
                         className="landing-hero-title"
@@ -68,10 +68,11 @@ export async function LandingHome({ lang }: { lang: Locale }) {
 
                   <div
                     id="preview"
-                    className="landing-hero-aside flex min-w-0 w-full items-center justify-center overflow-visible scroll-mt-28"
+                    className="landing-hero-aside flex min-w-0 w-full items-center justify-center overflow-visible scroll-mt-28 lg:py-2"
                   >
                     <HeroAsideShowcase
                       alt={dict.hero.asideShowcaseAlt}
+                      copy={dict.hero.asideShowcase}
                       className="w-full"
                     />
                   </div>
