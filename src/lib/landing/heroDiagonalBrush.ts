@@ -1,7 +1,7 @@
 /** Vue + silhouette d’un coup de pinceau ondulé en diagonale (SVG natif, fond transparent). */
 export const HERO_DIAGONAL_BRUSH_VIEWBOX = "0 0 1200 720";
 
-/** Ruban ondulé : bord supérieur + bord inférieur, franges organiques aux extrémités. */
+/** Ruban ondulé classique — bord supérieur + inférieur, franges organiques aux extrémités. */
 export const HERO_DIAGONAL_BRUSH_PATH = `
   M -60 118
   C 40 78, 120 188, 240 148

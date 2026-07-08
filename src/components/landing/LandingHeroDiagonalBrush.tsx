@@ -24,7 +24,7 @@ const VARIANTS = {
   },
 } as const;
 
-/** Coup de pinceau corail en SVG — déborde la section pour rester invisible aux bords (ultra-wide / zoom). */
+/** Coup de pinceau corail en SVG — ruban ondulé (version affichée sur la landing). */
 export function LandingHeroDiagonalBrush({
   variant = "hero",
 }: LandingHeroDiagonalBrushProps) {
