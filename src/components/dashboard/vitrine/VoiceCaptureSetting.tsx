@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa6";
 import type { Profile } from "@/domain/profile";
-import { resolveCraftlinkPlan, isCraftlinkPro } from "@/domain/craftlinkPlan";
-import { profileToDashboardUser } from "@/domain/dashboardUser";
+import { isCraftlinkPro, resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
+import { resolveVoiceCaptureEnabled } from "@/lib/dashboard/voiceCaptureDefault";
 import { updateVoiceCaptureAction } from "@/app/actions/dashboard";
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -20,8 +20,9 @@ type VoiceCaptureSettingProps = {
 export function VoiceCaptureSetting({ profile, copy, locale }: VoiceCaptureSettingProps) {
   const v = copy.vitrine.voiceCapture;
   const pro = isCraftlinkPro(resolveCraftlinkPlan(profile.plan_tier));
-  const user = profileToDashboardUser(profile);
-  const [enabled, setEnabled] = useState(user.voiceCaptureEnabled);
+  const [enabled, setEnabled] = useState(() =>
+    resolveVoiceCaptureEnabled(profile.plan_tier, profile.voice_capture_enabled),
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

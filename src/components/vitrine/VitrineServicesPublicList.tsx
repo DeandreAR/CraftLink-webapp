@@ -32,8 +32,8 @@ export function VitrineServicesPublicList({
       <ul className={listClass}>
         {services.map((service) => (
           <li key={service.id} className={itemClass}>
-            <p className="font-semibold leading-snug text-[var(--v-text)]">{service.title}</p>
-            <p className="mt-0.5 font-bold text-[var(--primary-color)]">
+            <p className="text-sm font-semibold leading-snug text-[var(--v-text)]">{service.title}</p>
+            <p className="mt-0.5 text-xs font-bold text-[var(--primary-color)]">
               {service.priceHtLabel || surDevisLabel}
             </p>
           </li>

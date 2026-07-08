@@ -1,7 +1,15 @@
 import type { InstagramProfileApiResponse } from "@/lib/onboarding/proImport/apiTypes";
 import { extractInstagramShortcodes } from "@/lib/onboarding/proImport/instagramPortfolio";
+import {
+  deepFindFollowerCount,
+  extractFollowerCountFromRecord,
+} from "@/lib/onboarding/proImport/extractFollowerCount";
 import { providerFetch } from "@/lib/onboarding/proImport/api/providerHttp";
-import { throwIfQuotaHttpStatus } from "@/lib/onboarding/proImport/api/providerErrors";
+import {
+  ProviderDegradedError,
+  throwIfQuotaHttpStatus,
+  throwIfQuotaInProviderError,
+} from "@/lib/onboarding/proImport/api/providerErrors";
 
 type RocketUser = {
   full_name?: string;
@@ -9,6 +17,8 @@ type RocketUser = {
   profile_pic_url?: string;
   profile_pic_url_hd?: string;
   hd_profile_pic_url_info?: { url?: string };
+  follower_count?: number;
+  edge_followed_by?: { count?: number };
 };
 
 type RocketWebProfileResponse = {
@@ -27,6 +37,7 @@ type RocketWebProfileResponse = {
 export type InstagramImportBundle = {
   profile: InstagramProfileApiResponse;
   shortcodes: string[];
+  followerCount: number | null;
 };
 
 function normalizeInstagramUrl(url: string | undefined): string {
@@ -79,6 +90,16 @@ function pickUser(data: RocketWebProfileResponse): RocketUser | null {
   );
 }
 
+function pickFollowerCount(
+  user: RocketUser | null,
+  rawResponse: RocketWebProfileResponse,
+): number | null {
+  return (
+    extractFollowerCountFromRecord(user as Record<string, unknown> | null) ??
+    deepFindFollowerCount(rawResponse)
+  );
+}
+
 function pickAvatarUrl(user: RocketUser | null, rawResponse: RocketWebProfileResponse): string {
   const fromUser =
     normalizeInstagramUrl(user?.hd_profile_pic_url_info?.url) ||
@@ -107,7 +128,25 @@ async function rocketPost<T>(path: string, token: string, body: Record<string, u
     throw new Error(`RocketAPI HTTP ${response.status}: ${text.slice(0, 200)}`);
   }
 
-  return JSON.parse(text) as T;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error("Réponse RocketAPI invalide.");
+  }
+
+  if (
+    parsed &&
+    typeof parsed === "object" &&
+    "status" in parsed &&
+    (parsed as { status?: string }).status === "error"
+  ) {
+    const message = String((parsed as { message?: string }).message ?? "");
+    throwIfQuotaInProviderError(message);
+    throw new ProviderDegradedError();
+  }
+
+  return parsed as T;
 }
 
 /**
@@ -130,6 +169,7 @@ export async function fetchInstagramImportBundle(
 
   const user = pickUser(profileData);
   const avatarUrl = pickAvatarUrl(user, profileData);
+  const followerCount = pickFollowerCount(user, profileData);
 
   if (!user?.full_name && !user?.biography && !avatarUrl) {
     throw new Error("Profil Instagram introuvable ou réponse invalide.");
@@ -158,7 +198,7 @@ export async function fetchInstagramImportBundle(
     },
   };
 
-  return { profile, shortcodes };
+  return { profile, shortcodes, followerCount };
 }
 
 /** @deprecated Utiliser fetchInstagramImportBundle */

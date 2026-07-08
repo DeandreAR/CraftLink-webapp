@@ -403,6 +403,40 @@ export type DashboardDictionary = {
       lockedHint: string;
       upgradeCta: string;
     };
+    gallery: {
+      title: string;
+      subtitle: string;
+      socialButton: string;
+      phoneButton: string;
+      fromInstagram: string;
+      fromFacebook: string;
+      fromGoogle: string;
+      fromPhone: string;
+      essentialBlocked: string;
+      proLimitReached: string;
+      directQuota: string;
+      empty: string;
+      urlPlaceholder: string;
+      addLink: string;
+      cancel: string;
+      remove: string;
+      badgeDirect: string;
+      externalPreview: string;
+      instagramUrlLabel: string;
+      facebookUrlLabel: string;
+      googleUrlLabel: string;
+      invalidInstagramUrl: string;
+      invalidFacebookUrl: string;
+      invalidGoogleUrl: string;
+      invalidImageType: string;
+      uploadError: string;
+      deleteStorageError: string;
+      instagramProfileAlt: string;
+      instagramPostAlt: string;
+      facebookAlt: string;
+      googleAlt: string;
+      directAlt: string;
+    };
   };
   qr: {
     title: string;
@@ -690,6 +724,8 @@ export type VitrineDictionary = {
     quoteFreeHint: string;
     portfolioTitle: string;
     affiliateLinksTitle: string;
+    reportUrgency: string;
+    followersLabel: string;
     urgencyWhatsAppMessage: string;
     urgencyClickLeadDescription: string;
     urgencyWhatsAppUnavailable: string;
@@ -844,6 +880,7 @@ export type VitrineDictionary = {
 export type OnboardingDictionary = {
   title: string;
   subtitle: string;
+  signOut: string;
   emailConfirmed: {
     title: string;
     message: string;
@@ -972,6 +1009,13 @@ export type OnboardingDictionary = {
     manualLink: string;
     loadingHint: string;
     importError: string;
+    importErrorInvalidIdentifier: string;
+    importErrorGoogleNotFound: string;
+    importErrorInstagramNotFound: string;
+    importErrorFacebookNotFound: string;
+    importErrorFacebookProvider: string;
+    importErrorProvider: string;
+    importErrorGeneric: string;
     serverConfigError: string;
     quotaFallbackMessage: string;
   };

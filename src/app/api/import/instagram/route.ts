@@ -5,7 +5,7 @@ import { fetchInstagramImportBundle } from "@/lib/onboarding/proImport/providers
 export async function POST(request: Request) {
   return handleImportPost(request, process.env.ROCKETAPI_KEY?.trim(), async (identifier, apiKey) => {
     const handle = identifier.trim().replace(/^@/, "");
-    const { profile, shortcodes } = await fetchInstagramImportBundle(handle, apiKey);
-    return mapInstagramResponseToUnified(profile, handle, shortcodes);
+    const { profile, shortcodes, followerCount } = await fetchInstagramImportBundle(handle, apiKey);
+    return mapInstagramResponseToUnified(profile, handle, shortcodes, followerCount);
   });
 }

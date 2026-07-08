@@ -16,6 +16,7 @@ import {
 import type { Profile } from "@/domain/profile";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+import { parsePortfolioItems } from "@/lib/portfolio/normalizePortfolioItem";
 
 /** Champs vitrine persistés (hors colonnes `profiles`). */
 export type StoredVitrineProfilePart = {
@@ -35,6 +36,7 @@ export type StoredVitrineProfilePart = {
   importGoogleRating?: number;
   importGoogleReviewCount?: number;
   importExperienceYears?: number;
+  importFollowerCount?: number;
 };
 
 export type StoredVitrineConfig = {
@@ -182,9 +184,7 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
     social: parseSocial(row.social),
     affiliateLinks: parseAffiliateLinks(row.affiliateLinks),
     visual: parseVisual(row.visual),
-    portfolioItems: Array.isArray(row.portfolioItems)
-      ? (row.portfolioItems as OnboardingPortfolioItem[])
-      : [],
+    portfolioItems: parsePortfolioItems(row.portfolioItems),
     importPlatform:
       row.importPlatform === "google" ||
       row.importPlatform === "instagram" ||
@@ -197,6 +197,8 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
       typeof row.importGoogleReviewCount === "number" ? row.importGoogleReviewCount : undefined,
     importExperienceYears:
       typeof row.importExperienceYears === "number" ? row.importExperienceYears : undefined,
+    importFollowerCount:
+      typeof row.importFollowerCount === "number" ? row.importFollowerCount : undefined,
   };
 }
 
@@ -255,6 +257,7 @@ export function profileToEditorState(profile: Profile): {
     importGoogleRating: config.profile.importGoogleRating,
     importGoogleReviewCount: config.profile.importGoogleReviewCount,
     importExperienceYears: config.profile.importExperienceYears,
+    importFollowerCount: config.profile.importFollowerCount,
   };
 
   return { profileDraft, services: config.services };
@@ -283,6 +286,7 @@ export function editorStateToStoredConfig(
       importGoogleRating: profileDraft.importGoogleRating,
       importGoogleReviewCount: profileDraft.importGoogleReviewCount,
       importExperienceYears: profileDraft.importExperienceYears,
+      importFollowerCount: profileDraft.importFollowerCount,
     },
     services,
   };

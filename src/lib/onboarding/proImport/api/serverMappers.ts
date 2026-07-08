@@ -16,15 +16,9 @@ import {
   buildInstagramAvatarProxyUrl,
   instagramProfileEmbedUrl,
 } from "@/lib/onboarding/proImport/instagramPortfolio";
+import { buildGooglePhotoProxyUrl } from "@/lib/onboarding/proImport/googlePhotoProxy";
+import { parseGoogleAddress } from "@/lib/onboarding/proImport/parseGoogleAddress";
 import type { UnifiedImportData } from "@/lib/onboarding/proImport/api/unifiedImportData";
-
-function parseCityFromAddress(address: string): string | null {
-  const trimmed = address.trim();
-  if (!trimmed) return null;
-  const beforeComma = trimmed.split(",")[0]?.trim() ?? trimmed;
-  const withoutPostal = beforeComma.replace(/^\d{5}\s*/, "").trim();
-  return withoutPostal || null;
-}
 
 function normalizePhone(phone: string | null | undefined): string | null {
   if (!phone?.trim()) return null;
@@ -61,17 +55,34 @@ export function mapGoogleResponseToUnified(
     biographyOrDesc: description,
   });
 
+  const parsedAddress = parseGoogleAddress(p.address ?? "");
+
+  const rawPhotos = raw.googlePhotos?.length
+    ? raw.googlePhotos
+    : p.thumbnail
+      ? [p.thumbnail]
+      : [];
+
+  const googlePortfolio = rawPhotos.map((url, index) => ({
+    imageUrl: buildGooglePhotoProxyUrl(url),
+    title: index === 0 ? "Photo Google" : `Photo Google ${index + 1}`,
+  }));
+
+  const avatarSource = rawPhotos[0] ?? p.thumbnail ?? "";
+
   return {
     name,
     description,
-    avatarUrl: p.thumbnail ?? "",
+    avatarUrl: avatarSource ? buildGooglePhotoProxyUrl(avatarSource) : "",
     phone: normalizePhone(p.phone_number),
-    city: parseCityFromAddress(p.address ?? ""),
+    city: parsedAddress.displayCity,
+    postalCode: parsedAddress.postalCode,
     rating: p.rating ?? null,
     reviews: p.reviews ?? null,
     googleBusinessUrl,
     importServices: raw.services ?? [],
     inferredMetierKey,
+    googlePortfolio: googlePortfolio.length > 0 ? googlePortfolio : undefined,
   };
 }
 
@@ -79,6 +90,7 @@ export function mapInstagramResponseToUnified(
   raw: InstagramProfileApiResponse,
   username: string,
   _shortcodes: string[] = [],
+  followerCount: number | null = null,
 ): UnifiedImportData {
   const body = raw.response.body;
   const bio = body.biography?.trim() ?? "";
@@ -103,6 +115,7 @@ export function mapInstagramResponseToUnified(
     instagramUsername: username.replace(/^@/, ""),
     inferredMetierKey,
     experienceYears: inferExperienceYearsFromBio(bio),
+    followerCount,
     instagramPortfolio: [
       {
         shortcode: "profile",
@@ -133,6 +146,7 @@ export function mapFacebookResponseToUnified(
     city: null,
     rating: null,
     reviews: null,
+    followerCount: p.followers_count ?? null,
     inferredMetierKey,
   };
 }

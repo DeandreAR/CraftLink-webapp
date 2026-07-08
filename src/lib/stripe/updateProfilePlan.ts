@@ -1,6 +1,7 @@
 import "server-only";
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { VOICE_CAPTURE_DEFAULT_FOR_PRO } from "@/lib/dashboard/voiceCaptureDefault";
 
 export const STRIPE_PRO_PLAN_TIER = "PRO" as const;
 /** Mode dégradé après échec de paiement ou résiliation (offre Essentiel). */
@@ -16,13 +17,14 @@ export async function setProfilePlanByUserId(
     return { ok: false, error: "Supabase admin client unavailable" };
   }
 
-  const patch: Record<string, string> = {
+  const patch: Record<string, string | boolean> = {
     plan_tier: planTier,
     updated_at: new Date().toISOString(),
   };
 
   if (planTier === STRIPE_PRO_PLAN_TIER) {
     patch.onboarding_completed_at = new Date().toISOString();
+    patch.voice_capture_enabled = VOICE_CAPTURE_DEFAULT_FOR_PRO;
   }
 
   if (stripeCustomerId) {
@@ -47,13 +49,14 @@ export async function setProfilePlanByStripeCustomerId(
     return { ok: false, error: "Supabase admin client unavailable" };
   }
 
-  const patch: Record<string, string> = {
+  const patch: Record<string, string | boolean> = {
     plan_tier: planTier,
     updated_at: new Date().toISOString(),
   };
 
   if (planTier === STRIPE_PRO_PLAN_TIER) {
     patch.onboarding_completed_at = new Date().toISOString();
+    patch.voice_capture_enabled = VOICE_CAPTURE_DEFAULT_FOR_PRO;
   }
 
   const { error } = await admin

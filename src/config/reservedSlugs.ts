@@ -2,7 +2,7 @@ import { locales } from "@/i18n/config";
 
 /**
  * Segments URL interdits pour les slugs artisans.
- * Source unique : validation onboarding + middleware racine.
+ * Source unique : validation onboarding + proxy racine.
  */
 export const APP_RESERVED_SLUGS = new Set<string>([
   // Auth & compte

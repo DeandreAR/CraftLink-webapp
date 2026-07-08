@@ -10,6 +10,7 @@ export type UnifiedImportData = {
   avatarUrl: string;
   phone: string | null;
   city: string | null;
+  postalCode?: string | null;
   rating: number | null;
   reviews: number | null;
   /** Import Google uniquement — lien canonique vers la fiche GMB */
@@ -20,7 +21,10 @@ export type UnifiedImportData = {
   instagramUsername?: string | null;
   inferredMetierKey?: string | null;
   experienceYears?: number | null;
+  followerCount?: number | null;
   instagramPortfolio?: UnifiedInstagramPortfolioItem[];
+  /** Photos GMB (URLs proxifiées côté mapper). */
+  googlePortfolio?: { imageUrl: string; title: string }[];
   /** Bannière dégradée (pas d’image stockée) */
   useBrandGradientBanner?: boolean;
 };

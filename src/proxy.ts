@@ -12,7 +12,7 @@ import { updateSession } from "@/lib/supabase/middleware";
  * - Rewrite interne : /v/{slug} (évite le conflit avec /[lang])
  * - Redirections canoniques : /p/{slug} et /v/{slug} → /{slug}
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const legacySlug = parseLegacyVitrinePath(pathname);

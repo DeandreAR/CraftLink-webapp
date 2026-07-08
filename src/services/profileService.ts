@@ -39,7 +39,10 @@ function mapProfile(row: Record<string, unknown>): Profile {
         ? row.whatsapp_clicks_this_month
         : 0,
     whatsapp_clicks_month_key: (row.whatsapp_clicks_month_key as string | null) ?? null,
-    voice_capture_enabled: row.voice_capture_enabled === true,
+    voice_capture_enabled:
+      typeof row.voice_capture_enabled === "boolean"
+        ? row.voice_capture_enabled
+        : undefined,
     vitrine_presentation: row.vitrine_presentation
       ? parseStoredVitrineConfig(row.vitrine_presentation)
       : null,
@@ -65,6 +68,7 @@ function profileInsertPayloads(input: CreateProfileInput): Record<string, unknow
       workspace_id: userId,
       role: "ADMIN",
       plan_tier: planTier,
+      ...(planTier === "PRO" ? { voice_capture_enabled: true } : {}),
       ...optional,
     });
   }

@@ -31,11 +31,21 @@ export type OnboardingSocialDraft = {
   googleBusinessUrl: string;
 };
 
+import type { PortfolioSourceType } from "@/domain/portfolio";
+
 export type OnboardingPortfolioItem = {
   id: string;
-  type: "instagram_embed" | "instagram_profile_embed";
-  embedUrl: string;
+  source_type: PortfolioSourceType;
+  /** URL externe (Instagram, Facebook, Google) — aucun fichier stocké. */
+  externalUrl?: string;
+  /** URL publique image (import direct uniquement). */
+  imageUrl?: string;
+  /** Chemin Storage Supabase — suppression si source direct. */
+  storagePath?: string;
   alt?: string;
+  /** Compat import Instagram historique (embed). */
+  type?: "instagram_embed" | "instagram_profile_embed";
+  embedUrl?: string;
 };
 
 export type OnboardingVisualDraft = {
@@ -70,6 +80,8 @@ export type OnboardingProfileDraft = {
   importGoogleReviewCount?: number;
   /** Années d’expérience détectées dans la bio (import Instagram). */
   importExperienceYears?: number;
+  /** Abonnés / followers (import Instagram ou Facebook). */
+  importFollowerCount?: number;
   /** Réalisations récentes via embed Instagram (pas d’images stockées). */
   portfolioItems?: OnboardingPortfolioItem[];
   /** Segment URL publique : getcraftlink.com/{pageSlug} */

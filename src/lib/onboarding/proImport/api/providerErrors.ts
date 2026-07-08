@@ -16,7 +16,7 @@ export class ProviderDegradedError extends Error {
 }
 
 const QUOTA_MESSAGE_PATTERN =
-  /quota|rate.?limit|too many requests|run out|insufficient credit|exceeded|limit reached/i;
+  /quota|rate.?limit|too many requests|run out|insufficient credit|exceeded|limit reached|plan is expired|subscription.*expired|renew it/i;
 
 export function isQuotaHttpStatus(status: number): boolean {
   return status === 429;

@@ -1,5 +1,5 @@
-import type { CraftlinkPlan } from "@/domain/craftlinkPlan";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
+import { resolveVoiceCaptureEnabled } from "@/lib/dashboard/voiceCaptureDefault";
 import type { Profile } from "@/domain/profile";
 import type { UserProfile } from "@/domain/userProfile";
 import { currentWhatsappMonthKey, normalizeWhatsappClickCount } from "@/lib/dashboard/whatsappQuota";
@@ -16,7 +16,10 @@ export function profileToDashboardUser(profile: Profile): DashboardUser {
   return {
     plan: resolveCraftlinkPlan(profile.plan_tier),
     whatsappClicksThisMonth: normalizeWhatsappClickCount(clicks, monthKey),
-    voiceCaptureEnabled: profile.voice_capture_enabled === true,
+    voiceCaptureEnabled: resolveVoiceCaptureEnabled(
+      profile.plan_tier,
+      profile.voice_capture_enabled,
+    ),
   };
 }
 

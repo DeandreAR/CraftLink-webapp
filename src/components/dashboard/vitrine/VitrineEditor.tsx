@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaArrowUpRightFromSquare, FaList, FaPalette, FaPen } from "react-icons/fa6";
 import { updateDashboardProfileAction } from "@/app/actions/dashboard";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
+import { PortfolioGalleryEditor } from "@/components/dashboard/vitrine/PortfolioGalleryEditor";
 import { OnboardingGeneralStep } from "@/components/onboarding/steps/OnboardingGeneralStep";
 import { OnboardingInterventionsStep } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
@@ -56,6 +57,8 @@ export function VitrineEditor({
     setProfileDraft((prev) => ({ ...prev, ...patch }));
     setFeedback(null);
   };
+
+  const workspaceId = profile.workspace_id || profile.id;
 
   const handleSave = async () => {
     setSaving(true);
@@ -140,15 +143,24 @@ export function VitrineEditor({
         ) : null}
 
         {section === "visual" ? (
-          <OnboardingVisualStep
-            copy={onboardingCopy}
-            vitrineCopy={vitrineCopy}
-            locale={locale}
-            profile={profileDraft}
-            services={services}
-            onChange={patchProfile}
-            showCreatePageButton={false}
-          />
+          <div className="space-y-6">
+            <OnboardingVisualStep
+              copy={onboardingCopy}
+              vitrineCopy={vitrineCopy}
+              locale={locale}
+              profile={profileDraft}
+              services={services}
+              onChange={patchProfile}
+              showCreatePageButton={false}
+            />
+            <PortfolioGalleryEditor
+              items={profileDraft.portfolioItems ?? []}
+              plan={profileDraft.plan}
+              workspaceId={workspaceId}
+              copy={copy.vitrine.gallery}
+              onChange={(portfolioItems) => patchProfile({ portfolioItems })}
+            />
+          </div>
         ) : null}
       </div>
 

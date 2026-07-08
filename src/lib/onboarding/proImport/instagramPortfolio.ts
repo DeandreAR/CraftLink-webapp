@@ -43,8 +43,10 @@ export function extractInstagramShortcodes(payload: unknown, limit = MAX_PORTFOL
 export function shortcodesToPortfolioItems(shortcodes: string[]): OnboardingPortfolioItem[] {
   return shortcodes.map((shortcode) => ({
     id: `ig-${shortcode}`,
+    source_type: "instagram" as const,
     type: "instagram_embed" as const,
     embedUrl: instagramEmbedUrl(shortcode),
+    externalUrl: `https://www.instagram.com/p/${shortcode}/`,
     alt: `Publication Instagram ${shortcode}`,
   }));
 }

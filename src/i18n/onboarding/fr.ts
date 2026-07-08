@@ -3,6 +3,7 @@ import type { OnboardingDictionary } from "@/i18n/types";
 export const onboardingFr: OnboardingDictionary = {
   title: "Configurez votre page CraftLink",
   subtitle: "Regroupez vos infos, interventions et style en quelques minutes.",
+  signOut: "Déconnexion",
   emailConfirmed: {
     title: "E-mail confirmé — compte activé",
     message:
@@ -152,6 +153,20 @@ export const onboardingFr: OnboardingDictionary = {
     manualLink: "Ignorer l'import et terminer",
     loadingHint: "Extraction des avis, de la bio et des photos…",
     importError: "Import impossible. Réessayez ou terminez sans import.",
+    importErrorInvalidIdentifier:
+      "Identifiant trop court ou invalide. Vérifiez ce que vous avez saisi.",
+    importErrorGoogleNotFound:
+      "Aucune fiche Google trouvée. Vérifiez le nom + ville, le lien Maps ou le place_id.",
+    importErrorInstagramNotFound:
+      "Profil Instagram introuvable. Vérifiez le @username (compte public).",
+    importErrorFacebookNotFound:
+      "Page Facebook introuvable. Vérifiez l'identifiant ou l'URL de la page.",
+    importErrorFacebookProvider:
+      "Import Facebook indisponible pour le moment, veuillez continuer manuellement.",
+    importErrorProvider:
+      "Connexion au service d'import temporairement impossible. Réessayez dans quelques minutes ou continuez manuellement.",
+    importErrorGeneric:
+      "Import {platform} impossible pour le moment. Réessayez ou continuez sans import.",
     serverConfigError:
       "Import indisponible : configurez SERPAPI_KEY, ROCKETAPI_KEY et RAPIDAPI_KEY côté serveur (.env.local).",
     quotaFallbackMessage:

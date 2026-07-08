@@ -15,20 +15,32 @@ export function unifiedToMappedImportData(
       ? (data.inferredMetierKey as MetierKey)
       : "";
 
-  const portfolioItems: OnboardingPortfolioItem[] | undefined = data.instagramPortfolio?.map(
-    (item) => ({
-      id: item.shortcode === "profile" ? "ig-profile-feed" : `ig-${item.shortcode}`,
-      type:
-        item.shortcode === "profile"
-          ? ("instagram_profile_embed" as const)
-          : ("instagram_embed" as const),
-      embedUrl: item.embedUrl,
-      alt:
-        item.shortcode === "profile"
-          ? "Publications Instagram"
-          : `Publication Instagram ${item.shortcode}`,
-    }),
-  );
+  const portfolioItems: OnboardingPortfolioItem[] | undefined =
+    platform === "google" && data.googlePortfolio?.length
+      ? data.googlePortfolio.map((photo, index) => ({
+          id: `google-${index}`,
+          source_type: "google" as const,
+          imageUrl: photo.imageUrl,
+          externalUrl: data.googleBusinessUrl?.trim() || undefined,
+          alt: photo.title,
+        }))
+      : data.instagramPortfolio?.map((item) => ({
+          id: item.shortcode === "profile" ? "ig-profile-feed" : `ig-${item.shortcode}`,
+          source_type: "instagram" as const,
+          type:
+            item.shortcode === "profile"
+              ? ("instagram_profile_embed" as const)
+              : ("instagram_embed" as const),
+          embedUrl: item.embedUrl,
+          externalUrl:
+            item.shortcode === "profile"
+              ? item.embedUrl.replace(/\/embed\/?$/, "/")
+              : `https://www.instagram.com/p/${item.shortcode}/`,
+          alt:
+            item.shortcode === "profile"
+              ? "Publications Instagram"
+              : `Publication Instagram ${item.shortcode}`,
+        }));
 
   return {
     platform,
@@ -38,6 +50,7 @@ export function unifiedToMappedImportData(
     avatarUrl: data.avatarUrl,
     phone: data.phone ?? "",
     city: data.city ?? "",
+    ...(data.postalCode ? { postalCode: data.postalCode } : {}),
     rating: data.rating ?? undefined,
     reviews: data.reviews ?? undefined,
     googleBusinessUrl: data.googleBusinessUrl?.trim() || undefined,
@@ -48,6 +61,7 @@ export function unifiedToMappedImportData(
         : undefined,
     inferredMetierKey,
     experienceYears: data.experienceYears ?? null,
+    followerCount: data.followerCount ?? null,
     portfolioItems,
     useBrandGradientBanner: data.useBrandGradientBanner,
   };

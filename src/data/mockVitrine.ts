@@ -109,30 +109,35 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
   portfolioItems: [
     {
       id: "work-renovation-avant-apres",
+      source_type: "direct",
       type: "image",
       imageUrl: "/images/portfolio/renovation-avant-apres.png",
       alt: "Rénovation complète : avant travaux et couloir fini avec plancher chauffant",
     },
     {
       id: "work-isolation",
+      source_type: "direct",
       type: "image",
       imageUrl: "/images/portfolio/isolation-cloisons.png",
       alt: "Cloisons métalliques, isolation Isover et gaines électriques sur chantier",
     },
     {
       id: "work-tableau",
+      source_type: "direct",
       type: "image",
       imageUrl: "/images/portfolio/tableau-electrique.png",
       alt: "Installation d'un tableau électrique et compteur",
     },
     {
       id: "work-borne",
+      source_type: "direct",
       type: "image",
       imageUrl: "/images/portfolio/borne-recharge.png",
       alt: "Borne de recharge pour véhicule électrique à domicile",
     },
     {
       id: "work-chantier",
+      source_type: "direct",
       type: "image",
       imageUrl: "/images/portfolio/electricite-renovation.png",
       alt: "Artisan électricien sur chantier de rénovation intérieure",
@@ -153,7 +158,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
   },
   cta: {
     secondaryInfo: "Poser une Question",
-    secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
+    secondaryUrgent: "🚨 Signaler une urgence",
     collaboration: "Partenariats & Marques",
   },
   voiceCaptureEnabled: false,
@@ -173,7 +178,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
   cta: {
     primaryQuote: "Besoin d'un devis rapide ?",
     secondaryInfo: "Poser une Question",
-    secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
+    secondaryUrgent: "🚨 Signaler une urgence",
     collaboration: "Partenariats & Marques",
   },
   voiceCaptureEnabled: true,

@@ -18,7 +18,6 @@ export default async function OnboardingRootPage({ searchParams }: Props) {
       lang={defaultLocale}
       copy={dict.onboarding}
       vitrineCopy={dict.vitrine}
-      loginLabel={dict.nav.login}
       planIntent={planIntent}
       emailConfirmed={confirmed === "1"}
     />

@@ -13,6 +13,8 @@ export type GooglePlaceApiResponse = {
   };
   place_id?: string;
   services?: string[];
+  /** URLs brutes des photos GMB (hors Street View). */
+  googlePhotos?: string[];
 };
 
 /** Réponse type RocketAPI — Instagram */
@@ -34,6 +36,7 @@ export type FacebookPageApiResponse = {
     about: string;
     profile_pic: string;
     phone: string | null;
+    followers_count?: number | null;
   };
 };
 

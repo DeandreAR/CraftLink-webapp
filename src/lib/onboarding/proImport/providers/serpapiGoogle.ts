@@ -3,6 +3,7 @@ import {
   extractGooglePlaceServices,
   type SerpPlaceWithServices,
 } from "@/lib/onboarding/proImport/googlePlaceServices";
+import { isStreetViewPhotoUrl } from "@/lib/onboarding/proImport/googlePhotoProxy";
 import { parseGoogleIdentifier } from "@/lib/onboarding/proImport/parseGoogleIdentifier";
 import { providerFetch } from "@/lib/onboarding/proImport/api/providerHttp";
 import {
@@ -18,12 +19,44 @@ type SerpPlace = SerpPlaceWithServices & {
   address?: string;
   phone?: string;
   description?: string;
-  images?: { thumbnail?: string }[];
+  images?: { title?: string; thumbnail?: string; serpapi_thumbnail?: string }[];
   place_id?: string;
   data_id?: string;
   data_cid?: string;
   gps_coordinates?: { latitude?: number; longitude?: number };
 };
+
+const MAX_GMB_PHOTOS = 6;
+
+function pickSerpImageUrl(image: NonNullable<SerpPlace["images"]>[number]): string {
+  return image.thumbnail?.trim() || image.serpapi_thumbnail?.trim() || "";
+}
+
+export function extractGoogleOwnerPhotoUrls(place: SerpPlace, limit = MAX_GMB_PHOTOS): string[] {
+  const urls: string[] = [];
+  const seen = new Set<string>();
+
+  const push = (raw: string, title?: string) => {
+    const url = raw.trim();
+    if (!url || seen.has(url) || isStreetViewPhotoUrl(url, title)) return;
+    seen.add(url);
+    urls.push(url);
+  };
+
+  for (const image of place.images ?? []) {
+    if (urls.length >= limit) break;
+    if (isStreetViewPhotoUrl("", image.title)) continue;
+    const url = pickSerpImageUrl(image);
+    if (url) push(url, image.title);
+  }
+
+  const thumb = place.thumbnail?.trim();
+  if (thumb && urls.length < limit) {
+    push(thumb);
+  }
+
+  return urls.slice(0, limit);
+}
 
 type SerpMapsResponse = {
   error?: string;
@@ -62,17 +95,21 @@ function toGooglePayload(place: SerpPlace, placeId?: string): GooglePlaceApiResp
   const resolvedPlaceId = placeId ?? place.place_id;
   const services = extractGooglePlaceServices(place);
   const category = formatGoogleCategory(place.type);
+  const googlePhotos = extractGoogleOwnerPhotoUrls(place);
+  const thumbnail = googlePhotos[0] ?? place.thumbnail ?? place.images?.[0]?.thumbnail ?? "";
+
   return {
     place_results: {
       title: place.title ?? "",
       rating: place.rating ?? 0,
       reviews: place.reviews ?? 0,
-      thumbnail: place.thumbnail ?? place.images?.[0]?.thumbnail ?? "",
+      thumbnail,
       address: place.address ?? "",
       phone_number: place.phone ?? null,
       description: place.description?.trim() ?? "",
       ...(category ? { category } : {}),
     },
+    ...(googlePhotos.length > 0 ? { googlePhotos } : {}),
     ...(resolvedPlaceId ? { place_id: resolvedPlaceId } : {}),
     ...(services.length > 0 ? { services } : {}),
   };

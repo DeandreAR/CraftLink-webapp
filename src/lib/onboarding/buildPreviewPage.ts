@@ -4,6 +4,7 @@ import type {
   OnboardingService,
 } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
+import { buildFollowersBadgeLabel } from "@/lib/vitrine/formatFollowerCount";
 import type { LinkInBioPageProps } from "@/components/vitrine/LinkInBioPage";
 import { getMetierLabel } from "@/lib/onboarding/metierOptions";
 import { getFontById } from "@/lib/onboarding/onboardingFonts";
@@ -13,9 +14,9 @@ import { onboardingServicesToVitrine } from "@/lib/onboarding/toVitrineServices"
 import { resolveTradeLabelFallback } from "@/lib/onboarding/proImport/toProfileDraft";
 import type { VitrineDictionary } from "@/i18n/types";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+import { portfolioItemsToVitrine } from "@/lib/portfolio/portfolioToVitrine";
 import type {
   PublicPlanTier,
-  VitrinePortfolioItem,
   VitrineStatBadge,
 } from "@/domain/vitrine";
 
@@ -27,7 +28,11 @@ type PriceLabels = {
   aboutTitle: string;
 };
 
-function buildStatBadges(profile: OnboardingProfileDraft): VitrineStatBadge[] {
+function buildStatBadges(
+  profile: OnboardingProfileDraft,
+  vitrineCopy: VitrineDictionary,
+  locale: Locale,
+): VitrineStatBadge[] {
   const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
   const googleRating = profile.importGoogleRating;
   const googleReviews = profile.importGoogleReviewCount;
@@ -54,21 +59,42 @@ function buildStatBadges(profile: OnboardingProfileDraft): VitrineStatBadge[] {
     ];
   }
 
+  const badges: VitrineStatBadge[] = [];
+
+  const followerCount = profile.importFollowerCount;
+  if (followerCount != null && followerCount > 0) {
+    const socialHref =
+      profile.importPlatform === "instagram"
+        ? profile.social.instagram.trim() || undefined
+        : profile.importPlatform === "facebook"
+          ? profile.social.facebook.trim() || undefined
+          : undefined;
+
+    badges.push({
+      id: "followers",
+      label: buildFollowersBadgeLabel(
+        followerCount,
+        vitrineCopy.presentation.followersLabel,
+        locale,
+      ),
+      kind: "default",
+      href: socialHref,
+    });
+  }
+
   if (
     profile.importPlatform === "instagram" &&
     profile.importExperienceYears != null &&
     profile.importExperienceYears > 0
   ) {
-    return [
-      {
-        id: "exp",
-        label: `${profile.importExperienceYears}+ ans d'expérience`,
-        kind: "default",
-      },
-    ];
+    badges.push({
+      id: "exp",
+      label: `${profile.importExperienceYears}+ ans d'expérience`,
+      kind: "default",
+    });
   }
 
-  return [];
+  return badges;
 }
 
 function initialsFromName(name: string): string {
@@ -80,14 +106,8 @@ function initialsFromName(name: string): string {
 
 function toVitrinePortfolio(
   items: OnboardingProfileDraft["portfolioItems"],
-): VitrinePortfolioItem[] {
-  if (!items?.length) return [];
-  return items.map((item) => ({
-    id: item.id,
-    type: item.type,
-    embedUrl: item.embedUrl,
-    alt: item.alt,
-  }));
+): ReturnType<typeof portfolioItemsToVitrine> {
+  return portfolioItemsToVitrine(items);
 }
 
 export function buildOnboardingPreviewProps(
@@ -138,7 +158,7 @@ export function buildOnboardingPreviewProps(
   const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
   const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
 
-  const statBadges = buildStatBadges(profile);
+  const statBadges = buildStatBadges(profile, vitrineCopy, locale);
   const portfolioItems = toVitrinePortfolio(profile.portfolioItems);
   const hasPortfolio = portfolioItems.length > 0;
 
@@ -201,10 +221,10 @@ export function buildOnboardingPreviewProps(
       cta: {
         ...(plan === "PRO" ? { primaryQuote: "Besoin d'un devis rapide ?" } : {}),
         secondaryInfo: "Poser une Question",
-        secondaryUrgent: "🚨 Signaler une urgence WhatsApp",
+        secondaryUrgent: vitrineCopy.presentation.reportUrgency,
         collaboration: "Partenariats & Marques",
       },
-      voiceCaptureEnabled: false,
+      voiceCaptureEnabled: plan === "PRO",
     },
     copy: vitrineCopy,
   };

@@ -60,7 +60,7 @@ export function OnboardingVitrinePreview({
           <p className="mb-3 shrink-0 text-center text-xs text-neutral-500">{hint}</p>
         ) : null}
         <div
-          className="overflow-hidden rounded-[28px] border border-neutral-200 bg-white shadow-lg"
+          className="max-h-[min(75vh,720px)] overflow-y-auto overflow-x-hidden overscroll-y-contain rounded-[28px] border border-neutral-200 bg-white shadow-lg scrollbar-soft touch-pan-y"
           style={{ fontFamily }}
           aria-label={title || "Aperçu page"}
         >
@@ -83,13 +83,11 @@ export function OnboardingVitrinePreview({
         <p className="mb-2 text-center text-[10px] text-neutral-500">{hint}</p>
       ) : null}
       <div
-        className={`mx-auto max-h-[min(52vh,520px)] overflow-y-auto overflow-x-hidden rounded-[28px] border border-neutral-200 bg-neutral-100 shadow-inner scrollbar-hide ${
-          interactive ? "" : "pointer-events-none"
-        }`}
+        className="mx-auto max-h-[min(65vh,600px)] overflow-y-auto overflow-x-hidden overscroll-y-contain rounded-[28px] border border-neutral-200 bg-neutral-100 shadow-inner scrollbar-soft touch-pan-y"
         aria-label={title || "Aperçu page"}
         style={{ width: numericWidth }}
       >
-        <div style={{ width: numericWidth, height: scaledHeight, overflow: "hidden" }}>
+        <div style={{ width: numericWidth, height: scaledHeight }}>
           <div
             ref={innerRef}
             className={`origin-top-left ${interactive ? "pointer-events-auto" : "pointer-events-none"}`}

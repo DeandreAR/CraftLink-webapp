@@ -1,4 +1,6 @@
 import type { FacebookPageApiResponse } from "@/lib/onboarding/proImport/apiTypes";
+import { FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED } from "@/lib/onboarding/proImport/api/constants";
+import { deepFindFollowerCount, extractFollowerCountFromRecord } from "@/lib/onboarding/proImport/extractFollowerCount";
 import { providerFetch } from "@/lib/onboarding/proImport/api/providerHttp";
 import { throwIfQuotaHttpStatus } from "@/lib/onboarding/proImport/api/providerErrors";
 
@@ -50,12 +52,16 @@ function extractPageFromUnknown(data: unknown): FacebookPageApiResponse["page_da
     );
     const phone = pickString(item.phone, item.phone_number, item.phoneNumber);
 
+    const followers =
+      extractFollowerCountFromRecord(item) ?? deepFindFollowerCount(item);
+
     if (name || about || profile_pic) {
       return {
         name,
         about,
         profile_pic,
         phone: phone || null,
+        followers_count: followers,
       };
     }
   }
@@ -103,6 +109,12 @@ export async function fetchFacebookFromRapidApi(
 
   if (!response.ok) {
     throwIfQuotaHttpStatus(response.status, text);
+    if (
+      (response.status === 403 || response.status === 401) &&
+      /not subscribed|subscription/i.test(text)
+    ) {
+      throw new Error(FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED);
+    }
     throw new Error(`RapidAPI Facebook HTTP ${response.status}: ${text.slice(0, 200)}`);
   }
 
@@ -113,6 +125,11 @@ export async function fetchFacebookFromRapidApi(
     throw new Error(
       "Page Facebook introuvable. Vérifiez RAPIDAPI_FACEBOOK_HOST / RAPIDAPI_FACEBOOK_PATH.",
     );
+  }
+
+  const followersFromPayload = deepFindFollowerCount(data);
+  if (followersFromPayload && !page.followers_count) {
+    page.followers_count = followersFromPayload;
   }
 
   return { page_data: page };

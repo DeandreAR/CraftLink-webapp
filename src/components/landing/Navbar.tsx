@@ -36,22 +36,26 @@ const navLink =
 
 export function Navbar({ basePath = "", labels }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const L = labels ?? defaultLabels;
   const p = basePath || "";
   const locale = p === "/en" ? "en" : defaultLocale;
 
   useEffect(() => {
+    setHydrated(true);
     const onScroll = () => setIsScrolled(window.scrollY > 6);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const showScrolled = hydrated && isScrolled;
+
   return (
     <header className="sticky top-0 z-50">
       <div
         className={`border-b transition-all duration-300 ${
-          isScrolled
+          showScrolled
             ? "border-[#EFA188]/25 bg-[#FDFBF7]/95 shadow-[0_8px_32px_rgba(239,161,136,0.08)] backdrop-blur-md"
             : "border-transparent bg-[#FDFBF7]/80 backdrop-blur-sm"
         }`}

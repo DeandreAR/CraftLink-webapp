@@ -277,16 +277,18 @@ export function ProOnboardingWizard({
         />
       ) : null}
 
+      {state.importError && (phase === "choice" || phase === "manual-general") ? (
+        <p className="mb-4 rounded-[16px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+          {state.importError}
+        </p>
+      ) : null}
+
       {phase === "choice" ? (
         <>
-          {state.importError ? (
-            <p className="mb-4 text-sm text-red-600" role="alert">
-              {state.importError}
-            </p>
-          ) : null}
           <OnboardingProChoiceStep
             copy={copy}
             onStartManual={() => {
+              dispatch({ type: "SET_IMPORT_ERROR", error: null });
               dispatch({ type: "SET_IMPORT_NOTICE", notice: null });
               dispatch({
                 type: "SET_MAPPED_IMPORT",
@@ -300,11 +302,6 @@ export function ProOnboardingWizard({
               dispatch({ type: "SET_IMPORT_ERROR", error: message });
             }}
             onImportFallbackToManual={() => {
-              dispatch({ type: "SET_IMPORT_ERROR", error: null });
-              dispatch({
-                type: "SET_IMPORT_NOTICE",
-                notice: copy.import.quotaFallbackMessage,
-              });
               dispatch({
                 type: "SET_MAPPED_IMPORT",
                 mapped: null,

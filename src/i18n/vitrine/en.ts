@@ -5,10 +5,12 @@ export const vitrineEn: VitrineDictionary = {
     quoteFreeHint: "100% free quote · No commitment",
     portfolioTitle: "Recent work",
     affiliateLinksTitle: "Partner links",
+    reportUrgency: "🚨 Report an urgency",
+    followersLabel: "{count} followers",
     urgencyWhatsAppMessage:
       "Hello, I have an URGENT repair need and I just saw your CraftLink page. Are you available soon?",
     urgencyClickLeadDescription:
-      "The customer tapped “Report urgency on WhatsApp” and was redirected to WhatsApp. No contact details provided.",
+      "The customer tapped “Report an urgency” and was redirected to WhatsApp. No contact details provided.",
     urgencyWhatsAppUnavailable:
       "WhatsApp number unavailable — please use the contact form.",
   },

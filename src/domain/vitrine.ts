@@ -110,12 +110,17 @@ import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 
 export type { MetierKey };
 
+import type { PortfolioSourceType } from "@/domain/portfolio";
+
 /** Média portfolio sous les CTA (images ou embed Instagram). */
 export type VitrinePortfolioItem = {
   id: string;
-  type: "image" | "instagram_embed" | "instagram_profile_embed";
+  source_type: PortfolioSourceType;
+  type: "image" | "instagram_embed" | "instagram_profile_embed" | "external_link";
   /** URL image directe ou vignette. */
   imageUrl?: string;
+  /** URL externe (Facebook, Google, Instagram). */
+  externalUrl?: string;
   /** URL embed Instagram (blockquote / iframe). */
   embedUrl?: string;
   alt?: string;

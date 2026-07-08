@@ -1,6 +1,7 @@
 import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
 import { validatePageSlug } from "@/lib/onboarding/pageSlug";
 import { buildStoredVitrineFromOnboarding } from "@/lib/vitrine/storedVitrinePresentation";
+import { VOICE_CAPTURE_DEFAULT_FOR_PRO } from "@/lib/dashboard/voiceCaptureDefault";
 import { createClient } from "@/lib/supabase/client";
 
 export type PublishOnboardingResult =
@@ -53,7 +54,12 @@ async function persistOnboardingProfile(
     const { error } = await supabase
       .from("profiles")
       .update({
-        ...(options.setProPlan ? { plan_tier: "PRO" } : {}),
+        ...(options.setProPlan
+          ? {
+              plan_tier: "PRO",
+              voice_capture_enabled: VOICE_CAPTURE_DEFAULT_FOR_PRO,
+            }
+          : {}),
         full_name: profile.businessName.trim(),
         whatsapp_number: profile.phone.trim(),
         page_slug: slug,

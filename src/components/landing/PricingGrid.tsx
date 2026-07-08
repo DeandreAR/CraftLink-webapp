@@ -244,7 +244,7 @@ export function PricingGrid({ model, basePath, locale = defaultLocale }: Pricing
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
+        initial={false}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.4 }}
@@ -281,7 +281,7 @@ export function PricingGrid({ model, basePath, locale = defaultLocale }: Pricing
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, delay: 0.08 }}

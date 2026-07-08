@@ -6,8 +6,8 @@ import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
 import { LandingCta } from "@/components/landing/LandingCta";
-import { SERVER_CONFIG_ERROR } from "@/lib/onboarding/proImport/api/constants";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
+import { resolveImportClientMessage } from "@/lib/onboarding/proImport/resolveImportClientMessage";
 import {
   runProImportPipeline,
   type ProImportPipelineResult,
@@ -58,16 +58,11 @@ export function ProB2BImportPanel({
       onSuccess(result);
     } catch (error) {
       if (isProImportDegradedError(error)) {
+        onError(resolveImportClientMessage(platform, error, imp));
         onFallbackToManual();
         return;
       }
-      const message =
-        error instanceof Error && error.message === SERVER_CONFIG_ERROR
-          ? imp.serverConfigError
-          : error instanceof Error
-            ? error.message
-            : imp.importError;
-      onError(message);
+      onError(resolveImportClientMessage(platform, error, imp));
     } finally {
       setLoading(false);
     }
@@ -75,8 +70,14 @@ export function ProB2BImportPanel({
     loading,
     platform,
     identifier,
-    imp.importError,
-    imp.serverConfigError,
+    imp.importErrorInvalidIdentifier,
+    imp.importErrorGoogleNotFound,
+    imp.importErrorInstagramNotFound,
+    imp.importErrorFacebookNotFound,
+    imp.importErrorFacebookProvider,
+    imp.importErrorProvider,
+    imp.importErrorGeneric,
+    imp.quotaFallbackMessage,
     onSuccess,
     onError,
     onFallbackToManual,

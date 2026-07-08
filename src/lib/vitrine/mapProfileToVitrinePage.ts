@@ -5,6 +5,7 @@ import type { PublicPlanTier } from "@/domain/vitrine";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import { buildOnboardingPreviewProps } from "@/lib/onboarding/buildPreviewPage";
+import { resolveVoiceCaptureEnabled } from "@/lib/dashboard/voiceCaptureDefault";
 import { profileToEditorState } from "@/domain/vitrinePresentation";
 import type { Profile } from "@/domain/profile";
 
@@ -76,7 +77,10 @@ export function mapStoredConfigToVitrinePage(
         showAffiliateLinks:
           planTier === "PRO" && (preview.artisan.affiliateLinks?.length ?? 0) > 0,
       },
-      voiceCaptureEnabled: Boolean(row.voice_capture_enabled),
+      voiceCaptureEnabled: resolveVoiceCaptureEnabled(
+        row.plan_tier,
+        row.voice_capture_enabled,
+      ),
     },
   };
 }

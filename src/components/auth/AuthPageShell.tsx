@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { signOutAction } from "@/app/actions/auth";
 import { LandingHeroDiagonalBrush } from "@/components/landing/LandingHeroDiagonalBrush";
 import { LandingCta } from "@/components/landing/LandingCta";
 import type { Locale } from "@/i18n/config";
@@ -12,6 +13,7 @@ type AuthPageShellProps = {
   children: ReactNode;
   alternateHref: string;
   alternateLabel: string;
+  signOutLabel?: string;
   backToHomeLabel?: string;
   contentClassName?: string;
   hideBrandPill?: boolean;
@@ -26,6 +28,7 @@ export function AuthPageShell({
   children,
   alternateHref,
   alternateLabel,
+  signOutLabel,
   backToHomeLabel = "Accueil",
   contentClassName = "max-w-lg",
   hideBrandPill = false,
@@ -62,9 +65,21 @@ export function AuthPageShell({
             >
               ← {backToHomeLabel}
             </Link>
-            <LandingCta href={alternateHref} variant="peach" className="px-3 py-2 text-sm md:px-4">
-              {alternateLabel}
-            </LandingCta>
+            {signOutLabel ? (
+              <form action={signOutAction}>
+                <input type="hidden" name="locale" value={lang} />
+                <button
+                  type="submit"
+                  className="rounded-lg border border-[#212129]/15 bg-white px-3 py-2 text-sm font-semibold text-[#5b6478] transition hover:border-[#EFA188]/50 hover:text-[#EFA188] md:px-4"
+                >
+                  {signOutLabel}
+                </button>
+              </form>
+            ) : (
+              <LandingCta href={alternateHref} variant="peach" className="px-3 py-2 text-sm md:px-4">
+                {alternateLabel}
+              </LandingCta>
+            )}
           </div>
         </div>
       </header>

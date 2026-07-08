@@ -8,6 +8,7 @@ export type MappedProImportData = {
   avatarUrl: string;
   phone: string;
   city: string;
+  postalCode?: string;
   rating?: number;
   reviews?: number;
   platform: ProImportPlatform;
@@ -17,6 +18,7 @@ export type MappedProImportData = {
   services?: OnboardingService[];
   inferredMetierKey?: MetierKey | "";
   experienceYears?: number | null;
+  followerCount?: number | null;
   portfolioItems?: OnboardingPortfolioItem[];
   useBrandGradientBanner?: boolean;
 };

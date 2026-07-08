@@ -6,14 +6,12 @@ import { ArtisanOnboardingWizard } from "@/components/onboarding/ArtisanOnboardi
 import { OnboardingEmailConfirmedBanner } from "@/components/onboarding/OnboardingEmailConfirmedBanner";
 import type { OnboardingPlanIntent } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
-import { authPath } from "@/lib/auth/paths";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 
 type OnboardingPageClientProps = {
   lang: Locale;
   copy: OnboardingDictionary;
   vitrineCopy: VitrineDictionary;
-  loginLabel: string;
   planIntent?: OnboardingPlanIntent;
   emailConfirmed?: boolean;
 };
@@ -22,7 +20,6 @@ export function OnboardingPageClient({
   lang,
   copy,
   vitrineCopy,
-  loginLabel,
   planIntent = "choice",
   emailConfirmed = false,
 }: OnboardingPageClientProps) {
@@ -37,8 +34,9 @@ export function OnboardingPageClient({
       lang={lang}
       title={celebrationActive ? "" : copy.title}
       subtitle={celebrationActive ? "" : copy.subtitle}
-      alternateHref={authPath(lang, "login")}
-      alternateLabel={loginLabel}
+      alternateHref="/"
+      alternateLabel=""
+      signOutLabel={copy.signOut}
       backToHomeLabel="Accueil"
       contentClassName="max-w-5xl"
       hideBrandPill
