@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lexend, Work_Sans } from "next/font/google";
+import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
 import { buildDefaultSiteMetadata } from "@/lib/seo/siteMetadata";
 import "./globals.css";
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${lexend.variable} ${workSans.variable} h-full antialiased`}>
       <body className="min-h-full font-sans">
+        <MicrosoftClarity />
         {children}
         <CookieConsentRoot />
       </body>
