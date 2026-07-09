@@ -113,7 +113,7 @@ export async function capturePublicLead(
   const lead = mapLeadRowToDashboardLead(inserted.row);
 
   try {
-    const emailResult = await sendClientAcknowledgmentEmail(
+    await sendClientAcknowledgmentEmail(
       {
         id: lead.id,
         requestNumber: lead.requestNumber,
@@ -121,14 +121,8 @@ export async function capturePublicLead(
       },
       artisanContext.artisan,
     );
-
-    if (!emailResult.ok && process.env.NODE_ENV === "development") {
-      console.warn("[capturePublicLead] Accusé e-mail non envoyé :", emailResult.error);
-    }
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn("[capturePublicLead] Accusé e-mail en erreur :", error);
-    }
+  } catch {
+    // L’accusé e-mail est best-effort : la capture lead reste valide.
   }
 
   return { ok: true, leadId: lead.id };

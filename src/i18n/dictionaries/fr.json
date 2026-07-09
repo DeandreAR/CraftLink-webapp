@@ -69,9 +69,6 @@
   },
   "hero": {
     "pill": "Capture de leads pour artisans",
-    "titleBefore": "Un lien unique pour",
-    "titleHighlight": "centraliser toutes vos demandes",
-    "titleAfter": "clients.",
     "typingTitle": {
       "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
       "channels": [
@@ -114,34 +111,7 @@
     "controlPhrase": "Vous partagez votre lien, vous gardez le contrôle, et vous facilitez le passage à l’action.",
     "ctaPrimary": "Créer ma page gratuitement",
     "ctaSecondary": "Découvrir les fonctionnalités",
-    "ctaSecondaryHref": "#features",
-    "preview": {
-      "eyebrow": "Live preview",
-      "title": "Votre profil artisan, prêt à partager",
-      "about": "Interventions rapides et devis clairs. Décrivez votre problème (écrit ou vocal) : je vous rappelle avec une fourchette honnête et les bonnes questions.",
-      "tags": ["Urgence", "Rénovation", "Mise aux normes"],
-      "stats": [
-        { "label": "Temps de mise en place", "value": "2 min" },
-        { "label": "Lien unique bio / QR", "value": "Oui" },
-        { "label": "Demandes qualifiées", "value": "↑" }
-      ],
-      "savoirFaire": "Mon savoir-faire",
-      "dixPlusAns": "10+ ans",
-      "materiaux": "Matériaux",
-      "mesPrestations": "Mes prestations",
-      "craftlinkDemo": "Craftlink demo",
-      "inCity": "à"
-    },
-    "flow": {
-      "figureAlt": "Schéma en quatre étapes : toutes les sources, lien central (vocal ou texte), traitement IA et dossiers, puis action sur le terrain (WhatsApp, SMS, chantier)."
-    }
-  },
-  "demoVideo": {
-    "sectionId": "demo-video",
-    "eyebrow": "Démo · 45 secondes",
-    "title": "Comment ça marche ?",
-    "subtitle": "Découvrez comment CraftLink qualifie vos leads en moins d'une minute.",
-    "placeholder": "Vidéo de démonstration — lien à intégrer prochainement"
+    "ctaSecondaryHref": "#features"
   },
   "pourquoi": {
     "pillars": [

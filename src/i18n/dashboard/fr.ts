@@ -426,12 +426,4 @@ export const dashboardFr: DashboardDictionary = {
       cancel: "Annuler",
     },
   },
-  team: {
-    title: "Équipe / Collaboration",
-    subtitle: "Partage de compte avec vos employés.",
-    comingSoonTitle: "Bientôt disponible — version 1.1",
-    comingSoonBody:
-      "Bientôt disponible dans la version 1.1 — Inclus dans votre offre Pro.",
-    strikethrough: "Partage de compte avec vos employés (V1.1)",
-  },
 };

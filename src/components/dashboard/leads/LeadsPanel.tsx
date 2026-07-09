@@ -143,14 +143,6 @@ export function LeadsPanel({
         return;
       }
 
-      if (process.env.NODE_ENV === "development") {
-        console.info("[CraftLink WhatsApp]", {
-          plan: dashboardUser.plan,
-          url: resolveWhatsAppUrl(links),
-          links,
-        });
-      }
-
       const markContacted = () => {
         const lead = leads.find((item) => item.id === leadId);
         updateLead(leadId, {

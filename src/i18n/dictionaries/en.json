@@ -69,9 +69,6 @@
   },
   "hero": {
     "pill": "Lead capture for tradespeople",
-    "titleBefore": "One link to",
-    "titleHighlight": "centralise every client",
-    "titleAfter": "request.",
     "typingTitle": {
       "intro": "One link to centralise every client request from ",
       "channels": [
@@ -114,34 +111,7 @@
     "controlPhrase": "You share your link, stay in control, and make it easy to take action.",
     "ctaPrimary": "Create my page for free",
     "ctaSecondary": "Explore features",
-    "ctaSecondaryHref": "#features",
-    "preview": {
-      "eyebrow": "Live preview",
-      "title": "Your tradesperson profile, ready to share",
-      "about": "Fast call-outs and clear quotes. Describe the issue (written or voice): I’ll call you back with an honest range and the right questions.",
-      "tags": ["Emergency", "Renovation", "Compliance"],
-      "stats": [
-        { "label": "Time to go live", "value": "2 min" },
-        { "label": "Single bio / QR link", "value": "Yes" },
-        { "label": "Qualified leads", "value": "↑" }
-      ],
-      "savoirFaire": "My expertise",
-      "dixPlusAns": "10+ yrs",
-      "materiaux": "Materials",
-      "mesPrestations": "My services",
-      "craftlinkDemo": "Craftlink demo",
-      "inCity": "in"
-    },
-    "flow": {
-      "figureAlt": "Four-step diagram: all sources, central link (voice or text), AI processing and files, then field action (WhatsApp, SMS, jobsite)."
-    }
-  },
-  "demoVideo": {
-    "sectionId": "demo-video",
-    "eyebrow": "Demo · 45 seconds",
-    "title": "How does it work?",
-    "subtitle": "See how CraftLink qualifies your leads in under a minute.",
-    "placeholder": "Demo video — embed link coming soon"
+    "ctaSecondaryHref": "#features"
   },
   "pourquoi": {
     "pillars": [

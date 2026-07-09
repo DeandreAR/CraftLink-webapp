@@ -82,9 +82,6 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           </div>
         </section>
 
-        {/* Vidéo démo — masquée tant qu’aucun média n’est intégré */}
-        {/* <DemoVideoSection copy={dict.demoVideo} /> */}
-
         <LandingPourquoiSection content={landing.pourquoi} pillars={dict.pourquoi.pillars} />
 
         <LandingFeaturesSection content={landing.features} flow={dict.featuresFlow} />

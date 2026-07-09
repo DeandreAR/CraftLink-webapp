@@ -48,16 +48,6 @@ export type BillingDictionary = {
   discountBadge: string;
 };
 
-export type DemoVideoDictionary = {
-  sectionId: string;
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  placeholder: string;
-  videoSrc?: string;
-  posterSrc?: string;
-};
-
 export type TierCustomJson = {
   name: string;
   pitch: string;
@@ -550,13 +540,6 @@ export type DashboardDictionary = {
       cancel: string;
     };
   };
-  team: {
-    title: string;
-    subtitle: string;
-    comingSoonTitle: string;
-    comingSoonBody: string;
-    strikethrough: string;
-  };
 };
 
 export type AuthDictionary = {
@@ -577,24 +560,6 @@ export type FaqUiDictionary = {
 export type MetaDictionary = {
   title: string;
   description: string;
-};
-
-export type HeroPreviewDictionary = {
-  eyebrow: string;
-  title: string;
-  about: string;
-  tags: string[];
-  stats: { label: string; value: string }[];
-  savoirFaire: string;
-  dixPlusAns: string;
-  materiaux: string;
-  mesPrestations: string;
-  craftlinkDemo: string;
-  inCity: string;
-};
-
-export type HeroFlowDictionary = {
-  figureAlt: string;
 };
 
 export type FeaturesFlowContactRow = {
@@ -674,9 +639,6 @@ export type HeroAsideShowcaseDictionary = {
 
 export type HeroDictionary = {
   pill: string;
-  titleBefore: string;
-  titleHighlight: string;
-  titleAfter: string;
   typingTitle: HeroTypingTitleDictionary;
   asideShowcaseAlt: string;
   asideShowcase: HeroAsideShowcaseDictionary;
@@ -685,8 +647,6 @@ export type HeroDictionary = {
   ctaPrimary: string;
   ctaSecondary: string;
   ctaSecondaryHref: string;
-  preview: HeroPreviewDictionary;
-  flow: HeroFlowDictionary;
 };
 
 export type LegalSectionJson = {
@@ -1162,7 +1122,6 @@ export type Dictionary = {
   faqUi: FaqUiDictionary;
   auth: AuthDictionary;
   hero: HeroDictionary;
-  demoVideo: DemoVideoDictionary;
   pourquoi: PourquoiDictionary;
   featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;

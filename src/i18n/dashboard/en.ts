@@ -424,12 +424,4 @@ export const dashboardEn: DashboardDictionary = {
       cancel: "Cancel",
     },
   },
-  team: {
-    title: "Team / Collaboration",
-    subtitle: "Share account access with your employees.",
-    comingSoonTitle: "Coming soon — version 1.1",
-    comingSoonBody:
-      "Coming soon in version 1.1 — Included in your Pro plan.",
-    strikethrough: "Share account with employees (V1.1)",
-  },
 };

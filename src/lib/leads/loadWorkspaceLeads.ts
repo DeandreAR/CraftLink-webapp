@@ -22,13 +22,5 @@ export async function loadWorkspaceLeadsForSession(
     return { leads: [], loadError: result.message };
   }
 
-  if (process.env.NODE_ENV === "development" && result.leads.length === 0) {
-    console.warn(
-      "[loadWorkspaceLeads] 0 lead pour workspace",
-      session.workspaceId,
-      "— vérifiez les policies RLS (migration 20260625140000_leads_rls_fix.sql)",
-    );
-  }
-
   return { leads: result.leads, loadError: null };
 }

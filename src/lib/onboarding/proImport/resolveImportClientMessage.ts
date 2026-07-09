@@ -3,7 +3,6 @@ import type { OnboardingDictionary } from "@/i18n/types";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
 import {
   APIFY_AUTH_ERROR,
-  FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED,
   IMPORT_FACEBOOK_NOT_FOUND,
   IMPORT_GOOGLE_NOT_FOUND,
   IMPORT_INSTAGRAM_NOT_FOUND,
@@ -44,8 +43,7 @@ export function resolveImportClientMessage(
   if (
     raw === SERVER_CONFIG_ERROR ||
     raw === APIFY_AUTH_ERROR ||
-    raw === IMPORT_PROVIDER_ERROR ||
-    raw === FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED
+    raw === IMPORT_PROVIDER_ERROR
   ) {
     if (platform === "facebook") {
       return copy.importErrorFacebookProvider;

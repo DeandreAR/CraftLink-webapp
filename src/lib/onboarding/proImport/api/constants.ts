@@ -16,6 +16,3 @@ export const IMPORT_AUTH_REQUIRED = "IMPORT_AUTH_REQUIRED";
 
 /** Apify : token invalide ou accès refusé. */
 export const APIFY_AUTH_ERROR = "APIFY_AUTH_ERROR";
-
-/** @deprecated Ancien provider RapidAPI Facebook */
-export const FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED = "FACEBOOK_RAPIDAPI_NOT_SUBSCRIBED";

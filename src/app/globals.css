@@ -7,7 +7,6 @@
   --muted: #5b6478;
   --brand: #efa188;
   --border: #e5e7eb;
-  --shadow-clean: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
 
 @theme inline {
@@ -27,12 +26,6 @@ body {
 }
 
 @layer utilities {
-  .surface {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-clean);
-  }
-
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -65,31 +58,5 @@ body {
 
   .scrollbar-soft::-webkit-scrollbar-thumb:hover {
     background: rgba(15, 23, 42, 0.35);
-  }
-
-  .scrollbar-white {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.92) transparent;
-  }
-
-  .scrollbar-white::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .scrollbar-white::-webkit-scrollbar-track {
-    margin: 4px 0;
-    background: transparent;
-    border-radius: 999px;
-  }
-
-  .scrollbar-white::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.88);
-    border-radius: 999px;
-    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
-  }
-
-  .scrollbar-white::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 1);
   }
 }
