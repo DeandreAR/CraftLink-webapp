@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export type BentoTint = "peach" | "mint" | "lavender";
 
@@ -47,10 +47,11 @@ export function BentoFeatureCard({
   className = "",
 }: BentoFeatureCardProps) {
   const styles = TINT_STYLES[tint];
+  const reduce = useReducedMotion();
 
   return (
     <motion.div
-      initial={false}
+      initial={reduce ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
       transition={{ duration: 0.45, ease: "easeOut" }}

@@ -5,6 +5,7 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { requireSessionProfile } from "@/lib/auth/guards";
 import { loadWorkspaceLeadsForSession } from "@/lib/leads/loadWorkspaceLeads";
 import { loadWorkspacePartnershipRequestsForSession } from "@/lib/partnerships/loadWorkspacePartnershipRequests";
+import { loadSubscriptionBillingForUser } from "@/lib/stripe/loadSubscriptionBilling";
 
 type Props = { params: Promise<{ lang: string }> };
 
@@ -15,6 +16,7 @@ export default async function LangDashboardPage({ params }: Props) {
 
   const session = await requireSessionProfile(lang);
   const dict = await getDictionary(lang);
+  const billing = await loadSubscriptionBillingForUser(session.user.id);
   const { leads: initialLeads, loadError: initialLoadError } =
     await loadWorkspaceLeadsForSession(session);
   const {
@@ -26,6 +28,7 @@ export default async function LangDashboardPage({ params }: Props) {
     <DashboardPageClient
       lang={lang}
       session={session}
+      billing={billing}
       copy={dict.dashboard}
       onboardingCopy={dict.onboarding}
       vitrineCopy={dict.vitrine}

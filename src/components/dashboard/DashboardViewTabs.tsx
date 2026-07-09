@@ -37,7 +37,7 @@ export function DashboardViewTabs<T extends string>({
             role="tab"
             aria-selected={isActive}
             onClick={() => onChange(tab.id)}
-            className={`flex shrink-0 items-center gap-2 border-b-2 px-3 py-2.5 text-sm font-medium transition sm:px-4 ${
+            className={`flex shrink-0 cursor-pointer items-center gap-2 border-b-2 px-3 py-2.5 text-sm font-medium transition sm:px-4 ${
               isActive
                 ? "border-black text-black"
                 : "border-transparent text-neutral-500 hover:border-neutral-300 hover:text-neutral-800"

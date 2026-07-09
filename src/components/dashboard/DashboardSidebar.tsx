@@ -55,7 +55,7 @@ export function DashboardSidebar({
               key={id}
               type="button"
               onClick={() => onChange(id)}
-              className={`relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors duration-200 ${
+              className={`relative flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors duration-200 ${
                 isActive
                   ? "text-white"
                   : "text-neutral-400 hover:bg-white/5 hover:text-neutral-200"
@@ -87,7 +87,7 @@ export function DashboardSidebar({
           <input type="hidden" name="locale" value={locale} />
           <button
             type="submit"
-            className="w-full rounded-xl px-3 py-2.5 text-left text-sm font-medium text-neutral-500 transition hover:bg-white/5 hover:text-neutral-300"
+            className="w-full cursor-pointer rounded-xl px-3 py-2.5 text-left text-sm font-medium text-neutral-500 transition hover:bg-white/5 hover:text-neutral-300"
           >
             {copy.signOut}
           </button>

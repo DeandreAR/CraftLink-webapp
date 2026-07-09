@@ -4,6 +4,8 @@ import { LandingCta } from "@/components/landing/LandingCta";
 import { LandingFaqDisclosure } from "@/components/landing/LandingFaqDisclosure";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingHeroDiagonalBrush } from "@/components/landing/LandingHeroDiagonalBrush";
+import { LandingHeroReveal } from "@/components/landing/LandingHeroReveal";
+import { LandingWhatsAppFloat } from "@/components/landing/LandingWhatsAppFloat";
 import { Navbar } from "@/components/landing/Navbar";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
 import { LandingFeaturesSection } from "@/components/landing/sections/LandingFeaturesSection";
@@ -24,58 +26,69 @@ export async function LandingHome({ lang }: { lang: Locale }) {
   return (
     <div className="landing-page landing-home min-h-screen bg-[#FDFBF7] text-[#212129]">
       <Navbar lang={lang} labels={dict.nav} />
+      <LandingWhatsAppFloat lang={lang} />
 
-      <main className="landing-main relative">
-        <section className="landing-hero relative overflow-visible bg-[#FDFBF7]">
+      <main className="landing-main relative max-md:pb-20">
+        <section className="landing-hero relative flex min-h-[100dvh] flex-col justify-center overflow-visible bg-[#FDFBF7]">
           <LandingHeroDiagonalBrush variant="hero" />
 
-          <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-10 md:px-6 md:pb-20 md:pt-14">
+          <div className="landing-hero-inner relative z-10 mx-auto max-w-6xl px-4 pb-14 pt-20 md:px-6 md:pb-18 md:pt-24">
             <div className="landing-hero-body grid items-start gap-10 md:gap-8">
               <div className="landing-hero-body-col min-w-0">
-                <p className="landing-hero-pill inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700">
-                  <span className="h-2 w-2 rounded-full bg-[#EFA188]" />
-                  {dict.hero.pill}
-                </p>
+                <LandingHeroReveal>
+                  <p className="landing-hero-pill inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700">
+                    <span className="h-2 w-2 rounded-full bg-[#EFA188]" />
+                    {dict.hero.pill}
+                  </p>
+                </LandingHeroReveal>
 
                 <div className="landing-hero-grid mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,1.12fr)] lg:gap-x-10">
                   <div className="landing-hero-copy min-w-0 w-full lg:max-w-none">
-                    <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
-                      <HeroTypingTitle
-                        className="landing-hero-title"
-                        intro={dict.hero.typingTitle.intro}
-                        channels={dict.hero.typingTitle.channels}
-                      />
-                    </div>
-                    <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-lg">
-                      {dict.hero.lead}
-                    </p>
-                    <p className="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-neutral-900 md:max-w-none">
-                      {dict.hero.controlPhrase}
-                    </p>
+                    <LandingHeroReveal delay={0.08}>
+                      <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
+                        <HeroTypingTitle
+                          className="landing-hero-title"
+                          intro={dict.hero.typingTitle.intro}
+                          channels={dict.hero.typingTitle.channels}
+                        />
+                      </div>
+                    </LandingHeroReveal>
+                    <LandingHeroReveal delay={0.14}>
+                      <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-lg">
+                        {dict.hero.lead}
+                      </p>
+                      <p className="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-neutral-900 md:max-w-none">
+                        {dict.hero.controlPhrase}
+                      </p>
+                    </LandingHeroReveal>
 
-                    <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                      <LandingCta href={onboardingPath(lang)} variant="peach">
-                        {dict.hero.ctaPrimary}
-                      </LandingCta>
-                      <LandingCta
-                        href={`${basePath}${dict.hero.ctaSecondaryHref}`}
-                        variant="secondary"
-                      >
-                        {dict.hero.ctaSecondary}
-                      </LandingCta>
-                    </div>
+                    <LandingHeroReveal delay={0.2}>
+                      <div className="landing-hero-ctas mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                        <LandingCta href={onboardingPath(lang)} variant="peach">
+                          {dict.hero.ctaPrimary}
+                        </LandingCta>
+                        <LandingCta
+                          href={`${basePath}${dict.hero.ctaSecondaryHref}`}
+                          variant="secondary"
+                        >
+                          {dict.hero.ctaSecondary}
+                        </LandingCta>
+                      </div>
+                    </LandingHeroReveal>
                   </div>
 
-                  <div
-                    id="preview"
+                  <LandingHeroReveal
                     className="landing-hero-aside flex min-w-0 w-full items-center justify-center overflow-visible scroll-mt-28 lg:py-2"
+                    delay={0.18}
                   >
-                    <HeroAsideShowcase
+                    <div id="preview" className="w-full">
+                      <HeroAsideShowcase
                       alt={dict.hero.asideShowcaseAlt}
                       copy={dict.hero.asideShowcase}
                       className="w-full"
                     />
-                  </div>
+                    </div>
+                  </LandingHeroReveal>
                 </div>
               </div>
             </div>

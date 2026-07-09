@@ -1,4 +1,5 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { WorkspaceSession } from "@/lib/auth/sessionContext";
@@ -8,6 +9,7 @@ import type { Locale } from "@/i18n/config";
 type DashboardShellProps = {
   lang: Locale;
   session: WorkspaceSession;
+  billing: SubscriptionBillingSnapshot | null;
   copy: DashboardDictionary;
   onboardingCopy: OnboardingDictionary;
   vitrineCopy: VitrineDictionary;
@@ -20,6 +22,7 @@ type DashboardShellProps = {
 export function DashboardShell({
   lang,
   session,
+  billing,
   copy,
   onboardingCopy,
   vitrineCopy,
@@ -31,6 +34,7 @@ export function DashboardShell({
   return (
     <DashboardLayout
       session={session}
+      billing={billing}
       copy={copy}
       onboardingCopy={onboardingCopy}
       vitrineCopy={vitrineCopy}

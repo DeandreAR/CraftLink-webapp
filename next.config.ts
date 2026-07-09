@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_SUPABASE_URL: supabaseUrl,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: supabaseAnonKey,
   },
+  devIndicators: false,
   turbopack: {
     root: projectDir,
   },

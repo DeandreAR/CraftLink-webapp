@@ -70,7 +70,7 @@ export function AuthPageShell({
                 <input type="hidden" name="locale" value={lang} />
                 <button
                   type="submit"
-                  className="rounded-lg border border-[#212129]/15 bg-white px-3 py-2 text-sm font-semibold text-[#5b6478] transition hover:border-[#EFA188]/50 hover:text-[#EFA188] md:px-4"
+                  className="rounded-full border border-[#EFA188]/50 bg-[#EFA188]/18 px-3 py-1.5 text-xs font-bold text-[#212129] transition active:scale-[0.98] hover:bg-[#EFA188]/30 md:px-4"
                 >
                   {signOutLabel}
                 </button>

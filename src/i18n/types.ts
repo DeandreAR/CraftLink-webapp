@@ -99,6 +99,8 @@ export type NavDictionary = {
   login: string;
   createAccount: string;
   languageSwitcherLabel: string;
+  mobileMenuOpen: string;
+  mobileMenuClose: string;
 };
 
 export type AuthSignInDictionary = {
@@ -522,6 +524,11 @@ export type DashboardDictionary = {
     portalError: string;
     essentialFeatures: string;
     proFeatures: string;
+    nextBilling: string;
+    nextBillingOn: string;
+    nextBillingNone: string;
+    billingIntervalMonthly: string;
+    billingIntervalAnnual: string;
   };
   account: {
     title: string;

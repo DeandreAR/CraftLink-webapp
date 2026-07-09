@@ -11,7 +11,9 @@
     "faq": "FAQ",
     "login": "Log in",
     "createAccount": "Create my account",
-    "languageSwitcherLabel": "Choose language"
+    "languageSwitcherLabel": "Choose language",
+    "mobileMenuOpen": "Open menu",
+    "mobileMenuClose": "Close menu"
   },
   "auth": {
     "serviceUnavailable": "This service is temporarily unavailable. Please try again in a few minutes or contact support.",

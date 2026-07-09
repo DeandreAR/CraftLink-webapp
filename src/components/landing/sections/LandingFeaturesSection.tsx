@@ -66,8 +66,12 @@ export function LandingFeaturesSection({ content, flow }: LandingFeaturesSection
                 tint={FEATURE_TINTS[index]}
               />
             ))}
-            <div className="rounded-[1.35rem] border-2 border-[#C4B5FD]/45 bg-[#D6BCFA]/22 p-6 md:col-span-6 md:p-8">
-              <div className="grid gap-8 md:grid-cols-2 md:items-start">
+            <div className="relative overflow-hidden rounded-[1.35rem] border-2 border-[#EFA188]/40 bg-gradient-to-br from-[#EFA188]/35 via-[#D6BCFA]/22 to-[#B2F5EA]/28 p-6 md:col-span-6 md:p-8">
+              <div
+                className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-[#EFA188]/20 blur-3xl"
+                aria-hidden
+              />
+              <div className="relative grid gap-8 md:grid-cols-2 md:items-start">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#212129]/60">
                     {content.formBlock.eyebrow}

@@ -47,7 +47,7 @@ export function LegalDocumentPage({
   return (
     <div className="landing-page min-h-screen bg-[#FDFBF7] text-[#212129]">
       <Navbar lang={lang} labels={dict.nav} />
-      <main className="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
+      <main className="mx-auto max-w-3xl px-4 py-12 pb-20 md:px-6 md:py-16 md:pb-16">
         <Link
           href={homeHref}
           className="text-sm font-semibold text-[#5b6478] transition hover:text-[#EFA188]"

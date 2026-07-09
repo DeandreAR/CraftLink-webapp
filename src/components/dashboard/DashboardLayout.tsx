@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { signOutAction } from "@/app/actions/auth";
@@ -10,17 +9,18 @@ import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { LeadsPanel } from "@/components/dashboard/leads/LeadsPanel";
 import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { VitrinePanel } from "@/components/dashboard/vitrine/VitrinePanel";
+import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
-import { defaultLocale } from "@/i18n/config";
 import type { WorkspaceSession } from "@/lib/auth/sessionContext";
 
 export type DashboardTab = "leads" | "vitrine" | "partners" | "account";
 
 type DashboardLayoutProps = {
   session: WorkspaceSession;
+  billing: SubscriptionBillingSnapshot | null;
   copy: DashboardDictionary;
   onboardingCopy: OnboardingDictionary;
   vitrineCopy: VitrineDictionary;
@@ -40,6 +40,7 @@ const TAB_MOTION = {
 
 export function DashboardLayout({
   session,
+  billing,
   copy,
   onboardingCopy,
   vitrineCopy,
@@ -51,10 +52,9 @@ export function DashboardLayout({
 }: DashboardLayoutProps) {
   const [tab, setTab] = useState<DashboardTab>("leads");
   const { profile } = session;
-  const home = locale === defaultLocale ? "/" : `/${locale}`;
 
   return (
-    <div className="landing-page flex min-h-screen bg-[#f4f5f7] text-slate-900">
+    <div className="flex min-h-screen bg-[#f4f5f7] text-slate-900">
       <DashboardSidebar
         active={tab}
         onChange={setTab}
@@ -63,22 +63,12 @@ export function DashboardLayout({
       />
 
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-neutral-200 bg-white px-4 py-3 md:hidden">
-          <Link href={home} className="inline-flex shrink-0" aria-label="CraftLink">
-            <img
-              src="/images/logo_main.png"
-              alt="CraftLink"
-              width={1731}
-              height={350}
-              className="h-6 w-auto"
-              decoding="async"
-            />
-          </Link>
+        <header className="flex items-center justify-end border-b border-neutral-200 bg-white px-4 py-3 md:hidden">
           <form action={signOutAction}>
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="text-xs font-semibold text-neutral-500 transition hover:text-[#EFA188]"
+              className="rounded-full border border-[#EFA188]/45 bg-[#EFA188]/20 px-3 py-1.5 text-[11px] font-bold text-[#212129] transition active:scale-[0.98] hover:bg-[#EFA188]/35"
             >
               {copy.signOut}
             </button>
@@ -117,7 +107,12 @@ export function DashboardLayout({
                   />
                 ) : null}
                 {tab === "account" ? (
-                  <AccountPanel profile={profile} copy={copy} locale={locale} />
+                  <AccountPanel
+                    profile={profile}
+                    billing={billing}
+                    copy={copy}
+                    locale={locale}
+                  />
                 ) : null}
               </motion.div>
             </AnimatePresence>

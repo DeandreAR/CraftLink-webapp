@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaCreditCard } from "react-icons/fa6";
 import { StripeCheckoutButton } from "@/components/stripe/StripeCheckoutButton";
 import { GlowButton } from "@/components/ui/GlowButton";
+import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { authPath } from "@/lib/auth/paths";
@@ -12,15 +13,35 @@ import { startStripeBillingPortal } from "@/lib/stripe/startBillingPortal";
 
 type BillingSectionProps = {
   planTier: string;
+  billing: SubscriptionBillingSnapshot | null;
   copy: DashboardDictionary;
   locale: Locale;
 };
 
-export function BillingSection({ planTier, copy, locale }: BillingSectionProps) {
+function formatBillingDate(iso: string, locale: Locale): string {
+  return new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(iso));
+}
+
+export function BillingSection({ planTier, billing, copy, locale }: BillingSectionProps) {
   const b = copy.billing;
   const pro = isProPlan(planTier);
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState<string | null>(null);
+
+  const nextBillingLabel = billing?.nextBillingDate
+    ? b.nextBillingOn.replace("{date}", formatBillingDate(billing.nextBillingDate, locale))
+    : b.nextBillingNone;
+
+  const intervalLabel =
+    billing?.interval === "year"
+      ? b.billingIntervalAnnual
+      : billing?.interval === "month"
+        ? b.billingIntervalMonthly
+        : null;
 
   const handlePortal = async () => {
     setPortalLoading(true);
@@ -52,6 +73,18 @@ export function BillingSection({ planTier, copy, locale }: BillingSectionProps) 
           <p className="mt-2 text-xs leading-relaxed text-neutral-500">
             {pro ? b.proFeatures : b.essentialFeatures}
           </p>
+
+          {pro ? (
+            <div className="mt-4 rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-2.5">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-neutral-400">
+                {b.nextBilling}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-black">{nextBillingLabel}</p>
+              {intervalLabel ? (
+                <p className="mt-0.5 text-xs text-neutral-500">{intervalLabel}</p>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
 

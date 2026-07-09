@@ -401,6 +401,11 @@ export const dashboardEn: DashboardDictionary = {
     portalError: "Could not open Stripe portal.",
     essentialFeatures: "10 WhatsApp shares/month, pro page, van QR.",
     proFeatures: "Unlimited WhatsApp shares, voice capture, partners & brands.",
+    nextBilling: "Next billing",
+    nextBillingOn: "On {date}",
+    nextBillingNone: "No upcoming billing",
+    billingIntervalMonthly: "Monthly billing",
+    billingIntervalAnnual: "Annual billing",
   },
   account: {
     title: "My account",

@@ -1,6 +1,7 @@
 "use client";
 
 import type { Profile } from "@/domain/profile";
+import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import { BillingSection } from "@/components/dashboard/account/BillingSection";
 import { DeleteAccountSection } from "@/components/dashboard/account/DeleteAccountSection";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -8,11 +9,12 @@ import type { Locale } from "@/i18n/config";
 
 type AccountPanelProps = {
   profile: Profile;
+  billing: SubscriptionBillingSnapshot | null;
   copy: DashboardDictionary;
   locale: Locale;
 };
 
-export function AccountPanel({ profile, copy, locale }: AccountPanelProps) {
+export function AccountPanel({ profile, billing, copy, locale }: AccountPanelProps) {
   return (
     <section className="space-y-6">
       <header>
@@ -21,7 +23,12 @@ export function AccountPanel({ profile, copy, locale }: AccountPanelProps) {
         </h1>
         <p className="mt-1 text-sm text-slate-500">{copy.account.subtitle}</p>
       </header>
-      <BillingSection planTier={profile.plan_tier} copy={copy} locale={locale} />
+      <BillingSection
+        planTier={profile.plan_tier}
+        billing={billing}
+        copy={copy}
+        locale={locale}
+      />
       <DeleteAccountSection copy={copy} locale={locale} />
     </section>
   );

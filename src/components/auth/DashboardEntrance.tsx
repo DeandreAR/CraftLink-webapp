@@ -33,17 +33,7 @@ export function DashboardEntrance({ loadingLabel, children }: DashboardEntranceP
             exit={{ opacity: 0, transition: { duration: 0.35 } }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white px-6"
           >
-            <motion.img
-              src="/images/logo_main.png"
-              alt="CraftLink"
-              width={1731}
-              height={350}
-              className="h-10 w-auto md:h-12"
-              initial={{ opacity: 0, y: 8, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.45, ease: EASE_OUT }}
-              decoding="async"
-            />
+            <p className="text-sm font-semibold text-[#212129]">CraftLink</p>
             <motion.p
               className="mt-6 text-sm font-medium text-neutral-500"
               initial={{ opacity: 0 }}

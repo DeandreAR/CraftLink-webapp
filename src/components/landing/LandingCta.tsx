@@ -4,7 +4,7 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 export type LandingCtaVariant = "primary" | "secondary" | "peach";
 
 const base =
-  "inline-flex items-center justify-center rounded-2xl px-6 py-3.5 text-sm font-bold tracking-tight transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFA188] md:text-base";
+  "inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-bold tracking-tight transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFA188] md:text-base";
 
 const variants: Record<LandingCtaVariant, string> = {
   primary:
