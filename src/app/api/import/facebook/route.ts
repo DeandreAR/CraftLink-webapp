@@ -1,3 +1,4 @@
+import { getApifyToken } from "@/lib/env/serverSecrets";
 import { mapFacebookResponseToUnified } from "@/lib/onboarding/proImport/api/serverMappers";
 import { handleImportPost } from "@/lib/onboarding/proImport/api/routeHelpers";
 import { fetchFacebookFromApify } from "@/lib/onboarding/proImport/providers/apifyFacebook";
@@ -5,7 +6,7 @@ import { fetchFacebookFromApify } from "@/lib/onboarding/proImport/providers/api
 export const maxDuration = 120;
 
 export async function POST(request: Request) {
-  return handleImportPost(request, "facebook", process.env.APIFY_TOKEN?.trim(), async (identifier, token) => {
+  return handleImportPost(request, "facebook", getApifyToken(), async (identifier, token) => {
     const raw = await fetchFacebookFromApify(identifier, token);
     return mapFacebookResponseToUnified(raw);
   });
