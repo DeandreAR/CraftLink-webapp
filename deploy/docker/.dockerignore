@@ -1,0 +1,31 @@
+# Dépendances & artefacts de build (reconstruits dans l'image)
+node_modules
+.next
+out
+build
+dist
+
+# Git & IDE
+.git
+.gitignore
+.cursor
+.vscode
+.idea
+
+# Env locaux
+.env
+.env.*
+
+# Logs & OS
+*.log
+.DS_Store
+npm-debug.log*
+
+# Docs
+README.md
+CLAUDE.md
+AGENTS.md
+.agent
+.agents
+supabase/.temp
+scripts

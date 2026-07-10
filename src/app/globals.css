@@ -1,0 +1,85 @@
+@import "tailwindcss";
+@import "../styles/landing-tokens.css" layer(components);
+
+:root {
+  --background: #fdfbf7;
+  --foreground: #212129;
+  --muted: #5b6478;
+  --brand: #efa188;
+  --border: #e5e7eb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-lexend);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  a[href],
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled),
+  input[type="submit"]:not(:disabled),
+  input[type="button"]:not(:disabled),
+  input[type="reset"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-soft {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(15, 23, 42, 0.22) transparent;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-track {
+    margin: 4px 0;
+    background: transparent;
+    border-radius: 999px;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.2);
+    border-radius: 999px;
+  }
+
+  .scrollbar-soft::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 42, 0.35);
+  }
+}

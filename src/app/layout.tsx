@@ -1,0 +1,43 @@
+import type { Metadata } from "next";
+import { Lexend, Work_Sans } from "next/font/google";
+import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
+import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
+import { buildDefaultSiteMetadata } from "@/lib/seo/siteMetadata";
+import "./globals.css";
+
+const lexend = Lexend({
+  variable: "--font-lexend",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const workSans = Work_Sans({
+  variable: "--font-landing-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+export const metadata: Metadata = buildDefaultSiteMetadata({
+  title: {
+    default: "CraftLink",
+    template: "%s — CraftLink",
+  },
+});
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="fr" className={`${lexend.variable} ${workSans.variable} h-full antialiased`}>
+      <body className="min-h-full font-sans">
+        <MicrosoftClarity />
+        {children}
+        <CookieConsentRoot />
+      </body>
+    </html>
+  );
+}

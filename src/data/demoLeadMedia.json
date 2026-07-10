@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-06-25T12:33:55.260Z",
+  "mode": "openai-tts-whisper-gpt",
+  "voices": {
+    "ld-01": {
+      "audioUrl": "/demo/leads/ld-01.mp3",
+      "transcript": "Bonjour, j'ai un souci avec mon tableau électrique dans mon appartement de 65 mètres carrés à Antony. Le disjoncteur saute dès que j'allume le four. Je voudrais un devis rapidement, idéalement avant vendredi.",
+      "summary": "Le client a un problème avec son tableau électrique dans un appartement de 65 m² à Antony. Le disjoncteur saute lorsqu'il allume le four. Il souhaite recevoir un devis rapidement, de préférence avant vendredi.",
+      "workType": "Problème tableau électrique appartement"
+    },
+    "ld-02": {
+      "audioUrl": "/demo/leads/ld-02.mp3",
+      "transcript": "Bonjour, j'ai une fuite sous l'évier de la cuisine à Massey. C'est assez urgent. L'accès est facile et je suis disponible cet après-midi si possible.",
+      "summary": "Le client signale une fuite sous l'évier de la cuisine à Massey. L'intervention est urgente et l'accès est facile. Le client est disponible cet après-midi pour la réparation.",
+      "workType": "Réparation fuite sous évier"
+    }
+  }
+}

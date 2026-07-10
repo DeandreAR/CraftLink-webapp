@@ -1,0 +1,400 @@
+{
+  "meta": {
+    "title": "CraftLink — Pro tradesperson page in 2 min | Instagram, Facebook & WhatsApp leads",
+    "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, drywallers, joiners, HVAC, and construction trades."
+  },
+  "nav": {
+    "why": "Why",
+    "features": "Features",
+    "metiers": "Trades",
+    "tarifs": "Pricing",
+    "faq": "FAQ",
+    "login": "Log in",
+    "createAccount": "Create my account",
+    "languageSwitcherLabel": "Choose language",
+    "mobileMenuOpen": "Open menu",
+    "mobileMenuClose": "Close menu"
+  },
+  "auth": {
+    "serviceUnavailable": "This service is temporarily unavailable. Please try again in a few minutes or contact support.",
+    "shell": {
+      "backToHome": "Home"
+    },
+    "signIn": {
+      "title": "Log in",
+      "subtitle": "Access your CraftLink tradesperson workspace.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "submitting": "Signing in…",
+      "goToSignUp": "Create an account",
+      "confirmationError": "The confirmation link is invalid or expired. Try signing up again or request a new email.",
+      "confirmationMissing": "Incomplete confirmation link. Open the link from your email or log in."
+    },
+    "signUp": {
+      "title": "Create my account",
+      "subtitle": "Free signup — we'll email you a confirmation link to activate your account.",
+      "fullName": "Name / business (optional)",
+      "proPhone": "Business phone (optional)",
+      "proPhonePlaceholder": "7123 456789",
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "confirmPassword": "Confirm password",
+      "submit": "Create my account",
+      "submitting": "Creating…",
+      "goToSignIn": "Already registered? Log in",
+      "confirmationTitle": "Account created — check your email",
+      "confirmationLead": "We sent a confirmation link to:",
+      "confirmationSpam": "Check your spam or Promotions folder if you don't see it.",
+      "confirmationAfterClick": "After clicking the link, you'll be signed in and can finish setting up your page.",
+      "confirmationLoginCta": "Back to log in"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome to CraftLink.",
+      "loading": "Loading your workspace…",
+      "email": "Email",
+      "workspace": "Workspace (workspace_id)",
+      "role": "Role",
+      "plan": "Plan",
+      "name": "Name",
+      "signOut": "Sign out",
+      "placeholder": "Next: set up your pro page and lead capture."
+    }
+  },
+  "faqUi": {
+    "title": "Frequently asked questions",
+    "lead": "Answers to common objections — only if you want to dig into the details.",
+    "show": "Show frequently asked questions",
+    "hide": "Hide FAQ"
+  },
+  "hero": {
+    "pill": "Lead capture for tradespeople",
+    "typingTitle": {
+      "intro": "One link to centralise every client request from ",
+      "channels": [
+        { "label": "Instagram", "color": "#E4405F" },
+        { "label": "Facebook", "color": "#1877F2" },
+        { "label": "Gmail", "color": "#EA4335" },
+        { "label": "SMS", "color": "#25D366" },
+        { "label": "TikTok", "color": "#FE2C55" },
+        { "label": "Snapchat", "color": "#FFFC00" },
+        { "label": "Threads", "color": "#000000" },
+        { "label": "QR codes", "color": "#E7E2CA" }
+      ]
+    },
+    "asideShowcaseAlt": "From an Instagram bio to getcraftlink.com/lucas_martin: a tradesperson profile turned into a CraftLink storefront.",
+    "asideShowcase": {
+      "url": "getcraftlink.com/lucas_martin",
+      "instagramHandle": "lucas_plumbing_services",
+      "businessName": "Lucas Martin",
+      "trade": "Professional plumber",
+      "followers": "15k",
+      "posts": "52",
+      "following": "910",
+      "bioLine": "24/7 call-outs · Residential & commercial",
+      "ctaMessage": "Message",
+      "ctaQuote": "Request a quote",
+      "ctaServices": "View services",
+      "flowLabel": "One link in bio",
+      "statPosts": "Posts",
+      "statFollowers": "Followers",
+      "statFollowing": "Following",
+      "follow": "Follow",
+      "followersOnPage": "15k followers",
+      "portfolioTitle": "Recent work",
+      "linkInBio": "getcraftlink.com/lucas_martin",
+      "category": "Plumber",
+      "highlightLabels": ["Quotes", "Reviews", "Area"],
+      "reelsTab": "Reels"
+    },
+    "lead": "Turn followers into qualified quote requests. CraftLink is your pro storefront and request form in one link. End the chaos across DMs and email: share one link on your social profiles and Google listing so prospects can send a voice or written brief. Our tool shapes the information and delivers a structured dossier straight to the messenger you already use.",
+    "controlPhrase": "You share your link, stay in control, and make it easy to take action.",
+    "ctaPrimary": "Create my page for free",
+    "ctaSecondary": "Explore features",
+    "ctaSecondaryHref": "#features"
+  },
+  "pourquoi": {
+    "pillars": [
+      {
+        "title": "Skip complicated websites — centralise everything",
+        "bullets": [
+          { "emoji": "📷", "text": "Dynamic photo/video gallery of your projects (showcase your services)." },
+          { "emoji": "✉️", "text": "Smart request form (with AI voice capture)." }
+        ]
+      },
+      {
+        "title": "Share and capture across every channel",
+        "bullets": [
+          { "emoji": "📱", "text": "Bio-link integration (Instagram, Facebook)." },
+          { "emoji": "🏷️", "text": "One QR code (van, business card)." },
+          { "emoji": "🔗", "text": "Link in your professional SMS and emails." },
+          { "emoji": "📍", "text": "Google Business Profile (reviews and contact details)." }
+        ]
+      },
+      {
+        "title": "Receive qualified, structured dossiers",
+        "bullets": [
+          { "emoji": "🗂️", "text": "Complete prospect files (not just a message)." },
+          { "emoji": "📊", "text": "Dashboard with lead scoring and follow-up." },
+          { "emoji": "✅", "text": "Voice messages transcribed automatically (AI capture)." },
+          { "emoji": "💬", "text": "Request summary straight on WhatsApp." }
+        ]
+      }
+    ]
+  },
+  "featuresFlow": {
+    "figureAlt": "Four-step journey: all sources funnel into one central link, contacts are centralized, then you take action in the field.",
+    "arrowHints": ["1 link", "1 list", "1 action"],
+    "step1": { "label": "1. All sources" },
+    "step2": {
+      "label": "2. Central link",
+      "bioLink": "Bio Link",
+      "vocal": "VOICE",
+      "text": "TEXT"
+    },
+    "step3": {
+      "label": "3. Contact list",
+      "contactsTitle": "CONTACTS",
+      "addContact": "+ ADD",
+      "colName": "NAME",
+      "colPhone": "PHONE",
+      "colSource": "SOURCE",
+      "colLast": "LAST",
+      "pagination": "1-5 of 128 · pages 1, 2… 26"
+    },
+    "step4": {
+      "label": "4. Action",
+      "folder": "Client file"
+    },
+    "contactRows": [
+      { "name": "Emma Dupont", "phone": "+33 6 12…", "source": "Instagram", "last": "2 min" },
+      { "name": "Lucas Martin", "phone": "+33 6 23…", "source": "Facebook", "last": "1 h" },
+      { "name": "Chloé Bernard", "phone": "+33 6 34…", "source": "QR Code", "last": "3 h" },
+      { "name": "Thomas Petit", "phone": "+33 6 45…", "source": "TikTok", "last": "1 d" },
+      { "name": "Julie Leroy", "phone": "+33 6 56…", "source": "SMS", "last": "2 d" }
+    ]
+  },
+  "pricingComparison": {
+    "sectionEyebrow": "Pricing & comparison",
+    "sectionTitle": "One simple subscription. No hidden friction.",
+    "sectionLead": "Handle the top objections: zero commission on your jobs, no technical skills, live in minutes — without the classic website tool stack.",
+    "trustNoCode": "No technical skills or coding required",
+    "trustLiveFast": "Live in 2 minutes",
+    "zeroCommission": "0% commission on your jobs",
+    "replacementTitle": "The all-in-one replacement for a pile of bills",
+    "replacementLead": "CraftLink replaces the expensive combo: domain name, hosting, plugins, separate AI transcription tools, and relying on a webmaster or agency for every tweak.",
+    "replacementBullets": [
+      "Domain + hosting + security to manage",
+      "Plugins, themes & small fees that stack up",
+      "Transcription / AI subscriptions on top of the site",
+      "Developer or webmaster for ongoing maintenance"
+    ],
+    "compareTitle": "Classic brochure site vs CraftLink?",
+    "compareLead": "A clear contrast on real monthly cost and maintenance load — before we even talk about lead capture.",
+    "tableCriterion": "Criterion",
+    "tableClassic": "Classic brochure website",
+    "tableCraftlink": "CraftLink",
+    "mobileClassicShort": "Classic",
+    "mobileCraftlinkShort": "CraftLink",
+    "comparisonRows": [
+      {
+        "criterion": "Real monthly budget",
+        "classic": "Hosting, theme, plugins, fixes: often over €80/month once everything adds up.",
+        "craftlink": "One subscription, all-inclusive — no surprise “hosting” line items."
+      },
+      {
+        "criterion": "Time before you’re useful online",
+        "classic": "Days to weeks (copy, layout, go-live).",
+        "craftlink": "Live in 2 minutes with a lead-focused page — not an empty shell."
+      },
+      {
+        "criterion": "Maintenance & updates",
+        "classic": "Content, security, mobile compatibility, backups: your time or paid help.",
+        "craftlink": "Product updates on autopilot: you stay on the tools."
+      },
+      {
+        "criterion": "Instagram / Facebook → structured job brief",
+        "classic": "Often a generic “Contact” link: you restart from scratch every DM.",
+        "craftlink": "Dedicated funnel + voice + transcription + scoring + WhatsApp with context."
+      },
+      {
+        "criterion": "Fees / take rate on your jobs",
+        "classic": "Depending on your stack: gateways, ecommerce plugins, or middlemen taking a cut.",
+        "craftlink": "0% commission on your jobs — your business, your revenue."
+      }
+    ],
+    "pricingEyebrow": "Plans",
+    "pricingTitle": "Start free, go Pro when volume grows.",
+    "pricingLead": "Beta prices excl. VAT for the first 50 tradespeople only. Public Pro pricing will be €29 excl. VAT/month after launch.",
+    "betaPioneerBadge": "PIONEER BETA OFFER (Limited to the first 50)",
+    "featuresColumnTitle": "Features",
+    "proAdvantagesTitle": "Pro advantages",
+    "billing": {
+      "monthly": "Monthly billing",
+      "annual": "Annual billing",
+      "discountBadge": "-35%"
+    },
+    "tierEssential": {
+      "name": "ESSENTIAL",
+      "pitch": "Publish fast and test your first leads.",
+      "cta": "Create my page",
+      "href": "/onboarding",
+      "pricing": {
+        "monthly": { "amount": "€0 excl. VAT / month" },
+        "annual": { "amount": "€0 excl. VAT / month" }
+      }
+    },
+    "tierPro": {
+      "name": "PRO TRADESPERSON",
+      "pitch": "Early Bird — unlimited WhatsApp contacts, voice capture, and a stronger pro image.",
+      "cta": "Join Pro Beta",
+      "href": "/onboarding?plan=pro",
+      "badge": "EARLY BIRD",
+      "futurePrice": "€29 excl. VAT/month",
+      "reassurance": "Full autonomy OR a free 15‑min guided onboarding — your choice.",
+      "pricing": {
+        "monthly": {
+          "amount": "€19 excl. VAT / month",
+          "footnote": "no commitment"
+        },
+        "annual": {
+          "amount": "€14 excl. VAT / month",
+          "footnote": "billed €168 excl. VAT/year — Save 35%"
+        }
+      }
+    },
+    "tierCustom": {
+      "name": "CUSTOM",
+      "pitch": "For any other development.",
+      "description": "Need something beyond Essential or Pro? Tell us about your project — we reply on WhatsApp.",
+      "priceLabel": "Quoted",
+      "bullets": [
+        "Trade-specific features",
+        "Integrations & advanced exports",
+        "Team rollout / multi-account"
+      ],
+      "cta": "Contact us on WhatsApp",
+      "whatsappMessage": "Hi CraftLink, I'd like to discuss a custom development need."
+    },
+    "featureMatrix": [
+      {
+        "label": "**Pro page + single link** (bio, listings)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "labelEssential": "Instant AI page creation (Instagram, Facebook or Google Business link)",
+        "labelPro": "Page creation enriched **by AI** (via your social profiles or Google listing)",
+        "label": "AI page creation",
+        "essential": false,
+        "pro": true,
+        "showEssential": false
+      },
+      {
+        "label": "Printable van QR code (generic)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "Structured text form (area, urgency)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "Mobile-first layout & **direct WhatsApp**",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "labelEssential": "Limited to **10 leads/month** (blurred beyond that)",
+        "labelPro": "**Unlimited leads** (no blocking)",
+        "label": "Lead CRM",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "**10 WhatsApp shares/month** from the CRM",
+        "labelPro": "**Unlimited WhatsApp shares** from the CRM",
+        "label": "Client contact via WhatsApp",
+        "essential": true,
+        "pro": true,
+        "essentialLimit": true
+      },
+      {
+        "labelEssential": "❌ Voice capture & AI qualification",
+        "labelPro": "**Voice capture & automatic AI transcription** of customer needs",
+        "label": "Voice capture & AI qualification",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "labelEssential": "No automatic acknowledgement",
+        "labelPro": "**Automatic SMS/email acknowledgement** to the end customer",
+        "label": "Automatic acknowledgement",
+        "essential": false,
+        "pro": true,
+        "highlightPro": true
+      },
+      {
+        "labelPro": "**“Partners & Brands” section** + **named affiliate links**",
+        "label": "“Partners & Brands” section + affiliate links",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "labelEssential": "Personal onboarding at signup",
+        "labelPro": "**Personal onboarding** (optional & **100% free**)",
+        "label": "Personal onboarding",
+        "essential": false,
+        "pro": true
+      },
+      {
+        "label": "Shared account for your employees (v1.1)",
+        "essential": false,
+        "pro": false,
+        "showEssential": false
+      }
+    ],
+    "proAdvantages": [
+      "Less phone tennis: the customer already structured the request.",
+      "Instant pro image on mobile, with zero web skills.",
+      "Separate job enquiries from brand partnership requests.",
+      "Zero technical maintenance: the product evolves for you."
+    ]
+  },
+  "footer": {
+    "copyrightBefore": "© {year} ",
+    "copyrightLink": "CraftLink by AnkoUnity",
+    "copyrightAfter": ". All rights reserved.",
+    "tagline": "Express storefront for construction trades.",
+    "legalNavLabel": "Legal information",
+    "manageCookies": "Manage cookies",
+    "links": {
+      "mentionsLegales": "Legal notice",
+      "privacy": "Privacy (GDPR)",
+      "cookies": "Cookies",
+      "terms": "Terms of use"
+    }
+  },
+  "cookieConsent": {
+    "title": "Cookies & privacy",
+    "description": "We use essential cookies for the site to work and, with your consent, analytics and marketing cookies. You can change your choices at any time.",
+    "acceptAll": "Accept all",
+    "rejectOptional": "Reject optional",
+    "customize": "Customise",
+    "save": "Save",
+    "close": "Close",
+    "necessaryTitle": "Essential",
+    "necessaryDesc": "Required for security, session and remembering this choice. Always on.",
+    "analyticsTitle": "Analytics",
+    "analyticsDesc": "Anonymous statistics to improve the site.",
+    "marketingTitle": "Marketing",
+    "marketingDesc": "Personalisation and campaign measurement.",
+    "alwaysOn": "Always on",
+    "cookiesPolicyLink": "Cookie policy",
+    "privacyPolicyLink": "Privacy policy"
+  }
+}

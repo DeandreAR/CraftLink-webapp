@@ -1,0 +1,20 @@
+# Archivé — CraftLink seul (sans OpenWA). Depuis la racine du repo :
+#   docker compose -f deploy/docker/docker-compose.yml up -d --build
+
+name: craftlink
+
+services:
+  craftlink-app:
+    container_name: craftlink-app
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+    restart: always
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    env_file:
+      - ../../.env

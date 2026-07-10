@@ -1,0 +1,196 @@
+import type { VitrineDictionary } from "@/i18n/types";
+
+export const vitrineFr: VitrineDictionary = {
+  presentation: {
+    quoteFreeHint: "Devis 100% gratuit · Sans engagement",
+    portfolioTitle: "Réalisations récentes",
+    affiliateLinksTitle: "Mes liens partenaires",
+    reportUrgency: "🚨 Signaler une urgence",
+    followersLabel: "{count} abonnés",
+    urgencyWhatsAppMessage:
+      "Bonjour, j'ai une URGENCE dépannage et je viens de voir votre page CraftLink. Êtes-vous disponible rapidement ?",
+    urgencyClickLeadDescription:
+      "Le client a cliqué sur « Signaler une urgence » et a été redirigé vers WhatsApp. Coordonnées non renseignées.",
+    urgencyWhatsAppUnavailable:
+      "Numéro WhatsApp indisponible — utilisez le formulaire de contact.",
+  },
+  details: {
+    back: "Retour à la présentation",
+    servicesTitle: "Prestations",
+    servicesHint: "Sélectionnez ce qui correspond à votre besoin",
+    servicesOptionalHint: "Optionnel — précisez le type de prestation",
+    servicesQuoteHint: "Ce qui peut correspondre à votre besoin (facultatif)",
+    servicesSelected: "sélectionnée(s)",
+    captureTitle: "Votre demande",
+    titles: {
+      quote: "Votre demande de devis",
+      urgent: "Votre demande de dépannage urgent",
+      info: "Votre question",
+      collaboration: "Partenariats & Marques",
+    },
+    delayLabel: "Quand souhaitez-vous intervenir ?",
+  },
+  form: {
+    fullName: "Votre nom",
+    fullNamePlaceholder: "Jean Dupont",
+    partnerCompanyName: "Nom de l'entreprise partenaire",
+    partnerCompanyPlaceholder: "Raison sociale ou enseigne",
+    phone: "Téléphone",
+    phonePlaceholder: "06 12 34 56 78",
+    email: "E-mail",
+    emailPlaceholder: "vous@exemple.fr",
+    urgency: "Délai souhaité",
+    urgencyOptions: {
+      urgent: "🚨 Urgent / Dépannage (Intervention sous 24h à 48h)",
+      asap: "📅 Dès que possible (Sous 1 à 2 semaines)",
+      planned: "🏗️ Dans le mois / Planifié (Sous 30 jours)",
+      info: "🔍 Plus d'un mois",
+    },
+    project: "Décrivez votre besoin",
+    projectPlaceholder: "Type de panne, surface, accès, contraintes…",
+    dimensions: "Surface / dimensions",
+    dimensionsPlaceholder: "Ex : 25 m², 3 fenêtres 120×140 cm…",
+    access: "Accès & contraintes",
+    accessPlaceholder: "Ex : 3e étage sans ascenseur, cour intérieure…",
+    descriptionHint: "Texte, vocal, ou les deux — au moins l'un des deux",
+    needDescriptionOrVoice:
+      "Décrivez votre besoin par écrit ou enregistrez un message vocal.",
+    selectDelayPlaceholder: "Choisissez un délai",
+    question: "Posez votre question à l'artisan…",
+    questionPlaceholder: "Expliquez votre situation ou votre doute…",
+    collaborationToggle: "Je suis un professionnel et je souhaite collaborer",
+    proCompanyName: "Nom de l'entreprise",
+    proCompanyPlaceholder: "Raison sociale ou enseigne",
+    proProject: "Projet de collaboration",
+    proProjectPlaceholder: "Nature du partenariat, volume, calendrier…",
+    submit: "Envoyer ma demande",
+    submitting: "Envoi en cours…",
+    successTitle: "Demande envoyée",
+    successBody: "Votre demande a bien été transmise à l'artisan.",
+    successSmsFollowUp:
+      "Dans quelques minutes, vous recevrez un SMS automatique de sa part pour confirmer que votre demande a été prise en compte et qu'il reviendra vers vous.",
+    errorTitle: "Envoi impossible",
+    errorBody: "Vérifiez les champs obligatoires et réessayez.",
+    selectDelay: "Choisissez un délai pour continuer.",
+  },
+  voice: {
+    title: "Décrivez votre projet à la voix",
+    record: "Enregistrer ma demande à la voix",
+    recording: "Enregistrement en cours…",
+    stop: "Appuyez pour terminer",
+    added: "Message vocal enregistré",
+    replay: "Réécouter mon enregistrement",
+    orRecord: "Ou enregistrez votre besoin à la voix (2 min max)",
+    timerLabel: "Durée",
+    maxDuration: "Maximum 2 minutes",
+  },
+  photos: {
+    title: "Ajoutez des photos (optionnel)",
+    dropHint: "Glissez vos images ici",
+    browse: "Parcourir",
+    count: "photo(s) ajoutée(s)",
+    tooMany: "Nombre maximum de photos atteint.",
+    tooLarge: "Chaque image doit faire moins de 10 Mo.",
+    invalidType: "Seuls les fichiers image sont acceptés (pas de vidéo).",
+  },
+  collaboration: {
+    hero: {
+      eyebrow: "Espace annonceurs & marques BTP",
+      title: "Touchez la plus grande communauté d'artisans du BTP en France",
+      subtitle:
+        "Campagnes média, contenus UGC authentiques et tests produits auprès de professionnels qualifiés. Un canal direct vers des décideurs sur le terrain.",
+      cta: "Devenir Partenaire",
+    },
+    stats: {
+      artisans: { value: "+2 500", label: "artisans actifs" },
+      engagement: { value: "68 %", label: "taux d'engagement moyen" },
+      opportunities: { value: "12 k+", label: "opportunités générées / an" },
+    },
+    offers: {
+      title: "Nos modalités de collaboration",
+      subtitle:
+        "Des formats pensés pour la notoriété, la conversion et la preuve produit sur le terrain.",
+      advertising: {
+        title: "Publicité & Média",
+        description:
+          "Visibilité premium auprès d'une audience BTP ultra-ciblée et engagée.",
+        bullets: [
+          "Bannières & encarts sur nos vitrines",
+          "Newsletters et push ciblés",
+          "Sponsoring de contenus éditoriaux",
+        ],
+      },
+      ugc: {
+        title: "Campagnes UGC",
+        description:
+          "Des contenus authentiques produits par des artisans de notre communauté.",
+        bullets: [
+          "Témoignages chantier & unboxing",
+          "Reels, stories et posts sociaux",
+          "Brief créatif et modération inclus",
+        ],
+      },
+      productTest: {
+        title: "Tests de Produits",
+        description:
+          "Faites tester et recommander vos outils, équipements ou logiciels sur le terrain.",
+        bullets: [
+          "Sélection d'artisans profilés",
+          "Retours terrain détaillés",
+          "Placement de marque & avis vérifiés",
+        ],
+      },
+    },
+    form: {
+      title: "Proposer un partenariat",
+      subtitle:
+        "Décrivez votre projet en quelques minutes. Notre équipe revient vers vous sous 48 h ouvrées.",
+      companyName: "Nom de l'entreprise",
+      contactName: "Nom du contact",
+      jobTitle: "Poste",
+      email: "E-mail professionnel",
+      phone: "Téléphone",
+      partnershipType: "Type de partenariat souhaité",
+      partnershipOptions: {
+        advertising: "Publicité & Média",
+        ugc: "Campagne UGC",
+        product_test: "Test de produit",
+        other: "Autre",
+      },
+      budget: "Budget estimé",
+      budgetOptional: "optionnel",
+      budgetOr: "ou",
+      budgetCustom: "Montant approximatif",
+      budgetCustomPlaceholder: "Ex. 8 000 €, 12 k€, fourchette 10–20 k€…",
+      budgetOptions: {
+        under_5k: "Moins de 5 000 €",
+        from_5k_to_15k: "5 000 € – 15 000 €",
+        from_15k_to_50k: "15 000 € – 50 000 €",
+        over_50k: "Plus de 50 000 €",
+        undisclosed: "Non communiqué",
+      },
+      message: "Message / Brief du projet",
+      messagePlaceholder:
+        "Objectifs, cibles, calendrier, produits concernés, KPIs attendus…",
+      submit: "Envoyer ma proposition",
+      submitting: "Envoi en cours…",
+      errorBody: "Vérifiez les champs obligatoires et réessayez.",
+      successTitle: "Proposition envoyée",
+      successBody:
+        "Merci ! Notre équipe partenariats analyse votre brief et vous recontacte très vite.",
+    },
+    files: {
+      dropHint: "Glissez vos fichiers ici (images ou PDF)",
+      browse: "Parcourir",
+      tooMany: "Maximum 3 fichiers autorisés.",
+      tooLarge: "Chaque fichier doit faire moins de 10 Mo.",
+      invalidType: "Seuls les images (JPEG, PNG) et PDF sont acceptés.",
+      invalidVideo: "Les fichiers vidéo ne sont pas acceptés.",
+    },
+  },
+  services: {
+    priceHt: "HT",
+    surDevis: "Sur devis",
+  },
+  poweredBy: "Propulsé par CraftLink",
+};

@@ -6,12 +6,26 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "demo:lead-media": "tsx scripts/generateDemoLeadMedia.ts",
+    "seed:leads": "tsx scripts/seedDemoLeads.ts",
+    "debug:leads": "tsx scripts/debugLeads.ts",
+    "resend:supabase-smtp": "tsx scripts/printResendSupabaseSmtp.ts",
+    "resend:test-auth": "tsx scripts/testResendAuthEmail.ts"
   },
   "dependencies": {
+    "22": "^0.0.0",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.106.1",
+    "docker": "^1.0.0",
+    "framer-motion": "^12.38.0",
     "next": "16.2.4",
+    "openai": "^6.45.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-icons": "^5.6.0",
+    "resend": "^6.16.0",
+    "stripe": "^22.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -21,6 +35,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.22.4",
+    "typescript": "^5",
+    "ws": "^8.21.0"
   }
 }

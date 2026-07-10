@@ -1,0 +1,196 @@
+import type { VitrineDictionary } from "@/i18n/types";
+
+export const vitrineEn: VitrineDictionary = {
+  presentation: {
+    quoteFreeHint: "100% free quote · No commitment",
+    portfolioTitle: "Recent work",
+    affiliateLinksTitle: "Partner links",
+    reportUrgency: "🚨 Report an urgency",
+    followersLabel: "{count} followers",
+    urgencyWhatsAppMessage:
+      "Hello, I have an URGENT repair need and I just saw your CraftLink page. Are you available soon?",
+    urgencyClickLeadDescription:
+      "The customer tapped “Report an urgency” and was redirected to WhatsApp. No contact details provided.",
+    urgencyWhatsAppUnavailable:
+      "WhatsApp number unavailable — please use the contact form.",
+  },
+  details: {
+    back: "Back to profile",
+    servicesTitle: "Services",
+    servicesHint: "Select what matches your need",
+    servicesOptionalHint: "Optional — specify the type of service",
+    servicesQuoteHint: "What may match your need (optional)",
+    servicesSelected: "selected",
+    captureTitle: "Your request",
+    titles: {
+      quote: "Your quote request",
+      urgent: "Your urgent repair request",
+      info: "Your question",
+      collaboration: "Partnerships & Brands",
+    },
+    delayLabel: "When do you need help?",
+  },
+  form: {
+    fullName: "Your name",
+    fullNamePlaceholder: "John Smith",
+    partnerCompanyName: "Partner company name",
+    partnerCompanyPlaceholder: "Business or brand name",
+    phone: "Phone",
+    phonePlaceholder: "+33 6 12 34 56 78",
+    email: "Email",
+    emailPlaceholder: "you@example.com",
+    urgency: "Timeline",
+    urgencyOptions: {
+      urgent: "🚨 Urgent / Emergency (Within 24–48h)",
+      asap: "📅 As soon as possible (1–2 weeks)",
+      planned: "🏗️ Within the month / Planned (30 days)",
+      info: "🔍 Over 1 month",
+    },
+    project: "Describe your need",
+    projectPlaceholder: "Issue type, area, access, constraints…",
+    dimensions: "Area / dimensions",
+    dimensionsPlaceholder: "E.g. 25 m², 3 windows 120×140 cm…",
+    access: "Access & constraints",
+    accessPlaceholder: "E.g. 3rd floor, no lift, inner courtyard…",
+    descriptionHint: "Text, voice, or both — at least one required",
+    needDescriptionOrVoice:
+      "Describe your need in writing or record a voice message.",
+    selectDelayPlaceholder: "Choose a timeline",
+    question: "Ask your question to the tradesperson…",
+    questionPlaceholder: "Explain your situation or concern…",
+    collaborationToggle: "I'm a professional looking to collaborate",
+    proCompanyName: "Company name",
+    proCompanyPlaceholder: "Business or brand name",
+    proProject: "Collaboration project",
+    proProjectPlaceholder: "Partnership type, volume, timeline…",
+    submit: "Send my request",
+    submitting: "Sending…",
+    successTitle: "Request sent",
+    successBody: "Your request has been sent to the tradesperson.",
+    successSmsFollowUp:
+      "In a few minutes, you'll receive an automatic SMS from them confirming your request has been received and that they'll get back to you.",
+    errorTitle: "Could not send",
+    errorBody: "Check required fields and try again.",
+    selectDelay: "Please choose a timeline to continue.",
+  },
+  voice: {
+    title: "Describe your project by voice",
+    record: "Record my request by voice",
+    recording: "Recording…",
+    stop: "Tap to finish",
+    added: "Voice message recorded",
+    replay: "Replay my recording",
+    orRecord: "Or record your need by voice (2 min max)",
+    timerLabel: "Duration",
+    maxDuration: "2 minutes maximum",
+  },
+  photos: {
+    title: "Add photos (optional)",
+    dropHint: "Drop your images here",
+    browse: "Browse",
+    count: "photo(s) added",
+    tooMany: "Maximum number of photos reached.",
+    tooLarge: "Each image must be under 10 MB.",
+    invalidType: "Only image files are accepted (no video).",
+  },
+  collaboration: {
+    hero: {
+      eyebrow: "Advertisers & construction brands",
+      title: "Reach France's largest community of building trades professionals",
+      subtitle:
+        "Media campaigns, authentic UGC content and on-site product tests with qualified pros. A direct channel to decision-makers in the field.",
+      cta: "Become a Partner",
+    },
+    stats: {
+      artisans: { value: "2,500+", label: "active tradespeople" },
+      engagement: { value: "68%", label: "average engagement rate" },
+      opportunities: { value: "12k+", label: "opportunities generated / year" },
+    },
+    offers: {
+      title: "How we collaborate",
+      subtitle:
+        "Formats built for awareness, conversion and product proof on the job site.",
+      advertising: {
+        title: "Advertising & Media",
+        description:
+          "Premium visibility with a highly targeted, engaged construction audience.",
+        bullets: [
+          "Banners & placements on our storefronts",
+          "Targeted newsletters and push notifications",
+          "Sponsored editorial content",
+        ],
+      },
+      ugc: {
+        title: "UGC Campaigns",
+        description:
+          "Authentic content produced by tradespeople from our community.",
+        bullets: [
+          "Job-site testimonials & unboxings",
+          "Reels, stories and social posts",
+          "Creative brief and moderation included",
+        ],
+      },
+      productTest: {
+        title: "Product Testing",
+        description:
+          "Have your tools, equipment or software tested and recommended in the field.",
+        bullets: [
+          "Profiled tradesperson selection",
+          "Detailed field feedback",
+          "Brand placement & verified reviews",
+        ],
+      },
+    },
+    form: {
+      title: "Propose a partnership",
+      subtitle:
+        "Describe your project in a few minutes. Our team will get back to you within 2 business days.",
+      companyName: "Company name",
+      contactName: "Contact name",
+      jobTitle: "Job title",
+      email: "Work email",
+      phone: "Phone",
+      partnershipType: "Desired partnership type",
+      partnershipOptions: {
+        advertising: "Advertising & Media",
+        ugc: "UGC Campaign",
+        product_test: "Product testing",
+        other: "Other",
+      },
+      budget: "Estimated budget",
+      budgetOptional: "optional",
+      budgetOr: "or",
+      budgetCustom: "Approximate amount",
+      budgetCustomPlaceholder: "e.g. €8,000, 12k, range €10–20k…",
+      budgetOptions: {
+        under_5k: "Under €5,000",
+        from_5k_to_15k: "€5,000 – €15,000",
+        from_15k_to_50k: "€15,000 – €50,000",
+        over_50k: "Over €50,000",
+        undisclosed: "Not disclosed",
+      },
+      message: "Message / Project brief",
+      messagePlaceholder:
+        "Goals, targets, timeline, products involved, expected KPIs…",
+      submit: "Send my proposal",
+      submitting: "Sending…",
+      errorBody: "Check required fields and try again.",
+      successTitle: "Proposal sent",
+      successBody:
+        "Thank you! Our partnerships team is reviewing your brief and will be in touch shortly.",
+    },
+    files: {
+      dropHint: "Drop your files here (images or PDF)",
+      browse: "Browse",
+      tooMany: "Maximum 3 files allowed.",
+      tooLarge: "Each file must be under 10 MB.",
+      invalidType: "Only images (JPEG, PNG) and PDF are accepted.",
+      invalidVideo: "Video files are not accepted.",
+    },
+  },
+  services: {
+    priceHt: "excl. VAT",
+    surDevis: "On quote",
+  },
+  poweredBy: "Powered by CraftLink",
+};
