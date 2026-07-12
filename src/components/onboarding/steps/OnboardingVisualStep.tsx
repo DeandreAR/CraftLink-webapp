@@ -28,6 +28,7 @@ type OnboardingVisualStepProps = {
   locale: Locale;
   profile: OnboardingProfileDraft;
   services: OnboardingService[];
+  certifications?: string[];
   onChange: (patch: Partial<OnboardingProfileDraft>) => void;
   onCreatePage?: () => void;
   showCreatePageButton?: boolean;
@@ -39,6 +40,7 @@ export function OnboardingVisualStep({
   locale,
   profile,
   services,
+  certifications = [],
   onChange,
   onCreatePage,
   showCreatePageButton = true,
@@ -79,8 +81,8 @@ export function OnboardingVisualStep({
         priceSuffixUsd: copy.services.priceSuffixUsd,
         surDevis: copy.publicServices.surDevis,
         aboutTitle: copy.interventions.aboutLabel,
-      }),
-    [profile, services, locale, vitrineCopy, copy],
+      }, { certifications }),
+    [profile, services, locale, vitrineCopy, copy, certifications],
   );
 
   return (

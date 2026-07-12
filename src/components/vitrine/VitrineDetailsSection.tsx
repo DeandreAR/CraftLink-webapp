@@ -12,7 +12,7 @@ import type {
   VitrineProfileSettings,
   VitrineService,
 } from "@/domain/vitrine";
-import type { Locale } from "@/i18n/config";
+import { defaultLocale } from "@/i18n/config";
 import type { VitrineDictionary } from "@/i18n/types";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import {
@@ -24,11 +24,12 @@ import {
   shouldShowServices,
 } from "@/lib/vitrine/captureForm";
 import { submitPublicLead } from "@/lib/leads/submitPublicLead";
-import { getMetierFormConfig } from "@/lib/vitrine/metierConfigs";
+import { getJobNeedOptions } from "@/lib/vitrine/getJobNeedOptions";
 import { VitrineBackButton } from "@/components/vitrine/VitrineBackButton";
 import { VitrineCollaborationForm } from "@/components/vitrine/VitrineCollaborationForm";
 import { VitrineDelaySelect } from "@/components/vitrine/VitrineDelaySelect";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
+import { VitrineNeedNatureSelect } from "@/components/vitrine/VitrineNeedNatureSelect";
 import { VitrinePhotoUpload } from "@/components/vitrine/VitrinePhotoUpload";
 import { VitrineServicesPicker } from "@/components/vitrine/VitrineServicesPicker";
 import { VitrineVoiceCapture } from "@/components/vitrine/VitrineVoiceCapture";
@@ -36,6 +37,7 @@ import { VitrineVoiceCapture } from "@/components/vitrine/VitrineVoiceCapture";
 type VitrineDetailsSectionProps = {
   pageSlug: string;
   zone: string;
+  metierKey?: MetierKey | "";
   planTier: PublicPlanTier;
   profileSettings: VitrineProfileSettings;
   services: VitrineService[];
@@ -47,6 +49,7 @@ type VitrineDetailsSectionProps = {
 export function VitrineDetailsSection({
   pageSlug,
   zone,
+  metierKey,
   planTier,
   profileSettings,
   services,
@@ -62,6 +65,7 @@ export function VitrineDetailsSection({
     <CaptureFormBody
       pageSlug={pageSlug}
       zone={zone}
+      metierKey={metierKey}
       planTier={planTier}
       profileSettings={profileSettings}
       services={services}
@@ -75,6 +79,7 @@ export function VitrineDetailsSection({
 type CaptureFormBodyProps = {
   pageSlug: string;
   zone: string;
+  metierKey?: MetierKey | "";
   planTier: PublicPlanTier;
   profileSettings: VitrineProfileSettings;
   services: VitrineService[];
@@ -86,6 +91,7 @@ type CaptureFormBodyProps = {
 function CaptureFormBody({
   pageSlug,
   zone,
+  metierKey,
   planTier,
   profileSettings,
   services,
@@ -98,12 +104,14 @@ function CaptureFormBody({
   const voiceCaptureOn = isPro && profileSettings.voiceCaptureEnabled === true;
   const form = copy.form;
   const det = copy.details;
+  const needNatureOptions = getJobNeedOptions(metierKey, defaultLocale);
 
   const [status, setStatus] = useState<LeadFormStatus>("idle");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [needNature, setNeedNature] = useState("");
   const [urgency, setUrgency] = useState<LeadUrgency>(getDefaultDelay(initialIntent));
   const [projectDescription, setProjectDescription] = useState("");
   const [hasVoice, setHasVoice] = useState(false);
@@ -128,6 +136,7 @@ function CaptureFormBody({
     setSelectedServices([]);
     setPhotoFiles([]);
     setHasVoice(false);
+    setNeedNature("");
     setProjectDescription("");
   }, [initialIntent]);
 
@@ -188,6 +197,7 @@ function CaptureFormBody({
         delayStatus: resolvedUrgency,
         description: projectDescription.trim(),
         workType: buildWorkTypeFromServices(services, selectedServices),
+        needNature: needNature.trim() || null,
         zone: zone.trim(),
         openIntent: initialIntent,
       });
@@ -328,6 +338,13 @@ function CaptureFormBody({
               copy={copy}
             />
           ) : null}
+
+          <VitrineNeedNatureSelect
+            value={needNature}
+            options={needNatureOptions}
+            onChange={setNeedNature}
+            copy={copy}
+          />
 
           {descriptionBlock}
 

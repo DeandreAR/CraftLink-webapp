@@ -8,6 +8,7 @@ import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName, authLabelClassName } from "@/components/auth/authFormStyles";
 import { GeoCityAutocomplete } from "@/components/onboarding/GeoCityAutocomplete";
+import { ProfileStatsFields } from "@/components/onboarding/ProfileStatsFields";
 import { getMetierOptions } from "@/lib/onboarding/metierOptions";
 import { INTERVENTION_RADIUS_OPTIONS } from "@/lib/onboarding/interventionTags";
 import type { CitySelection } from "@/lib/onboarding/geoApi";
@@ -168,6 +169,8 @@ export function OnboardingGeneralStep({
           ))}
         </select>
       </div>
+
+      <ProfileStatsFields copy={copy} profile={profile} onChange={onChange} />
     </div>
   );
 }

@@ -64,6 +64,7 @@ async function insertPublicLead(
       client_phone: input.clientPhone.trim(),
       client_email: input.clientEmail.trim().toLowerCase(),
       work_type: input.workType.trim(),
+      need_nature: input.needNature?.trim() || null,
       zone: input.zone.trim(),
       delay_status: input.delayStatus,
       workflow_status: "A_TRAITER",
@@ -73,7 +74,7 @@ async function insertPublicLead(
       photos: [],
     })
     .select(
-      "id, workspace_id, request_number, client_name, client_phone, client_email, created_at, updated_at, work_type, zone, delay_status, workflow_status, contact_status, contacted_at, quote_sent_at, invoice_sent_at, description, summary, voice, photos, schedule, attachments",
+      "id, workspace_id, request_number, client_name, client_phone, client_email, created_at, updated_at, work_type, need_nature, zone, delay_status, workflow_status, contact_status, contacted_at, quote_sent_at, invoice_sent_at, description, summary, voice, photos, schedule, attachments",
     )
     .maybeSingle();
 

@@ -41,6 +41,7 @@ export function PartnersAffiliateLinksCard({ profile, copy }: PartnersAffiliateL
       fullName: profileDraft.businessName.trim(),
       phone: profileDraft.phone.trim(),
       vitrine: editorStateToStoredConfig(profileDraft, initial.services),
+      certifications: profile.certifications ?? [],
     });
 
     setSaving(false);

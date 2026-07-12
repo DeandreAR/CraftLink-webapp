@@ -29,7 +29,7 @@ import { OnboardingProGapStep } from "@/components/onboarding/steps/OnboardingPr
 import { OnboardingProValidateStep } from "@/components/onboarding/steps/OnboardingProValidateStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
 import { LandingCta } from "@/components/landing/LandingCta";
-import { authPath } from "@/lib/auth/paths";
+import { authPath, type ProBillingPeriod } from "@/lib/auth/paths";
 import { resolveNextPhaseAfterProfileUpdate } from "@/lib/onboarding/proOnboardingFlow";
 import {
   createProOnboardingState,
@@ -55,6 +55,8 @@ type ProOnboardingWizardProps = {
   vitrineCopy: VitrineDictionary;
   initialProfile?: OnboardingProfileDraft;
   initialServices?: OnboardingService[];
+  /** Période choisie à l’étape tarifs (avant que l’URL ne soit relue par Next). */
+  initialBillingPeriod?: ProBillingPeriod;
   /** Démarre directement sur le choix auto/manuel (défaut) ou sur l’édition manuelle. */
   startPhase?: ProOnboardingPhase;
   onCelebrationChange?: (active: boolean) => void;
@@ -84,12 +86,17 @@ export function ProOnboardingWizard({
   vitrineCopy,
   initialProfile,
   initialServices,
+  initialBillingPeriod = "monthly",
   startPhase = "choice",
   onCelebrationChange,
 }: ProOnboardingWizardProps) {
   const searchParams = useSearchParams();
   const stripeCheckoutSuccess = searchParams.get("stripe") === "success";
-  const billingPeriod = searchParams.get("billing") === "annual" ? "annual" : "monthly";
+  const billingFromUrl = searchParams.get("billing");
+  const billingPeriod: ProBillingPeriod =
+    billingFromUrl === "annual" || billingFromUrl === "monthly"
+      ? billingFromUrl
+      : initialBillingPeriod;
   const checkoutPriceKey = billingPeriod === "annual" ? "pro_annual" : "pro_monthly";
 
   const [state, dispatch] = useReducer(

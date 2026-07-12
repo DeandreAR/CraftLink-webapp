@@ -14,6 +14,7 @@ import {
 import { authPath } from "@/lib/auth/paths";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import { signOut } from "@/services/authService";
 import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 
@@ -21,6 +22,7 @@ export type UpdateDashboardProfileInput = {
   fullName: string;
   phone: string;
   vitrine: StoredVitrineConfig;
+  certifications: string[];
 };
 
 export type UpdateDashboardProfileResult =
@@ -45,6 +47,7 @@ export async function updateDashboardProfileAction(
       full_name: input.fullName.trim() || null,
       whatsapp_number: input.phone.trim() || null,
       vitrine_presentation: input.vitrine,
+      certifications: normalizeCertifications(input.certifications),
       updated_at: new Date().toISOString(),
     })
     .eq("id", user.id);

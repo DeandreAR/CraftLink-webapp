@@ -15,9 +15,11 @@ import { resolveTradeLabelFallback } from "@/lib/onboarding/proImport/toProfileD
 import type { VitrineDictionary } from "@/i18n/types";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { portfolioItemsToVitrine } from "@/lib/portfolio/portfolioToVitrine";
+import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
+import { buildStatBadges } from "@/lib/vitrine/buildStatBadges";
+import { metierSupportsUrgencyCta } from "@/lib/vitrine/metierUrgencySupport";
 import type {
   PublicPlanTier,
-  VitrineStatBadge,
 } from "@/domain/vitrine";
 
 type PriceLabels = {
@@ -28,57 +30,9 @@ type PriceLabels = {
   aboutTitle: string;
 };
 
-function buildStatBadges(
-  profile: OnboardingProfileDraft,
-  vitrineCopy: VitrineDictionary,
-  locale: Locale,
-): VitrineStatBadge[] {
-  const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
-  const googleRating = profile.importGoogleRating;
-  const googleReviews = profile.importGoogleReviewCount;
-
-  if (hasGoogleBusiness) {
-    const googleBadges: VitrineStatBadge[] = [];
-
-    if (googleReviews != null && googleReviews > 0) {
-      googleBadges.push({
-        id: "reviews",
-        label: `${googleReviews}+ Avis Google`,
-        kind: "google_reviews",
-      });
-    }
-
-    if (googleRating != null && googleRating > 0) {
-      googleBadges.push({
-        id: "rating",
-        label: String(googleRating),
-        kind: "google_rating",
-        rating: String(googleRating),
-        starCount: 5,
-      });
-    }
-
-    if (googleBadges.length > 0) {
-      return googleBadges;
-    }
-  }
-
-  const badges: VitrineStatBadge[] = [];
-
-  if (
-    profile.importPlatform === "instagram" &&
-    profile.importExperienceYears != null &&
-    profile.importExperienceYears > 0
-  ) {
-    badges.push({
-      id: "exp",
-      label: `${profile.importExperienceYears}+ ans d'expérience`,
-      kind: "default",
-    });
-  }
-
-  return badges;
-}
+export type BuildPreviewOptions = {
+  certifications?: string[];
+};
 
 function initialsFromName(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -100,6 +54,7 @@ export function buildOnboardingPreviewProps(
   locale: Locale,
   vitrineCopy: VitrineDictionary,
   priceLabels: PriceLabels,
+  options?: BuildPreviewOptions,
 ): LinkInBioPageProps {
   const metierKey = profile.metierKey as MetierKey | "";
   const isInstagramImport = profile.importPlatform === "instagram";
@@ -154,6 +109,7 @@ export function buildOnboardingPreviewProps(
   const serviceAreaSummary = profile.city.trim()
     ? `Intervient à ${profile.city.trim()} et ${profile.interventionRadiusKm} km alentour`
     : "";
+  const certifications = normalizeCertifications(options?.certifications);
 
   return {
     artisan: {
@@ -169,6 +125,7 @@ export function buildOnboardingPreviewProps(
       aboutSection: useAbout
         ? { title: priceLabels.aboutTitle, body: profile.aboutText.trim() }
         : undefined,
+      certifications: certifications.length > 0 ? certifications : undefined,
       googleBusinessUrl: hasGoogleBusiness ? profile.social.googleBusinessUrl.trim() : null,
       statBadges,
       socialLinks,
@@ -205,6 +162,7 @@ export function buildOnboardingPreviewProps(
         showAffiliateLinks: hasAffiliateLinks,
         showPortfolioGallery: hasPortfolio,
         showServicesOnPresentation: vitrineServices.length > 0,
+        showUrgentButton: metierSupportsUrgencyCta(metierKey),
         contentBlockMode: useAbout ? "about" : "interventions",
       },
       cta: {

@@ -115,6 +115,7 @@ export function LinkInBioPage({
             <VitrineDetailsSection
               pageSlug={artisan.slug}
               zone={artisan.serviceAreaSummary || artisan.city}
+              metierKey={artisan.metierKey}
               planTier={planTier}
               profileSettings={profileSettings}
               services={services}

@@ -3,6 +3,7 @@ import { OnboardingPage } from "@/components/onboarding/OnboardingPage";
 import { getDictionary } from "@/i18n/getDictionary";
 import { isLocale, type Locale } from "@/i18n/config";
 import { prepareOnboardingPage } from "@/lib/auth/prepareOnboardingPage";
+import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
 
 type Props = {
   params: Promise<{ lang: string }>;
@@ -17,12 +18,14 @@ export default async function LangOnboardingPage({ params, searchParams }: Props
   await prepareOnboardingPage(lang);
   const dict = await getDictionary(lang);
   const planIntent = plan === "pro" ? "pro" : "choice";
+  const pricingModel = buildPricingSectionModel(dict.pricingComparison);
 
   return (
     <OnboardingPage
       lang={lang}
       copy={dict.onboarding}
       vitrineCopy={dict.vitrine}
+      pricingModel={pricingModel}
       planIntent={planIntent}
       emailConfirmed={confirmed === "1"}
     />

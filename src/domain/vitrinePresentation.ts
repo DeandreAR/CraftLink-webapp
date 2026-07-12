@@ -37,6 +37,8 @@ export type StoredVitrineProfilePart = {
   importGoogleRating?: number;
   importGoogleReviewCount?: number;
   importExperienceYears?: number;
+  experienceYears?: number;
+  completedProjectsCount?: number;
   importFollowerCount?: number;
   socialFollowers?: OnboardingSocialFollowers;
   magicImportSuccessCount?: number;
@@ -220,6 +222,14 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
       typeof row.importGoogleReviewCount === "number" ? row.importGoogleReviewCount : undefined,
     importExperienceYears:
       typeof row.importExperienceYears === "number" ? row.importExperienceYears : undefined,
+    experienceYears:
+      typeof row.experienceYears === "number"
+        ? row.experienceYears
+        : typeof row.importExperienceYears === "number"
+          ? row.importExperienceYears
+          : undefined,
+    completedProjectsCount:
+      typeof row.completedProjectsCount === "number" ? row.completedProjectsCount : undefined,
     importFollowerCount:
       typeof row.importFollowerCount === "number" ? row.importFollowerCount : undefined,
     socialFollowers: parseSocialFollowers(row.socialFollowers),
@@ -285,6 +295,8 @@ export function profileToEditorState(profile: Profile): {
     importGoogleRating: config.profile.importGoogleRating,
     importGoogleReviewCount: config.profile.importGoogleReviewCount,
     importExperienceYears: config.profile.importExperienceYears,
+    experienceYears: config.profile.experienceYears,
+    completedProjectsCount: config.profile.completedProjectsCount,
     importFollowerCount: config.profile.importFollowerCount,
     socialFollowers: config.profile.socialFollowers,
     magicImportSuccessCount: config.profile.magicImportSuccessCount,
@@ -316,6 +328,8 @@ export function editorStateToStoredConfig(
       importGoogleRating: profileDraft.importGoogleRating,
       importGoogleReviewCount: profileDraft.importGoogleReviewCount,
       importExperienceYears: profileDraft.importExperienceYears,
+      experienceYears: profileDraft.experienceYears,
+      completedProjectsCount: profileDraft.completedProjectsCount,
       importFollowerCount: profileDraft.importFollowerCount,
       socialFollowers: profileDraft.socialFollowers,
       magicImportSuccessCount: profileDraft.magicImportSuccessCount,

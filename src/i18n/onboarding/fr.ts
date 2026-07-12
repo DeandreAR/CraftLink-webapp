@@ -38,7 +38,7 @@ export const onboardingFr: OnboardingDictionary = {
   },
   general: {
     title: "Informations générales",
-    subtitle: "Nom, métier et zone d'intervention.",
+    subtitle: "Nom, métier, zone d'intervention et statistiques affichées sur votre page.",
     companyLabel: "Nom de l'entreprise",
     companyPlaceholder: "Ex. Dupont Électricité",
     metierLabel: "Métier principal",
@@ -46,6 +46,14 @@ export const onboardingFr: OnboardingDictionary = {
     cityPlaceholder: "Ville ou code postal…",
     cityNoResults: "Aucune commune trouvée",
     radiusLabel: "Rayon d'intervention",
+    statsTitle: "Expérience & réalisations",
+    statsSubtitle: "Optionnel — affiché en badges sous votre photo sur la page publique.",
+    experienceYearsLabel: "Années d'expérience",
+    experienceYearsPlaceholder: "Ex. 12",
+    experienceYearsHint: "Ex. « 12+ ans d'expérience »",
+    completedProjectsLabel: "Nombre de réalisations",
+    completedProjectsPlaceholder: "Ex. 150",
+    completedProjectsHint: "Ex. « 150+ réalisations »",
   },
   interventions: {
     title: "Interventions & prestations",

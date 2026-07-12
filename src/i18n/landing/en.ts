@@ -3,45 +3,45 @@ import type { LandingExtendedDictionary } from "@/i18n/landing/types";
 export const landingEn: LandingExtendedDictionary = {
   faqBlocks: [
     {
-      title: "Simplicity and getting started",
+      title: "Getting started",
       items: [
         {
           q: "I'm not comfortable with technology.",
-          a: "CraftLink avoids jargon and endless settings. You fill in the essentials about your business and get a link for your bio or business card. If you can send a WhatsApp message, you can use CraftLink.",
+          a: "No jargon. Fill in the essentials, get a link for your bio or card. If you can send a WhatsApp, you can use CraftLink.",
         },
         {
           q: "I don't have time to build a website.",
-          a: "The promise is a pro page ready in minutes — not a site that takes weeks. Sections are built for tradespeople: services, area, contact. The rest (voice notes, scoring, WhatsApp) works behind the scenes.",
+          a: "Your page is ready in minutes. Services, area, contact — voice notes, sorting and WhatsApp work while you're on site.",
         },
         {
           q: "How long until I'm live?",
-          a: "Usually a few minutes are enough to publish your link. You can refine it later — what matters is starting to capture requests when you're ready.",
+          a: "A few minutes to publish your link. Refine it later if needed.",
         },
       ],
     },
     {
-      title: "Pricing and return on investment",
+      title: "Pricing and ROI",
       items: [
         {
           q: "It's too expensive for me.",
-          a: "There's an affordable entry point to try without a heavy commitment. The goal is to save time on back-and-forth and avoid jobs that don't fit — which can cost far more than a subscription.",
+          a: "A free tier lets you try. One won job pays for the subscription. A vague request lost doesn't come back.",
         },
       ],
     },
     {
-      title: "How it works in practice",
+      title: "How it works",
       items: [
         {
           q: "How do clients find me?",
-          a: "The same way as today: your networks, word of mouth, flyers. The difference is that instead of an empty message or a \"hello\", they use your link: you get a structured request or a transcribed voice note.",
+          a: "Same as today: networks, word of mouth, flyers. The difference: they use your link and you get a written request or transcribed voice note.",
         },
         {
           q: "Is it right for my trade?",
-          a: "CraftLink is built for tradespeople and construction professionals: emergencies, timelines, job types, service areas. Electricians, plumbers, joiners, HVAC, locksmiths, painters, masons… if you quote jobs, it fits.",
+          a: "Yes if you quote in construction: electrician, plumber, joiner, painter, mason, roofer, general renovation… CraftLink sorts requests before you handle them.",
         },
         {
           q: "Does it replace a website?",
-          a: "For many independent tradespeople, it's enough as a main showcase: a clear page plus lead capture. If you already have a weak site, CraftLink can become your main entry point. A full website can stay a complement depending on your goals.",
+          a: "For many tradespeople it's the main showcase: a clear page plus lead capture. A big site can stay a complement.",
         },
       ],
     },
@@ -49,107 +49,99 @@ export const landingEn: LandingExtendedDictionary = {
       title: "Instagram, Facebook and WhatsApp",
       items: [
         {
-          q: "Does it work if I only have Facebook or Instagram?",
-          a: "Yes. Use the same link everywhere: Instagram bio, Facebook page, saved story, QR on your van or job site. The funnel works as soon as a client clicks.",
+          q: "Does it work with only Facebook or Instagram?",
+          a: "Yes. Same link in bio, on Facebook, in stories or on a site QR code.",
         },
         {
           q: "Can I keep WhatsApp?",
-          a: "Yes. WhatsApp stays your usual channel. CraftLink structures what comes before: need, area, urgency, attachments if needed. You open WhatsApp with context already in place.",
+          a: "Yes. WhatsApp stays your channel. CraftLink prepares the file first: need, area, timeline, photos if needed.",
         },
       ],
     },
     {
-      title: "Security, data and support",
+      title: "Data and support",
       items: [
         {
           q: "Is my data secure?",
-          a: "Client information deserves proper care: storage and access follow professional practices (secure login, industry standards). See our privacy policy for your rights and our GDPR commitments.",
+          a: "Secure login and professional practices. Details in our privacy policy (GDPR).",
         },
       ],
     },
   ],
   cta: {
-    title: "Ready to turn messages into",
-    titleHighlight: "useful quotes",
-    lead: "Create your pro page in minutes: one link, clear capture, WhatsApp the way you like it.",
+    title: "Ready to receive requests",
+    titleHighlight: "clear and complete",
+    lead: "Create your page in minutes: one link, structured files, WhatsApp as usual.",
     button: "Create my page now",
   },
   pourquoi: {
     header: {
       index: "01",
-      eyebrow: "Why CraftLink?",
-      title: "An entry that clarifies the need, not another showcase.",
-      titleHighlight: "clarifies the need",
-      lead: "When requests flood in from several channels, the real bottleneck isn't visibility — it's the lack of structure. CraftLink enforces a short, clear path: you keep control of when you call back, with a usable file ready.",
+      eyebrow: "Before / After",
+      title: "Fewer vague messages. More real jobs.",
+      titleHighlight: "real jobs",
+      lead: "Between jobs, messages pile up everywhere. CraftLink centralises and sorts before you catch up in the evening.",
     },
-    badge: "Zero maintenance · Evolving",
-    badgeHint: "Product updates and new features without extra work for you.",
+    badge: "Zero maintenance · No webmaster",
+    badgeHint: "You work. The tool sorts requests.",
     without: {
-      label: "Without CraftLink",
-      title: "Mixed channels, blurred context",
-      bullets: [
-        "DM threads, emails and texts that don't connect: context gets lost between notifications.",
-        "The same question asked five times to get town, budget or urgency level.",
-        "A new prospect file rebuilt by hand every time.",
-      ],
+      label: "Before CraftLink",
+      title:
+        "Dozens of scattered messages (SMS, Facebook, WhatsApp) ➡️ Half lack precise details.",
+      bullets: [],
     },
     with: {
-      label: "With CraftLink",
-      title: "Clarity for clients, ready files for you",
-      bullets: [
-        "Same journey everywhere: bio, QR, Google profile — one habit to explain.",
-        "Transcribed voice notes, structured fields, attachments: you open a file, not a puzzle.",
-        "WhatsApp unchanged for you: the conversation starts with the summary already there.",
-      ],
+      label: "After CraftLink",
+      title:
+        "Clear, complete requests in one place ➡️ You know exactly where to start.",
+      bullets: [],
     },
   },
   features: {
     header: {
       index: "02",
-      eyebrow: "Features",
-      title: "The mechanics behind your tradesperson page.",
-      titleHighlight: "tradesperson page",
-      lead: "Each block covers a step — capture, triage, handoff — without adding complexity on site. The goal: requests ready to quote, not empty chats.",
+      eyebrow: "How it works",
+      title: "Three steps. No wasted time.",
+      titleHighlight: "No wasted time",
+      lead: "1. The client explains their need in 1 minute (in writing or by voice message). 2. CraftLink organises and sorts the request automatically. 3. You follow up only on serious, complete files.",
     },
     cards: [
       {
-        eyebrow: "Voice capture",
-        title: "Clients speak, you read what matters",
+        eyebrow: "Voice",
+        title: "Client explains, you read what matters",
         description:
-          "Voice notes are transcribed and formatted: fewer round trips to understand the issue on site.",
+          "Voice messages are transcribed. You understand the job without chasing the client three times.",
       },
       {
-        eyebrow: "Scoring",
-        title: "Spot serious leads at a glance",
+        eyebrow: "Auto sort",
+        title: "Serious requests rise to the top",
         description:
-          "A simple score highlights budget, urgency and completeness: you call back the jobs worth it first.",
+          "Automatic request sorting: timeline, area, completeness. You quote the right jobs first.",
       },
       {
-        eyebrow: "WhatsApp Smart",
-        title: "Handoff with context already there",
+        eyebrow: "WhatsApp",
+        title: "Follow up with the file in front of you",
         description:
-          "WhatsApp stays your tool; the client arrives with their need summarized — you start at the right level.",
+          "WhatsApp stays your tool. The client arrives with their need already summarised.",
       },
       {
         eyebrow: "One link",
-        title: "One link for every channel",
-        description:
-          "Instagram/Facebook bio, QR on your van, SMS after a paper quote: one pro entry everywhere.",
+        title: "One link everywhere",
+        description: "Instagram bio, Facebook, QR on your van: one pro entry, everywhere.",
       },
       {
         eyebrow: "Export",
-        title: "Actionable contacts",
-        description:
-          "Export leads for your usual follow-up or paid options as you scale.",
+        title: "Contacts ready to follow up",
+        description: "Export requests for your usual follow-up or quoting tools.",
       },
     ],
     formBlock: {
-      eyebrow: "Smart form",
-      title: "Short fields, the right ones",
+      eyebrow: "Client form",
+      title: "The right info from the first message",
       description:
-        "Estimated budget, timeline, job type, town: you avoid vague messages and prepare a quote without starting from zero each time.",
+        "Nature of request, area, timeline, photos or voice: no more vague \"hello, need a quote\".",
       fields: [
-        "Nature of the request",
+        "Nature of request",
         "Area / town",
         "Urgency or schedule",
         "Photos or voice notes",
@@ -160,65 +152,59 @@ export const landingEn: LandingExtendedDictionary = {
   metiers: {
     header: {
       index: "03",
-      eyebrow: "Use cases by trade",
-      title: "Built for construction and building trades",
-      lead: "Whether you want an online page as an electrician, a simple site as a plumber, or one entry for your joinery business, the flow is the same: capture the need clearly, score it, then move to WhatsApp.",
+      eyebrow: "Building trades",
+      title: "Built for your trade",
+      lead: "One link, one form, automatic sorting: fewer scattered messages, more time on jobs that pay.",
     },
     cards: [
       {
         metier: "Electrician",
-        angle:
-          "Panels, compliance upgrades, call-outs: prioritize emergencies and complete files with scoring.",
+        angle: "Call-out or panel upgrade: the client states the problem, you get a file ready to quote.",
       },
       {
-        metier: "Plumber / HVAC",
-        angle:
-          "Leaks, water heaters, bathroom refits: let clients describe by voice what they see at home.",
+        metier: "Plumber / heating",
+        angle: "Leak or boiler breakdown: the client describes by voice what they see at home.",
       },
       {
         metier: "Joiner / carpenter",
-        angle:
-          "Windows, doors, fitted units: get dimensions and inspiration without dozens of scattered messages.",
+        angle: "Windows, doors, fitted units: dimensions and need without 15 scattered messages.",
       },
       {
         metier: "Locksmith",
-        angle:
-          "Emergency openings: identify area and slot right away to optimize your routes.",
+        angle: "Locked out: area and urgency identified straight away to plan the visit.",
       },
       {
         metier: "Drywaller",
-        angle:
-          "Partitions, ceilings, insulation: clients describe rooms and constraints for a clearer first quote.",
+        angle: "Partitions or insulation: rooms and constraints clear before your visit.",
       },
       {
         metier: "Painter",
-        angle:
-          "Surfaces, finishes, deadlines: clients already specify volume and constraints for fewer back-and-forths.",
+        angle: "Surfaces and finishes: client specifies m² and timeline before quoting.",
       },
       {
         metier: "Landscaper",
-        angle:
-          "Maintenance, design, irrigation or pool: area, exposure and photos guide your site visit and proposal.",
+        angle: "Maintenance or garden design: area and photos guide your first visit.",
       },
       {
         metier: "Roofer",
-        angle:
-          "Leak, reroof or insulation: voice describes floor and urgency; you arrive with the right gear and slot.",
+        angle: "Leak or reroof: floor, urgency and access described before you travel.",
       },
       {
         metier: "Tiler",
-        angle:
-          "Bathroom, tile or large format: dimensions and photos reduce surprises before install or quoting.",
+        angle: "Bathroom or large format: dimensions and photos reduce nasty surprises.",
       },
       {
         metier: "Timber framer",
-        angle:
-          "Frame, wood roof or renovation: job type and site access are clear before you travel.",
+        angle: "Frame or loft: job type and site access clear in advance.",
       },
       {
         metier: "Mason & general builder",
+        angle: "Structural work or extension: one entry for small jobs and tender responses.",
+      },
+      {
+        metier: "General renovation / turnkey contractor",
         angle:
-          "Structural work or renovation: one entry for small jobs and local tender responses alike.",
+          "Project management, extensions or full renovations: AI structures rooms, volumes and work types to save hours on your first quotes.",
       },
     ],
   },

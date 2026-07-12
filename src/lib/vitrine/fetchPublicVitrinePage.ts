@@ -5,6 +5,7 @@ import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { sanitizePageSlugInput } from "@/lib/onboarding/pageSlug";
 import { normalizePublicPlanTier } from "@/lib/planTier/publicPlanTier";
+import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mapStoredConfigToVitrinePage } from "@/lib/vitrine/mapProfileToVitrinePage";
 
@@ -23,7 +24,7 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("full_name, whatsapp_number, plan_tier, page_slug, voice_capture_enabled, vitrine_presentation")
+    .select("full_name, whatsapp_number, plan_tier, page_slug, voice_capture_enabled, vitrine_presentation, certifications")
     .eq("page_slug", normalized)
     .maybeSingle();
 
@@ -40,6 +41,7 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
       plan_tier: data.plan_tier,
       page_slug: data.page_slug,
       voice_capture_enabled: data.voice_capture_enabled,
+      certifications: normalizeCertifications(data.certifications),
     },
     config,
     planTier,

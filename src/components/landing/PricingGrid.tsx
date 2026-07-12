@@ -12,10 +12,17 @@ import type { PricingSectionModel, TierKey } from "@/services/pricingComparisonS
 
 type BillingPeriod = "monthly" | "annual";
 
+type PricingGridActions = {
+  onSelectEssential: () => void;
+  onSelectPro: (billing: BillingPeriod) => void;
+};
+
 type PricingGridProps = {
   model: PricingSectionModel;
   basePath: string;
   locale?: Locale;
+  /** Mode onboarding : les CTA Essentiel / Pro déclenchent des callbacks au lieu de naviguer. */
+  actions?: PricingGridActions;
 };
 
 function isFeatureVisible(row: FeatureMatrixRowJson, tierKey: TierKey): boolean {
@@ -228,10 +235,16 @@ function ProBillingSwitch({
   );
 }
 
-export function PricingGrid({ model, basePath, locale = defaultLocale }: PricingGridProps) {
+export function PricingGrid({
+  model,
+  basePath,
+  locale = defaultLocale,
+  actions,
+}: PricingGridProps) {
   const { copy } = model;
   const [proPeriod, setProPeriod] = useState<BillingPeriod>("monthly");
   const withBase = (hash: string) => `${basePath}${hash}`;
+  const isOnboardingMode = Boolean(actions);
 
   const essential = model.tiers.find((t) => t.tierKey === "essential");
   const pro = model.tiers.find((t) => t.tierKey === "pro");
@@ -274,9 +287,24 @@ export function PricingGrid({ model, basePath, locale = defaultLocale }: Pricing
           </p>
           <TierFeatureList tierKey="essential" rows={model.featureMatrix} />
           <div className="mt-8">
-            <LandingCta href={withBase(essential.hrefSuffix)} variant="secondary" className="w-full justify-center">
-              {essential.cta}
-            </LandingCta>
+            {isOnboardingMode && actions ? (
+              <LandingCta
+                type="button"
+                variant="secondary"
+                className="w-full justify-center"
+                onClick={actions.onSelectEssential}
+              >
+                {essential.cta}
+              </LandingCta>
+            ) : (
+              <LandingCta
+                href={withBase(essential.hrefSuffix)}
+                variant="secondary"
+                className="w-full justify-center"
+              >
+                {essential.cta}
+              </LandingCta>
+            )}
           </div>
         </div>
 
@@ -333,9 +361,22 @@ export function PricingGrid({ model, basePath, locale = defaultLocale }: Pricing
           <TierFeatureList tierKey="pro" rows={model.featureMatrix} />
 
           <div className="mt-8">
-            <LandingCta href={onboardingPath(locale, { plan: "pro", billing: proPeriod })} className="w-full justify-center">
-              {pro.cta}
-            </LandingCta>
+            {isOnboardingMode && actions ? (
+              <LandingCta
+                type="button"
+                className="w-full justify-center"
+                onClick={() => actions.onSelectPro(proPeriod)}
+              >
+                {pro.cta}
+              </LandingCta>
+            ) : (
+              <LandingCta
+                href={onboardingPath(locale, { plan: "pro", billing: proPeriod })}
+                className="w-full justify-center"
+              >
+                {pro.cta}
+              </LandingCta>
+            )}
           </div>
           {copy.tierPro.reassurance ? (
             <p className="mt-3 text-center text-xs leading-relaxed text-neutral-600">

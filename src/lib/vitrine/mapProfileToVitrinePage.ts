@@ -15,6 +15,7 @@ type ProfileVitrineRow = {
   plan_tier: string | null;
   page_slug: string | null;
   voice_capture_enabled: boolean | null;
+  certifications?: string[];
 };
 
 function planFromTier(planTier: PublicPlanTier): OnboardingPlan {
@@ -62,6 +63,7 @@ export function mapStoredConfigToVitrinePage(
       surDevis: onboardingCopy.publicServices.surDevis,
       aboutTitle: onboardingCopy.interventions.aboutLabel,
     },
+    { certifications: row.certifications },
   );
 
   return {

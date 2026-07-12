@@ -26,14 +26,15 @@ import {
   OnboardingInterventionsStep,
 } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingPageSlugStep } from "@/components/onboarding/steps/OnboardingPageSlugStep";
+import { OnboardingPlanSelectionStep } from "@/components/onboarding/steps/OnboardingPlanSelectionStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
-import { OnboardingUpsellModal } from "@/components/onboarding/OnboardingUpsellModal";
 import { LandingCta } from "@/components/landing/LandingCta";
-import { authPath } from "@/lib/auth/paths";
+import { authPath, onboardingPath, type ProBillingPeriod } from "@/lib/auth/paths";
 import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
 import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
+import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
-type WizardPhase = "general" | "interventions" | "slug" | "visual" | "complete";
+type WizardPhase = "plan" | "general" | "interventions" | "slug" | "visual" | "complete";
 
 const STEPS: WizardPhase[] = ["general", "interventions", "slug", "visual"];
 
@@ -41,8 +42,14 @@ type ArtisanOnboardingWizardProps = {
   lang: Locale;
   copy: OnboardingDictionary;
   vitrineCopy: VitrineDictionary;
+  pricingModel: PricingSectionModel;
   planIntent?: OnboardingPlanIntent;
   onCelebrationChange?: (active: boolean) => void;
+  onShellChange?: (shell: {
+    title: string;
+    subtitle: string;
+    contentClassName: string;
+  }) => void;
 };
 
 function formatStepLabel(template: string, current: number, total: number): string {
@@ -53,22 +60,25 @@ export function ArtisanOnboardingWizard({
   lang,
   copy,
   vitrineCopy,
+  pricingModel,
   planIntent = "choice",
   onCelebrationChange,
+  onShellChange,
 }: ArtisanOnboardingWizardProps) {
   const isProIntent = planIntent === "pro";
+  const showPlanStep = !isProIntent;
   const [proWizardActive, setProWizardActive] = useState(isProIntent);
-  const [phase, setPhase] = useState<WizardPhase>("general");
+  const [phase, setPhase] = useState<WizardPhase>(showPlanStep ? "plan" : "general");
   const [draftPlan, setDraftPlan] = useState<OnboardingPlan>(isProIntent ? "PRO" : "FREE");
   const [profile, setProfile] = useState<OnboardingProfileDraft>(() =>
     defaultOnboardingProfile(isProIntent ? "PRO" : "FREE"),
   );
   const [services, setServices] = useState<OnboardingService[]>([]);
-  const [upsellOpen, setUpsellOpen] = useState(false);
   const [creating, setCreating] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
+  const [proBillingPeriod, setProBillingPeriod] = useState<ProBillingPeriod>("monthly");
 
   const patchProfile = useCallback((patch: Partial<OnboardingProfileDraft>) => {
     setProfile((prev) => {
@@ -103,18 +113,60 @@ export function ArtisanOnboardingWizard({
     }
   }, []);
 
-  const stepIndex = STEPS.indexOf(phase);
+  const stepIndex = STEPS.indexOf(phase as (typeof STEPS)[number]);
   const progressCurrent = stepIndex >= 0 ? stepIndex + 1 : STEPS.length;
 
   useEffect(() => {
     onCelebrationChange?.(phase === "complete");
   }, [phase, onCelebrationChange]);
 
+  useEffect(() => {
+    if (!onShellChange) return;
+
+    if (phase === "plan") {
+      onShellChange({
+        title: copy.plan.title,
+        subtitle: pricingModel.copy.pricingLead,
+        contentClassName: "max-w-6xl",
+      });
+      return;
+    }
+
+    onShellChange({
+      title: copy.title,
+      subtitle: copy.subtitle,
+      contentClassName: "max-w-5xl",
+    });
+  }, [phase, copy, pricingModel.copy.pricingLead, onShellChange]);
+
   const canGoNext = useMemo(() => {
     if (phase === "general") return isGeneralStepValid(profile);
     if (phase === "interventions") return isInterventionsStepValid(profile);
     return true;
   }, [phase, profile]);
+
+  const selectEssentialPlan = useCallback(() => {
+    setDraftPlan("FREE");
+    patchProfile({ plan: "FREE" });
+    setPhase("general");
+  }, [patchProfile]);
+
+  const selectProPlan = useCallback(
+    (billing: ProBillingPeriod) => {
+      setDraftPlan("PRO");
+      setProBillingPeriod(billing);
+      patchProfile({ plan: "PRO" });
+      if (typeof window !== "undefined") {
+        window.history.replaceState(
+          null,
+          "",
+          onboardingPath(lang, { plan: "pro", billing }),
+        );
+      }
+      setProWizardActive(true);
+    },
+    [lang, patchProfile],
+  );
 
   if (proWizardActive) {
     return (
@@ -124,13 +176,15 @@ export function ArtisanOnboardingWizard({
         vitrineCopy={vitrineCopy}
         initialProfile={isProIntent ? undefined : profile}
         initialServices={isProIntent ? undefined : services}
+        initialBillingPeriod={proBillingPeriod}
         onCelebrationChange={onCelebrationChange}
       />
     );
   }
 
   const goBack = () => {
-    if (phase === "interventions") setPhase("general");
+    if (phase === "general" && showPlanStep) setPhase("plan");
+    else if (phase === "interventions") setPhase("general");
     else if (phase === "slug") setPhase("interventions");
     else if (phase === "visual") setPhase("slug");
   };
@@ -162,7 +216,6 @@ export function ArtisanOnboardingWizard({
 
   const finalizePlan = async (plan: OnboardingPlan) => {
     if (!profile.pageSlugConfirmed || !validatePageSlug(profile.pageSlug).ok) {
-      setUpsellOpen(false);
       setPhase("slug");
       return;
     }
@@ -173,7 +226,6 @@ export function ArtisanOnboardingWizard({
     setDraftPlan(plan);
 
     if (plan === "PRO") {
-      setUpsellOpen(false);
       setCreating(false);
       setProWizardActive(true);
       return;
@@ -182,7 +234,6 @@ export function ArtisanOnboardingWizard({
     const profileToPublish = { ...profile, plan };
     const result = await publishOnboardingProfile(profileToPublish, services);
     setCreating(false);
-    setUpsellOpen(false);
 
     if (!result.ok) {
       setPublishError(result.message);
@@ -194,6 +245,17 @@ export function ArtisanOnboardingWizard({
 
   if (phase === "complete") {
     return <OnboardingCompleteStep copy={copy} lang={lang} />;
+  }
+
+  if (phase === "plan") {
+    return (
+      <OnboardingPlanSelectionStep
+        model={pricingModel}
+        locale={lang}
+        onSelectEssential={selectEssentialPlan}
+        onSelectPro={selectProPlan}
+      />
+    );
   }
 
   if (phase === "slug") {
@@ -219,6 +281,7 @@ export function ArtisanOnboardingWizard({
           if (next === "PRO") {
             setProfile((prev) => ({ ...prev, plan: "PRO" }));
             setDraftPlan("PRO");
+            setProBillingPeriod("monthly");
             setProWizardActive(true);
             return;
           }
@@ -275,18 +338,19 @@ export function ArtisanOnboardingWizard({
             profile={profile}
             services={services}
             onChange={patchProfile}
-            onCreatePage={() => setUpsellOpen(true)}
+            onCreatePage={() => void finalizePlan(draftPlan)}
           />
         </>
       ) : null}
 
       <div className="mt-6 flex gap-3">
-        {phase !== "general" ? (
+        {phase !== "general" || showPlanStep ? (
           <LandingCta
             type="button"
             variant="secondary"
             onClick={goBack}
-            className="flex-1 justify-center"
+            disabled={creating}
+            className="flex-1 justify-center disabled:opacity-50"
           >
             {copy.back}
           </LandingCta>
@@ -296,7 +360,7 @@ export function ArtisanOnboardingWizard({
             type="button"
             variant="peach"
             onClick={goNext}
-            disabled={!canGoNext}
+            disabled={!canGoNext || creating}
             className="flex-1 justify-center disabled:opacity-50"
           >
             {copy.next}
@@ -304,21 +368,13 @@ export function ArtisanOnboardingWizard({
         ) : null}
       </div>
 
-      {phase === "general" ? (
+      {phase === "general" && !showPlanStep ? (
         <p className="mt-6 text-center text-xs text-neutral-400">
           <Link href={authPath(lang, "login")} className="underline-offset-2 hover:underline">
             ← {copy.back}
           </Link>
         </p>
       ) : null}
-
-      <OnboardingUpsellModal
-        open={upsellOpen}
-        copy={copy}
-        loading={creating}
-        onClose={() => !creating && setUpsellOpen(false)}
-        onChoose={(plan) => void finalizePlan(plan)}
-      />
     </div>
   );
 }

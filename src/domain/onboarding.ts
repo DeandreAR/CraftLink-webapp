@@ -81,6 +81,10 @@ export type OnboardingProfileDraft = {
   importGoogleReviewCount?: number;
   /** Années d’expérience détectées dans la bio (import Instagram). */
   importExperienceYears?: number;
+  /** Années d’expérience affichées sur la vitrine (éditable). */
+  experienceYears?: number;
+  /** Nombre de réalisations affiché sur la vitrine (éditable). */
+  completedProjectsCount?: number;
   /** Abonnés / followers (import Instagram ou Facebook). */
   importFollowerCount?: number;
   /** Abonnés par réseau + visibilité (éditable dashboard). */
