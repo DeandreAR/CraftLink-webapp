@@ -387,3 +387,86 @@ export async function signOut(supabase: SupabaseClient): Promise<AuthResult<null
   }
   return { ok: true, data: null };
 }
+
+export async function requestPasswordReset(
+  supabase: SupabaseClient,
+  email: string,
+  options: { resetPasswordPath: string; appUrl?: string },
+): Promise<AuthResult<null>> {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    return { ok: false, error: "L’adresse e-mail est obligatoire." };
+  }
+
+  const redirectTo = buildAuthCallbackUrl(options.resetPasswordPath, options.appUrl);
+  const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+    redirectTo,
+  });
+
+  if (error) {
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.resetPasswordForEmail",
+        error,
+        "Impossible d’envoyer l’e-mail de réinitialisation. Réessayez dans quelques instants.",
+      ),
+      code: error.code,
+    };
+  }
+
+  return { ok: true, data: null };
+}
+
+export async function updatePassword(
+  supabase: SupabaseClient,
+  password: string,
+): Promise<AuthResult<User>> {
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    return {
+      ok: false,
+      error: `Le mot de passe doit contenir au moins ${MIN_PASSWORD_LENGTH} caractères.`,
+    };
+  }
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return {
+      ok: false,
+      error: "Session expirée. Demandez un nouveau lien de réinitialisation.",
+      code: "recovery_session_missing",
+    };
+  }
+
+  const { data, error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.updateUser.password",
+        error,
+        mapAuthError(error.message),
+      ),
+      code: error.code,
+    };
+  }
+
+  if (!data.user) {
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.updateUser.password",
+        null,
+        "Impossible de mettre à jour le mot de passe.",
+      ),
+    };
+  }
+
+  return { ok: true, data: data.user };
+}

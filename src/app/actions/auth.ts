@@ -10,16 +10,19 @@ import {
   isHoneypotTriggered,
 } from "@/lib/auth/honeypot";
 import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
-import { authPath } from "@/lib/auth/paths";
+import { authPath, resetPasswordPath } from "@/lib/auth/paths";
 import {
   getSupabaseConfig,
 } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 import {
+  requestPasswordReset,
   signInWithPassword,
   signOut,
   signUpWithProfile,
+  updatePassword,
 } from "@/services/authService";
+import { getProfileByUserId } from "@/services/profileService";
 import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 
 function localeFromForm(formData: FormData): Locale {
@@ -137,6 +140,64 @@ export async function signInAction(
   }
 
   redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
+}
+
+export async function requestPasswordResetAction(
+  _prev: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
+  const locale = localeFromForm(formData);
+  const email = String(formData.get("email") ?? "");
+
+  const supabaseResult = await getServerSupabaseClient();
+  if ("error" in supabaseResult && supabaseResult.error) {
+    return { error: supabaseResult.error };
+  }
+
+  const supabase = supabaseResult.client!;
+  const appUrl = getAuthCallbackBaseUrl(await headers());
+  const result = await requestPasswordReset(supabase, email, {
+    resetPasswordPath: resetPasswordPath(locale),
+    appUrl,
+  });
+
+  if (!result.ok) {
+    return { error: result.error };
+  }
+
+  return { success: "password_reset_email_sent" };
+}
+
+export async function updatePasswordAction(
+  _prev: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
+  const locale = localeFromForm(formData);
+  const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirmPassword") ?? "");
+
+  if (password !== confirm) {
+    return { error: "Les mots de passe ne correspondent pas." };
+  }
+
+  const supabaseResult = await getServerSupabaseClient();
+  if ("error" in supabaseResult && supabaseResult.error) {
+    return { error: supabaseResult.error };
+  }
+
+  const supabase = supabaseResult.client!;
+  const result = await updatePassword(supabase, password);
+
+  if (!result.ok) {
+    return { error: result.error };
+  }
+
+  const profileResult = await getProfileByUserId(supabase, result.data.id);
+  if (!profileResult.ok || !profileResult.data) {
+    redirect(authPath(locale, "dashboard"));
+  }
+
+  redirect(resolvePostAuthPath(locale, profileResult.data));
 }
 
 export async function signOutAction(formData: FormData) {

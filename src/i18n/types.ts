@@ -100,8 +100,33 @@ export type AuthSignInDictionary = {
   submit: string;
   submitting: string;
   goToSignUp: string;
+  forgotPassword: string;
   confirmationError: string;
   confirmationMissing: string;
+};
+
+export type AuthForgotPasswordDictionary = {
+  title: string;
+  subtitle: string;
+  email: string;
+  submit: string;
+  submitting: string;
+  success: string;
+  backToSignIn: string;
+};
+
+export type AuthResetPasswordDictionary = {
+  title: string;
+  subtitle: string;
+  password: string;
+  passwordHint: string;
+  confirmPassword: string;
+  submit: string;
+  submitting: string;
+  success: string;
+  sessionMissing: string;
+  requestNewLink: string;
+  backToSignIn: string;
 };
 
 export type AuthSignUpDictionary = {
@@ -552,6 +577,8 @@ export type AuthDictionary = {
   shell: AuthShellDictionary;
   signIn: AuthSignInDictionary;
   signUp: AuthSignUpDictionary;
+  forgotPassword: AuthForgotPasswordDictionary;
+  resetPassword: AuthResetPasswordDictionary;
   dashboard: AuthDashboardDictionary;
 };
 

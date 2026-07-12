@@ -13,6 +13,14 @@ export function authPath(
   return `/${locale}/${segment}`;
 }
 
+export function forgotPasswordPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "login")}/forgot-password`;
+}
+
+export function resetPasswordPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "login")}/reset-password`;
+}
+
 export type ProBillingPeriod = "monthly" | "annual";
 
 export function onboardingPath(

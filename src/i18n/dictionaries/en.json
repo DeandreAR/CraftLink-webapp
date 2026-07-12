@@ -27,8 +27,31 @@
       "submit": "Log in",
       "submitting": "Signing in…",
       "goToSignUp": "Create an account",
+      "forgotPassword": "Forgot password?",
       "confirmationError": "The confirmation link is invalid or expired. Try signing up again or request a new email.",
       "confirmationMissing": "Incomplete confirmation link. Open the link from your email or log in."
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we'll send you a link to set a new password.",
+      "email": "Email",
+      "submit": "Send reset link",
+      "submitting": "Sending…",
+      "success": "If an account exists for this address, we just sent an email. Check your spam folder too.",
+      "backToSignIn": "Back to log in"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Choose a secure password for your CraftLink account.",
+      "password": "New password",
+      "passwordHint": "At least 8 characters.",
+      "confirmPassword": "Confirm password",
+      "submit": "Save password",
+      "submitting": "Saving…",
+      "success": "Password updated. Redirecting to your workspace…",
+      "sessionMissing": "This link is invalid or has expired.",
+      "requestNewLink": "Request a new link",
+      "backToSignIn": "Back to log in"
     },
     "signUp": {
       "title": "Create my account",
