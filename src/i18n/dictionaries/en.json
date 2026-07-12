@@ -27,7 +27,7 @@
       "submit": "Log in",
       "submitting": "Signing in…",
       "goToSignUp": "Create an account",
-      "forgotPassword": "Forgot password?",
+      "forgotPassword": "Change my password",
       "confirmationError": "The confirmation link is invalid or expired. Try signing up again or request a new email.",
       "confirmationMissing": "Incomplete confirmation link. Open the link from your email or log in."
     },

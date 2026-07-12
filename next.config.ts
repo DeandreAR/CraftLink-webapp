@@ -13,6 +13,19 @@ const supabaseAnonKey =
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "https://getcraftlink.com";
 
+const authLoginRedirects = [
+  {
+    source: "/login/reset-password",
+    destination: "/login",
+    permanent: false,
+  },
+  {
+    source: "/:lang/login/reset-password",
+    destination: "/:lang/login",
+    permanent: false,
+  },
+] as const;
+
 /**
  * Évite l’avertissement « multiple lockfiles » + expose les variables publiques au bundle client.
  */
@@ -25,6 +38,9 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   turbopack: {
     root: projectDir,
+  },
+  async redirects() {
+    return [...authLoginRedirects];
   },
 };
 

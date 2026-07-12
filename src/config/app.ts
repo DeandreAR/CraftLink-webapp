@@ -4,6 +4,20 @@ function normalizeBaseUrl(raw: string): string {
   return raw.trim().replace(/\/+$/, "");
 }
 
+/** Origine canonique pour les liens e-mail (sans www). */
+export function canonicalAppOrigin(raw: string): string {
+  const normalized = normalizeBaseUrl(raw);
+  try {
+    const url = new URL(normalized);
+    if (url.hostname.toLowerCase() === "www.getcraftlink.com") {
+      url.hostname = "getcraftlink.com";
+    }
+    return url.origin;
+  } catch {
+    return normalized;
+  }
+}
+
 /** URL publique du site (avec protocole, sans slash final). */
 export function getAppUrl(): string {
   const explicit =

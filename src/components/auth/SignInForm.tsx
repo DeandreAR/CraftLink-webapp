@@ -85,7 +85,7 @@ export function SignInForm({ lang, copy, authError }: SignInFormProps) {
         <p className="mt-2 text-right">
           <Link
             href={forgotPasswordPath(lang)}
-            className="text-sm font-semibold text-neutral-600 underline-offset-2 hover:text-black hover:underline"
+            className="text-sm font-semibold text-[#212129] underline underline-offset-2 hover:text-[#EFA188]"
           >
             {copy.forgotPassword}
           </Link>

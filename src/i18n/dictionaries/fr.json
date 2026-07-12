@@ -27,7 +27,7 @@
       "submit": "Se connecter",
       "submitting": "Connexion…",
       "goToSignUp": "Créer un compte",
-      "forgotPassword": "Mot de passe oublié ?",
+      "forgotPassword": "Modifier mon mot de passe",
       "confirmationError": "Le lien de confirmation est invalide ou a expiré. Réessayez de vous inscrire.",
       "confirmationMissing": "Lien de confirmation incomplet. Ouvrez le lien reçu par e-mail ou connectez-vous."
     },

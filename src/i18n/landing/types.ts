@@ -40,6 +40,7 @@ export type LandingControlCompareSide = {
 
 export type LandingControlDictionary = {
   header: LandingSectionHeaderCopy;
+  imageAlt: string;
   compare: {
     eyebrow: string;
     without: LandingControlCompareSide;
@@ -56,6 +57,7 @@ export type LandingMetierCard = {
 
 export type LandingMetiersDictionary = {
   header: LandingSectionHeaderCopy;
+  imageAlt: string;
   cards: LandingMetierCard[];
   showAllMetiers: string;
   showLessMetiers: string;

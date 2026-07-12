@@ -35,7 +35,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
             <div className="landing-hero-body grid items-start gap-10 md:gap-8">
               <div className="landing-hero-body-col min-w-0">
                 <LandingHeroReveal>
-                  <p className="landing-hero-pill inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700">
+                  <p className="landing-hero-pill inline-flex items-center gap-2 rounded-full border border-[#E5E7EB] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-neutral-700 md:text-[10px] md:tracking-[0.14em] lg:text-xs lg:tracking-[0.18em]">
                     <span className="h-2 w-2 rounded-full bg-[#EFA188]" />
                     {dict.hero.pill}
                   </p>
@@ -44,7 +44,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                 <div className="landing-hero-grid mt-6 grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,1.28fr)_minmax(0,1.12fr)] lg:gap-x-10">
                   <div className="landing-hero-copy min-w-0 w-full lg:max-w-none">
                     <LandingHeroReveal delay={0.08}>
-                      <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-10">
+                      <div className="landing-hero-title-card relative z-10 mb-6 max-w-2xl rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm md:p-8 lg:p-10">
                         <HeroTypingTitle
                           className="landing-hero-title"
                           intro={dict.hero.typingTitle.intro}
@@ -53,10 +53,10 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                       </div>
                     </LandingHeroReveal>
                     <LandingHeroReveal delay={0.14}>
-                      <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-lg">
+                      <p className="landing-hero-lead mt-5 max-w-2xl text-base leading-relaxed text-neutral-700 md:max-w-none md:text-[0.9375rem] lg:text-lg">
                         {dict.hero.lead}
                       </p>
-                      <p className="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-neutral-900 md:max-w-none">
+                      <p className="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-neutral-900 md:max-w-none md:text-[0.9375rem] lg:text-base">
                         {dict.hero.controlPhrase}
                       </p>
                     </LandingHeroReveal>

@@ -82,6 +82,8 @@ export const landingEn: LandingExtendedDictionary = {
       titleHighlight: "Zero wasted time.",
       lead: "One flow: the client explains, CraftLink sorts, you quote the right jobs.",
     },
+    imageAlt:
+      "Tradesperson in a yellow hard hat checking their phone with a mission accepted notification.",
     compare: {
       eyebrow: "Before / After",
       without: {
@@ -120,6 +122,8 @@ export const landingEn: LandingExtendedDictionary = {
       title: "Built for your trade",
       lead: "One link, one form, automatic sorting: fewer scattered messages, more time on jobs that pay.",
     },
+    imageAlt:
+      "Two smiling building tradespeople on a renovation site with a stepladder.",
     showAllMetiers: "Show all trades",
     showLessMetiers: "Show fewer",
     urgencyBadge: "Urgent",

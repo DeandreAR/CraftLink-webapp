@@ -28,6 +28,14 @@ export async function preparePasswordResetPage(
   try {
     const supabase = await createClient();
     const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session?.user) {
+      return { status: "ready" };
+    }
+
+    const {
       data: { user },
       error,
     } = await supabase.auth.getUser();

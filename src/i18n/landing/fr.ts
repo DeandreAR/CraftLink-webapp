@@ -82,6 +82,8 @@ export const landingFr: LandingExtendedDictionary = {
       titleHighlight: "Zéro perte de temps.",
       lead: "Un parcours unique : le client explique, CraftLink trie, vous chiffrez les bons dossiers.",
     },
+    imageAlt:
+      "Artisan avec casque jaune consulte son téléphone et reçoit une notification de mission acceptée.",
     compare: {
       eyebrow: "Avant / Après",
       without: {
@@ -120,6 +122,8 @@ export const landingFr: LandingExtendedDictionary = {
       title: "Pensé pour votre corps de métier",
       lead: "Un lien, un formulaire, un tri : moins de messages éparpillés, plus de temps sur les chantiers qui paient.",
     },
+    imageAlt:
+      "Deux artisans du bâtiment souriants sur un chantier en rénovation, avec un escabeau.",
     showAllMetiers: "Afficher tous les métiers",
     showLessMetiers: "Réduire la liste",
     urgencyBadge: "Urgence",

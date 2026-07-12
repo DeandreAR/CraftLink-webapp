@@ -2,9 +2,16 @@ import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 
 export type LandingCtaVariant = "primary" | "secondary" | "peach";
+export type LandingCtaSize = "default" | "compact";
+
+const sizeClasses: Record<LandingCtaSize, string> = {
+  default:
+    "px-6 py-3.5 text-sm md:text-base",
+  compact: "px-4 py-2 text-sm",
+};
 
 const base =
-  "inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-bold tracking-tight transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFA188] md:text-base";
+  "inline-flex items-center justify-center rounded-full font-bold tracking-tight transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFA188]";
 
 const variants: Record<LandingCtaVariant, string> = {
   primary:
@@ -17,6 +24,7 @@ const variants: Record<LandingCtaVariant, string> = {
 
 export type LandingCtaProps = {
   variant?: LandingCtaVariant;
+  size?: LandingCtaSize;
   href?: string;
   external?: boolean;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "href"> &
@@ -24,6 +32,7 @@ export type LandingCtaProps = {
 
 export function LandingCta({
   variant = "primary",
+  size = "default",
   href,
   external,
   className = "",
@@ -31,7 +40,7 @@ export function LandingCta({
   type = "button",
   ...rest
 }: LandingCtaProps) {
-  const classes = `${base} ${variants[variant]} ${className}`.trim();
+  const classes = `${base} ${sizeClasses[size]} ${variants[variant]} ${className}`.trim();
 
   if (href) {
     const isExternal =

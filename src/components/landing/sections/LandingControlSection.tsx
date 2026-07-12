@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { LandingSectionHeader } from "@/components/landing/LandingSectionHeader";
 import { renderLandingSectionTitle } from "@/components/landing/renderLandingSectionTitle";
 import type { LandingControlDictionary } from "@/i18n/landing/types";
+import { LANDING_CONTROL_ILLUSTRATION } from "@/lib/landing/landingImages";
 
 type LandingControlSectionProps = {
   content: LandingControlDictionary;
@@ -18,10 +20,25 @@ export function LandingControlSection({ content }: LandingControlSectionProps) {
   return (
     <section
       id="controle"
-      className="landing-control lk-section-warm scroll-mt-28"
+      className="landing-control lk-section-warm relative scroll-mt-28 overflow-hidden"
       aria-labelledby="control-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
+      <figure
+        className="pointer-events-none absolute -right-2 top-10 z-0 hidden sm:block md:top-12 lg:right-4 lg:top-14 xl:right-8"
+        aria-hidden
+      >
+        <Image
+          src={LANDING_CONTROL_ILLUSTRATION}
+          alt=""
+          width={1024}
+          height={1024}
+          className="h-auto w-[14rem] object-contain opacity-90 sm:w-[17rem] md:w-[20rem] lg:w-[24rem] xl:w-[28rem]"
+          sizes="(max-width: 640px) 224px, (max-width: 1024px) 320px, 448px"
+          priority={false}
+        />
+      </figure>
+
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
         <LandingSectionHeader
           index={content.header.index}
           eyebrow={content.header.eyebrow}
@@ -69,6 +86,8 @@ export function LandingControlSection({ content }: LandingControlSectionProps) {
           ))}
         </ol>
       </div>
+
+      <span className="sr-only">{content.imageAlt}</span>
     </section>
   );
 }

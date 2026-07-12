@@ -1,21 +1,10 @@
-import { AuthResetPasswordPage } from "@/components/auth/AuthResetPasswordPage";
 import { defaultLocale } from "@/i18n/config";
-import { getDictionary } from "@/i18n/getDictionary";
-import { preparePasswordResetPage } from "@/lib/auth/preparePasswordResetPage";
+import { redirectLoginResetSubroute } from "@/lib/auth/redirectLoginSubroute";
 
-export default async function ResetPasswordPage() {
-  const prepared = await preparePasswordResetPage(defaultLocale);
-  const dict = await getDictionary(defaultLocale);
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
 
-  return (
-    <AuthResetPasswordPage
-      lang={defaultLocale}
-      copy={dict.auth}
-      sessionReady={prepared.status === "ready"}
-      unavailable={prepared.status === "unavailable"}
-      unavailableMessage={
-        prepared.status === "unavailable" ? prepared.message : undefined
-      }
-    />
-  );
+export default async function ResetPasswordSubroutePage({ searchParams }: Props) {
+  redirectLoginResetSubroute(defaultLocale, await searchParams);
 }

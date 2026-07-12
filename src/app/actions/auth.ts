@@ -10,7 +10,7 @@ import {
   isHoneypotTriggered,
 } from "@/lib/auth/honeypot";
 import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
-import { authPath, resetPasswordPath } from "@/lib/auth/paths";
+import { authPath } from "@/lib/auth/paths";
 import {
   getSupabaseConfig,
 } from "@/lib/supabase/env";
@@ -157,7 +157,7 @@ export async function requestPasswordResetAction(
   const supabase = supabaseResult.client!;
   const appUrl = getAuthCallbackBaseUrl(await headers());
   const result = await requestPasswordReset(supabase, email, {
-    resetPasswordPath: resetPasswordPath(locale),
+    locale,
     appUrl,
   });
 
@@ -197,7 +197,7 @@ export async function updatePasswordAction(
     redirect(authPath(locale, "dashboard"));
   }
 
-  redirect(resolvePostAuthPath(locale, profileResult.data));
+  redirect(authPath(locale, "dashboard"));
 }
 
 export async function signOutAction(formData: FormData) {

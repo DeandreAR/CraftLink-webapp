@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { LandingSectionHeader } from "@/components/landing/LandingSectionHeader";
 import type { LandingMetiersDictionary } from "@/i18n/landing/types";
+import { LANDING_METIERS_IMAGE } from "@/lib/landing/landingImages";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { metierSupportsUrgencyCta } from "@/lib/vitrine/metierUrgencySupport";
 
@@ -32,7 +34,24 @@ export function LandingMetiersSection({ content }: LandingMetiersSectionProps) {
           lead={content.header.lead}
         />
 
-        <ul className="mt-10 divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white">
+        <figure className="relative mt-10 overflow-hidden rounded-[1.75rem] md:mt-12">
+          <div className="relative aspect-[21/9] min-h-[12rem] w-full sm:aspect-[2.4/1]">
+            <Image
+              src={LANDING_METIERS_IMAGE}
+              alt={content.imageAlt}
+              fill
+              className="object-cover object-[center_35%]"
+              sizes="(max-width: 768px) 100vw, 1152px"
+              priority={false}
+            />
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#212129]/55 via-[#212129]/10 to-transparent"
+              aria-hidden
+            />
+          </div>
+        </figure>
+
+        <ul className="relative z-10 -mt-6 divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_50px_rgba(33,33,41,0.08)] md:-mt-10">
           {visibleCards.map((card) => {
             const supportsUrgency = metierSupportsUrgencyCta(card.metierKey as MetierKey);
             return (

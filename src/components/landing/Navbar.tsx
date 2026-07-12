@@ -41,7 +41,7 @@ type NavbarProps = {
 };
 
 const desktopNavLink =
-  "hidden rounded-lg px-3 py-2 text-sm font-semibold text-[#5b6478] transition-colors hover:text-[#EFA188] md:inline-flex";
+  "hidden rounded-lg px-2.5 py-2 text-xs font-semibold text-[#5b6478] transition-colors hover:text-[#EFA188] md:inline-flex lg:px-3 lg:text-sm";
 
 const mobileNavLink =
   "block rounded-lg px-3 py-2 text-center text-sm font-semibold text-[#212129] transition-colors hover:bg-[#EFA188]/15";
@@ -144,7 +144,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
               </div>
             </div>
 
-            <nav className="hidden items-center gap-2 md:flex md:gap-2.5" aria-label="Navigation principale">
+            <nav className="hidden shrink-0 items-center gap-1.5 md:flex lg:gap-2.5" aria-label="Navigation principale">
               {navItems.map((item) => (
                 <a
                   key={item.href}
@@ -158,14 +158,24 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
               <LandingCta
                 href={authPath(lang, "login")}
                 variant="secondary"
-                className="px-3 py-2 text-sm md:px-4"
+                size="compact"
+                className="shrink-0 whitespace-nowrap px-3 lg:px-4"
               >
                 {L.login}
               </LandingCta>
               <LandingCta
                 href={authPath(lang, "signup")}
+                variant="secondary"
+                size="compact"
+                className="shrink-0 whitespace-nowrap px-3 lg:hidden"
+              >
+                {L.createAccount}
+              </LandingCta>
+              <LandingCta
+                href={authPath(lang, "signup")}
                 variant="peach"
-                className="px-3 py-2 text-sm md:px-4"
+                size="compact"
+                className="hidden shrink-0 whitespace-nowrap px-4 lg:inline-flex"
               >
                 {L.createAccount}
               </LandingCta>

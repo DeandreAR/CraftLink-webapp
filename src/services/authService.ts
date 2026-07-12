@@ -5,13 +5,17 @@ import type {
   SignUpFormInput,
 } from "@/domain/auth";
 import type { Profile } from "@/domain/profile";
-import { defaultLocale } from "@/i18n/config";
-import { buildAuthCallbackUrl } from "@/lib/auth/emailConfirmationRedirect";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import {
+  buildAuthCallbackUrl,
+  buildPasswordRecoveryConfirmUrl,
+} from "@/lib/auth/emailConfirmationRedirect";
 import { authPath } from "@/lib/auth/paths";
 import { formatAuthDebugMessage, formatConfigDebugMessage, logAuthError, AUTH_GENERIC_ERROR } from "@/lib/auth/debugError";
 import { normalizeSupabaseConfirmationLink } from "@/lib/auth/requestAppUrl";
 import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
 import { sendSignupConfirmationEmail } from "@/lib/email/sendSignupConfirmationEmail";
+import { sendPasswordResetEmail } from "@/lib/email/sendPasswordResetEmail";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
   createProfileForNewUser,
@@ -388,10 +392,19 @@ export async function signOut(supabase: SupabaseClient): Promise<AuthResult<null
   return { ok: true, data: null };
 }
 
+function isUnknownAuthUserError(message: string): boolean {
+  const lower = message.toLowerCase();
+  return (
+    lower.includes("user not found") ||
+    lower.includes("no user found") ||
+    lower.includes("not found")
+  );
+}
+
 export async function requestPasswordReset(
-  supabase: SupabaseClient,
+  _supabase: SupabaseClient,
   email: string,
-  options: { resetPasswordPath: string; appUrl?: string },
+  options: { locale?: Locale; appUrl?: string },
 ): Promise<AuthResult<null>> {
   const normalizedEmail = email.trim().toLowerCase();
 
@@ -399,20 +412,74 @@ export async function requestPasswordReset(
     return { ok: false, error: "L’adresse e-mail est obligatoire." };
   }
 
-  const redirectTo = buildAuthCallbackUrl(options.resetPasswordPath, options.appUrl);
-  const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
-    redirectTo,
+  const appBaseUrl = options.appUrl;
+
+  const admin = createAdminClient();
+  if (!admin) {
+    return {
+      ok: false,
+      error: formatConfigDebugMessage(
+        "auth.resetPassword.admin",
+        "Réinitialisation momentanément indisponible. Réessayez plus tard ou contactez le support.",
+        "SUPABASE_SERVICE_ROLE_KEY absente",
+      ),
+      code: "admin_client_missing",
+    };
+  }
+
+  const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+    type: "recovery",
+    email: normalizedEmail,
   });
 
-  if (error) {
+  if (linkError) {
+    if (isUnknownAuthUserError(linkError.message)) {
+      return { ok: true, data: null };
+    }
+
     return {
       ok: false,
       error: formatAuthDebugMessage(
-        "auth.resetPasswordForEmail",
-        error,
+        "auth.resetPassword.link",
+        linkError,
         "Impossible d’envoyer l’e-mail de réinitialisation. Réessayez dans quelques instants.",
       ),
-      code: error.code,
+      code: linkError.code,
+    };
+  }
+
+  const tokenHash = linkData?.properties?.hashed_token;
+  const recoveryUrl = tokenHash
+    ? buildPasswordRecoveryConfirmUrl(options.locale, appBaseUrl, tokenHash)
+    : undefined;
+
+  if (!recoveryUrl) {
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.resetPassword.link",
+        null,
+        "Impossible d’envoyer l’e-mail de réinitialisation. Réessayez dans quelques instants.",
+      ),
+      code: "recovery_link_failed",
+    };
+  }
+
+  const emailResult = await sendPasswordResetEmail({
+    to: normalizedEmail,
+    confirmationUrl: recoveryUrl,
+    siteUrl: options.appUrl,
+  });
+
+  if (!emailResult.ok) {
+    return {
+      ok: false,
+      error: formatAuthDebugMessage(
+        "auth.resetPassword.email",
+        emailResult.error,
+        "Impossible d’envoyer l’e-mail de réinitialisation. Réessayez dans quelques instants.",
+      ),
+      code: "recovery_email_failed",
     };
   }
 

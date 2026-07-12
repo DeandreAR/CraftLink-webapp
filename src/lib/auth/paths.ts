@@ -14,11 +14,17 @@ export function authPath(
 }
 
 export function forgotPasswordPath(lang: Locale | undefined): string {
-  return `${authPath(lang, "login")}/forgot-password`;
+  return `${authPath(lang, "login")}?view=forgot-password`;
 }
 
+/** Formulaire nouveau mot de passe (session recovery active). */
+export function loginRecoveryPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "login")}?recovery=1`;
+}
+
+/** @deprecated Préférer loginRecoveryPath — conservé pour compat. */
 export function resetPasswordPath(lang: Locale | undefined): string {
-  return `${authPath(lang, "login")}/reset-password`;
+  return loginRecoveryPath(lang);
 }
 
 export type ProBillingPeriod = "monthly" | "annual";

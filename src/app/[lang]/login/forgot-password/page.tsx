@@ -1,29 +1,14 @@
 import { notFound } from "next/navigation";
-import { AuthForgotPasswordPage } from "@/components/auth/AuthForgotPasswordPage";
-import { getDictionary } from "@/i18n/getDictionary";
 import { isLocale, type Locale } from "@/i18n/config";
-import { prepareAuthPage } from "@/lib/auth/prepareAuthPage";
+import { redirectLoginForgotSubroute } from "@/lib/auth/redirectLoginSubroute";
 
 type Props = {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default async function LangForgotPasswordPage({ params }: Props) {
+export default async function LangForgotPasswordSubroutePage({ params, searchParams }: Props) {
   const { lang: raw } = await params;
   if (!isLocale(raw)) notFound();
-  const lang = raw as Locale;
-
-  const prepared = await prepareAuthPage(lang);
-  const dict = await getDictionary(lang);
-
-  return (
-    <AuthForgotPasswordPage
-      lang={lang}
-      copy={dict.auth}
-      unavailable={prepared.status === "unavailable"}
-      unavailableMessage={
-        prepared.status === "unavailable" ? prepared.message : undefined
-      }
-    />
-  );
+  redirectLoginForgotSubroute(raw as Locale, await searchParams);
 }

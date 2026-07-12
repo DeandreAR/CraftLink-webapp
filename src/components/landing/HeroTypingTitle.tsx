@@ -65,7 +65,7 @@ export function HeroTypingTitle({
   if (!typingReady && firstChannel) {
     return (
       <h1
-        className={`lk-display text-[2.35rem] leading-[1.08] md:text-5xl lg:text-[3rem] ${className}`.trim()}
+        className={`lk-display text-[2.35rem] leading-[1.08] md:text-[2.15rem] lg:text-5xl xl:text-[3rem] ${className}`.trim()}
       >
         {intro}
         <span style={{ color: firstChannel.color }}>{firstChannel.label}</span>
@@ -75,7 +75,7 @@ export function HeroTypingTitle({
 
   return (
     <h1
-      className={`lk-display text-[2.35rem] leading-[1.08] md:text-5xl lg:text-[3rem] ${className}`.trim()}
+      className={`lk-display text-[2.35rem] leading-[1.08] md:text-[2.15rem] lg:text-5xl xl:text-[3rem] ${className}`.trim()}
     >
       {intro}
       <span style={{ color: currentColor }}>{displayText}</span>
