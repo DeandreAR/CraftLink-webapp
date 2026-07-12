@@ -10,8 +10,7 @@ import { defaultLocale, type Locale } from "@/i18n/config";
 import { localeHomePath } from "@/lib/i18n/localePaths";
 
 export type NavbarLabels = {
-  why: string;
-  features: string;
+  howItWorks: string;
   metiers: string;
   tarifs: string;
   faq: string;
@@ -23,8 +22,7 @@ export type NavbarLabels = {
 };
 
 const defaultLabels: NavbarLabels = {
-  why: "Pourquoi",
-  features: "Fonctions",
+  howItWorks: "Comment ça marche",
   metiers: "Métiers",
   tarifs: "Tarifs",
   faq: "FAQ",
@@ -39,7 +37,7 @@ type NavbarProps = {
   lang: Locale;
   labels?: NavbarLabels;
   /** Anchors nav masqués (sections commentées sur la landing). */
-  hiddenSections?: Array<"why" | "features" | "metiers">;
+  hiddenSections?: Array<"howItWorks" | "metiers">;
 };
 
 const desktopNavLink =
@@ -101,11 +99,8 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
   const headerBarClass = showScrolled ? headerBarScrolled : headerBarDefault;
 
   const navItems = [
-    !hidden.has("why")
-      ? { href: `${basePath}#pourquoi`, label: L.why, desktopClass: "lg:inline-flex" }
-      : null,
-    !hidden.has("features")
-      ? { href: `${basePath}#features`, label: L.features, desktopClass: "" }
+    !hidden.has("howItWorks")
+      ? { href: `${basePath}#controle`, label: L.howItWorks, desktopClass: "lg:inline-flex" }
       : null,
     !hidden.has("metiers")
       ? { href: `${basePath}#metiers`, label: L.metiers, desktopClass: "lg:inline-flex" }

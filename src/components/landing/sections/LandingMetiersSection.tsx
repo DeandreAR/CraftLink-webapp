@@ -1,25 +1,29 @@
+"use client";
+
+import { useState } from "react";
 import { LandingSectionHeader } from "@/components/landing/LandingSectionHeader";
-import { renderLandingSectionTitle } from "@/components/landing/renderLandingSectionTitle";
 import type { LandingMetiersDictionary } from "@/i18n/landing/types";
+import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+import { metierSupportsUrgencyCta } from "@/lib/vitrine/metierUrgencySupport";
 
 type LandingMetiersSectionProps = {
   content: LandingMetiersDictionary;
 };
 
-const CARD_STYLES = [
-  { border: "border-l-[#EFA188]", bg: "bg-[#EFA188]/10" },
-  { border: "border-l-[#5EEAD4]", bg: "bg-[#B2F5EA]/12" },
-  { border: "border-l-[#C4B5FD]", bg: "bg-[#D6BCFA]/12" },
-] as const;
+const DEFAULT_VISIBLE = 6;
 
 export function LandingMetiersSection({ content }: LandingMetiersSectionProps) {
+  const [expanded, setExpanded] = useState(false);
+  const visibleCards = expanded ? content.cards : content.cards.slice(0, DEFAULT_VISIBLE);
+  const hasMore = content.cards.length > DEFAULT_VISIBLE;
+
   return (
     <section
       id="metiers"
       className="landing-metiers lk-section scroll-mt-28"
       aria-labelledby="metiers-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-20">
+      <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
         <LandingSectionHeader
           index={content.header.index}
           eyebrow={content.header.eyebrow}
@@ -28,22 +32,37 @@ export function LandingMetiersSection({ content }: LandingMetiersSectionProps) {
           lead={content.header.lead}
         />
 
-        <div className="landing-metiers-grid mt-12 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {content.cards.map((card, index) => {
-            const style = CARD_STYLES[index % CARD_STYLES.length];
+        <ul className="mt-10 divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white">
+          {visibleCards.map((card) => {
+            const supportsUrgency = metierSupportsUrgencyCta(card.metierKey as MetierKey);
             return (
-              <div
-                key={card.metier}
-                className={`flex h-full flex-col rounded-[1.15rem] border-2 border-[#212129]/8 border-l-[5px] p-6 ${style.border} ${style.bg}`}
-              >
-                <h3 className="lk-display text-lg">{card.metier}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-[#5b6478]">
-                  {card.angle}
-                </p>
-              </div>
+              <li key={card.metierKey} className="px-4 py-4 md:px-6 md:py-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-base font-bold text-[#212129] md:text-lg">{card.metier}</h3>
+                  {supportsUrgency ? (
+                    <span className="rounded-full bg-[#EFA188]/25 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#212129]">
+                      {content.urgencyBadge}
+                    </span>
+                  ) : null}
+                </div>
+                <p className="mt-1.5 text-sm leading-relaxed text-[#5b6478]">{card.angle}</p>
+              </li>
             );
           })}
-        </div>
+        </ul>
+
+        {hasMore ? (
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setExpanded((open) => !open)}
+              className="rounded-full border-2 border-[#212129] bg-white px-6 py-2.5 text-sm font-bold text-[#212129] transition hover:bg-neutral-50"
+              aria-expanded={expanded}
+            >
+              {expanded ? content.showLessMetiers : content.showAllMetiers}
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   );

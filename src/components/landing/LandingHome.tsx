@@ -8,9 +8,8 @@ import { LandingHeroReveal } from "@/components/landing/LandingHeroReveal";
 import { LandingWhatsAppFloat } from "@/components/landing/LandingWhatsAppFloat";
 import { Navbar } from "@/components/landing/Navbar";
 import { PricingComparisonSection } from "@/components/landing/PricingComparisonSection";
-import { LandingFeaturesSection } from "@/components/landing/sections/LandingFeaturesSection";
+import { LandingControlSection } from "@/components/landing/sections/LandingControlSection";
 import { LandingMetiersSection } from "@/components/landing/sections/LandingMetiersSection";
-import { LandingPourquoiSection } from "@/components/landing/sections/LandingPourquoiSection";
 import { onboardingPath } from "@/lib/auth/paths";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
@@ -95,9 +94,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           </div>
         </section>
 
-        <LandingPourquoiSection content={landing.pourquoi} pillars={dict.pourquoi.pillars} />
-
-        <LandingFeaturesSection content={landing.features} flow={dict.featuresFlow} />
+        <LandingControlSection content={landing.control} />
 
         <LandingMetiersSection content={landing.metiers} />
 

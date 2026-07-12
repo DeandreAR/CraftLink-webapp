@@ -74,137 +74,117 @@ export const landingEn: LandingExtendedDictionary = {
     lead: "Create your page in minutes: one link, structured files, WhatsApp as usual.",
     button: "Create my page now",
   },
-  pourquoi: {
+  control: {
     header: {
       index: "01",
-      eyebrow: "Before / After",
-      title: "Fewer vague messages. More real jobs.",
-      titleHighlight: "real jobs",
-      lead: "Between jobs, messages pile up everywhere. CraftLink centralises and sorts before you catch up in the evening.",
-    },
-    badge: "Zero maintenance · No webmaster",
-    badgeHint: "You work. The tool sorts requests.",
-    without: {
-      label: "Before CraftLink",
-      title:
-        "Dozens of scattered messages (SMS, Facebook, WhatsApp) ➡️ Half lack precise details.",
-      bullets: [],
-    },
-    with: {
-      label: "After CraftLink",
-      title:
-        "Clear, complete requests in one place ➡️ You know exactly where to start.",
-      bullets: [],
-    },
-  },
-  features: {
-    header: {
-      index: "02",
       eyebrow: "How it works",
-      title: "Three steps. No wasted time.",
-      titleHighlight: "No wasted time",
-      lead: "1. The client explains their need in 1 minute (in writing or by voice message). 2. CraftLink organises and sorts the request automatically. 3. You follow up only on serious, complete files.",
+      title: "Take back control of your messages. Zero wasted time.",
+      titleHighlight: "Zero wasted time.",
+      lead: "One flow: the client explains, CraftLink sorts, you quote the right jobs.",
     },
-    cards: [
+    compare: {
+      eyebrow: "Before / After",
+      without: {
+        label: "Before CraftLink",
+        title:
+          "Dozens of scattered messages (SMS, Facebook, WhatsApp) ➡️ Half lack precise details.",
+      },
+      with: {
+        label: "After CraftLink",
+        title:
+          "Clear, complete requests in one place ➡️ You know exactly where to start.",
+      },
+    },
+    steps: [
       {
-        eyebrow: "Voice",
-        title: "Client explains, you read what matters",
-        description:
-          "Voice messages are transcribed. You understand the job without chasing the client three times.",
+        index: "Step 1",
+        title: "The client explains their need (text or voice)",
+        lead: "No more scattered SMS and messages. Everything lands cleanly in one place.",
       },
       {
-        eyebrow: "Auto sort",
-        title: "Serious requests rise to the top",
-        description:
-          "Automatic request sorting: timeline, area, completeness. You quote the right jobs first.",
+        index: "Step 2",
+        title: "CraftLink sorts the request automatically",
+        lead: "The assistant extracts volumes, rooms and urgency without you doing anything.",
       },
       {
-        eyebrow: "WhatsApp",
-        title: "Follow up with the file in front of you",
-        description:
-          "WhatsApp stays your tool. The client arrives with their need already summarised.",
-      },
-      {
-        eyebrow: "One link",
-        title: "One link everywhere",
-        description: "Instagram bio, Facebook, QR on your van: one pro entry, everywhere.",
-      },
-      {
-        eyebrow: "Export",
-        title: "Contacts ready to follow up",
-        description: "Export requests for your usual follow-up or quoting tools.",
+        index: "Step 3",
+        title: "You follow up only on serious files",
+        lead: "Save hours every evening by filtering out time-wasters.",
       },
     ],
-    formBlock: {
-      eyebrow: "Client form",
-      title: "The right info from the first message",
-      description:
-        "Nature of request, area, timeline, photos or voice: no more vague \"hello, need a quote\".",
-      fields: [
-        "Nature of request",
-        "Area / town",
-        "Urgency or schedule",
-        "Photos or voice notes",
-        "Direct contact",
-      ],
-    },
   },
   metiers: {
     header: {
-      index: "03",
+      index: "02",
       eyebrow: "Building trades",
       title: "Built for your trade",
       lead: "One link, one form, automatic sorting: fewer scattered messages, more time on jobs that pay.",
     },
+    showAllMetiers: "Show all trades",
+    showLessMetiers: "Show fewer",
+    urgencyBadge: "Urgent",
     cards: [
       {
-        metier: "Electrician",
-        angle: "Call-out or panel upgrade: the client states the problem, you get a file ready to quote.",
+        metierKey: "RENOVATION_GENERALE",
+        metier: "General renovation / turnkey contractor",
+        angle:
+          "Project tracking, extensions or full renovations: rooms, volumes and work types structured for your first quotes.",
       },
       {
+        metierKey: "ELECTRICIEN",
+        metier: "Electrician",
+        angle:
+          "Fault-finding or panel upgrade: the client states the problem, you get a file ready to quote.",
+      },
+      {
+        metierKey: "PLOMBIER",
         metier: "Plumber / heating",
         angle: "Leak or boiler breakdown: the client describes by voice what they see at home.",
       },
       {
-        metier: "Joiner / carpenter",
-        angle: "Windows, doors, fitted units: dimensions and need without 15 scattered messages.",
-      },
-      {
-        metier: "Locksmith",
-        angle: "Locked out: area and urgency identified straight away to plan the visit.",
-      },
-      {
-        metier: "Drywaller",
-        angle: "Partitions or insulation: rooms and constraints clear before your visit.",
-      },
-      {
-        metier: "Painter",
-        angle: "Surfaces and finishes: client specifies m² and timeline before quoting.",
-      },
-      {
-        metier: "Landscaper",
-        angle: "Maintenance or garden design: area and photos guide your first visit.",
-      },
-      {
-        metier: "Roofer",
-        angle: "Leak or reroof: floor, urgency and access described before you travel.",
-      },
-      {
-        metier: "Tiler",
-        angle: "Bathroom or large format: dimensions and photos reduce nasty surprises.",
-      },
-      {
-        metier: "Timber framer",
-        angle: "Frame or loft: job type and site access clear in advance.",
-      },
-      {
+        metierKey: "MACON",
         metier: "Mason & general builder",
         angle: "Structural work or extension: one entry for small jobs and tender responses.",
       },
       {
-        metier: "General renovation / turnkey contractor",
-        angle:
-          "Project management, extensions or full renovations: AI structures rooms, volumes and work types to save hours on your first quotes.",
+        metierKey: "PLAQUISTE",
+        metier: "Drywaller",
+        angle: "Partitions or insulation: rooms and constraints clear before your visit.",
+      },
+      {
+        metierKey: "PEINTRE",
+        metier: "Painter",
+        angle: "Surfaces and finishes: client specifies m² and timeline before quoting.",
+      },
+      {
+        metierKey: "MENUISIER",
+        metier: "Joiner / carpenter",
+        angle: "Windows, doors, fitted units: dimensions and need without 15 scattered messages.",
+      },
+      {
+        metierKey: "SERRURIER",
+        metier: "Locksmith",
+        angle: "Locked out: area and urgency identified straight away to plan the visit.",
+      },
+      {
+        metierKey: "PAYSAGISTE",
+        metier: "Landscaper",
+        angle: "Maintenance or garden design: area and photos guide your first visit.",
+      },
+      {
+        metierKey: "COUVREUR",
+        metier: "Roofer",
+        angle: "Leak or reroof: floor, urgency and access described before you travel.",
+      },
+      {
+        metierKey: "CARRELEUR",
+        metier: "Tiler",
+        angle: "Bathroom or large format: dimensions and photos reduce nasty surprises.",
+      },
+      {
+        metierKey: "CHARPENTIER",
+        metier: "Timber framer",
+        angle: "Frame or loft: job type and site access clear in advance.",
       },
     ],
   },

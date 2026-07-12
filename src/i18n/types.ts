@@ -62,22 +62,12 @@ export type PricingComparisonDictionary = {
   sectionEyebrow: string;
   sectionTitle: string;
   sectionLead: string;
-  trustNoCode: string;
-  trustLiveFast: string;
-  zeroCommission: string;
-  replacementTitle: string;
-  replacementLead: string;
-  replacementBullets: string[];
-  compareTitle: string;
-  compareLead: string;
   tableCriterion: string;
   tableClassic: string;
   tableCraftlink: string;
   mobileClassicShort: string;
   mobileCraftlinkShort: string;
   comparisonRows: ComparisonRowJson[];
-  pricingEyebrow: string;
-  pricingTitle: string;
   pricingLead: string;
   betaPioneerBadge: string;
   featuresColumnTitle: string;
@@ -91,8 +81,7 @@ export type PricingComparisonDictionary = {
 };
 
 export type NavDictionary = {
-  why: string;
-  features: string;
+  howItWorks: string;
   metiers: string;
   tarifs: string;
   faq: string;

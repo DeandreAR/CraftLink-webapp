@@ -4,8 +4,7 @@
     "description": "Créez une page pro avec un lien unique : capture vocale, transcription, tri automatique des demandes et redirection WhatsApp. Pour artisans du bâtiment — électriciens, plombiers, plaquistes, menuisiers, chauffagistes et corps de métier."
   },
   "nav": {
-    "why": "Pourquoi",
-    "features": "Fonctions",
+    "howItWorks": "Comment ça marche",
     "metiers": "Métiers",
     "tarifs": "Tarifs",
     "faq": "FAQ",
@@ -112,8 +111,8 @@
     "lead": "Votre site trie et organise les demandes de chantiers tout seul. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
     "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
     "ctaPrimary": "Créer ma page gratuitement",
-    "ctaSecondary": "Découvrir les fonctionnalités",
-    "ctaSecondaryHref": "#features"
+    "ctaSecondary": "Voir comment ça marche",
+    "ctaSecondaryHref": "#controle"
   },
   "pourquoi": {
     "pillars": [
@@ -177,22 +176,9 @@
     ]
   },
   "pricingComparison": {
-    "sectionEyebrow": "Tarifs & comparaison",
-    "sectionTitle": "Un abonnement simple. Zéro friction cachée.",
-    "sectionLead": "Réponse aux objections les plus fréquentes : pas de commission sur vos chantiers, aucune compétence technique, mise en ligne en quelques minutes — sans la pile d’outils d’un site classique.",
-    "trustNoCode": "Aucune compétence technique ni codage requis",
-    "trustLiveFast": "En ligne en 2 minutes",
-    "zeroCommission": "de commission sur vos chantiers",
-    "replacementTitle": "Le tout-en-un qui remplace une ribambelle d’abonnements",
-    "replacementLead": "CraftLink remplace le combo coûteux : nom de domaine, hébergement, plugins, outils de transcription IA à part, et la dépendance à un webmaster ou une agence pour chaque modification.",
-    "replacementBullets": [
-      "Nom de domaine + hébergement + sécurité à suivre",
-      "Plugins, thèmes & petites factures qui s’empilent",
-      "Abonnements transcription / IA en plus du site",
-      "Prestataire ou webmaster pour la maintenance"
-    ],
-    "compareTitle": "Site vitrine classique ou CraftLink ?",
-    "compareLead": "Contraste net sur le coût mensuel réel et la charge de maintenance — avant même de parler de capture de leads.",
+    "sectionEyebrow": "Tarifs",
+    "sectionTitle": "Un tarif simple, rentabilisé dès le premier chantier",
+    "sectionLead": "Entrée gratuite pour tester. Pro Bêta à 19€ HT/mois — sans commission sur vos chantiers.",
     "tableCriterion": "Critère",
     "tableClassic": "Site vitrine classique",
     "tableCraftlink": "CraftLink",
@@ -225,8 +211,6 @@
         "craftlink": "0 % de commission sur vos chantiers : votre activité, votre chiffre."
       }
     ],
-    "pricingEyebrow": "Tarifs & offre",
-    "pricingTitle": "Commencer gratuitement, passer Pro quand le volume suit.",
     "pricingLead": "Tarifs Bêta HT réservés aux 50 premiers artisans. Le tarif public Pro sera de 29€ HT/mois après la phase de lancement.",
     "betaPioneerBadge": "OFFRE BÊTA PIONNIER (Limité aux 50 premiers)",
     "featuresColumnTitle": "Fonctionnalités",

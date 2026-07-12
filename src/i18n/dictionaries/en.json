@@ -4,8 +4,7 @@
     "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, drywallers, joiners, HVAC, and construction trades."
   },
   "nav": {
-    "why": "Why",
-    "features": "Features",
+    "howItWorks": "How it works",
     "metiers": "Trades",
     "tarifs": "Pricing",
     "faq": "FAQ",
@@ -112,8 +111,8 @@
     "lead": "Your page sorts and organises job requests on its own. Fewer scattered messages, more time for you and more serious clients.",
     "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
-    "ctaSecondary": "Explore features",
-    "ctaSecondaryHref": "#features"
+    "ctaSecondary": "See how it works",
+    "ctaSecondaryHref": "#controle"
   },
   "pourquoi": {
     "pillars": [
@@ -177,22 +176,9 @@
     ]
   },
   "pricingComparison": {
-    "sectionEyebrow": "Pricing & comparison",
-    "sectionTitle": "One simple subscription. No hidden friction.",
-    "sectionLead": "Handle the top objections: zero commission on your jobs, no technical skills, live in minutes — without the classic website tool stack.",
-    "trustNoCode": "No technical skills or coding required",
-    "trustLiveFast": "Live in 2 minutes",
-    "zeroCommission": "0% commission on your jobs",
-    "replacementTitle": "The all-in-one replacement for a pile of bills",
-    "replacementLead": "CraftLink replaces the expensive combo: domain name, hosting, plugins, separate AI transcription tools, and relying on a webmaster or agency for every tweak.",
-    "replacementBullets": [
-      "Domain + hosting + security to manage",
-      "Plugins, themes & small fees that stack up",
-      "Transcription / AI subscriptions on top of the site",
-      "Developer or webmaster for ongoing maintenance"
-    ],
-    "compareTitle": "Classic brochure site vs CraftLink?",
-    "compareLead": "A clear contrast on real monthly cost and maintenance load — before we even talk about lead capture.",
+    "sectionEyebrow": "Pricing",
+    "sectionTitle": "Simple pricing, paid back from your first job",
+    "sectionLead": "Free entry to test. Beta Pro at €19 excl. VAT/month — zero commission on your jobs.",
     "tableCriterion": "Criterion",
     "tableClassic": "Classic brochure website",
     "tableCraftlink": "CraftLink",
@@ -216,7 +202,7 @@
       },
       {
         "criterion": "Instagram / Facebook → structured job brief",
-        "classic": "Often a generic “Contact” link: you restart from scratch every DM.",
+        "classic": "Often a generic “Contact” link: you restart from scratch every message.",
         "craftlink": "Dedicated funnel + voice + transcription + automatic sorting + WhatsApp with context."
       },
       {
@@ -225,8 +211,6 @@
         "craftlink": "0% commission on your jobs — your business, your revenue."
       }
     ],
-    "pricingEyebrow": "Plans",
-    "pricingTitle": "Start free, go Pro when volume grows.",
     "pricingLead": "Beta prices excl. VAT for the first 50 tradespeople only. Public Pro pricing will be €29 excl. VAT/month after launch.",
     "betaPioneerBadge": "PIONEER BETA OFFER (Limited to the first 50)",
     "featuresColumnTitle": "Features",
