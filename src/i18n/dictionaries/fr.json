@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "CraftLink — Page pro artisan en 2 min | Leads Instagram, Facebook & WhatsApp",
-    "description": "Créez une page professionnelle avec un lien unique : tunnel de capture vocale, transcription, scoring des leads et redirection WhatsApp. Pour artisans sans site ou peu équipés — électriciens, plombiers, plaquistes, menuisiers, chauffagistes et corps de métier du bâtiment."
+    "description": "Créez une page pro avec un lien unique : capture vocale, transcription, tri automatique des demandes et redirection WhatsApp. Pour artisans du bâtiment — électriciens, plombiers, plaquistes, menuisiers, chauffagistes et corps de métier."
   },
   "nav": {
     "why": "Pourquoi",
@@ -70,7 +70,7 @@
     "hide": "Masquer la FAQ"
   },
   "hero": {
-    "pill": "Capture de leads pour artisans",
+    "pill": "Outil de capture pour artisans",
     "typingTitle": {
       "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
       "channels": [
@@ -109,8 +109,8 @@
       "highlightLabels": ["Devis", "Avis", "Zone"],
       "reelsTab": "Reels"
     },
-    "lead": "Transformez vos abonnés en demandes de devis qualifiées. CraftLink, c’est votre vitrine pro et votre formulaire de demande en un seul lien. Fini le chaos entre vos DM et vos mails : partagez un seul lien sur vos réseaux sociaux et votre fiche Google pour que vos prospects déposent une demande vocale ou écrite. Notre outil traite l’information et vous livre un dossier structuré directement sur la messagerie de votre choix.",
-    "controlPhrase": "Vous partagez votre lien, vous gardez le contrôle, et vous facilitez le passage à l’action.",
+    "lead": "Votre site trie et organise les demandes de chantiers tout seul. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
+    "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
     "ctaPrimary": "Créer ma page gratuitement",
     "ctaSecondary": "Découvrir les fonctionnalités",
     "ctaSecondaryHref": "#features"
@@ -118,44 +118,44 @@
   "pourquoi": {
     "pillars": [
       {
-        "title": "Dites adieu aux sites compliqués, centralisez tout",
+        "title": "Une page pro, sans site compliqué",
         "bullets": [
-          { "emoji": "📷", "text": "Galerie photo/vidéo de chantiers dynamique (montrez vos prestations)." },
-          { "emoji": "✉️", "text": "Formulaire de demande intelligent (avec capture vocale IA)." }
+          { "emoji": "📷", "text": "Galerie de chantiers pour montrer vos réalisations." },
+          { "emoji": "✉️", "text": "Formulaire court avec vocal ou texte — tri automatique des demandes." }
         ]
       },
       {
-        "title": "Partagez et capturez sur tous vos canaux",
+        "title": "Un lien sur tous vos canaux",
         "bullets": [
-          { "emoji": "📱", "text": "Intégration dans vos bio-links (Instagram, Facebook)." },
-          { "emoji": "🏷️", "text": "QR code unique (camion, carte de visite)." },
-          { "emoji": "🔗", "text": "Lien dans vos SMS et emails professionnels." },
-          { "emoji": "📍", "text": "Google My Business (avis/coordonnées)." }
+          { "emoji": "📱", "text": "Bio Instagram et Facebook." },
+          { "emoji": "🏷️", "text": "QR code sur camion ou carte de visite." },
+          { "emoji": "🔗", "text": "SMS et e-mails pro." },
+          { "emoji": "📍", "text": "Fiche Google (avis et coordonnées)." }
         ]
       },
       {
-        "title": "Recevez des dossiers qualifiés & structurés",
+        "title": "Des dossiers prêts à chiffrer",
         "bullets": [
-          { "emoji": "🗂️", "text": "Dossiers prospects complets (pas juste un message)." },
-          { "emoji": "📊", "text": "Dashboard avec scoring et suivi des leads." },
-          { "emoji": "✅", "text": "Les messages vocaux sont transcrits automatiquement (capture IA)." },
-          { "emoji": "💬", "text": "Résumé de la demande directement sur WhatsApp." }
+          { "emoji": "🗂️", "text": "Demande complète, pas un simple « bonjour »." },
+          { "emoji": "📊", "text": "Tableau de bord pour suivre et trier vos demandes." },
+          { "emoji": "✅", "text": "Vocaux transcrits automatiquement." },
+          { "emoji": "💬", "text": "Résumé prêt sur WhatsApp avec le dossier déjà structuré." }
         ]
       }
     ]
   },
   "featuresFlow": {
-    "figureAlt": "Parcours en quatre étapes : toutes les sources convergent vers un lien central, les contacts sont centralisés, puis vous passez à l’action sur le terrain.",
-    "arrowHints": ["1 lien", "1 liste", "1 action"],
-    "step1": { "label": "1. Toutes les sources" },
+    "figureAlt": "Comment ça marche : le client explique son besoin, CraftLink trie la demande, vous recontactez les dossiers sérieux.",
+    "arrowHints": ["1 min", "Tri auto", "Dossiers"],
+    "step1": { "label": "1. Le client explique son besoin (écrit ou vocal)" },
     "step2": {
-      "label": "2. Lien central",
+      "label": "2. CraftLink organise et trie",
       "bioLink": "Bio Link",
       "vocal": "VOCAL",
       "text": "TEXTE"
     },
     "step3": {
-      "label": "3. Liste contacts",
+      "label": "3. Vous recontactez les dossiers sérieux",
       "contactsTitle": "CONTACTS",
       "addContact": "+ AJOUTER",
       "colName": "NOM",
@@ -165,7 +165,7 @@
       "pagination": "1-5 sur 128 · pages 1, 2… 26"
     },
     "step4": {
-      "label": "4. Action",
+      "label": "WhatsApp ou message",
       "folder": "Dossier client"
     },
     "contactRows": [
@@ -217,7 +217,7 @@
       {
         "criterion": "Capture Instagram / Facebook → dossier client",
         "classic": "Souvent un lien « Contact » générique : vous repartez de zéro à chaque message.",
-        "craftlink": "Tunnel dédié + vocal + transcription + scoring + WhatsApp avec contexte."
+        "craftlink": "Tunnel dédié + vocal + transcription + tri automatique + WhatsApp avec contexte."
       },
       {
         "criterion": "Commerce / commission sur vos chantiers",
@@ -324,9 +324,9 @@
         "essentialLimit": true
       },
       {
-        "labelEssential": "❌ Capture vocale & Qualification IA",
+        "labelEssential": "❌ Capture vocale & tri automatique",
         "labelPro": "**Capture vocale & Transcription IA automatique** du besoin client",
-        "label": "Capture vocale & qualification IA",
+        "label": "Capture vocale & tri automatique des demandes",
         "essential": false,
         "pro": true
       },
@@ -359,7 +359,7 @@
       }
     ],
     "proAdvantages": [
-      "Moins de temps au téléphone : le client a déjà structuré sa demande.",
+      "Moins de messages flous : le client a déjà structuré sa demande.",
       "Image pro immédiate sur mobile, sans compétences web.",
       "Séparez vos demandes de chantiers et vos partenariats marques.",
       "Zéro maintenance technique : le produit évolue pour vous."

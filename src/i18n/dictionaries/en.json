@@ -70,7 +70,7 @@
     "hide": "Hide FAQ"
   },
   "hero": {
-    "pill": "Lead capture for tradespeople",
+    "pill": "Capture tool for tradespeople",
     "typingTitle": {
       "intro": "One link to centralise every client request from ",
       "channels": [
@@ -109,8 +109,8 @@
       "highlightLabels": ["Quotes", "Reviews", "Area"],
       "reelsTab": "Reels"
     },
-    "lead": "Turn followers into qualified quote requests. CraftLink is your pro storefront and request form in one link. End the chaos across DMs and email: share one link on your social profiles and Google listing so prospects can send a voice or written brief. Our tool shapes the information and delivers a structured dossier straight to the messenger you already use.",
-    "controlPhrase": "You share your link, stay in control, and make it easy to take action.",
+    "lead": "Your page sorts and organises job requests on its own. Fewer scattered messages, more time for you and more serious clients.",
+    "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
     "ctaSecondary": "Explore features",
     "ctaSecondaryHref": "#features"
@@ -118,44 +118,44 @@
   "pourquoi": {
     "pillars": [
       {
-        "title": "Skip complicated websites — centralise everything",
+        "title": "A pro page, no complicated site",
         "bullets": [
-          { "emoji": "📷", "text": "Dynamic photo/video gallery of your projects (showcase your services)." },
-          { "emoji": "✉️", "text": "Smart request form (with AI voice capture)." }
+          { "emoji": "📷", "text": "Project gallery to show your work." },
+          { "emoji": "✉️", "text": "Short form with voice or text — automatic request sorting." }
         ]
       },
       {
-        "title": "Share and capture across every channel",
+        "title": "One link on every channel",
         "bullets": [
-          { "emoji": "📱", "text": "Bio-link integration (Instagram, Facebook)." },
-          { "emoji": "🏷️", "text": "One QR code (van, business card)." },
-          { "emoji": "🔗", "text": "Link in your professional SMS and emails." },
-          { "emoji": "📍", "text": "Google Business Profile (reviews and contact details)." }
+          { "emoji": "📱", "text": "Instagram and Facebook bio." },
+          { "emoji": "🏷️", "text": "QR code on van or business card." },
+          { "emoji": "🔗", "text": "Professional SMS and emails." },
+          { "emoji": "📍", "text": "Google Business Profile (reviews and contact)." }
         ]
       },
       {
-        "title": "Receive qualified, structured dossiers",
+        "title": "Files ready to quote",
         "bullets": [
-          { "emoji": "🗂️", "text": "Complete prospect files (not just a message)." },
-          { "emoji": "📊", "text": "Dashboard with lead scoring and follow-up." },
-          { "emoji": "✅", "text": "Voice messages transcribed automatically (AI capture)." },
-          { "emoji": "💬", "text": "Request summary straight on WhatsApp." }
+          { "emoji": "🗂️", "text": "Complete request, not just a \"hello\"." },
+          { "emoji": "📊", "text": "Dashboard to track and sort your requests." },
+          { "emoji": "✅", "text": "Voice notes transcribed automatically." },
+          { "emoji": "💬", "text": "Summary ready on WhatsApp before you call back." }
         ]
       }
     ]
   },
   "featuresFlow": {
-    "figureAlt": "Four-step journey: all sources funnel into one central link, contacts are centralized, then you take action in the field.",
-    "arrowHints": ["1 link", "1 list", "1 action"],
-    "step1": { "label": "1. All sources" },
+    "figureAlt": "How it works: the client explains their need, CraftLink sorts the request, you follow up on serious files.",
+    "arrowHints": ["1 min", "Auto sort", "Files"],
+    "step1": { "label": "1. Client explains their need (written or voice)" },
     "step2": {
-      "label": "2. Central link",
+      "label": "2. CraftLink organises and sorts",
       "bioLink": "Bio Link",
       "vocal": "VOICE",
       "text": "TEXT"
     },
     "step3": {
-      "label": "3. Contact list",
+      "label": "3. You follow up on serious files",
       "contactsTitle": "CONTACTS",
       "addContact": "+ ADD",
       "colName": "NAME",
@@ -165,7 +165,7 @@
       "pagination": "1-5 of 128 · pages 1, 2… 26"
     },
     "step4": {
-      "label": "4. Action",
+      "label": "WhatsApp or message",
       "folder": "Client file"
     },
     "contactRows": [
@@ -217,7 +217,7 @@
       {
         "criterion": "Instagram / Facebook → structured job brief",
         "classic": "Often a generic “Contact” link: you restart from scratch every DM.",
-        "craftlink": "Dedicated funnel + voice + transcription + scoring + WhatsApp with context."
+        "craftlink": "Dedicated funnel + voice + transcription + automatic sorting + WhatsApp with context."
       },
       {
         "criterion": "Fees / take rate on your jobs",
@@ -324,9 +324,9 @@
         "essentialLimit": true
       },
       {
-        "labelEssential": "❌ Voice capture & AI qualification",
+        "labelEssential": "❌ Voice capture & automatic sorting",
         "labelPro": "**Voice capture & automatic AI transcription** of customer needs",
-        "label": "Voice capture & AI qualification",
+        "label": "Voice capture & automatic request sorting",
         "essential": false,
         "pro": true
       },
@@ -359,7 +359,7 @@
       }
     ],
     "proAdvantages": [
-      "Less phone tennis: the customer already structured the request.",
+      "Fewer vague messages: the customer already structured their request.",
       "Instant pro image on mobile, with zero web skills.",
       "Separate job enquiries from brand partnership requests.",
       "Zero technical maintenance: the product evolves for you."

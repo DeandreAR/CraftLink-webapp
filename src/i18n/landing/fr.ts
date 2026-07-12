@@ -3,28 +3,28 @@ import type { LandingExtendedDictionary } from "@/i18n/landing/types";
 export const landingFr: LandingExtendedDictionary = {
   faqBlocks: [
     {
-      title: "Simplicité et prise en main",
+      title: "Prise en main",
       items: [
         {
           q: "Je ne suis pas à l’aise avec la technologie.",
-          a: "CraftLink évite le jargon et les réglages interminables. Vous remplissez l’essentiel sur votre activité, vous récupérez un lien à mettre en bio ou sur une carte. Si vous savez envoyer un message WhatsApp, vous savez utiliser CraftLink.",
+          a: "Pas de jargon. Vous remplissez l’essentiel, vous récupérez un lien pour votre bio ou votre carte. Si vous savez envoyer un WhatsApp, vous savez utiliser CraftLink.",
         },
         {
           q: "Je n’ai pas le temps de créer un site.",
-          a: "La promesse, c’est une page pro prête en quelques minutes — pas un site à construire pendant des semaines. Les sections sont pensées pour les artisans : services, zone, prise de contact. Le reste (vocaux, scoring, WhatsApp) travaille pour vous en coulisse.",
+          a: "Votre page est prête en quelques minutes. Services, zone, contact : le reste (vocaux, tri, WhatsApp) tourne pendant que vous êtes sur le chantier.",
         },
         {
           q: "Combien de temps pour être en ligne ?",
-          a: "En règle générale, quelques minutes suffisent pour publier votre lien. Vous pouvez le peaufiner plus tard ; l’important est de commencer à capter les demandes dès que vous le souhaitez.",
+          a: "Quelques minutes suffisent pour publier votre lien. Vous peaufinez plus tard si besoin.",
         },
       ],
     },
     {
-      title: "Prix et retour sur investissement",
+      title: "Prix et rentabilité",
       items: [
         {
           q: "C’est trop cher pour moi.",
-          a: "Il existe une entrée accessible pour tester sans engagement lourd. L’objectif est de vous faire gagner du temps sur les échanges et d’éviter les chantiers qui ne collent pas — ce qui peut coûter bien plus cher qu’un abonnement.",
+          a: "Une entrée gratuite existe pour tester. Un chantier gagné rembourse vite l’abonnement. Une demande floue perdue, elle, ne se rattrape pas.",
         },
       ],
     },
@@ -32,16 +32,16 @@ export const landingFr: LandingExtendedDictionary = {
       title: "Fonctionnement concret",
       items: [
         {
-          q: "Comment mes clients vous trouvent-ils ?",
-          a: "Ils vous trouvent comme aujourd’hui : vos réseaux, votre bouche-à-oreille, vos flyers. La différence, c’est qu’au lieu d’un message vide ou d’un « bonjour », ils passent par votre lien : vous recevez une demande structurée ou un vocal transcrit.",
+          q: "Comment mes clients me trouvent-ils ?",
+          a: "Comme aujourd’hui : réseaux, bouche-à-oreille, flyers. La différence : ils passent par votre lien et vous recevez une demande écrite ou un vocal transcrit.",
         },
         {
           q: "Est-ce adapté à mon métier ?",
-          a: "CraftLink est pensé pour les artisans et travailleurs du bâtiment : urgences, délais, types d’intervention, zones desservies. Électriciens, plombiers, menuisiers, chauffagistes, serruriers, peintres, maçons… si vous faites des devis, le schéma vous correspond.",
+          a: "Oui si vous faites des devis dans le bâtiment : électricien, plombier, menuisier, peintre, maçon, couvreur, rénovation générale… CraftLink trie les demandes avant que vous les traitiez.",
         },
         {
           q: "Est-ce que ça remplace un site web ?",
-          a: "Pour beaucoup d’artisans indépendants, c’est suffisant comme vitrine principale : une page claire + capture de leads. Si vous avez déjà un site peu utile, CraftLink peut devenir votre point d’entrée principal. Un site très complet peut rester un complément selon vos ambitions.",
+          a: "Pour beaucoup d’artisans, c’est la vitrine principale : une page claire + capture de demandes. Un gros site peut rester un complément.",
         },
       ],
     },
@@ -50,104 +50,98 @@ export const landingFr: LandingExtendedDictionary = {
       items: [
         {
           q: "Est-ce que ça marche si je n’ai que Facebook ou Instagram ?",
-          a: "Oui. Vous placez le même lien partout : bio Instagram, page Facebook, story sauvegardée, QR code sur véhicule ou chantier. Le tunnel fonctionne dès qu’un client clique.",
+          a: "Oui. Même lien en bio, sur Facebook, en story ou sur un QR code chantier.",
         },
         {
           q: "Est-ce que je peux garder WhatsApp ?",
-          a: "Oui. WhatsApp reste votre canal habituel. CraftLink organise ce qui arrive avant : besoin, zone, urgence, pièces jointes si besoin. Vous ouvrez WhatsApp avec le contexte déjà là.",
+          a: "Oui. WhatsApp reste votre canal. CraftLink prépare le dossier avant : besoin, zone, délai, photos si besoin.",
         },
       ],
     },
     {
-      title: "Sécurité, données et support",
+      title: "Données et support",
       items: [
         {
           q: "Est-ce que mes données sont sécurisées ?",
-          a: "Les informations de vos clients méritent du sérieux : stockage et accès sont conçus dans une logique professionnelle (connexion sécurisée, bonnes pratiques). Consultez notre politique de confidentialité pour le détail de vos droits et de nos engagements RGPD.",
+          a: "Connexion sécurisée et bonnes pratiques pro. Détails dans notre politique de confidentialité (RGPD).",
         },
       ],
     },
   ],
   cta: {
-    title: "Prêt à transformer vos messages en",
-    titleHighlight: "devis utiles",
-    lead: "Créez votre page pro en quelques minutes : un lien unique, une capture claire, WhatsApp comme vous l’aimez.",
+    title: "Prêt à recevoir des demandes",
+    titleHighlight: "claires et complètes",
+    lead: "Créez votre page en quelques minutes : un lien, des dossiers structurés, WhatsApp comme d’habitude.",
     button: "Créer ma page maintenant",
   },
   pourquoi: {
     header: {
       index: "01",
-      eyebrow: "Pourquoi CraftLink ?",
-      title: "Une entrée qui clarifie le besoin, pas une vitrine de plus.",
-      titleHighlight: "clarifie le besoin",
-      lead: "Quand les sollicitations arrivent en rafale depuis plusieurs canaux, le vrai goulot d’étranglement n’est pas le manque de visibilité : c’est l’absence de cadre. CraftLink impose un parcours court et lisible — vous gardez la main sur le moment où vous rappelez, avec un dossier déjà exploitable.",
+      eyebrow: "Avant / Après",
+      title: "Moins de messages flous. Plus de vrais chantiers.",
+      titleHighlight: "vrais chantiers",
+      lead: "Entre deux chantiers, les messages s’accumulent partout. CraftLink centralise et trie avant que vous repreniez le soir.",
     },
-    badge: "Zéro maintenance · Évolutif",
-    badgeHint: "Mises à jour et nouveautés côté produit, sans charge pour vous.",
+    badge: "Sans maintenance · Zéro webmaster",
+    badgeHint: "Vous travaillez. L’outil trie les demandes.",
     without: {
-      label: "Sans CraftLink",
-      title: "Le flou des canaux mélangés",
-      bullets: [
-        "Fils DM, mails et SMS qui ne se recoupent pas : le contexte saute entre deux notifications.",
-        "Même question posée cinq fois pour obtenir commune, budget ou niveau d’urgence.",
-        "Fichier prospect refait à la main à chaque nouveau contact.",
-      ],
+      label: "Avant CraftLink",
+      title:
+        "Des dizaines de messages éparpillés (SMS, Facebook, WhatsApp) ➡️ La moitié manque d'informations précises.",
+      bullets: [],
     },
     with: {
-      label: "Avec CraftLink",
-      title: "Clarté côté client, dossier prêt côté pro",
-      bullets: [
-        "Même parcours partout : bio, QR, fiche Google — une seule habitude à expliquer.",
-        "Vocaux transcrits, champs structurés, pièces jointes : vous ouvrez un dossier, pas un puzzle.",
-        "WhatsApp inchangé pour vous : la conversation démarre avec le résumé déjà posé.",
-      ],
+      label: "Après CraftLink",
+      title:
+        "Des demandes claires et complètes centralisées au même endroit ➡️ Vous savez exactement par quoi commencer.",
+      bullets: [],
     },
   },
   features: {
     header: {
       index: "02",
-      eyebrow: "Fonctionnalités",
-      title: "La mécanique derrière votre page artisan.",
-      titleHighlight: "page artisan",
-      lead: "Chaque bloc couvre une étape du parcours — capture, tri, redirection — sans ajouter de complexité sur le chantier. Le résultat attendu : des demandes prêtes à chiffrer, pas des conversations vides.",
+      eyebrow: "Comment ça marche",
+      title: "Trois étapes. Zéro perte de temps.",
+      titleHighlight: "Zéro perte de temps",
+      lead: "1. Le client explique son besoin en 1 minute (par écrit ou par message vocal). 2. CraftLink organise et trie la demande automatiquement. 3. Vous recontactez uniquement les dossiers sérieux et complets.",
     },
     cards: [
       {
-        eyebrow: "Capture vocale",
-        title: "Le client parle, vous lisez l’essentiel",
+        eyebrow: "Vocal",
+        title: "Le client s’exprime, vous lisez l’essentiel",
         description:
-          "Les vocaux sont transcrits et mis en forme : moins d’allers-retours pour comprendre le problème sur place.",
+          "Le message vocal est transcrit. Vous comprenez le chantier sans relancer le client trois fois.",
       },
       {
-        eyebrow: "Scoring",
-        title: "Repérez les dossiers sérieux en un coup d’œil",
+        eyebrow: "Tri auto",
+        title: "Les demandes sérieuses remontent en premier",
         description:
-          "Un score simple met en avant budget, urgence et complétude : vous rappelez les chantiers qui valent le coup en premier.",
+          "Tri automatique des demandes : délai, zone, complétude. Vous chiffrez les bons dossiers d’abord.",
       },
       {
-        eyebrow: "WhatsApp Smart",
-        title: "Redirection avec le contexte déjà là",
+        eyebrow: "WhatsApp",
+        title: "Vous recontactez avec le dossier sous les yeux",
         description:
-          "WhatsApp reste votre outil ; le client arrive avec son besoin résumé — vous démarrez la discussion au bon niveau.",
+          "WhatsApp reste votre outil. Le client arrive avec son besoin déjà résumé.",
       },
       {
-        eyebrow: "Lien unique",
-        title: "Un seul lien pour tous vos canaux",
+        eyebrow: "Un lien",
+        title: "Un seul lien partout",
         description:
-          "Bio Instagram/Facebook, QR code sur camionnette, SMS après un devis papier : une entrée pro partout.",
+          "Bio Instagram, Facebook, QR sur la camionnette : une entrée pro, partout.",
       },
       {
         eyebrow: "Export",
-        title: "Contacts exploitables",
+        title: "Vos contacts prêts à suivre",
         description:
-          "Exportez vos leads pour votre suivi habituel ou des options payantes si vous montez en charge.",
+          "Exportez vos demandes pour votre suivi habituel ou vos outils de devis.",
       },
     ],
     formBlock: {
-      eyebrow: "Formulaire intelligent",
-      title: "Des champs courts, mais les bons",
+      eyebrow: "Formulaire client",
+      title: "Les bonnes infos, dès le premier message",
       description:
-        "Budget estimé, délais, type d’intervention, commune : vous évitez les messages flous et vous préparez un devis sans repartir de zéro à chaque fois.",
+        "Nature du besoin, zone, délai, photos ou vocal : fini les « bonjour, c’est pour un devis » sans détail.",
       fields: [
         "Nature du besoin",
         "Zone / commune",
@@ -160,70 +154,70 @@ export const landingFr: LandingExtendedDictionary = {
   metiers: {
     header: {
       index: "03",
-      eyebrow: "Cas d’usage par métier",
-      title: "Une réponse taillée pour les corps de métier du bâtiment",
-      lead: "Que vous cherchiez une vitrine en ligne pour électricien, un site simple pour plombier ou une entrée unique pour votre menuiserie, le mécanisme reste le même : capturer le besoin net, scorer, puis passer sur WhatsApp.",
+      eyebrow: "Métiers du bâtiment",
+      title: "Pensé pour votre corps de métier",
+      lead: "Un lien, un formulaire, un tri : moins de messages éparpillés, plus de temps sur les chantiers qui paient.",
     },
     cards: [
       {
         metier: "Électricien",
         angle:
-          "Tableaux, mises aux normes, dépannage : priorisez les urgences et les dossiers complets grâce au scoring.",
+          "Dépannage ou mise aux normes : le client pose le problème, vous recevez un dossier prêt à chiffrer.",
       },
       {
         metier: "Plombier / chauffagiste",
         angle:
-          "Fuites, chauffe-eau, rénovation salle de bains : laissez le client décrire en vocal ce qu’il voit chez lui.",
+          "Fuite ou chauffe-eau en panne : le client décrit en vocal ce qu’il voit chez lui.",
       },
       {
         metier: "Menuisier",
         angle:
-          "Fenêtres, portes, agencement : récupérez dimensions et inspirations sans douzaines de messages éparpillés.",
+          "Fenêtres, portes, agencement : dimensions et besoin récupérés sans 15 messages éparpillés.",
       },
       {
         metier: "Serrurier",
         angle:
-          "Ouvertures urgentes : identifiez tout de suite la zone et le créneau pour optimiser vos déplacements.",
+          "Porte bloquée : zone et urgence identifiées tout de suite pour organiser le déplacement.",
       },
       {
         metier: "Plaquiste",
         angle:
-          "Cloisons, plafonds, isolation : le client décrit pièces et contraintes pour un premier chiffrage plus net.",
+          "Cloisons ou isolation : pièces et contraintes cadrées avant votre visite.",
       },
       {
         metier: "Peintre",
         angle:
-          "Surfaces, finitions, délais : le client précise déjà volumes et contraintes pour chiffrer sans allers-retours interminables.",
+          "Surfaces et finitions : le client précise les m² et le délai avant le chiffrage.",
       },
       {
         metier: "Paysagiste",
         angle:
-          "Entretien, création, arrosage ou piscine : surface, exposition et photos guident votre visite technique et votre proposition.",
+          "Entretien ou création de jardin : surface et photos guident votre première visite.",
       },
       {
         metier: "Couvreur",
         angle:
-          "Fuite, réfection ou isolation : le vocal décrit l’étage et l’urgence, vous arrivez avec le bon matériel et le bon créneau.",
+          "Fuite ou réfection toiture : étage, urgence et accès décrits avant votre passage.",
       },
       {
         metier: "Carreleur",
         angle:
-          "Salle de bains, faïence ou grand format : dimensions et photos limitent les imprécisions avant la pose ou le chiffrage.",
+          "Salle de bain ou grand format : dimensions et photos limitent les mauvaises surprises.",
       },
       {
         metier: "Charpentier",
         angle:
-          "Ossature, couverture bois ou rénovation : type d’ouvrage et accès chantier sont cadrés avant votre déplacement.",
+          "Ossature ou combles : type d’ouvrage et accès chantier cadrés à l’avance.",
       },
       {
         metier: "Maçon & artisan BTP",
         angle:
-          "Gros œuvre ou rénovation : une entrée unique pour les petits chantiers comme pour les réponses aux appels d’offres locaux.",
+          "Gros œuvre ou extension : une entrée unique pour les petits chantiers et les réponses aux offres.",
       },
       {
         metier: "Entreprise de rénovation générale / TCE",
         angle:
-          "Suivi de chantiers, extensions ou rénovations complètes : l'IA structure les pièces, les volumes et la nature des travaux (élec, plomberie, peinture) pour vous faire gagner des heures sur vos premiers chiffrages.",
+          "Suivi de chantiers, extensions ou rénovations complètes : l'IA structure les pièces, les volumes et la nature des travaux pour vous faire gagner des heures sur vos premiers chiffrages.",
       },
     ],
   },
