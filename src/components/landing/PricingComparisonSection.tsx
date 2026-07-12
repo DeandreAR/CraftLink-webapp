@@ -14,6 +14,7 @@ export function PricingComparisonSection({
   locale,
 }: PricingComparisonSectionProps) {
   const { copy } = model;
+  const contrast = copy.splitContrast;
 
   return (
     <section
@@ -21,7 +22,7 @@ export function PricingComparisonSection({
       className="lk-section-alt scroll-mt-28"
       aria-labelledby="pricing-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
+      <div className="mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
         <div className="max-w-3xl">
           <span className="lk-eyebrow">{copy.sectionEyebrow}</span>
           <h2 id="pricing-heading" className="lk-display mt-5 text-3xl md:text-[2.65rem]">
@@ -30,66 +31,48 @@ export function PricingComparisonSection({
           <p className="lk-lead mt-4 text-base md:text-lg">{copy.sectionLead}</p>
         </div>
 
-        <div className="mt-8 hidden md:mt-10 md:block">
-          <div className="overflow-hidden rounded-2xl border border-neutral-200">
-            <table className="w-full border-collapse text-left text-sm">
-              <thead>
-                <tr className="border-b border-neutral-200 bg-white">
-                  <th className="px-4 py-4 font-semibold text-neutral-900 md:px-6">
-                    {copy.tableCriterion}
-                  </th>
-                  <th className="px-4 py-4 font-semibold text-neutral-900 md:px-6">
-                    {copy.tableClassic}
-                  </th>
-                  <th className="border-l-4 border-[#EFA188] bg-[#EFA188]/10 px-4 py-4 font-semibold text-neutral-900 md:px-6">
-                    {copy.tableCraftlink}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-100 bg-white">
-                {model.comparisonRows.map((row) => (
-                  <tr key={row.criterion}>
-                    <td className="px-4 py-4 font-medium text-neutral-900 md:px-6">
-                      {row.criterion}
-                    </td>
-                    <td className="px-4 py-4 text-neutral-600 md:px-6">{row.classic}</td>
-                    <td className="border-l-4 border-[#EFA188]/60 bg-[#EFA188]/5 px-4 py-4 text-neutral-800 md:px-6">
-                      {row.craftlink}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="relative mt-10 overflow-hidden rounded-[1.75rem] border-2 border-[#212129] md:mt-12">
+          <div className="bg-gradient-to-br from-red-950 via-[#212129] to-[#212129] px-6 py-8 md:px-10 md:py-10">
+            <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:gap-10">
+              <div className="max-w-xl">
+                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-red-300">
+                  {contrast.eyebrow}
+                </span>
+                <p className="lk-display mt-3 text-2xl text-white md:text-3xl">
+                  {contrast.headline}
+                </p>
+              </div>
+              <p className="shrink-0 self-start rounded-2xl border-2 border-[#EFA188] bg-[#EFA188]/15 px-5 py-3 text-center text-lg font-black tracking-tight text-[#EFA188] md:text-xl">
+                {contrast.payoff}
+              </p>
+            </div>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+              {contrast.painPoints.map((point) => (
+                <li
+                  key={point}
+                  className="flex gap-3 rounded-xl border border-red-500/30 bg-red-950/40 px-4 py-3 text-sm font-medium leading-snug text-red-100 md:text-base"
+                >
+                  <span
+                    className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500 text-white"
+                    aria-hidden
+                  >
+                    <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none">
+                      <path
+                        d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>
+                  {point}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4 md:mt-10 md:hidden">
-          {model.comparisonRows.map((row) => (
-            <article key={row.criterion} className="rounded-2xl border border-neutral-200 bg-white p-4">
-              <h3 className="text-sm font-bold text-neutral-900">{row.criterion}</h3>
-              <div className="mt-4 space-y-3 text-sm">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500">
-                    {copy.mobileClassicShort}
-                  </p>
-                  <p className="mt-1 leading-relaxed text-neutral-600">{row.classic}</p>
-                </div>
-                <div className="border-t border-neutral-100 pt-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#EFA188]">
-                    {copy.mobileCraftlinkShort}
-                  </p>
-                  <p className="mt-1 font-medium leading-relaxed text-neutral-900">
-                    {row.craftlink}
-                  </p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-10 md:mt-12">
-          <PricingGrid model={model} basePath={basePath} locale={locale} />
-        </div>
+        <PricingGrid model={model} basePath={basePath} locale={locale} layout="grid" />
       </div>
     </section>
   );

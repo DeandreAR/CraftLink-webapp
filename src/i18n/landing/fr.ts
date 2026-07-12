@@ -87,14 +87,24 @@ export const landingFr: LandingExtendedDictionary = {
     compare: {
       eyebrow: "Avant / Après",
       without: {
-        label: "Avant CraftLink",
+        label: "Le chaos",
         title:
-          "Des dizaines de messages éparpillés (SMS, Facebook, WhatsApp) ➡️ La moitié manque d’informations précises.",
+          "Des dizaines de messages éparpillés — la moitié manque d’informations précises.",
+        items: [
+          "SMS, Facebook, WhatsApp : tout est éparpillé",
+          "Photos floues, adresse incomplète, urgence floue",
+          "Vous relancez 3 fois avant de pouvoir chiffrer",
+        ],
       },
       with: {
-        label: "Après CraftLink",
+        label: "La clarté CraftLink",
         title:
-          "Des demandes claires et complètes centralisées au même endroit ➡️ Vous savez exactement par quoi commencer.",
+          "Des demandes complètes centralisées — vous savez par quoi commencer.",
+        items: [
+          "Dossier structuré : zone, urgence, nature des travaux",
+          "Vocal transcrit automatiquement si le client préfère parler",
+          "WhatsApp ouvert avec tout le contexte déjà en main",
+        ],
       },
     },
     steps: [
@@ -105,13 +115,13 @@ export const landingFr: LandingExtendedDictionary = {
       },
       {
         index: "Étape 2",
-        title: "CraftLink trie la demande automatiquement",
-        lead: "L’assistant extrait les volumes, les pièces et l’urgence sans que vous n’ayez rien à faire.",
+        title: "CraftLink centralise et organise vos demandes instantanément",
+        lead: "Toutes les informations clés sont triées et regroupées dans un dashboard épuré. Plus aucun message ne se perd.",
       },
       {
         index: "Étape 3",
-        title: "Vous recontactez uniquement les dossiers sérieux",
-        lead: "Vous gagnez des heures chaque soir en éliminant les curieux.",
+        title: "Pilotez votre activité et recontactez vos clients rapidement",
+        lead: "Visualisez vos chantiers en un clin d'œil, validez les dossiers sérieux et relancez les bons profils en un clic.",
       },
     ],
   },
@@ -126,7 +136,9 @@ export const landingFr: LandingExtendedDictionary = {
       "Deux artisans du bâtiment souriants sur un chantier en rénovation, avec un escabeau.",
     showAllMetiers: "Afficher tous les métiers",
     showLessMetiers: "Réduire la liste",
-    urgencyBadge: "Urgence",
+    urgencyBadge: "Option Urgence activée",
+    quoteBadge: "100% Devis",
+    selectMetierHint: "Sélectionnez un métier",
     cards: [
       {
         metierKey: "RENOVATION_GENERALE",

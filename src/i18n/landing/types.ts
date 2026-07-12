@@ -36,6 +36,7 @@ export type LandingControlStep = {
 export type LandingControlCompareSide = {
   label: string;
   title: string;
+  items: string[];
 };
 
 export type LandingControlDictionary = {
@@ -62,6 +63,8 @@ export type LandingMetiersDictionary = {
   showAllMetiers: string;
   showLessMetiers: string;
   urgencyBadge: string;
+  quoteBadge: string;
+  selectMetierHint: string;
 };
 
 export type LandingExtendedDictionary = {

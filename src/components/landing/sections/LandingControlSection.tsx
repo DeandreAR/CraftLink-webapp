@@ -8,11 +8,7 @@ type LandingControlSectionProps = {
   content: LandingControlDictionary;
 };
 
-const STEP_ACCENTS = [
-  "border-l-neutral-300 bg-neutral-50/80",
-  "border-l-[#EFA188] bg-[#EFA188]/10",
-  "border-l-[#5EEAD4] bg-[#B2F5EA]/15",
-] as const;
+const TIMELINE_OFFSETS = ["ml-0", "ml-4 md:ml-10", "ml-2 md:ml-5"] as const;
 
 export function LandingControlSection({ content }: LandingControlSectionProps) {
   const { compare } = content;
@@ -24,7 +20,7 @@ export function LandingControlSection({ content }: LandingControlSectionProps) {
       aria-labelledby="control-heading"
     >
       <figure
-        className="pointer-events-none absolute -right-2 top-10 z-0 hidden sm:block md:top-12 lg:right-4 lg:top-14 xl:right-8"
+        className="pointer-events-none absolute -right-4 top-16 z-0 hidden opacity-85 md:block lg:right-0 lg:top-20"
         aria-hidden
       >
         <Image
@@ -32,13 +28,13 @@ export function LandingControlSection({ content }: LandingControlSectionProps) {
           alt=""
           width={1024}
           height={1024}
-          className="h-auto w-[14rem] object-contain opacity-90 sm:w-[17rem] md:w-[20rem] lg:w-[24rem] xl:w-[28rem]"
-          sizes="(max-width: 640px) 224px, (max-width: 1024px) 320px, 448px"
+          className="h-auto w-[12rem] object-contain lg:w-[22rem] xl:w-[26rem]"
+          sizes="(max-width: 1024px) 192px, 416px"
           priority={false}
         />
       </figure>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-18">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20">
         <LandingSectionHeader
           index={content.header.index}
           eyebrow={content.header.eyebrow}
@@ -47,44 +43,115 @@ export function LandingControlSection({ content }: LandingControlSectionProps) {
           lead={content.header.lead}
         />
 
-        <div className="mt-10 md:mt-12">
+        <div className="mt-12 md:mt-14">
           <p className="lk-eyebrow">{compare.eyebrow}</p>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            <article className="rounded-2xl border-2 border-neutral-200 bg-neutral-50/90 p-5 md:p-6">
-              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-500">
+
+          <div className="relative mt-8 grid gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
+            <article className="relative rotate-[-0.8deg] rounded-[1.5rem] border-[3px] border-red-500 bg-gradient-to-br from-red-100 via-red-50 to-red-200/90 p-6 shadow-[0_20px_56px_rgba(185,28,28,0.22)] md:p-8 md:pr-10">
+              <span
+                className="inline-flex rounded-full bg-red-600 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-white"
+                aria-hidden
+              >
                 {compare.without.label}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-neutral-700 md:text-base">
+              </span>
+              <p className="mt-4 text-lg font-black leading-snug text-red-950 md:text-xl">
                 {compare.without.title}
               </p>
+              <ul className="mt-5 space-y-3">
+                {compare.without.items.map((item) => (
+                  <li
+                    key={item}
+                    className="flex gap-3 text-sm font-medium leading-relaxed text-red-900 md:text-base"
+                  >
+                    <span
+                      className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-600 text-white"
+                      aria-hidden
+                    >
+                      <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none">
+                        <path
+                          d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </article>
-            <article className="rounded-2xl border-2 border-[#212129] bg-white p-5 md:p-6">
-              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#EFA188]">
+
+            <article className="relative z-10 -mt-2 rotate-[0.6deg] rounded-[1.5rem] border-[3px] border-[#212129] bg-gradient-to-br from-white via-[#FFF5F0] to-[#B2F5EA]/30 p-6 shadow-[0_28px_72px_rgba(239,161,136,0.38)] md:-mt-6 md:p-8 md:pl-10">
+              <div
+                className="pointer-events-none absolute inset-x-5 top-0 h-1.5 rounded-b-full bg-gradient-to-r from-[#EFA188] via-[#B2F5EA] to-[#D6BCFA]"
+                aria-hidden
+              />
+              <span
+                className="inline-flex rounded-full bg-[#EFA188] px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-[#212129]"
+                aria-hidden
+              >
                 {compare.with.label}
-              </p>
-              <p className="mt-3 text-sm font-medium leading-relaxed text-neutral-900 md:text-base">
+              </span>
+              <p className="mt-4 text-lg font-black leading-snug text-[#212129] md:text-xl">
                 {compare.with.title}
               </p>
+              <ul className="mt-5 space-y-3">
+                {compare.with.items.map((item) => (
+                  <li
+                    key={item}
+                    className="flex gap-3 text-sm font-semibold leading-relaxed text-[#212129] md:text-base"
+                  >
+                    <span
+                      className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white"
+                      aria-hidden
+                    >
+                      <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none">
+                        <path
+                          d="M3.5 8.5 6.5 11.5 12.5 4.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </article>
           </div>
         </div>
 
-        <ol className="mt-10 space-y-4 md:mt-12">
-          {content.steps.map((step, index) => (
-            <li
-              key={step.title}
-              className={`rounded-2xl border border-[#212129]/8 border-l-[5px] p-5 md:p-6 ${STEP_ACCENTS[index] ?? STEP_ACCENTS[0]}`}
-            >
-              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-500">
-                {step.index}
-              </p>
-              <h3 className="lk-display mt-2 text-lg md:text-xl">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#5b6478] md:text-base">
-                {step.lead}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <div className="relative mt-14 md:mt-16">
+          <div
+            className="absolute bottom-4 left-[0.65rem] top-4 w-px bg-gradient-to-b from-[#EFA188]/20 via-[#EFA188] to-[#212129]/20 md:left-5"
+            aria-hidden
+          />
+          <ol className="space-y-6 md:space-y-8">
+            {content.steps.map((step, index) => (
+              <li
+                key={step.title}
+                className={`relative ${TIMELINE_OFFSETS[index] ?? TIMELINE_OFFSETS[0]}`}
+              >
+                <span
+                  className="absolute -left-[0.1rem] top-6 z-10 h-3.5 w-3.5 rounded-full border-2 border-white bg-[#212129] shadow-[0_0_0_3px_rgba(239,161,136,0.45)] md:-left-1 md:h-4 md:w-4"
+                  aria-hidden
+                />
+                <article className="ml-8 max-w-2xl rounded-2xl border border-[#212129]/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(33,33,41,0.06)] backdrop-blur-sm md:ml-12 md:p-8">
+                  <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#5b6478]">
+                    {step.index}
+                  </p>
+                  <h3 className="lk-display mt-2 text-xl md:text-2xl">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#5b6478] md:text-base">
+                    {step.lead}
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
 
       <span className="sr-only">{content.imageAlt}</span>

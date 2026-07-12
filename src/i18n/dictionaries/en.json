@@ -202,6 +202,18 @@
     "sectionEyebrow": "Pricing",
     "sectionTitle": "Simple pricing, paid back from your first job",
     "sectionLead": "Free entry to test. Beta Pro at €19 excl. VAT/month — zero commission on your jobs.",
+    "splitContrast": {
+      "eyebrow": "The reality check",
+      "headline": "Elsewhere, it's a maze.",
+      "painPoints": [
+        "Hidden subscriptions that grow every month",
+        "Brochure sites that are painful to maintain alone",
+        "Long commitments and generic contact forms",
+        "Zero request sorting — you start from scratch on every message"
+      ],
+      "payoff": "Paid back from your 1st job"
+    },
+    "recommendedBadge": "Recommended",
     "tableCriterion": "Criterion",
     "tableClassic": "Classic brochure website",
     "tableCraftlink": "CraftLink",

@@ -58,10 +58,19 @@ export type TierCustomJson = {
   whatsappMessage: string;
 };
 
+export type PricingSplitContrastDictionary = {
+  eyebrow: string;
+  headline: string;
+  painPoints: string[];
+  payoff: string;
+};
+
 export type PricingComparisonDictionary = {
   sectionEyebrow: string;
   sectionTitle: string;
   sectionLead: string;
+  splitContrast: PricingSplitContrastDictionary;
+  recommendedBadge: string;
   tableCriterion: string;
   tableClassic: string;
   tableCraftlink: string;

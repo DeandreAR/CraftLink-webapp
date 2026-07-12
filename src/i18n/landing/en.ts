@@ -87,14 +87,24 @@ export const landingEn: LandingExtendedDictionary = {
     compare: {
       eyebrow: "Before / After",
       without: {
-        label: "Before CraftLink",
+        label: "The chaos",
         title:
-          "Dozens of scattered messages (SMS, Facebook, WhatsApp) ➡️ Half lack precise details.",
+          "Dozens of scattered messages — half lack the details you need to quote.",
+        items: [
+          "SMS, Facebook, WhatsApp: everything is scattered",
+          "Blurry photos, incomplete address, vague urgency",
+          "You chase clients 3 times before you can price the job",
+        ],
       },
       with: {
-        label: "After CraftLink",
+        label: "CraftLink clarity",
         title:
-          "Clear, complete requests in one place ➡️ You know exactly where to start.",
+          "Complete requests in one place — you know exactly where to start.",
+        items: [
+          "Structured file: area, urgency, scope of work",
+          "Voice note transcribed automatically if they prefer talking",
+          "WhatsApp opens with full context already in hand",
+        ],
       },
     },
     steps: [
@@ -105,13 +115,13 @@ export const landingEn: LandingExtendedDictionary = {
       },
       {
         index: "Step 2",
-        title: "CraftLink sorts the request automatically",
-        lead: "The assistant extracts volumes, rooms and urgency without you doing anything.",
+        title: "CraftLink centralizes and organizes your requests instantly",
+        lead: "All key information is sorted and grouped in a clean dashboard. No message gets lost.",
       },
       {
         index: "Step 3",
-        title: "You follow up only on serious files",
-        lead: "Save hours every evening by filtering out time-wasters.",
+        title: "Run your business and follow up with clients fast",
+        lead: "See your jobs at a glance, validate serious files and follow up on the right leads in one click.",
       },
     ],
   },
@@ -126,7 +136,9 @@ export const landingEn: LandingExtendedDictionary = {
       "Two smiling building tradespeople on a renovation site with a stepladder.",
     showAllMetiers: "Show all trades",
     showLessMetiers: "Show fewer",
-    urgencyBadge: "Urgent",
+    urgencyBadge: "Urgent option enabled",
+    quoteBadge: "100% Quote",
+    selectMetierHint: "Select a trade",
     cards: [
       {
         metierKey: "RENOVATION_GENERALE",
