@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { AuthResult } from "@/domain/auth";
 import type { CreateProfileInput, Profile } from "@/domain/profile";
 import { parseStoredVitrineConfig } from "@/domain/vitrinePresentation";
+import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import {
   DEFAULT_PLAN_TIER,
   SIGNUP_PLAN_TIER_CANDIDATES,
@@ -9,7 +10,7 @@ import {
 import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
 
 const PROFILE_SELECT_TIERS = [
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, vitrine_presentation, created_at, updated_at",
+  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, vitrine_presentation, certifications, created_at, updated_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, created_at, updated_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, created_at, updated_at",
   "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at",
@@ -46,6 +47,7 @@ function mapProfile(row: Record<string, unknown>): Profile {
     vitrine_presentation: row.vitrine_presentation
       ? parseStoredVitrineConfig(row.vitrine_presentation)
       : null,
+    certifications: normalizeCertifications(row.certifications),
     created_at: (row.created_at as string | null) ?? null,
     updated_at: (row.updated_at as string | null) ?? null,
   };

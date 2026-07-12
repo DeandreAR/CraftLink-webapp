@@ -86,16 +86,18 @@ export function VitrineActionButtons({
         <span>{cta.secondaryInfo}</span>
       </button>
 
-      <button
-        type="button"
-        onClick={handleUrgentClick}
-        className={secondaryClass}
-        style={secondaryStyle}
-        aria-label={cta.secondaryUrgent}
-      >
-        <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
-        <span>{cta.secondaryUrgent}</span>
-      </button>
+      {visibility.showUrgentButton ? (
+        <button
+          type="button"
+          onClick={handleUrgentClick}
+          className={secondaryClass}
+          style={secondaryStyle}
+          aria-label={cta.secondaryUrgent}
+        >
+          <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
+          <span>{cta.secondaryUrgent}</span>
+        </button>
+      ) : null}
 
       {isPro && visibility.showCollaborationButton ? (
         <button

@@ -57,6 +57,7 @@ export function mappedImportToProfileDraft(
     importGoogleRating: mapped.rating,
     importGoogleReviewCount: mapped.reviews,
     importExperienceYears: mapped.experienceYears ?? undefined,
+    experienceYears: mapped.experienceYears ?? undefined,
     importFollowerCount: mapped.followerCount ?? undefined,
     socialFollowers: followerStatFromImport(mapped.platform, mapped.followerCount),
     portfolioItems: mapped.portfolioItems,

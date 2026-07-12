@@ -45,6 +45,11 @@ export function formatLeadDossierMessage(
     `• Statut : ${leadDelayStatusLabel(lead.delayStatus)}`,
   ];
 
+  const needNature = lead.needNature?.trim();
+  if (needNature) {
+    lines.push(`• Nature du besoin : ${needNature}`);
+  }
+
   if (description) {
     lines.push(`• Description : ${description}`);
   }

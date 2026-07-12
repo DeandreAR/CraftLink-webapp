@@ -13,6 +13,7 @@ export const vitrineEn: VitrineDictionary = {
       "The customer tapped “Report an urgency” and was redirected to WhatsApp. No contact details provided.",
     urgencyWhatsAppUnavailable:
       "WhatsApp number unavailable — please use the contact form.",
+    certificationsAriaLabel: "Certifications and diplomas",
   },
   details: {
     back: "Back to profile",
@@ -56,6 +57,9 @@ export const vitrineEn: VitrineDictionary = {
     needDescriptionOrVoice:
       "Describe your need in writing or record a voice message.",
     selectDelayPlaceholder: "Choose a timeline",
+    needNature: "Nature of request",
+    needNatureOptional: "optional",
+    needNaturePlaceholder: "— Select if relevant —",
     question: "Ask your question to the tradesperson…",
     questionPlaceholder: "Explain your situation or concern…",
     collaborationToggle: "I'm a professional looking to collaborate",

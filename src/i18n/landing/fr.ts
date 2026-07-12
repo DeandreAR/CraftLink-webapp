@@ -220,6 +220,11 @@ export const landingFr: LandingExtendedDictionary = {
         angle:
           "Gros œuvre ou rénovation : une entrée unique pour les petits chantiers comme pour les réponses aux appels d’offres locaux.",
       },
+      {
+        metier: "Entreprise de rénovation générale / TCE",
+        angle:
+          "Suivi de chantiers, extensions ou rénovations complètes : l'IA structure les pièces, les volumes et la nature des travaux (élec, plomberie, peinture) pour vous faire gagner des heures sur vos premiers chiffrages.",
+      },
     ],
   },
 };

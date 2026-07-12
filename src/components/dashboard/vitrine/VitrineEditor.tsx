@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaArrowUpRightFromSquare, FaList, FaPalette, FaPen } from "react-icons/fa6";
 import { updateDashboardProfileAction } from "@/app/actions/dashboard";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
+import { CertificationTagsField } from "@/components/dashboard/vitrine/CertificationTagsField";
 import { PortfolioGalleryEditor } from "@/components/dashboard/vitrine/PortfolioGalleryEditor";
 import { OnboardingGeneralStep } from "@/components/onboarding/steps/OnboardingGeneralStep";
 import { OnboardingInterventionsStep } from "@/components/onboarding/steps/OnboardingInterventionsStep";
@@ -20,6 +21,7 @@ import {
   buildPublicPagePath,
   publicPageSlugPrefix,
 } from "@/lib/onboarding/publicPageUrl";
+import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 
@@ -46,6 +48,9 @@ export function VitrineEditor({
   const [section, setSection] = useState<EditorSection>("general");
   const [profileDraft, setProfileDraft] = useState<OnboardingProfileDraft>(initial.profileDraft);
   const [services, setServices] = useState<OnboardingService[]>(initial.services);
+  const [certifications, setCertifications] = useState<string[]>(
+    () => profile.certifications ?? [],
+  );
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState<"saved" | "error" | null>(null);
 
@@ -68,6 +73,7 @@ export function VitrineEditor({
       fullName: profileDraft.businessName.trim(),
       phone: profileDraft.phone.trim(),
       vitrine: editorStateToStoredConfig(profileDraft, services),
+      certifications: normalizeCertifications(certifications),
     });
 
     setSaving(false);
@@ -121,14 +127,24 @@ export function VitrineEditor({
 
       <div className="pt-2">
         {section === "general" ? (
-          <OnboardingGeneralStep
-            copy={onboardingCopy}
-            locale={locale}
-            profile={profileDraft}
-            errors={{}}
-            includePhone
-            onChange={patchProfile}
-          />
+          <div className="space-y-5">
+            <OnboardingGeneralStep
+              copy={onboardingCopy}
+              locale={locale}
+              profile={profileDraft}
+              errors={{}}
+              includePhone
+              onChange={patchProfile}
+            />
+            <CertificationTagsField
+              value={certifications}
+              onChange={(next) => {
+                setCertifications(next);
+                setFeedback(null);
+              }}
+              copy={v.fields.certifications}
+            />
+          </div>
         ) : null}
 
         {section === "content" ? (
@@ -150,6 +166,7 @@ export function VitrineEditor({
               locale={locale}
               profile={profileDraft}
               services={services}
+              certifications={certifications}
               onChange={patchProfile}
               showCreatePageButton={false}
             />

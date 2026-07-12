@@ -12,6 +12,7 @@ import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineAffiliateLinks } from "@/components/vitrine/VitrineAffiliateLinks";
 import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
+import { VitrineCertificationBadges } from "@/components/vitrine/VitrineCertificationBadges";
 import { VitrineInterventionTags } from "@/components/vitrine/VitrineInterventionTags";
 import { VitrinePortfolioGallery } from "@/components/vitrine/VitrinePortfolioGallery";
 import { VitrineServicesPublicList } from "@/components/vitrine/VitrineServicesPublicList";
@@ -55,6 +56,7 @@ export function VitrinePresentation({
     visibility.showServicesOnPresentation && services.length > 0;
   const showAffiliateLinks =
     visibility.showAffiliateLinks && (artisan.affiliateLinks?.length ?? 0) > 0;
+  const certificationBadges = artisan.certifications ?? [];
   const useBrandCta = isProPublicPlan(planTier);
 
   return (
@@ -77,6 +79,13 @@ export function VitrinePresentation({
         <VitrineAboutSection
           title={artisan.aboutSection.title}
           body={artisan.aboutSection.body}
+        />
+      ) : null}
+
+      {certificationBadges.length > 0 ? (
+        <VitrineCertificationBadges
+          items={certificationBadges}
+          ariaLabel={copy.presentation.certificationsAriaLabel}
         />
       ) : null}
 

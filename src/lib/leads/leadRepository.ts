@@ -19,6 +19,7 @@ const LEAD_SELECT = `
   created_at,
   updated_at,
   work_type,
+  need_nature,
   zone,
   delay_status,
   workflow_status,

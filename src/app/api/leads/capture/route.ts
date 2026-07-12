@@ -30,6 +30,7 @@ function parseCaptureBody(body: unknown): PublicLeadCaptureInput | null {
     description: String(raw.description ?? ""),
     workType: String(raw.workType ?? ""),
     zone: String(raw.zone ?? ""),
+    needNature: raw.needNature != null ? String(raw.needNature) : null,
     openIntent: raw.openIntent as VitrineOpenIntent | undefined,
   };
 }

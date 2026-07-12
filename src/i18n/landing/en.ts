@@ -220,6 +220,11 @@ export const landingEn: LandingExtendedDictionary = {
         angle:
           "Structural work or renovation: one entry for small jobs and local tender responses alike.",
       },
+      {
+        metier: "General renovation / turnkey contractor",
+        angle:
+          "Project management, extensions or full renovations: AI structures rooms, volumes and work types (electrical, plumbing, painting) to save hours on your first quotes.",
+      },
     ],
   },
 };

@@ -20,6 +20,8 @@ export type Profile = {
   whatsapp_clicks_month_key?: string | null;
   voice_capture_enabled?: boolean;
   vitrine_presentation?: StoredVitrineConfig | null;
+  /** Certifications & diplômes (badges vitrine publique). */
+  certifications?: string[];
   created_at: string | null;
   updated_at: string | null;
 };

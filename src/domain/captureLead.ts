@@ -28,6 +28,8 @@ export type PublicLeadCaptureInput = {
   description: string;
   workType: string;
   zone: string;
+  /** Nature du besoin (optionnel, liste dépendante du métier artisan). */
+  needNature?: string | null;
   openIntent?: VitrineOpenIntent;
 };
 

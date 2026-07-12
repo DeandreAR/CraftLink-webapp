@@ -287,6 +287,7 @@ export type DashboardDictionary = {
       close: string;
       phoneLabel: string;
       descriptionLabel: string;
+      needNatureLabel: string;
       voiceLabel: string;
       voiceSummaryLabel: string;
       transcriptLabel: string;
@@ -384,6 +385,14 @@ export type DashboardDictionary = {
       instagram: string;
       facebook: string;
       google: string;
+      certifications: {
+        label: string;
+        hint: string;
+        placeholder: string;
+        add: string;
+        removeAria: string;
+        maxReached: string;
+      };
     };
     save: string;
     saving: string;
@@ -726,6 +735,7 @@ export type VitrineDictionary = {
     urgencyWhatsAppMessage: string;
     urgencyClickLeadDescription: string;
     urgencyWhatsAppUnavailable: string;
+    certificationsAriaLabel: string;
   };
   details: {
     back: string;
@@ -768,6 +778,9 @@ export type VitrineDictionary = {
     descriptionHint: string;
     needDescriptionOrVoice: string;
     selectDelayPlaceholder: string;
+    needNature: string;
+    needNatureOptional: string;
+    needNaturePlaceholder: string;
     question: string;
     questionPlaceholder: string;
     collaborationToggle: string;
@@ -918,6 +931,14 @@ export type OnboardingDictionary = {
     cityPlaceholder: string;
     cityNoResults: string;
     radiusLabel: string;
+    statsTitle: string;
+    statsSubtitle: string;
+    experienceYearsLabel: string;
+    experienceYearsPlaceholder: string;
+    experienceYearsHint: string;
+    completedProjectsLabel: string;
+    completedProjectsPlaceholder: string;
+    completedProjectsHint: string;
   };
   interventions: {
     title: string;

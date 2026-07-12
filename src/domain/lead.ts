@@ -66,6 +66,8 @@ export type DashboardLead = {
   updatedAt: string;
   /** Intitulé court des travaux (résumé IA si vocal). */
   workType: string;
+  /** Nature du besoin choisie par le client (optionnel). */
+  needNature?: string | null;
   zone: string;
   delayStatus: LeadDelayStatus;
   workflowStatus: LeadWorkflowStatus;

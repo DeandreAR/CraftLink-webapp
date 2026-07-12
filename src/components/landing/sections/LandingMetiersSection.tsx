@@ -28,16 +28,18 @@ export function LandingMetiersSection({ content }: LandingMetiersSectionProps) {
           lead={content.header.lead}
         />
 
-        <div className="landing-metiers-grid mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="landing-metiers-grid mt-12 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {content.cards.map((card, index) => {
             const style = CARD_STYLES[index % CARD_STYLES.length];
             return (
               <div
                 key={card.metier}
-                className={`rounded-[1.15rem] border-2 border-[#212129]/8 border-l-[5px] p-6 ${style.border} ${style.bg}`}
+                className={`flex h-full flex-col rounded-[1.15rem] border-2 border-[#212129]/8 border-l-[5px] p-6 ${style.border} ${style.bg}`}
               >
                 <h3 className="lk-display text-lg">{card.metier}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#5b6478]">{card.angle}</p>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-[#5b6478]">
+                  {card.angle}
+                </p>
               </div>
             );
           })}

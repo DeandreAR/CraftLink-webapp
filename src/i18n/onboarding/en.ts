@@ -38,7 +38,7 @@ export const onboardingEn: OnboardingDictionary = {
   },
   general: {
     title: "General information",
-    subtitle: "Name, trade and service area.",
+    subtitle: "Name, trade, service area and stats shown on your public page.",
     companyLabel: "Business name",
     companyPlaceholder: "E.g. Dupont Electrical",
     metierLabel: "Main trade",
@@ -46,6 +46,14 @@ export const onboardingEn: OnboardingDictionary = {
     cityPlaceholder: "City or postcode…",
     cityNoResults: "No town found",
     radiusLabel: "Service radius",
+    statsTitle: "Experience & completed projects",
+    statsSubtitle: "Optional — shown as badges under your photo on the public page.",
+    experienceYearsLabel: "Years of experience",
+    experienceYearsPlaceholder: "E.g. 12",
+    experienceYearsHint: "E.g. “12+ years of experience”",
+    completedProjectsLabel: "Number of completed projects",
+    completedProjectsPlaceholder: "E.g. 150",
+    completedProjectsHint: "E.g. “150+ completed projects”",
   },
   interventions: {
     title: "Services & offerings",

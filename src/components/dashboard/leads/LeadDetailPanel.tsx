@@ -111,6 +111,11 @@ export function LeadDetailPanel({
             >
               {lead.workType}
             </h2>
+            {lead.needNature?.trim() ? (
+              <p className="mt-1 text-sm font-semibold text-[#c45a3a]">
+                {lead.needNature}
+              </p>
+            ) : null}
             <p className="mt-0.5 text-sm text-neutral-600">
               {lead.clientName} · #{formatRequestNumber(lead.requestNumber)}
             </p>
@@ -196,6 +201,14 @@ export function LeadDetailPanel({
                 </dt>
                 <dd className="mt-1 text-neutral-800">{lead.zone}</dd>
               </div>
+              {lead.needNature?.trim() ? (
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                    {d.needNatureLabel}
+                  </dt>
+                  <dd className="mt-1 font-medium text-neutral-900">{lead.needNature}</dd>
+                </div>
+              ) : null}
               <div>
                 <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
                   {d.phoneLabel}

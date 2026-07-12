@@ -38,6 +38,8 @@ export type VitrineVisibilitySettings = {
   showAffiliateLinks: boolean;
   /** Affiche la liste des prestations sur la page de présentation (pas le formulaire). */
   showServicesOnPresentation: boolean;
+  /** Bouton « Signaler une urgence » — dépend du métier (voir `metierSupportsUrgencyCta`). */
+  showUrgentButton: boolean;
   contentBlockMode: VitrineContentBlockMode;
 };
 
@@ -59,7 +61,9 @@ export type VitrineProfileSettings = {
 export type VitrineStatBadgeKind =
   | "default"
   | "google_reviews"
-  | "google_rating";
+  | "google_rating"
+  | "experience"
+  | "projects";
 
 export type VitrineStatBadge = {
   id: string;
@@ -148,6 +152,7 @@ export type ArtisanVitrineProfile = {
   affiliateLinks: VitrineAffiliateLink[];
   portfolioItems?: VitrinePortfolioItem[];
   aboutSection?: VitrineAboutSection | null;
+  certifications?: string[];
 };
 
 export type VitrineService = {

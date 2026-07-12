@@ -61,7 +61,8 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
     avatarUrl: DEMO_ELECTRICIAN_IMAGE,
   },
   statBadges: [
-    { id: "exp", label: "10+ Années Exp.", kind: "default" },
+    { id: "experience", label: "10+ ans d'expérience", kind: "experience" },
+    { id: "projects", label: "250+ réalisations", kind: "projects" },
     {
       id: "reviews",
       label: "25+ Avis Google",
@@ -154,6 +155,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showAffiliateLinks: false,
     showPortfolioGallery: true,
     showServicesOnPresentation: true,
+    showUrgentButton: true,
     contentBlockMode: "interventions",
   },
   cta: {
@@ -173,6 +175,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showAffiliateLinks: true,
     showPortfolioGallery: true,
     showServicesOnPresentation: false,
+    showUrgentButton: true,
     contentBlockMode: "about",
   },
   cta: {

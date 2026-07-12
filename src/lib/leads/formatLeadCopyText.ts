@@ -27,6 +27,11 @@ export function formatLeadCopyText(lead: DashboardLead, locale: Locale = "fr"): 
     lines.push(`Travaux : ${work}`);
   }
 
+  const needNature = lead.needNature?.trim();
+  if (needNature) {
+    lines.push(`Nature du besoin : ${needNature}`);
+  }
+
   const zone = lead.zone.trim();
   if (zone) {
     lines.push(`Zone : ${zone}`);
