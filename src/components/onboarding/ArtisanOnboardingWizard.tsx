@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   defaultOnboardingProfile,
@@ -66,7 +65,6 @@ export function ArtisanOnboardingWizard({
   onCelebrationChange,
   onShellChange,
 }: ArtisanOnboardingWizardProps) {
-  const router = useRouter();
   const isProIntent = planIntent === "pro";
   const showPlanStep = !isProIntent;
   const [proWizardActive, setProWizardActive] = useState(isProIntent);
@@ -80,6 +78,7 @@ export function ArtisanOnboardingWizard({
   const [publishError, setPublishError] = useState<string | null>(null);
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
+  const [proBillingPeriod, setProBillingPeriod] = useState<ProBillingPeriod>("monthly");
 
   const patchProfile = useCallback((patch: Partial<OnboardingProfileDraft>) => {
     setProfile((prev) => {
@@ -155,11 +154,18 @@ export function ArtisanOnboardingWizard({
   const selectProPlan = useCallback(
     (billing: ProBillingPeriod) => {
       setDraftPlan("PRO");
+      setProBillingPeriod(billing);
       patchProfile({ plan: "PRO" });
-      router.replace(onboardingPath(lang, { plan: "pro", billing }));
+      if (typeof window !== "undefined") {
+        window.history.replaceState(
+          null,
+          "",
+          onboardingPath(lang, { plan: "pro", billing }),
+        );
+      }
       setProWizardActive(true);
     },
-    [lang, patchProfile, router],
+    [lang, patchProfile],
   );
 
   if (proWizardActive) {
@@ -170,6 +176,7 @@ export function ArtisanOnboardingWizard({
         vitrineCopy={vitrineCopy}
         initialProfile={isProIntent ? undefined : profile}
         initialServices={isProIntent ? undefined : services}
+        initialBillingPeriod={proBillingPeriod}
         onCelebrationChange={onCelebrationChange}
       />
     );
@@ -244,7 +251,6 @@ export function ArtisanOnboardingWizard({
     return (
       <OnboardingPlanSelectionStep
         model={pricingModel}
-        copy={copy}
         locale={lang}
         onSelectEssential={selectEssentialPlan}
         onSelectPro={selectProPlan}
@@ -275,6 +281,7 @@ export function ArtisanOnboardingWizard({
           if (next === "PRO") {
             setProfile((prev) => ({ ...prev, plan: "PRO" }));
             setDraftPlan("PRO");
+            setProBillingPeriod("monthly");
             setProWizardActive(true);
             return;
           }
