@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { FaPen, FaQrcode } from "react-icons/fa6";
 import type { Profile } from "@/domain/profile";
+import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { QrCodeVanModule } from "@/components/dashboard/vitrine/QrCodeVanModule";
 import { VitrineEditor } from "@/components/dashboard/vitrine/VitrineEditor";
@@ -45,12 +46,7 @@ export function VitrinePanel({
 
   return (
     <section>
-      <header className="mb-1">
-        <h1 className="lk-display text-2xl md:text-[1.75rem]">
-          {v.title}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">{v.subtitle}</p>
-      </header>
+      <DashboardPageHeader title={v.title} subtitle={v.subtitle} />
 
       <DashboardViewTabs
         tabs={subTabs}

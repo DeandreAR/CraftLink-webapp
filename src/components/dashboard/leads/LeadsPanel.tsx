@@ -10,6 +10,7 @@ import {
   profileToDashboardUser,
   type DashboardUser,
 } from "@/domain/dashboardUser";
+import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { LeadDetailPanel } from "@/components/dashboard/leads/LeadDetailPanel";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
@@ -311,23 +312,21 @@ export function LeadsPanel({
 
   return (
     <section className="space-y-0">
-      <header className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="lk-display text-2xl md:text-[1.75rem]">
-            {l.title}
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-500">{l.subtitle}</p>
-        </div>
-        <p
-          className={`shrink-0 self-start rounded-full px-3 py-1 text-[11px] font-medium sm:self-auto ${
-            dashboardUser.plan === "PRO"
-              ? "bg-slate-100 text-slate-600"
-              : "bg-amber-50 text-amber-900 ring-1 ring-amber-100"
-          }`}
-        >
-          {quotaLabel}
-        </p>
-      </header>
+      <DashboardPageHeader
+        title={l.title}
+        subtitle={l.subtitle}
+        badge={
+          <span
+            className={`db-badge ${
+              dashboardUser.plan === "PRO"
+                ? "border-[#212129]/12 bg-[#FDFBF7]"
+                : "border-amber-300/60 bg-amber-50 text-amber-950"
+            }`}
+          >
+            {quotaLabel}
+          </span>
+        }
+      />
 
       {catchUpLead ? (
         <SmartCatchUpBanner
@@ -407,7 +406,7 @@ export function LeadsPanel({
             ) : null}
 
             {displayedLeads.length === 0 ? (
-              <p className="rounded-xl border border-dashed border-neutral-200 py-16 text-center text-sm text-slate-400">
+              <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-16 text-center text-sm text-[#5b6478]">
                 {showArchived ? l.emptyArchived : l.empty}
               </p>
             ) : view === "table" ? (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
 import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
@@ -47,18 +48,18 @@ function RequestsTable({
 
   if (requests.length === 0) {
     return (
-      <div className="rounded-[18px] border border-dashed border-neutral-200 bg-white px-6 py-12 text-center">
-        <p className="text-sm font-semibold text-slate-700">{p.empty}</p>
-        <p className="mt-2 text-sm text-slate-500">{p.emptyHint}</p>
+      <div className="db-card-flat px-6 py-12 text-center">
+        <p className="text-sm font-semibold text-[#212129]">{p.empty}</p>
+        <p className="mt-2 text-sm text-[#5b6478]">{p.emptyHint}</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="hidden overflow-hidden rounded-[18px] border border-neutral-200 bg-white md:block">
+      <div className="hidden overflow-hidden db-card-flat md:block">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-neutral-100 bg-neutral-50 text-[11px] font-bold uppercase tracking-wide text-slate-500">
+          <thead className="border-b border-[#EFA188]/15 bg-[#FDFBF7] text-[11px] font-bold uppercase tracking-wide text-[#5b6478]">
             <tr>
               <th className="px-4 py-3">{p.columns.company}</th>
               <th className="px-4 py-3">{p.columns.contact}</th>
@@ -73,8 +74,8 @@ function RequestsTable({
               return (
                 <tr
                   key={request.id}
-                  className={`cursor-pointer border-b border-neutral-100 last:border-0 ${
-                    selected ? "bg-[#EFA188]/10" : "hover:bg-neutral-50"
+                  className={`cursor-pointer border-b border-[#212129]/6 last:border-0 ${
+                    selected ? "bg-[#EFA188]/12" : "hover:bg-[#FDFBF7]"
                   }`}
                   onClick={() => onSelect(request.id)}
                 >
@@ -111,10 +112,10 @@ function RequestsTable({
               <button
                 type="button"
                 onClick={() => onSelect(request.id)}
-                className={`w-full rounded-[18px] border p-4 text-left ${
+                className={`w-full db-card-flat p-4 text-left ${
                   selected
-                    ? "border-[#EFA188] bg-[#EFA188]/10"
-                    : "border-neutral-200 bg-white"
+                    ? "border-[#EFA188]/50 bg-[#EFA188]/10"
+                    : ""
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
@@ -233,12 +234,7 @@ export function PartnersPanel({
 
   return (
     <section className="space-y-6">
-      <header>
-        <h1 className="lk-display text-2xl md:text-[1.75rem]">
-          {copy.tabs.partners}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">{p.subtitle}</p>
-      </header>
+      <DashboardPageHeader title={copy.tabs.partners} subtitle={p.subtitle} />
 
       {!pro ? (
         <PlanLockedCard

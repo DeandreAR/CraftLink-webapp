@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { signOutAction } from "@/app/actions/auth";
@@ -14,6 +15,7 @@ import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
+import { defaultLocale } from "@/i18n/config";
 import type { WorkspaceSession } from "@/lib/auth/sessionContext";
 
 export type DashboardTab = "leads" | "vitrine" | "partners" | "account";
@@ -32,10 +34,10 @@ type DashboardLayoutProps = {
 };
 
 const TAB_MOTION = {
-  initial: { opacity: 0, y: 14 },
+  initial: { opacity: 0, y: 12 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
-  transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] as const },
+  exit: { opacity: 0, y: -6 },
+  transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 export function DashboardLayout({
@@ -52,30 +54,50 @@ export function DashboardLayout({
 }: DashboardLayoutProps) {
   const [tab, setTab] = useState<DashboardTab>("leads");
   const { profile } = session;
+  const home = locale === defaultLocale ? "/" : `/${locale}`;
 
   return (
-    <div className="flex min-h-screen bg-[#f4f5f7] text-slate-900">
+    <div className="dashboard-page relative flex min-h-[100dvh] text-[#212129]">
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden
+      >
+        <div className="absolute -right-24 top-0 h-72 w-72 rounded-full bg-[#EFA188]/14 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-[#D6BCFA]/12 blur-3xl" />
+      </div>
+
       <DashboardSidebar
         active={tab}
         onChange={setTab}
         copy={copy}
         locale={locale}
+        businessName={profile.full_name}
       />
 
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-end border-b border-neutral-200 bg-white px-4 py-3 md:hidden">
+      <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/8 bg-[#1a1d24] px-4 py-3 md:hidden">
+          <Link href={home} className="inline-flex items-center" aria-label="CraftLink">
+            <img
+              src="/images/logo_main.png"
+              alt="CraftLink"
+              width={1731}
+              height={350}
+              className="block h-6 w-auto max-w-none brightness-0 invert"
+              decoding="async"
+            />
+          </Link>
           <form action={signOutAction}>
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="rounded-full border border-[#EFA188]/45 bg-[#EFA188]/20 px-3 py-1.5 text-[11px] font-bold text-[#212129] transition active:scale-[0.98] hover:bg-[#EFA188]/35"
+              className="rounded-full border border-[#EFA188]/45 bg-[#EFA188]/20 px-3 py-1.5 text-[11px] font-bold text-white transition active:scale-[0.98] hover:bg-[#EFA188]/35"
             >
               {copy.signOut}
             </button>
           </form>
         </header>
 
-        <main className="flex-1 overflow-x-auto px-4 py-5 pb-[4.5rem] md:px-8 md:py-8 md:pb-8">
+        <main className="flex-1 overflow-x-auto px-4 py-5 pb-[5rem] md:px-8 md:py-8 md:pb-8">
           <div className="mx-auto w-full max-w-6xl">
             <AnimatePresence mode="wait">
               <motion.div key={tab} {...TAB_MOTION}>
