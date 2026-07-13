@@ -1,3 +1,4 @@
+import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { defaultLocale, type Locale } from "@/i18n/config";
 
 export type AuthSegment = "login" | "signup" | "dashboard" | "onboarding";
@@ -31,7 +32,11 @@ export type ProBillingPeriod = "monthly" | "annual";
 
 export function onboardingPath(
   lang: Locale | undefined,
-  options?: { plan?: "pro"; billing?: ProBillingPeriod },
+  options?: {
+    plan?: "pro";
+    billing?: ProBillingPeriod;
+    metierKey?: MetierKey;
+  },
 ): string {
   const base = authPath(lang, "onboarding");
   const params = new URLSearchParams();
@@ -40,6 +45,9 @@ export function onboardingPath(
   }
   if (options?.billing === "annual") {
     params.set("billing", "annual");
+  }
+  if (options?.metierKey) {
+    params.set("metier", options.metierKey);
   }
   const query = params.toString();
   return query ? `${base}?${query}` : base;

@@ -40,6 +40,7 @@ export const APP_RESERVED_SLUGS = new Set<string>([
   "p",
   // Marketing & contenu
   "blog",
+  "metiers",
   "docs",
   "help",
   "support",
