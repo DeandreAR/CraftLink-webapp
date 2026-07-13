@@ -65,6 +65,8 @@ export function OrganizationPanel({
     loadError,
     catchUpLead,
     catchUpBusy,
+    catchUpError,
+    setCatchUpError,
     summaryStats,
     quotaLabel,
     handlers: baseHandlers,
@@ -107,8 +109,9 @@ export function OrganizationPanel({
     () => ({
       ...baseHandlers,
       onOpenDetail: setSelectedLeadId,
+      onLeadUpdated: replaceLead,
     }),
-    [baseHandlers],
+    [baseHandlers, replaceLead],
   );
 
   const viewProps = useMemo(
@@ -171,6 +174,11 @@ export function OrganizationPanel({
 
   const viewTabs = [
     {
+      id: "pipeline" as const,
+      label: copy.leads.views.pipeline,
+      icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+    {
       id: "table" as const,
       label: copy.leads.views.table,
       icon: <FaTableColumns className="h-3.5 w-3.5 opacity-70" aria-hidden />,
@@ -179,11 +187,6 @@ export function OrganizationPanel({
       id: "cards" as const,
       label: copy.leads.views.cards,
       icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
-    },
-    {
-      id: "pipeline" as const,
-      label: copy.leads.views.pipeline,
-      icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
     },
   ];
 
@@ -198,12 +201,16 @@ export function OrganizationPanel({
         badge={<span className="db-badge">{quotaLabel}</span>}
       />
 
+      <div className="db-organize-shell rounded-[1.5rem] border border-[#212129]/8 bg-white/60 p-4 shadow-[0_16px_48px_rgba(33,33,41,0.06)] backdrop-blur-sm md:p-5">
+
       {catchUpLead ? (
         <SmartCatchUpBanner
           lead={catchUpLead}
           copy={copy}
           onAction={handleCatchUp}
           busy={catchUpBusy}
+          error={catchUpError}
+          onDismissError={() => setCatchUpError(null)}
         />
       ) : null}
 
@@ -394,6 +401,7 @@ export function OrganizationPanel({
         locale={locale}
         clicksUsed={dashboardUser.whatsappClicksThisMonth}
       />
+      </div>
     </section>
   );
 }

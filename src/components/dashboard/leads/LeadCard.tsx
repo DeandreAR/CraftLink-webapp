@@ -1,6 +1,7 @@
 "use client";
 
 import { FaGripVertical } from "react-icons/fa6";
+import { LeadFileDropTarget } from "@/components/dashboard/leads/LeadFileDropTarget";
 import type { DashboardLead } from "@/domain/lead";
 import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
 import { LeadWorkflowBadge } from "@/components/dashboard/leads/LeadWorkflowControls";
@@ -31,6 +32,7 @@ export function LeadCard({
   onOpenDetail,
   onDelayStatusChange,
   onWhatsAppContact,
+  onLeadUpdated,
   compact = false,
   draggable = false,
   selectable = false,
@@ -42,11 +44,11 @@ export function LeadCard({
   const waLinks = buildLeadWhatsAppLinks(lead, businessName);
   const muted = isLeadWorkflowMuted(lead.workflowStatus);
 
-  return (
+  const card = (
     <article
       className={`rounded-xl border bg-white ${
         compact ? "p-2.5" : "p-4"
-      } ${selected ? "border-slate-400 ring-1 ring-slate-200" : "border-neutral-200"} ${leadRowMutedClass(muted)} ${muted ? "bg-neutral-50/60" : ""}`}
+      } ${selected ? "border-[#EFA188]/50 ring-1 ring-[#EFA188]/25" : "border-neutral-200"} ${leadRowMutedClass(muted)} ${muted ? "bg-neutral-50/60" : ""}`}
     >
       <div className="flex items-start gap-2">
         {selectable ? (
@@ -125,4 +127,19 @@ export function LeadCard({
       </div>
     </article>
   );
+
+  if (onLeadUpdated) {
+    return (
+      <LeadFileDropTarget
+        leadId={lead.id}
+        copy={copy}
+        onLeadUpdated={onLeadUpdated}
+        className="rounded-xl"
+      >
+        {card}
+      </LeadFileDropTarget>
+    );
+  }
+
+  return card;
 }

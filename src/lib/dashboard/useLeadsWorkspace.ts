@@ -72,6 +72,7 @@ export function useLeadsWorkspace({
   const [whatsappError, setWhatsappError] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(initialLoadError);
   const [catchUpBusy, setCatchUpBusy] = useState(false);
+  const [catchUpError, setCatchUpError] = useState<string | null>(null);
 
   useEffect(() => {
     setDashboardUser(profileToDashboardUser(profile));
@@ -97,7 +98,7 @@ export function useLeadsWorkspace({
   const newLeads = useMemo(() => filterNewLeads(leads), [leads]);
   const organizedLeads = useMemo(() => filterOrganizedLeads(leads), [leads]);
   const summaryStats = useMemo(() => computeLeadsSummary(leads), [leads]);
-  const catchUpLead = useMemo(() => findCatchUpLead(leads), [leads]);
+  const catchUpLead = useMemo(() => findCatchUpLead(organizedLeads), [organizedLeads]);
 
   const updateLead = useCallback((leadId: string, patch: Partial<DashboardLead>) => {
     setLeads((prev) =>
@@ -136,10 +137,13 @@ export function useLeadsWorkspace({
   const handleCatchUp = useCallback(
     (leadId: string, action: CatchUpAction) => {
       setCatchUpBusy(true);
+      setCatchUpError(null);
       void catchUpLeadAction(leadId, action).then((result) => {
         setCatchUpBusy(false);
         if (result.ok) {
           replaceLead(result.lead);
+        } else {
+          setCatchUpError(result.message);
         }
       });
     },
@@ -250,6 +254,8 @@ export function useLeadsWorkspace({
     loadError,
     catchUpLead,
     catchUpBusy,
+    catchUpError,
+    setCatchUpError,
     summaryStats,
     quotaLabel,
     handlers,

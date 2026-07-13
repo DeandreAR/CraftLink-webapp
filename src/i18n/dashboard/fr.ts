@@ -9,6 +9,12 @@ export const dashboardFr: DashboardDictionary = {
     profile: "Mon profil",
     partners: "Partenariats",
   },
+  tabDescriptions: {
+    inbox: "Boîte de réception — nouvelles demandes sans action.",
+    organize: "Pipeline, relances et agenda terrain.",
+    profile: "Métier, urgence, certifications et vitrine.",
+    partners: "Marques, codes affiliés et commissions.",
+  },
   inbox: {
     title: "Demandes reçues",
     subtitle:
@@ -236,6 +242,7 @@ export const dashboardFr: DashboardDictionary = {
       weekdays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
     },
     catchUp: {
+      eyebrow: "Relance à traiter",
       ariaLabel: "Rattrapage projet en attente",
       question: "Où en est le projet de {clientName} ?",
       quoteSent: "📄 Devis envoyé",
@@ -254,6 +261,7 @@ export const dashboardFr: DashboardDictionary = {
     attachments: {
       title: "Ajouter le Devis / la Facture",
       dropHint: "Glissez un fichier ou touchez pour sélectionner",
+      dropHintShort: "Déposer devis / facture",
       formats: "PDF ou image · 5 Mo max",
       uploading: "Envoi en cours…",
       invalidType: "Format non supporté (PDF ou image).",

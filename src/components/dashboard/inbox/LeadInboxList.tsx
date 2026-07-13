@@ -2,6 +2,7 @@
 
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
+import { delayStatusBadgeClass } from "@/components/dashboard/leads/leadsViewShared";
 
 type LeadInboxListProps = {
   leads: DashboardLead[];
@@ -12,6 +13,7 @@ type LeadInboxListProps = {
 
 export function LeadInboxList({ leads, selectedId, copy, onSelect }: LeadInboxListProps) {
   const inbox = copy.inbox;
+  const l = copy.leads;
 
   if (leads.length === 0) {
     return (
@@ -48,6 +50,17 @@ export function LeadInboxList({ leads, selectedId, copy, onSelect }: LeadInboxLi
                   }`}
                 >
                   {inbox.statusNew}
+                </span>
+              </div>
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                <span
+                  className={`rounded-md px-2 py-0.5 text-[10px] font-bold ${
+                    isSelected
+                      ? "bg-white/15 text-white"
+                      : delayStatusBadgeClass(lead.delayStatus)
+                  }`}
+                >
+                  {l.delayStatus[lead.delayStatus]}
                 </span>
               </div>
               <p

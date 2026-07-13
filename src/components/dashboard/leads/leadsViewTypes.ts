@@ -10,6 +10,7 @@ export type LeadsViewHandlers = {
   onWorkflowStatusChange: (leadId: string, status: LeadWorkflowStatus) => void;
   onScheduleChange: (leadId: string, schedule: LeadSchedule | null) => void;
   onWhatsAppContact: (leadId: string, links: LeadWhatsAppLinks) => void;
+  onLeadUpdated?: (lead: DashboardLead) => void;
 };
 
 export type LeadsViewBaseProps = LeadsViewHandlers & {

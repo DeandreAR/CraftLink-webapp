@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { isFileDragEvent } from "@/hooks/useLeadAttachmentUpload";
 import { LEAD_WORKFLOW_STATUSES } from "@/domain/lead";
 import type { LeadWorkflowStatus } from "@/domain/lead";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
@@ -33,6 +34,7 @@ export function LeadsPipelineView(props: LeadsPipelineViewProps) {
           <div
             key={workflowStatus}
             onDragOver={(event) => {
+              if (isFileDragEvent(event)) return;
               event.preventDefault();
               setDropTarget(workflowStatus);
             }}
@@ -40,10 +42,11 @@ export function LeadsPipelineView(props: LeadsPipelineViewProps) {
               setDropTarget((prev) => (prev === workflowStatus ? null : prev))
             }
             onDrop={(event) => {
+              if (isFileDragEvent(event)) return;
               event.preventDefault();
               handleDrop(workflowStatus);
             }}
-            className={`flex w-[min(82vw,280px)] shrink-0 snap-start flex-col rounded-2xl border bg-white transition ${
+            className={`flex w-[min(82vw,280px)] shrink-0 snap-start flex-col rounded-2xl border bg-white shadow-[0_8px_24px_rgba(33,33,41,0.06)] transition ${
               isDropTarget
                 ? "border-black ring-2 ring-black/10"
                 : "border-neutral-200"

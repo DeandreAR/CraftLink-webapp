@@ -57,3 +57,12 @@
 .dashboard-page .db-muted {
   color: var(--lk-muted);
 }
+
+.dashboard-page .db-organize-shell {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--lk-peach) 5%, white) 0%,
+    #ffffff 45%,
+    color-mix(in srgb, var(--lk-lavender) 4%, white) 100%
+  );
+}

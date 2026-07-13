@@ -9,6 +9,12 @@ export const dashboardEn: DashboardDictionary = {
     profile: "My profile",
     partners: "Partnerships",
   },
+  tabDescriptions: {
+    inbox: "Inbox — new requests with no action yet.",
+    organize: "Pipeline, follow-ups and field schedule.",
+    profile: "Trade, urgency, certifications and storefront.",
+    partners: "Brands, affiliate codes and benefits.",
+  },
   inbox: {
     title: "Incoming requests",
     subtitle:
@@ -236,6 +242,7 @@ export const dashboardEn: DashboardDictionary = {
       weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
     catchUp: {
+      eyebrow: "Follow-up needed",
       ariaLabel: "Project follow-up reminder",
       question: "Where is {clientName}'s project at?",
       quoteSent: "📄 Quote sent",
@@ -254,6 +261,7 @@ export const dashboardEn: DashboardDictionary = {
     attachments: {
       title: "Add quote / invoice",
       dropHint: "Drop a file or tap to browse",
+      dropHintShort: "Drop quote / invoice",
       formats: "PDF or image · 5 MB max",
       uploading: "Uploading…",
       invalidType: "Unsupported format (PDF or image only).",

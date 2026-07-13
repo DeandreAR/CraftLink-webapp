@@ -33,6 +33,7 @@ export function DashboardSidebar({
 }: DashboardSidebarProps) {
   const home = locale === defaultLocale ? "/" : `/${locale}`;
   const labels = copy.tabs;
+  const descriptions = copy.tabDescriptions;
 
   return (
     <aside className="hidden h-[100dvh] w-[240px] shrink-0 flex-col border-r border-white/5 bg-[#1a1d24] md:flex lg:w-[260px]">
@@ -63,7 +64,7 @@ export function DashboardSidebar({
               key={id}
               type="button"
               onClick={() => onChange(id)}
-              className={`relative flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors duration-200 ${
+              className={`relative flex w-full cursor-pointer items-start gap-3 rounded-xl px-3 py-2.5 text-left transition-colors duration-200 ${
                 isActive ? "text-white" : "text-neutral-400 hover:bg-white/5 hover:text-neutral-200"
               }`}
               aria-current={isActive ? "page" : undefined}
@@ -84,7 +85,16 @@ export function DashboardSidebar({
               >
                 <Icon className="h-4 w-4" aria-hidden />
               </span>
-              <span className="relative">{labels[id]}</span>
+              <span className="relative min-w-0 flex-1">
+                <span className="block text-sm font-semibold">{labels[id]}</span>
+                <span
+                  className={`mt-0.5 block text-[10px] leading-snug ${
+                    isActive ? "text-[#EFA188]/90" : "text-neutral-500"
+                  }`}
+                >
+                  {descriptions[id]}
+                </span>
+              </span>
             </button>
           );
         })}

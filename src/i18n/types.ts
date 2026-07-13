@@ -184,6 +184,12 @@ export type DashboardDictionary = {
     profile: string;
     partners: string;
   };
+  tabDescriptions: {
+    inbox: string;
+    organize: string;
+    profile: string;
+    partners: string;
+  };
   inbox: {
     title: string;
     subtitle: string;
@@ -385,6 +391,7 @@ export type DashboardDictionary = {
       weekdays: string[];
     };
     catchUp: {
+      eyebrow: string;
       ariaLabel: string;
       question: string;
       quoteSent: string;
@@ -403,6 +410,7 @@ export type DashboardDictionary = {
     attachments: {
       title: string;
       dropHint: string;
+      dropHintShort: string;
       formats: string;
       uploading: string;
       invalidType: string;

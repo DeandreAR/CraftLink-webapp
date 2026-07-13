@@ -5,6 +5,8 @@ type DashboardPageHeaderProps = {
   subtitle?: string;
   badge?: ReactNode;
   actions?: ReactNode;
+  /** Met en avant la description sous le titre (bandeau corail). */
+  highlightSubtitle?: boolean;
 };
 
 export function DashboardPageHeader({
@@ -12,13 +14,22 @@ export function DashboardPageHeader({
   subtitle,
   badge,
   actions,
+  highlightSubtitle = true,
 }: DashboardPageHeaderProps) {
   return (
-    <header className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-      <div className="min-w-0">
+    <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="min-w-0 flex-1">
         <h1 className="lk-display text-2xl md:text-[1.85rem]">{title}</h1>
         {subtitle ? (
-          <p className="mt-1 text-sm leading-relaxed db-muted">{subtitle}</p>
+          <p
+            className={
+              highlightSubtitle
+                ? "mt-3 rounded-2xl border border-[#EFA188]/35 bg-gradient-to-r from-[#FFF5F2] via-white to-[#FDFBF7] px-4 py-3 text-sm font-medium leading-relaxed text-[#212129] shadow-[0_8px_24px_rgba(239,161,136,0.12)]"
+                : "mt-1 text-sm leading-relaxed db-muted"
+            }
+          >
+            {subtitle}
+          </p>
         ) : null}
       </div>
       {(badge || actions) && (
