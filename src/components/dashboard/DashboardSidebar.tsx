@@ -7,7 +7,7 @@ import type { DashboardTab } from "@/components/dashboard/DashboardLayout";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { defaultLocale } from "@/i18n/config";
-import { FaBriefcase, FaHandshake, FaUser, FaUsers } from "react-icons/fa6";
+import { FaBriefcase, FaChartLine, FaHandshake, FaUserGear } from "react-icons/fa6";
 
 type DashboardSidebarProps = {
   active: DashboardTab;
@@ -18,10 +18,10 @@ type DashboardSidebarProps = {
 };
 
 const NAV_ITEMS: { id: DashboardTab; icon: typeof FaBriefcase }[] = [
-  { id: "leads", icon: FaBriefcase },
-  { id: "vitrine", icon: FaUser },
+  { id: "inbox", icon: FaBriefcase },
+  { id: "organize", icon: FaChartLine },
+  { id: "profile", icon: FaUserGear },
   { id: "partners", icon: FaHandshake },
-  { id: "account", icon: FaUsers },
 ];
 
 export function DashboardSidebar({
@@ -52,9 +52,9 @@ export function DashboardSidebar({
         ) : null}
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1.5 px-3 py-5" aria-label={copy.tabs.leads}>
+      <nav className="flex flex-1 flex-col gap-1.5 px-3 py-5" aria-label={copy.inbox.listAriaLabel}>
         <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-[0.14em] text-neutral-500">
-          Menu
+          Espace pro
         </p>
         {NAV_ITEMS.map(({ id, icon: Icon }) => {
           const isActive = active === id;

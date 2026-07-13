@@ -4,10 +4,48 @@ export const dashboardFr: DashboardDictionary = {
   loading: "Chargement de votre espace…",
   signOut: "Déconnexion",
   tabs: {
-    leads: "Leads",
-    vitrine: "Ma page",
+    inbox: "Demandes reçues",
+    organize: "Dashboard",
+    profile: "Mon profil",
     partners: "Partenariats",
-    account: "Compte",
+  },
+  inbox: {
+    title: "Demandes reçues",
+    subtitle:
+      "Uniquement les nouvelles demandes — aucune action effectuée. Validez pour les organiser.",
+    listHeading: "Nouvelles demandes",
+    listAriaLabel: "Nouvelles demandes clients",
+    selectLead: "Sélectionnez une demande pour lire le dossier complet.",
+    backToList: "Retour à la liste",
+    emptyNew: "Aucune nouvelle demande. Partagez votre lien pour recevoir des clients.",
+    validateAndPlan: "Valider et planifier la demande",
+    archive: "Archiver / Refuser",
+    planHint: "Optionnel : planifiez avant de valider — la demande passera dans votre Dashboard.",
+    statusNew: "Nouveau",
+  },
+  organize: {
+    title: "Dashboard",
+    subtitle:
+      "Toutes vos demandes validées — suivez les relances, l'avancement et votre agenda terrain.",
+    empty: "Aucune demande validée. Traitez d'abord les nouvelles demandes reçues.",
+  },
+  profilePanel: {
+    title: "Mon profil artisan",
+    subtitle:
+      "Votre métier, votre page publique et vos préférences de contact.",
+    editorTitle: "Page publique & présentation",
+    editorSubtitle:
+      "Mettez à jour votre métier, vos certifications et le contenu visible par vos clients.",
+    urgencyTitle: "Bouton urgence sur votre page",
+    urgencyEnabledBadge: "Option urgence activée",
+    urgencyEnabledBody:
+      "Votre métier permet d'afficher le bouton « Signaler une urgence » sur votre page publique. Vos clients peuvent vous joindre directement en cas de dépannage.",
+    urgencyHiddenBody:
+      "Pour votre métier, la page met en avant le formulaire de projet classique. Le bouton urgence directe n'est pas affiché — vos clients décrivent leur besoin de façon structurée.",
+    projectFormBadge: "Formulaire projet",
+    metierNotSet: "Métier non renseigné",
+    metierNotSetHint:
+      "Choisissez votre corps de métier dans l'éditeur ci-dessous pour activer les bonnes options sur votre page.",
   },
   leads: {
     title: "Vos demandes clients",
@@ -323,9 +361,12 @@ export const dashboardFr: DashboardDictionary = {
     printHint: "Format PNG — imprimez sur autocollant ou carte de visite.",
   },
   partners: {
-    title: "Demandes de partenariat",
+    title: "Partenariats & Affiliation",
     subtitle:
-      "Marques, fabricants et annonceurs qui souhaitent collaborer via votre page vitrine.",
+      "Marques partenaires, codes à partager avec vos clients et suivi simple de vos avantages.",
+    requestsTitle: "Demandes entrantes",
+    requestsHint:
+      "Marques et annonceurs qui souhaitent collaborer via votre page vitrine.",
     lockedTitle: "Disponible sur le Plan Pro",
     lockedBody:
       "Le formulaire « Partenariats & Marques » et ce tableau de bord sont réservés à l'offre Pro Artisan.",
@@ -336,6 +377,19 @@ export const dashboardFr: DashboardDictionary = {
     loadError: "Impossible de charger les demandes de partenariat.",
     pendingCount: "{count} à traiter",
     showArchived: "Afficher les archives",
+    monetization: {
+      brandsTitle: "Marques partenaires",
+      brandsHint: "Réductions matériel à recommander à vos clients sur chantier.",
+      codesTitle: "Vos codes & liens affiliés",
+      codesHint: "Partagez ces liens pour orienter vos clients vers le bon matériel.",
+      codesEmpty: "Ajoutez vos codes partenaires ci-dessous pour les afficher ici.",
+      copyCode: "Copier le lien",
+      trackingTitle: "Suivi des avantages",
+      trackingHint: "Clics et commissions générés via vos liens (mise à jour prochainement).",
+      clicks: "Clics générés",
+      earned: "Avantages cumulés",
+      pending: "En attente",
+    },
     affiliateLinks: {
       title: "Liens d'affiliation & codes partenaires",
       hint:

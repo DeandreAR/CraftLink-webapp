@@ -2,52 +2,36 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FaCalendarDays, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
-import { getWhatsAppQuotaAction, registerWhatsAppClickAction } from "@/app/actions/dashboard";
-import type { DashboardLead } from "@/domain/lead";
-import type { LeadDelayStatus, LeadSchedule, LeadWorkflowStatus } from "@/domain/lead";
-import type { Profile } from "@/domain/profile";
-import {
-  profileToDashboardUser,
-  type DashboardUser,
-} from "@/domain/dashboardUser";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
-import { LeadDetailPanel } from "@/components/dashboard/leads/LeadDetailPanel";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
+import { LeadDetailPanel } from "@/components/dashboard/leads/LeadDetailPanel";
 import { LeadsBulkActionsBar } from "@/components/dashboard/leads/LeadsBulkActionsBar";
 import { LeadsCalendar } from "@/components/dashboard/leads/LeadsCalendar";
 import { LeadsCardsToolbar } from "@/components/dashboard/leads/LeadsCardsToolbar";
 import { LeadsPipelineView } from "@/components/dashboard/leads/LeadsPipelineView";
 import { LeadsSummaryCards } from "@/components/dashboard/leads/LeadsSummaryCards";
 import { LeadsTableView } from "@/components/dashboard/leads/LeadsTableView";
+import { LeadsTableToolbar } from "@/components/dashboard/leads/LeadsTableToolbar";
+import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBanner";
 import { WhatsAppUpgradeModal } from "@/components/dashboard/leads/WhatsAppUpgradeModal";
 import type { LeadsViewHandlers } from "@/components/dashboard/leads/leadsViewTypes";
+import type { Profile } from "@/domain/profile";
+import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
-import {
-  ESSENTIAL_WHATSAPP_CLICK_LIMIT,
-  isWhatsAppQuotaExhausted,
-  whatsappClicksRemaining,
-} from "@/lib/dashboard/whatsappQuota";
-import type { LeadWhatsAppLinks } from "@/lib/leads/buildLeadWhatsAppLink";
+import { useLeadsWorkspace } from "@/lib/dashboard/useLeadsWorkspace";
 import {
   DEFAULT_LEAD_TABLE_FILTER,
   filterLeads,
   type LeadTableFilter,
 } from "@/lib/leads/filterLeads";
-import { openWhatsAppLinks, resolveWhatsAppUrl } from "@/lib/leads/openWhatsApp";
-import { computeLeadsSummary } from "@/lib/leads/leadStats";
 import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/sortLeads";
-import { LeadsTableToolbar } from "@/components/dashboard/leads/LeadsTableToolbar";
-import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBanner";
-import { catchUpLeadAction, updateLeadAction } from "@/app/actions/leads";
-import { findCatchUpLead } from "@/lib/leads/smartCatchUp";
-import type { CatchUpAction } from "@/lib/leads/smartCatchUp";
 
-export type LeadsDisplayView = "table" | "cards" | "pipeline";
-export type LeadsSectionView = "list" | "calendar";
+export type OrganizeDisplayView = "table" | "cards" | "pipeline";
+export type OrganizeSectionView = "list" | "calendar";
 
-type LeadsPanelProps = {
+type OrganizationPanelProps = {
   profile: Profile;
   copy: DashboardDictionary;
   locale: Locale;
@@ -55,200 +39,97 @@ type LeadsPanelProps = {
   initialLoadError: string | null;
 };
 
-export function LeadsPanel({
+export function OrganizationPanel({
   profile,
   copy,
   locale,
   initialLeads,
   initialLoadError,
-}: LeadsPanelProps) {
-  const [leads, setLeads] = useState<DashboardLead[]>(initialLeads);
-  const [view, setView] = useState<LeadsDisplayView>("table");
-  const [section, setSection] = useState<LeadsSectionView>("list");
+}: OrganizationPanelProps) {
+  const o = copy.organize;
+  const workspace = useLeadsWorkspace({
+    profile,
+    copy,
+    initialLeads,
+    initialLoadError,
+  });
+
+  const {
+    organizedLeads,
+    sortedOrganizedLeads,
+    dashboardUser,
+    upgradeOpen,
+    setUpgradeOpen,
+    whatsappError,
+    setWhatsappError,
+    loadError,
+    catchUpLead,
+    catchUpBusy,
+    summaryStats,
+    quotaLabel,
+    handlers: baseHandlers,
+    replaceLead,
+    handleCatchUp,
+    businessName,
+  } = workspace;
+
+  const [section, setSection] = useState<OrganizeSectionView>("list");
+  const [view, setView] = useState<OrganizeDisplayView>("pipeline");
   const [sort, setSort] = useState<LeadSortState>(DEFAULT_LEAD_SORT);
   const [tableFilter, setTableFilter] = useState<LeadTableFilter>(DEFAULT_LEAD_TABLE_FILTER);
   const [showArchived, setShowArchived] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [dashboardUser, setDashboardUser] = useState<DashboardUser>(() =>
-    profileToDashboardUser(profile),
-  );
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
-  const [whatsappError, setWhatsappError] = useState<string | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(initialLoadError);
-  const [catchUpBusy, setCatchUpBusy] = useState(false);
-  const l = copy.leads;
 
-  useEffect(() => {
-    setDashboardUser(profileToDashboardUser(profile));
-  }, [profile]);
+  const allOrganized = useMemo(() => {
+    const pool = showArchived
+      ? workspace.leads.filter((l) => l.workflowStatus !== "A_TRAITER")
+      : organizedLeads;
+    return pool;
+  }, [workspace.leads, organizedLeads, showArchived]);
 
-  useEffect(() => {
-    void getWhatsAppQuotaAction().then((result) => {
-      if (result.ok) {
-        setDashboardUser((prev) => ({
-          ...prev,
-          plan: result.quota.plan,
-          whatsappClicksThisMonth: result.quota.clicks,
-        }));
-      }
-    });
-  }, [profile.id]);
-
-  useEffect(() => {
-    setLeads(initialLeads);
-    setLoadError(initialLoadError);
-  }, [initialLeads, initialLoadError]);
-
-  const updateLead = useCallback((leadId: string, patch: Partial<DashboardLead>) => {
-    setLeads((prev) =>
-      prev.map((item) => (item.id === leadId ? { ...item, ...patch } : item)),
-    );
-    void updateLeadAction(leadId, patch).then((result) => {
-      if (result.ok) {
-        setLeads((prev) =>
-          prev.map((item) => (item.id === leadId ? result.lead : item)),
-        );
-      }
-    });
-  }, []);
-
-  const replaceLead = useCallback((lead: DashboardLead) => {
-    setLeads((prev) => prev.map((item) => (item.id === lead.id ? lead : item)));
-  }, []);
-
-  const handleCatchUp = useCallback(
-    (leadId: string, action: CatchUpAction) => {
-      setCatchUpBusy(true);
-      void catchUpLeadAction(leadId, action).then((result) => {
-        setCatchUpBusy(false);
-        if (result.ok) {
-          replaceLead(result.lead);
-        }
-      });
-    },
-    [replaceLead],
+  const displayedLeads = useMemo(
+    () => sortLeads(filterLeads(allOrganized, tableFilter), sort),
+    [allOrganized, tableFilter, sort],
   );
 
-  const catchUpLead = useMemo(() => findCatchUpLead(leads), [leads]);
+  const archivedCount = useMemo(
+    () => workspace.leads.filter((l) => l.workflowStatus === "ARCHIVE").length,
+    [workspace.leads],
+  );
 
-  const handleWhatsAppContact = useCallback(
-    async (leadId: string, links: LeadWhatsAppLinks) => {
-      setWhatsappError(null);
-
-      if (
-        dashboardUser.plan !== "PRO" &&
-        isWhatsAppQuotaExhausted(dashboardUser.plan, dashboardUser.whatsappClicksThisMonth)
-      ) {
-        setUpgradeOpen(true);
-        return;
-      }
-
-      const markContacted = () => {
-        const lead = leads.find((item) => item.id === leadId);
-        updateLead(leadId, {
-          contactStatus: "contacted",
-          contactedAt: new Date().toISOString(),
-          ...(lead?.workflowStatus === "A_TRAITER"
-            ? { workflowStatus: "DEVIS_A_FAIRE" as const }
-            : {}),
-        });
-      };
-
-      const popup = openWhatsAppLinks(links);
-
-      if (dashboardUser.plan === "PRO") {
-        markContacted();
-        return;
-      }
-
-      const result = await registerWhatsAppClickAction();
-
-      if (!result.ok) {
-        popup?.close();
-        setWhatsappError(result.message);
-        return;
-      }
-
-      setDashboardUser((prev) => ({
-        ...prev,
-        whatsappClicksThisMonth: result.clicks,
-      }));
-
-      if (!result.allowed) {
-        popup?.close();
-        setUpgradeOpen(true);
-        return;
-      }
-
-      markContacted();
-    },
-    [dashboardUser.plan, dashboardUser.whatsappClicksThisMonth, updateLead, leads],
+  const selectedLead = useMemo(
+    () => allOrganized.find((lead) => lead.id === selectedLeadId) ?? null,
+    [allOrganized, selectedLeadId],
   );
 
   const handlers: LeadsViewHandlers = useMemo(
     () => ({
+      ...baseHandlers,
       onOpenDetail: setSelectedLeadId,
-      onDelayStatusChange: (leadId, status: LeadDelayStatus) =>
-        updateLead(leadId, { delayStatus: status }),
-      onWorkflowStatusChange: (leadId, status: LeadWorkflowStatus) =>
-        updateLead(leadId, { workflowStatus: status }),
-      onScheduleChange: (leadId, schedule: LeadSchedule | null) =>
-        updateLead(leadId, { schedule }),
-      onWhatsAppContact: (leadId, href) => {
-        void handleWhatsAppContact(leadId, href);
-      },
     }),
-    [updateLead, handleWhatsAppContact],
+    [baseHandlers],
   );
 
-  const archivedCount = leads.filter((item) => item.workflowStatus === "ARCHIVE").length;
-  const summaryStats = useMemo(() => computeLeadsSummary(leads), [leads]);
-
-  const displayedLeads = useMemo(() => {
-    const archivedFiltered = leads.filter((item) =>
-      showArchived
-        ? item.workflowStatus === "ARCHIVE"
-        : item.workflowStatus !== "ARCHIVE",
-    );
-    const tableFiltered =
-      view === "table" ? filterLeads(archivedFiltered, tableFilter) : archivedFiltered;
-    return sortLeads(tableFiltered, sort);
-  }, [leads, sort, showArchived, tableFilter, view]);
-
-  const selectedLead = selectedLeadId
-    ? leads.find((item) => item.id === selectedLeadId) ?? null
-    : null;
-
-  const viewProps = {
-    leads: displayedLeads,
-    copy,
-    locale,
-    businessName: profile.full_name ?? undefined,
-    ...handlers,
-  };
-
-  const remaining = whatsappClicksRemaining(
-    dashboardUser.plan,
-    dashboardUser.whatsappClicksThisMonth,
+  const viewProps = useMemo(
+    () => ({
+      leads: displayedLeads,
+      copy,
+      locale,
+      businessName,
+      ...handlers,
+    }),
+    [displayedLeads, copy, locale, businessName, handlers],
   );
 
-  const quotaLabel =
-    dashboardUser.plan === "PRO"
-      ? l.whatsappQuota.unlimited
-      : l.whatsappQuota.limited
-          .replace("{used}", String(dashboardUser.whatsappClicksThisMonth))
-          .replace("{limit}", String(ESSENTIAL_WHATSAPP_CLICK_LIMIT))
-          .replace("{remaining}", String(remaining ?? 0));
-
-  const toggleSelect = (leadId: string) => {
+  const toggleSelect = useCallback((leadId: string) => {
     setSelectedIds((prev) => {
       const next = new Set(prev);
       if (next.has(leadId)) next.delete(leadId);
       else next.add(leadId);
       return next;
     });
-  };
+  }, []);
 
   const toggleSelectAll = () => {
     if (displayedLeads.every((lead) => selectedIds.has(lead.id))) {
@@ -259,73 +140,62 @@ export function LeadsPanel({
   };
 
   const bulkMarkDone = () => {
-    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "GAGNE_EN_COURS" }));
+    selectedIds.forEach((id) =>
+      baseHandlers.onWorkflowStatusChange(id, "GAGNE_EN_COURS"),
+    );
     setSelectedIds(new Set());
   };
 
   const bulkArchive = () => {
-    selectedIds.forEach((id) => updateLead(id, { workflowStatus: "ARCHIVE" }));
+    selectedIds.forEach((id) => baseHandlers.onWorkflowStatusChange(id, "ARCHIVE"));
     setSelectedIds(new Set());
   };
 
-  const handleViewChange = (next: LeadsDisplayView) => {
+  const handleViewChange = (next: OrganizeDisplayView) => {
     setView(next);
     if (next === "pipeline") setSelectedIds(new Set());
   };
 
-  const viewTabs = [
-    {
-      id: "table" as const,
-      label: l.views.table,
-      icon: <FaTableColumns className="h-3.5 w-3.5 opacity-70" aria-hidden />,
-    },
-    {
-      id: "cards" as const,
-      label: l.views.cards,
-      icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
-    },
-    {
-      id: "pipeline" as const,
-      label: l.views.pipeline,
-      icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
-    },
-  ];
-
   const sectionTabs = [
     {
       id: "list" as const,
-      label: l.views.listSection,
+      label: copy.leads.views.listSection,
       icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
     },
     {
       id: "calendar" as const,
-      label: l.views.calendarSection,
+      label: copy.leads.views.calendarSection,
       icon: <FaCalendarDays className="h-3.5 w-3.5 opacity-70" aria-hidden />,
     },
   ];
 
+  const viewTabs = [
+    {
+      id: "table" as const,
+      label: copy.leads.views.table,
+      icon: <FaTableColumns className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+    {
+      id: "cards" as const,
+      label: copy.leads.views.cards,
+      icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+    {
+      id: "pipeline" as const,
+      label: copy.leads.views.pipeline,
+      icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+  ];
+
   const supportsBulkSelect = section === "list" && (view === "table" || view === "cards");
-  const calendarLeads = useMemo(
-    () => leads.filter((item) => item.workflowStatus !== "ARCHIVE"),
-    [leads],
-  );
+  const calendarLeads = useMemo(() => sortedOrganizedLeads, [sortedOrganizedLeads]);
 
   return (
     <section className="space-y-0">
       <DashboardPageHeader
-        title={l.title}
-        subtitle={l.subtitle}
-        badge={
-          <span
-            className={`db-badge ${
-              dashboardUser.plan === "PRO"
-                ? "border-[#212129]/12 bg-[#FDFBF7]"
-                : "border-amber-300/60 bg-amber-50 text-amber-950"
-            }`}
-          >
-            {quotaLabel}
-          </span>
-        }
+        title={o.title}
+        subtitle={o.subtitle}
+        badge={<span className="db-badge">{quotaLabel}</span>}
       />
 
       {catchUpLead ? (
@@ -343,7 +213,7 @@ export function LeadsPanel({
           className="mb-4 flex items-start justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900"
         >
           <div>
-            <p className="font-semibold">{l.whatsappError.title}</p>
+            <p className="font-semibold">{copy.leads.whatsappError.title}</p>
             <p className="mt-0.5 text-red-800">{whatsappError}</p>
           </div>
           <button
@@ -351,7 +221,7 @@ export function LeadsPanel({
             onClick={() => setWhatsappError(null)}
             className="shrink-0 text-xs font-semibold text-red-700 underline"
           >
-            {l.whatsappError.dismiss}
+            {copy.leads.whatsappError.dismiss}
           </button>
         </div>
       ) : null}
@@ -369,7 +239,7 @@ export function LeadsPanel({
         tabs={sectionTabs}
         active={section}
         onChange={setSection}
-        ariaLabel={l.views.sectionAriaLabel}
+        ariaLabel={copy.leads.views.sectionAriaLabel}
       />
 
       {section === "list" ? (
@@ -377,7 +247,7 @@ export function LeadsPanel({
           tabs={viewTabs}
           active={view}
           onChange={handleViewChange}
-          ariaLabel={l.views.ariaLabel}
+          ariaLabel={copy.leads.views.ariaLabel}
         />
       ) : null}
 
@@ -395,7 +265,7 @@ export function LeadsPanel({
               <LeadsSummaryCards stats={summaryStats} copy={copy} />
             ) : null}
 
-            {supportsBulkSelect ? (
+            {supportsBulkSelect && selectedIds.size > 0 ? (
               <LeadsBulkActionsBar
                 count={selectedIds.size}
                 copy={copy}
@@ -407,7 +277,7 @@ export function LeadsPanel({
 
             {displayedLeads.length === 0 ? (
               <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-16 text-center text-sm text-[#5b6478]">
-                {showArchived ? l.emptyArchived : l.empty}
+                {o.empty}
               </p>
             ) : view === "table" ? (
               <>
@@ -449,18 +319,23 @@ export function LeadsPanel({
                           onClick={() => setShowArchived(!showArchived)}
                           className={`text-xs font-semibold transition ${
                             showArchived
-                              ? "text-slate-900 underline"
-                              : "text-slate-500 hover:text-slate-800"
+                              ? "text-[#212129] underline"
+                              : "text-[#5b6478] hover:text-[#212129]"
                           }`}
                         >
                           {showArchived
-                            ? l.sort.hideArchived
-                            : l.sort.showArchived.replace("{count}", String(archivedCount))}
+                            ? copy.leads.sort.hideArchived
+                            : copy.leads.sort.showArchived.replace(
+                                "{count}",
+                                String(archivedCount),
+                              )}
                         </button>
                       </div>
                     ) : null}
-                    <p className="text-xs text-slate-500">{l.pipeline.singleDragHint}</p>
-                    <LeadsPipelineView {...viewProps} />
+                    <p className="text-xs text-[#5b6478]">
+                      {copy.leads.pipeline.singleDragHint}
+                    </p>
+                    <LeadsPipelineView {...viewProps} leads={displayedLeads} />
                   </>
                 ) : (
                   <ul className="space-y-2">
@@ -496,7 +371,7 @@ export function LeadsPanel({
           plan={dashboardUser.plan}
           copy={copy}
           locale={locale}
-          businessName={profile.full_name ?? undefined}
+          businessName={businessName}
           onClose={() => setSelectedLeadId(null)}
           onLeadUpdated={replaceLead}
           onDelayStatusChange={(status) =>

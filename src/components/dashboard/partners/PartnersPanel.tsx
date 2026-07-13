@@ -5,6 +5,7 @@ import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
 import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
 import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
+import { PartnersMonetizationSection } from "@/components/dashboard/partners/PartnersMonetizationSection";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
@@ -183,7 +184,18 @@ export function PartnersPanel({
   };
 
   const content = (
-    <div className="space-y-4">
+    <div className="space-y-8">
+      <PartnersMonetizationSection profile={profile} copy={copy} />
+
+      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
+
+      <div>
+        <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478]">
+          {p.requestsTitle}
+        </h3>
+        <p className="mt-1 text-sm text-[#5b6478]">{p.requestsHint}</p>
+      </div>
+
       {loadError ? (
         <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
           {p.loadError}
@@ -228,13 +240,15 @@ export function PartnersPanel({
         ) : null}
       </div>
 
-      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
+      {pro ? null : (
+        <p className="text-xs text-[#5b6478]">{p.affiliateLinks.hint}</p>
+      )}
     </div>
   );
 
   return (
     <section className="space-y-6">
-      <DashboardPageHeader title={copy.tabs.partners} subtitle={p.subtitle} />
+      <DashboardPageHeader title={p.title} subtitle={p.subtitle} />
 
       {!pro ? (
         <PlanLockedCard

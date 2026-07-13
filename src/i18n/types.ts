@@ -179,10 +179,41 @@ export type DashboardDictionary = {
   loading: string;
   signOut: string;
   tabs: {
-    leads: string;
-    vitrine: string;
+    inbox: string;
+    organize: string;
+    profile: string;
     partners: string;
-    account: string;
+  };
+  inbox: {
+    title: string;
+    subtitle: string;
+    listHeading: string;
+    listAriaLabel: string;
+    selectLead: string;
+    backToList: string;
+    emptyNew: string;
+    validateAndPlan: string;
+    archive: string;
+    planHint: string;
+    statusNew: string;
+  };
+  organize: {
+    title: string;
+    subtitle: string;
+    empty: string;
+  };
+  profilePanel: {
+    title: string;
+    subtitle: string;
+    editorTitle: string;
+    editorSubtitle: string;
+    urgencyTitle: string;
+    urgencyEnabledBadge: string;
+    urgencyEnabledBody: string;
+    urgencyHiddenBody: string;
+    projectFormBadge: string;
+    metierNotSet: string;
+    metierNotSetHint: string;
   };
   leads: {
     title: string;
@@ -475,6 +506,8 @@ export type DashboardDictionary = {
   partners: {
     title: string;
     subtitle: string;
+    requestsTitle: string;
+    requestsHint: string;
     lockedTitle: string;
     lockedBody: string;
     upgradeCta: string;
@@ -483,6 +516,19 @@ export type DashboardDictionary = {
     loadError: string;
     pendingCount: string;
     showArchived: string;
+    monetization: {
+      brandsTitle: string;
+      brandsHint: string;
+      codesTitle: string;
+      codesHint: string;
+      codesEmpty: string;
+      copyCode: string;
+      trackingTitle: string;
+      trackingHint: string;
+      clicks: string;
+      earned: string;
+      pending: string;
+    };
     affiliateLinks: {
       title: string;
       hint: string;

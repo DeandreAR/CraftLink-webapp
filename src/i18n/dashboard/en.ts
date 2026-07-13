@@ -4,10 +4,48 @@ export const dashboardEn: DashboardDictionary = {
   loading: "Loading your workspace…",
   signOut: "Sign out",
   tabs: {
-    leads: "Leads",
-    vitrine: "My page",
+    inbox: "Incoming requests",
+    organize: "Dashboard",
+    profile: "My profile",
     partners: "Partnerships",
-    account: "Account",
+  },
+  inbox: {
+    title: "Incoming requests",
+    subtitle:
+      "New requests only — no action taken yet. Validate to organize them.",
+    listHeading: "New requests",
+    listAriaLabel: "New client requests",
+    selectLead: "Select a request to read the full file.",
+    backToList: "Back to list",
+    emptyNew: "No new requests. Share your link to start receiving clients.",
+    validateAndPlan: "Validate and schedule request",
+    archive: "Archive / Decline",
+    planHint: "Optional: schedule before validating — the request moves to your Dashboard.",
+    statusNew: "New",
+  },
+  organize: {
+    title: "Dashboard",
+    subtitle:
+      "All validated requests — track follow-ups, progress and your field schedule.",
+    empty: "No validated requests yet. Process new incoming requests first.",
+  },
+  profilePanel: {
+    title: "My artisan profile",
+    subtitle:
+      "Your trade, public page and contact preferences.",
+    editorTitle: "Public page & presentation",
+    editorSubtitle:
+      "Update your trade, certifications and what clients see on your page.",
+    urgencyTitle: "Urgency button on your page",
+    urgencyEnabledBadge: "Urgent option enabled",
+    urgencyEnabledBody:
+      "Your trade shows the « Report an emergency » button on your public page. Clients can reach you directly for urgent call-outs.",
+    urgencyHiddenBody:
+      "For your trade, the page highlights the standard project form. The direct urgency button is hidden — clients describe their need in a structured way.",
+    projectFormBadge: "Project form",
+    metierNotSet: "Trade not set",
+    metierNotSetHint:
+      "Choose your trade in the editor below to enable the right options on your page.",
   },
   leads: {
     title: "Client requests",
@@ -323,8 +361,11 @@ export const dashboardEn: DashboardDictionary = {
     printHint: "PNG format — print on sticker or business card.",
   },
   partners: {
-    title: "Partnership requests",
-    subtitle: "Brands, manufacturers and advertisers reaching out via your storefront.",
+    title: "Partnerships & Affiliation",
+    subtitle:
+      "Partner brands, shareable codes for your clients and a simple view of your benefits.",
+    requestsTitle: "Incoming requests",
+    requestsHint: "Brands and advertisers reaching out via your storefront.",
     lockedTitle: "Available on Pro plan",
     lockedBody:
       "The « Partnerships & Brands » form and this inbox are included in the Pro Artisan plan.",
@@ -335,6 +376,19 @@ export const dashboardEn: DashboardDictionary = {
     loadError: "Could not load partnership requests.",
     pendingCount: "{count} pending",
     showArchived: "Show archived",
+    monetization: {
+      brandsTitle: "Partner brands",
+      brandsHint: "Material discounts to recommend to clients on site.",
+      codesTitle: "Your codes & affiliate links",
+      codesHint: "Share these links to guide clients to the right supplies.",
+      codesEmpty: "Add partner codes below to display them here.",
+      copyCode: "Copy link",
+      trackingTitle: "Benefits tracking",
+      trackingHint: "Clicks and commissions from your links (coming soon).",
+      clicks: "Generated clicks",
+      earned: "Total benefits",
+      pending: "Pending",
+    },
     affiliateLinks: {
       title: "Affiliate & partner links",
       hint:
