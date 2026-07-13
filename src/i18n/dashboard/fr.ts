@@ -60,6 +60,7 @@ export const dashboardFr: DashboardDictionary = {
       billing: "Abonnement",
       account: "Compte",
     },
+    sectionsAriaLabel: "Sections profil",
   },
   leads: {
     title: "Vos demandes clients",
@@ -322,6 +323,8 @@ export const dashboardFr: DashboardDictionary = {
     saved: "Modifications enregistrées.",
     saveError: "Impossible d'enregistrer. Réessayez.",
     viewPage: "Voir ma page",
+    copyPageUrl: "Copier l'URL de ma page",
+    pageUrlCopied: "URL copiée !",
     editPage: "Modifier la page",
     voiceCapture: {
       title: "Capture vocale",

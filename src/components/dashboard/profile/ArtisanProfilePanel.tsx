@@ -90,6 +90,7 @@ export function ArtisanProfilePanel({
       />
 
       <ProfileMobileNav
+        ariaLabel={p.sectionsAriaLabel}
         sections={[
           { id: "urgency", label: p.mobileSections.urgency, content: urgencyBlock },
           { id: "editor", label: p.mobileSections.editor, content: editorBlock },
@@ -98,14 +99,6 @@ export function ArtisanProfilePanel({
           { id: "account", label: p.mobileSections.account, content: deleteBlock },
         ]}
       />
-
-      <div className="hidden space-y-6 md:block">
-        {urgencyBlock}
-        {editorBlock}
-        {qrBlock}
-        {billingBlock}
-        {deleteBlock}
-      </div>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
@@ -152,6 +153,7 @@ export function PartnersPanel({
   const pro = resolveCraftlinkPlan(profile.plan_tier) === "PRO";
   const p = copy.partners;
   const isDesktopPartners = useMediaQuery("(min-width: 768px)");
+  const [mounted, setMounted] = useState(false);
 
   const [requests, setRequests] = useState(() => withDemoRequestIfEmpty(initialRequests));
   const [loadError] = useState(initialLoadError);
@@ -172,6 +174,11 @@ export function PartnersPanel({
   );
 
   const selectedRequest = visibleRequests.find((request) => request.id === selectedId) ?? null;
+  const showMobileSheet = Boolean(selectedRequest && !isDesktopPartners);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setRequests(withDemoRequestIfEmpty(initialRequests));
@@ -184,12 +191,13 @@ export function PartnersPanel({
   }, [isDesktopPartners, visibleRequests, selectedId]);
 
   useEffect(() => {
-    if (!selectedId) return;
-    document.body.style.overflow = isDesktopPartners ? "" : "hidden";
+    if (!showMobileSheet) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prev;
     };
-  }, [selectedId, isDesktopPartners]);
+  }, [showMobileSheet]);
 
   const handleUpdated = (updated: DashboardPartnershipRequest) => {
     setRequests((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
@@ -248,25 +256,6 @@ export function PartnersPanel({
         ) : null}
       </div>
 
-      {selectedRequest && !isDesktopPartners ? (
-        <>
-          <button
-            type="button"
-            aria-label={p.detail.close}
-            className="db-partners-detail-backdrop"
-            onClick={() => setSelectedId(null)}
-          />
-          <PartnershipRequestDetail
-            request={selectedRequest}
-            copy={copy}
-            locale={locale}
-            compact
-            onClose={() => setSelectedId(null)}
-            onUpdated={handleUpdated}
-          />
-        </>
-      ) : null}
-
       <PartnersBrandsCard profile={profile} copy={copy} />
       {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
 
@@ -292,6 +281,28 @@ export function PartnersPanel({
       ) : (
         content
       )}
+
+      {mounted && showMobileSheet && selectedRequest
+        ? createPortal(
+            <>
+              <button
+                type="button"
+                aria-label={p.detail.close}
+                className="db-partners-detail-backdrop"
+                onClick={() => setSelectedId(null)}
+              />
+              <PartnershipRequestDetail
+                request={selectedRequest}
+                copy={copy}
+                locale={locale}
+                compact
+                onClose={() => setSelectedId(null)}
+                onUpdated={handleUpdated}
+              />
+            </>,
+            document.body,
+          )
+        : null}
     </section>
   );
 }

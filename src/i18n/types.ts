@@ -228,6 +228,7 @@ export type DashboardDictionary = {
       billing: string;
       account: string;
     };
+    sectionsAriaLabel: string;
   };
   leads: {
     title: string;
@@ -469,6 +470,8 @@ export type DashboardDictionary = {
     saved: string;
     saveError: string;
     viewPage: string;
+    copyPageUrl: string;
+    pageUrlCopied: string;
     editPage: string;
     voiceCapture: {
       title: string;
@@ -1218,6 +1221,8 @@ export type OnboardingDictionary = {
     slugConfirm: string;
     slugYourUrl: string;
     slugEditLink: string;
+    copyPageUrl: string;
+    pageUrlCopied: string;
     slugErrors: {
       empty: string;
       tooShort: string;

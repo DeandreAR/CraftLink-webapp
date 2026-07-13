@@ -1,6 +1,6 @@
 "use client";
 
-import { FaCommentSms, FaEnvelope, FaPhone, FaWhatsapp } from "react-icons/fa6";
+import { FaCommentSms, FaEnvelope, FaPhone, FaWhatsapp, FaXmark } from "react-icons/fa6";
 import { updatePartnershipRequestAction } from "@/app/actions/partnerships";
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { DashboardPartnershipRequest, PartnershipWorkflowStatus } from "@/domain/partnershipRequest";
@@ -27,13 +27,13 @@ function DetailRow({ label, value, compact }: { label: string; value: string; co
   return (
     <div>
       <dt
-        className={`font-bold uppercase tracking-wide text-slate-400 ${
+        className={`font-bold uppercase tracking-wide text-[#5b6478] ${
           compact ? "text-[9px]" : "text-[11px]"
         }`}
       >
         {label}
       </dt>
-      <dd className={`mt-0.5 font-medium text-slate-900 ${compact ? "text-xs" : "text-sm"}`}>
+      <dd className={`mt-0.5 font-medium text-[#212129] ${compact ? "text-xs" : "text-sm"}`}>
         {value}
       </dd>
     </div>
@@ -79,45 +79,11 @@ export function PartnershipRequestDetail({
   };
 
   const channelButtonClass =
-    "inline-flex items-center justify-center gap-1.5 rounded-2xl border border-neutral-200 bg-white px-3 py-2 text-[10px] font-bold text-slate-800 transition hover:border-neutral-300 hover:bg-neutral-50 md:px-4 md:py-2.5 md:text-xs";
+    "inline-flex items-center justify-center gap-1.5 rounded-2xl border border-[#212129]/10 bg-white px-3 py-2 text-[10px] font-bold text-[#212129] transition hover:border-[#EFA188]/40 hover:bg-[#FDFBF7] md:px-4 md:py-2.5 md:text-xs";
 
-  return (
-    <aside
-      className={`rounded-[18px] border border-neutral-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)] ${
-        compact ? "db-partners-detail-sheet" : "p-5"
-      }`}
-    >
-      {compact ? (
-        <div className="mx-auto mb-2 h-1 w-10 rounded-full bg-neutral-200" aria-hidden />
-      ) : null}
-
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h2 className={`font-bold text-slate-900 ${compact ? "text-sm" : "text-lg"}`}>
-            {d.title}
-          </h2>
-          <p className={`mt-0.5 font-semibold text-slate-700 ${compact ? "truncate text-xs" : "text-sm"}`}>
-            {request.companyName}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="shrink-0 rounded-lg px-2 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-100"
-        >
-          {d.close}
-        </button>
-      </div>
-
-      <span
-        className={`mt-2 inline-block rounded-md px-2 py-0.5 font-semibold md:mt-3 md:px-2.5 md:py-1 ${
-          compact ? "text-[10px]" : "text-xs"
-        } ${partnershipStatusBadgeClass(request.workflowStatus)}`}
-      >
-        {p.status[request.workflowStatus]}
-      </span>
-
-      <div className="mt-3 space-y-2 md:mt-5 md:space-y-3">
+  const body = (
+    <>
+      <div className="mt-3 space-y-2 md:mt-4 md:space-y-3">
         <GlowButton
           href={contactLinks.email}
           external
@@ -156,7 +122,7 @@ export function PartnershipRequestDetail({
         ) : null}
       </div>
 
-      <dl className="mt-3 grid gap-2 sm:grid-cols-2 md:mt-5 md:gap-4">
+      <dl className="mt-3 grid gap-2 sm:grid-cols-2 md:mt-4 md:gap-3">
         <DetailRow compact={compact} label={d.company} value={request.companyName} />
         <DetailRow
           compact={compact}
@@ -179,7 +145,7 @@ export function PartnershipRequestDetail({
       <div className="mt-3 flex flex-wrap gap-1.5 md:mt-4 md:gap-2">
         <a
           href={`mailto:${request.email}`}
-          className="inline-flex max-w-full items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 text-[10px] font-semibold text-slate-700 hover:bg-neutral-100 md:px-3 md:py-1.5 md:text-xs"
+          className="inline-flex max-w-full items-center gap-1 rounded-full border border-[#212129]/10 bg-[#FDFBF7] px-2 py-1 text-[10px] font-semibold text-[#212129] hover:bg-white md:px-3 md:py-1.5 md:text-xs"
         >
           <FaEnvelope className="h-2.5 w-2.5 shrink-0 md:h-3 md:w-3" aria-hidden />
           <span className="truncate">{request.email}</span>
@@ -187,7 +153,7 @@ export function PartnershipRequestDetail({
         {request.phone ? (
           <a
             href={`tel:${request.phone.replace(/\s/g, "")}`}
-            className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 text-[10px] font-semibold text-slate-700 hover:bg-neutral-100 md:px-3 md:py-1.5 md:text-xs"
+            className="inline-flex items-center gap-1 rounded-full border border-[#212129]/10 bg-[#FDFBF7] px-2 py-1 text-[10px] font-semibold text-[#212129] hover:bg-white md:px-3 md:py-1.5 md:text-xs"
           >
             <FaPhone className="h-2.5 w-2.5 md:h-3 md:w-3" aria-hidden />
             {request.phone}
@@ -195,24 +161,24 @@ export function PartnershipRequestDetail({
         ) : null}
       </div>
 
-      <div className="mt-3 md:mt-5">
+      <div className="mt-3 md:mt-4">
         <p
-          className={`font-bold uppercase tracking-wide text-slate-400 ${
+          className={`font-bold uppercase tracking-wide text-[#5b6478] ${
             compact ? "text-[9px]" : "text-[11px]"
           }`}
         >
           {d.message}
         </p>
         <p
-          className={`mt-1.5 whitespace-pre-wrap rounded-xl bg-slate-50 leading-relaxed text-slate-800 md:mt-2 md:p-3 ${
-            compact ? "max-h-24 overflow-y-auto p-2 text-xs" : "p-3 text-sm"
+          className={`mt-1.5 whitespace-pre-wrap rounded-xl border border-[#212129]/6 bg-[#FDFBF7] leading-relaxed text-[#212129] md:mt-2 md:p-3 ${
+            compact ? "p-2.5 text-xs" : "p-3 text-sm"
           }`}
         >
           {request.message}
         </p>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-1.5 md:mt-5 md:gap-2">
+      <div className="mt-3 flex flex-wrap gap-1.5 pb-1 md:mt-4 md:gap-2 md:pb-0">
         {request.workflowStatus !== "CONTACTE" ? (
           <GlowButton
             type="button"
@@ -252,6 +218,66 @@ export function PartnershipRequestDetail({
           </GlowButton>
         )}
       </div>
+    </>
+  );
+
+  if (compact) {
+    return (
+      <aside className="db-partners-detail-sheet">
+        <div className="db-partners-detail-sheet-header shrink-0">
+          <div className="mx-auto mb-2 h-1 w-10 rounded-full bg-[#212129]/15" aria-hidden />
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#EFA188]">
+                {d.title}
+              </p>
+              <h2 className="mt-0.5 truncate text-base font-black text-[#212129]">
+                {request.companyName}
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={d.close}
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#212129]/10 bg-white text-[#5b6478] transition hover:bg-[#FDFBF7]"
+            >
+              <FaXmark className="h-3.5 w-3.5" aria-hidden />
+            </button>
+          </div>
+          <span
+            className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
+          >
+            {p.status[request.workflowStatus]}
+          </span>
+        </div>
+        <div className="db-partners-detail-sheet-body scrollbar-soft">{body}</div>
+      </aside>
+    );
+  }
+
+  return (
+    <aside className="rounded-[18px] border border-[#212129]/10 bg-white p-5 shadow-[0_16px_40px_rgba(33,33,41,0.08)]">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg font-bold text-[#212129]">{d.title}</h2>
+          <p className="mt-1 text-sm font-semibold text-[#5b6478]">{request.companyName}</p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-lg px-2 py-1 text-xs font-semibold text-[#5b6478] hover:bg-[#FDFBF7]"
+        >
+          {d.close}
+        </button>
+      </div>
+
+      <span
+        className={`mt-3 inline-block rounded-full px-2.5 py-1 text-xs font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
+      >
+        {p.status[request.workflowStatus]}
+      </span>
+
+      {body}
     </aside>
   );
 }

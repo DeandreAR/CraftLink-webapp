@@ -291,6 +291,8 @@ export const onboardingFr: OnboardingDictionary = {
     slugConfirm: "Valider mon adresse et voir l’aperçu",
     slugYourUrl: "Votre page sera accessible ici",
     slugEditLink: "Modifier l’adresse",
+    copyPageUrl: "Copier l'URL de ma page",
+    pageUrlCopied: "URL copiée !",
     slugErrors: {
       empty: "Choisissez une adresse pour votre page.",
       tooShort: "Minimum 3 caractères.",

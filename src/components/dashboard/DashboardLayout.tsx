@@ -94,7 +94,7 @@ export function DashboardLayout({
           </form>
         </header>
 
-        <main className="flex-1 overflow-x-auto p-4 pb-[5rem] md:p-6 md:pb-8 lg:p-8">
+        <main className="flex-1 overflow-x-hidden p-4 pb-[5rem] md:p-6 md:pb-8 lg:p-8">
           <div className="mx-auto w-full max-w-7xl">
             <AnimatePresence mode="wait">
               <motion.div key={tab} {...TAB_MOTION}>

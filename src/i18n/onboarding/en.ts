@@ -288,6 +288,8 @@ export const onboardingEn: OnboardingDictionary = {
     slugConfirm: "Confirm my address and preview",
     slugYourUrl: "Your page will be live at",
     slugEditLink: "Change address",
+    copyPageUrl: "Copy my page URL",
+    pageUrlCopied: "URL copied!",
     slugErrors: {
       empty: "Choose an address for your page.",
       tooShort: "At least 3 characters.",

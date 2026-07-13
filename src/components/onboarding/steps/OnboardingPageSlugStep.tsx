@@ -6,7 +6,8 @@ import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { LandingCta } from "@/components/landing/LandingCta";
-import { publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
+import { publicPageSlugPrefix, buildPublicPageAbsoluteUrl, buildPublicPageDisplayUrl } from "@/lib/onboarding/publicPageUrl";
+import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
 import {
   sanitizePageSlugInput,
   type PageSlugValidationCode,
@@ -143,9 +144,21 @@ export function OnboardingPageSlugStep({
           </p>
         ) : null}
         {available === true ? (
-          <p className="mt-2 text-xs font-medium text-emerald-700" role="status">
-            {p.slugAvailable}
-          </p>
+          <>
+            <p className="mt-2 text-xs font-medium text-emerald-700" role="status">
+              {p.slugAvailable}
+            </p>
+            {input ? (
+              <PublicPageUrlWithCopy
+                displayUrl={buildPublicPageDisplayUrl(input)}
+                copyText={buildPublicPageAbsoluteUrl(input)}
+                copyAriaLabel={p.copyPageUrl}
+                copiedLabel={p.pageUrlCopied}
+                className="mt-2 rounded-xl border border-emerald-100 bg-emerald-50/60 px-3 py-2"
+                urlClassName="text-xs text-neutral-700"
+              />
+            ) : null}
+          </>
         ) : null}
         {available === false && code !== "ok" ? (
           <p id="page-slug-error" className="mt-2 text-xs text-red-600" role="alert">
