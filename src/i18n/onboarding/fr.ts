@@ -4,6 +4,12 @@ export const onboardingFr: OnboardingDictionary = {
   title: "Configurez votre page CraftLink",
   subtitle: "Regroupez vos infos, interventions et style en quelques minutes.",
   signOut: "Déconnexion",
+  accountConfirmed: {
+    title: "Compte activé !",
+    body: "Votre adresse e-mail est confirmée. Vous êtes connecté — il ne reste plus qu’à créer votre page artisan.",
+    cta: "Créer ma page CraftLink",
+    hint: "Quelques minutes suffisent pour importer vos réseaux ou configurer votre vitrine.",
+  },
   emailConfirmed: {
     title: "E-mail confirmé — compte activé",
     message:

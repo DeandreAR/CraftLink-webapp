@@ -3,6 +3,19 @@ import type { DashboardDictionary } from "@/i18n/types";
 export const dashboardFr: DashboardDictionary = {
   loading: "Chargement de votre espace…",
   signOut: "Déconnexion",
+  export: {
+    ariaLabel: "Exporter mes données au format CSV",
+    button: "Exporter mes données (CSV)",
+    columns: {
+      date: "Date",
+      clientName: "Nom Client",
+      phone: "Téléphone",
+      email: "Email",
+      projectType: "Type de Projet",
+      status: "Statut",
+      description: "Description",
+    },
+  },
   tabs: {
     inbox: "Demandes reçues",
     organize: "Dashboard",
@@ -48,7 +61,9 @@ export const dashboardFr: DashboardDictionary = {
     urgencyEnabledBody:
       "Votre métier permet d'afficher le bouton « Signaler une urgence » sur votre page publique. Vos clients peuvent vous joindre directement en cas de dépannage.",
     urgencyHiddenBody:
-      "Pour votre métier, la page met en avant le formulaire de projet classique. Le bouton urgence directe n'est pas affiché — vos clients décrivent leur besoin de façon structurée.",
+      "Le bouton urgence est masqué sur votre page. Vos clients passent par le formulaire de projet classique.",
+    urgencyOptionalBody:
+      "Ce métier n'affiche pas le bouton urgence par défaut. Activez-le si vous proposez aussi des dépannages ou interventions urgentes.",
     projectFormBadge: "Formulaire projet",
     metierNotSet: "Métier non renseigné",
     metierNotSetHint:

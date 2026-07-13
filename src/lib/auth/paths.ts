@@ -14,6 +14,11 @@ export function authPath(
   return `/${locale}/${segment}`;
 }
 
+/** Écran plein après validation e-mail (avant l’onboarding). */
+export function accountConfirmedPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "onboarding")}/account-confirmed`;
+}
+
 export function forgotPasswordPath(lang: Locale | undefined): string {
   return `${authPath(lang, "login")}?view=forgot-password`;
 }

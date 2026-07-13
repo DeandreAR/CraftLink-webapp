@@ -19,6 +19,8 @@ export type Profile = {
   whatsapp_clicks_this_month?: number;
   whatsapp_clicks_month_key?: string | null;
   voice_capture_enabled?: boolean;
+  stripe_customer_id?: string | null;
+  stripe_subscription_id?: string | null;
   vitrine_presentation?: StoredVitrineConfig | null;
   /** Certifications & diplômes (badges vitrine publique). */
   certifications?: string[];

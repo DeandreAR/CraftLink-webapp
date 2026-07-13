@@ -1,6 +1,6 @@
 import type { OnboardingPortfolioItem } from "@/domain/onboarding";
 
-const MAX_PORTFOLIO_POSTS = 6;
+export const MAX_PORTFOLIO_POSTS = 12;
 
 export function instagramEmbedUrl(shortcode: string): string {
   return `https://www.instagram.com/p/${shortcode}/embed`;

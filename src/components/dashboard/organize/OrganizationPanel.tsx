@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { FaCalendarDays, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
+import { DashboardExportCsvButton } from "@/components/dashboard/DashboardExportCsvButton";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { LeadCard } from "@/components/dashboard/leads/LeadCard";
@@ -199,6 +200,13 @@ export function OrganizationPanel({
         title={o.title}
         subtitle={o.subtitle}
         badge={<span className="db-badge">{quotaLabel}</span>}
+        actions={
+          <DashboardExportCsvButton
+            leads={sortedOrganizedLeads}
+            copy={copy}
+            locale={locale}
+          />
+        }
       />
 
       <div className="db-organize-shell rounded-[1.5rem] border border-[#212129]/8 bg-white/60 p-4 shadow-[0_16px_48px_rgba(33,33,41,0.06)] backdrop-blur-sm md:p-5">

@@ -178,6 +178,19 @@ export type AuthDashboardDictionary = {
 export type DashboardDictionary = {
   loading: string;
   signOut: string;
+  export: {
+    ariaLabel: string;
+    button: string;
+    columns: {
+      date: string;
+      clientName: string;
+      phone: string;
+      email: string;
+      projectType: string;
+      status: string;
+      description: string;
+    };
+  };
   tabs: {
     inbox: string;
     organize: string;
@@ -218,6 +231,7 @@ export type DashboardDictionary = {
     urgencyDisabledBadge: string;
     urgencyEnabledBody: string;
     urgencyHiddenBody: string;
+    urgencyOptionalBody: string;
     projectFormBadge: string;
     metierNotSet: string;
     metierNotSetHint: string;
@@ -980,6 +994,12 @@ export type OnboardingDictionary = {
   title: string;
   subtitle: string;
   signOut: string;
+  accountConfirmed: {
+    title: string;
+    body: string;
+    cta: string;
+    hint: string;
+  };
   emailConfirmed: {
     title: string;
     message: string;

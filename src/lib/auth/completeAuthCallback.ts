@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { defaultLocale } from "@/i18n/config";
-import { authPath } from "@/lib/auth/paths";
+import { accountConfirmedPath, authPath } from "@/lib/auth/paths";
 import { createClient } from "@/lib/supabase/server";
 
 function safeNextPath(raw: string): string {
   if (!raw.startsWith("/") || raw.startsWith("//")) {
-    return authPath(defaultLocale, "onboarding");
+    return accountConfirmedPath(defaultLocale);
   }
   return raw;
 }
@@ -34,8 +34,5 @@ export async function completeAuthCallback(
   }
 
   const destination = new URL(next, requestUrl.origin);
-  if (!next.includes("reset-password")) {
-    destination.searchParams.set("confirmed", "1");
-  }
   return NextResponse.redirect(destination);
 }

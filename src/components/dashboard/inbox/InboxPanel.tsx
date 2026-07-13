@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { DashboardExportCsvButton } from "@/components/dashboard/DashboardExportCsvButton";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { LeadInboxDetail } from "@/components/dashboard/inbox/LeadInboxDetail";
 import { LeadInboxList } from "@/components/dashboard/inbox/LeadInboxList";
@@ -79,6 +80,9 @@ export function InboxPanel({
         title={inbox.title}
         subtitle={inbox.subtitle}
         compactOnMobile
+        actions={
+          <DashboardExportCsvButton leads={newLeads} copy={copy} locale={locale} />
+        }
       />
 
       {loadError ? (

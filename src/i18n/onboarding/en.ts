@@ -4,6 +4,12 @@ export const onboardingEn: OnboardingDictionary = {
   title: "Set up your CraftLink page",
   subtitle: "Gather your details, services and style in a few minutes.",
   signOut: "Sign out",
+  accountConfirmed: {
+    title: "Account activated!",
+    body: "Your email is confirmed and you're signed in. Next step: create your tradesperson page.",
+    cta: "Create my CraftLink page",
+    hint: "It only takes a few minutes to import your social profiles or set up your storefront.",
+  },
   emailConfirmed: {
     title: "Email confirmed — account activated",
     message:

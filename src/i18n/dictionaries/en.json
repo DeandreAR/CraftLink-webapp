@@ -69,7 +69,7 @@
       "confirmationTitle": "Account created — check your email",
       "confirmationLead": "We sent a confirmation link to:",
       "confirmationSpam": "Check your spam or Promotions folder if you don't see it.",
-      "confirmationAfterClick": "After clicking the link, you'll be signed in and can finish setting up your page.",
+      "confirmationAfterClick": "After clicking the link, you'll be signed in and land on an « Account activated » screen to start building your page.",
       "confirmationLoginCta": "Back to log in"
     },
     "dashboard": {

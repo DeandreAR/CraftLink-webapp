@@ -1,10 +1,10 @@
 import { defaultLocale } from "@/i18n/config";
 import { completeAuthCallback } from "@/lib/auth/completeAuthCallback";
-import { authPath } from "@/lib/auth/paths";
+import { accountConfirmedPath } from "@/lib/auth/paths";
 
 function safeNextPath(raw: string | null): string {
   if (!raw || !raw.startsWith("/") || raw.startsWith("//")) {
-    return authPath(defaultLocale, "onboarding");
+    return accountConfirmedPath(defaultLocale);
   }
   return raw;
 }

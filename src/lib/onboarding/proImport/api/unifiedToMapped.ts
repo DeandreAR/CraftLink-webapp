@@ -27,19 +27,27 @@ export function unifiedToMappedImportData(
       : data.instagramPortfolio?.map((item) => ({
           id: item.shortcode === "profile" ? "ig-profile-feed" : `ig-${item.shortcode}`,
           source_type: "instagram" as const,
-          type:
-            item.shortcode === "profile"
-              ? ("instagram_profile_embed" as const)
-              : ("instagram_embed" as const),
-          embedUrl: item.embedUrl,
-          externalUrl:
-            item.shortcode === "profile"
-              ? item.embedUrl.replace(/\/embed\/?$/, "/")
-              : `https://www.instagram.com/p/${item.shortcode}/`,
-          alt:
-            item.shortcode === "profile"
-              ? "Publications Instagram"
-              : `Publication Instagram ${item.shortcode}`,
+          ...(item.imageUrl
+            ? {
+                imageUrl: item.imageUrl,
+                externalUrl: `https://www.instagram.com/p/${item.shortcode}/`,
+                alt: `Publication Instagram ${item.shortcode}`,
+              }
+            : {
+                type:
+                  item.shortcode === "profile"
+                    ? ("instagram_profile_embed" as const)
+                    : ("instagram_embed" as const),
+                embedUrl: item.embedUrl,
+                externalUrl:
+                  item.shortcode === "profile"
+                    ? item.embedUrl.replace(/\/embed\/?$/, "/")
+                    : `https://www.instagram.com/p/${item.shortcode}/`,
+                alt:
+                  item.shortcode === "profile"
+                    ? "Publications Instagram"
+                    : `Publication Instagram ${item.shortcode}`,
+              }),
         }));
 
   return {

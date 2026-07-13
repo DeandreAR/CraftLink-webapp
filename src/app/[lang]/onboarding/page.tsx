@@ -7,12 +7,12 @@ import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
 
 type Props = {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ plan?: string; confirmed?: string }>;
+  searchParams: Promise<{ plan?: string }>;
 };
 
 export default async function LangOnboardingPage({ params, searchParams }: Props) {
   const { lang: raw } = await params;
-  const { plan, confirmed } = await searchParams;
+  const { plan } = await searchParams;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
   await prepareOnboardingPage(lang);
@@ -27,7 +27,6 @@ export default async function LangOnboardingPage({ params, searchParams }: Props
       vitrineCopy={dict.vitrine}
       pricingModel={pricingModel}
       planIntent={planIntent}
-      emailConfirmed={confirmed === "1"}
     />
   );
 }

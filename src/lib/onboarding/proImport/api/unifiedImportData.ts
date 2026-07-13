@@ -1,6 +1,8 @@
 export type UnifiedInstagramPortfolioItem = {
   shortcode: string;
   embedUrl: string;
+  /** Vignette proxifiée (grille vitrine sans iframe profil). */
+  imageUrl?: string;
 };
 
 /** Données normalisées renvoyées par les routes `/api/import/*`. */

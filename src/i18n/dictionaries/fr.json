@@ -69,7 +69,7 @@
       "confirmationTitle": "Compte créé — consultez votre e-mail",
       "confirmationLead": "Nous avons envoyé un lien de confirmation à :",
       "confirmationSpam": "Pensez à vérifier vos spams ou l’onglet « Promotions ».",
-      "confirmationAfterClick": "Après avoir cliqué sur le lien, vous serez connecté et pourrez poursuivre la configuration de votre page.",
+      "confirmationAfterClick": "Après avoir cliqué sur le lien, vous serez connecté et arriverez sur un écran « Compte activé » pour lancer la création de votre page.",
       "confirmationLoginCta": "Retour à la connexion"
     },
     "dashboard": {

@@ -41,6 +41,17 @@ export function portfolioItemToVitrine(item: OnboardingPortfolioItem): VitrinePo
   }
 
   if (item.source_type === "instagram") {
+    if (item.imageUrl) {
+      return {
+        id: item.id,
+        source_type: "instagram",
+        type: "image",
+        imageUrl: item.imageUrl,
+        externalUrl: item.externalUrl,
+        alt: item.alt,
+      };
+    }
+
     const { embedUrl, type } = resolveInstagramEmbed(item);
     return {
       id: item.id,

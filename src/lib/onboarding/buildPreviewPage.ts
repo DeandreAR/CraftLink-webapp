@@ -17,7 +17,7 @@ import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { portfolioItemsToVitrine } from "@/lib/portfolio/portfolioToVitrine";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import { buildStatBadges } from "@/lib/vitrine/buildStatBadges";
-import { metierSupportsUrgencyCta } from "@/lib/vitrine/metierUrgencySupport";
+import { resolveShowUrgentButton } from "@/lib/vitrine/resolveShowUrgentButton";
 import type {
   PublicPlanTier,
 } from "@/domain/vitrine";
@@ -162,8 +162,7 @@ export function buildOnboardingPreviewProps(
         showAffiliateLinks: hasAffiliateLinks,
         showPortfolioGallery: hasPortfolio,
         showServicesOnPresentation: vitrineServices.length > 0,
-        showUrgentButton:
-          metierSupportsUrgencyCta(metierKey) && profile.urgencyCtaEnabled !== false,
+        showUrgentButton: resolveShowUrgentButton(metierKey, profile.urgencyCtaEnabled),
         contentBlockMode: useAbout ? "about" : "interventions",
       },
       cta: {

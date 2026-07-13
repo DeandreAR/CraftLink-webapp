@@ -10,7 +10,7 @@ import {
   buildAuthCallbackUrl,
   buildPasswordRecoveryConfirmUrl,
 } from "@/lib/auth/emailConfirmationRedirect";
-import { authPath } from "@/lib/auth/paths";
+import { accountConfirmedPath, authPath } from "@/lib/auth/paths";
 import { formatAuthDebugMessage, formatConfigDebugMessage, logAuthError, AUTH_GENERIC_ERROR } from "@/lib/auth/debugError";
 import { normalizeSupabaseConfirmationLink } from "@/lib/auth/requestAppUrl";
 import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
@@ -147,9 +147,8 @@ export async function signUpWithProfile(
     };
   }
 
-  const onboardingPath = authPath(defaultLocale, "onboarding");
   const appUrl = options?.appUrl ?? undefined;
-  const redirectTo = buildAuthCallbackUrl(onboardingPath, appUrl);
+  const redirectTo = buildAuthCallbackUrl(accountConfirmedPath(defaultLocale), appUrl);
 
   const admin = createAdminClient();
   if (!admin) {

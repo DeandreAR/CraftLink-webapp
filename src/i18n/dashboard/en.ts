@@ -3,6 +3,19 @@ import type { DashboardDictionary } from "@/i18n/types";
 export const dashboardEn: DashboardDictionary = {
   loading: "Loading your workspace…",
   signOut: "Sign out",
+  export: {
+    ariaLabel: "Export my data as CSV",
+    button: "Export my data (CSV)",
+    columns: {
+      date: "Date",
+      clientName: "Client name",
+      phone: "Phone",
+      email: "Email",
+      projectType: "Project type",
+      status: "Status",
+      description: "Description",
+    },
+  },
   tabs: {
     inbox: "Incoming requests",
     organize: "Dashboard",
@@ -48,7 +61,9 @@ export const dashboardEn: DashboardDictionary = {
     urgencyEnabledBody:
       "Your trade shows the « Report an emergency » button on your public page. Clients can reach you directly for urgent call-outs.",
     urgencyHiddenBody:
-      "For your trade, the page highlights the standard project form. The direct urgency button is hidden — clients describe their need in a structured way.",
+      "The urgency button is hidden on your page. Clients use the standard project form instead.",
+    urgencyOptionalBody:
+      "Your trade does not show the urgency button by default. Turn it on if you also offer emergency call-outs.",
     projectFormBadge: "Project form",
     metierNotSet: "Trade not set",
     metierNotSetHint:
