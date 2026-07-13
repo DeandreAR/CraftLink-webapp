@@ -53,6 +53,7 @@ function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequir
       ...profile.social,
     },
     affiliateLinks: profile.affiliateLinks ?? [],
+    partnerBrands: profile.partnerBrands ?? [],
     visual: {
       fontId: "inter" as const,
       accentColor: "#9a8468",

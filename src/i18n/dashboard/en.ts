@@ -12,7 +12,7 @@ export const dashboardEn: DashboardDictionary = {
   tabDescriptions: {
     inbox: "Inbox — new requests with no action yet.",
     organize: "Pipeline, follow-ups and field schedule.",
-    profile: "Trade, urgency, certifications and storefront.",
+    profile: "Trade, urgency, storefront, subscription and certifications.",
     partners: "Brands, affiliate codes and benefits.",
   },
   inbox: {
@@ -38,12 +38,13 @@ export const dashboardEn: DashboardDictionary = {
   profilePanel: {
     title: "My artisan profile",
     subtitle:
-      "Your trade, public page and contact preferences.",
+      "Your trade, public page, subscription management and contact preferences.",
     editorTitle: "Public page & presentation",
     editorSubtitle:
       "Update your trade, certifications and what clients see on your page.",
     urgencyTitle: "Urgency button on your page",
-    urgencyEnabledBadge: "Urgent option enabled",
+    urgencyEnabledBadge: "Urgency button visible on your page",
+    urgencyDisabledBadge: "Urgency button hidden on your page",
     urgencyEnabledBody:
       "Your trade shows the « Report an emergency » button on your public page. Clients can reach you directly for urgent call-outs.",
     urgencyHiddenBody:
@@ -371,7 +372,7 @@ export const dashboardEn: DashboardDictionary = {
   partners: {
     title: "Partnerships & Affiliation",
     subtitle:
-      "Partner brands, shareable codes for your clients and a simple view of your benefits.",
+      "Your brands, affiliate links with discounts, and incoming collaboration requests.",
     requestsTitle: "Incoming requests",
     requestsHint: "Brands and advertisers reaching out via your storefront.",
     lockedTitle: "Available on Pro plan",
@@ -384,25 +385,23 @@ export const dashboardEn: DashboardDictionary = {
     loadError: "Could not load partnership requests.",
     pendingCount: "{count} pending",
     showArchived: "Show archived",
-    monetization: {
-      brandsTitle: "Partner brands",
-      brandsHint: "Material discounts to recommend to clients on site.",
-      codesTitle: "Your codes & affiliate links",
-      codesHint: "Share these links to guide clients to the right supplies.",
-      codesEmpty: "Add partner codes below to display them here.",
-      copyCode: "Copy link",
-      trackingTitle: "Benefits tracking",
-      trackingHint: "Clicks and commissions from your links (coming soon).",
-      clicks: "Generated clicks",
-      earned: "Total benefits",
-      pending: "Pending",
+    brands: {
+      title: "Brands I work with",
+      hint: "List the brands you use or recommend to your clients.",
+      nameLabel: "Brand name",
+      namePlaceholder: "E.g. Weber, Legrand, Velux…",
+      add: "Add",
+      removeAria: "Remove {name}",
+      empty: "No brands added yet.",
+      maxReached: "Maximum of 12 brands.",
     },
     affiliateLinks: {
       title: "Affiliate & partner links",
-      hint:
-        "Give each link a name (promo code, affiliation…) — shown on your Pro storefront.",
+      hint: "Name, discount and link — shown on your Pro storefront for clients.",
       nameLabel: "Link name",
-      namePlaceholder: "E.g. Amazon affiliate",
+      namePlaceholder: "E.g. Leroy Merlin code",
+      discountLabel: "Discount",
+      discountPlaceholder: "E.g. -10%, free delivery",
       urlLabel: "URL",
       urlPlaceholder: "https://…",
       add: "Add a link",

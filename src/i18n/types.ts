@@ -215,6 +215,7 @@ export type DashboardDictionary = {
     editorSubtitle: string;
     urgencyTitle: string;
     urgencyEnabledBadge: string;
+    urgencyDisabledBadge: string;
     urgencyEnabledBody: string;
     urgencyHiddenBody: string;
     projectFormBadge: string;
@@ -524,24 +525,23 @@ export type DashboardDictionary = {
     loadError: string;
     pendingCount: string;
     showArchived: string;
-    monetization: {
-      brandsTitle: string;
-      brandsHint: string;
-      codesTitle: string;
-      codesHint: string;
-      codesEmpty: string;
-      copyCode: string;
-      trackingTitle: string;
-      trackingHint: string;
-      clicks: string;
-      earned: string;
-      pending: string;
+    brands: {
+      title: string;
+      hint: string;
+      nameLabel: string;
+      namePlaceholder: string;
+      add: string;
+      removeAria: string;
+      empty: string;
+      maxReached: string;
     };
     affiliateLinks: {
       title: string;
       hint: string;
       nameLabel: string;
       namePlaceholder: string;
+      discountLabel: string;
+      discountPlaceholder: string;
       urlLabel: string;
       urlPlaceholder: string;
       add: string;
@@ -1062,6 +1062,8 @@ export type OnboardingDictionary = {
     hint: string;
     nameLabel: string;
     namePlaceholder: string;
+    discountLabel: string;
+    discountPlaceholder: string;
     urlLabel: string;
     urlPlaceholder: string;
     add: string;

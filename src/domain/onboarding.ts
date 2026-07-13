@@ -21,6 +21,13 @@ export type OnboardingAffiliateLink = {
   /** Nom affiché (ex. « Code Leroy Merlin », « Affiliation Amazon »). */
   label: string;
   url: string;
+  /** Réduction ou avantage à partager (ex. « -10 % », « Livraison offerte »). */
+  discount?: string;
+};
+
+export type OnboardingPartnerBrand = {
+  id: string;
+  name: string;
 };
 
 export type OnboardingSocialDraft = {
@@ -73,6 +80,9 @@ export type OnboardingProfileDraft = {
   aboutText: string;
   social: OnboardingSocialDraft;
   affiliateLinks: OnboardingAffiliateLink[];
+  partnerBrands: OnboardingPartnerBrand[];
+  /** Affiche le bouton urgence sur la vitrine (si le métier le permet). */
+  urgencyCtaEnabled?: boolean;
   visual: OnboardingVisualDraft;
   importPlatform?: ProImportPlatform;
   importIdentifier?: string;
@@ -142,6 +152,7 @@ export const defaultOnboardingProfile = (
   aboutText: "",
   social: defaultSocialDraft(),
   affiliateLinks: [],
+  partnerBrands: [],
   visual: defaultVisualDraft(),
   pageSlug: "",
   pageSlugConfirmed: false,

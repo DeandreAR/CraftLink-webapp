@@ -66,3 +66,34 @@
     color-mix(in srgb, var(--lk-lavender) 4%, white) 100%
   );
 }
+
+.dashboard-page .db-profile-section {
+  border-radius: 1.25rem;
+  border: 1.5px solid color-mix(in srgb, var(--lk-ink) 8%, transparent);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--lk-ink) 4%, transparent);
+}
+
+.dashboard-page .db-profile-section--urgency {
+  background: linear-gradient(135deg, #fff5f0 0%, #ffffff 55%, #fdfbf7 100%);
+  border-color: color-mix(in srgb, var(--lk-peach) 40%, transparent);
+}
+
+.dashboard-page .db-profile-section--editor {
+  background: #ffffff;
+  border-color: color-mix(in srgb, var(--lk-mint) 40%, transparent);
+}
+
+.dashboard-page .db-profile-section--qr {
+  background: linear-gradient(135deg, #f5f0ff 0%, #ffffff 50%, #fdfbf7 100%);
+  border-color: color-mix(in srgb, var(--lk-lavender) 50%, transparent);
+}
+
+.dashboard-page .db-profile-section--billing {
+  background: linear-gradient(135deg, #ffffff 0%, #fff8f5 100%);
+  border-color: color-mix(in srgb, var(--lk-peach) 30%, transparent);
+}
+
+.dashboard-page .db-profile-section--danger {
+  background: #ffffff;
+  border-color: color-mix(in srgb, #ef4444 25%, transparent);
+}

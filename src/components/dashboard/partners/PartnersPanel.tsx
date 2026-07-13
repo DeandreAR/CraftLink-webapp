@@ -5,7 +5,7 @@ import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
 import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
 import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
-import { PartnersMonetizationSection } from "@/components/dashboard/partners/PartnersMonetizationSection";
+import { PartnersBrandsCard } from "@/components/dashboard/partners/PartnersBrandsCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
@@ -185,10 +185,6 @@ export function PartnersPanel({
 
   const content = (
     <div className="space-y-8">
-      <PartnersMonetizationSection profile={profile} copy={copy} />
-
-      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
-
       <div>
         <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478]">
           {p.requestsTitle}
@@ -239,6 +235,9 @@ export function PartnersPanel({
           />
         ) : null}
       </div>
+
+      <PartnersBrandsCard profile={profile} copy={copy} />
+      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
 
       {pro ? null : (
         <p className="text-xs text-[#5b6478]">{p.affiliateLinks.hint}</p>

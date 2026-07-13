@@ -12,7 +12,7 @@ export const dashboardFr: DashboardDictionary = {
   tabDescriptions: {
     inbox: "Boîte de réception — nouvelles demandes sans action.",
     organize: "Pipeline, relances et agenda terrain.",
-    profile: "Métier, urgence, certifications et vitrine.",
+    profile: "Métier, urgence, vitrine, abonnement et certifications.",
     partners: "Marques, codes affiliés et commissions.",
   },
   inbox: {
@@ -38,12 +38,13 @@ export const dashboardFr: DashboardDictionary = {
   profilePanel: {
     title: "Mon profil artisan",
     subtitle:
-      "Votre métier, votre page publique et vos préférences de contact.",
+      "Votre métier, votre page publique, la gestion d'abonnement et vos préférences de contact.",
     editorTitle: "Page publique & présentation",
     editorSubtitle:
       "Mettez à jour votre métier, vos certifications et le contenu visible par vos clients.",
     urgencyTitle: "Bouton urgence sur votre page",
-    urgencyEnabledBadge: "Option urgence activée",
+    urgencyEnabledBadge: "Bouton urgence visible sur votre page",
+    urgencyDisabledBadge: "Bouton urgence masqué sur votre page",
     urgencyEnabledBody:
       "Votre métier permet d'afficher le bouton « Signaler une urgence » sur votre page publique. Vos clients peuvent vous joindre directement en cas de dépannage.",
     urgencyHiddenBody:
@@ -371,7 +372,7 @@ export const dashboardFr: DashboardDictionary = {
   partners: {
     title: "Partenariats & Affiliation",
     subtitle:
-      "Marques partenaires, codes à partager avec vos clients et suivi simple de vos avantages.",
+      "Vos marques, vos liens affiliés avec réductions, et les demandes de collaboration reçues.",
     requestsTitle: "Demandes entrantes",
     requestsHint:
       "Marques et annonceurs qui souhaitent collaborer via votre page vitrine.",
@@ -385,25 +386,24 @@ export const dashboardFr: DashboardDictionary = {
     loadError: "Impossible de charger les demandes de partenariat.",
     pendingCount: "{count} à traiter",
     showArchived: "Afficher les archives",
-    monetization: {
-      brandsTitle: "Marques partenaires",
-      brandsHint: "Réductions matériel à recommander à vos clients sur chantier.",
-      codesTitle: "Vos codes & liens affiliés",
-      codesHint: "Partagez ces liens pour orienter vos clients vers le bon matériel.",
-      codesEmpty: "Ajoutez vos codes partenaires ci-dessous pour les afficher ici.",
-      copyCode: "Copier le lien",
-      trackingTitle: "Suivi des avantages",
-      trackingHint: "Clics et commissions générés via vos liens (mise à jour prochainement).",
-      clicks: "Clics générés",
-      earned: "Avantages cumulés",
-      pending: "En attente",
+    brands: {
+      title: "Marques avec lesquelles je travaille",
+      hint: "Renseignez les marques que vous utilisez ou recommandez à vos clients.",
+      nameLabel: "Nom de la marque",
+      namePlaceholder: "Ex. Weber, Legrand, Velux…",
+      add: "Ajouter",
+      removeAria: "Retirer {name}",
+      empty: "Aucune marque renseignée pour le moment.",
+      maxReached: "Maximum de 12 marques.",
     },
     affiliateLinks: {
       title: "Liens d'affiliation & codes partenaires",
       hint:
-        "Nommez chaque lien (code promo, affiliation…) — ils apparaissent sur votre vitrine Pro.",
+        "Nom, réduction et lien — affichés sur votre vitrine Pro pour vos clients.",
       nameLabel: "Nom du lien",
-      namePlaceholder: "Ex. Affiliation Amazon",
+      namePlaceholder: "Ex. Code Leroy Merlin",
+      discountLabel: "Réduction",
+      discountPlaceholder: "Ex. -10 %, livraison offerte",
       urlLabel: "URL",
       urlPlaceholder: "https://…",
       add: "Ajouter un lien",

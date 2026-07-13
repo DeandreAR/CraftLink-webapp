@@ -111,7 +111,9 @@ export const onboardingFr: OnboardingDictionary = {
     hint:
       "Ajoutez vos liens avec un nom personnalisé (ex. code promo, affiliation marque). Affichés sur votre page Pro.",
     nameLabel: "Nom du lien",
-    namePlaceholder: "Ex. Code Leroy Merlin -10%",
+    namePlaceholder: "Ex. Code Leroy Merlin",
+    discountLabel: "Réduction",
+    discountPlaceholder: "Ex. -10 %, livraison offerte",
     urlLabel: "URL du lien",
     urlPlaceholder: "https://…",
     add: "Ajouter un lien",

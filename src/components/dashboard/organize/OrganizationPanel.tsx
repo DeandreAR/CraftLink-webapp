@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FaCalendarDays, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
@@ -76,7 +76,7 @@ export function OrganizationPanel({
   } = workspace;
 
   const [section, setSection] = useState<OrganizeSectionView>("list");
-  const [view, setView] = useState<OrganizeDisplayView>("pipeline");
+  const [view, setView] = useState<OrganizeDisplayView>("table");
   const [sort, setSort] = useState<LeadSortState>(DEFAULT_LEAD_SORT);
   const [tableFilter, setTableFilter] = useState<LeadTableFilter>(DEFAULT_LEAD_TABLE_FILTER);
   const [showArchived, setShowArchived] = useState(false);
@@ -174,11 +174,6 @@ export function OrganizationPanel({
 
   const viewTabs = [
     {
-      id: "pipeline" as const,
-      label: copy.leads.views.pipeline,
-      icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
-    },
-    {
       id: "table" as const,
       label: copy.leads.views.table,
       icon: <FaTableColumns className="h-3.5 w-3.5 opacity-70" aria-hidden />,
@@ -187,6 +182,11 @@ export function OrganizationPanel({
       id: "cards" as const,
       label: copy.leads.views.cards,
       icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
+    {
+      id: "pipeline" as const,
+      label: copy.leads.views.pipeline,
+      icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
     },
   ];
 
@@ -202,174 +202,182 @@ export function OrganizationPanel({
       />
 
       <div className="db-organize-shell rounded-[1.5rem] border border-[#212129]/8 bg-white/60 p-4 shadow-[0_16px_48px_rgba(33,33,41,0.06)] backdrop-blur-sm md:p-5">
-
-      {catchUpLead ? (
-        <SmartCatchUpBanner
-          lead={catchUpLead}
-          copy={copy}
-          onAction={handleCatchUp}
-          busy={catchUpBusy}
-          error={catchUpError}
-          onDismissError={() => setCatchUpError(null)}
-        />
-      ) : null}
-
-      {whatsappError ? (
-        <div
-          role="alert"
-          className="mb-4 flex items-start justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900"
-        >
-          <div>
-            <p className="font-semibold">{copy.leads.whatsappError.title}</p>
-            <p className="mt-0.5 text-red-800">{whatsappError}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setWhatsappError(null)}
-            className="shrink-0 text-xs font-semibold text-red-700 underline"
-          >
-            {copy.leads.whatsappError.dismiss}
-          </button>
-        </div>
-      ) : null}
-
-      {loadError ? (
-        <div
-          role="alert"
-          className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"
-        >
-          {loadError}
-        </div>
-      ) : null}
-
-      <DashboardViewTabs
-        tabs={sectionTabs}
-        active={section}
-        onChange={setSection}
-        ariaLabel={copy.leads.views.sectionAriaLabel}
-      />
-
-      {section === "list" ? (
-        <DashboardViewTabs
-          tabs={viewTabs}
-          active={view}
-          onChange={handleViewChange}
-          ariaLabel={copy.leads.views.ariaLabel}
-        />
-      ) : null}
-
-      <div className="mt-4">
-        {section === "calendar" ? (
-          <LeadsCalendar
-            leads={calendarLeads}
+        {catchUpLead ? (
+          <SmartCatchUpBanner
+            lead={catchUpLead}
             copy={copy}
-            locale={locale}
-            onOpenDetail={setSelectedLeadId}
+            onAction={handleCatchUp}
+            busy={catchUpBusy}
+            error={catchUpError}
+            onDismissError={() => setCatchUpError(null)}
           />
-        ) : (
-          <>
-            {!showArchived && view !== "pipeline" ? (
-              <LeadsSummaryCards stats={summaryStats} copy={copy} />
-            ) : null}
+        ) : null}
 
-            {supportsBulkSelect && selectedIds.size > 0 ? (
-              <LeadsBulkActionsBar
-                count={selectedIds.size}
-                copy={copy}
-                onMarkDone={bulkMarkDone}
-                onArchive={bulkArchive}
-                onClear={() => setSelectedIds(new Set())}
-              />
-            ) : null}
+        {whatsappError ? (
+          <div
+            role="alert"
+            className="mb-4 flex items-start justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900"
+          >
+            <div>
+              <p className="font-semibold">{copy.leads.whatsappError.title}</p>
+              <p className="mt-0.5 text-red-800">{whatsappError}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setWhatsappError(null)}
+              className="shrink-0 text-xs font-semibold text-red-700 underline"
+            >
+              {copy.leads.whatsappError.dismiss}
+            </button>
+          </div>
+        ) : null}
 
-            {displayedLeads.length === 0 ? (
-              <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-16 text-center text-sm text-[#5b6478]">
-                {o.empty}
-              </p>
-            ) : view === "table" ? (
-              <>
-                <LeadsTableToolbar
-                  filter={tableFilter}
-                  onFilterChange={setTableFilter}
-                  showArchived={showArchived}
-                  onShowArchivedChange={setShowArchived}
-                  archivedCount={archivedCount}
+        {loadError ? (
+          <div
+            role="alert"
+            className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950"
+          >
+            {loadError}
+          </div>
+        ) : null}
+
+        <DashboardViewTabs
+          tabs={sectionTabs}
+          active={section}
+          onChange={setSection}
+          ariaLabel={copy.leads.views.sectionAriaLabel}
+        />
+
+        {section === "list" ? (
+          <DashboardViewTabs
+            tabs={viewTabs}
+            active={view}
+            onChange={handleViewChange}
+            ariaLabel={copy.leads.views.ariaLabel}
+          />
+        ) : null}
+
+        <div className="mt-4">
+          {section === "calendar" ? (
+            <LeadsCalendar
+              leads={calendarLeads}
+              copy={copy}
+              locale={locale}
+              onOpenDetail={setSelectedLeadId}
+            />
+          ) : (
+            <>
+              {!showArchived && view !== "pipeline" ? (
+                <LeadsSummaryCards stats={summaryStats} copy={copy} />
+              ) : null}
+
+              {supportsBulkSelect && selectedIds.size > 0 ? (
+                <LeadsBulkActionsBar
+                  count={selectedIds.size}
                   copy={copy}
+                  onMarkDone={bulkMarkDone}
+                  onArchive={bulkArchive}
+                  onClear={() => setSelectedIds(new Set())}
                 />
-                <LeadsTableView
-                  {...viewProps}
-                  sort={sort}
-                  onSortChange={setSort}
-                  selectedIds={selectedIds}
-                  onToggleSelect={toggleSelect}
-                  onToggleSelectAll={toggleSelectAll}
-                />
-              </>
-            ) : (
-              <div className="space-y-3">
-                {view === "cards" ? (
-                  <LeadsCardsToolbar
-                    sort={sort}
-                    onSortChange={setSort}
+              ) : null}
+
+              {displayedLeads.length === 0 ? (
+                <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-16 text-center text-sm text-[#5b6478]">
+                  {o.empty}
+                </p>
+              ) : view === "table" ? (
+                <>
+                  <LeadsTableToolbar
+                    filter={tableFilter}
+                    onFilterChange={setTableFilter}
                     showArchived={showArchived}
                     onShowArchivedChange={setShowArchived}
                     archivedCount={archivedCount}
                     copy={copy}
                   />
-                ) : null}
-                {view === "pipeline" ? (
-                  <>
-                    {archivedCount > 0 ? (
-                      <div className="flex justify-end">
-                        <button
-                          type="button"
-                          onClick={() => setShowArchived(!showArchived)}
-                          className={`text-xs font-semibold transition ${
-                            showArchived
-                              ? "text-[#212129] underline"
-                              : "text-[#5b6478] hover:text-[#212129]"
-                          }`}
+                  <LeadsTableView
+                    {...viewProps}
+                    sort={sort}
+                    onSortChange={setSort}
+                    selectedIds={selectedIds}
+                    onToggleSelect={toggleSelect}
+                    onToggleSelectAll={toggleSelectAll}
+                  />
+                </>
+              ) : (
+                <div className="space-y-3">
+                  {view === "cards" ? (
+                    <LeadsCardsToolbar
+                      sort={sort}
+                      onSortChange={setSort}
+                      showArchived={showArchived}
+                      onShowArchivedChange={setShowArchived}
+                      archivedCount={archivedCount}
+                      copy={copy}
+                    />
+                  ) : null}
+                  {view === "pipeline" ? (
+                    <>
+                      {archivedCount > 0 ? (
+                        <div className="flex justify-end">
+                          <button
+                            type="button"
+                            onClick={() => setShowArchived(!showArchived)}
+                            className={`text-xs font-semibold transition ${
+                              showArchived
+                                ? "text-[#212129] underline"
+                                : "text-[#5b6478] hover:text-[#212129]"
+                            }`}
+                          >
+                            {showArchived
+                              ? copy.leads.sort.hideArchived
+                              : copy.leads.sort.showArchived.replace(
+                                  "{count}",
+                                  String(archivedCount),
+                                )}
+                          </button>
+                        </div>
+                      ) : null}
+                      <p className="text-xs text-[#5b6478]">
+                        {copy.leads.pipeline.singleDragHint}
+                      </p>
+                      <LeadsPipelineView {...viewProps} leads={displayedLeads} />
+                    </>
+                  ) : (
+                    <ul className="space-y-2">
+                      {displayedLeads.map((lead) => (
+                        <li
+                          key={lead.id}
+                          onClick={(e) => {
+                            if ((e.target as HTMLElement).closest("input, button, a")) return;
+                            setSelectedLeadId(lead.id);
+                          }}
+                          className="cursor-pointer"
                         >
-                          {showArchived
-                            ? copy.leads.sort.hideArchived
-                            : copy.leads.sort.showArchived.replace(
-                                "{count}",
-                                String(archivedCount),
-                              )}
-                        </button>
-                      </div>
-                    ) : null}
-                    <p className="text-xs text-[#5b6478]">
-                      {copy.leads.pipeline.singleDragHint}
-                    </p>
-                    <LeadsPipelineView {...viewProps} leads={displayedLeads} />
-                  </>
-                ) : (
-                  <ul className="space-y-2">
-                    {displayedLeads.map((lead) => (
-                      <li
-                        key={lead.id}
-                        onClick={(e) => {
-                          if ((e.target as HTMLElement).closest("input, button, a")) return;
-                          setSelectedLeadId(lead.id);
-                        }}
-                        className="cursor-pointer"
-                      >
-                        <LeadCard
-                          lead={lead}
-                          {...viewProps}
-                          selectable
-                          selected={selectedIds.has(lead.id)}
-                          onToggleSelect={() => toggleSelect(lead.id)}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
-          </>
-        )}
+                          <LeadCard
+                            lead={lead}
+                            {...viewProps}
+                            selectable
+                            selected={selectedIds.has(lead.id)}
+                            onToggleSelect={() => toggleSelect(lead.id)}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        <WhatsAppUpgradeModal
+          open={upgradeOpen}
+          onClose={() => setUpgradeOpen(false)}
+          copy={copy}
+          locale={locale}
+          clicksUsed={dashboardUser.whatsappClicksThisMonth}
+        />
       </div>
 
       {selectedLead ? (
@@ -393,15 +401,6 @@ export function OrganizationPanel({
           onWhatsAppContact={handlers.onWhatsAppContact}
         />
       ) : null}
-
-      <WhatsAppUpgradeModal
-        open={upgradeOpen}
-        onClose={() => setUpgradeOpen(false)}
-        copy={copy}
-        locale={locale}
-        clicksUsed={dashboardUser.whatsappClicksThisMonth}
-      />
-      </div>
     </section>
   );
 }

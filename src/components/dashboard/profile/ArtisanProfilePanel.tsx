@@ -32,12 +32,12 @@ export function ArtisanProfilePanel({
   const p = copy.profilePanel;
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-6">
       <DashboardPageHeader title={p.title} subtitle={p.subtitle} />
 
       <UrgencyMetierSetting profile={profile} copy={copy} locale={locale} />
 
-      <div className="db-card-flat p-6 md:p-8">
+      <div className="db-profile-section db-profile-section--editor p-6 md:p-8">
         <h3 className="text-base font-black text-[#212129]">{p.editorTitle}</h3>
         <p className="mt-1 text-sm text-[#5b6478]">{p.editorSubtitle}</p>
         <div className="mt-6 space-y-6">
@@ -52,21 +52,25 @@ export function ArtisanProfilePanel({
         </div>
       </div>
 
-      <div className="db-card-flat p-6 md:p-8">
+      <div className="db-profile-section db-profile-section--qr p-6 md:p-8">
         <h3 className="text-base font-black text-[#212129]">{copy.vitrine.subTabs.qr}</h3>
         <div className="mt-4">
           <QrCodeVanModule slug={profile.page_slug} copy={copy} />
         </div>
       </div>
 
-      <BillingSection
-        planTier={profile.plan_tier}
-        billing={billing}
-        copy={copy}
-        locale={locale}
-      />
+      <div className="db-profile-section db-profile-section--billing p-6 md:p-8">
+        <BillingSection
+          planTier={profile.plan_tier}
+          billing={billing}
+          copy={copy}
+          locale={locale}
+        />
+      </div>
 
-      <DeleteAccountSection copy={copy} locale={locale} />
+      <div className="db-profile-section db-profile-section--danger p-6 md:p-8">
+        <DeleteAccountSection copy={copy} locale={locale} />
+      </div>
     </section>
   );
 }

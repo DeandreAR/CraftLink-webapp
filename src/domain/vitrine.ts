@@ -101,6 +101,7 @@ export type VitrineAffiliateLink = {
   id: string;
   label: string;
   href: string;
+  discount?: string;
 };
 
 export type VitrineSocialLink = {

@@ -162,7 +162,8 @@ export function buildOnboardingPreviewProps(
         showAffiliateLinks: hasAffiliateLinks,
         showPortfolioGallery: hasPortfolio,
         showServicesOnPresentation: vitrineServices.length > 0,
-        showUrgentButton: metierSupportsUrgencyCta(metierKey),
+        showUrgentButton:
+          metierSupportsUrgencyCta(metierKey) && profile.urgencyCtaEnabled !== false,
         contentBlockMode: useAbout ? "about" : "interventions",
       },
       cta: {
