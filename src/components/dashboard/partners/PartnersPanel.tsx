@@ -16,6 +16,7 @@ import {
   formatPartnershipDate,
   partnershipStatusBadgeClass,
 } from "@/lib/partnerships/partnershipDisplay";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function withDemoRequestIfEmpty(requests: DashboardPartnershipRequest[]): DashboardPartnershipRequest[] {
   if (requests.length > 0 || process.env.NODE_ENV !== "development") {
@@ -105,7 +106,7 @@ function RequestsTable({
         </table>
       </div>
 
-      <ul className="space-y-3 md:hidden">
+      <ul className="space-y-2 md:hidden">
         {requests.map((request) => {
           const selected = selectedId === request.id;
           return (
@@ -113,24 +114,22 @@ function RequestsTable({
               <button
                 type="button"
                 onClick={() => onSelect(request.id)}
-                className={`w-full db-card-flat p-4 text-left ${
-                  selected
-                    ? "border-[#EFA188]/50 bg-[#EFA188]/10"
-                    : ""
+                className={`w-full db-card-flat p-3 text-left ${
+                  selected ? "border-[#EFA188]/50 bg-[#EFA188]/10" : ""
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-bold text-slate-900">{request.companyName}</p>
-                    <p className="mt-0.5 text-sm text-slate-600">{request.contactName}</p>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-bold text-slate-900">{request.companyName}</p>
+                    <p className="mt-0.5 truncate text-xs text-slate-600">{request.contactName}</p>
                   </div>
                   <span
-                    className={`shrink-0 rounded-md px-2 py-0.5 text-[10px] font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
+                    className={`shrink-0 rounded-md px-1.5 py-0.5 text-[9px] font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
                   >
                     {p.status[request.workflowStatus]}
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-1.5 truncate text-[10px] text-slate-500">
                   {p.types[request.partnershipType]} ·{" "}
                   {formatPartnershipDate(request.createdAt, locale)}
                 </p>
@@ -152,13 +151,12 @@ export function PartnersPanel({
 }: PartnersPanelProps) {
   const pro = resolveCraftlinkPlan(profile.plan_tier) === "PRO";
   const p = copy.partners;
+  const isDesktopPartners = useMediaQuery("(min-width: 768px)");
 
   const [requests, setRequests] = useState(() => withDemoRequestIfEmpty(initialRequests));
   const [loadError] = useState(initialLoadError);
   const [showArchived, setShowArchived] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(
-    () => withDemoRequestIfEmpty(initialRequests)[0]?.id ?? null,
-  );
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const visibleRequests = useMemo(
     () =>
@@ -179,17 +177,31 @@ export function PartnersPanel({
     setRequests(withDemoRequestIfEmpty(initialRequests));
   }, [initialRequests]);
 
+  useEffect(() => {
+    if (isDesktopPartners && !selectedId && visibleRequests[0]) {
+      setSelectedId(visibleRequests[0].id);
+    }
+  }, [isDesktopPartners, visibleRequests, selectedId]);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    document.body.style.overflow = isDesktopPartners ? "" : "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedId, isDesktopPartners]);
+
   const handleUpdated = (updated: DashboardPartnershipRequest) => {
     setRequests((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
   };
 
   const content = (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8">
       <div>
-        <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478]">
+        <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478] max-md:text-xs">
           {p.requestsTitle}
         </h3>
-        <p className="mt-1 text-sm text-[#5b6478]">{p.requestsHint}</p>
+        <p className="mt-1 text-sm text-[#5b6478] max-md:hidden">{p.requestsHint}</p>
       </div>
 
       {loadError ? (
@@ -200,18 +212,18 @@ export function PartnersPanel({
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         {pendingCount > 0 ? (
-          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">
+          <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-900 md:px-3 md:py-1 md:text-xs">
             {p.pendingCount.replace("{count}", String(pendingCount))}
           </span>
         ) : (
           <span />
         )}
-        <label className="flex items-center gap-2 text-sm text-slate-600">
+        <label className="flex items-center gap-2 text-xs text-slate-600 md:text-sm">
           <input
             type="checkbox"
             checked={showArchived}
             onChange={(e) => setShowArchived(e.target.checked)}
-            className="h-4 w-4 rounded border-neutral-300"
+            className="h-3.5 w-3.5 rounded border-neutral-300 md:h-4 md:w-4"
           />
           {p.showArchived}
         </label>
@@ -225,7 +237,7 @@ export function PartnersPanel({
           selectedId={selectedId}
           onSelect={setSelectedId}
         />
-        {selectedRequest ? (
+        {selectedRequest && isDesktopPartners ? (
           <PartnershipRequestDetail
             request={selectedRequest}
             copy={copy}
@@ -235,6 +247,25 @@ export function PartnersPanel({
           />
         ) : null}
       </div>
+
+      {selectedRequest && !isDesktopPartners ? (
+        <>
+          <button
+            type="button"
+            aria-label={p.detail.close}
+            className="db-partners-detail-backdrop"
+            onClick={() => setSelectedId(null)}
+          />
+          <PartnershipRequestDetail
+            request={selectedRequest}
+            copy={copy}
+            locale={locale}
+            compact
+            onClose={() => setSelectedId(null)}
+            onUpdated={handleUpdated}
+          />
+        </>
+      ) : null}
 
       <PartnersBrandsCard profile={profile} copy={copy} />
       {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
@@ -247,7 +278,7 @@ export function PartnersPanel({
 
   return (
     <section className="space-y-6">
-      <DashboardPageHeader title={p.title} subtitle={p.subtitle} />
+      <DashboardPageHeader title={p.title} subtitle={p.subtitle} compactOnMobile />
 
       {!pro ? (
         <PlanLockedCard

@@ -221,6 +221,13 @@ export type DashboardDictionary = {
     projectFormBadge: string;
     metierNotSet: string;
     metierNotSetHint: string;
+    mobileSections: {
+      urgency: string;
+      editor: string;
+      qr: string;
+      billing: string;
+      account: string;
+    };
   };
   leads: {
     title: string;

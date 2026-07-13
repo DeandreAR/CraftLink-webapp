@@ -1,0 +1,134 @@
+/* Dashboard — optimisations mobile / tablette (≤1023px inbox, ≤767px reste) */
+
+@media (max-width: 767px) {
+  .dashboard-page .db-page-header-compact .lk-display {
+    font-size: 1.35rem;
+  }
+
+  .dashboard-page .db-page-header-compact .db-header-banner {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    border-radius: 0.75rem;
+  }
+
+  .dashboard-page .db-profile-section {
+    padding: 1rem !important;
+  }
+
+  .dashboard-page .db-urgency-compact .db-urgency-body {
+    display: none;
+  }
+
+  .dashboard-page .db-urgency-compact {
+    padding: 0.75rem 1rem !important;
+  }
+
+  .dashboard-page .db-urgency-compact h3 {
+    font-size: 0.8125rem;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+    border: none;
+    max-height: 100dvh;
+    min-height: 0;
+    box-shadow: none;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet header {
+    padding: 0.75rem 1rem;
+    flex-shrink: 0;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet .db-inbox-detail-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.75rem 1rem;
+    gap: 0.625rem;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet .db-inbox-section {
+    padding: 0.75rem;
+    border-radius: 0.875rem;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet footer {
+    flex-shrink: 0;
+    padding: 0.75rem 1rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .dashboard-page .db-inbox-detail-sheet h2 {
+    font-size: 1.125rem;
+  }
+
+  .dashboard-page .db-partners-detail-sheet {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 95;
+    max-height: min(88dvh, 36rem);
+    overflow-y: auto;
+    border-radius: 1.25rem 1.25rem 0 0;
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    box-shadow: 0 -12px 40px rgba(33, 33, 41, 0.18);
+  }
+
+  .dashboard-page .db-partners-detail-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 94;
+    background: rgba(33, 33, 41, 0.35);
+    border: none;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 1023px) {
+  .dashboard-page .db-inbox-split .db-inbox-list-item {
+    padding: 0.625rem 0.75rem;
+    border-radius: 1rem;
+  }
+
+  .dashboard-page .db-inbox-split .db-page-header-compact {
+    margin-bottom: 1rem;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+    border: none;
+    max-height: 100dvh;
+    min-height: 0;
+    box-shadow: none;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet header {
+    padding: 1rem 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet .db-inbox-detail-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .dashboard-page .db-inbox-detail-sheet footer {
+    flex-shrink: 0;
+    padding: 1rem 1.25rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}

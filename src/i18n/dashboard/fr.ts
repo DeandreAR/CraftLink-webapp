@@ -53,6 +53,13 @@ export const dashboardFr: DashboardDictionary = {
     metierNotSet: "Métier non renseigné",
     metierNotSetHint:
       "Choisissez votre corps de métier dans l'éditeur ci-dessous pour activer les bonnes options sur votre page.",
+    mobileSections: {
+      urgency: "Urgence",
+      editor: "Vitrine",
+      qr: "QR",
+      billing: "Abonnement",
+      account: "Compte",
+    },
   },
   leads: {
     title: "Vos demandes clients",

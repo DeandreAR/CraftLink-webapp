@@ -9,6 +9,7 @@ import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { useLeadsWorkspace } from "@/lib/dashboard/useLeadsWorkspace";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type InboxPanelProps = {
   profile: Profile;
@@ -26,6 +27,7 @@ export function InboxPanel({
   initialLoadError,
 }: InboxPanelProps) {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const isWideInbox = useMediaQuery("(min-width: 1024px)");
   const workspace = useLeadsWorkspace({
     profile,
     copy,
@@ -43,13 +45,22 @@ export function InboxPanel({
 
   useEffect(() => {
     if (selectedLeadId && !newLeads.some((lead) => lead.id === selectedLeadId)) {
-      setSelectedLeadId(newLeads[0]?.id ?? null);
-    } else if (!selectedLeadId && newLeads[0]) {
+      setSelectedLeadId(isWideInbox ? (newLeads[0]?.id ?? null) : null);
+    } else if (!selectedLeadId && newLeads[0] && isWideInbox) {
       setSelectedLeadId(newLeads[0].id);
     }
-  }, [newLeads, selectedLeadId]);
+  }, [newLeads, selectedLeadId, isWideInbox]);
 
-  const showMobileDetail = Boolean(selectedLeadId);
+  const showCompactDetail = Boolean(selectedLeadId) && !isWideInbox;
+
+  useEffect(() => {
+    if (!showCompactDetail) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showCompactDetail]);
+
   const inbox = copy.inbox;
 
   const handleValidate = (leadId: string, schedule: DashboardLead["schedule"]) => {
@@ -63,8 +74,12 @@ export function InboxPanel({
   };
 
   return (
-    <section className="flex flex-col gap-6 lg:gap-8">
-      <DashboardPageHeader title={inbox.title} subtitle={inbox.subtitle} />
+    <section className="db-inbox-split flex flex-col gap-4 lg:gap-8">
+      <DashboardPageHeader
+        title={inbox.title}
+        subtitle={inbox.subtitle}
+        compactOnMobile
+      />
 
       {loadError ? (
         <div
@@ -75,13 +90,13 @@ export function InboxPanel({
         </div>
       ) : null}
 
-      <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
+      <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div
           className={`min-w-0 lg:w-[35%] lg:shrink-0 ${
-            showMobileDetail ? "hidden lg:block" : "block"
+            showCompactDetail ? "hidden lg:block" : "block"
           }`}
         >
-          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.16em] text-[#5b6478]">
+          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.16em] text-[#5b6478] lg:mb-3">
             {inbox.listHeading}
           </p>
           <LeadInboxList
@@ -94,7 +109,7 @@ export function InboxPanel({
 
         <div
           className={`min-w-0 flex-1 lg:w-[65%] ${
-            showMobileDetail ? "block" : "hidden lg:block"
+            showCompactDetail ? "block" : "hidden lg:block"
           }`}
         >
           {selectedLead ? (
@@ -104,6 +119,7 @@ export function InboxPanel({
               plan={dashboardUser.plan}
               copy={copy}
               locale={locale}
+              compact={!isWideInbox}
               onBack={() => setSelectedLeadId(null)}
               onValidateAndPlan={handleValidate}
               onArchive={handleArchive}
@@ -115,7 +131,7 @@ export function InboxPanel({
               }
             />
           ) : (
-            <div className="flex min-h-[20rem] items-center justify-center rounded-[1.5rem] border-2 border-dashed border-[#EFA188]/35 bg-white/70 p-8 text-center">
+            <div className="flex min-h-[12rem] items-center justify-center rounded-[1.25rem] border-2 border-dashed border-[#EFA188]/35 bg-white/70 p-6 text-center lg:min-h-[20rem] lg:rounded-[1.5rem] lg:p-8">
               <p className="max-w-xs text-sm font-medium text-[#5b6478]">
                 {inbox.selectLead}
               </p>

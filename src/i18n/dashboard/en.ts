@@ -53,6 +53,13 @@ export const dashboardEn: DashboardDictionary = {
     metierNotSet: "Trade not set",
     metierNotSetHint:
       "Choose your trade in the editor below to enable the right options on your page.",
+    mobileSections: {
+      urgency: "Urgency",
+      editor: "Page",
+      qr: "QR",
+      billing: "Billing",
+      account: "Account",
+    },
   },
   leads: {
     title: "Client requests",
