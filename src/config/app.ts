@@ -55,5 +55,5 @@ export function getTransactionalFromEmail(): string {
 
 /** E-mail de contact affiché (pages légales, support). */
 export function getContactEmail(): string {
-  return process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ?? "contact@craftlink.fr";
+  return process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ?? "contact@getcraftlink.com";
 }
