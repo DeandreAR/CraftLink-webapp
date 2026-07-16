@@ -4,8 +4,7 @@
     "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, drywallers, joiners, HVAC, and construction trades."
   },
   "nav": {
-    "why": "Why",
-    "features": "Features",
+    "howItWorks": "How it works",
     "metiers": "Trades",
     "tarifs": "Pricing",
     "faq": "FAQ",
@@ -28,8 +27,31 @@
       "submit": "Log in",
       "submitting": "Signing in…",
       "goToSignUp": "Create an account",
+      "forgotPassword": "Change my password",
       "confirmationError": "The confirmation link is invalid or expired. Try signing up again or request a new email.",
       "confirmationMissing": "Incomplete confirmation link. Open the link from your email or log in."
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we'll send you a link to set a new password.",
+      "email": "Email",
+      "submit": "Send reset link",
+      "submitting": "Sending…",
+      "success": "If an account exists for this address, we just sent an email. Check your spam folder too.",
+      "backToSignIn": "Back to log in"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Choose a secure password for your CraftLink account.",
+      "password": "New password",
+      "passwordHint": "At least 8 characters.",
+      "confirmPassword": "Confirm password",
+      "submit": "Save password",
+      "submitting": "Saving…",
+      "success": "Password updated. Redirecting to your workspace…",
+      "sessionMissing": "This link is invalid or has expired.",
+      "requestNewLink": "Request a new link",
+      "backToSignIn": "Back to log in"
     },
     "signUp": {
       "title": "Create my account",
@@ -47,7 +69,7 @@
       "confirmationTitle": "Account created — check your email",
       "confirmationLead": "We sent a confirmation link to:",
       "confirmationSpam": "Check your spam or Promotions folder if you don't see it.",
-      "confirmationAfterClick": "After clicking the link, you'll be signed in and can finish setting up your page.",
+      "confirmationAfterClick": "After clicking the link, you'll be signed in and land on an « Account activated » screen to start building your page.",
       "confirmationLoginCta": "Back to log in"
     },
     "dashboard": {
@@ -112,8 +134,8 @@
     "lead": "Your page sorts and organises job requests on its own. Fewer scattered messages, more time for you and more serious clients.",
     "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
-    "ctaSecondary": "Explore features",
-    "ctaSecondaryHref": "#features"
+    "ctaSecondary": "See how it works",
+    "ctaSecondaryHref": "#controle"
   },
   "pourquoi": {
     "pillars": [
@@ -177,22 +199,21 @@
     ]
   },
   "pricingComparison": {
-    "sectionEyebrow": "Pricing & comparison",
-    "sectionTitle": "One simple subscription. No hidden friction.",
-    "sectionLead": "Handle the top objections: zero commission on your jobs, no technical skills, live in minutes — without the classic website tool stack.",
-    "trustNoCode": "No technical skills or coding required",
-    "trustLiveFast": "Live in 2 minutes",
-    "zeroCommission": "0% commission on your jobs",
-    "replacementTitle": "The all-in-one replacement for a pile of bills",
-    "replacementLead": "CraftLink replaces the expensive combo: domain name, hosting, plugins, separate AI transcription tools, and relying on a webmaster or agency for every tweak.",
-    "replacementBullets": [
-      "Domain + hosting + security to manage",
-      "Plugins, themes & small fees that stack up",
-      "Transcription / AI subscriptions on top of the site",
-      "Developer or webmaster for ongoing maintenance"
-    ],
-    "compareTitle": "Classic brochure site vs CraftLink?",
-    "compareLead": "A clear contrast on real monthly cost and maintenance load — before we even talk about lead capture.",
+    "sectionEyebrow": "Pricing",
+    "sectionTitle": "Simple pricing, paid back from your first job",
+    "sectionLead": "Free entry to test. Beta Pro at €19 excl. VAT/month — zero commission on your jobs.",
+    "splitContrast": {
+      "eyebrow": "The reality check",
+      "headline": "Elsewhere, it's a maze.",
+      "painPoints": [
+        "Hidden subscriptions that grow every month",
+        "Brochure sites that are painful to maintain alone",
+        "Long commitments and generic contact forms",
+        "Zero request sorting — you start from scratch on every message"
+      ],
+      "payoff": "Paid back from your 1st job"
+    },
+    "recommendedBadge": "Recommended",
     "tableCriterion": "Criterion",
     "tableClassic": "Classic brochure website",
     "tableCraftlink": "CraftLink",
@@ -216,7 +237,7 @@
       },
       {
         "criterion": "Instagram / Facebook → structured job brief",
-        "classic": "Often a generic “Contact” link: you restart from scratch every DM.",
+        "classic": "Often a generic “Contact” link: you restart from scratch every message.",
         "craftlink": "Dedicated funnel + voice + transcription + automatic sorting + WhatsApp with context."
       },
       {
@@ -225,8 +246,6 @@
         "craftlink": "0% commission on your jobs — your business, your revenue."
       }
     ],
-    "pricingEyebrow": "Plans",
-    "pricingTitle": "Start free, go Pro when volume grows.",
     "pricingLead": "Beta prices excl. VAT for the first 50 tradespeople only. Public Pro pricing will be €29 excl. VAT/month after launch.",
     "betaPioneerBadge": "PIONEER BETA OFFER (Limited to the first 50)",
     "featuresColumnTitle": "Features",
@@ -376,7 +395,7 @@
       "mentionsLegales": "Legal notice",
       "privacy": "Privacy (GDPR)",
       "cookies": "Cookies",
-      "terms": "Terms of use"
+      "terms": "Terms of use & sale"
     }
   },
   "cookieConsent": {

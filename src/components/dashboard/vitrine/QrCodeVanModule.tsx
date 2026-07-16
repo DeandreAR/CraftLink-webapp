@@ -3,7 +3,8 @@
 import { FaDownload, FaQrcode } from "react-icons/fa6";
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { DashboardDictionary } from "@/i18n/types";
-import { buildPublicPageAbsoluteUrl } from "@/lib/onboarding/publicPageUrl";
+import { buildPublicPageAbsoluteUrl, buildPublicPageDisplayUrl } from "@/lib/onboarding/publicPageUrl";
+import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
 
 type QrCodeVanModuleProps = {
   slug: string | null;
@@ -17,6 +18,7 @@ function buildQrImageUrl(targetUrl: string): string {
 export function QrCodeVanModule({ slug, copy }: QrCodeVanModuleProps) {
   const q = copy.qr;
   const pageUrl = slug?.trim() ? buildPublicPageAbsoluteUrl(slug) : "";
+  const displayUrl = slug?.trim() ? buildPublicPageDisplayUrl(slug) : "";
   const qrSrc = pageUrl ? buildQrImageUrl(pageUrl) : "";
 
   if (!slug?.trim()) {
@@ -46,7 +48,14 @@ export function QrCodeVanModule({ slug, copy }: QrCodeVanModuleProps) {
         />
       </div>
 
-      <p className="mt-3 break-all text-xs text-neutral-500">{pageUrl}</p>
+      <PublicPageUrlWithCopy
+        displayUrl={displayUrl}
+        copyText={pageUrl}
+        copyAriaLabel={copy.vitrine.copyPageUrl}
+        copiedLabel={copy.vitrine.pageUrlCopied}
+        className="mx-auto mt-3 max-w-sm"
+        urlClassName="text-xs text-neutral-500"
+      />
       <p className="mt-2 text-xs text-neutral-400">{q.printHint}</p>
 
       <GlowButton

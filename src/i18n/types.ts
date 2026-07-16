@@ -58,26 +58,25 @@ export type TierCustomJson = {
   whatsappMessage: string;
 };
 
+export type PricingSplitContrastDictionary = {
+  eyebrow: string;
+  headline: string;
+  painPoints: string[];
+  payoff: string;
+};
+
 export type PricingComparisonDictionary = {
   sectionEyebrow: string;
   sectionTitle: string;
   sectionLead: string;
-  trustNoCode: string;
-  trustLiveFast: string;
-  zeroCommission: string;
-  replacementTitle: string;
-  replacementLead: string;
-  replacementBullets: string[];
-  compareTitle: string;
-  compareLead: string;
+  splitContrast: PricingSplitContrastDictionary;
+  recommendedBadge: string;
   tableCriterion: string;
   tableClassic: string;
   tableCraftlink: string;
   mobileClassicShort: string;
   mobileCraftlinkShort: string;
   comparisonRows: ComparisonRowJson[];
-  pricingEyebrow: string;
-  pricingTitle: string;
   pricingLead: string;
   betaPioneerBadge: string;
   featuresColumnTitle: string;
@@ -91,8 +90,7 @@ export type PricingComparisonDictionary = {
 };
 
 export type NavDictionary = {
-  why: string;
-  features: string;
+  howItWorks: string;
   metiers: string;
   tarifs: string;
   faq: string;
@@ -111,8 +109,33 @@ export type AuthSignInDictionary = {
   submit: string;
   submitting: string;
   goToSignUp: string;
+  forgotPassword: string;
   confirmationError: string;
   confirmationMissing: string;
+};
+
+export type AuthForgotPasswordDictionary = {
+  title: string;
+  subtitle: string;
+  email: string;
+  submit: string;
+  submitting: string;
+  success: string;
+  backToSignIn: string;
+};
+
+export type AuthResetPasswordDictionary = {
+  title: string;
+  subtitle: string;
+  password: string;
+  passwordHint: string;
+  confirmPassword: string;
+  submit: string;
+  submitting: string;
+  success: string;
+  sessionMissing: string;
+  requestNewLink: string;
+  backToSignIn: string;
 };
 
 export type AuthSignUpDictionary = {
@@ -155,11 +178,71 @@ export type AuthDashboardDictionary = {
 export type DashboardDictionary = {
   loading: string;
   signOut: string;
+  export: {
+    ariaLabel: string;
+    button: string;
+    columns: {
+      date: string;
+      clientName: string;
+      phone: string;
+      email: string;
+      projectType: string;
+      status: string;
+      description: string;
+    };
+  };
   tabs: {
-    leads: string;
-    vitrine: string;
+    inbox: string;
+    organize: string;
+    profile: string;
     partners: string;
-    account: string;
+  };
+  tabDescriptions: {
+    inbox: string;
+    organize: string;
+    profile: string;
+    partners: string;
+  };
+  inbox: {
+    title: string;
+    subtitle: string;
+    listHeading: string;
+    listAriaLabel: string;
+    selectLead: string;
+    backToList: string;
+    emptyNew: string;
+    validateAndPlan: string;
+    archive: string;
+    planHint: string;
+    statusNew: string;
+  };
+  organize: {
+    title: string;
+    subtitle: string;
+    empty: string;
+  };
+  profilePanel: {
+    title: string;
+    subtitle: string;
+    editorTitle: string;
+    editorSubtitle: string;
+    urgencyTitle: string;
+    urgencyEnabledBadge: string;
+    urgencyDisabledBadge: string;
+    urgencyEnabledBody: string;
+    urgencyHiddenBody: string;
+    urgencyOptionalBody: string;
+    projectFormBadge: string;
+    metierNotSet: string;
+    metierNotSetHint: string;
+    mobileSections: {
+      urgency: string;
+      editor: string;
+      qr: string;
+      billing: string;
+      account: string;
+    };
+    sectionsAriaLabel: string;
   };
   leads: {
     title: string;
@@ -331,6 +414,7 @@ export type DashboardDictionary = {
       weekdays: string[];
     };
     catchUp: {
+      eyebrow: string;
       ariaLabel: string;
       question: string;
       quoteSent: string;
@@ -349,6 +433,7 @@ export type DashboardDictionary = {
     attachments: {
       title: string;
       dropHint: string;
+      dropHintShort: string;
       formats: string;
       uploading: string;
       invalidType: string;
@@ -399,6 +484,8 @@ export type DashboardDictionary = {
     saved: string;
     saveError: string;
     viewPage: string;
+    copyPageUrl: string;
+    pageUrlCopied: string;
     editPage: string;
     voiceCapture: {
       title: string;
@@ -452,6 +539,8 @@ export type DashboardDictionary = {
   partners: {
     title: string;
     subtitle: string;
+    requestsTitle: string;
+    requestsHint: string;
     lockedTitle: string;
     lockedBody: string;
     upgradeCta: string;
@@ -460,11 +549,23 @@ export type DashboardDictionary = {
     loadError: string;
     pendingCount: string;
     showArchived: string;
+    brands: {
+      title: string;
+      hint: string;
+      nameLabel: string;
+      namePlaceholder: string;
+      add: string;
+      removeAria: string;
+      empty: string;
+      maxReached: string;
+    };
     affiliateLinks: {
       title: string;
       hint: string;
       nameLabel: string;
       namePlaceholder: string;
+      discountLabel: string;
+      discountPlaceholder: string;
       urlLabel: string;
       urlPlaceholder: string;
       add: string;
@@ -522,13 +623,20 @@ export type DashboardDictionary = {
   };
   billing: {
     title: string;
+    pageSubtitle: string;
+    backToDashboard: string;
     currentPlan: string;
+    badgeFree: string;
+    badgePro: string;
     essential: string;
     essentialPrice: string;
     pro: string;
     proPriceMonthly: string;
     proPriceAnnual: string;
     manageStripe: string;
+    manageStripeLoading: string;
+    portalSectionTitle: string;
+    portalSectionBody: string;
     upgradePro: string;
     portalError: string;
     essentialFeatures: string;
@@ -563,6 +671,8 @@ export type AuthDictionary = {
   shell: AuthShellDictionary;
   signIn: AuthSignInDictionary;
   signUp: AuthSignUpDictionary;
+  forgotPassword: AuthForgotPasswordDictionary;
+  resetPassword: AuthResetPasswordDictionary;
   dashboard: AuthDashboardDictionary;
 };
 
@@ -891,6 +1001,12 @@ export type OnboardingDictionary = {
   title: string;
   subtitle: string;
   signOut: string;
+  accountConfirmed: {
+    title: string;
+    body: string;
+    cta: string;
+    hint: string;
+  };
   emailConfirmed: {
     title: string;
     message: string;
@@ -983,6 +1099,8 @@ export type OnboardingDictionary = {
     hint: string;
     nameLabel: string;
     namePlaceholder: string;
+    discountLabel: string;
+    discountPlaceholder: string;
     urlLabel: string;
     urlPlaceholder: string;
     add: string;
@@ -1130,6 +1248,8 @@ export type OnboardingDictionary = {
     slugConfirm: string;
     slugYourUrl: string;
     slugEditLink: string;
+    copyPageUrl: string;
+    pageUrlCopied: string;
     slugErrors: {
       empty: string;
       tooShort: string;

@@ -26,6 +26,7 @@ export function sanitizeAffiliateLinks(
       ...link,
       label: link.label.trim(),
       url: normalizeAffiliateUrl(link.url),
+      discount: link.discount?.trim() || undefined,
     }))
     .filter((link) => link.label.length > 0 && link.url.length > 0)
     .slice(0, MAX_AFFILIATE_LINKS);
@@ -38,5 +39,6 @@ export function onboardingAffiliateToVitrineLinks(
     id: link.id,
     label: link.label,
     href: link.url,
+    ...(link.discount ? { discount: link.discount } : {}),
   }));
 }

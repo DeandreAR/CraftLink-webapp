@@ -4,9 +4,10 @@ import { createBillingPortalSession } from "@/lib/stripe/createBillingPortalSess
 
 export const runtime = "nodejs";
 
+/** Alias de `/api/stripe/portal` — conservé pour compatibilité. */
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { locale?: string };
+    const body = (await request.json().catch(() => ({}))) as { locale?: string };
     const locale: Locale =
       body.locale && isLocale(body.locale) ? body.locale : defaultLocale;
     const origin = new URL(request.url).origin;

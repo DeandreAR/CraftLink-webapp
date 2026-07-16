@@ -1,6 +1,6 @@
 "use client";
 
-import { FaCommentSms, FaEnvelope, FaPhone, FaWhatsapp } from "react-icons/fa6";
+import { FaCommentSms, FaEnvelope, FaPhone, FaWhatsapp, FaXmark } from "react-icons/fa6";
 import { updatePartnershipRequestAction } from "@/app/actions/partnerships";
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { DashboardPartnershipRequest, PartnershipWorkflowStatus } from "@/domain/partnershipRequest";
@@ -18,15 +18,24 @@ type PartnershipRequestDetailProps = {
   request: DashboardPartnershipRequest;
   copy: DashboardDictionary;
   locale: Locale;
+  compact?: boolean;
   onClose: () => void;
   onUpdated: (request: DashboardPartnershipRequest) => void;
 };
 
-function DetailRow({ label, value }: { label: string; value: string }) {
+function DetailRow({ label, value, compact }: { label: string; value: string; compact?: boolean }) {
   return (
     <div>
-      <dt className="text-[11px] font-bold uppercase tracking-wide text-slate-400">{label}</dt>
-      <dd className="mt-0.5 text-sm font-medium text-slate-900">{value}</dd>
+      <dt
+        className={`font-bold uppercase tracking-wide text-[#5b6478] ${
+          compact ? "text-[9px]" : "text-[11px]"
+        }`}
+      >
+        {label}
+      </dt>
+      <dd className={`mt-0.5 font-medium text-[#212129] ${compact ? "text-xs" : "text-sm"}`}>
+        {value}
+      </dd>
     </div>
   );
 }
@@ -35,6 +44,7 @@ export function PartnershipRequestDetail({
   request,
   copy,
   locale,
+  compact = false,
   onClose,
   onUpdated,
 }: PartnershipRequestDetailProps) {
@@ -69,50 +79,30 @@ export function PartnershipRequestDetail({
   };
 
   const channelButtonClass =
-    "inline-flex items-center justify-center gap-1.5 rounded-2xl border border-neutral-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-800 transition hover:border-neutral-300 hover:bg-neutral-50";
+    "inline-flex items-center justify-center gap-1.5 rounded-2xl border border-[#212129]/10 bg-white px-3 py-2 text-[10px] font-bold text-[#212129] transition hover:border-[#EFA188]/40 hover:bg-[#FDFBF7] md:px-4 md:py-2.5 md:text-xs";
 
-  return (
-    <aside className="rounded-[18px] border border-neutral-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900">{d.title}</h2>
-          <p className="mt-1 text-sm font-semibold text-slate-700">{request.companyName}</p>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded-lg px-2 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-100"
-        >
-          {d.close}
-        </button>
-      </div>
-
-      <span
-        className={`mt-3 inline-block rounded-md px-2.5 py-1 text-xs font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
-      >
-        {p.status[request.workflowStatus]}
-      </span>
-
-      <div className="mt-5 space-y-3">
+  const body = (
+    <>
+      <div className="mt-3 space-y-2 md:mt-4 md:space-y-3">
         <GlowButton
           href={contactLinks.email}
           external
-          className="w-full gap-2 text-sm"
+          className={`w-full gap-2 ${compact ? "py-2 text-xs" : "text-sm"}`}
           onClick={handleContactOpen}
         >
-          <FaEnvelope className="h-4 w-4" aria-hidden />
+          <FaEnvelope className="h-3.5 w-3.5 md:h-4 md:w-4" aria-hidden />
           {d.contactCta}
         </GlowButton>
 
         {contactLinks.sms || contactLinks.whatsapp ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5 md:gap-2">
             {contactLinks.sms ? (
               <a
                 href={contactLinks.sms}
                 className={channelButtonClass}
                 onClick={handleContactOpen}
               >
-                <FaCommentSms className="h-3.5 w-3.5" aria-hidden />
+                <FaCommentSms className="h-3 w-3 md:h-3.5 md:w-3.5" aria-hidden />
                 {d.contactBySms}
               </a>
             ) : null}
@@ -124,7 +114,7 @@ export function PartnershipRequestDetail({
                 className={channelButtonClass}
                 onClick={handleContactOpen}
               >
-                <FaWhatsapp className="h-3.5 w-3.5 text-[#25D366]" aria-hidden />
+                <FaWhatsapp className="h-3 w-3 text-[#25D366] md:h-3.5 md:w-3.5" aria-hidden />
                 {d.contactByWhatsApp}
               </a>
             ) : null}
@@ -132,52 +122,68 @@ export function PartnershipRequestDetail({
         ) : null}
       </div>
 
-      <dl className="mt-5 grid gap-4 sm:grid-cols-2">
-        <DetailRow label={d.company} value={request.companyName} />
+      <dl className="mt-3 grid gap-2 sm:grid-cols-2 md:mt-4 md:gap-3">
+        <DetailRow compact={compact} label={d.company} value={request.companyName} />
         <DetailRow
+          compact={compact}
           label={d.contact}
           value={`${request.contactName}${request.jobTitle ? ` · ${request.jobTitle}` : ""}`}
         />
-        <DetailRow label={d.type} value={p.types[request.partnershipType]} />
+        <DetailRow compact={compact} label={d.type} value={p.types[request.partnershipType]} />
         <DetailRow
+          compact={compact}
           label={d.budget}
           value={formatPartnershipBudget(copy, request.budgetRange, request.budgetApproximate)}
         />
-        <DetailRow label={d.receivedAt} value={formatPartnershipDate(request.createdAt, locale)} />
+        <DetailRow
+          compact={compact}
+          label={d.receivedAt}
+          value={formatPartnershipDate(request.createdAt, locale)}
+        />
       </dl>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-1.5 md:mt-4 md:gap-2">
         <a
           href={`mailto:${request.email}`}
-          className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-neutral-100"
+          className="inline-flex max-w-full items-center gap-1 rounded-full border border-[#212129]/10 bg-[#FDFBF7] px-2 py-1 text-[10px] font-semibold text-[#212129] hover:bg-white md:px-3 md:py-1.5 md:text-xs"
         >
-          <FaEnvelope className="h-3 w-3" aria-hidden />
-          {request.email}
+          <FaEnvelope className="h-2.5 w-2.5 shrink-0 md:h-3 md:w-3" aria-hidden />
+          <span className="truncate">{request.email}</span>
         </a>
         {request.phone ? (
           <a
             href={`tel:${request.phone.replace(/\s/g, "")}`}
-            className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-neutral-100"
+            className="inline-flex items-center gap-1 rounded-full border border-[#212129]/10 bg-[#FDFBF7] px-2 py-1 text-[10px] font-semibold text-[#212129] hover:bg-white md:px-3 md:py-1.5 md:text-xs"
           >
-            <FaPhone className="h-3 w-3" aria-hidden />
+            <FaPhone className="h-2.5 w-2.5 md:h-3 md:w-3" aria-hidden />
             {request.phone}
           </a>
         ) : null}
       </div>
 
-      <div className="mt-5">
-        <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">{d.message}</p>
-        <p className="mt-2 whitespace-pre-wrap rounded-xl bg-slate-50 p-3 text-sm leading-relaxed text-slate-800">
+      <div className="mt-3 md:mt-4">
+        <p
+          className={`font-bold uppercase tracking-wide text-[#5b6478] ${
+            compact ? "text-[9px]" : "text-[11px]"
+          }`}
+        >
+          {d.message}
+        </p>
+        <p
+          className={`mt-1.5 whitespace-pre-wrap rounded-xl border border-[#212129]/6 bg-[#FDFBF7] leading-relaxed text-[#212129] md:mt-2 md:p-3 ${
+            compact ? "p-2.5 text-xs" : "p-3 text-sm"
+          }`}
+        >
           {request.message}
         </p>
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-1.5 pb-1 md:mt-4 md:gap-2 md:pb-0">
         {request.workflowStatus !== "CONTACTE" ? (
           <GlowButton
             type="button"
             variant="secondary"
-            className="text-xs"
+            className="text-[10px] md:text-xs"
             onClick={() => void setStatus("CONTACTE")}
           >
             {d.markContacted}
@@ -186,7 +192,7 @@ export function PartnershipRequestDetail({
           <GlowButton
             type="button"
             variant="secondary"
-            className="text-xs"
+            className="text-[10px] md:text-xs"
             onClick={() => void setStatus("A_TRAITER")}
           >
             {d.markPending}
@@ -196,7 +202,7 @@ export function PartnershipRequestDetail({
           <GlowButton
             type="button"
             variant="secondary"
-            className="text-xs"
+            className="text-[10px] md:text-xs"
             onClick={() => void setStatus("ARCHIVE")}
           >
             {d.archive}
@@ -205,13 +211,73 @@ export function PartnershipRequestDetail({
           <GlowButton
             type="button"
             variant="secondary"
-            className="text-xs"
+            className="text-[10px] md:text-xs"
             onClick={() => void setStatus("A_TRAITER")}
           >
             {d.markPending}
           </GlowButton>
         )}
       </div>
+    </>
+  );
+
+  if (compact) {
+    return (
+      <aside className="db-partners-detail-sheet">
+        <div className="db-partners-detail-sheet-header shrink-0">
+          <div className="mx-auto mb-2 h-1 w-10 rounded-full bg-[#212129]/15" aria-hidden />
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#EFA188]">
+                {d.title}
+              </p>
+              <h2 className="mt-0.5 truncate text-base font-black text-[#212129]">
+                {request.companyName}
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={d.close}
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#212129]/10 bg-white text-[#5b6478] transition hover:bg-[#FDFBF7]"
+            >
+              <FaXmark className="h-3.5 w-3.5" aria-hidden />
+            </button>
+          </div>
+          <span
+            className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
+          >
+            {p.status[request.workflowStatus]}
+          </span>
+        </div>
+        <div className="db-partners-detail-sheet-body scrollbar-soft">{body}</div>
+      </aside>
+    );
+  }
+
+  return (
+    <aside className="rounded-[18px] border border-[#212129]/10 bg-white p-5 shadow-[0_16px_40px_rgba(33,33,41,0.08)]">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg font-bold text-[#212129]">{d.title}</h2>
+          <p className="mt-1 text-sm font-semibold text-[#5b6478]">{request.companyName}</p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-lg px-2 py-1 text-xs font-semibold text-[#5b6478] hover:bg-[#FDFBF7]"
+        >
+          {d.close}
+        </button>
+      </div>
+
+      <span
+        className={`mt-3 inline-block rounded-full px-2.5 py-1 text-xs font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
+      >
+        {p.status[request.workflowStatus]}
+      </span>
+
+      {body}
     </aside>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import {
   signInAction,
@@ -9,6 +10,7 @@ import { authFieldClassName, authLabelClassName } from "@/components/auth/authFo
 import { GlowButton } from "@/components/ui/GlowButton";
 import type { AuthSignInDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
+import { forgotPasswordPath } from "@/lib/auth/paths";
 
 const initial: AuthActionState = {};
 
@@ -80,6 +82,14 @@ export function SignInForm({ lang, copy, authError }: SignInFormProps) {
           minLength={8}
           className={authFieldClassName}
         />
+        <p className="mt-2 text-right">
+          <Link
+            href={forgotPasswordPath(lang)}
+            className="text-sm font-semibold text-[#212129] underline underline-offset-2 hover:text-[#EFA188]"
+          >
+            {copy.forgotPassword}
+          </Link>
+        </p>
       </div>
 
       <GlowButton

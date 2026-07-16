@@ -14,11 +14,13 @@ import {
 } from "@/lib/onboarding/proImport/parseGoogleIdentifier";
 import {
   buildInstagramAvatarProxyUrl,
+  instagramEmbedUrl,
   instagramProfileEmbedUrl,
 } from "@/lib/onboarding/proImport/instagramPortfolio";
 import { buildGooglePhotoProxyUrl } from "@/lib/onboarding/proImport/googlePhotoProxy";
 import { parseGoogleAddress } from "@/lib/onboarding/proImport/parseGoogleAddress";
 import type { UnifiedImportData } from "@/lib/onboarding/proImport/api/unifiedImportData";
+import type { InstagramPostMedia } from "@/lib/onboarding/proImport/providers/apifyInstagram";
 
 function normalizePhone(phone: string | null | undefined): string | null {
   if (!phone?.trim()) return null;
@@ -89,7 +91,7 @@ export function mapGoogleResponseToUnified(
 export function mapInstagramResponseToUnified(
   raw: InstagramProfileApiResponse,
   username: string,
-  _shortcodes: string[] = [],
+  posts: InstagramPostMedia[] = [],
   followerCount: number | null = null,
 ): UnifiedImportData {
   const body = raw.response.body;
@@ -104,6 +106,27 @@ export function mapInstagramResponseToUnified(
     biographyOrDesc: bio,
   });
 
+  const handle = username.replace(/^@/, "");
+  const postsWithImages = posts.filter((post) => post.imageUrl.trim());
+  const instagramPortfolio: UnifiedImportData["instagramPortfolio"] =
+    postsWithImages.length > 0
+      ? postsWithImages.map((post) => ({
+          shortcode: post.shortcode,
+          embedUrl: instagramEmbedUrl(post.shortcode),
+          imageUrl: post.imageUrl,
+        }))
+      : posts.length > 0
+        ? posts.map((post) => ({
+            shortcode: post.shortcode,
+            embedUrl: instagramEmbedUrl(post.shortcode),
+          }))
+        : [
+            {
+              shortcode: "profile",
+              embedUrl: instagramProfileEmbedUrl(handle),
+            },
+          ];
+
   return {
     name,
     description: bio,
@@ -112,16 +135,11 @@ export function mapInstagramResponseToUnified(
     city: inferCityFromBio(bio) || null,
     rating: null,
     reviews: null,
-    instagramUsername: username.replace(/^@/, ""),
+    instagramUsername: handle,
     inferredMetierKey,
     experienceYears: inferExperienceYearsFromBio(bio),
     followerCount,
-    instagramPortfolio: [
-      {
-        shortcode: "profile",
-        embedUrl: instagramProfileEmbedUrl(username),
-      },
-    ],
+    instagramPortfolio,
     useBrandGradientBanner: true,
   };
 }

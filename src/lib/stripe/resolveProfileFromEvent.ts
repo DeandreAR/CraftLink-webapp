@@ -45,9 +45,18 @@ function customerIdFrom(
   return customer.id;
 }
 
+function subscriptionIdFrom(
+  subscription: string | Stripe.Subscription | null | undefined,
+): string | null {
+  if (!subscription) return null;
+  if (typeof subscription === "string") return subscription;
+  return subscription.id ?? null;
+}
+
 export type ResolvedStripeProfile = {
   userId: string | null;
   stripeCustomerId: string | null;
+  stripeSubscriptionId: string | null;
 };
 
 export function resolveProfileFromSubscription(
@@ -56,6 +65,20 @@ export function resolveProfileFromSubscription(
   return {
     userId: readMetadataUserId(subscription.metadata),
     stripeCustomerId: customerIdFrom(subscription.customer),
+    stripeSubscriptionId: subscription.id,
+  };
+}
+
+export function resolveProfileFromCheckoutSession(
+  session: Stripe.Checkout.Session,
+): ResolvedStripeProfile {
+  return {
+    userId:
+      session.client_reference_id?.trim() ||
+      session.metadata?.supabase_user_id?.trim() ||
+      null,
+    stripeCustomerId: customerIdFrom(session.customer),
+    stripeSubscriptionId: subscriptionIdFrom(session.subscription),
   };
 }
 
@@ -65,12 +88,15 @@ export async function resolveProfileFromInvoice(
 ): Promise<ResolvedStripeProfile> {
   const userId = readMetadataUserId(invoice.metadata);
   const customerId = customerIdFrom(invoice.customer);
+  const subscriptionId = extractSubscriptionIdFromInvoice(invoice);
 
   if (userId) {
-    return { userId, stripeCustomerId: customerId };
+    return {
+      userId,
+      stripeCustomerId: customerId,
+      stripeSubscriptionId: subscriptionId,
+    };
   }
-
-  const subscriptionId = extractSubscriptionIdFromInvoice(invoice);
 
   if (subscriptionId) {
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
@@ -79,6 +105,7 @@ export async function resolveProfileFromInvoice(
       return {
         userId: fromSub.userId,
         stripeCustomerId: customerId ?? fromSub.stripeCustomerId,
+        stripeSubscriptionId: subscriptionId,
       };
     }
   }
@@ -92,10 +119,18 @@ export async function resolveProfileFromInvoice(
         .eq("stripe_customer_id", customerId)
         .maybeSingle();
       if (data?.id) {
-        return { userId: data.id, stripeCustomerId: customerId };
+        return {
+          userId: data.id,
+          stripeCustomerId: customerId,
+          stripeSubscriptionId: subscriptionId,
+        };
       }
     }
   }
 
-  return { userId: null, stripeCustomerId: customerId };
+  return {
+    userId: null,
+    stripeCustomerId: customerId,
+    stripeSubscriptionId: subscriptionId,
+  };
 }

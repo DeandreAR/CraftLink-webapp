@@ -1,3 +1,4 @@
+import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import { defaultLocale, type Locale } from "@/i18n/config";
 
 export type AuthSegment = "login" | "signup" | "dashboard" | "onboarding";
@@ -13,11 +14,39 @@ export function authPath(
   return `/${locale}/${segment}`;
 }
 
+/** Page abonnement & facturation (portail Stripe). */
+export function abonnementPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "dashboard")}/abonnement`;
+}
+
+/** Écran plein après validation e-mail (avant l’onboarding). */
+export function accountConfirmedPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "onboarding")}/account-confirmed`;
+}
+
+export function forgotPasswordPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "login")}?view=forgot-password`;
+}
+
+/** Formulaire nouveau mot de passe (session recovery active). */
+export function loginRecoveryPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "login")}?recovery=1`;
+}
+
+/** @deprecated Préférer loginRecoveryPath — conservé pour compat. */
+export function resetPasswordPath(lang: Locale | undefined): string {
+  return loginRecoveryPath(lang);
+}
+
 export type ProBillingPeriod = "monthly" | "annual";
 
 export function onboardingPath(
   lang: Locale | undefined,
-  options?: { plan?: "pro"; billing?: ProBillingPeriod },
+  options?: {
+    plan?: "pro";
+    billing?: ProBillingPeriod;
+    metierKey?: MetierKey;
+  },
 ): string {
   const base = authPath(lang, "onboarding");
   const params = new URLSearchParams();
@@ -26,6 +55,9 @@ export function onboardingPath(
   }
   if (options?.billing === "annual") {
     params.set("billing", "annual");
+  }
+  if (options?.metierKey) {
+    params.set("metier", options.metierKey);
   }
   const query = params.toString();
   return query ? `${base}?${query}` : base;

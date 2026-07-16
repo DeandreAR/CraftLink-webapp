@@ -4,6 +4,12 @@ export const onboardingFr: OnboardingDictionary = {
   title: "Configurez votre page CraftLink",
   subtitle: "Regroupez vos infos, interventions et style en quelques minutes.",
   signOut: "Déconnexion",
+  accountConfirmed: {
+    title: "Compte activé !",
+    body: "Votre adresse e-mail est confirmée. Vous êtes connecté — il ne reste plus qu’à créer votre page artisan.",
+    cta: "Créer ma page CraftLink",
+    hint: "Quelques minutes suffisent pour importer vos réseaux ou configurer votre vitrine.",
+  },
   emailConfirmed: {
     title: "E-mail confirmé — compte activé",
     message:
@@ -111,7 +117,9 @@ export const onboardingFr: OnboardingDictionary = {
     hint:
       "Ajoutez vos liens avec un nom personnalisé (ex. code promo, affiliation marque). Affichés sur votre page Pro.",
     nameLabel: "Nom du lien",
-    namePlaceholder: "Ex. Code Leroy Merlin -10%",
+    namePlaceholder: "Ex. Code Leroy Merlin",
+    discountLabel: "Réduction",
+    discountPlaceholder: "Ex. -10 %, livraison offerte",
     urlLabel: "URL du lien",
     urlPlaceholder: "https://…",
     add: "Ajouter un lien",
@@ -289,6 +297,8 @@ export const onboardingFr: OnboardingDictionary = {
     slugConfirm: "Valider mon adresse et voir l’aperçu",
     slugYourUrl: "Votre page sera accessible ici",
     slugEditLink: "Modifier l’adresse",
+    copyPageUrl: "Copier l'URL de ma page",
+    pageUrlCopied: "URL copiée !",
     slugErrors: {
       empty: "Choisissez une adresse pour votre page.",
       tooShort: "Minimum 3 caractères.",

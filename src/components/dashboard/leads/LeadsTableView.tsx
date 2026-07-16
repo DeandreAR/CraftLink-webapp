@@ -15,6 +15,7 @@ import {
 import type { LeadSortKey, LeadSortState } from "@/lib/leads/sortLeads";
 import { toggleLeadSort } from "@/lib/leads/sortLeads";
 import { LeadWorkflowBadge } from "@/components/dashboard/leads/LeadWorkflowControls";
+import { useLeadAttachmentUpload } from "@/hooks/useLeadAttachmentUpload";
 import {
   formatLeadDate,
   formatRequestNumber,
@@ -137,6 +138,156 @@ function isInteractiveTarget(target: EventTarget | null): boolean {
   );
 }
 
+type LeadTableDataRowProps = {
+  lead: DashboardLead;
+  copy: LeadsTableViewProps["copy"];
+  locale: LeadsTableViewProps["locale"];
+  businessName?: string;
+  muted: boolean;
+  selected: boolean;
+  waLinks: ReturnType<typeof buildLeadWhatsAppLinks>;
+  onOpenDetail: (leadId: string) => void;
+  onToggleSelect: (leadId: string) => void;
+  onDelayStatusChange: (leadId: string, status: DashboardLead["delayStatus"]) => void;
+  onWhatsAppContact: LeadsTableViewProps["onWhatsAppContact"];
+  onLeadUpdated?: (lead: DashboardLead) => void;
+};
+
+function LeadTableDataRow({
+  lead,
+  copy,
+  locale,
+  muted,
+  selected,
+  waLinks,
+  onOpenDetail,
+  onToggleSelect,
+  onDelayStatusChange,
+  onWhatsAppContact,
+  onLeadUpdated,
+}: LeadTableDataRowProps) {
+  const l = copy.leads;
+  const { dragOver, uploading, bindFileDrop } = useLeadAttachmentUpload({
+    leadId: lead.id,
+    onLeadUpdated: onLeadUpdated ?? (() => {}),
+    invalidTypeMessage: l.attachments.invalidType,
+  });
+  const dropEnabled = Boolean(onLeadUpdated);
+  const dropProps = bindFileDrop(dropEnabled);
+
+  return (
+    <tr
+      {...dropProps}
+      onClick={(event) => {
+        if (isInteractiveTarget(event.target)) return;
+        onOpenDetail(lead.id);
+      }}
+      className={`cursor-pointer border-b border-neutral-100 last:border-0 ${
+        dragOver || uploading
+          ? "bg-[#FFF5F2] outline outline-2 outline-[#EFA188]/60"
+          : selected
+            ? "bg-slate-50"
+            : muted
+              ? "bg-neutral-50/70"
+              : "hover:bg-slate-50/70"
+      } ${leadRowMutedClass(muted)}`}
+      title={dragOver ? l.attachments.dropHintShort : undefined}
+    >
+      <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
+        <input
+          type="checkbox"
+          checked={selected}
+          onChange={() => onToggleSelect(lead.id)}
+          className="h-4 w-4 rounded border-neutral-300 accent-black"
+          aria-label={l.bulk.selectOne.replace("{name}", lead.clientName)}
+        />
+      </td>
+      <td
+        className={`px-3 py-2.5 font-mono text-xs font-medium ${muted ? "text-neutral-400" : "text-slate-600"}`}
+      >
+        {formatRequestNumber(lead.requestNumber)}
+      </td>
+      <td className="px-3 py-2.5">
+        <button
+          type="button"
+          onClick={() => onOpenDetail(lead.id)}
+          className={`text-left font-medium underline-offset-2 hover:underline ${muted ? "text-neutral-500" : "text-slate-900"}`}
+        >
+          {lead.clientName}
+        </button>
+      </td>
+      <td className={`px-3 py-2.5 text-slate-600 ${muted ? "text-neutral-400" : ""}`}>
+        {formatLeadDate(lead.createdAt, locale)}
+      </td>
+      <td className="px-3 py-2.5">
+        <span
+          title={lead.workType}
+          className={`block truncate font-medium ${muted ? "text-neutral-500" : "text-slate-800"}`}
+        >
+          {lead.workType}
+        </span>
+      </td>
+      <td
+        className={`hidden px-3 py-2.5 text-slate-600 sm:table-cell ${muted ? "text-neutral-400" : ""}`}
+      >
+        <span className="block truncate">{lead.zone}</span>
+      </td>
+      <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
+        <LeadStatusPicker
+          value={lead.delayStatus}
+          onChange={(status) => onDelayStatusChange(lead.id, status)}
+          copy={copy}
+          compact
+        />
+      </td>
+      <td className={`hidden px-3 py-2.5 md:table-cell ${muted ? "text-neutral-400" : ""}`}>
+        {lead.schedule?.date ? (
+          <span className="text-xs font-medium text-slate-700">
+            {formatScheduleShort(lead.schedule.date, locale)}
+          </span>
+        ) : (
+          <span className="text-xs text-neutral-400">{l.calendar.notScheduled}</span>
+        )}
+      </td>
+      <td className={`hidden px-3 py-2.5 sm:table-cell ${muted ? "opacity-70" : ""}`}>
+        <LeadWorkflowBadge status={lead.workflowStatus} copy={copy} compact />
+      </td>
+      <td
+        className={`hidden px-3 py-2.5 text-center text-xs font-semibold lg:table-cell ${
+          muted ? "text-neutral-400" : "text-slate-700"
+        }`}
+      >
+        {formatBillingDaysCount(
+          daysSinceQuoteSent(lead),
+          l.billing.notSent,
+          l.billing.dayUnit,
+        )}
+      </td>
+      <td
+        className={`hidden px-3 py-2.5 text-center text-xs font-semibold lg:table-cell ${
+          muted ? "text-neutral-400" : "text-slate-700"
+        }`}
+      >
+        {formatBillingDaysCount(
+          daysSinceInvoiceSent(lead),
+          l.billing.notSent,
+          l.billing.dayUnit,
+        )}
+      </td>
+      <td className="px-3 py-2.5 text-center" onClick={(e) => e.stopPropagation()}>
+        {waLinks ? (
+          <WhatsAppContactButton
+            label={l.contactWhatsApp}
+            onClick={() => onWhatsAppContact(lead.id, waLinks)}
+            compact
+            iconOnly
+          />
+        ) : null}
+      </td>
+    </tr>
+  );
+}
+
 export function LeadsTableView({
   leads,
   copy,
@@ -150,6 +301,7 @@ export function LeadsTableView({
   onOpenDetail,
   onDelayStatusChange,
   onWhatsAppContact,
+  onLeadUpdated,
 }: LeadsTableViewProps) {
   const l = copy.leads;
   const cols = l.columns;
@@ -157,7 +309,7 @@ export function LeadsTableView({
   const allSelected = leads.length > 0 && leads.every((lead) => selectedIds.has(lead.id));
 
   return (
-    <div className="scrollbar-soft overflow-x-auto rounded-xl border border-neutral-200/80 bg-white shadow-sm shadow-neutral-100">
+    <div className="scrollbar-soft overflow-x-auto rounded-2xl border border-[#212129]/8 bg-white shadow-[0_12px_32px_rgba(33,33,41,0.06)]">
       <table className="w-full border-collapse text-left text-sm" style={{ tableLayout: "fixed" }}>
         <colgroup>
           {(Object.keys(DEFAULT_WIDTHS) as TableColumnKey[]).map((key) => (
@@ -277,108 +429,21 @@ export function LeadsTableView({
             const selected = selectedIds.has(lead.id);
 
             return (
-              <tr
+              <LeadTableDataRow
                 key={lead.id}
-                onClick={(event) => {
-                  if (isInteractiveTarget(event.target)) return;
-                  onOpenDetail(lead.id);
-                }}
-                className={`cursor-pointer border-b border-neutral-100 last:border-0 ${
-                  selected ? "bg-slate-50" : muted ? "bg-neutral-50/70" : "hover:bg-slate-50/70"
-                } ${leadRowMutedClass(muted)}`}
-              >
-                <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
-                  <input
-                    type="checkbox"
-                    checked={selected}
-                    onChange={() => onToggleSelect(lead.id)}
-                    className="h-4 w-4 rounded border-neutral-300 accent-black"
-                    aria-label={l.bulk.selectOne.replace("{name}", lead.clientName)}
-                  />
-                </td>
-                <td
-                  className={`px-3 py-2.5 font-mono text-xs font-medium ${muted ? "text-neutral-400" : "text-slate-600"}`}
-                >
-                  {formatRequestNumber(lead.requestNumber)}
-                </td>
-                <td className="px-3 py-2.5">
-                  <button
-                    type="button"
-                    onClick={() => onOpenDetail(lead.id)}
-                    className={`text-left font-medium underline-offset-2 hover:underline ${muted ? "text-neutral-500" : "text-slate-900"}`}
-                  >
-                    {lead.clientName}
-                  </button>
-                </td>
-                <td className={`px-3 py-2.5 text-slate-600 ${muted ? "text-neutral-400" : ""}`}>
-                  {formatLeadDate(lead.createdAt, locale)}
-                </td>
-                <td className="px-3 py-2.5">
-                  <span
-                    title={lead.workType}
-                    className={`block truncate font-medium ${muted ? "text-neutral-500" : "text-slate-800"}`}
-                  >
-                    {lead.workType}
-                  </span>
-                </td>
-                <td
-                  className={`hidden px-3 py-2.5 text-slate-600 sm:table-cell ${muted ? "text-neutral-400" : ""}`}
-                >
-                  <span className="block truncate">{lead.zone}</span>
-                </td>
-                <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
-                  <LeadStatusPicker
-                    value={lead.delayStatus}
-                    onChange={(status) => onDelayStatusChange(lead.id, status)}
-                    copy={copy}
-                    compact
-                  />
-                </td>
-                <td className={`hidden px-3 py-2.5 md:table-cell ${muted ? "text-neutral-400" : ""}`}>
-                  {lead.schedule?.date ? (
-                    <span className="text-xs font-medium text-slate-700">
-                      {formatScheduleShort(lead.schedule.date, locale)}
-                    </span>
-                  ) : (
-                    <span className="text-xs text-neutral-400">{l.calendar.notScheduled}</span>
-                  )}
-                </td>
-                <td className={`hidden px-3 py-2.5 sm:table-cell ${muted ? "opacity-70" : ""}`}>
-                  <LeadWorkflowBadge status={lead.workflowStatus} copy={copy} compact />
-                </td>
-                <td
-                  className={`hidden px-3 py-2.5 text-center text-xs font-semibold lg:table-cell ${
-                    muted ? "text-neutral-400" : "text-slate-700"
-                  }`}
-                >
-                  {formatBillingDaysCount(
-                    daysSinceQuoteSent(lead),
-                    l.billing.notSent,
-                    l.billing.dayUnit,
-                  )}
-                </td>
-                <td
-                  className={`hidden px-3 py-2.5 text-center text-xs font-semibold lg:table-cell ${
-                    muted ? "text-neutral-400" : "text-slate-700"
-                  }`}
-                >
-                  {formatBillingDaysCount(
-                    daysSinceInvoiceSent(lead),
-                    l.billing.notSent,
-                    l.billing.dayUnit,
-                  )}
-                </td>
-                <td className="px-3 py-2.5 text-center" onClick={(e) => e.stopPropagation()}>
-                  {waLinks ? (
-                    <WhatsAppContactButton
-                      label={l.contactWhatsApp}
-                      onClick={() => onWhatsAppContact(lead.id, waLinks)}
-                      compact
-                      iconOnly
-                    />
-                  ) : null}
-                </td>
-              </tr>
+                lead={lead}
+                copy={copy}
+                locale={locale}
+                businessName={businessName}
+                muted={muted}
+                selected={selected}
+                waLinks={waLinks}
+                onOpenDetail={onOpenDetail}
+                onToggleSelect={onToggleSelect}
+                onDelayStatusChange={onDelayStatusChange}
+                onWhatsAppContact={onWhatsAppContact}
+                onLeadUpdated={onLeadUpdated}
+              />
             );
           })}
         </tbody>

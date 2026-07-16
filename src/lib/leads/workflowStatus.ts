@@ -10,7 +10,7 @@ export function isLeadWorkflowMuted(status: LeadWorkflowStatus): boolean {
 }
 
 export function isCatchUpEligibleStatus(status: LeadWorkflowStatus): boolean {
-  return status === "A_TRAITER" || status === "DEVIS_A_FAIRE";
+  return status === "DEVIS_A_FAIRE" || status === "DEVIS_ENVOYE";
 }
 
 /** Badge pipeline : fond uni voyant, texte blanc. */

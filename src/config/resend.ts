@@ -3,8 +3,8 @@ import { getTransactionalFromEmail } from "@/config/app";
 /**
  * Resend — expéditeurs et config SMTP optionnelle (reset MDP natif Supabase).
  *
- * L'inscription envoie les confirmations via l'API Resend
- * (`src/lib/email/sendSignupConfirmationEmail.ts`).
+ * L'inscription et la réinitialisation MDP envoient les e-mails via l'API Resend
+ * (`sendSignupConfirmationEmail.ts`, `sendPasswordResetEmail.ts`).
  */
 export const RESEND_SMTP = {
   host: "smtp.resend.com",

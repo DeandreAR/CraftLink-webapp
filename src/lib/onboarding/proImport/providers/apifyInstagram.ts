@@ -1,6 +1,9 @@
 import type { InstagramProfileApiResponse } from "@/lib/onboarding/proImport/apiTypes";
 import { IMPORT_INSTAGRAM_NOT_FOUND } from "@/lib/onboarding/proImport/api/constants";
-import { extractInstagramShortcodes } from "@/lib/onboarding/proImport/instagramPortfolio";
+import {
+  buildInstagramAvatarProxyUrl,
+  extractInstagramShortcodes,
+} from "@/lib/onboarding/proImport/instagramPortfolio";
 import {
   deepFindFollowerCount,
   extractFollowerCountFromRecord,
@@ -11,9 +14,14 @@ const DEFAULT_POSTS_ACTOR = "sones/instagram-posts-scraper-lowcost";
 const DEFAULT_FOLLOWERS_ACTOR = "apify/instagram-followers-count-scraper";
 const POSTS_PER_PROFILE = 12;
 
+export type InstagramPostMedia = {
+  shortcode: string;
+  imageUrl: string;
+};
+
 export type InstagramImportBundle = {
   profile: InstagramProfileApiResponse;
-  shortcodes: string[];
+  posts: InstagramPostMedia[];
   followerCount: number | null;
 };
 
@@ -30,9 +38,26 @@ type ApifyIgUser = {
 
 type ApifyIgPost = {
   code?: string;
+  displayUrl?: string;
+  display_url?: string;
+  imageUrl?: string;
+  image_url?: string;
+  thumbnailUrl?: string;
+  thumbnail_src?: string;
   user?: ApifyIgUser;
   caption?: { text?: string };
 };
+
+function pickPostImageUrl(post: ApifyIgPost): string {
+  return pickString(
+    post.displayUrl,
+    post.display_url,
+    post.imageUrl,
+    post.image_url,
+    post.thumbnailUrl,
+    post.thumbnail_src,
+  );
+}
 
 function readEnv(name: string, fallback: string): string {
   const value = process.env[name]?.trim();
@@ -133,7 +158,28 @@ export async function fetchInstagramImportBundle(
     extractFollowerCountFromRecord(profileMeta as Record<string, unknown> | null) ??
     deepFindFollowerCount(profileItems) ??
     deepFindFollowerCount(items);
-  const shortcodes = extractInstagramShortcodes(posts, 6);
+  const shortcodes = extractInstagramShortcodes(posts, POSTS_PER_PROFILE);
+  const postMedia: InstagramPostMedia[] = [];
+
+  for (const post of posts) {
+    const shortcode = post.code?.trim();
+    if (!shortcode) continue;
+
+    const imageRaw = pickPostImageUrl(post);
+    if (!imageRaw) continue;
+
+    postMedia.push({
+      shortcode,
+      imageUrl: buildInstagramAvatarProxyUrl(imageRaw),
+    });
+    if (postMedia.length >= POSTS_PER_PROFILE) break;
+  }
+
+  if (postMedia.length === 0 && shortcodes.length > 0) {
+    for (const shortcode of shortcodes.slice(0, POSTS_PER_PROFILE)) {
+      postMedia.push({ shortcode, imageUrl: "" });
+    }
+  }
 
   const profile: InstagramProfileApiResponse = {
     response: {
@@ -150,5 +196,5 @@ export async function fetchInstagramImportBundle(
     throw new Error(IMPORT_INSTAGRAM_NOT_FOUND);
   }
 
-  return { profile, shortcodes, followerCount };
+  return { profile, posts: postMedia, followerCount };
 }

@@ -9,20 +9,34 @@ import {
 } from "@/config/planTier";
 import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
 
-const PROFILE_SELECT_TIERS = [
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, vitrine_presentation, certifications, created_at, updated_at",
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, whatsapp_clicks_this_month, whatsapp_clicks_month_key, voice_capture_enabled, created_at, updated_at",
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at, created_at, updated_at",
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, onboarding_completed_at",
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier, page_slug, created_at, updated_at",
-  "id, workspace_id, role, full_name, whatsapp_number, plan_tier",
-  "id, workspace_id, role",
-  "id, full_name, whatsapp_number, created_at, updated_at",
-  "id, full_name, whatsapp_number",
+const PROFILE_COLUMNS = [
   "id",
+  "workspace_id",
+  "role",
+  "full_name",
+  "whatsapp_number",
+  "plan_tier",
+  "page_slug",
+  "onboarding_completed_at",
+  "whatsapp_clicks_this_month",
+  "whatsapp_clicks_month_key",
+  "voice_capture_enabled",
+  "stripe_customer_id",
+  "stripe_subscription_id",
+  "vitrine_presentation",
+  "certifications",
+  "created_at",
+  "updated_at",
 ] as const;
 
 const RETRYABLE_INSERT_CODES = new Set(["42703", "22P02"]);
+
+/** PostgREST / Postgres : column profiles.foo does not exist */
+function parseMissingProfileColumn(message: string | undefined): string | null {
+  if (!message) return null;
+  const match = message.match(/column (?:profiles\.)?([a-z_][a-z0-9_]*) does not exist/i);
+  return match?.[1] ?? null;
+}
 
 function mapProfile(row: Record<string, unknown>): Profile {
   const id = String(row.id);
@@ -44,6 +58,8 @@ function mapProfile(row: Record<string, unknown>): Profile {
       typeof row.voice_capture_enabled === "boolean"
         ? row.voice_capture_enabled
         : undefined,
+    stripe_customer_id: (row.stripe_customer_id as string | null) ?? null,
+    stripe_subscription_id: (row.stripe_subscription_id as string | null) ?? null,
     vitrine_presentation: row.vitrine_presentation
       ? parseStoredVitrineConfig(row.vitrine_presentation)
       : null,
@@ -97,21 +113,36 @@ async function selectProfileWithFallback(
   supabase: SupabaseClient,
   userId: string,
 ): Promise<{ data: Record<string, unknown> | null; error: { code?: string; message?: string } | null }> {
+  let columns: string[] = [...PROFILE_COLUMNS];
   let lastError: { code?: string; message?: string } | null = null;
+  const droppedColumns: string[] = [];
 
-  for (const columns of PROFILE_SELECT_TIERS) {
-    const { data, error } = await selectProfile(supabase, userId, columns);
+  while (columns.length > 0) {
+    const selectList = columns.join(", ");
+    const { data, error } = await selectProfile(supabase, userId, selectList);
+
     if (!error) {
+      if (droppedColumns.length > 0 && process.env.NODE_ENV === "development") {
+        console.warn(
+          `[profiles.select] Schéma partiel — colonnes absentes ignorées: ${droppedColumns.join(", ")}. Appliquez les migrations Supabase en attente.`,
+        );
+      }
       return { data: data as Record<string, unknown> | null, error: null };
     }
+
     lastError = error;
+
     if (error.code !== "42703") {
       break;
     }
-    logAuthError(
-      "getProfileByUserId",
-      `Colonne absente — retry select (${columns}).`,
-    );
+
+    const missing = parseMissingProfileColumn(error.message);
+    if (!missing || !columns.includes(missing)) {
+      break;
+    }
+
+    droppedColumns.push(missing);
+    columns = columns.filter((column) => column !== missing);
   }
 
   return { data: null, error: lastError };

@@ -2,7 +2,7 @@
 
 import type { DashboardTab } from "@/components/dashboard/DashboardLayout";
 import type { DashboardDictionary } from "@/i18n/types";
-import { FaBriefcase, FaHandshake, FaUser, FaUsers } from "react-icons/fa6";
+import { FaBriefcase, FaChartLine, FaHandshake, FaUserGear } from "react-icons/fa6";
 
 type DashboardBottomNavProps = {
   active: DashboardTab;
@@ -11,10 +11,10 @@ type DashboardBottomNavProps = {
 };
 
 const NAV_ITEMS: { id: DashboardTab; icon: typeof FaBriefcase }[] = [
-  { id: "leads", icon: FaBriefcase },
-  { id: "vitrine", icon: FaUser },
+  { id: "inbox", icon: FaBriefcase },
+  { id: "organize", icon: FaChartLine },
+  { id: "profile", icon: FaUserGear },
   { id: "partners", icon: FaHandshake },
-  { id: "account", icon: FaUsers },
 ];
 
 export function DashboardBottomNav({ active, onChange, copy }: DashboardBottomNavProps) {

@@ -1,17 +1,12 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
 import { FaCloudArrowUp, FaFilePdf, FaImage } from "react-icons/fa6";
 import type { CraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { DashboardLead, LeadAttachment } from "@/domain/lead";
-import { uploadLeadAttachmentAction } from "@/app/actions/leads";
 import { checkFileExpiration } from "@/lib/leads/checkFileExpiration";
-import {
-  LEAD_ATTACHMENT_MAX_BYTES,
-  LEAD_ATTACHMENT_MIME_TYPES,
-  LEAD_ATTACHMENT_TOO_LARGE_MESSAGE,
-} from "@/lib/leads/leadAttachments";
 import type { DashboardDictionary } from "@/i18n/types";
+import { useLeadAttachmentUpload } from "@/hooks/useLeadAttachmentUpload";
 
 type LeadAttachmentUploadProps = {
   lead: DashboardLead;
@@ -37,46 +32,15 @@ export function LeadAttachmentUpload({
 }: LeadAttachmentUploadProps) {
   const a = copy.leads.attachments;
   const inputRef = useRef<HTMLInputElement>(null);
-  const [dragOver, setDragOver] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { dragOver, uploading, error, handleFiles, bindFileDrop } = useLeadAttachmentUpload({
+    leadId: lead.id,
+    onLeadUpdated,
+    invalidTypeMessage: a.invalidType,
+  });
 
   const mediaExpired = checkFileExpiration(new Date(lead.createdAt), plan);
   const attachments = lead.attachments ?? [];
-
-  const uploadFile = useCallback(
-    async (file: File) => {
-      setError(null);
-      setUploading(true);
-      try {
-        const formData = new FormData();
-        formData.set("file", file);
-        const result = await uploadLeadAttachmentAction(lead.id, formData);
-        if (!result.ok) {
-          setError(result.message);
-          return;
-        }
-        onLeadUpdated(result.lead);
-      } finally {
-        setUploading(false);
-      }
-    },
-    [lead.id, onLeadUpdated],
-  );
-
-  const handleFiles = (files: FileList | null) => {
-    const file = files?.[0];
-    if (!file) return;
-    if (!LEAD_ATTACHMENT_MIME_TYPES.has(file.type)) {
-      setError(a.invalidType);
-      return;
-    }
-    if (file.size > LEAD_ATTACHMENT_MAX_BYTES) {
-      setError(LEAD_ATTACHMENT_TOO_LARGE_MESSAGE);
-      return;
-    }
-    void uploadFile(file);
-  };
+  const dropProps = bindFileDrop(!mediaExpired);
 
   return (
     <div className={embedded ? undefined : "mt-4 border-t border-neutral-100 pt-4"}>
@@ -100,16 +64,7 @@ export function LeadAttachmentUpload({
             type="button"
             disabled={uploading}
             onClick={() => inputRef.current?.click()}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragOver(true);
-            }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={(e) => {
-              e.preventDefault();
-              setDragOver(false);
-              handleFiles(e.dataTransfer.files);
-            }}
+            {...dropProps}
             className={`${embedded ? "" : "mt-2 "}flex min-h-[88px] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-4 text-center transition ${
               dragOver
                 ? "border-[#EFA188] bg-[#FFF5F2]"

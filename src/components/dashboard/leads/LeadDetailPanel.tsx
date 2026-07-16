@@ -1,6 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FaXmark } from "react-icons/fa6";
 import type { CraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { DashboardLead } from "@/domain/lead";
@@ -88,19 +90,31 @@ export function LeadDetailPanel({
   const w = copy.leads.workflow;
   const waLinks = buildLeadWhatsAppLinks(lead, businessName);
 
-  return (
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onClose]);
+
+  const modal = (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/30 p-0 sm:items-center sm:p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lead-detail-title"
       onClick={onClose}
     >
       <div
-        className="scrollbar-soft max-h-[94dvh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-neutral-200 bg-white shadow-xl sm:rounded-2xl"
+        className="scrollbar-soft flex max-h-[min(92dvh,52rem)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-[#212129]/10 bg-white shadow-[0_24px_64px_rgba(33,33,41,0.22)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-neutral-100 bg-white/95 px-4 py-4 backdrop-blur-sm sm:px-5">
+        <div className="flex shrink-0 items-start justify-between gap-3 border-b border-neutral-100 bg-white px-4 py-4 sm:px-5">
           <div className="min-w-0 pr-2">
             <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-400">
               {d.title}
@@ -123,14 +137,15 @@ export function LeadDetailPanel({
           <button
             type="button"
             onClick={onClose}
-            className="min-h-11 min-w-11 rounded-xl p-2 text-neutral-400 hover:bg-neutral-100 hover:text-black"
+            className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-xl border border-neutral-200 bg-[#FDFBF7] px-3 py-2 text-xs font-bold text-[#212129] transition hover:border-[#EFA188]/50 hover:bg-[#FFF5F2]"
             aria-label={d.close}
           >
-            <FaXmark className="h-4 w-4" />
+            <FaXmark className="h-3.5 w-3.5" aria-hidden />
+            {d.close}
           </button>
         </div>
 
-        <div className="space-y-0 px-4 pb-6 pt-2 sm:px-5">
+        <div className="scrollbar-soft flex-1 space-y-0 overflow-y-auto px-4 pb-4 pt-2 sm:px-5">
           {waLinks ? (
             <DetailSection tone="quick">
               <LeadQuickReplies
@@ -276,7 +291,20 @@ export function LeadDetailPanel({
             ) : null}
           </DetailSection>
         </div>
+
+        <div className="shrink-0 border-t border-neutral-100 bg-white px-4 py-3 sm:px-5">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full rounded-xl border-2 border-[#212129] bg-[#212129] py-3 text-sm font-bold text-white transition hover:bg-[#3a3a45]"
+          >
+            {d.close}
+          </button>
+        </div>
       </div>
     </div>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(modal, document.body);
 }

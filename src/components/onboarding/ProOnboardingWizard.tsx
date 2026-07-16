@@ -222,7 +222,7 @@ export function ProOnboardingWizard({
   };
 
   if (phase === "complete") {
-    return <OnboardingCompleteStep copy={copy} lang={lang} />;
+    return <OnboardingCompleteStep copy={copy} lang={lang} pageSlug={profile.pageSlug} />;
   }
 
   if (phase === "slug") {

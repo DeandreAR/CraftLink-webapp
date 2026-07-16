@@ -10,7 +10,6 @@ type OnboardingPageProps = {
   vitrineCopy: VitrineDictionary;
   pricingModel: PricingSectionModel;
   planIntent?: OnboardingPlanIntent;
-  emailConfirmed?: boolean;
 };
 
 export function OnboardingPage({
@@ -19,7 +18,6 @@ export function OnboardingPage({
   vitrineCopy,
   pricingModel,
   planIntent = "choice",
-  emailConfirmed = false,
 }: OnboardingPageProps) {
   return (
     <OnboardingPageClient
@@ -28,7 +26,6 @@ export function OnboardingPage({
       vitrineCopy={vitrineCopy}
       pricingModel={pricingModel}
       planIntent={planIntent}
-      emailConfirmed={emailConfirmed}
     />
   );
 }

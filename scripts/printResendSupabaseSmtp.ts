@@ -4,7 +4,7 @@
  */
 import { loadEnvLocal } from "./loadEnvLocal";
 import { buildAppUrl, getAppUrl } from "../src/config/app";
-import { buildAuthCallbackUrl } from "../src/lib/auth/emailConfirmationRedirect";
+import { buildAuthCallbackUrl, buildPasswordRecoveryConfirmUrl } from "../src/lib/auth/emailConfirmationRedirect";
 import { authPath } from "../src/lib/auth/paths";
 import { defaultLocale } from "../src/i18n/config";
 import { buildResendSupabaseSmtpConfig } from "../src/config/resend";
@@ -37,6 +37,7 @@ async function main() {
   console.log("\n── Authentication → URL Configuration ──\n");
   console.log(`  Site URL               : ${appUrl}`);
   console.log(`  Redirect URLs (+)      : ${callbackUrl}`);
+  console.log(`  Reset recovery link    : ${buildPasswordRecoveryConfirmUrl(defaultLocale, appUrl, "preview-token")}`);
   if (appUrl.includes("localhost")) {
     console.log(`  Redirect URLs (+)      : ${buildAppUrl("/auth/callback")}  (prod)`);
   }

@@ -17,10 +17,12 @@ import {
   profileToEditorState,
 } from "@/domain/vitrinePresentation";
 import {
+  buildPublicPageAbsoluteUrl,
   buildPublicPageDisplayUrl,
   buildPublicPagePath,
   publicPageSlugPrefix,
 } from "@/lib/onboarding/publicPageUrl";
+import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
@@ -57,6 +59,7 @@ export function VitrineEditor({
   const slug = profile.page_slug?.trim() ?? "";
   const publicPath = slug ? buildPublicPagePath(slug, locale) : "";
   const publicUrl = slug ? buildPublicPageDisplayUrl(slug) : "";
+  const absoluteUrl = slug ? buildPublicPageAbsoluteUrl(slug) : "";
 
   const patchProfile = (patch: Partial<OnboardingProfileDraft>) => {
     setProfileDraft((prev) => ({ ...prev, ...patch }));
@@ -102,10 +105,14 @@ export function VitrineEditor({
     <div className="space-y-4 rounded-[18px] border border-neutral-200 bg-white p-4 md:p-5">
       {slug ? (
         <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-2.5">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-400">
-            {v.fields.pageUrl}
-          </p>
-          <p className="mt-0.5 break-all text-sm font-semibold text-neutral-900">{publicUrl}</p>
+          <PublicPageUrlWithCopy
+            label={v.fields.pageUrl}
+            displayUrl={publicUrl}
+            copyText={absoluteUrl}
+            copyAriaLabel={v.copyPageUrl}
+            copiedLabel={v.pageUrlCopied}
+            urlClassName="text-sm"
+          />
           <GlowButton
             href={publicPath}
             external={false}
@@ -125,7 +132,15 @@ export function VitrineEditor({
         ariaLabel={v.title}
       />
 
-      <div className="pt-2">
+      <div
+        className={`pt-2 ${
+          section === "general"
+            ? "rounded-2xl border border-[#EFA188]/25 bg-[#FFF5F0]/50 p-4"
+            : section === "content"
+              ? "rounded-2xl border border-[#B2F5EA]/40 bg-[#F0FDF9]/50 p-4"
+              : "rounded-2xl border border-[#D6BCFA]/35 bg-[#F5F0FF]/40 p-4"
+        }`}
+      >
         {section === "general" ? (
           <div className="space-y-5">
             <OnboardingGeneralStep

@@ -17,6 +17,8 @@ export type AffiliateLinksEditorCopy = {
   hint: string;
   nameLabel: string;
   namePlaceholder: string;
+  discountLabel: string;
+  discountPlaceholder: string;
   urlLabel: string;
   urlPlaceholder: string;
   add: string;
@@ -77,7 +79,7 @@ export function AffiliateLinksEditor({
           {links.map((link) => (
             <li
               key={link.id}
-              className="grid gap-3 rounded-2xl border border-neutral-200 bg-neutral-50/60 p-3 sm:grid-cols-[1fr_1.2fr_auto]"
+              className="grid gap-3 rounded-2xl border border-neutral-200 bg-neutral-50/60 p-3 sm:grid-cols-[1fr_0.8fr_1.2fr_auto]"
             >
               <div>
                 <label className={authLabelClassName} htmlFor={`affiliate-label-${link.id}`}>
@@ -89,6 +91,19 @@ export function AffiliateLinksEditor({
                   value={link.label}
                   onChange={(e) => patchLink(link.id, { label: e.target.value })}
                   placeholder={copy.namePlaceholder}
+                  className={authFieldClassName}
+                />
+              </div>
+              <div>
+                <label className={authLabelClassName} htmlFor={`affiliate-discount-${link.id}`}>
+                  {copy.discountLabel}
+                </label>
+                <input
+                  id={`affiliate-discount-${link.id}`}
+                  type="text"
+                  value={link.discount ?? ""}
+                  onChange={(e) => patchLink(link.id, { discount: e.target.value })}
+                  placeholder={copy.discountPlaceholder}
                   className={authFieldClassName}
                 />
               </div>

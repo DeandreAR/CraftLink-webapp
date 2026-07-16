@@ -3,6 +3,7 @@ import "server-only";
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe/server";
 import {
+  resolveProfileFromCheckoutSession,
   resolveProfileFromInvoice,
   resolveProfileFromSubscription,
 } from "@/lib/stripe/resolveProfileFromEvent";
@@ -16,12 +17,14 @@ import {
 async function activatePro(resolved: {
   userId: string | null;
   stripeCustomerId: string | null;
+  stripeSubscriptionId: string | null;
 }): Promise<void> {
   if (resolved.userId) {
     const result = await setProfilePlanByUserId(
       resolved.userId,
       STRIPE_PRO_PLAN_TIER,
       resolved.stripeCustomerId,
+      resolved.stripeSubscriptionId,
     );
     if (!result.ok) {
       console.error("[stripe] activate PRO failed:", result.error);
@@ -33,6 +36,7 @@ async function activatePro(resolved: {
     const result = await setProfilePlanByStripeCustomerId(
       resolved.stripeCustomerId,
       STRIPE_PRO_PLAN_TIER,
+      resolved.stripeSubscriptionId,
     );
     if (!result.ok) {
       console.error("[stripe] activate PRO by customer failed:", result.error);
@@ -45,10 +49,7 @@ async function downgradeToFree(resolved: {
   stripeCustomerId: string | null;
 }): Promise<void> {
   if (resolved.userId) {
-    const result = await setProfilePlanByUserId(
-      resolved.userId,
-      STRIPE_FREE_PLAN_TIER,
-    );
+    const result = await setProfilePlanByUserId(resolved.userId, STRIPE_FREE_PLAN_TIER);
     if (!result.ok) {
       console.error("[stripe] downgrade failed:", result.error);
     }
@@ -72,18 +73,7 @@ export async function handleStripeWebhookEvent(event: Stripe.Event): Promise<voi
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      const userId =
-        session.client_reference_id ??
-        session.metadata?.supabase_user_id ??
-        null;
-      const customerId =
-        typeof session.customer === "string"
-          ? session.customer
-          : session.customer?.id ?? null;
-
-      if (userId) {
-        await activatePro({ userId, stripeCustomerId: customerId });
-      }
+      await activatePro(resolveProfileFromCheckoutSession(session));
       break;
     }
 

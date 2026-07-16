@@ -3,11 +3,79 @@ import type { DashboardDictionary } from "@/i18n/types";
 export const dashboardFr: DashboardDictionary = {
   loading: "Chargement de votre espace…",
   signOut: "Déconnexion",
+  export: {
+    ariaLabel: "Exporter mes données au format CSV",
+    button: "Exporter mes données (CSV)",
+    columns: {
+      date: "Date",
+      clientName: "Nom Client",
+      phone: "Téléphone",
+      email: "Email",
+      projectType: "Type de Projet",
+      status: "Statut",
+      description: "Description",
+    },
+  },
   tabs: {
-    leads: "Leads",
-    vitrine: "Ma page",
+    inbox: "Demandes reçues",
+    organize: "Dashboard",
+    profile: "Mon profil",
     partners: "Partenariats",
-    account: "Compte",
+  },
+  tabDescriptions: {
+    inbox: "Boîte de réception — nouvelles demandes sans action.",
+    organize: "Pipeline, relances et agenda terrain.",
+    profile: "Métier, urgence, vitrine, abonnement et certifications.",
+    partners: "Marques, codes affiliés et commissions.",
+  },
+  inbox: {
+    title: "Demandes reçues",
+    subtitle:
+      "Uniquement les nouvelles demandes — aucune action effectuée. Validez pour les organiser.",
+    listHeading: "Nouvelles demandes",
+    listAriaLabel: "Nouvelles demandes clients",
+    selectLead: "Sélectionnez une demande pour lire le dossier complet.",
+    backToList: "Retour à la liste",
+    emptyNew: "Aucune nouvelle demande. Partagez votre lien pour recevoir des clients.",
+    validateAndPlan: "Valider et planifier la demande",
+    archive: "Archiver / Refuser",
+    planHint: "Optionnel : planifiez avant de valider — la demande passera dans votre Dashboard.",
+    statusNew: "Nouveau",
+  },
+  organize: {
+    title: "Dashboard",
+    subtitle:
+      "Toutes vos demandes validées — suivez les relances, l'avancement et votre agenda terrain.",
+    empty: "Aucune demande validée. Traitez d'abord les nouvelles demandes reçues.",
+  },
+  profilePanel: {
+    title: "Mon profil artisan",
+    subtitle:
+      "Votre métier, votre page publique, la gestion d'abonnement et vos préférences de contact.",
+    editorTitle: "Page publique & présentation",
+    editorSubtitle:
+      "Mettez à jour votre métier, vos certifications et le contenu visible par vos clients.",
+    urgencyTitle: "Bouton urgence sur votre page",
+    urgencyEnabledBadge: "Bouton urgence visible sur votre page",
+    urgencyDisabledBadge: "Bouton urgence masqué sur votre page",
+    urgencyEnabledBody:
+      "Votre métier permet d'afficher le bouton « Signaler une urgence » sur votre page publique. Vos clients peuvent vous joindre directement en cas de dépannage.",
+    urgencyHiddenBody:
+      "Le bouton urgence est masqué sur votre page. Vos clients passent par le formulaire de projet classique.",
+    urgencyOptionalBody:
+      "Ce métier n'affiche pas le bouton urgence par défaut. Activez-le si vous proposez aussi des dépannages ou interventions urgentes.",
+    projectFormBadge: "Formulaire projet",
+    metierNotSet: "Métier non renseigné",
+    metierNotSetHint:
+      "Choisissez votre corps de métier dans l'éditeur ci-dessous pour activer les bonnes options sur votre page.",
+    mobileSections: {
+      urgency: "Urgence",
+      editor: "Vitrine",
+      qr: "QR",
+      billing: "Abonnement",
+      account: "Compte",
+    },
+    sectionsAriaLabel: "Sections profil",
   },
   leads: {
     title: "Vos demandes clients",
@@ -198,6 +266,7 @@ export const dashboardFr: DashboardDictionary = {
       weekdays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
     },
     catchUp: {
+      eyebrow: "Relance à traiter",
       ariaLabel: "Rattrapage projet en attente",
       question: "Où en est le projet de {clientName} ?",
       quoteSent: "📄 Devis envoyé",
@@ -216,6 +285,7 @@ export const dashboardFr: DashboardDictionary = {
     attachments: {
       title: "Ajouter le Devis / la Facture",
       dropHint: "Glissez un fichier ou touchez pour sélectionner",
+      dropHintShort: "Déposer devis / facture",
       formats: "PDF ou image · 5 Mo max",
       uploading: "Envoi en cours…",
       invalidType: "Format non supporté (PDF ou image).",
@@ -268,6 +338,8 @@ export const dashboardFr: DashboardDictionary = {
     saved: "Modifications enregistrées.",
     saveError: "Impossible d'enregistrer. Réessayez.",
     viewPage: "Voir ma page",
+    copyPageUrl: "Copier l'URL de ma page",
+    pageUrlCopied: "URL copiée !",
     editPage: "Modifier la page",
     voiceCapture: {
       title: "Capture vocale",
@@ -323,9 +395,12 @@ export const dashboardFr: DashboardDictionary = {
     printHint: "Format PNG — imprimez sur autocollant ou carte de visite.",
   },
   partners: {
-    title: "Demandes de partenariat",
+    title: "Partenariats & Affiliation",
     subtitle:
-      "Marques, fabricants et annonceurs qui souhaitent collaborer via votre page vitrine.",
+      "Vos marques, vos liens affiliés avec réductions, et les demandes de collaboration reçues.",
+    requestsTitle: "Demandes entrantes",
+    requestsHint:
+      "Marques et annonceurs qui souhaitent collaborer via votre page vitrine.",
     lockedTitle: "Disponible sur le Plan Pro",
     lockedBody:
       "Le formulaire « Partenariats & Marques » et ce tableau de bord sont réservés à l'offre Pro Artisan.",
@@ -336,12 +411,24 @@ export const dashboardFr: DashboardDictionary = {
     loadError: "Impossible de charger les demandes de partenariat.",
     pendingCount: "{count} à traiter",
     showArchived: "Afficher les archives",
+    brands: {
+      title: "Marques avec lesquelles je travaille",
+      hint: "Renseignez les marques que vous utilisez ou recommandez à vos clients.",
+      nameLabel: "Nom de la marque",
+      namePlaceholder: "Ex. Weber, Legrand, Velux…",
+      add: "Ajouter",
+      removeAria: "Retirer {name}",
+      empty: "Aucune marque renseignée pour le moment.",
+      maxReached: "Maximum de 12 marques.",
+    },
     affiliateLinks: {
       title: "Liens d'affiliation & codes partenaires",
       hint:
-        "Nommez chaque lien (code promo, affiliation…) — ils apparaissent sur votre vitrine Pro.",
+        "Nom, réduction et lien — affichés sur votre vitrine Pro pour vos clients.",
       nameLabel: "Nom du lien",
-      namePlaceholder: "Ex. Affiliation Amazon",
+      namePlaceholder: "Ex. Code Leroy Merlin",
+      discountLabel: "Réduction",
+      discountPlaceholder: "Ex. -10 %, livraison offerte",
       urlLabel: "URL",
       urlPlaceholder: "https://…",
       add: "Ajouter un lien",
@@ -400,18 +487,27 @@ export const dashboardFr: DashboardDictionary = {
   },
   billing: {
     title: "Abonnement & Facturation",
+    pageSubtitle:
+      "Consultez votre plan, vos prochaines échéances, et gérez factures et moyens de paiement.",
+    backToDashboard: "Retour au tableau de bord",
     currentPlan: "Plan actuel",
+    badgeFree: "Plan Gratuit",
+    badgePro: "Plan Pro actif",
     essential: "Essentiel",
     essentialPrice: "0 € HT / mois",
-    pro: "Pro Artisan Early Bird",
+    pro: "Pro Artisan",
     proPriceMonthly: "19 € HT / mois",
     proPriceAnnual: "14 € HT / mois (facturé 168 € HT/an)",
-    manageStripe: "Gérer mon abonnement",
-    upgradePro: "Passer au Plan Pro",
-    portalError: "Impossible d'ouvrir le portail Stripe.",
+    manageStripe: "Gérer mes factures et abonnements sur Stripe",
+    manageStripeLoading: "Ouverture du portail…",
+    portalSectionTitle: "Facturation & Moyens de paiement",
+    portalSectionBody:
+      "Accédez au portail sécurisé Stripe pour télécharger vos factures, mettre à jour votre carte ou résilier.",
+    upgradePro: "Passer à Pro Artisan — 19 € HT/mois",
+    portalError: "Impossible d'ouvrir le portail Stripe. Réessayez dans un instant.",
     essentialFeatures: "10 partages WhatsApp/mois, page pro, QR camion.",
     proFeatures: "Partages WhatsApp illimités, capture vocale, partenaires & marques.",
-    nextBilling: "Prochaine facturation",
+    nextBilling: "Prochain prélèvement",
     nextBillingOn: "Le {date}",
     nextBillingNone: "Aucune facturation programmée",
     billingIntervalMonthly: "Facturation mensuelle",

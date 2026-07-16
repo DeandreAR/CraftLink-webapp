@@ -79,6 +79,26 @@ function isDisplayableGridItem(item: VitrinePortfolioItem): boolean {
   return false;
 }
 
+function InstagramGridTile({ item }: { item: VitrinePortfolioItem }) {
+  const href = item.externalUrl ?? "#";
+
+  if (item.type === "image" && item.imageUrl) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className="block h-full w-full">
+        <img
+          src={item.imageUrl}
+          alt={item.alt ?? ""}
+          className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    );
+  }
+
+  return null;
+}
+
 export function VitrinePortfolioGallery({
   items,
   title,
@@ -90,8 +110,9 @@ export function VitrinePortfolioGallery({
       item.type !== "instagram_profile_embed" &&
       isDisplayableGridItem(item),
   );
+  const showProfileFeed = Boolean(profileFeed?.embedUrl) && gridItems.length === 0;
 
-  if (!profileFeed?.embedUrl && gridItems.length === 0) return null;
+  if (!showProfileFeed && gridItems.length === 0) return null;
 
   return (
     <section className="mt-6 px-4 sm:px-5" aria-labelledby="portfolio-gallery-heading">
@@ -102,7 +123,7 @@ export function VitrinePortfolioGallery({
         {title}
       </h2>
 
-      {profileFeed?.embedUrl ? (
+      {showProfileFeed && profileFeed?.embedUrl ? (
         <div className={`${portfolioTileClass(true)} w-full`}>
           <InstagramProfileEmbed
             embedUrl={profileFeed.embedUrl}
@@ -113,17 +134,21 @@ export function VitrinePortfolioGallery({
       ) : null}
 
       {gridItems.length > 0 ? (
-        <ul className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <ul className={`grid grid-cols-2 gap-2 sm:grid-cols-3 ${showProfileFeed ? "mt-2" : ""}`}>
           {gridItems.map((item) => (
             <li key={item.id} className={portfolioTileClass(false)}>
               {item.type === "image" && item.imageUrl ? (
-                <img
-                  src={item.imageUrl}
-                  alt={item.alt ?? ""}
-                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
-                  loading="lazy"
-                  decoding="async"
-                />
+                item.source_type === "instagram" ? (
+                  <InstagramGridTile item={item} />
+                ) : (
+                  <img
+                    src={item.imageUrl}
+                    alt={item.alt ?? ""}
+                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )
               ) : item.type === "external_link" && item.externalUrl ? (
                 <ExternalPortfolioCard item={item} />
               ) : null}

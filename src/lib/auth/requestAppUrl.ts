@@ -1,4 +1,4 @@
-import { getAppUrl } from "@/config/app";
+import { canonicalAppOrigin, getAppUrl } from "@/config/app";
 
 const DEFAULT_PRODUCTION_URL = "https://getcraftlink.com";
 
@@ -61,21 +61,17 @@ export function resolveOriginFromHeaders(headers: Headers): string | null {
 export function getAuthCallbackBaseUrl(headers?: Headers): string {
   const explicit =
     process.env.AUTH_CALLBACK_BASE_URL?.trim() ?? process.env.APP_URL?.trim();
-  if (explicit) return normalizeOrigin(explicit);
-
-  if (headers) {
-    const fromRequest = resolveOriginFromHeaders(headers);
-    if (fromRequest && !isLocalOrigin(fromRequest)) {
-      return fromRequest;
-    }
-  }
-
-  const configured = getAppUrl();
-  if (!isLocalOrigin(configured)) {
-    return configured;
-  }
-
-  return DEFAULT_PRODUCTION_URL;
+  return canonicalAppOrigin(
+    explicit ??
+      (headers
+        ? (() => {
+            const fromRequest = resolveOriginFromHeaders(headers);
+            if (fromRequest && !isLocalOrigin(fromRequest)) return fromRequest;
+            return null;
+          })()
+        : null) ??
+      (!isLocalOrigin(getAppUrl()) ? getAppUrl() : DEFAULT_PRODUCTION_URL),
+  );
 }
 
 /** Force le redirect_to du lien Supabase vers notre callback (évite Site URL localhost). */

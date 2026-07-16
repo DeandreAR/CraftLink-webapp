@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   defaultOnboardingProfile,
   type GeneralStepErrors,
@@ -31,6 +32,7 @@ import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVi
 import { LandingCta } from "@/components/landing/LandingCta";
 import { authPath, onboardingPath, type ProBillingPeriod } from "@/lib/auth/paths";
 import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
+import { isMetierKey } from "@/lib/vitrine/metierConfigs";
 import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
@@ -66,13 +68,19 @@ export function ArtisanOnboardingWizard({
   onShellChange,
 }: ArtisanOnboardingWizardProps) {
   const isProIntent = planIntent === "pro";
+  const searchParams = useSearchParams();
+  const metierFromUrl = searchParams.get("metier");
   const showPlanStep = !isProIntent;
   const [proWizardActive, setProWizardActive] = useState(isProIntent);
   const [phase, setPhase] = useState<WizardPhase>(showPlanStep ? "plan" : "general");
   const [draftPlan, setDraftPlan] = useState<OnboardingPlan>(isProIntent ? "PRO" : "FREE");
-  const [profile, setProfile] = useState<OnboardingProfileDraft>(() =>
-    defaultOnboardingProfile(isProIntent ? "PRO" : "FREE"),
-  );
+  const [profile, setProfile] = useState<OnboardingProfileDraft>(() => {
+    const base = defaultOnboardingProfile(isProIntent ? "PRO" : "FREE");
+    if (metierFromUrl && isMetierKey(metierFromUrl)) {
+      return { ...base, metierKey: metierFromUrl };
+    }
+    return base;
+  });
   const [services, setServices] = useState<OnboardingService[]>([]);
   const [creating, setCreating] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
@@ -244,7 +252,7 @@ export function ArtisanOnboardingWizard({
   };
 
   if (phase === "complete") {
-    return <OnboardingCompleteStep copy={copy} lang={lang} />;
+    return <OnboardingCompleteStep copy={copy} lang={lang} pageSlug={profile.pageSlug} />;
   }
 
   if (phase === "plan") {

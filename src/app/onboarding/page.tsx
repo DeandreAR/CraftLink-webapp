@@ -5,12 +5,12 @@ import { prepareOnboardingPage } from "@/lib/auth/prepareOnboardingPage";
 import { buildPricingSectionModel } from "@/services/pricingComparisonSection";
 
 type Props = {
-  searchParams: Promise<{ plan?: string; confirmed?: string }>;
+  searchParams: Promise<{ plan?: string }>;
 };
 
 export default async function OnboardingRootPage({ searchParams }: Props) {
   await prepareOnboardingPage(defaultLocale);
-  const { plan, confirmed } = await searchParams;
+  const { plan } = await searchParams;
   const dict = await getDictionary(defaultLocale);
   const planIntent = plan === "pro" ? "pro" : "choice";
   const pricingModel = buildPricingSectionModel(dict.pricingComparison);
@@ -22,7 +22,6 @@ export default async function OnboardingRootPage({ searchParams }: Props) {
       vitrineCopy={dict.vitrine}
       pricingModel={pricingModel}
       planIntent={planIntent}
-      emailConfirmed={confirmed === "1"}
     />
   );
 }

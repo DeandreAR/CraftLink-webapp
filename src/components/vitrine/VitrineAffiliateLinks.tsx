@@ -23,8 +23,15 @@ export function VitrineAffiliateLinks({ links, title }: VitrineAffiliateLinksPro
               className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 shadow-sm transition hover:border-[#EFA188]/50 hover:bg-[#EFA188]/5"
             >
               <span>{link.label}</span>
-              <span className="shrink-0 text-xs font-bold text-[#EFA188]" aria-hidden>
-                →
+              <span className="flex shrink-0 items-center gap-2">
+                {link.discount ? (
+                  <span className="rounded-full bg-[#EFA188]/20 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-[#c45a3a]">
+                    {link.discount}
+                  </span>
+                ) : null}
+                <span className="text-xs font-bold text-[#EFA188]" aria-hidden>
+                  →
+                </span>
               </span>
             </a>
           </li>

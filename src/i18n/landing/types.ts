@@ -1,5 +1,7 @@
 /** Types i18n pour le contenu marketing de la landing (hors JSON de base). */
 
+import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+
 export type LandingFaqItem = {
   q: string;
   a: string;
@@ -25,54 +27,50 @@ export type LandingSectionHeaderCopy = {
   lead: string;
 };
 
-export type LandingPourquoiDictionary = {
-  header: LandingSectionHeaderCopy;
-  badge: string;
-  badgeHint: string;
-  without: {
-    label: string;
-    title: string;
-    bullets: string[];
-  };
-  with: {
-    label: string;
-    title: string;
-    bullets: string[];
-  };
-};
-
-export type LandingFeatureCardCopy = {
-  eyebrow: string;
+export type LandingControlStep = {
+  index: string;
   title: string;
-  description: string;
+  lead: string;
 };
 
-export type LandingFeaturesDictionary = {
+export type LandingControlCompareSide = {
+  label: string;
+  title: string;
+  items: string[];
+};
+
+export type LandingControlDictionary = {
   header: LandingSectionHeaderCopy;
-  cards: LandingFeatureCardCopy[];
-  formBlock: {
+  imageAlt: string;
+  compare: {
     eyebrow: string;
-    title: string;
-    description: string;
-    fields: string[];
+    without: LandingControlCompareSide;
+    with: LandingControlCompareSide;
   };
+  steps: LandingControlStep[];
 };
 
 export type LandingMetierCard = {
+  metierKey: MetierKey;
   metier: string;
   angle: string;
 };
 
 export type LandingMetiersDictionary = {
   header: LandingSectionHeaderCopy;
+  imageAlt: string;
   cards: LandingMetierCard[];
+  showAllMetiers: string;
+  showLessMetiers: string;
+  urgencyBadge: string;
+  quoteBadge: string;
+  selectMetierHint: string;
 };
 
 export type LandingExtendedDictionary = {
   faqBlocks: LandingFaqBlock[];
   cta: LandingCtaDictionary;
-  /** Contenu marketing étendu (sections landing hors JSON de base). */
-  pourquoi: LandingPourquoiDictionary;
-  features: LandingFeaturesDictionary;
+  /** Parcours client en 3 étapes (ex- Pourquoi + Comment ça marche). */
+  control: LandingControlDictionary;
   metiers: LandingMetiersDictionary;
 };

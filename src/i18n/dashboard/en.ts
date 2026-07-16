@@ -3,11 +3,79 @@ import type { DashboardDictionary } from "@/i18n/types";
 export const dashboardEn: DashboardDictionary = {
   loading: "Loading your workspace…",
   signOut: "Sign out",
+  export: {
+    ariaLabel: "Export my data as CSV",
+    button: "Export my data (CSV)",
+    columns: {
+      date: "Date",
+      clientName: "Client name",
+      phone: "Phone",
+      email: "Email",
+      projectType: "Project type",
+      status: "Status",
+      description: "Description",
+    },
+  },
   tabs: {
-    leads: "Leads",
-    vitrine: "My page",
+    inbox: "Incoming requests",
+    organize: "Dashboard",
+    profile: "My profile",
     partners: "Partnerships",
-    account: "Account",
+  },
+  tabDescriptions: {
+    inbox: "Inbox — new requests with no action yet.",
+    organize: "Pipeline, follow-ups and field schedule.",
+    profile: "Trade, urgency, storefront, subscription and certifications.",
+    partners: "Brands, affiliate codes and benefits.",
+  },
+  inbox: {
+    title: "Incoming requests",
+    subtitle:
+      "New requests only — no action taken yet. Validate to organize them.",
+    listHeading: "New requests",
+    listAriaLabel: "New client requests",
+    selectLead: "Select a request to read the full file.",
+    backToList: "Back to list",
+    emptyNew: "No new requests. Share your link to start receiving clients.",
+    validateAndPlan: "Validate and schedule request",
+    archive: "Archive / Decline",
+    planHint: "Optional: schedule before validating — the request moves to your Dashboard.",
+    statusNew: "New",
+  },
+  organize: {
+    title: "Dashboard",
+    subtitle:
+      "All validated requests — track follow-ups, progress and your field schedule.",
+    empty: "No validated requests yet. Process new incoming requests first.",
+  },
+  profilePanel: {
+    title: "My artisan profile",
+    subtitle:
+      "Your trade, public page, subscription management and contact preferences.",
+    editorTitle: "Public page & presentation",
+    editorSubtitle:
+      "Update your trade, certifications and what clients see on your page.",
+    urgencyTitle: "Urgency button on your page",
+    urgencyEnabledBadge: "Urgency button visible on your page",
+    urgencyDisabledBadge: "Urgency button hidden on your page",
+    urgencyEnabledBody:
+      "Your trade shows the « Report an emergency » button on your public page. Clients can reach you directly for urgent call-outs.",
+    urgencyHiddenBody:
+      "The urgency button is hidden on your page. Clients use the standard project form instead.",
+    urgencyOptionalBody:
+      "Your trade does not show the urgency button by default. Turn it on if you also offer emergency call-outs.",
+    projectFormBadge: "Project form",
+    metierNotSet: "Trade not set",
+    metierNotSetHint:
+      "Choose your trade in the editor below to enable the right options on your page.",
+    mobileSections: {
+      urgency: "Urgency",
+      editor: "Page",
+      qr: "QR",
+      billing: "Billing",
+      account: "Account",
+    },
+    sectionsAriaLabel: "Profile sections",
   },
   leads: {
     title: "Client requests",
@@ -198,6 +266,7 @@ export const dashboardEn: DashboardDictionary = {
       weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
     catchUp: {
+      eyebrow: "Follow-up needed",
       ariaLabel: "Project follow-up reminder",
       question: "Where is {clientName}'s project at?",
       quoteSent: "📄 Quote sent",
@@ -216,6 +285,7 @@ export const dashboardEn: DashboardDictionary = {
     attachments: {
       title: "Add quote / invoice",
       dropHint: "Drop a file or tap to browse",
+      dropHintShort: "Drop quote / invoice",
       formats: "PDF or image · 5 MB max",
       uploading: "Uploading…",
       invalidType: "Unsupported format (PDF or image only).",
@@ -268,6 +338,8 @@ export const dashboardEn: DashboardDictionary = {
     saved: "Changes saved.",
     saveError: "Could not save. Please try again.",
     viewPage: "View my page",
+    copyPageUrl: "Copy my page URL",
+    pageUrlCopied: "URL copied!",
     editPage: "Edit page",
     voiceCapture: {
       title: "Voice capture",
@@ -323,8 +395,11 @@ export const dashboardEn: DashboardDictionary = {
     printHint: "PNG format — print on sticker or business card.",
   },
   partners: {
-    title: "Partnership requests",
-    subtitle: "Brands, manufacturers and advertisers reaching out via your storefront.",
+    title: "Partnerships & Affiliation",
+    subtitle:
+      "Your brands, affiliate links with discounts, and incoming collaboration requests.",
+    requestsTitle: "Incoming requests",
+    requestsHint: "Brands and advertisers reaching out via your storefront.",
     lockedTitle: "Available on Pro plan",
     lockedBody:
       "The « Partnerships & Brands » form and this inbox are included in the Pro Artisan plan.",
@@ -335,12 +410,23 @@ export const dashboardEn: DashboardDictionary = {
     loadError: "Could not load partnership requests.",
     pendingCount: "{count} pending",
     showArchived: "Show archived",
+    brands: {
+      title: "Brands I work with",
+      hint: "List the brands you use or recommend to your clients.",
+      nameLabel: "Brand name",
+      namePlaceholder: "E.g. Weber, Legrand, Velux…",
+      add: "Add",
+      removeAria: "Remove {name}",
+      empty: "No brands added yet.",
+      maxReached: "Maximum of 12 brands.",
+    },
     affiliateLinks: {
       title: "Affiliate & partner links",
-      hint:
-        "Give each link a name (promo code, affiliation…) — shown on your Pro storefront.",
+      hint: "Name, discount and link — shown on your Pro storefront for clients.",
       nameLabel: "Link name",
-      namePlaceholder: "E.g. Amazon affiliate",
+      namePlaceholder: "E.g. Leroy Merlin code",
+      discountLabel: "Discount",
+      discountPlaceholder: "E.g. -10%, free delivery",
       urlLabel: "URL",
       urlPlaceholder: "https://…",
       add: "Add a link",
@@ -399,18 +485,27 @@ export const dashboardEn: DashboardDictionary = {
   },
   billing: {
     title: "Subscription & Billing",
+    pageSubtitle:
+      "Review your plan and upcoming charges, and manage invoices and payment methods.",
+    backToDashboard: "Back to dashboard",
     currentPlan: "Current plan",
+    badgeFree: "Free plan",
+    badgePro: "Pro plan active",
     essential: "Essential",
     essentialPrice: "€0 excl. VAT / month",
-    pro: "Pro Artisan Early Bird",
+    pro: "Pro Artisan",
     proPriceMonthly: "€19 excl. VAT / month",
     proPriceAnnual: "€14 excl. VAT / month (billed €168 excl. VAT/year)",
-    manageStripe: "Manage subscription",
-    upgradePro: "Upgrade to Pro",
-    portalError: "Could not open Stripe portal.",
+    manageStripe: "Manage invoices and subscription on Stripe",
+    manageStripeLoading: "Opening portal…",
+    portalSectionTitle: "Billing & payment methods",
+    portalSectionBody:
+      "Open the secure Stripe portal to download invoices, update your card, or cancel.",
+    upgradePro: "Upgrade to Pro Artisan — €19 excl. VAT/month",
+    portalError: "Could not open the Stripe portal. Please try again shortly.",
     essentialFeatures: "10 WhatsApp shares/month, pro page, van QR.",
     proFeatures: "Unlimited WhatsApp shares, voice capture, partners & brands.",
-    nextBilling: "Next billing",
+    nextBilling: "Next charge",
     nextBillingOn: "On {date}",
     nextBillingNone: "No upcoming billing",
     billingIntervalMonthly: "Monthly billing",

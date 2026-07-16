@@ -16,9 +16,11 @@ import {
 } from "@/lib/auth/paths";
 import type { StripeCheckoutPriceKey } from "@/lib/stripe/checkoutTypes";
 import {
+  buildPublicPageAbsoluteUrl,
   buildPublicPageDisplayUrl,
   publicPageSlugPrefix,
 } from "@/lib/onboarding/publicPageUrl";
+import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
 import {
   buildOnboardingPreviewProps,
   previewFontFamily,
@@ -57,6 +59,7 @@ export function OnboardingProValidateStep({
 }: OnboardingProValidateStepProps) {
   const p = copy.pro;
   const publicUrl = buildPublicPageDisplayUrl(profile.pageSlug);
+  const absoluteUrl = buildPublicPageAbsoluteUrl(profile.pageSlug);
   const slugSegment = profile.pageSlug.trim();
   const [mounted, setMounted] = useState(false);
 
@@ -99,7 +102,14 @@ export function OnboardingProValidateStep({
             <span className="font-semibold text-neutral-400">{publicPageSlugPrefix()}</span>
             <span className="text-[#c45c3e]">{slugSegment}</span>
           </p>
-          <p className="mt-1 text-[11px] text-neutral-500">{publicUrl}</p>
+          <PublicPageUrlWithCopy
+            displayUrl={publicUrl}
+            copyText={absoluteUrl}
+            copyAriaLabel={p.copyPageUrl}
+            copiedLabel={p.pageUrlCopied}
+            className="mx-auto mt-2 max-w-md"
+            urlClassName="text-[11px] text-neutral-500"
+          />
         </div>
         <button
           type="button"

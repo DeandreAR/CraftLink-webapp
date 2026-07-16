@@ -1,5 +1,6 @@
 import type {
   OnboardingAffiliateLink,
+  OnboardingPartnerBrand,
   OnboardingPortfolioItem,
   OnboardingPresentationMode,
   OnboardingProfileDraft,
@@ -31,6 +32,8 @@ export type StoredVitrineProfilePart = {
   aboutText: string;
   social: OnboardingSocialDraft;
   affiliateLinks: OnboardingAffiliateLink[];
+  partnerBrands: OnboardingPartnerBrand[];
+  urgencyCtaEnabled?: boolean;
   visual: OnboardingVisualDraft;
   portfolioItems?: OnboardingPortfolioItem[];
   importPlatform?: ProImportPlatform;
@@ -72,6 +75,7 @@ export const EMPTY_STORED_VITRINE_PROFILE: StoredVitrineProfilePart = {
   aboutText: "",
   social: defaultSocialDraft(),
   affiliateLinks: [],
+  partnerBrands: [],
   visual: defaultVisualDraft(),
   portfolioItems: [],
 };
@@ -114,6 +118,20 @@ function parseLegacyPresentation(raw: Record<string, unknown>): StoredVitrineCon
   };
 }
 
+function parsePartnerBrands(raw: unknown): OnboardingPartnerBrand[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((item) => {
+      if (!item || typeof item !== "object") return null;
+      const row = item as Record<string, unknown>;
+      const name = typeof row.name === "string" ? row.name.trim() : "";
+      const id = typeof row.id === "string" && row.id ? row.id : crypto.randomUUID();
+      if (!name) return null;
+      return { id, name };
+    })
+    .filter((item): item is OnboardingPartnerBrand => item !== null);
+}
+
 function parseAffiliateLinks(raw: unknown): OnboardingAffiliateLink[] {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -123,8 +141,10 @@ function parseAffiliateLinks(raw: unknown): OnboardingAffiliateLink[] {
       const label = typeof row.label === "string" ? row.label.trim() : "";
       const url = typeof row.url === "string" ? row.url.trim() : "";
       const id = typeof row.id === "string" && row.id ? row.id : crypto.randomUUID();
+      const discount =
+        typeof row.discount === "string" ? row.discount.trim() : undefined;
       if (!label || !url) return null;
-      return { id, label, url };
+      return { id, label, url, ...(discount ? { discount } : {}) };
     })
     .filter((item): item is OnboardingAffiliateLink => item !== null);
 }
@@ -208,6 +228,9 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
     aboutText: typeof row.aboutText === "string" ? row.aboutText : "",
     social: parseSocial(row.social),
     affiliateLinks: parseAffiliateLinks(row.affiliateLinks),
+    partnerBrands: parsePartnerBrands(row.partnerBrands),
+    urgencyCtaEnabled:
+      typeof row.urgencyCtaEnabled === "boolean" ? row.urgencyCtaEnabled : undefined,
     visual: parseVisual(row.visual),
     portfolioItems: parsePortfolioItems(row.portfolioItems),
     importPlatform:
@@ -289,6 +312,8 @@ export function profileToEditorState(profile: Profile): {
     aboutText: config.profile.aboutText,
     social: config.profile.social,
     affiliateLinks: config.profile.affiliateLinks,
+    partnerBrands: config.profile.partnerBrands ?? [],
+    urgencyCtaEnabled: config.profile.urgencyCtaEnabled,
     visual: config.profile.visual,
     portfolioItems: config.profile.portfolioItems,
     importPlatform: config.profile.importPlatform,
@@ -322,6 +347,8 @@ export function editorStateToStoredConfig(
       aboutText: profileDraft.aboutText.trim(),
       social: profileDraft.social,
       affiliateLinks: profileDraft.affiliateLinks,
+      partnerBrands: profileDraft.partnerBrands ?? [],
+      urgencyCtaEnabled: profileDraft.urgencyCtaEnabled,
       visual: profileDraft.visual,
       portfolioItems: profileDraft.portfolioItems,
       importPlatform: profileDraft.importPlatform,

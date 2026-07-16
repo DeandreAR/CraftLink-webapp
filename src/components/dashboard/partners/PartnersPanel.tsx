@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
 import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
+import { PartnersBrandsCard } from "@/components/dashboard/partners/PartnersBrandsCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
 import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
@@ -14,6 +17,7 @@ import {
   formatPartnershipDate,
   partnershipStatusBadgeClass,
 } from "@/lib/partnerships/partnershipDisplay";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function withDemoRequestIfEmpty(requests: DashboardPartnershipRequest[]): DashboardPartnershipRequest[] {
   if (requests.length > 0 || process.env.NODE_ENV !== "development") {
@@ -47,18 +51,18 @@ function RequestsTable({
 
   if (requests.length === 0) {
     return (
-      <div className="rounded-[18px] border border-dashed border-neutral-200 bg-white px-6 py-12 text-center">
-        <p className="text-sm font-semibold text-slate-700">{p.empty}</p>
-        <p className="mt-2 text-sm text-slate-500">{p.emptyHint}</p>
+      <div className="db-card-flat px-6 py-12 text-center">
+        <p className="text-sm font-semibold text-[#212129]">{p.empty}</p>
+        <p className="mt-2 text-sm text-[#5b6478]">{p.emptyHint}</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="hidden overflow-hidden rounded-[18px] border border-neutral-200 bg-white md:block">
+      <div className="hidden overflow-hidden db-card-flat md:block">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-neutral-100 bg-neutral-50 text-[11px] font-bold uppercase tracking-wide text-slate-500">
+          <thead className="border-b border-[#EFA188]/15 bg-[#FDFBF7] text-[11px] font-bold uppercase tracking-wide text-[#5b6478]">
             <tr>
               <th className="px-4 py-3">{p.columns.company}</th>
               <th className="px-4 py-3">{p.columns.contact}</th>
@@ -73,8 +77,8 @@ function RequestsTable({
               return (
                 <tr
                   key={request.id}
-                  className={`cursor-pointer border-b border-neutral-100 last:border-0 ${
-                    selected ? "bg-[#EFA188]/10" : "hover:bg-neutral-50"
+                  className={`cursor-pointer border-b border-[#212129]/6 last:border-0 ${
+                    selected ? "bg-[#EFA188]/12" : "hover:bg-[#FDFBF7]"
                   }`}
                   onClick={() => onSelect(request.id)}
                 >
@@ -103,7 +107,7 @@ function RequestsTable({
         </table>
       </div>
 
-      <ul className="space-y-3 md:hidden">
+      <ul className="space-y-2 md:hidden">
         {requests.map((request) => {
           const selected = selectedId === request.id;
           return (
@@ -111,24 +115,22 @@ function RequestsTable({
               <button
                 type="button"
                 onClick={() => onSelect(request.id)}
-                className={`w-full rounded-[18px] border p-4 text-left ${
-                  selected
-                    ? "border-[#EFA188] bg-[#EFA188]/10"
-                    : "border-neutral-200 bg-white"
+                className={`w-full db-card-flat p-3 text-left ${
+                  selected ? "border-[#EFA188]/50 bg-[#EFA188]/10" : ""
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-bold text-slate-900">{request.companyName}</p>
-                    <p className="mt-0.5 text-sm text-slate-600">{request.contactName}</p>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-bold text-slate-900">{request.companyName}</p>
+                    <p className="mt-0.5 truncate text-xs text-slate-600">{request.contactName}</p>
                   </div>
                   <span
-                    className={`shrink-0 rounded-md px-2 py-0.5 text-[10px] font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
+                    className={`shrink-0 rounded-md px-1.5 py-0.5 text-[9px] font-semibold ${partnershipStatusBadgeClass(request.workflowStatus)}`}
                   >
                     {p.status[request.workflowStatus]}
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-1.5 truncate text-[10px] text-slate-500">
                   {p.types[request.partnershipType]} ·{" "}
                   {formatPartnershipDate(request.createdAt, locale)}
                 </p>
@@ -150,13 +152,13 @@ export function PartnersPanel({
 }: PartnersPanelProps) {
   const pro = resolveCraftlinkPlan(profile.plan_tier) === "PRO";
   const p = copy.partners;
+  const isDesktopPartners = useMediaQuery("(min-width: 768px)");
+  const [mounted, setMounted] = useState(false);
 
   const [requests, setRequests] = useState(() => withDemoRequestIfEmpty(initialRequests));
   const [loadError] = useState(initialLoadError);
   const [showArchived, setShowArchived] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(
-    () => withDemoRequestIfEmpty(initialRequests)[0]?.id ?? null,
-  );
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const visibleRequests = useMemo(
     () =>
@@ -172,17 +174,44 @@ export function PartnersPanel({
   );
 
   const selectedRequest = visibleRequests.find((request) => request.id === selectedId) ?? null;
+  const showMobileSheet = Boolean(selectedRequest && !isDesktopPartners);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setRequests(withDemoRequestIfEmpty(initialRequests));
   }, [initialRequests]);
+
+  useEffect(() => {
+    if (isDesktopPartners && !selectedId && visibleRequests[0]) {
+      setSelectedId(visibleRequests[0].id);
+    }
+  }, [isDesktopPartners, visibleRequests, selectedId]);
+
+  useEffect(() => {
+    if (!showMobileSheet) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [showMobileSheet]);
 
   const handleUpdated = (updated: DashboardPartnershipRequest) => {
     setRequests((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
   };
 
   const content = (
-    <div className="space-y-4">
+    <div className="space-y-6 md:space-y-8">
+      <div>
+        <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478] max-md:text-xs">
+          {p.requestsTitle}
+        </h3>
+        <p className="mt-1 text-sm text-[#5b6478] max-md:hidden">{p.requestsHint}</p>
+      </div>
+
       {loadError ? (
         <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
           {p.loadError}
@@ -191,18 +220,18 @@ export function PartnersPanel({
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         {pendingCount > 0 ? (
-          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">
+          <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-900 md:px-3 md:py-1 md:text-xs">
             {p.pendingCount.replace("{count}", String(pendingCount))}
           </span>
         ) : (
           <span />
         )}
-        <label className="flex items-center gap-2 text-sm text-slate-600">
+        <label className="flex items-center gap-2 text-xs text-slate-600 md:text-sm">
           <input
             type="checkbox"
             checked={showArchived}
             onChange={(e) => setShowArchived(e.target.checked)}
-            className="h-4 w-4 rounded border-neutral-300"
+            className="h-3.5 w-3.5 rounded border-neutral-300 md:h-4 md:w-4"
           />
           {p.showArchived}
         </label>
@@ -216,7 +245,7 @@ export function PartnersPanel({
           selectedId={selectedId}
           onSelect={setSelectedId}
         />
-        {selectedRequest ? (
+        {selectedRequest && isDesktopPartners ? (
           <PartnershipRequestDetail
             request={selectedRequest}
             copy={copy}
@@ -227,18 +256,18 @@ export function PartnersPanel({
         ) : null}
       </div>
 
+      <PartnersBrandsCard profile={profile} copy={copy} />
       {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
+
+      {pro ? null : (
+        <p className="text-xs text-[#5b6478]">{p.affiliateLinks.hint}</p>
+      )}
     </div>
   );
 
   return (
     <section className="space-y-6">
-      <header>
-        <h1 className="lk-display text-2xl md:text-[1.75rem]">
-          {copy.tabs.partners}
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">{p.subtitle}</p>
-      </header>
+      <DashboardPageHeader title={p.title} subtitle={p.subtitle} compactOnMobile />
 
       {!pro ? (
         <PlanLockedCard
@@ -252,6 +281,28 @@ export function PartnersPanel({
       ) : (
         content
       )}
+
+      {mounted && showMobileSheet && selectedRequest
+        ? createPortal(
+            <>
+              <button
+                type="button"
+                aria-label={p.detail.close}
+                className="db-partners-detail-backdrop"
+                onClick={() => setSelectedId(null)}
+              />
+              <PartnershipRequestDetail
+                request={selectedRequest}
+                copy={copy}
+                locale={locale}
+                compact
+                onClose={() => setSelectedId(null)}
+                onUpdated={handleUpdated}
+              />
+            </>,
+            document.body,
+          )
+        : null}
     </section>
   );
 }

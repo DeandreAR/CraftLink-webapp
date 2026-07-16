@@ -8,7 +8,12 @@ import { authLabelClassName } from "@/components/auth/authFormStyles";
 import { ImageUploadZone } from "@/components/onboarding/ImageUploadZone";
 import { OnboardingVitrinePreview } from "@/components/onboarding/OnboardingVitrinePreview";
 import { LandingCta } from "@/components/landing/LandingCta";
-import { publicPageSlugPrefix } from "@/lib/onboarding/publicPageUrl";
+import {
+  buildPublicPageAbsoluteUrl,
+  buildPublicPageDisplayUrl,
+  publicPageSlugPrefix,
+} from "@/lib/onboarding/publicPageUrl";
+import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
 import {
   buildOnboardingPreviewProps,
   previewFontFamily,
@@ -94,10 +99,20 @@ export function OnboardingVisualStep({
         <h2 className="text-lg font-bold text-black">{v.title}</h2>
         <p className="mt-1 text-sm text-neutral-600">{v.subtitle}</p>
         {profile.pageSlugConfirmed && profile.pageSlug ? (
-          <p className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-center text-sm">
-            <span className="text-neutral-500">{publicPageSlugPrefix()}</span>
-            <span className="font-bold text-neutral-900">{profile.pageSlug}</span>
-          </p>
+          <div className="mt-3 rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+            <p className="text-center text-sm">
+              <span className="text-neutral-500">{publicPageSlugPrefix()}</span>
+              <span className="font-bold text-neutral-900">{profile.pageSlug}</span>
+            </p>
+            <PublicPageUrlWithCopy
+              displayUrl={buildPublicPageDisplayUrl(profile.pageSlug)}
+              copyText={buildPublicPageAbsoluteUrl(profile.pageSlug)}
+              copyAriaLabel={copy.pro.copyPageUrl}
+              copiedLabel={copy.pro.pageUrlCopied}
+              className="mt-2"
+              urlClassName="text-xs text-neutral-500"
+            />
+          </div>
         ) : null}
       </div>
 
