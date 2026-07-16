@@ -623,13 +623,20 @@ export type DashboardDictionary = {
   };
   billing: {
     title: string;
+    pageSubtitle: string;
+    backToDashboard: string;
     currentPlan: string;
+    badgeFree: string;
+    badgePro: string;
     essential: string;
     essentialPrice: string;
     pro: string;
     proPriceMonthly: string;
     proPriceAnnual: string;
     manageStripe: string;
+    manageStripeLoading: string;
+    portalSectionTitle: string;
+    portalSectionBody: string;
     upgradePro: string;
     portalError: string;
     essentialFeatures: string;

@@ -4,7 +4,6 @@ import { createBillingPortalSession } from "@/lib/stripe/createBillingPortalSess
 
 export const runtime = "nodejs";
 
-/** Alias de `/api/stripe/portal` — conservé pour compatibilité. */
 export async function POST(request: Request) {
   try {
     const body = (await request.json().catch(() => ({}))) as { locale?: string };

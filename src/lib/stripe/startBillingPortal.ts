@@ -7,7 +7,7 @@ export type StartBillingPortalResult =
 export async function startStripeBillingPortal(
   locale: Locale,
 ): Promise<StartBillingPortalResult> {
-  const response = await fetch("/api/stripe/create-portal-session", {
+  const response = await fetch("/api/stripe/portal", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ locale }),

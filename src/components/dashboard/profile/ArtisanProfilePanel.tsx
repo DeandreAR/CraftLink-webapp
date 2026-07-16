@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { BillingSection } from "@/components/dashboard/account/BillingSection";
 import { DeleteAccountSection } from "@/components/dashboard/account/DeleteAccountSection";
@@ -12,6 +13,7 @@ import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { Profile } from "@/domain/profile";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
+import { abonnementPath } from "@/lib/auth/paths";
 
 type ArtisanProfilePanelProps = {
   profile: Profile;
@@ -65,10 +67,22 @@ export function ArtisanProfilePanel({
   );
 
   const billingBlock = (
-    <div className="db-profile-section db-profile-section--billing p-6 md:p-8">
+    <div className="db-profile-section db-profile-section--billing space-y-3 p-6 md:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-base font-black text-[#212129] max-md:text-sm">
+          {p.mobileSections.billing}
+        </h3>
+        <Link
+          href={abonnementPath(locale)}
+          className="text-xs font-semibold text-[#5b6478] underline-offset-2 hover:text-[#212129] hover:underline"
+        >
+          {copy.billing.title} →
+        </Link>
+      </div>
       <BillingSection
         planTier={profile.plan_tier}
         billing={billing}
+        stripeCustomerId={profile.stripe_customer_id}
         copy={copy}
         locale={locale}
       />

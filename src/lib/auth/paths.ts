@@ -14,6 +14,11 @@ export function authPath(
   return `/${locale}/${segment}`;
 }
 
+/** Page abonnement & facturation (portail Stripe). */
+export function abonnementPath(lang: Locale | undefined): string {
+  return `${authPath(lang, "dashboard")}/abonnement`;
+}
+
 /** Écran plein après validation e-mail (avant l’onboarding). */
 export function accountConfirmedPath(lang: Locale | undefined): string {
   return `${authPath(lang, "onboarding")}/account-confirmed`;
