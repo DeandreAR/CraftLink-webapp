@@ -20,10 +20,7 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = buildDefaultSiteMetadata({
-  title: {
-    default: "CraftLink",
-    template: "%s — CraftLink",
-  },
+  title: "CraftLink | Le site vitrine et outil de contact pour les artisans",
 });
 
 export default function RootLayout({
