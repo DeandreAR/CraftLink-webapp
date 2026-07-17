@@ -7,12 +7,11 @@ import type {
 import type { Profile } from "@/domain/profile";
 import { defaultLocale, type Locale } from "@/i18n/config";
 import {
-  buildAuthCallbackUrl,
   buildPasswordRecoveryConfirmUrl,
+  buildSignupConfirmUrl,
 } from "@/lib/auth/emailConfirmationRedirect";
-import { accountConfirmedPath, authPath } from "@/lib/auth/paths";
+import { authPath } from "@/lib/auth/paths";
 import { formatAuthDebugMessage, formatConfigDebugMessage, logAuthError, AUTH_GENERIC_ERROR } from "@/lib/auth/debugError";
-import { normalizeSupabaseConfirmationLink } from "@/lib/auth/requestAppUrl";
 import { isMissingAuthSessionError } from "@/lib/supabase/authErrors";
 import { sendSignupConfirmationEmail } from "@/lib/email/sendSignupConfirmationEmail";
 import { sendPasswordResetEmail } from "@/lib/email/sendPasswordResetEmail";
@@ -148,7 +147,6 @@ export async function signUpWithProfile(
   }
 
   const appUrl = options?.appUrl ?? undefined;
-  const redirectTo = buildAuthCallbackUrl(accountConfirmedPath(defaultLocale), appUrl);
 
   const admin = createAdminClient();
   if (!admin) {
@@ -202,11 +200,11 @@ export async function signUpWithProfile(
     type: "signup",
     email,
     password,
-    options: { redirectTo },
   });
 
-  const confirmationUrl = linkData?.properties?.action_link
-    ? normalizeSupabaseConfirmationLink(linkData.properties.action_link, redirectTo)
+  const tokenHash = linkData?.properties?.hashed_token;
+  const confirmationUrl = tokenHash
+    ? buildSignupConfirmUrl(defaultLocale, appUrl, tokenHash)
     : undefined;
   if (linkError || !confirmationUrl) {
     await rollbackAuthUser(user.id);

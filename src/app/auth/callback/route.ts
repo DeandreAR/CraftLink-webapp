@@ -1,3 +1,4 @@
+import { type NextRequest } from "next/server";
 import { defaultLocale } from "@/i18n/config";
 import { completeAuthCallback } from "@/lib/auth/completeAuthCallback";
 import { accountConfirmedPath } from "@/lib/auth/paths";
@@ -9,7 +10,7 @@ function safeNextPath(raw: string | null): string {
   return raw;
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   return completeAuthCallback(request, safeNextPath(requestUrl.searchParams.get("next")));
 }
