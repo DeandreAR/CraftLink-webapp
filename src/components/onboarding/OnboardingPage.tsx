@@ -2,6 +2,7 @@ import { OnboardingPageClient } from "@/components/onboarding/OnboardingPageClie
 import type { OnboardingPlanIntent } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
+import type { OnboardingResumeState } from "@/lib/onboarding/loadOnboardingResume";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
 type OnboardingPageProps = {
@@ -10,6 +11,7 @@ type OnboardingPageProps = {
   vitrineCopy: VitrineDictionary;
   pricingModel: PricingSectionModel;
   planIntent?: OnboardingPlanIntent;
+  resume?: OnboardingResumeState | null;
 };
 
 export function OnboardingPage({
@@ -18,6 +20,7 @@ export function OnboardingPage({
   vitrineCopy,
   pricingModel,
   planIntent = "choice",
+  resume = null,
 }: OnboardingPageProps) {
   return (
     <OnboardingPageClient
@@ -26,6 +29,7 @@ export function OnboardingPage({
       vitrineCopy={vitrineCopy}
       pricingModel={pricingModel}
       planIntent={planIntent}
+      resume={resume}
     />
   );
 }

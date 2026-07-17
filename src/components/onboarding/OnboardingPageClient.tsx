@@ -6,6 +6,7 @@ import { ArtisanOnboardingWizard } from "@/components/onboarding/ArtisanOnboardi
 import type { OnboardingPlanIntent } from "@/domain/onboarding";
 import type { Locale } from "@/i18n/config";
 import type { OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
+import type { OnboardingResumeState } from "@/lib/onboarding/loadOnboardingResume";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
 type OnboardingPageClientProps = {
@@ -14,24 +15,32 @@ type OnboardingPageClientProps = {
   vitrineCopy: VitrineDictionary;
   pricingModel: PricingSectionModel;
   planIntent?: OnboardingPlanIntent;
+  resume?: OnboardingResumeState | null;
 };
 
 const buildDefaultShell = (
   copy: OnboardingDictionary,
   pricingModel: PricingSectionModel,
   planIntent: OnboardingPlanIntent,
-) =>
-  planIntent === "choice"
+  resume: OnboardingResumeState | null | undefined,
+) => {
+  const skipPlan =
+    planIntent === "pro" ||
+    (resume?.hasProgress && resume.freePhase !== "plan" && resume.wizard === "free") ||
+    resume?.wizard === "pro";
+
+  return skipPlan
     ? {
-        title: copy.plan.title,
-        subtitle: pricingModel.copy.pricingLead,
-        contentClassName: "max-w-6xl",
-      }
-    : {
         title: copy.title,
         subtitle: copy.subtitle,
         contentClassName: "max-w-5xl",
+      }
+    : {
+        title: copy.plan.title,
+        subtitle: pricingModel.copy.pricingLead,
+        contentClassName: "max-w-6xl",
       };
+};
 
 export function OnboardingPageClient({
   lang,
@@ -39,9 +48,12 @@ export function OnboardingPageClient({
   vitrineCopy,
   pricingModel,
   planIntent = "choice",
+  resume = null,
 }: OnboardingPageClientProps) {
   const [celebrationActive, setCelebrationActive] = useState(false);
-  const [shell, setShell] = useState(() => buildDefaultShell(copy, pricingModel, planIntent));
+  const [shell, setShell] = useState(() =>
+    buildDefaultShell(copy, pricingModel, planIntent, resume),
+  );
 
   const handleCelebrationChange = useCallback((active: boolean) => {
     setCelebrationActive(active);
@@ -74,6 +86,7 @@ export function OnboardingPageClient({
         vitrineCopy={vitrineCopy}
         pricingModel={pricingModel}
         planIntent={planIntent}
+        resume={resume}
         onCelebrationChange={handleCelebrationChange}
         onShellChange={handleShellChange}
       />

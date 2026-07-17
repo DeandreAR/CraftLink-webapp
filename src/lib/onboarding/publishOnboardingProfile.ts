@@ -1,6 +1,9 @@
 import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
 import { validatePageSlug } from "@/lib/onboarding/pageSlug";
-import { buildStoredVitrineFromOnboarding } from "@/lib/vitrine/storedVitrinePresentation";
+import {
+  buildStoredVitrineFromOnboarding,
+  type OnboardingProgressSnapshot,
+} from "@/lib/vitrine/storedVitrinePresentation";
 import { VOICE_CAPTURE_DEFAULT_FOR_PRO } from "@/lib/dashboard/voiceCaptureDefault";
 import { createClient } from "@/lib/supabase/client";
 
@@ -23,20 +26,24 @@ async function isSlugAvailableClient(slug: string): Promise<boolean> {
 async function persistOnboardingProfile(
   profile: OnboardingProfileDraft,
   services: OnboardingService[],
-  options: { setProPlan: boolean; markComplete: boolean },
+  options: {
+    setProPlan: boolean;
+    markComplete: boolean;
+    requireSlug: boolean;
+    progress?: OnboardingProgressSnapshot | null;
+  },
 ): Promise<PublishOnboardingResult> {
   const validation = validatePageSlug(profile.pageSlug);
-  if (!validation.ok || !profile.pageSlugConfirmed) {
+  const slugReady = validation.ok && profile.pageSlugConfirmed;
+  const slug = slugReady ? validation.normalized : "";
+
+  if (options.requireSlug && !slugReady) {
     return { ok: false, message: "URL de page invalide." };
   }
 
-  const slug = validation.normalized;
-
-  if (!(await isSlugAvailableClient(slug))) {
+  if (slugReady && !(await isSlugAvailableClient(slug))) {
     return { ok: false, message: SLUG_TAKEN_MESSAGE };
   }
-
-  await new Promise((r) => setTimeout(r, 400));
 
   try {
     const supabase = createClient();
@@ -51,25 +58,35 @@ async function persistOnboardingProfile(
       };
     }
 
-    const { error } = await supabase
-      .from("profiles")
-      .update({
-        ...(options.setProPlan
-          ? {
-              plan_tier: "PRO",
-              voice_capture_enabled: VOICE_CAPTURE_DEFAULT_FOR_PRO,
-            }
-          : {}),
-        full_name: profile.businessName.trim(),
-        whatsapp_number: profile.phone.trim(),
-        page_slug: slug,
-        vitrine_presentation: buildStoredVitrineFromOnboarding(profile, services),
-        ...(options.markComplete
-          ? { onboarding_completed_at: new Date().toISOString() }
-          : {}),
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", user.id);
+    const progressForStore = options.markComplete
+      ? null
+      : (options.progress ?? undefined);
+
+    const patch: Record<string, unknown> = {
+      ...(options.setProPlan
+        ? {
+            plan_tier: "PRO",
+            voice_capture_enabled: VOICE_CAPTURE_DEFAULT_FOR_PRO,
+          }
+        : {}),
+      full_name: profile.businessName.trim() || null,
+      whatsapp_number: profile.phone.trim() || null,
+      vitrine_presentation: buildStoredVitrineFromOnboarding(
+        profile,
+        services,
+        progressForStore,
+      ),
+      ...(options.markComplete
+        ? { onboarding_completed_at: new Date().toISOString() }
+        : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    if (slugReady) {
+      patch.page_slug = slug;
+    }
+
+    const { error } = await supabase.from("profiles").update(patch).eq("id", user.id);
 
     if (error) {
       if (error.code === "23505") {
@@ -84,7 +101,24 @@ async function persistOnboardingProfile(
     };
   }
 
-  return { ok: true, slug };
+  return { ok: true, slug: slug || profile.pageSlug.trim() };
+}
+
+/**
+ * Sauvegarde progressive à chaque « Continuer » (sans exiger l’URL confirmée).
+ * Ne marque pas l’onboarding comme terminé.
+ */
+export async function saveOnboardingProgress(
+  profile: OnboardingProfileDraft,
+  services: OnboardingService[],
+  progress: OnboardingProgressSnapshot,
+): Promise<PublishOnboardingResult> {
+  return persistOnboardingProfile(profile, services, {
+    setProPlan: false,
+    markComplete: false,
+    requireSlug: false,
+    progress,
+  });
 }
 
 /** Sauvegarde le brouillon avant redirection Stripe (sans activer PRO). */
@@ -95,6 +129,8 @@ export async function saveOnboardingDraft(
   return persistOnboardingProfile(profile, services, {
     setProPlan: false,
     markComplete: false,
+    requireSlug: true,
+    progress: { wizard: "pro", phase: "validate", draftPlan: "PRO" },
   });
 }
 
@@ -108,5 +144,7 @@ export async function publishOnboardingProfile(
   return persistOnboardingProfile(profile, services, {
     setProPlan: profile.plan === "PRO",
     markComplete: true,
+    requireSlug: true,
+    progress: null,
   });
 }

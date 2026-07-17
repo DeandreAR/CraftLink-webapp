@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default async function OnboardingRootPage({ searchParams }: Props) {
-  await prepareOnboardingPage(defaultLocale);
+  const { resume } = await prepareOnboardingPage(defaultLocale);
   const { plan } = await searchParams;
   const dict = await getDictionary(defaultLocale);
   const planIntent = plan === "pro" ? "pro" : "choice";
@@ -22,6 +22,7 @@ export default async function OnboardingRootPage({ searchParams }: Props) {
       vitrineCopy={dict.vitrine}
       pricingModel={pricingModel}
       planIntent={planIntent}
+      resume={resume}
     />
   );
 }

@@ -42,7 +42,7 @@ import {
   isProProfilePublishable,
 } from "@/lib/onboarding/proRequiredFields";
 import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
-import { saveOnboardingDraft } from "@/lib/onboarding/publishOnboardingProfile";
+import { saveOnboardingDraft, saveOnboardingProgress } from "@/lib/onboarding/publishOnboardingProfile";
 import {
   runProImportPipeline,
   type ProImportPipelineResult,
@@ -66,11 +66,15 @@ function formatStepLabel(template: string, current: number, total: number): stri
   return template.replace("{current}", String(current)).replace("{total}", String(total));
 }
 
+function resolveNextProPhase(profile: OnboardingProfileDraft): ProOnboardingPhase {
+  return resolveNextPhaseAfterProfileUpdate(profile);
+}
+
 function goToNextProPhase(
   profile: OnboardingProfileDraft,
   dispatch: Dispatch<Parameters<typeof proOnboardingReducer>[1]>,
-) {
-  const next = resolveNextPhaseAfterProfileUpdate(profile);
+): ProOnboardingPhase {
+  const next = resolveNextProPhase(profile);
   if (next === "gap") {
     dispatch({
       type: "SET_GAP_FIELDS",
@@ -78,6 +82,7 @@ function goToNextProPhase(
     });
   }
   dispatch({ type: "SET_PHASE", phase: next });
+  return next;
 }
 
 export function ProOnboardingWizard({
@@ -114,6 +119,18 @@ export function ProOnboardingWizard({
   const [interventionError, setInterventionError] = useState<string | null>(null);
 
   const { phase, profile, services } = state;
+
+  const persistProProgress = useCallback(
+    (nextPhase: ProOnboardingPhase, nextProfile: OnboardingProfileDraft, nextServices: OnboardingService[]) => {
+      if (nextPhase === "complete" || nextPhase === "importing") return;
+      void saveOnboardingProgress(nextProfile, nextServices, {
+        wizard: "pro",
+        phase: nextPhase,
+        draftPlan: "PRO",
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     onCelebrationChange?.(phase === "complete");
@@ -165,7 +182,12 @@ export function ProOnboardingWizard({
       dispatch({ type: "SET_SERVICES", services: result.services });
     }
     dispatch({ type: "SET_GAP_FIELDS", fields: result.missingFields });
-    goToNextProPhase(merged, dispatch);
+    const nextPhase = goToNextProPhase(merged, dispatch);
+    persistProProgress(
+      nextPhase,
+      merged,
+      result.services.length > 0 ? result.services : services,
+    );
   };
 
   const handleGapContinue = () => {
@@ -176,7 +198,8 @@ export function ProOnboardingWizard({
       });
       return;
     }
-    goToNextProPhase(profile, dispatch);
+    const nextPhase = goToNextProPhase(profile, dispatch);
+    persistProProgress(nextPhase, profile, services);
   };
 
   const handleBeforeCheckout = async () => {
@@ -204,6 +227,7 @@ export function ProOnboardingWizard({
       }
       setGeneralErrors({});
       dispatch({ type: "SET_PHASE", phase: "manual-interventions" });
+      persistProProgress("manual-interventions", profile, services);
       return;
     }
     if (phase === "manual-interventions") {
@@ -213,6 +237,7 @@ export function ProOnboardingWizard({
       }
       setInterventionError(null);
       dispatch({ type: "SET_PHASE", phase: "manual-visual" });
+      persistProProgress("manual-visual", profile, services);
     }
   };
 
@@ -232,7 +257,10 @@ export function ProOnboardingWizard({
         locale={lang}
         profile={profile}
         onChange={patchProfile}
-        onConfirm={() => dispatch({ type: "SET_PHASE", phase: "validate" })}
+        onConfirm={() => {
+          dispatch({ type: "SET_PHASE", phase: "validate" });
+          persistProProgress("validate", { ...profile, pageSlugConfirmed: true }, services);
+        }}
       />
     );
   }
@@ -306,6 +334,7 @@ export function ProOnboardingWizard({
                 brandColor: null,
               });
               dispatch({ type: "SET_PHASE", phase: "manual-general" });
+              persistProProgress("manual-general", profile, services);
             }}
             onImportSuccess={handleImportSuccess}
             onImportError={(message) => {
@@ -318,6 +347,7 @@ export function ProOnboardingWizard({
                 brandColor: null,
               });
               dispatch({ type: "SET_PHASE", phase: "manual-general" });
+              persistProProgress("manual-general", profile, services);
             }}
           />
         </>
@@ -371,7 +401,10 @@ export function ProOnboardingWizard({
           profile={profile}
           services={services}
           onChange={patchProfile}
-          onCreatePage={() => goToNextProPhase(profile, dispatch)}
+          onCreatePage={() => {
+            const nextPhase = goToNextProPhase(profile, dispatch);
+            persistProProgress(nextPhase, profile, services);
+          }}
         />
       ) : null}
 

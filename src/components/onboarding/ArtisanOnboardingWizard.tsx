@@ -33,7 +33,11 @@ import { LandingCta } from "@/components/landing/LandingCta";
 import { authPath, onboardingPath, type ProBillingPeriod } from "@/lib/auth/paths";
 import { suggestPageSlugFromName, validatePageSlug } from "@/lib/onboarding/pageSlug";
 import { isMetierKey } from "@/lib/vitrine/metierConfigs";
-import { publishOnboardingProfile } from "@/lib/onboarding/publishOnboardingProfile";
+import type { OnboardingResumeState } from "@/lib/onboarding/loadOnboardingResume";
+import {
+  publishOnboardingProfile,
+  saveOnboardingProgress,
+} from "@/lib/onboarding/publishOnboardingProfile";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
 type WizardPhase = "plan" | "general" | "interventions" | "slug" | "visual" | "complete";
@@ -46,6 +50,7 @@ type ArtisanOnboardingWizardProps = {
   vitrineCopy: VitrineDictionary;
   pricingModel: PricingSectionModel;
   planIntent?: OnboardingPlanIntent;
+  resume?: OnboardingResumeState | null;
   onCelebrationChange?: (active: boolean) => void;
   onShellChange?: (shell: {
     title: string;
@@ -64,29 +69,54 @@ export function ArtisanOnboardingWizard({
   vitrineCopy,
   pricingModel,
   planIntent = "choice",
+  resume = null,
   onCelebrationChange,
   onShellChange,
 }: ArtisanOnboardingWizardProps) {
-  const isProIntent = planIntent === "pro";
+  const isProIntent = planIntent === "pro" || resume?.wizard === "pro";
   const searchParams = useSearchParams();
   const metierFromUrl = searchParams.get("metier");
-  const showPlanStep = !isProIntent;
-  const [proWizardActive, setProWizardActive] = useState(isProIntent);
-  const [phase, setPhase] = useState<WizardPhase>(showPlanStep ? "plan" : "general");
-  const [draftPlan, setDraftPlan] = useState<OnboardingPlan>(isProIntent ? "PRO" : "FREE");
+  const showPlanStep = !isProIntent && !(resume?.hasProgress && resume.freePhase !== "plan");
+  const [proWizardActive, setProWizardActive] = useState(
+    isProIntent || resume?.wizard === "pro",
+  );
+  const [phase, setPhase] = useState<WizardPhase>(() => {
+    if (resume?.wizard === "free" && resume.freePhase !== "complete") {
+      return resume.freePhase;
+    }
+    return showPlanStep ? "plan" : "general";
+  });
+  const [draftPlan, setDraftPlan] = useState<OnboardingPlan>(
+    resume?.draftPlan ?? (isProIntent ? "PRO" : "FREE"),
+  );
   const [profile, setProfile] = useState<OnboardingProfileDraft>(() => {
+    if (resume?.profile) {
+      return resume.profile;
+    }
     const base = defaultOnboardingProfile(isProIntent ? "PRO" : "FREE");
     if (metierFromUrl && isMetierKey(metierFromUrl)) {
       return { ...base, metierKey: metierFromUrl };
     }
     return base;
   });
-  const [services, setServices] = useState<OnboardingService[]>([]);
+  const [services, setServices] = useState<OnboardingService[]>(resume?.services ?? []);
   const [creating, setCreating] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
   const [generalErrors, setGeneralErrors] = useState<GeneralStepErrors>({});
   const [interventionError, setInterventionError] = useState<string | null>(null);
   const [proBillingPeriod, setProBillingPeriod] = useState<ProBillingPeriod>("monthly");
+
+  const persistProgress = useCallback(
+    (nextPhase: WizardPhase, nextProfile: OnboardingProfileDraft, nextServices: OnboardingService[]) => {
+      if (nextPhase === "plan" || nextPhase === "complete") return;
+      void saveOnboardingProgress(nextProfile, nextServices, {
+        wizard: "free",
+        phase: nextPhase,
+        draftPlan: nextProfile.plan,
+      });
+    },
+    [],
+  );
 
   const patchProfile = useCallback((patch: Partial<OnboardingProfileDraft>) => {
     setProfile((prev) => {
@@ -157,7 +187,8 @@ export function ArtisanOnboardingWizard({
     setDraftPlan("FREE");
     patchProfile({ plan: "FREE" });
     setPhase("general");
-  }, [patchProfile]);
+    persistProgress("general", { ...profile, plan: "FREE" }, services);
+  }, [patchProfile, persistProgress, profile, services]);
 
   const selectProPlan = useCallback(
     (billing: ProBillingPeriod) => {
@@ -182,9 +213,10 @@ export function ArtisanOnboardingWizard({
         lang={lang}
         copy={copy}
         vitrineCopy={vitrineCopy}
-        initialProfile={isProIntent ? undefined : profile}
-        initialServices={isProIntent ? undefined : services}
+        initialProfile={profile}
+        initialServices={services}
         initialBillingPeriod={proBillingPeriod}
+        startPhase={resume?.wizard === "pro" ? resume.proPhase : undefined}
         onCelebrationChange={onCelebrationChange}
       />
     );
@@ -206,6 +238,7 @@ export function ArtisanOnboardingWizard({
       }
       setGeneralErrors({});
       setPhase("interventions");
+      persistProgress("interventions", profile, services);
       return;
     }
     if (phase === "interventions") {
@@ -219,6 +252,7 @@ export function ArtisanOnboardingWizard({
       }
       setInterventionError(null);
       setPhase("slug");
+      persistProgress("slug", profile, services);
     }
   };
 
@@ -273,7 +307,10 @@ export function ArtisanOnboardingWizard({
         locale={lang}
         profile={profile}
         onChange={patchProfile}
-        onConfirm={() => setPhase("visual")}
+        onConfirm={() => {
+          setPhase("visual");
+          persistProgress("visual", { ...profile, pageSlugConfirmed: true }, services);
+        }}
       />
     );
   }

@@ -51,6 +51,12 @@ export type StoredVitrineConfig = {
   version: 1;
   profile: StoredVitrineProfilePart;
   services: OnboardingService[];
+  /** Étape onboarding en cours — pour reprendre après déconnexion / refresh. */
+  onboardingProgress?: {
+    wizard: "free" | "pro";
+    phase: string;
+    draftPlan?: "FREE" | "PRO";
+  };
 };
 
 /** @deprecated Ancien format plat — migré à la lecture. */
@@ -280,10 +286,30 @@ export function parseStoredVitrineConfig(raw: unknown): StoredVitrineConfig {
 
   const services = Array.isArray(row.services) ? (row.services as OnboardingService[]) : [];
 
+  const progressRaw = row.onboardingProgress;
+  let onboardingProgress: StoredVitrineConfig["onboardingProgress"];
+  if (progressRaw && typeof progressRaw === "object") {
+    const p = progressRaw as Record<string, unknown>;
+    if (
+      (p.wizard === "free" || p.wizard === "pro") &&
+      typeof p.phase === "string" &&
+      p.phase.length > 0
+    ) {
+      onboardingProgress = {
+        wizard: p.wizard,
+        phase: p.phase,
+        ...(p.draftPlan === "FREE" || p.draftPlan === "PRO"
+          ? { draftPlan: p.draftPlan }
+          : {}),
+      };
+    }
+  }
+
   return {
     version: 1,
     profile: parseProfilePart(row.profile),
     services,
+    ...(onboardingProgress ? { onboardingProgress } : {}),
   };
 }
 
@@ -333,7 +359,13 @@ export function profileToEditorState(profile: Profile): {
 export function editorStateToStoredConfig(
   profileDraft: OnboardingProfileDraft,
   services: OnboardingService[],
+  onboardingProgress?: StoredVitrineConfig["onboardingProgress"],
 ): StoredVitrineConfig {
+  const visual = { ...profileDraft.visual };
+  // Les blob: ne survivent pas à un refresh — on ne les persiste pas.
+  if (visual.avatarPreviewUrl?.startsWith("blob:")) visual.avatarPreviewUrl = null;
+  if (visual.bannerPreviewUrl?.startsWith("blob:")) visual.bannerPreviewUrl = null;
+
   return {
     version: 1,
     profile: {
@@ -349,7 +381,7 @@ export function editorStateToStoredConfig(
       affiliateLinks: profileDraft.affiliateLinks,
       partnerBrands: profileDraft.partnerBrands ?? [],
       urgencyCtaEnabled: profileDraft.urgencyCtaEnabled,
-      visual: profileDraft.visual,
+      visual,
       portfolioItems: profileDraft.portfolioItems,
       importPlatform: profileDraft.importPlatform,
       importGoogleRating: profileDraft.importGoogleRating,
@@ -362,6 +394,7 @@ export function editorStateToStoredConfig(
       magicImportSuccessCount: profileDraft.magicImportSuccessCount,
     },
     services,
+    ...(onboardingProgress ? { onboardingProgress } : {}),
   };
 }
 

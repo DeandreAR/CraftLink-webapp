@@ -15,7 +15,7 @@ export default async function LangOnboardingPage({ params, searchParams }: Props
   const { plan } = await searchParams;
   if (!isLocale(raw)) notFound();
   const lang = raw as Locale;
-  await prepareOnboardingPage(lang);
+  const { resume } = await prepareOnboardingPage(lang);
   const dict = await getDictionary(lang);
   const planIntent = plan === "pro" ? "pro" : "choice";
   const pricingModel = buildPricingSectionModel(dict.pricingComparison);
@@ -27,6 +27,7 @@ export default async function LangOnboardingPage({ params, searchParams }: Props
       vitrineCopy={dict.vitrine}
       pricingModel={pricingModel}
       planIntent={planIntent}
+      resume={resume}
     />
   );
 }
