@@ -52,9 +52,7 @@ export function getSupabaseConfig(): SupabasePublicConfig | null {
 }
 
 function logConfigIssue(detail: string): void {
-  if (process.env.NODE_ENV === "development") {
-    console.error(`[supabase] ${detail}`);
-  }
+  console.error(`[supabase] ${detail}`);
 }
 
 export function getSupabaseUrl(): string {
@@ -81,7 +79,23 @@ export function getSupabaseAnonKey(): string {
 export const SUPABASE_UNAVAILABLE_MESSAGE =
   "Le service est momentanément indisponible. Réessayez dans quelques minutes ou contactez le support.";
 
-/** Clé service role — uniquement côté serveur. */
+/** Clé service role — uniquement côté serveur (JWT eyJ…, jamais anon/publishable). */
 export function getSupabaseServiceRoleKey(): string | undefined {
-  return readEnv("SUPABASE_SERVICE_ROLE_KEY");
+  const key = readEnv("SUPABASE_SERVICE_ROLE_KEY");
+  if (!key) return undefined;
+
+  // Erreur fréquente en prod : coller la clé publishable/anon à la place du service_role.
+  if (
+    key.startsWith("sb_publishable_") ||
+    key.startsWith("sb_publ") ||
+    key.startsWith("sb_secret_") ||
+    (!key.startsWith("eyJ") && key.length < 100)
+  ) {
+    logConfigIssue(
+      "SUPABASE_SERVICE_ROLE_KEY invalide (attendu : JWT service_role eyJ…). Vérifie Vercel / .env.",
+    );
+    return undefined;
+  }
+
+  return key;
 }

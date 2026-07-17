@@ -96,6 +96,7 @@ export type NavDictionary = {
   faq: string;
   login: string;
   createAccount: string;
+  mySpace: string;
   languageSwitcherLabel: string;
   mobileMenuOpen: string;
   mobileMenuClose: string;

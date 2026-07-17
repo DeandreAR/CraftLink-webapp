@@ -419,8 +419,8 @@ export async function requestPasswordReset(
       ok: false,
       error: formatConfigDebugMessage(
         "auth.resetPassword.admin",
-        "Réinitialisation momentanément indisponible. Réessayez plus tard ou contactez le support.",
-        "SUPABASE_SERVICE_ROLE_KEY absente",
+        "Réinitialisation indisponible : clé Supabase service_role manquante ou invalide sur le serveur (Vercel).",
+        "SUPABASE_SERVICE_ROLE_KEY absente ou n’est pas un JWT service_role (eyJ…)",
       ),
       code: "admin_client_missing",
     };

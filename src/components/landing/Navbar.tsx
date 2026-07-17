@@ -8,6 +8,7 @@ import { LandingCta } from "@/components/landing/LandingCta";
 import { authPath } from "@/lib/auth/paths";
 import { defaultLocale, type Locale } from "@/i18n/config";
 import { localeHomePath } from "@/lib/i18n/localePaths";
+import { createClient } from "@/lib/supabase/client";
 
 export type NavbarLabels = {
   howItWorks: string;
@@ -16,6 +17,7 @@ export type NavbarLabels = {
   faq: string;
   login: string;
   createAccount: string;
+  mySpace: string;
   languageSwitcherLabel: string;
   mobileMenuOpen: string;
   mobileMenuClose: string;
@@ -28,6 +30,7 @@ const defaultLabels: NavbarLabels = {
   faq: "FAQ",
   login: "Connexion",
   createAccount: "Créer mon compte",
+  mySpace: "Mon espace",
   languageSwitcherLabel: "Choisir la langue",
   mobileMenuOpen: "Ouvrir le menu",
   mobileMenuClose: "Fermer le menu",
@@ -63,10 +66,12 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const L = labels ?? defaultLabels;
   const homeHref = localeHomePath(lang);
   const basePath = lang === defaultLocale ? "" : `/${lang}`;
   const hidden = new Set(hiddenSections);
+  const dashboardHref = authPath(lang, "dashboard");
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
@@ -76,6 +81,29 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    let unsubscribe: (() => void) | undefined;
+
+    try {
+      const supabase = createClient();
+      void supabase.auth.getUser().then(({ data }) => {
+        if (!cancelled) setIsAuthenticated(Boolean(data.user));
+      });
+      const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (!cancelled) setIsAuthenticated(Boolean(session?.user));
+      });
+      unsubscribe = () => data.subscription.unsubscribe();
+    } catch {
+      if (!cancelled) setIsAuthenticated(false);
+    }
+
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+    };
   }, []);
 
   useEffect(() => {
@@ -109,6 +137,89 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
     { href: `${basePath}#faq`, label: L.faq, desktopClass: "lg:inline-flex" },
   ].filter((item): item is NonNullable<typeof item> => item !== null);
 
+  const authCtas = isAuthenticated ? (
+    <LandingCta
+      href={dashboardHref}
+      variant="peach"
+      size="compact"
+      className="shrink-0 whitespace-nowrap px-3 lg:px-4"
+    >
+      {L.mySpace}
+    </LandingCta>
+  ) : (
+    <>
+      <LandingCta
+        href={authPath(lang, "login")}
+        variant="secondary"
+        size="compact"
+        className="shrink-0 whitespace-nowrap px-3 lg:px-4"
+      >
+        {L.login}
+      </LandingCta>
+      <LandingCta
+        href={authPath(lang, "signup")}
+        variant="peach"
+        size="compact"
+        className="shrink-0 whitespace-nowrap px-3 lg:px-4"
+      >
+        {L.createAccount}
+      </LandingCta>
+    </>
+  );
+
+  const mobileHeaderAuth = isAuthenticated ? (
+    <LandingCta href={dashboardHref} variant="peach" className={mobileHeaderCtaClass}>
+      {L.mySpace}
+    </LandingCta>
+  ) : (
+    <>
+      <LandingCta
+        href={authPath(lang, "login")}
+        variant="secondary"
+        className={mobileHeaderCtaClass}
+      >
+        {L.login}
+      </LandingCta>
+      <LandingCta
+        href={authPath(lang, "signup")}
+        variant="peach"
+        className={mobileHeaderCtaClass}
+      >
+        {L.createAccount}
+      </LandingCta>
+    </>
+  );
+
+  const mobileMenuAuth = isAuthenticated ? (
+    <LandingCta
+      href={dashboardHref}
+      variant="peach"
+      className={mobileMenuCtaClass}
+      onClick={closeMenu}
+    >
+      {L.mySpace}
+    </LandingCta>
+  ) : (
+    <>
+      <LandingCta
+        href={authPath(lang, "login")}
+        variant="secondary"
+        className={mobileMenuCtaClass}
+        onClick={closeMenu}
+      >
+        {L.login}
+      </LandingCta>
+      <LandingCta
+        href={authPath(lang, "signup")}
+        variant="peach"
+        className={mobileMenuCtaClass}
+        onClick={closeMenu}
+      >
+        {L.createAccount}
+      </LandingCta>
+    </>
+  );
+
   return (
     <>
       <header className="sticky top-0 z-50">
@@ -126,22 +237,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
                 />
               </Link>
 
-              <div className="flex shrink-0 items-center gap-1 md:hidden">
-                <LandingCta
-                  href={authPath(lang, "login")}
-                  variant="secondary"
-                  className={mobileHeaderCtaClass}
-                >
-                  {L.login}
-                </LandingCta>
-                <LandingCta
-                  href={authPath(lang, "signup")}
-                  variant="peach"
-                  className={mobileHeaderCtaClass}
-                >
-                  {L.createAccount}
-                </LandingCta>
-              </div>
+              <div className="flex shrink-0 items-center gap-1 md:hidden">{mobileHeaderAuth}</div>
             </div>
 
             <nav className="hidden shrink-0 items-center gap-1.5 md:flex lg:gap-2.5" aria-label="Navigation principale">
@@ -155,30 +251,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
                 </a>
               ))}
               <LocaleSwitcher currentLocale={lang} ariaLabel={L.languageSwitcherLabel} />
-              <LandingCta
-                href={authPath(lang, "login")}
-                variant="secondary"
-                size="compact"
-                className="shrink-0 whitespace-nowrap px-3 lg:px-4"
-              >
-                {L.login}
-              </LandingCta>
-              <LandingCta
-                href={authPath(lang, "signup")}
-                variant="secondary"
-                size="compact"
-                className="shrink-0 whitespace-nowrap px-3 lg:hidden"
-              >
-                {L.createAccount}
-              </LandingCta>
-              <LandingCta
-                href={authPath(lang, "signup")}
-                variant="peach"
-                size="compact"
-                className="hidden shrink-0 whitespace-nowrap px-4 lg:inline-flex"
-              >
-                {L.createAccount}
-              </LandingCta>
+              {authCtas}
             </nav>
           </div>
         </div>
@@ -246,24 +319,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
             />
           </div>
 
-          <div className="mt-2.5 flex flex-col gap-1">
-            <LandingCta
-              href={authPath(lang, "login")}
-              variant="secondary"
-              className={mobileMenuCtaClass}
-              onClick={closeMenu}
-            >
-              {L.login}
-            </LandingCta>
-            <LandingCta
-              href={authPath(lang, "signup")}
-              variant="peach"
-              className={mobileMenuCtaClass}
-              onClick={closeMenu}
-            >
-              {L.createAccount}
-            </LandingCta>
-          </div>
+          <div className="mt-2.5 flex flex-col gap-1">{mobileMenuAuth}</div>
         </div>
       </nav>
     </>
