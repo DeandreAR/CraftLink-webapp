@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { FaCalendarDays, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
+import { FaCalendarDays, FaChartPie, FaGrip, FaList, FaTableColumns } from "react-icons/fa6";
 import { DashboardExportCsvButton } from "@/components/dashboard/DashboardExportCsvButton";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
@@ -16,6 +16,7 @@ import { LeadsTableView } from "@/components/dashboard/leads/LeadsTableView";
 import { LeadsTableToolbar } from "@/components/dashboard/leads/LeadsTableToolbar";
 import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBanner";
 import { WhatsAppUpgradeModal } from "@/components/dashboard/leads/WhatsAppUpgradeModal";
+import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
 import type { LeadsViewHandlers } from "@/components/dashboard/leads/leadsViewTypes";
 import type { Profile } from "@/domain/profile";
 import type { DashboardLead } from "@/domain/lead";
@@ -30,7 +31,7 @@ import {
 import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/sortLeads";
 
 export type OrganizeDisplayView = "table" | "cards" | "pipeline";
-export type OrganizeSectionView = "list" | "calendar";
+export type OrganizeSectionView = "list" | "calendar" | "stats";
 
 type OrganizationPanelProps = {
   profile: Profile;
@@ -171,6 +172,11 @@ export function OrganizationPanel({
       label: copy.leads.views.calendarSection,
       icon: <FaCalendarDays className="h-3.5 w-3.5 opacity-70" aria-hidden />,
     },
+    {
+      id: "stats" as const,
+      label: copy.leads.views.statsSection,
+      icon: <FaChartPie className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+    },
   ];
 
   const viewTabs = [
@@ -266,7 +272,13 @@ export function OrganizationPanel({
         ) : null}
 
         <div className="mt-4">
-          {section === "calendar" ? (
+          {section === "stats" ? (
+            <LeadsStatisticsPanel
+              leads={workspace.leads}
+              copy={copy}
+              locale={locale}
+            />
+          ) : section === "calendar" ? (
             <LeadsCalendar
               leads={calendarLeads}
               copy={copy}

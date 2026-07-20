@@ -90,6 +90,8 @@ export type DashboardLead = {
   schedule?: LeadSchedule | null;
   /** Devis / factures artisan (Supabase Storage). */
   attachments?: LeadAttachment[];
+  /** Montant estimé du devis / chantier (€). */
+  montant?: number | null;
 };
 
 export const LEAD_DELAY_STATUSES: LeadDelayStatus[] = [

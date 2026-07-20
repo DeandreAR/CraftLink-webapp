@@ -132,7 +132,7 @@
       "highlightLabels": ["Quotes", "Reviews", "Area"],
       "reelsTab": "Reels"
     },
-    "lead": "Your page sorts and organises job requests on its own. Fewer scattered messages, more time for you and more serious clients.",
+    "lead": "Your showcase page sorts and organises job requests on its own. CraftLink helps you win better-qualified leads — never lose a contact request again. Fewer scattered messages, more time for you and more serious clients.",
     "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
     "ctaSecondary": "See how it works",
@@ -160,7 +160,7 @@
         "title": "Files ready to quote",
         "bullets": [
           { "emoji": "🗂️", "text": "Complete request, not just a \"hello\"." },
-          { "emoji": "📊", "text": "Dashboard to track and sort your requests." },
+          { "emoji": "📊", "text": "Dashboard to track and sort requests — better-qualified leads, zero missed contacts." },
           { "emoji": "✅", "text": "Voice notes transcribed automatically." },
           { "emoji": "💬", "text": "Summary ready on WhatsApp before you call back." }
         ]

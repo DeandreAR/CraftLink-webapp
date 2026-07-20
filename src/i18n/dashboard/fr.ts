@@ -232,9 +232,45 @@ export const dashboardFr: DashboardDictionary = {
       sectionAriaLabel: "Vue principale des demandes",
       listSection: "Liste",
       calendarSection: "Calendrier",
+      statsSection: "Statistiques",
       table: "Tableau",
       cards: "Cartes",
       pipeline: "Pipeline",
+    },
+    stats: {
+      title: "Suivi de votre activité",
+      subtitle:
+        "Volume de demandes, conversion et répartition — pour piloter votre saisonnalité entre deux chantiers.",
+      empty: "Aucune demande sur cette période. Partagez votre lien pour commencer à mesurer.",
+      periodAriaLabel: "Filtre temporel des statistiques",
+      periods: {
+        "7d": "7 derniers jours",
+        month: "Ce mois-ci",
+        year: "Cette année",
+      },
+      kpis: {
+        total: "Demandes reçues",
+        conversion: "Taux de conversion",
+        signedRevenue: "CA signé",
+        pendingVolume: "Devis en attente",
+      },
+      timeline: {
+        title: "Évolution des demandes",
+        subtitle: "Volume reçu sur la période sélectionnée",
+        requests: "Demandes",
+      },
+      distribution: {
+        title: "Répartition des statuts",
+        subtitle: "Où en sont vos dossiers clients",
+        buckets: {
+          pending: "En attente",
+          quote_sent: "Devis envoyés",
+          signed: "Devis signés",
+          refused: "Refusés / archivés",
+        },
+      },
+      montantHint:
+        "Le CA et le volume en attente utilisent le montant estimé renseigné sur chaque devis.",
     },
     schedule: {
       title: "Planifier la réalisation",

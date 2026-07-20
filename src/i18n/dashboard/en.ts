@@ -232,9 +232,45 @@ export const dashboardEn: DashboardDictionary = {
       sectionAriaLabel: "Main requests view",
       listSection: "List",
       calendarSection: "Calendar",
+      statsSection: "Statistics",
       table: "Table",
       cards: "Cards",
       pipeline: "Pipeline",
+    },
+    stats: {
+      title: "Activity tracking",
+      subtitle:
+        "Request volume, conversion and status mix — so you can read seasonality between jobs.",
+      empty: "No requests in this period. Share your link to start measuring.",
+      periodAriaLabel: "Statistics time filter",
+      periods: {
+        "7d": "Last 7 days",
+        month: "This month",
+        year: "This year",
+      },
+      kpis: {
+        total: "Requests received",
+        conversion: "Conversion rate",
+        signedRevenue: "Signed revenue",
+        pendingVolume: "Quotes pending",
+      },
+      timeline: {
+        title: "Request trend",
+        subtitle: "Volume received over the selected period",
+        requests: "Requests",
+      },
+      distribution: {
+        title: "Status breakdown",
+        subtitle: "Where your client files stand",
+        buckets: {
+          pending: "Pending",
+          quote_sent: "Quotes sent",
+          signed: "Quotes signed",
+          refused: "Declined / archived",
+        },
+      },
+      montantHint:
+        "Signed revenue and pending volume use the estimated amount set on each quote.",
     },
     schedule: {
       title: "Schedule the job",

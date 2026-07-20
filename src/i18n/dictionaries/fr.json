@@ -132,7 +132,7 @@
       "highlightLabels": ["Devis", "Avis", "Zone"],
       "reelsTab": "Reels"
     },
-    "lead": "Votre site trie et organise les demandes de chantiers tout seul. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
+    "lead": "Votre page vitrine trie et organise les demandes de chantiers tout seul. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
     "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
     "ctaPrimary": "Créer ma page gratuitement",
     "ctaSecondary": "Voir comment ça marche",
@@ -160,7 +160,7 @@
         "title": "Des dossiers prêts à chiffrer",
         "bullets": [
           { "emoji": "🗂️", "text": "Demande complète, pas un simple « bonjour »." },
-          { "emoji": "📊", "text": "Tableau de bord pour suivre et trier vos demandes." },
+          { "emoji": "📊", "text": "Tableau de bord pour suivre et trier vos demandes — leads mieux qualifiés, zéro oubli." },
           { "emoji": "✅", "text": "Vocaux transcrits automatiquement." },
           { "emoji": "💬", "text": "Résumé prêt sur WhatsApp avec le dossier déjà structuré." }
         ]
