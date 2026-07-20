@@ -386,9 +386,34 @@ export type DashboardDictionary = {
       sectionAriaLabel: string;
       listSection: string;
       calendarSection: string;
+      statsSection: string;
       table: string;
       cards: string;
       pipeline: string;
+    };
+    stats: {
+      title: string;
+      subtitle: string;
+      empty: string;
+      periodAriaLabel: string;
+      periods: Record<"7d" | "month" | "year", string>;
+      kpis: {
+        total: string;
+        conversion: string;
+        signedRevenue: string;
+        pendingVolume: string;
+      };
+      timeline: {
+        title: string;
+        subtitle: string;
+        requests: string;
+      };
+      distribution: {
+        title: string;
+        subtitle: string;
+        buckets: Record<"pending" | "quote_sent" | "signed" | "refused", string>;
+      };
+      montantHint: string;
     };
     schedule: {
       title: string;

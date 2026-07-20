@@ -9,7 +9,7 @@ import {
 } from "@/lib/leads/leadMappers";
 import { enrichWorkflowStatusPatch } from "@/lib/leads/workflowStatusPatch";
 
-const LEAD_SELECT = `
+const LEAD_SELECT_BASE = `
   id,
   workspace_id,
   request_number,
@@ -35,42 +35,87 @@ const LEAD_SELECT = `
   attachments
 `;
 
+const LEAD_SELECT = `${LEAD_SELECT_BASE},
+  montant
+`;
+
+function isMissingMontantColumn(message: string): boolean {
+  const lower = message.toLowerCase();
+  return lower.includes("montant") && (lower.includes("column") || lower.includes("does not exist"));
+}
+
 export async function fetchLeadsByWorkspace(
   supabase: SupabaseClient,
   workspaceId: string,
 ): Promise<{ ok: true; leads: DashboardLead[] } | { ok: false; message: string }> {
-  const { data, error } = await supabase
+  const primary = await supabase
     .from("leads")
     .select(LEAD_SELECT)
     .eq("workspace_id", workspaceId)
     .order("created_at", { ascending: false });
 
-  if (error) {
-    return { ok: false, message: error.message };
+  if (!primary.error) {
+    return {
+      ok: true,
+      leads: (primary.data as LeadRow[]).map(mapLeadRowToDashboardLead),
+    };
   }
 
-  const leads = (data as LeadRow[]).map(mapLeadRowToDashboardLead);
-  return { ok: true, leads };
+  if (!isMissingMontantColumn(primary.error.message)) {
+    return { ok: false, message: primary.error.message };
+  }
+
+  const fallback = await supabase
+    .from("leads")
+    .select(LEAD_SELECT_BASE)
+    .eq("workspace_id", workspaceId)
+    .order("created_at", { ascending: false });
+
+  if (fallback.error) {
+    return { ok: false, message: fallback.error.message };
+  }
+
+  return {
+    ok: true,
+    leads: (fallback.data as LeadRow[]).map(mapLeadRowToDashboardLead),
+  };
 }
 
 export async function fetchLeadById(
   supabase: SupabaseClient,
   leadId: string,
 ): Promise<{ ok: true; lead: DashboardLead } | { ok: false; message: string }> {
-  const { data, error } = await supabase
+  const primary = await supabase
     .from("leads")
     .select(LEAD_SELECT)
     .eq("id", leadId)
     .maybeSingle();
 
-  if (error) {
-    return { ok: false, message: error.message };
+  if (!primary.error) {
+    if (!primary.data) {
+      return { ok: false, message: "Lead introuvable." };
+    }
+    return { ok: true, lead: mapLeadRowToDashboardLead(primary.data as LeadRow) };
   }
-  if (!data) {
+
+  if (!isMissingMontantColumn(primary.error.message)) {
+    return { ok: false, message: primary.error.message };
+  }
+
+  const fallback = await supabase
+    .from("leads")
+    .select(LEAD_SELECT_BASE)
+    .eq("id", leadId)
+    .maybeSingle();
+
+  if (fallback.error) {
+    return { ok: false, message: fallback.error.message };
+  }
+  if (!fallback.data) {
     return { ok: false, message: "Lead introuvable." };
   }
 
-  return { ok: true, lead: mapLeadRowToDashboardLead(data as LeadRow) };
+  return { ok: true, lead: mapLeadRowToDashboardLead(fallback.data as LeadRow) };
 }
 
 export async function touchLeadUpdatedAt(

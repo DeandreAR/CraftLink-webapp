@@ -33,6 +33,7 @@ export type LeadRow = {
   photos: LeadPhoto[] | null;
   schedule: LeadSchedule | null;
   attachments: LeadAttachment[] | null;
+  montant?: number | string | null;
 };
 
 function parseVoice(raw: unknown): LeadVoiceNote | null {
@@ -108,7 +109,14 @@ export function mapLeadRowToDashboardLead(row: LeadRow): DashboardLead {
     photos: parsePhotos(row.photos),
     schedule: parseSchedule(row.schedule),
     attachments: parseAttachments(row.attachments),
+    montant: parseMontant(row.montant),
   };
+}
+
+function parseMontant(raw: unknown): number | null {
+  if (raw === null || raw === undefined || raw === "") return null;
+  const n = typeof raw === "number" ? raw : Number(raw);
+  return Number.isFinite(n) ? n : null;
 }
 
 export function mapLeadPatchToRow(
@@ -134,6 +142,7 @@ export function mapLeadPatchToRow(
   if (patch.photos !== undefined) row.photos = patch.photos;
   if (patch.schedule !== undefined) row.schedule = patch.schedule;
   if (patch.attachments !== undefined) row.attachments = patch.attachments;
+  if (patch.montant !== undefined) row.montant = patch.montant;
 
   return row;
 }
