@@ -1,10 +1,16 @@
+import { LandingCompareCards } from "@/components/landing/sections/LandingCompareCards";
+import type { LandingControlDictionary } from "@/i18n/landing/types";
 import type { LandingFeaturesDictionary } from "@/i18n/types";
 
 type LandingFeaturesSectionProps = {
   content: LandingFeaturesDictionary;
+  compare: LandingControlDictionary["compare"];
 };
 
-export function LandingFeaturesSection({ content }: LandingFeaturesSectionProps) {
+export function LandingFeaturesSection({
+  content,
+  compare,
+}: LandingFeaturesSectionProps) {
   return (
     <section
       id="features"
@@ -38,6 +44,8 @@ export function LandingFeaturesSection({ content }: LandingFeaturesSectionProps)
             </li>
           ))}
         </ul>
+
+        <LandingCompareCards compare={compare} />
       </div>
     </section>
   );

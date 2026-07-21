@@ -1,4 +1,5 @@
 import { PricingGrid } from "@/components/landing/PricingGrid";
+import { LandingConstatCard } from "@/components/landing/sections/LandingConstatCard";
 import type { Locale } from "@/i18n/config";
 import type { PricingSectionModel } from "@/services/pricingComparisonSection";
 
@@ -8,7 +9,7 @@ type LandingPricingSectionProps = {
   locale: Locale;
 };
 
-/** Tarifs OpenShip Light — Essentiel vs Pro, sans bloc sombre. */
+/** Tarifs OpenShip Light — constat + grille Essentiel / Pro. */
 export function LandingPricingSection({
   model,
   basePath,
@@ -33,6 +34,8 @@ export function LandingPricingSection({
           </h2>
           <p className="mt-4 text-base text-zinc-500 md:text-lg">{copy.sectionLead}</p>
         </div>
+
+        <LandingConstatCard contrast={copy.splitContrast} />
 
         <div className="mt-12 md:mt-16">
           <PricingGrid model={model} basePath={basePath} locale={locale} layout="grid" />

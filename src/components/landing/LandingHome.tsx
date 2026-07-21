@@ -87,7 +87,10 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           </div>
         </section>
 
-        <LandingFeaturesSection content={features} />
+        <LandingFeaturesSection
+          content={features}
+          compare={landing.control.compare}
+        />
 
         <LandingPricingSection
           model={pricingModel}

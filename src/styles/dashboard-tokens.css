@@ -14,11 +14,11 @@
 }
 
 .dashboard-page .lk-display {
-  font-family: var(--font-landing-display), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  font-style: italic;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
+  font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
   color: var(--lk-ink);
 }
 
