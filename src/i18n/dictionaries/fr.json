@@ -93,7 +93,15 @@
     "hide": "Masquer la FAQ"
   },
   "hero": {
-    "pill": "Outil de capture pour artisans",
+    "pill": "Conçu pour les artisans du bâtiment",
+    "titleBefore": "Votre page vitrine et lien de contact",
+    "rotatingWords": [
+      "pour vos SMS",
+      "pour WhatsApp",
+      "sur Google",
+      "pour vos Chantiers"
+    ],
+    "titleAfter": "ultra-simple.",
     "typingTitle": {
       "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
       "channels": [
@@ -135,8 +143,30 @@
     "lead": "Votre page vitrine trie et organise les demandes de chantiers tout seul. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
     "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
     "ctaPrimary": "Créer ma page gratuitement",
-    "ctaSecondary": "Voir comment ça marche",
-    "ctaSecondaryHref": "#controle"
+    "ctaSecondary": "Voir les fonctionnalités",
+    "ctaSecondaryHref": "#features"
+  },
+  "features": {
+    "eyebrow": "Comment ça marche",
+    "title": "Reprenez le contrôle de vos messages. Zéro perte de temps.",
+    "lead": "Un parcours unique : le client explique, CraftLink trie, vous chiffrez les bons dossiers.",
+    "cards": [
+      {
+        "index": "01",
+        "title": "Le client explique son besoin (écrit ou vocal)",
+        "description": "Fini les SMS et messages éparpillés. Tout arrive proprement au même endroit."
+      },
+      {
+        "index": "02",
+        "title": "CraftLink centralise et organise vos demandes instantanément",
+        "description": "Toutes les informations clés sont triées et regroupées dans un dashboard épuré. Plus aucun message ne se perd."
+      },
+      {
+        "index": "03",
+        "title": "Pilotez votre activité et recontactez vos clients rapidement",
+        "description": "Visualisez vos chantiers en un clin d'œil, validez les dossiers sérieux et relancez les bons profils en un clic."
+      }
+    ]
   },
   "pourquoi": {
     "pillars": [
@@ -201,8 +231,8 @@
   },
   "pricingComparison": {
     "sectionEyebrow": "Tarifs",
-    "sectionTitle": "Un tarif simple, rentabilisé dès le premier chantier",
-    "sectionLead": "Entrée gratuite pour tester. Pro Bêta à 19€ HT/mois — sans commission sur vos chantiers.",
+    "sectionTitle": "Simple. Clair. Essentiel gratuit, Pro à 19 € HT/mois.",
+    "sectionLead": "Testez sans risque. Passez Pro quand vous voulez accélérer — sans commission sur vos chantiers.",
     "splitContrast": {
       "eyebrow": "Le constat",
       "headline": "Ailleurs, c’est l’usine à gaz.",
@@ -344,7 +374,7 @@
         "essentialLimit": true
       },
       {
-        "labelEssential": "❌ Capture vocale & tri automatique",
+        "labelEssential": "❌ Envoi de messages vocaux structurés",
         "labelPro": "**Capture vocale & Transcription IA automatique** du besoin client",
         "label": "Capture vocale & tri automatique des demandes",
         "essential": false,

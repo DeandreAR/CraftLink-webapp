@@ -260,15 +260,15 @@ export function PricingGrid({
 
   const essentialCard = (
     <div
-      className={`flex flex-col rounded-2xl border border-[#212129]/12 bg-white/90 p-6 ${
+      className={`flex flex-col rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] ${
         isSplit ? "md:p-7" : "md:p-8"
       }`}
     >
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">
         {essential.name}
       </p>
-      <p className="mt-2 text-base font-medium text-neutral-700">{essential.pitch}</p>
-      <p className="mt-5 text-3xl font-bold tracking-tight text-neutral-900 md:text-4xl">
+      <p className="mt-2 text-base font-medium text-zinc-500">{essential.pitch}</p>
+      <p className="mt-5 text-3xl font-bold tracking-tight text-zinc-900 md:text-4xl">
         {essentialPrice.amount}
       </p>
       {essentialPrice.footnote ? (
@@ -310,26 +310,26 @@ export function PricingGrid({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay: 0.08 }}
       whileHover={isSplit ? undefined : { y: -4, scale: 1.01 }}
-      className={`relative flex flex-col overflow-hidden rounded-2xl border-2 bg-white ${
+      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-[0_2px_15px_rgba(0,0,0,0.03)] ${
         isSplit
-          ? "z-10 -my-2 border-[#EFA188] p-6 shadow-[0_32px_80px_rgba(239,161,136,0.35)] md:-my-3 md:p-8 md:shadow-xl"
-          : "border-black p-6 md:p-8 lg:scale-[1.02]"
+          ? "z-10 -my-2 border-[#efa188]/50 p-6 md:-my-3 md:p-8"
+          : "border-[#efa188]/45 p-6 md:p-8 lg:scale-[1.02]"
       }`}
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#EFA188] via-[#D6BCFA] to-[#B2F5EA]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[#efa188]"
         aria-hidden
       />
 
       <div className="flex flex-wrap items-center gap-2">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-600">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600">
           {pro.name}
         </p>
-        <span className="rounded-full bg-[#EFA188] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-[#212129]">
+        <span className="rounded-full border border-[#efa188]/30 bg-[#efa188]/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c45c3e]">
           {copy.recommendedBadge}
         </span>
         {pro.badge ? (
-          <span className="rounded-full bg-black px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
+          <span className="rounded-full bg-zinc-900 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
             {pro.badge}
           </span>
         ) : null}
@@ -385,7 +385,7 @@ export function PricingGrid({
 
   const customCard = (
     <div
-      className={`flex flex-col rounded-2xl border border-dashed border-neutral-300 bg-neutral-50/80 p-6 ${
+      className={`flex flex-col rounded-2xl border border-dashed border-zinc-200 bg-zinc-50/80 p-6 ${
         isSplit ? "md:p-7" : "md:p-8"
       }`}
     >
@@ -414,7 +414,8 @@ export function PricingGrid({
         <LandingCta
           href={getWhatsAppHref(copy.tierCustom.whatsappMessage)}
           external
-          className="w-full justify-center !bg-[#25D366] !text-white hover:!bg-[#20BD5A]"
+          variant="secondary"
+          className="w-full justify-center !border-zinc-900 !text-zinc-900 hover:!border-zinc-900 hover:!bg-zinc-100"
         >
           {copy.tierCustom.cta}
         </LandingCta>
@@ -431,7 +432,7 @@ export function PricingGrid({
         transition={{ duration: 0.4 }}
         className={`flex justify-center ${isSplit ? "mt-0" : "mt-10"}`}
       >
-        <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#EFA188]/40 bg-[#EFA188]/15 px-5 py-2.5 text-center text-[11px] font-semibold uppercase leading-snug tracking-[0.12em] text-neutral-800 sm:text-xs">
+        <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#efa188]/30 bg-[#efa188]/10 px-5 py-2.5 text-center text-[11px] font-semibold uppercase leading-snug tracking-[0.12em] text-zinc-700 sm:text-xs">
           {copy.betaPioneerBadge}
         </span>
       </motion.div>
@@ -450,8 +451,8 @@ export function PricingGrid({
         </div>
       )}
 
-      <div className={`rounded-2xl border border-[#B2F5EA]/40 bg-[#B2F5EA]/10 p-6 md:p-8 ${isSplit ? "mt-6" : "mt-10"}`}>
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800">
+      <div className={`rounded-2xl border border-[#5fecd5]/35 bg-[#5fecd5]/10 p-6 md:p-8 ${isSplit ? "mt-6" : "mt-10"}`}>
+        <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-zinc-800">
           {copy.proAdvantagesTitle}
         </p>
         <ul className="mt-5 grid gap-3 sm:grid-cols-2">
