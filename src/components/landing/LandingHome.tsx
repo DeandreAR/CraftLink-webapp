@@ -34,15 +34,12 @@ export async function LandingHome({ lang }: { lang: Locale }) {
             <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
               <div className="min-w-0">
                 <LandingHeroReveal>
-                  <p className="inline-flex items-center rounded-full border border-[#efa188]/20 bg-[#efa188]/10 px-3.5 py-1.5 text-xs font-medium text-[#efa188]">
-                    {hero.pill}
-                  </p>
-                </LandingHeroReveal>
-
-                <LandingHeroReveal delay={0.06}>
-                  <div className="mt-6 max-w-xl rounded-3xl border border-zinc-200/80 bg-white/90 p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] backdrop-blur-sm md:p-8">
+                  <div className="max-w-xl rounded-3xl border border-zinc-200/80 bg-white/90 p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] backdrop-blur-sm md:p-8">
+                    <p className="inline-flex items-center rounded-full border border-[#efa188]/20 bg-[#efa188]/10 px-3.5 py-1.5 text-xs font-medium text-[#efa188]">
+                      {hero.pill}
+                    </p>
                     <HeroRotatingTitle
-                      className="landing-hero-title !text-3xl sm:!text-4xl md:!text-[2.75rem] lg:!text-[3.1rem]"
+                      className="landing-hero-title mt-4 !text-3xl sm:!text-4xl md:!text-[2.75rem] lg:!text-[3.1rem]"
                       before={hero.titleBefore}
                       words={hero.rotatingWords}
                       after={hero.titleAfter}
