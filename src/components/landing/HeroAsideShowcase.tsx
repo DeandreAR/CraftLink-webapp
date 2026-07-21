@@ -69,7 +69,7 @@ export function HeroAsideShowcase({ alt, copy, className = "" }: HeroAsideShowca
           <div
             className="relative z-10 w-[16.5rem] shrink-0 sm:w-[17rem] lg:w-[18rem] md:[transform:rotateY(20deg)_rotateX(3deg)_translateZ(0)] md:[transform-origin:center_right]"
           >
-            <div className="overflow-hidden rounded-[1.35rem] border border-neutral-200/90 bg-white shadow-[0_28px_60px_rgba(33,33,41,0.16)]">
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
               <div className="flex items-center justify-between border-b border-neutral-100 px-3 py-2">
                 <span className="text-[11px] font-bold text-neutral-900">{copy.instagramHandle}</span>
                 <div className="flex items-center gap-2.5 text-neutral-800">
@@ -182,7 +182,7 @@ export function HeroAsideShowcase({ alt, copy, className = "" }: HeroAsideShowca
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-[1.75rem] border-2 border-neutral-900/8 bg-white shadow-[0_32px_72px_rgba(239,161,136,0.28)]">
+            <div className="overflow-hidden rounded-[1.75rem] border border-zinc-200/80 bg-white shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
               <div
                 className="h-16"
                 style={{

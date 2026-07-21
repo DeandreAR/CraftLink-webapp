@@ -791,6 +791,9 @@ export type HeroAsideShowcaseDictionary = {
 
 export type HeroDictionary = {
   pill: string;
+  titleBefore: string;
+  rotatingWords: string[];
+  titleAfter: string;
   typingTitle: HeroTypingTitleDictionary;
   asideShowcaseAlt: string;
   asideShowcase: HeroAsideShowcaseDictionary;
@@ -799,6 +802,19 @@ export type HeroDictionary = {
   ctaPrimary: string;
   ctaSecondary: string;
   ctaSecondaryHref: string;
+};
+
+export type LandingFeatureCard = {
+  index: string;
+  title: string;
+  description: string;
+};
+
+export type LandingFeaturesDictionary = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  cards: LandingFeatureCard[];
 };
 
 export type LegalSectionJson = {
@@ -1296,6 +1312,7 @@ export type Dictionary = {
   faqUi: FaqUiDictionary;
   auth: AuthDictionary;
   hero: HeroDictionary;
+  features: LandingFeaturesDictionary;
   pourquoi: PourquoiDictionary;
   featuresFlow: FeaturesFlowDictionary;
   pricingComparison: PricingComparisonDictionary;

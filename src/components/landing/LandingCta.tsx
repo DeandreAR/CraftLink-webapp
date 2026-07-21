@@ -5,21 +5,20 @@ export type LandingCtaVariant = "primary" | "secondary" | "peach";
 export type LandingCtaSize = "default" | "compact";
 
 const sizeClasses: Record<LandingCtaSize, string> = {
-  default:
-    "px-6 py-3.5 text-sm md:text-base",
+  default: "px-6 py-3 text-sm md:text-[0.9375rem]",
   compact: "px-4 py-2 text-sm",
 };
 
 const base =
-  "inline-flex items-center justify-center rounded-full font-bold tracking-tight transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#EFA188]";
+  "inline-flex items-center justify-center rounded-xl font-semibold tracking-tight transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#efa188]";
 
 const variants: Record<LandingCtaVariant, string> = {
   primary:
-    "bg-[#212129] text-white shadow-[0_12px_32px_rgba(33,33,41,0.22)] hover:-translate-y-0.5 hover:bg-black hover:shadow-[0_16px_40px_rgba(33,33,41,0.28)]",
+    "bg-zinc-900 text-white shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:brightness-110",
   peach:
-    "border-2 border-[#212129] bg-[#EFA188] text-[#212129] shadow-[0_10px_28px_rgba(239,161,136,0.35)] hover:-translate-y-0.5 hover:bg-[#E08A6F]",
+    "bg-[#efa188] text-zinc-950 shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:brightness-95 hover:-translate-y-0.5",
   secondary:
-    "border-2 border-[#212129]/15 bg-white/90 text-[#212129] hover:border-[#EFA188] hover:bg-[#EFA188]/10",
+    "border border-zinc-200/80 bg-white text-zinc-900 shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:border-[#efa188]/40 hover:bg-[#efa188]/10",
 };
 
 export type LandingCtaProps = {
@@ -31,7 +30,7 @@ export type LandingCtaProps = {
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 export function LandingCta({
-  variant = "primary",
+  variant = "peach",
   size = "default",
   href,
   external,

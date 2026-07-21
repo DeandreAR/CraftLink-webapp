@@ -1,12 +1,18 @@
-/* CraftLink landing — Atelier Mokaform : corail signature + pastels */
+/**
+ * CraftLink landing — OpenShip Light
+ * Fond zinc-50, cartes blanches, accent pêche. Brush hero conservé.
+ */
 .landing-page {
-  --lk-cream: #fdfbf7;
+  --lk-cream: #fafafa;
   --lk-peach: #efa188;
   --lk-peach-deep: #e08a6f;
-  --lk-mint: #b2f5ea;
+  --lk-mint: #5fecd5;
   --lk-lavender: #d6bcfa;
-  --lk-ink: #212129;
-  --lk-muted: #5b6478;
+  --lk-ink: #18181b;
+  --lk-muted: #71717a;
+  --lk-border: rgba(228, 228, 231, 0.9);
+  --lk-card: #ffffff;
+  --lk-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
 
   background: var(--lk-cream);
   color: var(--lk-ink);
@@ -14,72 +20,36 @@
 }
 
 .landing-page .lk-display {
-  font-family: var(--font-landing-display), "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  font-style: italic;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
+  font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
   color: var(--lk-ink);
 }
 
 .landing-page .lk-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   border-radius: 9999px;
-  border: 1.5px solid color-mix(in srgb, var(--lk-peach) 55%, transparent);
-  background: color-mix(in srgb, var(--lk-peach) 22%, white);
-  padding: 0.45rem 1rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--lk-ink);
+  border: 1px solid color-mix(in srgb, var(--lk-peach) 20%, transparent);
+  background: color-mix(in srgb, var(--lk-peach) 10%, transparent);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--lk-peach);
 }
 
 .landing-page .lk-eyebrow::before {
-  content: "";
-  height: 0.45rem;
-  width: 0.45rem;
-  border-radius: 9999px;
-  background: var(--lk-peach);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lk-peach) 35%, transparent);
-}
-
-.landing-page .lk-section-index {
-  display: block;
-  margin-bottom: 0.75rem;
-  font-family: var(--font-landing-display), "Segoe UI", ui-sans-serif, sans-serif;
-  font-style: italic;
-  font-size: clamp(3.5rem, 8vw, 5.5rem);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: color-mix(in srgb, var(--lk-peach) 55%, white);
-  user-select: none;
-}
-
-.landing-page .lk-marker {
-  background: linear-gradient(
-    180deg,
-    transparent 55%,
-    color-mix(in srgb, var(--lk-peach) 72%, white) 55%,
-    color-mix(in srgb, var(--lk-peach) 72%, white) 92%,
-    transparent 92%
-  );
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-.landing-page .lk-heading {
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: var(--lk-ink);
+  display: none;
 }
 
 .landing-page .lk-lead {
   color: var(--lk-muted);
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
 .landing-page .lk-section {
@@ -87,55 +57,26 @@
 }
 
 .landing-page .lk-section-alt {
-  background: color-mix(in srgb, white 28%, var(--lk-cream));
+  background: #ffffff;
+  border-block: 1px solid var(--lk-border);
+}
+
+.landing-page .lk-card {
+  border-radius: 1.25rem;
+  border: 1px solid var(--lk-border);
+  background: var(--lk-card);
+  box-shadow: var(--lk-shadow);
+}
+
+.landing-page .lk-marker {
+  color: var(--lk-peach);
+  background: none;
 }
 
 .landing-page .landing-main {
   overflow-x: clip;
 }
 
-.landing-page .landing-footer {
-  background: var(--lk-cream);
-  border-color: color-mix(in srgb, var(--lk-peach) 22%, transparent);
-}
-
-.landing-page .lk-section-warm {
-  background: linear-gradient(
-    165deg,
-    color-mix(in srgb, var(--lk-peach) 18%, var(--lk-cream)) 0%,
-    var(--lk-cream) 45%,
-    color-mix(in srgb, var(--lk-lavender) 12%, var(--lk-cream)) 100%
-  );
-}
-
-.landing-page .lk-frame {
-  border-radius: 1.75rem;
-  border: 2px solid color-mix(in srgb, var(--lk-peach) 45%, transparent);
-  background: linear-gradient(
-    145deg,
-    #ffffff 0%,
-    color-mix(in srgb, var(--lk-peach) 8%, white) 50%,
-    color-mix(in srgb, var(--lk-lavender) 6%, white) 100%
-  );
-  padding: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  .landing-page .lk-frame {
-    padding: 1.5rem;
-  }
-}
-
-.landing-page .lk-paint-rule {
-  height: 4px;
-  border: none;
-  border-radius: 9999px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--lk-peach) 15%,
-    var(--lk-peach) 85%,
-    transparent
-  );
-  opacity: 0.85;
+.landing-page .lk-section-index {
+  display: none;
 }

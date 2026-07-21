@@ -44,15 +44,15 @@ type NavbarProps = {
 };
 
 const desktopNavLink =
-  "hidden rounded-lg px-2.5 py-2 text-xs font-semibold text-[#5b6478] transition-colors hover:text-[#EFA188] md:inline-flex lg:px-3 lg:text-sm";
+  "hidden rounded-lg px-2.5 py-2 text-xs font-semibold text-zinc-500 transition-colors hover:text-zinc-900 md:inline-flex lg:px-3 lg:text-sm";
 
 const mobileNavLink =
-  "block rounded-lg px-3 py-2 text-center text-sm font-semibold text-[#212129] transition-colors hover:bg-[#EFA188]/15";
+  "block rounded-lg px-3 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-[#efa188]/10";
 
 const headerBarScrolled =
-  "border-[#EFA188]/30 bg-[#FDFBF7]/92 shadow-[0_12px_40px_rgba(239,161,136,0.12)] backdrop-blur-md";
+  "border-zinc-200/80 bg-white/90 shadow-[0_2px_15px_rgba(0,0,0,0.03)] backdrop-blur-md";
 
-const headerBarDefault = "border-transparent bg-[#FDFBF7]/80 backdrop-blur-sm";
+const headerBarDefault = "border-transparent bg-zinc-50/80 backdrop-blur-sm";
 
 const mobileMenuBottom = "calc(3.5rem + env(safe-area-inset-bottom))";
 
@@ -128,13 +128,12 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
 
   const navItems = [
     !hidden.has("howItWorks")
-      ? { href: `${basePath}#controle`, label: L.howItWorks, desktopClass: "lg:inline-flex" }
+      ? { href: `${basePath}#features`, label: L.howItWorks, desktopClass: "lg:inline-flex" }
       : null,
     !hidden.has("metiers")
       ? { href: `${basePath}#metiers`, label: L.metiers, desktopClass: "lg:inline-flex" }
       : null,
     { href: `${basePath}#tarifs`, label: L.tarifs, desktopClass: "lg:inline-flex" },
-    { href: `${basePath}#faq`, label: L.faq, desktopClass: "lg:inline-flex" },
   ].filter((item): item is NonNullable<typeof item> => item !== null);
 
   const authCtas = isAuthenticated ? (
@@ -269,9 +268,9 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? (
-              <HiX className="h-5 w-5 text-[#212129]" aria-hidden />
+              <HiX className="h-5 w-5 text-zinc-900" aria-hidden />
             ) : (
-              <HiMenu className="h-5 w-5 text-[#212129]" aria-hidden />
+              <HiMenu className="h-5 w-5 text-zinc-900" aria-hidden />
             )}
           </button>
         </div>
@@ -280,7 +279,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
       {menuOpen ? (
         <button
           type="button"
-          className="fixed inset-0 z-[55] bg-[#212129]/20 backdrop-blur-[2px] md:hidden"
+          className="fixed inset-0 z-[55] bg-zinc-900/20 backdrop-blur-[2px] md:hidden"
           aria-label={L.mobileMenuClose}
           onClick={closeMenu}
         />
@@ -308,8 +307,8 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
             ))}
           </ul>
 
-          <div className="mt-2.5 border-t border-[#EFA188]/25 pt-2.5 text-center">
-            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#5b6478]">
+          <div className="mt-2.5 border-t border-zinc-200/80 pt-2.5 text-center">
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
               {L.languageSwitcherLabel}
             </p>
             <LocaleSwitcher

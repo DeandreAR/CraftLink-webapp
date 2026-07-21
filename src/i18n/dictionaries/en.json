@@ -93,7 +93,15 @@
     "hide": "Hide FAQ"
   },
   "hero": {
-    "pill": "Capture tool for tradespeople",
+    "pill": "Built for building trades",
+    "titleBefore": "Your showcase page and contact link",
+    "rotatingWords": [
+      "for your SMS",
+      "for WhatsApp",
+      "on Google",
+      "for your job sites"
+    ],
+    "titleAfter": "kept ultra-simple.",
     "typingTitle": {
       "intro": "One link to centralise every client request from ",
       "channels": [
@@ -135,8 +143,30 @@
     "lead": "Your showcase page sorts and organises job requests on its own. CraftLink helps you win better-qualified leads — never lose a contact request again. Fewer scattered messages, more time for you and more serious clients.",
     "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
-    "ctaSecondary": "See how it works",
-    "ctaSecondaryHref": "#controle"
+    "ctaSecondary": "See features",
+    "ctaSecondaryHref": "#features"
+  },
+  "features": {
+    "eyebrow": "How it works",
+    "title": "Take back control of your messages. Zero wasted time.",
+    "lead": "One flow: the client explains, CraftLink sorts, you quote the right jobs.",
+    "cards": [
+      {
+        "index": "01",
+        "title": "The client explains their need (text or voice)",
+        "description": "No more scattered SMS and messages. Everything lands cleanly in one place."
+      },
+      {
+        "index": "02",
+        "title": "CraftLink centralizes and organizes your requests instantly",
+        "description": "All key information is sorted and grouped in a clean dashboard. No message gets lost."
+      },
+      {
+        "index": "03",
+        "title": "Run your business and follow up with clients fast",
+        "description": "See your jobs at a glance, validate serious files and follow up on the right leads in one click."
+      }
+    ]
   },
   "pourquoi": {
     "pillars": [
@@ -201,8 +231,8 @@
   },
   "pricingComparison": {
     "sectionEyebrow": "Pricing",
-    "sectionTitle": "Simple pricing, paid back from your first job",
-    "sectionLead": "Free entry to test. Beta Pro at €19 excl. VAT/month — zero commission on your jobs.",
+    "sectionTitle": "Simple. Clear. Free Essential, Pro at €19 excl. VAT/month.",
+    "sectionLead": "Start risk-free. Upgrade to Pro when you want to move faster — zero commission on your jobs.",
     "splitContrast": {
       "eyebrow": "The reality check",
       "headline": "Elsewhere, it's a maze.",
@@ -344,7 +374,7 @@
         "essentialLimit": true
       },
       {
-        "labelEssential": "❌ Voice capture & automatic sorting",
+        "labelEssential": "❌ Structured voice messages",
         "labelPro": "**Voice capture & automatic AI transcription** of customer needs",
         "label": "Voice capture & automatic request sorting",
         "essential": false,
