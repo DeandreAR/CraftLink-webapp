@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { getImportAuthContext } from "@/lib/onboarding/proImport/api/importAuth";
 import {
-  magicImportRemaining,
-  MAX_MAGIC_IMPORT_SUCCESS,
-  readMagicImportSuccessCount,
-} from "@/lib/onboarding/proImport/api/magicImportQuota";
+  aiGenerationsRemaining,
+  getMaxAiGenerations,
+  normalizeAiGenerationsCount,
+} from "@/lib/ai/aiGenerationQuota";
+import { getImportAuthContext } from "@/lib/onboarding/proImport/api/importAuth";
+import { loadSubscriptionBillingForUser } from "@/lib/stripe/loadSubscriptionBilling";
 
 export async function GET() {
   const auth = await getImportAuthContext();
@@ -12,10 +13,17 @@ export async function GET() {
     return auth;
   }
 
-  const used = readMagicImportSuccessCount(auth.vitrinePresentation);
+  const billing = await loadSubscriptionBillingForUser(auth.userId);
+  const max = getMaxAiGenerations(auth.planTier, billing);
+  const used = normalizeAiGenerationsCount(auth.aiGenerationsCount);
+  const remaining = aiGenerationsRemaining(used, max);
+
   return NextResponse.json({
     used,
-    remaining: magicImportRemaining(auth.vitrinePresentation),
-    max: MAX_MAGIC_IMPORT_SUCCESS,
+    remaining,
+    max,
+    unlimited: false,
+    aiGenerationsCount: used,
+    aiGenerationsRemaining: remaining,
   });
 }

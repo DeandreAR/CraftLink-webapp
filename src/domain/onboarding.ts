@@ -99,8 +99,10 @@ export type OnboardingProfileDraft = {
   importFollowerCount?: number;
   /** Abonnés par réseau + visibilité (éditable dashboard). */
   socialFollowers?: OnboardingSocialFollowers;
-  /** Imports automatiques réussis (max 3 par compte). */
+  /** Imports automatiques réussis (legacy vitrine JSON). */
   magicImportSuccessCount?: number;
+  /** Générations IA consommées (profiles.ai_generations_count). */
+  aiGenerationsCount?: number;
   /** Réalisations récentes via embed Instagram (pas d’images stockées). */
   portfolioItems?: OnboardingPortfolioItem[];
   /** Segment URL publique : getcraftlink.com/{pageSlug} */

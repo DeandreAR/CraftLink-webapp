@@ -168,8 +168,13 @@ export function ProOnboardingWizard({
       ...profile,
       ...result.profile,
       plan: "PRO",
+      aiGenerationsCount:
+        result.aiGenerationsCount ?? profile.aiGenerationsCount ?? profile.magicImportSuccessCount,
       magicImportSuccessCount:
-        result.magicImportSuccessCount ?? profile.magicImportSuccessCount,
+        result.magicImportSuccessCount ??
+        result.aiGenerationsCount ??
+        profile.aiGenerationsCount ??
+        profile.magicImportSuccessCount,
       visual: {
         ...defaultVisualDraft(),
         ...profile.visual,
@@ -324,6 +329,9 @@ export function ProOnboardingWizard({
         <>
           <OnboardingProChoiceStep
             copy={copy}
+            aiGenerationsCount={
+              profile.aiGenerationsCount ?? profile.magicImportSuccessCount ?? 0
+            }
             magicImportSuccessCount={profile.magicImportSuccessCount ?? 0}
             onStartManual={() => {
               dispatch({ type: "SET_IMPORT_ERROR", error: null });

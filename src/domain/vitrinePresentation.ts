@@ -351,6 +351,10 @@ export function profileToEditorState(profile: Profile): {
     importFollowerCount: config.profile.importFollowerCount,
     socialFollowers: config.profile.socialFollowers,
     magicImportSuccessCount: config.profile.magicImportSuccessCount,
+    aiGenerationsCount:
+      typeof profile.ai_generations_count === "number"
+        ? profile.ai_generations_count
+        : config.profile.magicImportSuccessCount,
   };
 
   return { profileDraft, services: config.services };

@@ -9,7 +9,6 @@ import { logApiUsage } from "@/lib/admin/logApiUsage";
 import {
   IMPORT_INVALID_IDENTIFIER,
   IMPORT_PROVIDER_ERROR,
-  IMPORT_QUOTA_EXCEEDED,
   PROVIDER_DEGRADED_MESSAGE,
   PROVIDER_QUOTA_EXHAUSTED,
   SERVER_CONFIG_ERROR,
@@ -17,14 +16,18 @@ import {
 import { sanitizeImportErrorForClient } from "@/lib/onboarding/proImport/api/importErrorCodes";
 import {
   getImportAuthContext,
-  persistVitrinePresentation,
 } from "@/lib/onboarding/proImport/api/importAuth";
 import { isMeaningfulImportResult } from "@/lib/onboarding/proImport/api/isMeaningfulImport";
 import {
-  bumpMagicImportSuccessCount,
-  MAX_MAGIC_IMPORT_SUCCESS,
-  readMagicImportSuccessCount,
-} from "@/lib/onboarding/proImport/api/magicImportQuota";
+  AI_GENERATION_QUOTA_EXCEEDED,
+  AI_GENERATION_QUOTA_MESSAGE,
+  aiGenerationsRemaining,
+  canUseAiGeneration,
+  getMaxAiGenerations,
+  incrementAiGenerationsCount,
+  normalizeAiGenerationsCount,
+} from "@/lib/ai/aiGenerationQuota";
+import { loadSubscriptionBillingForUser } from "@/lib/stripe/loadSubscriptionBilling";
 import {
   ProviderDegradedError,
   isNetworkFailure,
@@ -71,13 +74,20 @@ export function serverConfigErrorResponse(): NextResponse {
 
 export function successImportResponse(
   data: UnifiedImportData,
-  meta?: { magicImportSuccessCount: number; magicImportRemaining: number },
+  meta?: {
+    aiGenerationsCount?: number;
+    aiGenerationsRemaining?: number | null;
+    unlimited?: boolean;
+  },
 ): NextResponse {
   return NextResponse.json({
     success: true as const,
     data,
-    magicImportSuccessCount: meta?.magicImportSuccessCount,
-    magicImportRemaining: meta?.magicImportRemaining,
+    aiGenerationsCount: meta?.aiGenerationsCount,
+    aiGenerationsRemaining: meta?.aiGenerationsRemaining,
+    unlimited: meta?.unlimited,
+    magicImportSuccessCount: meta?.aiGenerationsCount,
+    magicImportRemaining: meta?.aiGenerationsRemaining,
   });
 }
 
@@ -133,9 +143,14 @@ export async function handleImportPost(
     return auth;
   }
 
-  const used = readMagicImportSuccessCount(auth.vitrinePresentation);
-  if (used >= MAX_MAGIC_IMPORT_SUCCESS) {
-    return NextResponse.json({ error: IMPORT_QUOTA_EXCEEDED }, { status: 429 });
+  const billing = await loadSubscriptionBillingForUser(auth.userId);
+  const used = normalizeAiGenerationsCount(auth.aiGenerationsCount);
+
+  if (!canUseAiGeneration(auth.planTier, used, billing)) {
+    return NextResponse.json(
+      { error: AI_GENERATION_QUOTA_EXCEEDED, message: AI_GENERATION_QUOTA_MESSAGE },
+      { status: 403 },
+    );
   }
 
   const parsed = await parseImportIdentifier(request);
@@ -150,9 +165,9 @@ export async function handleImportPost(
       return NextResponse.json({ error: IMPORT_PROVIDER_ERROR }, { status: 502 });
     }
 
-    const nextConfig = bumpMagicImportSuccessCount(auth.vitrinePresentation);
-    await persistVitrinePresentation(auth.userId, nextConfig);
-    const magicImportSuccessCount = nextConfig.profile.magicImportSuccessCount ?? used + 1;
+    const max = getMaxAiGenerations(auth.planTier, billing);
+    const nextCount = await incrementAiGenerationsCount(auth.userId);
+    const aiGenerationsCount = nextCount ?? used + 1;
 
     void logApiUsage({
       ...importApiUsageMeta(platform),
@@ -160,8 +175,9 @@ export async function handleImportPost(
     }).catch(() => {});
 
     return successImportResponse(data, {
-      magicImportSuccessCount,
-      magicImportRemaining: Math.max(0, MAX_MAGIC_IMPORT_SUCCESS - magicImportSuccessCount),
+      unlimited: false,
+      aiGenerationsCount,
+      aiGenerationsRemaining: aiGenerationsRemaining(aiGenerationsCount, max),
     });
   } catch (error) {
     const degraded = resolveProviderImportError(error);

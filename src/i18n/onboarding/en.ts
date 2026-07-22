@@ -201,8 +201,9 @@ export const onboardingEn: OnboardingDictionary = {
     importErrorGeneric:
       "{platform} import failed for now. Try again or continue without import.",
     importQuotaExceeded:
-      "You have used all 3 automatic imports. Complete your page manually.",
-    importRemainingHint: "You have {count} automatic import(s) remaining.",
+      "You have reached your AI generation quota. Edit your page directly in your workspace or upgrade to Pro for up to 3 generations per month.",
+    importRemainingHint: "You have {count} free generation(s) remaining.",
+    generationsOfferedBadge: "Free generations: {used}/{max}",
     serverConfigError:
       "Import unavailable: set SERPAPI_KEY and APIFY_TOKEN on the server (.env.local).",
     quotaFallbackMessage:

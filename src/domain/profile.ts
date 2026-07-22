@@ -21,6 +21,8 @@ export type Profile = {
   voice_capture_enabled?: boolean;
   stripe_customer_id?: string | null;
   stripe_subscription_id?: string | null;
+  /** Générations IA consommées (import magic) — quota Essentiel / essai. */
+  ai_generations_count?: number;
   vitrine_presentation?: StoredVitrineConfig | null;
   /** Certifications & diplômes (badges vitrine publique). */
   certifications?: string[];

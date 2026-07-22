@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useMemo, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import type { ProImportPlatform } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
 import { LandingCta } from "@/components/landing/LandingCta";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
-import { MAX_MAGIC_IMPORT_SUCCESS } from "@/lib/onboarding/proImport/api/magicImportQuota";
+import { MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL } from "@/lib/ai/aiGenerationQuota";
 import { resolveImportClientMessage } from "@/lib/onboarding/proImport/resolveImportClientMessage";
 import {
   runProImportPipeline,
@@ -16,6 +16,8 @@ import {
 
 type ProB2BImportPanelProps = {
   copy: OnboardingDictionary;
+  aiGenerationsCount?: number;
+  /** @deprecated Préférer aiGenerationsCount */
   magicImportSuccessCount?: number;
   onSuccess: (result: ProImportPipelineResult) => void;
   onError: (message: string) => void;
@@ -24,25 +26,64 @@ type ProB2BImportPanelProps = {
 
 const PLATFORMS: ProImportPlatform[] = ["google", "instagram", "facebook"];
 
+type ImportQuotaState = {
+  used: number;
+  remaining: number;
+  max: number;
+};
+
 export function ProB2BImportPanel({
   copy,
+  aiGenerationsCount,
   magicImportSuccessCount = 0,
   onSuccess,
   onError,
   onFallbackToManual,
 }: ProB2BImportPanelProps) {
   const imp = copy.import;
+  const initialUsed = aiGenerationsCount ?? magicImportSuccessCount;
   const [platform, setPlatform] = useState<ProImportPlatform>("google");
   const [identifier, setIdentifier] = useState("");
   const [loading, setLoading] = useState(false);
   const [brandColor, setBrandColor] = useState<string | null>(null);
-  const [localUsed, setLocalUsed] = useState(magicImportSuccessCount);
+  const [quota, setQuota] = useState<ImportQuotaState>({
+    used: initialUsed,
+    remaining: Math.max(0, MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL - initialUsed),
+    max: MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL,
+  });
 
-  const importsRemaining = useMemo(
-    () => Math.max(0, MAX_MAGIC_IMPORT_SUCCESS - localUsed),
-    [localUsed],
-  );
-  const canImport = importsRemaining > 0;
+  useEffect(() => {
+    let cancelled = false;
+    void fetch("/api/import/quota")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (cancelled || !json || typeof json !== "object") return;
+        const used =
+          typeof json.aiGenerationsCount === "number"
+            ? json.aiGenerationsCount
+            : typeof json.used === "number"
+              ? json.used
+              : initialUsed;
+        const max =
+          typeof json.max === "number" ? json.max : MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL;
+        setQuota({
+          used,
+          remaining:
+            typeof json.aiGenerationsRemaining === "number"
+              ? json.aiGenerationsRemaining
+              : typeof json.remaining === "number"
+                ? json.remaining
+                : Math.max(0, max - used),
+          max,
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [initialUsed]);
+
+  const canImport = quota.remaining > 0;
 
   const placeholder =
     platform === "google"
@@ -64,10 +105,24 @@ export function ProB2BImportPanel({
     try {
       const result = await runProImportPipeline(platform, identifier);
       setBrandColor(result.brandColor);
-      if (result.magicImportSuccessCount != null) {
-        setLocalUsed(result.magicImportSuccessCount);
+      if (result.aiGenerationsCount != null) {
+        const used = result.aiGenerationsCount;
+        setQuota((prev) => ({
+          ...prev,
+          used,
+          remaining:
+            result.aiGenerationsRemaining ??
+            Math.max(0, prev.max - used),
+        }));
       } else {
-        setLocalUsed((prev) => Math.min(MAX_MAGIC_IMPORT_SUCCESS, prev + 1));
+        setQuota((prev) => {
+          const used = Math.min(prev.max, prev.used + 1);
+          return {
+            ...prev,
+            used,
+            remaining: Math.max(0, prev.max - used),
+          };
+        });
       }
       onSuccess(result);
     } catch (error) {
@@ -99,11 +154,19 @@ export function ProB2BImportPanel({
     ? ({ ["--primary-color" as string]: brandColor } as CSSProperties)
     : undefined;
 
+  const badgeLabel = useMemo(
+    () =>
+      imp.generationsOfferedBadge
+        .replace("{used}", String(quota.used))
+        .replace("{max}", String(quota.max)),
+    [imp.generationsOfferedBadge, quota.used, quota.max],
+  );
+
   return (
     <div className="space-y-4" style={panelStyle}>
-      <p className="text-xs text-neutral-600">
-        {imp.importRemainingHint.replace("{count}", String(importsRemaining))}
-      </p>
+      <span className="inline-flex items-center rounded-full bg-[#efa188]/10 px-3 py-1 text-xs font-semibold text-[#efa188]">
+        {badgeLabel}
+      </span>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
         <label className="sr-only" htmlFor="pro-import-platform">

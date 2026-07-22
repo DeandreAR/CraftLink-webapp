@@ -1,4 +1,5 @@
 import type { OnboardingProfileDraft, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
+import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuota";
 import {
   IMPORT_PROVIDER_ERROR,
   IMPORT_QUOTA_EXCEEDED,
@@ -28,6 +29,9 @@ export type ClientProImportApiResult = {
   source: "live";
   magicImportSuccessCount?: number;
   magicImportRemaining?: number;
+  aiGenerationsCount?: number;
+  aiGenerationsRemaining?: number | null;
+  unlimited?: boolean;
 };
 
 function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequiredFieldKey[] {
@@ -102,8 +106,11 @@ export async function fetchProImportApi(
   if (!response.ok) {
     const message =
       "error" in json && typeof json.error === "string" ? json.error : IMPORT_PROVIDER_ERROR;
-    if (response.status === 429 && message === IMPORT_QUOTA_EXCEEDED) {
-      throw new Error(IMPORT_QUOTA_EXCEEDED);
+    if (
+      (response.status === 403 || response.status === 429) &&
+      (message === AI_GENERATION_QUOTA_EXCEEDED || message === IMPORT_QUOTA_EXCEEDED)
+    ) {
+      throw new Error(AI_GENERATION_QUOTA_EXCEEDED);
     }
     throw new Error(
       message === SERVER_CONFIG_ERROR
@@ -120,19 +127,30 @@ export async function fetchProImportApi(
   const profile = mappedImportToProfileDraft(mapped, "#9a8468");
   const missingFields = buildMissingFields(profile);
 
+  const aiGenerationsCount =
+    "aiGenerationsCount" in json && typeof json.aiGenerationsCount === "number"
+      ? json.aiGenerationsCount
+      : "magicImportSuccessCount" in json && typeof json.magicImportSuccessCount === "number"
+        ? json.magicImportSuccessCount
+        : undefined;
+  const aiGenerationsRemaining =
+    "aiGenerationsRemaining" in json && (typeof json.aiGenerationsRemaining === "number" || json.aiGenerationsRemaining === null)
+      ? json.aiGenerationsRemaining
+      : "magicImportRemaining" in json && typeof json.magicImportRemaining === "number"
+        ? json.magicImportRemaining
+        : undefined;
+
   return {
     mapped,
     profile,
     services: mapped.services ?? [],
     missingFields,
     source: "live",
-    magicImportSuccessCount:
-      "magicImportSuccessCount" in json && typeof json.magicImportSuccessCount === "number"
-        ? json.magicImportSuccessCount
-        : undefined,
+    aiGenerationsCount,
+    aiGenerationsRemaining,
+    unlimited: "unlimited" in json && json.unlimited === true,
+    magicImportSuccessCount: aiGenerationsCount,
     magicImportRemaining:
-      "magicImportRemaining" in json && typeof json.magicImportRemaining === "number"
-        ? json.magicImportRemaining
-        : undefined,
+      typeof aiGenerationsRemaining === "number" ? aiGenerationsRemaining : undefined,
   };
 }

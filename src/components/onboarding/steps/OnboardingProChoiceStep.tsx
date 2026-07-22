@@ -7,6 +7,7 @@ import type { ProImportPipelineResult } from "@/lib/onboarding/proImport/runProI
 
 type OnboardingProChoiceStepProps = {
   copy: OnboardingDictionary;
+  aiGenerationsCount?: number;
   magicImportSuccessCount?: number;
   onStartManual: () => void;
   onImportSuccess: (result: ProImportPipelineResult) => void;
@@ -16,6 +17,7 @@ type OnboardingProChoiceStepProps = {
 
 export function OnboardingProChoiceStep({
   copy,
+  aiGenerationsCount,
   magicImportSuccessCount = 0,
   onStartManual,
   onImportSuccess,
@@ -40,7 +42,7 @@ export function OnboardingProChoiceStep({
           <p className="mb-4 text-sm text-neutral-600">{p.autoCardHint}</p>
           <ProB2BImportPanel
             copy={copy}
-            magicImportSuccessCount={magicImportSuccessCount}
+            aiGenerationsCount={aiGenerationsCount ?? magicImportSuccessCount}
             onSuccess={onImportSuccess}
             onError={onImportError}
             onFallbackToManual={onImportFallbackToManual}

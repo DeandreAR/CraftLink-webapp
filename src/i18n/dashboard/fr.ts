@@ -554,8 +554,11 @@ export const dashboardFr: DashboardDictionary = {
       "Accédez au portail sécurisé Stripe pour télécharger vos factures, mettre à jour votre carte ou résilier.",
     upgradePro: "Passer à Pro Artisan — 19 € HT/mois",
     portalError: "Impossible d'ouvrir le portail Stripe. Réessayez dans un instant.",
-    essentialFeatures: "10 partages WhatsApp/mois, page pro, QR camion.",
-    proFeatures: "Partages WhatsApp illimités, capture vocale, partenaires & marques.",
+    essentialFeatures:
+      "Page vitrine, demandes illimitées, vues Liste/Tableau/Cartes — 10 partages WhatsApp/mois.",
+    proFeatures:
+      "Tout l'Essentiel + WhatsApp illimité, Statistiques, Calendrier, Pipeline, exports et jusqu'à 3 générations IA / mois.",
+    plansCompareTitle: "Comparer les offres",
     nextBilling: "Prochain prélèvement",
     nextBillingOn: "Le {date}",
     nextBillingNone: "Aucune facturation programmée",

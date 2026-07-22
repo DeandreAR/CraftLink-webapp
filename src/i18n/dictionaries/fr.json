@@ -244,7 +244,7 @@
       ],
       "payoff": "Rentabilisé dès le 1er chantier"
     },
-    "recommendedBadge": "Recommandé",
+    "recommendedBadge": "RECOMMANDÉ",
     "tableCriterion": "Critère",
     "tableClassic": "Site vitrine classique",
     "tableCraftlink": "CraftLink",
@@ -288,30 +288,29 @@
     },
     "tierEssential": {
       "name": "ESSENTIEL",
-      "pitch": "Pour publier vite et tester vos premiers leads.",
-      "cta": "Créer ma page",
+      "pitch": "Publiez votre page et recevez des demandes sans limite.",
+      "cta": "Créer ma page gratuitement",
       "href": "/onboarding",
       "pricing": {
-        "monthly": { "amount": "0€ HT / mois" },
-        "annual": { "amount": "0€ HT / mois" }
+        "monthly": { "amount": "0 € HT / mois" },
+        "annual": { "amount": "0 € HT / mois" }
       }
     },
     "tierPro": {
       "name": "PRO ARTISAN",
-      "pitch": "Offre Early Bird — contacts WhatsApp illimités, capture vocale et image pro renforcée.",
-      "cta": "Rejoindre la Bêta Pro",
+      "pitch": "Profitez de toutes les fonctionnalités Pro gratuitement pendant 14 jours, puis verrouillez le tarif Early Bird à vie.",
+      "cta": "Commencer mes 14 jours gratuits",
       "href": "/onboarding?plan=pro",
-      "badge": "EARLY BIRD",
-      "futurePrice": "29€ HT/mois",
-      "reassurance": "Autonomie totale OU onboarding guidé en 15 min, c'est vous qui choisissez.",
+      "reassurance": "14 jours d'essai offerts • Sans carte bancaire requise",
+      "futurePrice": "29 € HT/mois",
       "pricing": {
         "monthly": {
-          "amount": "19€ HT / mois",
+          "amount": "19 € HT / mois",
           "footnote": "sans engagement"
         },
         "annual": {
-          "amount": "14€ HT / mois",
-          "footnote": "Facturé 168€ HT/an — Économisez 35%"
+          "amount": "14 € HT / mois",
+          "footnote": "Facturé 168 € HT/an — Économisez 35%"
         }
       }
     },
@@ -330,43 +329,36 @@
     },
     "featureMatrix": [
       {
-        "label": "**Page pro + lien unique** (bio, fiches)",
+        "label": "**Page vitrine pro + lien unique** (bio, fiches)",
         "essential": true,
         "pro": true
       },
       {
-        "labelEssential": "Création de page instantanée via IA (Lien Instagram, Facebook ou Google My Business)",
-        "labelPro": "Création de page enrichie **par IA** (via vos réseaux sociaux ou fiche Google)",
-        "label": "Création de page via IA",
+        "label": "**Formulaire de contact structuré** (urgence, zone, type de travaux)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "**Réception de demandes illimitée** (plus de blocage à 10 leads)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "labelEssential": "Dashboard : **Liste, Tableau et Cartes**",
+        "labelPro": "Dashboard : **Liste, Tableau, Cartes et Pipeline**",
+        "label": "Vues Dashboard",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "**Tout le Plan Essentiel** inclus",
         "essential": false,
         "pro": true,
-        "showEssential": false
+        "showEssential": false,
+        "highlightPro": true
       },
       {
-        "label": "QR Code Camion imprimable (Générique)",
-        "essential": true,
-        "pro": true
-      },
-      {
-        "label": "Formulaire texte structuré (zone, urgence)",
-        "essential": true,
-        "pro": true
-      },
-      {
-        "label": "Mise en page mobile-first & **WhatsApp direct**",
-        "essential": true,
-        "pro": true
-      },
-      {
-        "labelEssential": "Accès limité à **10 leads/mois** (Affichage flouté au-delà)",
-        "labelPro": "**Leads illimités** (Aucun blocage)",
-        "label": "CRM leads",
-        "essential": true,
-        "pro": true,
-        "essentialLimit": true
-      },
-      {
-        "labelEssential": "**10 partages WhatsApp/mois** depuis le CRM",
+        "labelEssential": "⚠️ Limité à **10 partages WhatsApp / mois** depuis le CRM",
         "labelPro": "**Partages WhatsApp illimités** depuis le CRM",
         "label": "Contact client via WhatsApp",
         "essential": true,
@@ -374,45 +366,54 @@
         "essentialLimit": true
       },
       {
-        "labelEssential": "❌ Envoi de messages vocaux structurés",
-        "labelPro": "**Capture vocale & Transcription IA automatique** du besoin client",
-        "label": "Capture vocale & tri automatique des demandes",
+        "labelEssential": "❌ Vues **Calendrier & Statistiques** de conversion",
+        "label": "Calendrier & Statistiques",
+        "essential": false,
+        "pro": false,
+        "showPro": false
+      },
+      {
+        "labelEssential": "❌ **Export des données** (CSV / Excel)",
+        "labelPro": "**Export illimité** des données (CSV / Comptabilité)",
+        "label": "Export des données",
         "essential": false,
         "pro": true
       },
       {
-        "labelEssential": "Pas d'accusé de réception automatique",
-        "labelPro": "**Accusé de réception SMS/e-mail automatique** au client final",
-        "label": "Accusé de réception automatique",
+        "labelEssential": "❌ Génération IA (**2 générations offertes**)",
+        "labelPro": "**Génération et modification IA** de la page (3 max / mois — **2 pendant l'essai 14 jours**)",
+        "label": "Génération IA de la page",
         "essential": false,
         "pro": true,
         "highlightPro": true
       },
       {
-        "labelPro": "**Section « Partenaires & Marques »** + **liens d'affiliation** nommés",
-        "label": "Section « Partenaires & Marques » + liens d'affiliation",
+        "label": "**Vue Statistiques** : suivi du taux de signature de devis & chiffre d'affaires",
         "essential": false,
-        "pro": true
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       },
       {
-        "labelEssential": "Onboarding personnalisé au démarrage",
-        "labelPro": "**Onboarding personnalisé** (Optionnel & **100% Gratuit**)",
-        "label": "Onboarding personnalisé",
+        "label": "**Vue Calendrier** : planning et organisation des interventions terrain",
         "essential": false,
-        "pro": true
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       },
       {
-        "label": "Partage de compte avec vos employés (V1.1)",
+        "label": "**Vue Pipeline** complète pour le suivi des chantiers",
         "essential": false,
-        "pro": false,
-        "showEssential": false
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       }
     ],
     "proAdvantages": [
-      "Moins de messages flous : le client a déjà structuré sa demande.",
-      "Image pro immédiate sur mobile, sans compétences web.",
-      "Séparez vos demandes de chantiers et vos partenariats marques.",
-      "Zéro maintenance technique : le produit évolue pour vous."
+      "Pilotez votre saison avec des stats de conversion et de chiffre d'affaires.",
+      "Planifiez vos interventions terrain dans un calendrier dédié.",
+      "Suivez chaque chantier de A à Z avec la vue Pipeline.",
+      "Exportez vos données pour la compta — sans limite."
     ]
   },
   "footer": {

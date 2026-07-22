@@ -203,8 +203,9 @@ export const onboardingFr: OnboardingDictionary = {
     importErrorGeneric:
       "Import {platform} impossible pour le moment. Réessayez ou continuez sans import.",
     importQuotaExceeded:
-      "Vous avez utilisé vos 3 imports automatiques. Complétez votre page manuellement.",
-    importRemainingHint: "Il vous reste {count} import(s) automatique(s).",
+      "Vous avez atteint votre quota de générations IA. Modifiez directement votre page dans votre espace ou passez à l'offre Pro pour jusqu'à 3 générations par mois.",
+    importRemainingHint: "Il vous reste {count} génération(s) offerte(s).",
+    generationsOfferedBadge: "Générations offertes : {used}/{max}",
     serverConfigError:
       "Import indisponible : configurez SERPAPI_KEY et APIFY_TOKEN côté serveur (.env.local).",
     quotaFallbackMessage:

@@ -679,6 +679,7 @@ export type DashboardDictionary = {
     portalError: string;
     essentialFeatures: string;
     proFeatures: string;
+    plansCompareTitle: string;
     nextBilling: string;
     nextBillingOn: string;
     nextBillingNone: string;
@@ -1219,6 +1220,7 @@ export type OnboardingDictionary = {
     importErrorGeneric: string;
     importQuotaExceeded: string;
     importRemainingHint: string;
+    generationsOfferedBadge: string;
     serverConfigError: string;
     quotaFallbackMessage: string;
   };

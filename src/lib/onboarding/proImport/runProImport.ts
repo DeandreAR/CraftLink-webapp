@@ -21,6 +21,9 @@ export type ProImportPipelineResult = ProImportRunResult & {
   services: OnboardingService[];
   missingFields: ReturnType<typeof getMissingProRequiredFields>;
   source: "live";
+  aiGenerationsCount?: number;
+  aiGenerationsRemaining?: number | null;
+  unlimited?: boolean;
   magicImportSuccessCount?: number;
   magicImportRemaining?: number;
 };
@@ -44,8 +47,18 @@ export async function runProImportPipeline(
   platform: ProImportPlatform,
   identifier: string,
 ): Promise<ProImportPipelineResult> {
-  const { mapped, profile: profilePatch, services, missingFields, source, magicImportSuccessCount, magicImportRemaining } =
-    await fetchProImportApi(platform, identifier);
+  const {
+    mapped,
+    profile: profilePatch,
+    services,
+    missingFields,
+    source,
+    aiGenerationsCount,
+    aiGenerationsRemaining,
+    unlimited,
+    magicImportSuccessCount,
+    magicImportRemaining,
+  } = await fetchProImportApi(platform, identifier);
 
   const brandColor = await extractBrandColorFromAvatar(mapped.avatarUrl, platform);
   const profile = mappedImportToProfileDraft(mapped, brandColor);
@@ -75,7 +88,13 @@ export async function runProImportPipeline(
     services,
     missingFields: missingFields.length > 0 ? missingFields : getMissingProRequiredFields(draft),
     source,
-    magicImportSuccessCount,
-    magicImportRemaining,
+    aiGenerationsCount,
+    aiGenerationsRemaining,
+    unlimited,
+    magicImportSuccessCount: aiGenerationsCount ?? magicImportSuccessCount,
+    magicImportRemaining:
+      typeof aiGenerationsRemaining === "number"
+        ? aiGenerationsRemaining
+        : magicImportRemaining,
   };
 }

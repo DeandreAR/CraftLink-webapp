@@ -23,6 +23,7 @@ const PROFILE_COLUMNS = [
   "voice_capture_enabled",
   "stripe_customer_id",
   "stripe_subscription_id",
+  "ai_generations_count",
   "vitrine_presentation",
   "certifications",
   "created_at",
@@ -60,6 +61,8 @@ function mapProfile(row: Record<string, unknown>): Profile {
         : undefined,
     stripe_customer_id: (row.stripe_customer_id as string | null) ?? null,
     stripe_subscription_id: (row.stripe_subscription_id as string | null) ?? null,
+    ai_generations_count:
+      typeof row.ai_generations_count === "number" ? row.ai_generations_count : 0,
     vitrine_presentation: row.vitrine_presentation
       ? parseStoredVitrineConfig(row.vitrine_presentation)
       : null,

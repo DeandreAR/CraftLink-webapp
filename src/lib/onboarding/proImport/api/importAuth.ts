@@ -4,6 +4,8 @@ import { IMPORT_AUTH_REQUIRED } from "@/lib/onboarding/proImport/api/constants";
 
 export type ImportAuthContext = {
   userId: string;
+  planTier: string;
+  aiGenerationsCount: number;
   vitrinePresentation: unknown;
 };
 
@@ -19,7 +21,7 @@ export async function getImportAuthContext(): Promise<ImportAuthContext | NextRe
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("vitrine_presentation")
+    .select("plan_tier, ai_generations_count, vitrine_presentation")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -29,6 +31,9 @@ export async function getImportAuthContext(): Promise<ImportAuthContext | NextRe
 
   return {
     userId: user.id,
+    planTier: String(profile?.plan_tier ?? ""),
+    aiGenerationsCount:
+      typeof profile?.ai_generations_count === "number" ? profile.ai_generations_count : 0,
     vitrinePresentation: profile?.vitrine_presentation ?? null,
   };
 }

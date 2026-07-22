@@ -244,7 +244,7 @@
       ],
       "payoff": "Paid back from your 1st job"
     },
-    "recommendedBadge": "Recommended",
+    "recommendedBadge": "RECOMMENDED",
     "tableCriterion": "Criterion",
     "tableClassic": "Classic brochure website",
     "tableCraftlink": "CraftLink",
@@ -288,8 +288,8 @@
     },
     "tierEssential": {
       "name": "ESSENTIAL",
-      "pitch": "Publish fast and test your first leads.",
-      "cta": "Create my page",
+      "pitch": "Publish your page and receive unlimited enquiries.",
+      "cta": "Create my page for free",
       "href": "/onboarding",
       "pricing": {
         "monthly": { "amount": "€0 excl. VAT / month" },
@@ -297,13 +297,12 @@
       }
     },
     "tierPro": {
-      "name": "PRO TRADESPERSON",
-      "pitch": "Early Bird — unlimited WhatsApp contacts, voice capture, and a stronger pro image.",
-      "cta": "Join Pro Beta",
+      "name": "PRO ARTISAN",
+      "pitch": "Enjoy every Pro feature free for 14 days, then lock in the Early Bird rate for life.",
+      "cta": "Start my 14-day free trial",
       "href": "/onboarding?plan=pro",
-      "badge": "EARLY BIRD",
+      "reassurance": "14-day free trial • No credit card required",
       "futurePrice": "€29 excl. VAT/month",
-      "reassurance": "Full autonomy OR a free 15‑min guided onboarding — your choice.",
       "pricing": {
         "monthly": {
           "amount": "€19 excl. VAT / month",
@@ -330,43 +329,36 @@
     },
     "featureMatrix": [
       {
-        "label": "**Pro page + single link** (bio, listings)",
+        "label": "**Pro storefront + single link** (bio, listings)",
         "essential": true,
         "pro": true
       },
       {
-        "labelEssential": "Instant AI page creation (Instagram, Facebook or Google Business link)",
-        "labelPro": "Page creation enriched **by AI** (via your social profiles or Google listing)",
-        "label": "AI page creation",
+        "label": "**Structured contact form** (urgency, area, job type)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "**Unlimited enquiry intake** (no 10-lead cap)",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "labelEssential": "Dashboard: **List, Table and Cards**",
+        "labelPro": "Dashboard: **List, Table, Cards and Pipeline**",
+        "label": "Dashboard views",
+        "essential": true,
+        "pro": true
+      },
+      {
+        "label": "**Everything in Essential** included",
         "essential": false,
         "pro": true,
-        "showEssential": false
+        "showEssential": false,
+        "highlightPro": true
       },
       {
-        "label": "Printable van QR code (generic)",
-        "essential": true,
-        "pro": true
-      },
-      {
-        "label": "Structured text form (area, urgency)",
-        "essential": true,
-        "pro": true
-      },
-      {
-        "label": "Mobile-first layout & **direct WhatsApp**",
-        "essential": true,
-        "pro": true
-      },
-      {
-        "labelEssential": "Limited to **10 leads/month** (blurred beyond that)",
-        "labelPro": "**Unlimited leads** (no blocking)",
-        "label": "Lead CRM",
-        "essential": true,
-        "pro": true,
-        "essentialLimit": true
-      },
-      {
-        "labelEssential": "**10 WhatsApp shares/month** from the CRM",
+        "labelEssential": "⚠️ Limited to **10 WhatsApp shares / month** from the CRM",
         "labelPro": "**Unlimited WhatsApp shares** from the CRM",
         "label": "Client contact via WhatsApp",
         "essential": true,
@@ -374,45 +366,54 @@
         "essentialLimit": true
       },
       {
-        "labelEssential": "❌ Structured voice messages",
-        "labelPro": "**Voice capture & automatic AI transcription** of customer needs",
-        "label": "Voice capture & automatic request sorting",
+        "labelEssential": "❌ **Calendar & Statistics** conversion views",
+        "label": "Calendar & Statistics",
+        "essential": false,
+        "pro": false,
+        "showPro": false
+      },
+      {
+        "labelEssential": "❌ **Data export** (CSV / Excel)",
+        "labelPro": "**Unlimited data export** (CSV / Accounting)",
+        "label": "Data export",
         "essential": false,
         "pro": true
       },
       {
-        "labelEssential": "No automatic acknowledgement",
-        "labelPro": "**Automatic SMS/email acknowledgement** to the end customer",
-        "label": "Automatic acknowledgement",
+        "labelEssential": "❌ AI generation (**2 free generations**)",
+        "labelPro": "**AI page generation and edits** (3 max / month — **2 during the 14-day trial**)",
+        "label": "AI page generation",
         "essential": false,
         "pro": true,
         "highlightPro": true
       },
       {
-        "labelPro": "**“Partners & Brands” section** + **named affiliate links**",
-        "label": "“Partners & Brands” section + affiliate links",
+        "label": "**Statistics view**: quote win rate & revenue tracking",
         "essential": false,
-        "pro": true
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       },
       {
-        "labelEssential": "Personal onboarding at signup",
-        "labelPro": "**Personal onboarding** (optional & **100% free**)",
-        "label": "Personal onboarding",
+        "label": "**Calendar view**: field job planning and organisation",
         "essential": false,
-        "pro": true
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       },
       {
-        "label": "Shared account for your employees (v1.1)",
+        "label": "Full **Pipeline view** for job tracking",
         "essential": false,
-        "pro": false,
-        "showEssential": false
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       }
     ],
     "proAdvantages": [
-      "Fewer vague messages: the customer already structured their request.",
-      "Instant pro image on mobile, with zero web skills.",
-      "Separate job enquiries from brand partnership requests.",
-      "Zero technical maintenance: the product evolves for you."
+      "Steer your season with conversion stats and revenue tracking.",
+      "Plan field jobs in a dedicated calendar.",
+      "Track every job end-to-end with the Pipeline view.",
+      "Export your data for accounting — with no limits."
     ]
   },
   "footer": {

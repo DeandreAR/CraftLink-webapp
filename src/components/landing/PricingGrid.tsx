@@ -25,6 +25,9 @@ type PricingGridProps = {
   actions?: PricingGridActions;
   /** `grid` = 3 colonnes landing classique ; `split` = pile verticale pour split-screen tarifs. */
   layout?: "grid" | "split";
+  showCustomTier?: boolean;
+  showBetaBadge?: boolean;
+  showProAdvantages?: boolean;
 };
 
 function isFeatureVisible(row: FeatureMatrixRowJson, tierKey: TierKey): boolean {
@@ -243,6 +246,9 @@ export function PricingGrid({
   locale = defaultLocale,
   actions,
   layout = "grid",
+  showCustomTier = true,
+  showBetaBadge = false,
+  showProAdvantages = true,
 }: PricingGridProps) {
   const { copy } = model;
   const [proPeriod, setProPeriod] = useState<BillingPeriod>("monthly");
@@ -310,10 +316,10 @@ export function PricingGrid({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay: 0.08 }}
       whileHover={isSplit ? undefined : { y: -4, scale: 1.01 }}
-      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-[0_2px_15px_rgba(0,0,0,0.03)] ${
+      className={`relative flex flex-col overflow-hidden rounded-2xl border-2 bg-white shadow-[0_2px_15px_rgba(0,0,0,0.03)] ${
         isSplit
-          ? "z-10 -my-2 border-[#efa188]/50 p-6 md:-my-3 md:p-8"
-          : "border-[#efa188]/45 p-6 md:p-8 lg:scale-[1.02]"
+          ? "z-10 -my-2 border-[#efa188] p-6 md:-my-3 md:p-8"
+          : "border-[#efa188] p-6 md:p-8 lg:scale-[1.02]"
       }`}
     >
       <div
@@ -321,11 +327,15 @@ export function PricingGrid({
         aria-hidden
       />
 
+      <span className="mb-4 inline-flex w-full items-center justify-center rounded-full border border-[#efa188]/30 bg-[#efa188]/10 px-4 py-2 text-center text-[10px] font-semibold uppercase leading-snug tracking-[0.1em] text-zinc-700 sm:text-[11px]">
+        {copy.betaPioneerBadge}
+      </span>
+
       <div className="flex flex-wrap items-center gap-2">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600">
           {pro.name}
         </p>
-        <span className="rounded-full border border-[#efa188]/30 bg-[#efa188]/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c45c3e]">
+        <span className="rounded-full border border-[#efa188]/40 bg-[#efa188]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#c45c3e]">
           {copy.recommendedBadge}
         </span>
         {pro.badge ? (
@@ -337,19 +347,26 @@ export function PricingGrid({
 
       <p className="mt-2 text-base font-medium text-neutral-700">{pro.pitch}</p>
 
-      {proFuturePrice ? (
-        <p className="mt-4 text-sm text-neutral-400 line-through decoration-neutral-300">
-          {proFuturePrice}
-        </p>
-      ) : null}
-
       <ProBillingSwitch copy={copy.billing} period={proPeriod} onChange={setProPeriod} />
 
-      <p className="mt-4 text-3xl font-bold tracking-tight text-black md:text-4xl">
-        {proPrice.amount}
-      </p>
+      <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <p className="text-3xl font-bold tracking-tight text-black md:text-4xl">
+          {proPrice.amount}
+        </p>
+        {proFuturePrice ? (
+          <p className="text-lg font-medium text-neutral-400 line-through decoration-neutral-300">
+            {proFuturePrice}
+          </p>
+        ) : null}
+      </div>
       {proPrice.footnote ? (
         <p className="mt-1 text-xs font-medium text-neutral-600">{proPrice.footnote}</p>
+      ) : null}
+
+      {copy.tierPro.reassurance ? (
+        <p className="mt-3 text-sm font-medium leading-relaxed text-[#5b6478]">
+          {copy.tierPro.reassurance}
+        </p>
       ) : null}
 
       <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500">
@@ -361,6 +378,7 @@ export function PricingGrid({
         {isOnboardingMode && actions ? (
           <LandingCta
             type="button"
+            variant="peach"
             className="w-full justify-center"
             onClick={() => actions.onSelectPro(proPeriod)}
           >
@@ -369,17 +387,13 @@ export function PricingGrid({
         ) : (
           <LandingCta
             href={onboardingPath(locale, { plan: "pro", billing: proPeriod })}
+            variant="peach"
             className="w-full justify-center"
           >
             {pro.cta}
           </LandingCta>
         )}
       </div>
-      {copy.tierPro.reassurance ? (
-        <p className="mt-3 text-center text-xs leading-relaxed text-neutral-600">
-          {copy.tierPro.reassurance}
-        </p>
-      ) : null}
     </motion.div>
   );
 
@@ -425,47 +439,55 @@ export function PricingGrid({
 
   return (
     <>
-      <motion.div
-        initial={false}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.4 }}
-        className={`flex justify-center ${isSplit ? "mt-0" : "mt-10"}`}
-      >
-        <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#efa188]/30 bg-[#efa188]/10 px-5 py-2.5 text-center text-[11px] font-semibold uppercase leading-snug tracking-[0.12em] text-zinc-700 sm:text-xs">
-          {copy.betaPioneerBadge}
-        </span>
-      </motion.div>
+      {showBetaBadge ? (
+        <motion.div
+          initial={false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4 }}
+          className={`flex justify-center ${isSplit ? "mt-0" : "mt-10"}`}
+        >
+          <span className="inline-flex max-w-xl items-center justify-center rounded-full border border-[#efa188]/30 bg-[#efa188]/10 px-5 py-2.5 text-center text-[11px] font-semibold uppercase leading-snug tracking-[0.12em] text-zinc-700 sm:text-xs">
+            {copy.betaPioneerBadge}
+          </span>
+        </motion.div>
+      ) : null}
 
       {isSplit ? (
-        <div className="mt-6 flex flex-col gap-4 md:gap-5">
+        <div className={`flex flex-col gap-4 md:gap-5 ${showBetaBadge ? "mt-6" : "mt-0"}`}>
           {essentialCard}
           {proCard}
-          {customCard}
+          {showCustomTier ? customCard : null}
         </div>
       ) : (
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-10 lg:grid-cols-3 lg:items-stretch">
+        <div
+          className={`grid grid-cols-1 gap-6 lg:items-stretch ${
+            showCustomTier ? "mt-8 lg:mt-10 lg:grid-cols-3" : "mt-8 lg:mt-10 lg:grid-cols-2"
+          }`}
+        >
           {essentialCard}
           {proCard}
-          {customCard}
+          {showCustomTier ? customCard : null}
         </div>
       )}
 
-      <div className={`rounded-2xl border border-[#5fecd5]/35 bg-[#5fecd5]/10 p-6 md:p-8 ${isSplit ? "mt-6" : "mt-10"}`}>
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-zinc-800">
-          {copy.proAdvantagesTitle}
-        </p>
-        <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-          {model.proAdvantages.map((line) => (
-            <li key={line} className="flex gap-2 text-sm leading-snug text-neutral-900 md:text-base">
-              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-[#0F766E]">
-                <IconCheck className="h-3.5 w-3.5" />
-              </span>
-              <span>{line}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {showProAdvantages ? (
+        <div className={`rounded-2xl border border-[#5fecd5]/35 bg-[#5fecd5]/10 p-6 md:p-8 ${isSplit ? "mt-6" : "mt-10"}`}>
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-zinc-800">
+            {copy.proAdvantagesTitle}
+          </p>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            {model.proAdvantages.map((line) => (
+              <li key={line} className="flex gap-2 text-sm leading-snug text-neutral-900 md:text-base">
+                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center text-[#0F766E]">
+                  <IconCheck className="h-3.5 w-3.5" />
+                </span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </>
   );
 }

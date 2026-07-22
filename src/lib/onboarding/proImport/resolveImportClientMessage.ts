@@ -1,6 +1,7 @@
 import type { ProImportPlatform } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
+import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuota";
 import {
   APIFY_AUTH_ERROR,
   IMPORT_FACEBOOK_NOT_FOUND,
@@ -32,7 +33,7 @@ export function resolveImportClientMessage(
 
   const raw = error instanceof Error ? error.message : "";
 
-  if (raw === IMPORT_QUOTA_EXCEEDED) {
+  if (raw === AI_GENERATION_QUOTA_EXCEEDED || raw === IMPORT_QUOTA_EXCEEDED) {
     return copy.importQuotaExceeded;
   }
 
