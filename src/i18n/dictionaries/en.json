@@ -339,7 +339,7 @@
         "pro": true
       },
       {
-        "label": "**Unlimited enquiry intake** (no 10-lead cap)",
+        "label": "**Unlimited enquiry intake**",
         "essential": true,
         "pro": true
       },
@@ -351,11 +351,11 @@
         "pro": true
       },
       {
-        "label": "**Everything in Essential** included",
-        "essential": false,
-        "pro": true,
-        "showEssential": false,
-        "highlightPro": true
+        "labelEssential": "✅ **On-screen notifications**",
+        "labelPro": "✅ **On-screen notifications** + **Email** alerts",
+        "label": "Notifications",
+        "essential": true,
+        "pro": true
       },
       {
         "labelEssential": "⚠️ Limited to **10 WhatsApp shares / month** from the CRM",
@@ -380,9 +380,9 @@
         "pro": true
       },
       {
-        "labelEssential": "❌ AI generation (**2 free generations**)",
-        "labelPro": "**AI page generation and edits** (3 max / month — **2 during the 14-day trial**)",
-        "label": "AI page generation",
+        "labelEssential": "❌ Automatic generation",
+        "labelPro": "**Automatic generation**",
+        "label": "Automatic generation",
         "essential": false,
         "pro": true,
         "highlightPro": true
@@ -410,6 +410,7 @@
       }
     ],
     "proAdvantages": [
+      "Get leads via phone notifications — no external setup.",
       "Steer your season with conversion stats and revenue tracking.",
       "Plan field jobs in a dedicated calendar.",
       "Track every job end-to-end with the Pipeline view.",

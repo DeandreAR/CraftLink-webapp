@@ -558,9 +558,9 @@ export const dashboardEn: DashboardDictionary = {
     upgradePro: "Upgrade to Pro Artisan — €19 excl. VAT/month",
     portalError: "Could not open the Stripe portal. Please try again shortly.",
     essentialFeatures:
-      "Storefront page, unlimited enquiries, List/Table/Cards views — 10 WhatsApp shares/month.",
+      "Storefront page, unlimited enquiries, on-screen notifications — 10 CRM WhatsApp shares/month.",
     proFeatures:
-      "Everything in Essential + unlimited WhatsApp, Statistics, Calendar, Pipeline, exports and up to 3 AI generations per month.",
+      "On-screen notifications + Email, Stats, Calendar, Pipeline, unlimited CRM WhatsApp, exports and automatic generation.",
     plansCompareTitle: "Compare plans",
     nextBilling: "Next charge",
     nextBillingOn: "On {date}",

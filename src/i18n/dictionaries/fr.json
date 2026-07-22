@@ -339,7 +339,7 @@
         "pro": true
       },
       {
-        "label": "**Réception de demandes illimitée** (plus de blocage à 10 leads)",
+        "label": "**Réception de demandes illimitée**",
         "essential": true,
         "pro": true
       },
@@ -351,11 +351,11 @@
         "pro": true
       },
       {
-        "label": "**Tout le Plan Essentiel** inclus",
-        "essential": false,
-        "pro": true,
-        "showEssential": false,
-        "highlightPro": true
+        "labelEssential": "✅ **Notifications sur l'écran**",
+        "labelPro": "✅ **Notifications sur l'écran** + alertes **Email**",
+        "label": "Notifications",
+        "essential": true,
+        "pro": true
       },
       {
         "labelEssential": "⚠️ Limité à **10 partages WhatsApp / mois** depuis le CRM",
@@ -380,9 +380,9 @@
         "pro": true
       },
       {
-        "labelEssential": "❌ Génération IA (**2 générations offertes**)",
-        "labelPro": "**Génération et modification IA** de la page (3 max / mois — **2 pendant l'essai 14 jours**)",
-        "label": "Génération IA de la page",
+        "labelEssential": "❌ Génération automatique",
+        "labelPro": "**Génération automatique**",
+        "label": "Génération automatique",
         "essential": false,
         "pro": true,
         "highlightPro": true
@@ -410,6 +410,7 @@
       }
     ],
     "proAdvantages": [
+      "Recevez vos demandes par notification téléphone, sans config externe.",
       "Pilotez votre saison avec des stats de conversion et de chiffre d'affaires.",
       "Planifiez vos interventions terrain dans un calendrier dédié.",
       "Suivez chaque chantier de A à Z avec la vue Pipeline.",

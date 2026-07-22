@@ -1,5 +1,6 @@
 import "server-only";
 
+import { isProUser } from "@/domain/proAccess";
 import { buildAppUrl } from "@/config/app";
 import type { ArtisanEmailProfile } from "@/lib/email/sendClientAcknowledgmentEmail";
 import { sendArtisanNewLeadEmail } from "@/lib/email/sendArtisanNewLeadEmail";
@@ -70,23 +71,45 @@ async function sendPushToArtisan(
   );
 }
 
+async function artisanHasProAccess(userId: string): Promise<boolean> {
+  const admin = createAdminClient();
+  if (!admin) return false;
+
+  const { data } = await admin
+    .from("profiles")
+    .select("is_subscribed, trial_ends_at, plan_tier")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (!data) return false;
+  return isProUser(data);
+}
+
 /**
- * Notifications post-capture : push + email artisan (+ accusé client optionnel).
- * À appeler via `after()` pour ne pas bloquer la réponse HTTP.
+ * Notifications post-capture (async via `after()`) :
+ * - Notification téléphone (Push) : tous plans
+ * - Email artisan : Plan Pro / essai uniquement
+ * - Accusé client : optionnel
  */
 export async function notifyNewLead(input: NotifyNewLeadInput): Promise<void> {
   const tasks: Promise<unknown>[] = [
     sendPushToArtisan(input.workspaceUserId, input.lead.id),
-    sendArtisanNewLeadEmail(input.artisan, {
-      leadId: input.lead.id,
-      requestNumber: input.lead.requestNumber,
-      clientName: input.lead.clientName,
-      zone: input.lead.zone,
-      delayStatus: input.lead.delayStatus,
-      workType: input.lead.workType,
-      description: input.lead.description,
-    }),
   ];
+
+  const isPro = await artisanHasProAccess(input.workspaceUserId);
+  if (isPro) {
+    tasks.push(
+      sendArtisanNewLeadEmail(input.artisan, {
+        leadId: input.lead.id,
+        requestNumber: input.lead.requestNumber,
+        clientName: input.lead.clientName,
+        zone: input.lead.zone,
+        delayStatus: input.lead.delayStatus,
+        workType: input.lead.workType,
+        description: input.lead.description,
+      }),
+    );
+  }
 
   if (input.sendClientAck !== false) {
     tasks.push(

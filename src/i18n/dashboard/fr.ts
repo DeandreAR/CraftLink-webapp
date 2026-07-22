@@ -560,9 +560,9 @@ export const dashboardFr: DashboardDictionary = {
     upgradePro: "Passer à Pro Artisan — 19 € HT/mois",
     portalError: "Impossible d'ouvrir le portail Stripe. Réessayez dans un instant.",
     essentialFeatures:
-      "Page vitrine, demandes illimitées, vues Liste/Tableau/Cartes — 10 partages WhatsApp/mois.",
+      "Page vitrine, demandes illimitées, notifications sur l'écran — 10 partages WhatsApp CRM/mois.",
     proFeatures:
-      "Tout l'Essentiel + WhatsApp illimité, Statistiques, Calendrier, Pipeline, exports et jusqu'à 3 générations IA / mois.",
+      "Notifications sur l'écran + Email, Stats, Calendrier, Pipeline, WhatsApp CRM illimité, exports et génération automatique.",
     plansCompareTitle: "Comparer les offres",
     nextBilling: "Prochain prélèvement",
     nextBillingOn: "Le {date}",
