@@ -14,6 +14,10 @@ const EVENT_STYLES: Record<
     label: "Inscription",
     className: "border-sky-500/30 bg-sky-500/10 text-sky-200",
   },
+  trial_active: {
+    label: "Essai",
+    className: "border-[#efa188]/40 bg-[#efa188]/10 text-[#efa188]",
+  },
   upgrade_pro: {
     label: "Pro",
     className: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
@@ -32,7 +36,7 @@ export function AdminRecentActivityTable({ events }: AdminRecentActivityTablePro
   return (
     <AdminSection
       title="Activité récente"
-      description="Les 10 derniers événements significatifs (inscriptions, upgrades, urgences, erreurs API)."
+      description="Les 10 derniers événements significatifs (inscriptions, essais, upgrades, urgences, erreurs API)."
     >
       <AdminCard className="overflow-x-auto p-0">
         <table className="w-full min-w-[640px] text-left text-sm">

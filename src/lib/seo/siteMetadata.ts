@@ -45,13 +45,19 @@ export function buildPageOpenGraph(options: {
   title: string;
   description: string;
   path?: string;
+  imageUrl?: string | null;
 }): Metadata["openGraph"] {
   const url = options.path ? buildAppUrl(options.path) : getAppUrl();
+  const images = options.imageUrl
+    ? [{ url: options.imageUrl, width: 1200, height: 630, alt: options.title }]
+    : undefined;
+
   return {
     title: options.title,
     description: options.description,
     url,
     siteName: SITE_NAME,
     type: "website",
+    ...(images ? { images } : {}),
   };
 }

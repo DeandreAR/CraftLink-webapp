@@ -16,12 +16,34 @@ export type ApiUsageLogRow = {
 export type AdminKpiSnapshot = {
   totalArtisans: number;
   artisansDelta7d: number;
-  activePro: number;
+  /** Abonnements Stripe actifs (`is_subscribed`). */
+  subscribedPro: number;
+  /** Essais 14j encore valides (non abonnés). */
+  activeTrials: number;
+  /** Ni abonné ni essai actif. */
   activeEssential: number;
+  /** Inscriptions → abonnés payants. */
   conversionRatePercent: number;
+  /** Essais terminés (convertis ou expirés) → abonnés. */
+  trialConversionRatePercent: number;
   mrrEur: number;
   totalLeads: number;
   urgencyLeads: number;
+};
+
+/** Funnel essai Pro 14 jours → abonnement. */
+export type AdminTrialFunnelSnapshot = {
+  trialsStarted: number;
+  trialsStarted7d: number;
+  trialsStarted30d: number;
+  activeTrials: number;
+  trialsExpiringSoon: number;
+  expiredTrials: number;
+  convertedToPro: number;
+  trialConversionRatePercent: number;
+  emailsMidSent: number;
+  emailsWarningSent: number;
+  emailsExpiredSent: number;
 };
 
 export type ApiModelUsageRow = {
@@ -52,6 +74,7 @@ export type ApiUsageSummary = {
 
 export type AdminActivityEventType =
   | "signup"
+  | "trial_active"
   | "upgrade_pro"
   | "urgency_lead"
   | "api_failure";
@@ -82,6 +105,7 @@ export type AdminAnalyticsDataSource = {
 export type AdminAnalyticsDashboard = {
   generatedAt: string;
   kpis: AdminKpiSnapshot;
+  trialFunnel: AdminTrialFunnelSnapshot;
   storage: AdminStorageSnapshot;
   apiUsage: ApiUsageSummary;
   recentActivity: AdminActivityEvent[];

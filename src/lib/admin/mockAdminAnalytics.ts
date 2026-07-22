@@ -138,38 +138,38 @@ function buildMockActivity(): AdminActivityEvent[] {
     },
     {
       id: "evt-04",
+      type: "trial_active",
+      title: "Essai Pro en cours",
+      detail: "Carrelage Moreau — J+5 / 14",
+      occurredAt: new Date(base - 3 * 3_600_000).toISOString(),
+    },
+    {
+      id: "evt-05",
       type: "api_failure",
       title: "Échec API OpenAI",
       detail: "whisper-1 — timeout transcription (lead #3847)",
       occurredAt: new Date(base - 4 * 3_600_000).toISOString(),
     },
     {
-      id: "evt-05",
+      id: "evt-06",
       type: "signup",
       title: "Nouvelle inscription",
       detail: "Chauffage Lefèvre — onboarding complété",
       occurredAt: new Date(base - 6 * 3_600_000).toISOString(),
     },
     {
-      id: "evt-06",
+      id: "evt-07",
       type: "urgency_lead",
       title: "Lead formulaire urgent",
       detail: "Fuite sous évier — Massy (92100)",
       occurredAt: new Date(base - 9 * 3_600_000).toISOString(),
     },
     {
-      id: "evt-07",
+      id: "evt-08",
       type: "upgrade_pro",
       title: "Passage Pro",
-      detail: "Peinture Rousseau — offre Bêta mensuelle",
+      detail: "Peinture Rousseau — conversion essai → abonnement",
       occurredAt: new Date(base - 14 * 3_600_000).toISOString(),
-    },
-    {
-      id: "evt-08",
-      type: "signup",
-      title: "Nouvelle inscription",
-      detail: "Serrurerie Benali — import Instagram",
-      occurredAt: new Date(base - 20 * 3_600_000).toISOString(),
     },
     {
       id: "evt-09",
@@ -180,9 +180,9 @@ function buildMockActivity(): AdminActivityEvent[] {
     },
     {
       id: "evt-10",
-      type: "signup",
-      title: "Nouvelle inscription",
-      detail: "Couverture Garnier — Plan Essentiel",
+      type: "trial_active",
+      title: "Essai Pro en cours",
+      detail: "Serrurerie Benali — expire dans 48 h",
       occurredAt: new Date(base - 36 * 3_600_000).toISOString(),
     },
   ];
@@ -190,23 +190,47 @@ function buildMockActivity(): AdminActivityEvent[] {
 
 /** Données fictives isolées — remplacées par Supabase quand les KPIs live échouent. */
 export function buildMockAdminAnalyticsDashboard(): AdminAnalyticsDashboard {
-  const activePro = 23;
-  const activeEssential = 87;
-  const totalArtisans = activePro + activeEssential;
+  const subscribedPro = 18;
+  const activeTrials = 31;
+  const expiredTrials = 42;
+  const activeEssential = 19;
+  const totalArtisans = subscribedPro + activeTrials + expiredTrials + activeEssential;
+  const completedTrials = subscribedPro + expiredTrials;
+  const trialConversionRatePercent =
+    completedTrials > 0
+      ? Math.round((subscribedPro / completedTrials) * 1000) / 10
+      : 0;
+  const conversionRatePercent =
+    totalArtisans > 0 ? Math.round((subscribedPro / totalArtisans) * 1000) / 10 : 0;
 
   return {
     generatedAt: new Date().toISOString(),
     kpis: {
       totalArtisans,
       artisansDelta7d: 9,
-      activePro,
+      subscribedPro,
+      activeTrials,
       activeEssential,
-      conversionRatePercent: totalArtisans > 0 ? (activePro / totalArtisans) * 100 : 0,
-      mrrEur: activePro * PRO_MONTHLY_SUBSCRIPTION_EUR,
+      conversionRatePercent,
+      trialConversionRatePercent,
+      mrrEur: subscribedPro * PRO_MONTHLY_SUBSCRIPTION_EUR,
       totalLeads: 1_284,
       urgencyLeads: 96,
     },
-    apiUsage: buildMockApiUsage(activePro),
+    trialFunnel: {
+      trialsStarted: subscribedPro + activeTrials + expiredTrials,
+      trialsStarted7d: 11,
+      trialsStarted30d: 47,
+      activeTrials,
+      trialsExpiringSoon: 6,
+      expiredTrials,
+      convertedToPro: subscribedPro,
+      trialConversionRatePercent,
+      emailsMidSent: 54,
+      emailsWarningSent: 38,
+      emailsExpiredSent: 29,
+    },
+    apiUsage: buildMockApiUsage(subscribedPro),
     storage: buildMockStorage(),
     recentActivity: buildMockActivity(),
     dataSource: {

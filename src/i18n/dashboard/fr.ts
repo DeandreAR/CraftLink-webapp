@@ -473,13 +473,24 @@ export const dashboardFr: DashboardDictionary = {
     affiliateLinks: {
       title: "Liens d'affiliation & codes partenaires",
       hint:
-        "Nom, réduction et lien — affichés sur votre vitrine Pro pour vos clients.",
+        "Nom, réduction, lien et image d’aperçu — à partager sur les réseaux (aperçu produit ou votre image).",
       nameLabel: "Nom du lien",
       namePlaceholder: "Ex. Code Leroy Merlin",
       discountLabel: "Réduction",
       discountPlaceholder: "Ex. -10 %, livraison offerte",
       urlLabel: "URL",
       urlPlaceholder: "https://…",
+      imageLabel: "Image d’aperçu (optionnel)",
+      imageHint:
+        "Prioritaire sur l’aperçu produit. Sinon CraftLink tente l’image Open Graph du lien.",
+      imageUpload: "Ajouter une image",
+      imageRemove: "Retirer",
+      imageUploading: "Envoi…",
+      shareTitle: "Liens à poster sur les réseaux",
+      shareHint:
+        "Copiez ces URLs CraftLink : le post affichera votre image ou l’aperçu produit.",
+      shareCopy: "Copier",
+      shareCopied: "Copié",
       add: "Ajouter un lien",
       remove: "Supprimer",
       maxReached: "Maximum de 12 liens.",

@@ -471,13 +471,25 @@ export const dashboardEn: DashboardDictionary = {
     },
     affiliateLinks: {
       title: "Affiliate & partner links",
-      hint: "Name, discount and link — shown on your Pro storefront for clients.",
+      hint:
+        "Name, discount, link and preview image — for social posts (product preview or your image).",
       nameLabel: "Link name",
       namePlaceholder: "E.g. Leroy Merlin code",
       discountLabel: "Discount",
       discountPlaceholder: "E.g. -10%, free delivery",
       urlLabel: "URL",
       urlPlaceholder: "https://…",
+      imageLabel: "Preview image (optional)",
+      imageHint:
+        "Takes priority over the product preview. Otherwise CraftLink tries the link’s Open Graph image.",
+      imageUpload: "Add an image",
+      imageRemove: "Remove",
+      imageUploading: "Uploading…",
+      shareTitle: "Links to post on social",
+      shareHint:
+        "Copy these CraftLink URLs — the post will show your image or the product preview.",
+      shareCopy: "Copy",
+      shareCopied: "Copied",
       add: "Add a link",
       remove: "Remove",
       maxReached: "Maximum of 12 links.",

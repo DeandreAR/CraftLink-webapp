@@ -28,6 +28,7 @@ export const APP_RESERVED_SLUGS = new Set<string>([
   "webhook",
   "webhooks",
   "share",
+  "aff",
   "admin",
   "static",
   "_next",

@@ -88,7 +88,9 @@ export function buildOnboardingPreviewProps(
     vitrineCopy.presentation.followersLabel,
     locale,
   );
-  const affiliateLinks = onboardingAffiliateToVitrineLinks(profile.affiliateLinks ?? []);
+  const affiliateLinks = onboardingAffiliateToVitrineLinks(profile.affiliateLinks ?? [], {
+    pageSlug: profile.pageSlug,
+  });
   const hasSocial = socialLinks.length > 0;
   const hasAffiliateLinks = affiliateLinks.length > 0 && plan === "PRO";
   const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;

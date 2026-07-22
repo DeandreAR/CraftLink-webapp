@@ -20,9 +20,17 @@ export function VitrineAffiliateLinks({ links, title }: VitrineAffiliateLinksPro
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm font-semibold text-neutral-900 shadow-sm transition hover:border-[#EFA188]/50 hover:bg-[#EFA188]/5"
+              className="flex items-center gap-3 rounded-2xl border border-neutral-200 bg-white px-3 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm transition hover:border-[#EFA188]/50 hover:bg-[#EFA188]/5"
             >
-              <span>{link.label}</span>
+              {link.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={link.imageUrl}
+                  alt=""
+                  className="h-12 w-12 shrink-0 rounded-xl object-cover bg-neutral-100"
+                />
+              ) : null}
+              <span className="min-w-0 flex-1">{link.label}</span>
               <span className="flex shrink-0 items-center gap-2">
                 {link.discount ? (
                   <span className="rounded-full bg-[#EFA188]/20 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-[#c45a3a]">

@@ -4,6 +4,7 @@ import { AdminKpiGrid } from "@/components/admin/analytics/AdminKpiGrid";
 import { AdminRecentActivityTable } from "@/components/admin/analytics/AdminRecentActivityTable";
 import { AdminSection, AdminShell } from "@/components/admin/analytics/AdminShell";
 import { AdminStorageSection } from "@/components/admin/analytics/AdminStorageSection";
+import { AdminTrialFunnelSection } from "@/components/admin/analytics/AdminTrialFunnelSection";
 
 type AdminAnalyticsDashboardProps = {
   data: AdminAnalyticsDashboard;
@@ -30,9 +31,14 @@ export function AdminAnalyticsDashboardView({
       generatedAt={data.generatedAt}
       dataSourceLabel={buildDataSourceLabel(data)}
     >
-      <AdminSection title="Vue d'ensemble" description="KPIs globaux CraftLink.">
+      <AdminSection
+        title="Vue d'ensemble"
+        description="KPIs globaux CraftLink (abonnements & essais)."
+      >
         <AdminKpiGrid kpis={data.kpis} />
       </AdminSection>
+
+      <AdminTrialFunnelSection funnel={data.trialFunnel} />
 
       <AdminStorageSection storage={data.storage} />
 

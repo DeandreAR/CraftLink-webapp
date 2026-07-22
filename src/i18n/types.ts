@@ -606,6 +606,15 @@ export type DashboardDictionary = {
       discountPlaceholder: string;
       urlLabel: string;
       urlPlaceholder: string;
+      imageLabel: string;
+      imageHint: string;
+      imageUpload: string;
+      imageRemove: string;
+      imageUploading: string;
+      shareTitle: string;
+      shareHint: string;
+      shareCopy: string;
+      shareCopied: string;
       add: string;
       remove: string;
       maxReached: string;
@@ -1162,6 +1171,11 @@ export type OnboardingDictionary = {
     discountPlaceholder: string;
     urlLabel: string;
     urlPlaceholder: string;
+    imageLabel: string;
+    imageHint: string;
+    imageUpload: string;
+    imageRemove: string;
+    imageUploading: string;
     add: string;
     remove: string;
     maxReached: string;

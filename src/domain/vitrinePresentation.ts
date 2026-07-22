@@ -149,8 +149,16 @@ function parseAffiliateLinks(raw: unknown): OnboardingAffiliateLink[] {
       const id = typeof row.id === "string" && row.id ? row.id : crypto.randomUUID();
       const discount =
         typeof row.discount === "string" ? row.discount.trim() : undefined;
+      const imageUrl =
+        typeof row.imageUrl === "string" ? row.imageUrl.trim() : undefined;
       if (!label || !url) return null;
-      return { id, label, url, ...(discount ? { discount } : {}) };
+      return {
+        id,
+        label,
+        url,
+        ...(discount ? { discount } : {}),
+        ...(imageUrl ? { imageUrl } : {}),
+      };
     })
     .filter((item): item is OnboardingAffiliateLink => item !== null);
 }

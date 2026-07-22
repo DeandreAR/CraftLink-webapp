@@ -2,7 +2,9 @@ import type {
   AdminActivityEvent,
   AdminAnalyticsDashboard,
   AdminStorageSnapshot,
+  AdminTrialFunnelSnapshot,
 } from "@/domain/adminAnalytics";
+import { isTrialActive } from "@/domain/proAccess";
 import { PRO_MONTHLY_SUBSCRIPTION_EUR, SUPABASE_FREE_STORAGE_BYTES } from "@/lib/admin/apiCostEstimates";
 import {
   buildMockAdminAnalyticsDashboard,
@@ -11,10 +13,18 @@ import {
 import { createAdminClient } from "@/lib/supabase/admin";
 
 const URGENCY_WORK_TYPE_PATTERN = /urgence whatsapp/i;
+const TRIAL_EXPIRING_SOON_MS = 48 * 60 * 60 * 1000;
 
-function isProPlan(planTier: string | null | undefined): boolean {
-  return String(planTier ?? "").toUpperCase() === "PRO";
-}
+type ProfilePlanRow = {
+  id: string;
+  created_at: string | null;
+  is_subscribed: boolean | null;
+  trial_ends_at: string | null;
+  trial_email_mid_sent_at: string | null;
+  trial_email_warning_sent_at: string | null;
+  trial_email_expired_sent_at: string | null;
+  stripe_subscription_id: string | null;
+};
 
 function daysAgoIso(days: number): string {
   const d = new Date();
@@ -22,18 +32,134 @@ function daysAgoIso(days: number): string {
   return d.toISOString();
 }
 
+function roundPercent(numerator: number, denominator: number): number {
+  if (denominator <= 0) return 0;
+  return Math.round((numerator / denominator) * 1000) / 10;
+}
+
+function computePlanMetrics(rows: ProfilePlanRow[], now: Date = new Date()) {
+  let subscribedPro = 0;
+  let activeTrials = 0;
+  let expiredTrials = 0;
+  let trialsStarted = 0;
+  let trialsStarted7d = 0;
+  let trialsStarted30d = 0;
+  let trialsExpiringSoon = 0;
+  let emailsMidSent = 0;
+  let emailsWarningSent = 0;
+  let emailsExpiredSent = 0;
+
+  const sevenDaysAgo = now.getTime() - 7 * 24 * 60 * 60 * 1000;
+  const thirtyDaysAgo = now.getTime() - 30 * 24 * 60 * 60 * 1000;
+  const expiringCutoff = now.getTime() + TRIAL_EXPIRING_SOON_MS;
+
+  for (const row of rows) {
+    const subscribed = row.is_subscribed === true;
+    const hasTrial = Boolean(row.trial_ends_at);
+    const trialActive = !subscribed && isTrialActive(row.trial_ends_at, now);
+    const trialExpired =
+      !subscribed && hasTrial && !isTrialActive(row.trial_ends_at, now);
+
+    if (subscribed) subscribedPro += 1;
+    if (trialActive) activeTrials += 1;
+    if (trialExpired) expiredTrials += 1;
+
+    if (hasTrial) {
+      trialsStarted += 1;
+      const createdAtMs = row.created_at ? new Date(row.created_at).getTime() : NaN;
+      if (!Number.isNaN(createdAtMs)) {
+        if (createdAtMs >= sevenDaysAgo) trialsStarted7d += 1;
+        if (createdAtMs >= thirtyDaysAgo) trialsStarted30d += 1;
+      }
+    }
+
+    if (trialActive && row.trial_ends_at) {
+      const endsAtMs = new Date(row.trial_ends_at).getTime();
+      if (!Number.isNaN(endsAtMs) && endsAtMs <= expiringCutoff) {
+        trialsExpiringSoon += 1;
+      }
+    }
+
+    if (row.trial_email_mid_sent_at) emailsMidSent += 1;
+    if (row.trial_email_warning_sent_at) emailsWarningSent += 1;
+    if (row.trial_email_expired_sent_at) emailsExpiredSent += 1;
+  }
+
+  const totalArtisans = rows.length;
+  const activeEssential = Math.max(0, totalArtisans - subscribedPro - activeTrials);
+  const completedTrials = subscribedPro + expiredTrials;
+
+  return {
+    subscribedPro,
+    activeTrials,
+    expiredTrials,
+    activeEssential,
+    trialsStarted,
+    trialsStarted7d,
+    trialsStarted30d,
+    trialsExpiringSoon,
+    emailsMidSent,
+    emailsWarningSent,
+    emailsExpiredSent,
+    conversionRatePercent: roundPercent(subscribedPro, totalArtisans),
+    trialConversionRatePercent: roundPercent(subscribedPro, completedTrials),
+  };
+}
+
+function buildTrialFunnel(
+  metrics: ReturnType<typeof computePlanMetrics>,
+): AdminTrialFunnelSnapshot {
+  return {
+    trialsStarted: metrics.trialsStarted,
+    trialsStarted7d: metrics.trialsStarted7d,
+    trialsStarted30d: metrics.trialsStarted30d,
+    activeTrials: metrics.activeTrials,
+    trialsExpiringSoon: metrics.trialsExpiringSoon,
+    expiredTrials: metrics.expiredTrials,
+    convertedToPro: metrics.subscribedPro,
+    trialConversionRatePercent: metrics.trialConversionRatePercent,
+    emailsMidSent: metrics.emailsMidSent,
+    emailsWarningSent: metrics.emailsWarningSent,
+    emailsExpiredSent: metrics.emailsExpiredSent,
+  };
+}
+
 function mapProfileToActivity(row: {
   id: string;
   full_name: string | null;
-  plan_tier: string | null;
+  is_subscribed: boolean | null;
+  trial_ends_at: string | null;
   created_at: string | null;
 }): AdminActivityEvent {
-  const isPro = isProPlan(row.plan_tier);
+  const subscribed = row.is_subscribed === true;
+  const trialActive = !subscribed && isTrialActive(row.trial_ends_at);
+  const name = row.full_name?.trim() || "Artisan";
+
+  if (subscribed) {
+    return {
+      id: `profile-${row.id}`,
+      type: "upgrade_pro",
+      title: "Abonnement Pro actif",
+      detail: `${name} — Abonné Stripe`,
+      occurredAt: row.created_at ?? new Date().toISOString(),
+    };
+  }
+
+  if (trialActive) {
+    return {
+      id: `profile-${row.id}`,
+      type: "trial_active",
+      title: "Essai Pro en cours",
+      detail: `${name} — Essai 14 jours`,
+      occurredAt: row.created_at ?? new Date().toISOString(),
+    };
+  }
+
   return {
     id: `profile-${row.id}`,
-    type: isPro ? "upgrade_pro" : "signup",
-    title: isPro ? "Compte Pro actif" : "Nouvelle inscription",
-    detail: `${row.full_name?.trim() || "Artisan"} — ${isPro ? "Plan Pro" : "Plan Essentiel"}`,
+    type: "signup",
+    title: "Nouvelle inscription",
+    detail: `${name} — Plan Essentiel`,
     occurredAt: row.created_at ?? new Date().toISOString(),
   };
 }
@@ -183,7 +309,7 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
 
   const sevenDaysAgo = daysAgoIso(7);
 
-  const [profilesRes, profiles7dRes, leadsRes, urgencyRes, recentProfilesRes, recentLeadsRes] =
+  const [profilesRes, profiles7dRes, leadsRes, urgencyRes, recentProfilesRes, recentLeadsRes, planRowsRes] =
     await Promise.all([
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase
@@ -197,7 +323,7 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
         .or(`work_type.ilike.%urgence whatsapp%,delay_status.eq.urgent`),
       supabase
         .from("profiles")
-        .select("id, full_name, plan_tier, created_at")
+        .select("id, full_name, is_subscribed, trial_ends_at, created_at")
         .order("created_at", { ascending: false })
         .limit(6),
       supabase
@@ -205,9 +331,12 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
         .select("id, client_name, work_type, zone, delay_status, created_at")
         .order("created_at", { ascending: false })
         .limit(6),
+      supabase
+        .from("profiles")
+        .select(
+          "id, created_at, is_subscribed, trial_ends_at, trial_email_mid_sent_at, trial_email_warning_sent_at, trial_email_expired_sent_at, stripe_subscription_id",
+        ),
     ]);
-
-  const planRowsRes = await supabase.from("profiles").select("plan_tier");
 
   if (profilesRes.error || planRowsRes.error) {
     return fallback;
@@ -215,11 +344,11 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
 
   profilesLive = true;
 
-  const planRows = planRowsRes.data ?? [];
-  const activePro = planRows.filter((row) => isProPlan(row.plan_tier)).length;
+  const planRows = (planRowsRes.data ?? []) as ProfilePlanRow[];
+  const metrics = computePlanMetrics(planRows);
   const totalArtisans = profilesRes.count ?? planRows.length;
-  const activeEssential = Math.max(0, totalArtisans - activePro);
   const artisansDelta7d = profiles7dRes.count ?? 0;
+  const trialFunnel = buildTrialFunnel(metrics);
 
   let totalLeads = fallback.kpis.totalLeads;
   let urgencyLeads = fallback.kpis.urgencyLeads;
@@ -231,10 +360,10 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
   }
 
   const apiUsage =
-    (await tryLoadApiUsageFromDb(activePro)) ?? buildMockApiUsage(activePro);
+    (await tryLoadApiUsageFromDb(metrics.subscribedPro)) ??
+    buildMockApiUsage(metrics.subscribedPro);
 
-  const storage =
-    (await tryLoadStorageFromDb()) ?? fallback.storage;
+  const storage = (await tryLoadStorageFromDb()) ?? fallback.storage;
 
   const activity: AdminActivityEvent[] = [
     ...(recentProfilesRes.data ?? []).map(mapProfileToActivity),
@@ -243,22 +372,23 @@ export async function loadAdminAnalyticsDashboard(): Promise<AdminAnalyticsDashb
     .sort((a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime())
     .slice(0, 10);
 
-  const recentActivity =
-    activity.length > 0 ? activity : fallback.recentActivity;
+  const recentActivity = activity.length > 0 ? activity : fallback.recentActivity;
 
   return {
     generatedAt: new Date().toISOString(),
     kpis: {
       totalArtisans,
       artisansDelta7d,
-      activePro,
-      activeEssential,
-      conversionRatePercent:
-        totalArtisans > 0 ? Math.round((activePro / totalArtisans) * 1000) / 10 : 0,
-      mrrEur: activePro * PRO_MONTHLY_SUBSCRIPTION_EUR,
+      subscribedPro: metrics.subscribedPro,
+      activeTrials: metrics.activeTrials,
+      activeEssential: metrics.activeEssential,
+      conversionRatePercent: metrics.conversionRatePercent,
+      trialConversionRatePercent: metrics.trialConversionRatePercent,
+      mrrEur: metrics.subscribedPro * PRO_MONTHLY_SUBSCRIPTION_EUR,
       totalLeads,
       urgencyLeads,
     },
+    trialFunnel,
     apiUsage,
     storage,
     recentActivity,

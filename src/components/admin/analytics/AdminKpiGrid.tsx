@@ -26,20 +26,33 @@ export function AdminKpiGrid({ kpis }: AdminKpiGridProps) {
       accent: "text-white",
     },
     {
-      label: "Utilisateurs actifs",
-      value: `${formatInteger(kpis.activePro)} Pro · ${formatInteger(kpis.activeEssential)} Essentiel`,
-      hint: "Répartition des plans actuels",
+      label: "Abonnés Pro",
+      value: formatInteger(kpis.subscribedPro),
+      hint: "Abonnements Stripe actifs",
+      accent: "text-emerald-400",
     },
     {
-      label: "Taux de conversion Pro",
+      label: "Essais actifs",
+      value: formatInteger(kpis.activeTrials),
+      hint: `${formatInteger(kpis.activeEssential)} Essentiel hors essai`,
+      accent: "text-[#efa188]",
+    },
+    {
+      label: "Conversion abonnés",
       value: formatPercent(kpis.conversionRatePercent),
-      hint: "Inscrits passés en offre Pro",
+      hint: "Inscrits → abonnement Pro payant",
       accent: "text-emerald-400",
+    },
+    {
+      label: "Conversion essai → Pro",
+      value: formatPercent(kpis.trialConversionRatePercent),
+      hint: "Parmi les essais terminés (convertis ou expirés)",
+      accent: "text-[#efa188]",
     },
     {
       label: "MRR estimé",
       value: formatCurrencyEur(kpis.mrrEur),
-      hint: "Basé sur abonnements Pro actifs (19 € HT/mois)",
+      hint: "Abonnés Pro × 19 € HT/mois",
       accent: "text-white",
     },
     {
@@ -50,7 +63,7 @@ export function AdminKpiGrid({ kpis }: AdminKpiGridProps) {
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {items.map((item) => (
         <AdminCard key={item.label}>
           <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">

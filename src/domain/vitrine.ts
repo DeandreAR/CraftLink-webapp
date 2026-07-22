@@ -102,6 +102,8 @@ export type VitrineAffiliateLink = {
   label: string;
   href: string;
   discount?: string;
+  /** Aperçu image (artisan) pour la carte vitrine / partage. */
+  imageUrl?: string;
 };
 
 export type VitrineSocialLink = {

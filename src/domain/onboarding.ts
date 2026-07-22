@@ -23,6 +23,11 @@ export type OnboardingAffiliateLink = {
   url: string;
   /** Réduction ou avantage à partager (ex. « -10 % », « Livraison offerte »). */
   discount?: string;
+  /**
+   * Image d’aperçu pour le partage social (prioritaire sur l’og:image du produit).
+   * URL publique (upload gallery ou lien externe).
+   */
+  imageUrl?: string;
 };
 
 export type OnboardingPartnerBrand = {
