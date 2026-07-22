@@ -1,5 +1,5 @@
 import type { OnboardingProfileDraft, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
-import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuota";
+import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuotaShared";
 import {
   IMPORT_PROVIDER_ERROR,
   IMPORT_QUOTA_EXCEEDED,

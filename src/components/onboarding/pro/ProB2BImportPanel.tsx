@@ -7,7 +7,7 @@ import { authFieldClassName } from "@/components/auth/authFormStyles";
 import { OnboardingImportSkeleton } from "@/components/onboarding/OnboardingImportSkeleton";
 import { LandingCta } from "@/components/landing/LandingCta";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
-import { MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL } from "@/lib/ai/aiGenerationQuota";
+import { MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL } from "@/lib/ai/aiGenerationQuotaShared";
 import { resolveImportClientMessage } from "@/lib/onboarding/proImport/resolveImportClientMessage";
 import {
   runProImportPipeline,

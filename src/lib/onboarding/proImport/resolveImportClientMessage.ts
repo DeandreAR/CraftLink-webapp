@@ -1,7 +1,7 @@
 import type { ProImportPlatform } from "@/domain/onboarding";
 import type { OnboardingDictionary } from "@/i18n/types";
 import { isProImportDegradedError } from "@/lib/onboarding/proImport/api/clientErrors";
-import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuota";
+import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuotaShared";
 import {
   APIFY_AUTH_ERROR,
   IMPORT_FACEBOOK_NOT_FOUND,

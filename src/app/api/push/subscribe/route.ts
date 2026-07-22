@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { isValidPushSubscription } from "@/lib/push/webPush";
+import { isValidPushSubscription } from "@/lib/push/pushSubscription";
 
 export const runtime = "nodejs";
 

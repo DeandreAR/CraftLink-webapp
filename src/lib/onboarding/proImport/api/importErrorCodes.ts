@@ -1,6 +1,6 @@
 import {
   AI_GENERATION_QUOTA_EXCEEDED,
-} from "@/lib/ai/aiGenerationQuota";
+} from "@/lib/ai/aiGenerationQuotaShared";
 import {
   APIFY_AUTH_ERROR,
   IMPORT_FACEBOOK_NOT_FOUND,

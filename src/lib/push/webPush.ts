@@ -1,19 +1,18 @@
 import "server-only";
 
 import webpush from "web-push";
+import {
+  getVapidPublicKey,
+  isWebPushConfigured,
+  type BrowserPushSubscription,
+} from "@/lib/push/pushSubscription";
 
-export type BrowserPushSubscription = {
-  endpoint: string;
-  expirationTime?: number | null;
-  keys: {
-    p256dh: string;
-    auth: string;
-  };
-};
-
-export function getVapidPublicKey(): string | null {
-  return process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY?.trim() || null;
-}
+export type { BrowserPushSubscription } from "@/lib/push/pushSubscription";
+export {
+  getVapidPublicKey,
+  isValidPushSubscription,
+  isWebPushConfigured,
+} from "@/lib/push/pushSubscription";
 
 function getVapidPrivateKey(): string | null {
   return process.env.VAPID_PRIVATE_KEY?.trim() || null;
@@ -25,10 +24,6 @@ function getVapidSubject(): string {
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
     "mailto:contact@getcraftlink.com"
   );
-}
-
-export function isWebPushConfigured(): boolean {
-  return Boolean(getVapidPublicKey() && getVapidPrivateKey());
 }
 
 let configured = false;
@@ -43,18 +38,6 @@ function ensureWebPushConfigured(): boolean {
     configured = true;
   }
   return true;
-}
-
-export function isValidPushSubscription(
-  value: unknown,
-): value is BrowserPushSubscription {
-  if (!value || typeof value !== "object") return false;
-  const raw = value as Record<string, unknown>;
-  if (typeof raw.endpoint !== "string" || !raw.endpoint.trim()) return false;
-  const keys = raw.keys;
-  if (!keys || typeof keys !== "object") return false;
-  const k = keys as Record<string, unknown>;
-  return typeof k.p256dh === "string" && typeof k.auth === "string";
 }
 
 export async function sendWebPushNotification(
@@ -82,3 +65,6 @@ export async function sendWebPushNotification(
     return { ok: false, statusCode, error: message };
   }
 }
+
+/** @deprecated Utiliser isWebPushConfigured depuis pushSubscription. */
+export { isWebPushConfigured as webPushReady };

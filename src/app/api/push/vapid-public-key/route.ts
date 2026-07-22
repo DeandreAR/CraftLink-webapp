@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getVapidPublicKey, isWebPushConfigured } from "@/lib/push/webPush";
+import { getVapidPublicKey, isWebPushConfigured } from "@/lib/push/pushSubscription";
 
 export const runtime = "nodejs";
 
