@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { DashboardLayout, type DashboardTab } from "@/components/dashboard/DashboardLayout";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
@@ -17,6 +17,8 @@ type DashboardShellProps = {
   initialLoadError: string | null;
   initialPartnershipRequests: DashboardPartnershipRequest[];
   initialPartnershipLoadError: string | null;
+  initialTab?: DashboardTab;
+  initialLeadId?: string | null;
 };
 
 export function DashboardShell({
@@ -30,6 +32,8 @@ export function DashboardShell({
   initialLoadError,
   initialPartnershipRequests,
   initialPartnershipLoadError,
+  initialTab = "inbox",
+  initialLeadId = null,
 }: DashboardShellProps) {
   return (
     <DashboardLayout
@@ -43,6 +47,8 @@ export function DashboardShell({
       initialLoadError={initialLoadError}
       initialPartnershipRequests={initialPartnershipRequests}
       initialPartnershipLoadError={initialPartnershipLoadError}
+      initialTab={initialTab}
+      initialLeadId={initialLeadId}
     />
   );
 }

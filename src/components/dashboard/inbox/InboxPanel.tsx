@@ -18,6 +18,7 @@ type InboxPanelProps = {
   locale: Locale;
   initialLeads: DashboardLead[];
   initialLoadError: string | null;
+  initialSelectedLeadId?: string | null;
 };
 
 export function InboxPanel({
@@ -26,8 +27,11 @@ export function InboxPanel({
   locale,
   initialLeads,
   initialLoadError,
+  initialSelectedLeadId = null,
 }: InboxPanelProps) {
-  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(
+    initialSelectedLeadId,
+  );
   const isWideInbox = useMediaQuery("(min-width: 1024px)");
   const workspace = useLeadsWorkspace({
     profile,
@@ -43,6 +47,12 @@ export function InboxPanel({
     () => newLeads.find((lead) => lead.id === selectedLeadId) ?? null,
     [newLeads, selectedLeadId],
   );
+
+  useEffect(() => {
+    if (initialSelectedLeadId) {
+      setSelectedLeadId(initialSelectedLeadId);
+    }
+  }, [initialSelectedLeadId]);
 
   useEffect(() => {
     if (selectedLeadId && !newLeads.some((lead) => lead.id === selectedLeadId)) {

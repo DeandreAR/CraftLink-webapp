@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Lexend } from "next/font/google";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
@@ -14,6 +14,14 @@ const lexend = Lexend({
 export const metadata: Metadata = buildDefaultSiteMetadata({
   title: "CraftLink | Le site vitrine et outil de contact pour les artisans",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+};
 
 export default function RootLayout({
   children,

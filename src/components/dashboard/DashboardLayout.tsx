@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signOutAction } from "@/app/actions/auth";
 import { DashboardBottomNav } from "@/components/dashboard/DashboardBottomNav";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
@@ -10,6 +10,8 @@ import { InboxPanel } from "@/components/dashboard/inbox/InboxPanel";
 import { OrganizationPanel } from "@/components/dashboard/organize/OrganizationPanel";
 import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { ArtisanProfilePanel } from "@/components/dashboard/profile/ArtisanProfilePanel";
+import { PushNotificationsPrompt } from "@/components/pwa/PushNotificationsPrompt";
+import { RegisterServiceWorker } from "@/components/pwa/RegisterServiceWorker";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
@@ -31,6 +33,8 @@ type DashboardLayoutProps = {
   initialLoadError: string | null;
   initialPartnershipRequests: DashboardPartnershipRequest[];
   initialPartnershipLoadError: string | null;
+  initialTab?: DashboardTab;
+  initialLeadId?: string | null;
 };
 
 const TAB_MOTION = {
@@ -51,13 +55,20 @@ export function DashboardLayout({
   initialLoadError,
   initialPartnershipRequests,
   initialPartnershipLoadError,
+  initialTab = "inbox",
+  initialLeadId = null,
 }: DashboardLayoutProps) {
-  const [tab, setTab] = useState<DashboardTab>("inbox");
+  const [tab, setTab] = useState<DashboardTab>(initialTab);
   const { profile } = session;
   const home = locale === defaultLocale ? "/" : `/${locale}`;
 
+  useEffect(() => {
+    setTab(initialTab);
+  }, [initialTab]);
+
   return (
     <div className="dashboard-page relative flex min-h-[100dvh] text-[#212129]">
+      <RegisterServiceWorker />
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="absolute -right-24 top-0 h-72 w-72 rounded-full bg-[#EFA188]/14 blur-3xl" />
         <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-[#D6BCFA]/12 blur-3xl" />
@@ -96,6 +107,7 @@ export function DashboardLayout({
 
         <main className="flex-1 overflow-x-hidden p-4 pb-[5rem] md:p-6 md:pb-8 lg:p-8">
           <div className="mx-auto w-full max-w-7xl">
+            {tab === "inbox" ? <PushNotificationsPrompt /> : null}
             <AnimatePresence mode="wait">
               <motion.div key={tab} {...TAB_MOTION}>
                 {tab === "inbox" ? (
@@ -105,6 +117,7 @@ export function DashboardLayout({
                     locale={locale}
                     initialLeads={initialLeads}
                     initialLoadError={initialLoadError}
+                    initialSelectedLeadId={initialLeadId}
                   />
                 ) : null}
                 {tab === "organize" ? (

@@ -12,6 +12,19 @@ export function buildDefaultSiteMetadata(overrides?: Metadata): Metadata {
   return {
     metadataBase: base,
     applicationName: SITE_NAME,
+    themeColor: "#ffffff",
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: SITE_NAME,
+    },
+    icons: {
+      icon: [
+        { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+        { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    },
     openGraph: {
       siteName: SITE_NAME,
       type: "website",

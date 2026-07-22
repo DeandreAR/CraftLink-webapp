@@ -1,3 +1,4 @@
+import { after } from "next/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   PublicLeadCaptureInput,
@@ -7,16 +8,15 @@ import type {
 } from "@/domain/captureLead";
 import { validateUrgencyClickCaptureInput } from "@/domain/captureLead";
 import { validatePublicLeadCaptureInput } from "@/domain/captureLead";
-import {
-  sendClientAcknowledgmentEmail,
-  type ArtisanEmailProfile,
-} from "@/lib/email/sendClientAcknowledgmentEmail";
+import type { ArtisanEmailProfile } from "@/lib/email/sendClientAcknowledgmentEmail";
 import { mapLeadRowToDashboardLead, type LeadRow } from "@/lib/leads/leadMappers";
+import { notifyNewLead } from "@/lib/notifications/notifyNewLead";
 import { sanitizePageSlugInput } from "@/lib/onboarding/pageSlug";
 
 const PROFILE_SELECT = "id, workspace_id, full_name";
 
 type ResolvedArtisanProfile = {
+  profileId: string;
   workspaceId: string;
   artisan: ArtisanEmailProfile;
 };
@@ -43,6 +43,7 @@ async function resolveArtisanByPageSlug(
   const artisanEmail = authData?.user?.email?.trim() ?? "";
 
   return {
+    profileId: String(profile.id),
     workspaceId,
     artisan: {
       email: artisanEmail,
@@ -89,8 +90,8 @@ async function insertPublicLead(
 }
 
 /**
- * Capture publique anonyme : insert lead + accusé de réception e-mail.
- * L'échec d'envoi e-mail n'annule pas la création du dossier.
+ * Capture publique anonyme : insert lead + notifications async (push + emails).
+ * L'échec d'envoi n'annule pas la création du dossier.
  */
 export async function capturePublicLead(
   supabase: SupabaseClient,
@@ -113,18 +114,23 @@ export async function capturePublicLead(
 
   const lead = mapLeadRowToDashboardLead(inserted.row);
 
-  try {
-    await sendClientAcknowledgmentEmail(
-      {
+  after(() =>
+    notifyNewLead({
+      workspaceUserId: artisanContext.profileId,
+      artisan: artisanContext.artisan,
+      sendClientAck: true,
+      lead: {
         id: lead.id,
         requestNumber: lead.requestNumber,
+        clientName: lead.clientName,
         clientEmail: input.clientEmail,
+        zone: lead.zone ?? "",
+        delayStatus: lead.delayStatus,
+        workType: lead.workType ?? "",
+        description: lead.description ?? "",
       },
-      artisanContext.artisan,
-    );
-  } catch {
-    // L’accusé e-mail est best-effort : la capture lead reste valide.
-  }
+    }),
+  );
 
   return { ok: true, leadId: lead.id };
 }
@@ -168,5 +174,24 @@ export async function captureUrgencyClick(
   }
 
   const lead = mapLeadRowToDashboardLead(inserted.row);
+
+  after(() =>
+    notifyNewLead({
+      workspaceUserId: artisanContext.profileId,
+      artisan: artisanContext.artisan,
+      sendClientAck: false,
+      lead: {
+        id: lead.id,
+        requestNumber: lead.requestNumber,
+        clientName: lead.clientName,
+        clientEmail: lead.clientEmail ?? "",
+        zone: lead.zone ?? "",
+        delayStatus: lead.delayStatus,
+        workType: lead.workType ?? "",
+        description: lead.description ?? "",
+      },
+    }),
+  );
+
   return { ok: true, leadId: lead.id };
 }

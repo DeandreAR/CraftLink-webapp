@@ -13,6 +13,7 @@
     "resend:supabase-smtp": "tsx scripts/printResendSupabaseSmtp.ts",
     "resend:test-auth": "tsx scripts/testResendAuthEmail.ts",
     "trial:send-preview": "tsx scripts/sendTrialEmailPreview.ts",
+    "push:vapid-keys": "tsx scripts/generateVapidKeys.ts",
     "content:instagram-post": "tsx scripts/instagram-content/generatePendingPost.ts",
     "generate-post": "tsx scripts/instagram-content/generatePendingPost.ts"
   },
@@ -30,13 +31,15 @@
     "react-icons": "^5.6.0",
     "recharts": "^3.9.2",
     "resend": "^6.16.0",
-    "stripe": "^22.2.0"
+    "stripe": "^22.2.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
