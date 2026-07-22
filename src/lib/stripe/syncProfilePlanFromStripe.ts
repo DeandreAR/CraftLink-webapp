@@ -6,6 +6,7 @@ import { getStripe } from "@/lib/stripe/server";
 import {
   setProfilePlanByUserId,
   setProfileStripeSubscriptionByUserId,
+  STRIPE_FREE_PLAN_TIER,
   STRIPE_PRO_PLAN_TIER,
 } from "@/lib/stripe/updateProfilePlan";
 import { isCraftlinkPro, resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
@@ -63,6 +64,19 @@ export async function syncProfilePlanFromStripeIfNeeded(
     const subscription = await fetchPrimarySubscription(stripe, customerId);
 
     if (!subscription) {
+      if (isCraftlinkPro(resolveCraftlinkPlan(currentPlanTier ?? ""))) {
+        const result = await setProfilePlanByUserId(
+          userId,
+          STRIPE_FREE_PLAN_TIER,
+          customerId,
+          null,
+        );
+        if (!result.ok) {
+          console.error("[stripe] sync downgrade failed:", result.error);
+          return { planTier: null, customerId, subscriptionId: null };
+        }
+        return { planTier: STRIPE_FREE_PLAN_TIER, customerId, subscriptionId: null };
+      }
       return { planTier: null, customerId, subscriptionId: null };
     }
 

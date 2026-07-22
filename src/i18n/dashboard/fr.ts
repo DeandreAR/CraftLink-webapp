@@ -104,6 +104,19 @@ export const dashboardFr: DashboardDictionary = {
         "Section Partenaires & Marques",
       ],
     },
+    proFeatureGuard: {
+      badge: "🔒 Fonctionnalité Pro",
+      description:
+        "Débloquez l'analyse de votre activité, le calendrier terrain et les exports illimités avec l'offre Pro.",
+      cta: "Passer à l'offre Pro (19 €/mois)",
+      reassurance: "14 jours d'essai offerts • Sans engagement",
+      calendar: {
+        title: "Planifiez vos interventions chantiers dans un agenda dédié",
+      },
+      stats: {
+        title: "Visualisez vos performances et votre chiffre d'affaires",
+      },
+    },
     summary: {
       total: "Demandes actives",
       urgent: "Urgentes",

@@ -3,15 +3,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
-import { PlanLockedCard } from "@/components/dashboard/PlanLockedCard";
+import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
 import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
 import { PartnersBrandsCard } from "@/components/dashboard/partners/PartnersBrandsCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
-import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
+import { hasProFeatureAccess } from "@/lib/dashboard/planAccess";
 import { buildDemoPartnershipRequest } from "@/lib/partnerships/demoPartnershipRequest";
 import {
   formatPartnershipDate,
@@ -150,7 +150,7 @@ export function PartnersPanel({
   initialRequests,
   initialLoadError,
 }: PartnersPanelProps) {
-  const pro = resolveCraftlinkPlan(profile.plan_tier) === "PRO";
+  const pro = hasProFeatureAccess(profile.plan_tier);
   const p = copy.partners;
   const isDesktopPartners = useMediaQuery("(min-width: 768px)");
   const [mounted, setMounted] = useState(false);
@@ -159,6 +159,11 @@ export function PartnersPanel({
   const [loadError] = useState(initialLoadError);
   const [showArchived, setShowArchived] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const handleSelect = (id: string) => {
+    if (!pro) return;
+    setSelectedId(id);
+  };
 
   const visibleRequests = useMemo(
     () =>
@@ -173,8 +178,10 @@ export function PartnersPanel({
     [requests],
   );
 
-  const selectedRequest = visibleRequests.find((request) => request.id === selectedId) ?? null;
-  const showMobileSheet = Boolean(selectedRequest && !isDesktopPartners);
+  const selectedRequest = pro
+    ? (visibleRequests.find((request) => request.id === selectedId) ?? null)
+    : null;
+  const showMobileSheet = Boolean(pro && selectedRequest && !isDesktopPartners);
 
   useEffect(() => {
     setMounted(true);
@@ -185,10 +192,14 @@ export function PartnersPanel({
   }, [initialRequests]);
 
   useEffect(() => {
+    if (!pro) {
+      setSelectedId(null);
+      return;
+    }
     if (isDesktopPartners && !selectedId && visibleRequests[0]) {
       setSelectedId(visibleRequests[0].id);
     }
-  }, [isDesktopPartners, visibleRequests, selectedId]);
+  }, [pro, isDesktopPartners, visibleRequests, selectedId]);
 
   useEffect(() => {
     if (!showMobileSheet) return;
@@ -243,7 +254,7 @@ export function PartnersPanel({
           copy={copy}
           locale={locale}
           selectedId={selectedId}
-          onSelect={setSelectedId}
+          onSelect={handleSelect}
         />
         {selectedRequest && isDesktopPartners ? (
           <PartnershipRequestDetail
@@ -269,18 +280,14 @@ export function PartnersPanel({
     <section className="space-y-6">
       <DashboardPageHeader title={p.title} subtitle={p.subtitle} compactOnMobile />
 
-      {!pro ? (
-        <PlanLockedCard
-          title={p.lockedTitle}
-          body={p.lockedBody}
-          ctaLabel={p.upgradeCta}
-          locale={locale}
-        >
-          {content}
-        </PlanLockedCard>
-      ) : (
-        content
-      )}
+      <ProFeatureGuard
+        feature="partners"
+        planTier={profile.plan_tier}
+        copy={copy}
+        locale={locale}
+      >
+        {content}
+      </ProFeatureGuard>
 
       {mounted && showMobileSheet && selectedRequest
         ? createPortal(

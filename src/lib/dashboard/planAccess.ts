@@ -14,3 +14,8 @@ export function isEssentialPlan(planTier: PlanTier | string): boolean {
 export function isEssentialCraftlinkPlan(plan: CraftlinkPlan): boolean {
   return plan === "ESSENTIEL";
 }
+
+/** Accès Calendrier / Statistiques — aligné sur `profiles.plan_tier` (source de vérité UI). */
+export function hasProFeatureAccess(planTier: PlanTier | string): boolean {
+  return isProPlan(planTier);
+}

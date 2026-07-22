@@ -104,6 +104,19 @@ export const dashboardEn: DashboardDictionary = {
         "Partners & Brands section",
       ],
     },
+    proFeatureGuard: {
+      badge: "🔒 Pro feature",
+      description:
+        "Unlock activity analytics, field calendar and unlimited exports with the Pro plan.",
+      cta: "Upgrade to Pro (€19/month)",
+      reassurance: "14-day free trial • No commitment",
+      calendar: {
+        title: "Schedule your site visits in a dedicated calendar",
+      },
+      stats: {
+        title: "Visualize your performance and revenue",
+      },
+    },
     summary: {
       total: "Active requests",
       urgent: "Urgent",

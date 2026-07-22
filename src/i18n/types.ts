@@ -266,6 +266,18 @@ export type DashboardDictionary = {
       dismiss: string;
       proBenefits: string[];
     };
+    proFeatureGuard: {
+      badge: string;
+      description: string;
+      cta: string;
+      reassurance: string;
+      calendar: {
+        title: string;
+      };
+      stats: {
+        title: string;
+      };
+    };
     summary: {
       total: string;
       urgent: string;

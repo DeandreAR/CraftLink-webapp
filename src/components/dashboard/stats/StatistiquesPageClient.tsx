@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
+import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
 import type { DashboardLead } from "@/domain/lead";
+import type { PlanTier } from "@/domain/profile";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { authPath } from "@/lib/auth/paths";
@@ -11,6 +13,7 @@ import { authPath } from "@/lib/auth/paths";
 type StatistiquesPageClientProps = {
   leads: DashboardLead[];
   loadError: string | null;
+  planTier: PlanTier;
   copy: DashboardDictionary;
   locale: Locale;
 };
@@ -18,6 +21,7 @@ type StatistiquesPageClientProps = {
 export function StatistiquesPageClient({
   leads,
   loadError,
+  planTier,
   copy,
   locale,
 }: StatistiquesPageClientProps) {
@@ -48,7 +52,14 @@ export function StatistiquesPageClient({
               {loadError}
             </div>
           ) : null}
-          <LeadsStatisticsPanel leads={leads} copy={copy} locale={locale} />
+          <ProFeatureGuard
+            feature="stats"
+            planTier={planTier}
+            copy={copy}
+            locale={locale}
+          >
+            <LeadsStatisticsPanel leads={leads} copy={copy} locale={locale} />
+          </ProFeatureGuard>
         </div>
       </div>
     </main>

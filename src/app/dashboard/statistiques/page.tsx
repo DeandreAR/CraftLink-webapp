@@ -14,6 +14,7 @@ export default async function StatistiquesPage() {
     <StatistiquesPageClient
       leads={leads}
       loadError={loadError}
+      planTier={session.profile.plan_tier}
       copy={dict.dashboard}
       locale={lang}
     />

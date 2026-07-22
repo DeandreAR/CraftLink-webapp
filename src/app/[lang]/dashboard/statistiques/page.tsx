@@ -20,6 +20,7 @@ export default async function LangStatistiquesPage({ params }: Props) {
     <StatistiquesPageClient
       leads={leads}
       loadError={loadError}
+      planTier={session.profile.plan_tier}
       copy={dict.dashboard}
       locale={lang}
     />

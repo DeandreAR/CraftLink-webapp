@@ -14,6 +14,7 @@ import { LeadsPipelineView } from "@/components/dashboard/leads/LeadsPipelineVie
 import { LeadsSummaryCards } from "@/components/dashboard/leads/LeadsSummaryCards";
 import { LeadsTableView } from "@/components/dashboard/leads/LeadsTableView";
 import { LeadsTableToolbar } from "@/components/dashboard/leads/LeadsTableToolbar";
+import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBanner";
 import { WhatsAppUpgradeModal } from "@/components/dashboard/leads/WhatsAppUpgradeModal";
 import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
@@ -273,18 +274,32 @@ export function OrganizationPanel({
 
         <div className="mt-4">
           {section === "stats" ? (
-            <LeadsStatisticsPanel
-              leads={workspace.leads}
+            <ProFeatureGuard
+              feature="stats"
+              planTier={profile.plan_tier}
               copy={copy}
               locale={locale}
-            />
+            >
+              <LeadsStatisticsPanel
+                leads={workspace.leads}
+                copy={copy}
+                locale={locale}
+              />
+            </ProFeatureGuard>
           ) : section === "calendar" ? (
-            <LeadsCalendar
-              leads={calendarLeads}
+            <ProFeatureGuard
+              feature="calendar"
+              planTier={profile.plan_tier}
               copy={copy}
               locale={locale}
-              onOpenDetail={setSelectedLeadId}
-            />
+            >
+              <LeadsCalendar
+                leads={calendarLeads}
+                copy={copy}
+                locale={locale}
+                onOpenDetail={setSelectedLeadId}
+              />
+            </ProFeatureGuard>
           ) : (
             <>
               {!showArchived && view !== "pipeline" ? (
