@@ -11,6 +11,7 @@ import {
 } from "@/lib/auth/honeypot";
 import { resolvePostAuthPath } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
+import { safeNextPath } from "@/lib/auth/safeNextPath";
 import {
   getSupabaseConfig,
 } from "@/lib/supabase/env";
@@ -105,7 +106,12 @@ export async function signUpAction(
     };
   }
 
-  redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
+  redirect(
+    safeNextPath(
+      String(formData.get("next") ?? ""),
+      resolvePostAuthPath(localeFromForm(formData), result.data.profile),
+    ),
+  );
 }
 
 export async function signInAction(
@@ -139,7 +145,12 @@ export async function signInAction(
     };
   }
 
-  redirect(resolvePostAuthPath(localeFromForm(formData), result.data.profile));
+  redirect(
+    safeNextPath(
+      String(formData.get("next") ?? ""),
+      resolvePostAuthPath(localeFromForm(formData), result.data.profile),
+    ),
+  );
 }
 
 export async function requestPasswordResetAction(

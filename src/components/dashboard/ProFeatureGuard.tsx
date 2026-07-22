@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { StripeCheckoutButton } from "@/components/stripe/StripeCheckoutButton";
-import type { PlanTier } from "@/domain/profile";
+import type { ProAccessProfile } from "@/domain/proAccess";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { authPath } from "@/lib/auth/paths";
@@ -12,7 +12,7 @@ export type ProFeatureKey = "calendar" | "stats" | "partners";
 
 type ProFeatureGuardProps = {
   feature: ProFeatureKey;
-  planTier: PlanTier | string;
+  proAccess: ProAccessProfile;
   copy: DashboardDictionary;
   locale: Locale;
   children: ReactNode;
@@ -39,14 +39,14 @@ function resolveProFeatureCopy(
 /** Overlay paywall OpenShip pour vues réservées au plan Pro. */
 export function ProFeatureGuard({
   feature,
-  planTier,
+  proAccess,
   copy,
   locale,
   children,
 }: ProFeatureGuardProps) {
   const g = copy.leads.proFeatureGuard;
 
-  if (hasProFeatureAccess(planTier)) {
+  if (hasProFeatureAccess(proAccess)) {
     return <>{children}</>;
   }
 

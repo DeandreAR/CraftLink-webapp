@@ -666,9 +666,13 @@ export type DashboardDictionary = {
     currentPlan: string;
     badgeFree: string;
     badgePro: string;
+    badgeTrial: string;
     essential: string;
     essentialPrice: string;
     pro: string;
+    trialPrice: string;
+    trialEndsOn: string;
+    trialUpgradeHint: string;
     proPriceMonthly: string;
     proPriceAnnual: string;
     manageStripe: string;

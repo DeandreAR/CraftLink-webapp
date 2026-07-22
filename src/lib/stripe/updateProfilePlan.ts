@@ -20,6 +20,7 @@ function buildPlanPatch({
 }: StripeBillingPatch): Record<string, string | boolean | null> {
   const patch: Record<string, string | boolean | null> = {
     plan_tier: planTier,
+    is_subscribed: planTier === STRIPE_PRO_PLAN_TIER,
     updated_at: new Date().toISOString(),
   };
 
@@ -30,6 +31,7 @@ function buildPlanPatch({
 
   if (planTier === STRIPE_FREE_PLAN_TIER) {
     patch.stripe_subscription_id = null;
+    patch.is_subscribed = false;
   }
 
   if (stripeCustomerId) {

@@ -12,6 +12,7 @@
     "debug:leads": "tsx scripts/debugLeads.ts",
     "resend:supabase-smtp": "tsx scripts/printResendSupabaseSmtp.ts",
     "resend:test-auth": "tsx scripts/testResendAuthEmail.ts",
+    "trial:send-preview": "tsx scripts/sendTrialEmailPreview.ts",
     "content:instagram-post": "tsx scripts/instagram-content/generatePendingPost.ts",
     "generate-post": "tsx scripts/instagram-content/generatePendingPost.ts"
   },

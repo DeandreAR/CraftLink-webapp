@@ -15,6 +15,8 @@ type ProfileVitrineRow = {
   plan_tier: string | null;
   page_slug: string | null;
   voice_capture_enabled: boolean | null;
+  trial_ends_at?: string | null;
+  is_subscribed?: boolean | null;
   certifications?: string[];
 };
 
@@ -79,10 +81,12 @@ export function mapStoredConfigToVitrinePage(
         showAffiliateLinks:
           planTier === "PRO" && (preview.artisan.affiliateLinks?.length ?? 0) > 0,
       },
-      voiceCaptureEnabled: resolveVoiceCaptureEnabled(
-        row.plan_tier,
-        row.voice_capture_enabled,
-      ),
+      voiceCaptureEnabled: resolveVoiceCaptureEnabled({
+        plan_tier: row.plan_tier,
+        trial_ends_at: row.trial_ends_at,
+        is_subscribed: row.is_subscribed === true,
+        voice_capture_enabled: row.voice_capture_enabled,
+      }),
     },
   };
 }

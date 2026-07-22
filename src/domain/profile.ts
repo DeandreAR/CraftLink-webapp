@@ -21,6 +21,10 @@ export type Profile = {
   voice_capture_enabled?: boolean;
   stripe_customer_id?: string | null;
   stripe_subscription_id?: string | null;
+  /** Fin de l'essai Pro gratuit (14 jours à l'inscription). */
+  trial_ends_at?: string | null;
+  /** Abonnement Stripe actif (facturation 19 €/mois, sans trial Stripe). */
+  is_subscribed?: boolean;
   /** Générations IA consommées (import magic) — quota Essentiel / essai. */
   ai_generations_count?: number;
   vitrine_presentation?: StoredVitrineConfig | null;

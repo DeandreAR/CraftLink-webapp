@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { isOnboardingComplete } from "@/lib/auth/onboardingStatus";
 import { authPath } from "@/lib/auth/paths";
 import { VOICE_CAPTURE_DEFAULT_FOR_PRO } from "@/lib/dashboard/voiceCaptureDefault";
-import { isCraftlinkPro, resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import {
   resolveWorkspaceSession,
   type WorkspaceSession,
@@ -34,10 +33,14 @@ export async function requireSessionProfile(
     session.data.user.id,
     session.data.profile.plan_tier,
     session.data.profile.stripe_customer_id,
+    session.data.profile.is_subscribed,
   );
   if (synced.planTier) {
     session.data.profile.plan_tier = synced.planTier;
-    if (isCraftlinkPro(resolveCraftlinkPlan(synced.planTier))) {
+  }
+  if (synced.isSubscribed != null) {
+    session.data.profile.is_subscribed = synced.isSubscribed;
+    if (synced.isSubscribed) {
       session.data.profile.voice_capture_enabled = VOICE_CAPTURE_DEFAULT_FOR_PRO;
     }
   }

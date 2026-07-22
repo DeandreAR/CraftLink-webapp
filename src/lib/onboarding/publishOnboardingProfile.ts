@@ -63,12 +63,6 @@ async function persistOnboardingProfile(
       : (options.progress ?? undefined);
 
     const patch: Record<string, unknown> = {
-      ...(options.setProPlan
-        ? {
-            plan_tier: "PRO",
-            voice_capture_enabled: VOICE_CAPTURE_DEFAULT_FOR_PRO,
-          }
-        : {}),
       full_name: profile.businessName.trim() || null,
       whatsapp_number: profile.phone.trim() || null,
       vitrine_presentation: buildStoredVitrineFromOnboarding(
@@ -77,7 +71,10 @@ async function persistOnboardingProfile(
         progressForStore,
       ),
       ...(options.markComplete
-        ? { onboarding_completed_at: new Date().toISOString() }
+        ? {
+            onboarding_completed_at: new Date().toISOString(),
+            voice_capture_enabled: VOICE_CAPTURE_DEFAULT_FOR_PRO,
+          }
         : {}),
       updated_at: new Date().toISOString(),
     };

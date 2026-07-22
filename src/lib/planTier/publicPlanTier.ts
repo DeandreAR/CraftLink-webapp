@@ -1,4 +1,5 @@
 import type { PublicPlanTier } from "@/domain/vitrine";
+import { isProUser, type ProAccessProfile } from "@/domain/proAccess";
 
 const PRO_DB_TIERS = new Set(["PRO", "EARLY_BIRD", "EARLY BIRD"]);
 
@@ -9,6 +10,14 @@ export function normalizePublicPlanTier(dbTier: string | null | undefined): Publ
     return "PRO";
   }
   return "ALL_SOURCES";
+}
+
+/** Plan vitrine publique : essai local, abonnement Stripe ou palier PRO legacy. */
+export function resolvePublicPlanTier(profile: ProAccessProfile): PublicPlanTier {
+  if (isProUser(profile)) {
+    return "PRO";
+  }
+  return normalizePublicPlanTier(profile.plan_tier);
 }
 
 export function isProPublicPlan(planTier: PublicPlanTier): boolean {

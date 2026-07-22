@@ -4,7 +4,7 @@ import { parseStoredVitrineConfig } from "@/domain/vitrinePresentation";
 import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { sanitizePageSlugInput } from "@/lib/onboarding/pageSlug";
-import { normalizePublicPlanTier } from "@/lib/planTier/publicPlanTier";
+import { resolvePublicPlanTier } from "@/lib/planTier/publicPlanTier";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mapStoredConfigToVitrinePage } from "@/lib/vitrine/mapProfileToVitrinePage";
@@ -24,13 +24,17 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("full_name, whatsapp_number, plan_tier, page_slug, voice_capture_enabled, vitrine_presentation, certifications")
+    .select("full_name, whatsapp_number, plan_tier, page_slug, voice_capture_enabled, vitrine_presentation, certifications, trial_ends_at, is_subscribed")
     .eq("page_slug", normalized)
     .maybeSingle();
 
   if (error || !data) return null;
 
-  const planTier = normalizePublicPlanTier(data.plan_tier);
+  const planTier = resolvePublicPlanTier({
+    plan_tier: data.plan_tier,
+    trial_ends_at: data.trial_ends_at,
+    is_subscribed: data.is_subscribed === true,
+  });
   const config = parseStoredVitrineConfig(data.vitrine_presentation);
   const dict = await getDictionary(defaultLocale);
 
@@ -41,6 +45,8 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
       plan_tier: data.plan_tier,
       page_slug: data.page_slug,
       voice_capture_enabled: data.voice_capture_enabled,
+      trial_ends_at: data.trial_ends_at,
+      is_subscribed: data.is_subscribed === true,
       certifications: normalizeCertifications(data.certifications),
     },
     config,

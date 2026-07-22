@@ -16,6 +16,7 @@ type Props = {
     recovery?: string;
     token_hash?: string;
     code?: string;
+    next?: string;
   }>;
 };
 
@@ -81,6 +82,7 @@ export default async function LangLoginPage({ params, searchParams }: Props) {
       copy={dict.auth}
       view={view}
       authError={query.error}
+      nextPath={query.next}
       unavailable={prepared.status === "unavailable"}
       unavailableMessage={
         prepared.status === "unavailable" ? prepared.message : undefined

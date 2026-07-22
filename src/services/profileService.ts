@@ -7,6 +7,9 @@ import {
   DEFAULT_PLAN_TIER,
   SIGNUP_PLAN_TIER_CANDIDATES,
 } from "@/config/planTier";
+import {
+  computeTrialEndsAt,
+} from "@/domain/proAccess";
 import { formatAuthDebugMessage, logAuthError } from "@/lib/auth/debugError";
 
 const PROFILE_COLUMNS = [
@@ -23,6 +26,8 @@ const PROFILE_COLUMNS = [
   "voice_capture_enabled",
   "stripe_customer_id",
   "stripe_subscription_id",
+  "trial_ends_at",
+  "is_subscribed",
   "ai_generations_count",
   "vitrine_presentation",
   "certifications",
@@ -61,6 +66,8 @@ function mapProfile(row: Record<string, unknown>): Profile {
         : undefined,
     stripe_customer_id: (row.stripe_customer_id as string | null) ?? null,
     stripe_subscription_id: (row.stripe_subscription_id as string | null) ?? null,
+    trial_ends_at: (row.trial_ends_at as string | null) ?? null,
+    is_subscribed: row.is_subscribed === true,
     ai_generations_count:
       typeof row.ai_generations_count === "number" ? row.ai_generations_count : 0,
     vitrine_presentation: row.vitrine_presentation
@@ -74,11 +81,14 @@ function mapProfile(row: Record<string, unknown>): Profile {
 
 function profileInsertPayloads(input: CreateProfileInput): Record<string, unknown>[] {
   const { userId, fullName, proPhoneNumber } = input;
+  const trialEndsAt = computeTrialEndsAt();
   const optional = {
     ...(fullName?.trim() ? { full_name: fullName.trim() } : {}),
     ...(proPhoneNumber?.trim()
       ? { whatsapp_number: proPhoneNumber.trim() }
       : {}),
+    trial_ends_at: trialEndsAt,
+    is_subscribed: false,
   };
 
   const payloads: Record<string, unknown>[] = [];
@@ -181,6 +191,31 @@ async function insertProfileWithFallback(
   return { ok: false, error: lastError ?? { message: "Insert failed" } };
 }
 
+async function ensureTrialEndsAtIfMissing(
+  supabase: SupabaseClient,
+  userId: string,
+  profile: Profile,
+): Promise<Profile> {
+  if (profile.trial_ends_at || profile.is_subscribed) {
+    return profile;
+  }
+
+  const trialEndsAt = computeTrialEndsAt();
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      trial_ends_at: trialEndsAt,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", userId);
+
+  if (error) {
+    return profile;
+  }
+
+  return { ...profile, trial_ends_at: trialEndsAt };
+}
+
 /**
  * Crée le profil artisan : workspace solo = user.id, rôle ADMIN.
  * Si le trigger `on_auth_user_created` a déjà inséré la ligne, on la récupère.
@@ -193,7 +228,8 @@ export async function createProfileForNewUser(
 
   const existing = await getProfileByUserId(supabase, userId);
   if (existing.ok && existing.data) {
-    return { ok: true, data: existing.data };
+    const withTrial = await ensureTrialEndsAtIfMissing(supabase, userId, existing.data);
+    return { ok: true, data: withTrial };
   }
   if (!existing.ok) {
     return existing;

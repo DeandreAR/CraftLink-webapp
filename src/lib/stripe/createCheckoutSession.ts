@@ -67,7 +67,6 @@ export async function createCheckoutSession(
     mode: "subscription",
     line_items: [{ price: priceId, quantity: 1 }],
     allow_promotion_codes: true,
-    payment_method_collection: "if_required",
     excluded_payment_method_types: ["klarna"],
     success_url: successUrl,
     cancel_url: cancelUrl,

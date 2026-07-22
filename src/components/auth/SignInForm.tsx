@@ -18,6 +18,7 @@ type SignInFormProps = {
   lang: Locale;
   copy: AuthSignInDictionary;
   authError?: string | null;
+  nextPath?: string | null;
 };
 
 function resolveAuthCallbackMessage(
@@ -29,13 +30,14 @@ function resolveAuthCallbackMessage(
   return null;
 }
 
-export function SignInForm({ lang, copy, authError }: SignInFormProps) {
+export function SignInForm({ lang, copy, authError, nextPath }: SignInFormProps) {
   const [state, formAction, pending] = useActionState(signInAction, initial);
   const callbackMessage = resolveAuthCallbackMessage(authError, copy);
 
   return (
     <form action={formAction} className="space-y-5">
       <input type="hidden" name="locale" value={lang} />
+      {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
 
       {callbackMessage ? (
         <p

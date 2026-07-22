@@ -14,6 +14,7 @@ type Props = {
     recovery?: string;
     token_hash?: string;
     code?: string;
+    next?: string;
   }>;
 };
 
@@ -75,6 +76,7 @@ export default async function LoginPage({ searchParams }: Props) {
       copy={dict.auth}
       view={view}
       authError={params.error}
+      nextPath={params.next}
       unavailable={prepared.status === "unavailable"}
       unavailableMessage={
         prepared.status === "unavailable" ? prepared.message : undefined

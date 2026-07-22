@@ -1,16 +1,12 @@
-import { isCraftlinkPro, resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
-
-export function isProPlanTier(planTier: string | null | undefined): boolean {
-  return isCraftlinkPro(resolveCraftlinkPlan(planTier ?? ""));
-}
+import type { ProAccessProfile } from "@/domain/proAccess";
+import { isProUser } from "@/domain/proAccess";
 
 /** Pro : activé par défaut sauf désactivation explicite en base. Essentiel : toujours désactivé. */
 export function resolveVoiceCaptureEnabled(
-  planTier: string | null | undefined,
-  stored: boolean | null | undefined,
+  profile: ProAccessProfile & { voice_capture_enabled?: boolean | null },
 ): boolean {
-  if (!isProPlanTier(planTier)) return false;
-  return stored !== false;
+  if (!isProUser(profile)) return false;
+  return profile.voice_capture_enabled !== false;
 }
 
 /** Valeur à persister à l'activation du plan Pro. */

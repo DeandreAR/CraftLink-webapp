@@ -1,7 +1,6 @@
 import "server-only";
 
-import { isCraftlinkPro, resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
-import type { SubscriptionBillingSnapshot } from "@/domain/billing";
+import type { ProAccessProfile } from "@/domain/proAccess";
 import { createClient } from "@/lib/supabase/server";
 
 export const MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL = 2;
@@ -12,25 +11,8 @@ export const AI_GENERATION_QUOTA_EXCEEDED = "AI_GENERATION_QUOTA_EXCEEDED" as co
 export const AI_GENERATION_QUOTA_MESSAGE =
   "Vous avez atteint votre quota de générations IA. Modifiez directement votre page dans votre espace ou passez à l'offre Pro pour jusqu'à 3 générations par mois.";
 
-/** Pro payant : abonnement actif (hors période d'essai Stripe). */
-export function isPayingProSubscriber(
-  planTier: string,
-  billing: SubscriptionBillingSnapshot | null,
-): boolean {
-  if (!isCraftlinkPro(resolveCraftlinkPlan(planTier))) {
-    return false;
-  }
-  if (billing?.status === "trialing") {
-    return false;
-  }
-  return billing?.status === "active" || billing?.status === "past_due";
-}
-
-export function getMaxAiGenerations(
-  planTier: string,
-  billing: SubscriptionBillingSnapshot | null,
-): number {
-  if (isPayingProSubscriber(planTier, billing)) {
+export function getMaxAiGenerations(profile: ProAccessProfile): number {
+  if (profile.is_subscribed === true) {
     return MAX_AI_GENERATIONS_PRO;
   }
   return MAX_AI_GENERATIONS_TRIAL_OR_ESSENTIAL;
@@ -48,11 +30,10 @@ export function aiGenerationsRemaining(count: number, max: number): number {
 }
 
 export function canUseAiGeneration(
-  planTier: string,
+  profile: ProAccessProfile,
   aiGenerationsCount: number,
-  billing: SubscriptionBillingSnapshot | null,
 ): boolean {
-  const max = getMaxAiGenerations(planTier, billing);
+  const max = getMaxAiGenerations(profile);
   return normalizeAiGenerationsCount(aiGenerationsCount) < max;
 }
 

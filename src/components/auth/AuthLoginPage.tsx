@@ -17,6 +17,7 @@ type AuthLoginPageProps = {
   unavailable?: boolean;
   unavailableMessage?: string;
   recoverySessionReady?: boolean;
+  nextPath?: string | null;
 };
 
 export function AuthLoginPage({
@@ -27,6 +28,7 @@ export function AuthLoginPage({
   unavailable = false,
   unavailableMessage,
   recoverySessionReady = false,
+  nextPath,
 }: AuthLoginPageProps) {
   const shell =
     view === "forgot-password"
@@ -72,7 +74,7 @@ export function AuthLoginPage({
           sessionReady={recoverySessionReady}
         />
       ) : (
-        <SignInForm lang={lang} copy={copy.signIn} authError={authError} />
+        <SignInForm lang={lang} copy={copy.signIn} authError={authError} nextPath={nextPath} />
       )}
     </AuthPageShell>
   );

@@ -9,14 +9,13 @@ import {
   STRIPE_FREE_PLAN_TIER,
   STRIPE_PRO_PLAN_TIER,
 } from "@/lib/stripe/updateProfilePlan";
-import { isCraftlinkPro, resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { PlanTier } from "@/domain/profile";
 
 async function fetchPrimarySubscription(
   stripe: Stripe,
   customerId: string,
 ): Promise<Stripe.Subscription | null> {
-  for (const status of ["active", "trialing", "past_due"] as const) {
+  for (const status of ["active", "past_due"] as const) {
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
       status,
@@ -31,22 +30,25 @@ async function fetchPrimarySubscription(
 
 export type StripeProfileSyncResult = {
   planTier: PlanTier | null;
+  isSubscribed: boolean | null;
   customerId: string | null;
   subscriptionId: string | null;
 };
 
 /**
- * Répare plan_tier et références Stripe (customer / subscription) depuis l’API prod.
+ * Répare is_subscribed et références Stripe (customer / subscription) depuis l’API prod.
+ * L'essai Pro local (trial_ends_at) n'est pas géré par Stripe.
  */
 export async function syncProfilePlanFromStripeIfNeeded(
   userId: string,
   currentPlanTier: string | null | undefined,
   stripeCustomerId?: string | null,
+  currentIsSubscribed?: boolean | null,
 ): Promise<StripeProfileSyncResult> {
   const supabase = await createClient();
   const { data: profile } = await supabase
     .from("profiles")
-    .select("stripe_customer_id, stripe_subscription_id")
+    .select("stripe_customer_id, stripe_subscription_id, is_subscribed")
     .eq("id", userId)
     .maybeSingle();
 
@@ -56,15 +58,19 @@ export async function syncProfilePlanFromStripeIfNeeded(
     null;
 
   if (!customerId) {
-    return { planTier: null, customerId: null, subscriptionId: null };
+    return { planTier: null, isSubscribed: null, customerId: null, subscriptionId: null };
   }
 
   try {
     const stripe = getStripe();
     const subscription = await fetchPrimarySubscription(stripe, customerId);
+    const wasSubscribed =
+      currentIsSubscribed === true ||
+      profile?.is_subscribed === true ||
+      currentPlanTier === STRIPE_PRO_PLAN_TIER;
 
     if (!subscription) {
-      if (isCraftlinkPro(resolveCraftlinkPlan(currentPlanTier ?? ""))) {
+      if (wasSubscribed) {
         const result = await setProfilePlanByUserId(
           userId,
           STRIPE_FREE_PLAN_TIER,
@@ -73,17 +79,22 @@ export async function syncProfilePlanFromStripeIfNeeded(
         );
         if (!result.ok) {
           console.error("[stripe] sync downgrade failed:", result.error);
-          return { planTier: null, customerId, subscriptionId: null };
+          return { planTier: null, isSubscribed: null, customerId, subscriptionId: null };
         }
-        return { planTier: STRIPE_FREE_PLAN_TIER, customerId, subscriptionId: null };
+        return {
+          planTier: STRIPE_FREE_PLAN_TIER,
+          isSubscribed: false,
+          customerId,
+          subscriptionId: null,
+        };
       }
-      return { planTier: null, customerId, subscriptionId: null };
+      return { planTier: null, isSubscribed: false, customerId, subscriptionId: null };
     }
 
     const subscriptionId = subscription.id;
-    const shouldUpgradePlan = !isCraftlinkPro(resolveCraftlinkPlan(currentPlanTier ?? ""));
+    const shouldActivate = !wasSubscribed;
 
-    if (shouldUpgradePlan) {
+    if (shouldActivate) {
       const result = await setProfilePlanByUserId(
         userId,
         STRIPE_PRO_PLAN_TIER,
@@ -92,18 +103,23 @@ export async function syncProfilePlanFromStripeIfNeeded(
       );
       if (!result.ok) {
         console.error("[stripe] sync PRO failed:", result.error);
-        return { planTier: null, customerId, subscriptionId };
+        return { planTier: null, isSubscribed: true, customerId, subscriptionId };
       }
-      return { planTier: STRIPE_PRO_PLAN_TIER, customerId, subscriptionId };
+      return {
+        planTier: STRIPE_PRO_PLAN_TIER,
+        isSubscribed: true,
+        customerId,
+        subscriptionId,
+      };
     }
 
     if (profile?.stripe_subscription_id !== subscriptionId) {
       await setProfileStripeSubscriptionByUserId(userId, subscriptionId, customerId);
     }
 
-    return { planTier: null, customerId, subscriptionId };
+    return { planTier: null, isSubscribed: true, customerId, subscriptionId };
   } catch (error) {
     console.error("[stripe] sync billing failed:", error);
-    return { planTier: null, customerId, subscriptionId: null };
+    return { planTier: null, isSubscribed: null, customerId, subscriptionId: null };
   }
 }

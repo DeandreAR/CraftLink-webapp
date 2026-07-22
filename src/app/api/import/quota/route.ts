@@ -5,7 +5,6 @@ import {
   normalizeAiGenerationsCount,
 } from "@/lib/ai/aiGenerationQuota";
 import { getImportAuthContext } from "@/lib/onboarding/proImport/api/importAuth";
-import { loadSubscriptionBillingForUser } from "@/lib/stripe/loadSubscriptionBilling";
 
 export async function GET() {
   const auth = await getImportAuthContext();
@@ -13,8 +12,7 @@ export async function GET() {
     return auth;
   }
 
-  const billing = await loadSubscriptionBillingForUser(auth.userId);
-  const max = getMaxAiGenerations(auth.planTier, billing);
+  const max = getMaxAiGenerations(auth);
   const used = normalizeAiGenerationsCount(auth.aiGenerationsCount);
   const remaining = aiGenerationsRemaining(used, max);
 

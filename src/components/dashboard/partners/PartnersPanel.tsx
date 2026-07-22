@@ -150,7 +150,7 @@ export function PartnersPanel({
   initialRequests,
   initialLoadError,
 }: PartnersPanelProps) {
-  const pro = hasProFeatureAccess(profile.plan_tier);
+  const pro = hasProFeatureAccess(profile);
   const p = copy.partners;
   const isDesktopPartners = useMediaQuery("(min-width: 768px)");
   const [mounted, setMounted] = useState(false);
@@ -282,7 +282,7 @@ export function PartnersPanel({
 
       <ProFeatureGuard
         feature="partners"
-        planTier={profile.plan_tier}
+        proAccess={profile}
         copy={copy}
         locale={locale}
       >

@@ -80,7 +80,7 @@ export function ArtisanProfilePanel({
         </Link>
       </div>
       <BillingSection
-        planTier={profile.plan_tier}
+        proAccess={profile}
         billing={billing}
         stripeCustomerId={profile.stripe_customer_id}
         copy={copy}

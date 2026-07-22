@@ -5,7 +5,7 @@ import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
 import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
 import type { DashboardLead } from "@/domain/lead";
-import type { PlanTier } from "@/domain/profile";
+import type { ProAccessProfile } from "@/domain/proAccess";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { authPath } from "@/lib/auth/paths";
@@ -13,7 +13,7 @@ import { authPath } from "@/lib/auth/paths";
 type StatistiquesPageClientProps = {
   leads: DashboardLead[];
   loadError: string | null;
-  planTier: PlanTier;
+  proAccess: ProAccessProfile;
   copy: DashboardDictionary;
   locale: Locale;
 };
@@ -21,7 +21,7 @@ type StatistiquesPageClientProps = {
 export function StatistiquesPageClient({
   leads,
   loadError,
-  planTier,
+  proAccess,
   copy,
   locale,
 }: StatistiquesPageClientProps) {
@@ -54,7 +54,7 @@ export function StatistiquesPageClient({
           ) : null}
           <ProFeatureGuard
             feature="stats"
-            planTier={planTier}
+            proAccess={proAccess}
             copy={copy}
             locale={locale}
           >

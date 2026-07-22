@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
+import { resolveCraftlinkPlanFromAccess } from "@/lib/dashboard/planAccess";
+import { isProUser } from "@/domain/proAccess";
 import type { StoredVitrineConfig } from "@/domain/vitrinePresentation";
 import {
   canOpenWhatsAppContact,
@@ -100,7 +101,7 @@ export async function getWhatsAppQuotaAction(): Promise<
 
   const { data: profile, error } = await supabase
     .from("profiles")
-    .select("plan_tier, whatsapp_clicks_this_month, whatsapp_clicks_month_key")
+    .select("plan_tier, whatsapp_clicks_this_month, whatsapp_clicks_month_key, is_subscribed, trial_ends_at")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -108,7 +109,7 @@ export async function getWhatsAppQuotaAction(): Promise<
     return { ok: false, message: error?.message ?? "Profil introuvable." };
   }
 
-  const plan = resolveCraftlinkPlan(String(profile.plan_tier ?? ""));
+  const plan = resolveCraftlinkPlanFromAccess(profile);
   const clicks = normalizeWhatsappClickCount(
     Number(profile.whatsapp_clicks_this_month ?? 0),
     profile.whatsapp_clicks_month_key as string | null,
@@ -137,7 +138,7 @@ export async function registerWhatsAppClickAction(): Promise<RegisterWhatsAppCli
 
   const { data: profile, error: readError } = await supabase
     .from("profiles")
-    .select("plan_tier, whatsapp_clicks_this_month, whatsapp_clicks_month_key")
+    .select("plan_tier, whatsapp_clicks_this_month, whatsapp_clicks_month_key, is_subscribed, trial_ends_at")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -145,7 +146,7 @@ export async function registerWhatsAppClickAction(): Promise<RegisterWhatsAppCli
     return { ok: false, message: readError?.message ?? "Profil introuvable." };
   }
 
-  const plan = resolveCraftlinkPlan(String(profile.plan_tier ?? ""));
+  const plan = resolveCraftlinkPlanFromAccess(profile);
   const monthKey = currentWhatsappMonthKey();
   const currentClicks = normalizeWhatsappClickCount(
     Number(profile.whatsapp_clicks_this_month ?? 0),
@@ -196,7 +197,7 @@ export async function updateVoiceCaptureAction(
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("plan_tier")
+    .select("plan_tier, is_subscribed, trial_ends_at")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -204,7 +205,7 @@ export async function updateVoiceCaptureAction(
     return { ok: false, message: "Profil introuvable." };
   }
 
-  if (resolveCraftlinkPlan(String(profile.plan_tier)) !== "PRO") {
+  if (!isProUser(profile)) {
     return { ok: false, message: "Capture vocale réservée au Plan Pro." };
   }
 

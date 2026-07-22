@@ -276,7 +276,7 @@ export function OrganizationPanel({
           {section === "stats" ? (
             <ProFeatureGuard
               feature="stats"
-              planTier={profile.plan_tier}
+              proAccess={profile}
               copy={copy}
               locale={locale}
             >
@@ -289,7 +289,7 @@ export function OrganizationPanel({
           ) : section === "calendar" ? (
             <ProFeatureGuard
               feature="calendar"
-              planTier={profile.plan_tier}
+              proAccess={profile}
               copy={copy}
               locale={locale}
             >

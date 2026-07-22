@@ -35,7 +35,7 @@ export default async function AbonnementPage() {
         </p>
         <DashboardPageHeader title={b.title} subtitle={b.pageSubtitle} />
         <BillingSection
-          planTier={session.profile.plan_tier}
+          proAccess={session.profile}
           billing={billing}
           stripeCustomerId={session.profile.stripe_customer_id}
           copy={dict.dashboard}

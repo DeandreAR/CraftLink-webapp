@@ -27,7 +27,6 @@ import {
   incrementAiGenerationsCount,
   normalizeAiGenerationsCount,
 } from "@/lib/ai/aiGenerationQuota";
-import { loadSubscriptionBillingForUser } from "@/lib/stripe/loadSubscriptionBilling";
 import {
   ProviderDegradedError,
   isNetworkFailure,
@@ -143,10 +142,9 @@ export async function handleImportPost(
     return auth;
   }
 
-  const billing = await loadSubscriptionBillingForUser(auth.userId);
   const used = normalizeAiGenerationsCount(auth.aiGenerationsCount);
 
-  if (!canUseAiGeneration(auth.planTier, used, billing)) {
+  if (!canUseAiGeneration(auth, used)) {
     return NextResponse.json(
       { error: AI_GENERATION_QUOTA_EXCEEDED, message: AI_GENERATION_QUOTA_MESSAGE },
       { status: 403 },
@@ -165,7 +163,7 @@ export async function handleImportPost(
       return NextResponse.json({ error: IMPORT_PROVIDER_ERROR }, { status: 502 });
     }
 
-    const max = getMaxAiGenerations(auth.planTier, billing);
+    const max = getMaxAiGenerations(auth);
     const nextCount = await incrementAiGenerationsCount(auth.userId);
     const aiGenerationsCount = nextCount ?? used + 1;
 
