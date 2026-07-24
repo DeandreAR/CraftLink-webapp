@@ -5,8 +5,6 @@ import { createPortal } from "react-dom";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
-import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
-import { PartnersBrandsCard } from "@/components/dashboard/partners/PartnersBrandsCard";
 import { PartnersProSelectionCard } from "@/components/dashboard/partners/PartnersProSelectionCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
@@ -268,13 +266,7 @@ export function PartnersPanel({
         ) : null}
       </div>
 
-      <PartnersBrandsCard profile={profile} copy={copy} />
       {pro ? <PartnersProSelectionCard profile={profile} copy={copy} /> : null}
-      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
-
-      {pro ? null : (
-        <p className="text-xs text-[#5b6478]">{p.affiliateLinks.hint}</p>
-      )}
     </div>
   );
 

@@ -85,6 +85,8 @@ export type OnboardingVisualDraft = {
    * - image → URL (sinon `bannerPreviewUrl`)
    */
   headerBgValue?: string | null;
+  /** Contour blanc autour de la photo (layout avatar_cover / banner_overlay). */
+  headerAvatarBorder?: boolean;
 };
 
 export type OnboardingProfileDraft = {
@@ -164,6 +166,7 @@ export const defaultVisualDraft = (): OnboardingVisualDraft => ({
   headerLayoutType: "banner_overlay",
   headerBgType: "solid",
   headerBgValue: "#FFFFFF",
+  headerAvatarBorder: true,
 });
 
 export const defaultOnboardingProfile = (

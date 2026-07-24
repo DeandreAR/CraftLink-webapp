@@ -8,7 +8,7 @@ import {
   reorderRecommendedProductsAction,
   updateRecommendedProductAction,
 } from "@/app/actions/recommendedProducts";
-import type { RecommendedProduct } from "@/domain/recommendedProduct";
+import type { RecommendedItem } from "@/domain/recommendedProduct";
 import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
 import { compressGalleryImage } from "@/lib/portfolio/compressGalleryImage";
@@ -34,13 +34,11 @@ type ProSelectionManagerCopy = {
   moveUp: string;
   moveDown: string;
   formTitle: string;
-  formBrand: string;
   formDescription: string;
+  formDiscount: string;
   formImage: string;
   formUrl: string;
-  formPrice: string;
   formActive: string;
-  uploadImage: string;
   uploading: string;
   saving: string;
   error: string;
@@ -55,21 +53,19 @@ type ProSelectionManagerProps = {
 
 type FormState = {
   title: string;
-  brand: string;
   description: string;
+  discount_code: string;
   image_url: string;
-  affiliate_url: string;
-  price_hint: string;
+  url: string;
   is_active: boolean;
 };
 
 const emptyForm = (): FormState => ({
   title: "",
-  brand: "",
   description: "",
+  discount_code: "",
   image_url: "",
-  affiliate_url: "",
-  price_hint: "",
+  url: "",
   is_active: true,
 });
 
@@ -79,7 +75,7 @@ export function ProSelectionManager({
   onProfileChange,
   copy,
 }: ProSelectionManagerProps) {
-  const [products, setProducts] = useState<RecommendedProduct[]>([]);
+  const [items, setItems] = useState<RecommendedItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -94,7 +90,7 @@ export function ProSelectionManager({
 
   const refresh = async () => {
     const result = await listRecommendedProductsAction();
-    if (result.ok) setProducts(result.products);
+    if (result.ok) setItems(result.products);
     setLoading(false);
   };
 
@@ -109,17 +105,16 @@ export function ProSelectionManager({
     setFeedback(null);
   };
 
-  const openEdit = (product: RecommendedProduct) => {
+  const openEdit = (item: RecommendedItem) => {
     setCreating(false);
-    setEditingId(product.id);
+    setEditingId(item.id);
     setForm({
-      title: product.title,
-      brand: product.brand ?? "",
-      description: product.description ?? "",
-      image_url: product.image_url,
-      affiliate_url: product.affiliate_url,
-      price_hint: product.price_hint ?? "",
-      is_active: product.is_active,
+      title: item.title,
+      description: item.description ?? "",
+      discount_code: item.discount_code ?? "",
+      image_url: item.image_url ?? "",
+      url: item.url,
+      is_active: item.is_active,
     });
     setFeedback(null);
   };
@@ -149,11 +144,10 @@ export function ProSelectionManager({
       setFeedback(null);
       const payload = {
         title: form.title,
-        brand: form.brand || null,
         description: form.description || null,
-        image_url: form.image_url,
-        affiliate_url: form.affiliate_url,
-        price_hint: form.price_hint || null,
+        discount_code: form.discount_code || null,
+        image_url: form.image_url || null,
+        url: form.url,
         is_active: form.is_active,
       };
 
@@ -182,13 +176,13 @@ export function ProSelectionManager({
   };
 
   const move = (id: string, direction: -1 | 1) => {
-    const index = products.findIndex((p) => p.id === id);
+    const index = items.findIndex((p) => p.id === id);
     const target = index + direction;
-    if (index < 0 || target < 0 || target >= products.length) return;
-    const next = [...products];
+    if (index < 0 || target < 0 || target >= items.length) return;
+    const next = [...items];
     const [item] = next.splice(index, 1);
     next.splice(target, 0, item);
-    setProducts(next);
+    setItems(next);
     startTransition(async () => {
       await reorderRecommendedProductsAction(next.map((p) => p.id));
     });
@@ -231,43 +225,48 @@ export function ProSelectionManager({
             <div key={i} className="h-24 animate-pulse rounded-2xl bg-neutral-100" />
           ))}
         </div>
-      ) : products.length === 0 && !creating ? (
+      ) : items.length === 0 && !creating ? (
         <p className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50 px-4 py-3 text-xs text-neutral-500">
           {copy.empty}
         </p>
       ) : (
         <ul className="space-y-2">
-          {products.map((product, index) => (
+          {items.map((item, index) => (
             <li
-              key={product.id}
+              key={item.id}
               className="flex items-center gap-3 rounded-2xl border border-neutral-200 bg-neutral-50/70 p-2.5"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={product.image_url}
-                alt=""
-                className="h-14 w-14 shrink-0 rounded-xl object-cover bg-neutral-200"
-              />
+              {item.image_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={item.image_url}
+                  alt=""
+                  className="h-14 w-14 shrink-0 rounded-xl object-cover bg-neutral-200"
+                />
+              ) : (
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-neutral-200 text-[10px] font-bold uppercase text-neutral-500">
+                  Lien
+                </div>
+              )}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-neutral-900">{product.title}</p>
+                <p className="truncate text-sm font-semibold text-neutral-900">{item.title}</p>
                 <p className="truncate text-[11px] text-neutral-500">
-                  {[product.brand, product.price_hint].filter(Boolean).join(" · ") ||
-                    product.affiliate_url}
+                  {[item.discount_code, item.url].filter(Boolean).join(" · ")}
                 </p>
               </div>
               <div className="flex shrink-0 flex-col gap-1">
                 <button
                   type="button"
                   disabled={index === 0 || pending}
-                  onClick={() => move(product.id, -1)}
+                  onClick={() => move(item.id, -1)}
                   className="rounded-lg border border-neutral-200 bg-white px-2 py-1 text-[10px] font-semibold disabled:opacity-40"
                 >
                   {copy.moveUp}
                 </button>
                 <button
                   type="button"
-                  disabled={index === products.length - 1 || pending}
-                  onClick={() => move(product.id, 1)}
+                  disabled={index === items.length - 1 || pending}
+                  onClick={() => move(item.id, 1)}
                   className="rounded-lg border border-neutral-200 bg-white px-2 py-1 text-[10px] font-semibold disabled:opacity-40"
                 >
                   {copy.moveDown}
@@ -276,14 +275,14 @@ export function ProSelectionManager({
               <div className="flex shrink-0 flex-col gap-1">
                 <button
                   type="button"
-                  onClick={() => openEdit(product)}
+                  onClick={() => openEdit(item)}
                   className="rounded-lg border border-neutral-200 bg-white px-2 py-1 text-[10px] font-semibold"
                 >
                   {copy.edit}
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDelete(product.id)}
+                  onClick={() => handleDelete(item.id)}
                   className="rounded-lg border border-red-100 bg-white px-2 py-1 text-[10px] font-semibold text-red-600"
                 >
                   {copy.remove}
@@ -296,23 +295,14 @@ export function ProSelectionManager({
 
       {creating || editingId ? (
         <div className="space-y-3 rounded-2xl border border-[#EFA188]/30 bg-[#FFF5F0]/40 p-3">
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className={authLabelClassName}>{copy.formTitle}</label>
-              <input
-                className={authFieldClassName}
-                value={form.title}
-                onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
-              />
-            </div>
-            <div>
-              <label className={authLabelClassName}>{copy.formBrand}</label>
-              <input
-                className={authFieldClassName}
-                value={form.brand}
-                onChange={(e) => setForm((p) => ({ ...p, brand: e.target.value }))}
-              />
-            </div>
+          <div>
+            <label className={authLabelClassName}>{copy.formTitle}</label>
+            <input
+              className={authFieldClassName}
+              value={form.title}
+              onChange={(e) => setForm((p) => ({ ...p, title: e.target.value }))}
+              placeholder="Ex. Pack outillage Wiha / Gamme Legrand"
+            />
           </div>
           <div>
             <label className={authLabelClassName}>{copy.formDescription}</label>
@@ -328,16 +318,18 @@ export function ProSelectionManager({
               <label className={authLabelClassName}>{copy.formUrl}</label>
               <input
                 className={authFieldClassName}
-                value={form.affiliate_url}
-                onChange={(e) => setForm((p) => ({ ...p, affiliate_url: e.target.value }))}
+                value={form.url}
+                onChange={(e) => setForm((p) => ({ ...p, url: e.target.value }))}
+                placeholder="https://…"
               />
             </div>
             <div>
-              <label className={authLabelClassName}>{copy.formPrice}</label>
+              <label className={authLabelClassName}>{copy.formDiscount}</label>
               <input
                 className={authFieldClassName}
-                value={form.price_hint}
-                onChange={(e) => setForm((p) => ({ ...p, price_hint: e.target.value }))}
+                value={form.discount_code}
+                onChange={(e) => setForm((p) => ({ ...p, discount_code: e.target.value }))}
+                placeholder="Ex. -10% code CRAFT10"
               />
             </div>
           </div>
@@ -347,16 +339,16 @@ export function ProSelectionManager({
               className={authFieldClassName}
               value={form.image_url}
               onChange={(e) => setForm((p) => ({ ...p, image_url: e.target.value }))}
-              placeholder="https://…"
+              placeholder="https://… (optionnel)"
             />
-            <div className="mt-2 flex items-center gap-2">
+            <div className="mt-2">
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => void handleUpload(e.target.files?.[0])}
               />
               {uploading ? (
-                <span className="text-xs text-neutral-500">{copy.uploading}</span>
+                <span className="ml-2 text-xs text-neutral-500">{copy.uploading}</span>
               ) : null}
             </div>
           </div>

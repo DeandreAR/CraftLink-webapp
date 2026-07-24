@@ -1,6 +1,7 @@
 import type { OnboardingVisualDraft } from "@/domain/onboarding";
 import type { VitrineMedia } from "@/domain/vitrine";
 import type { HeaderGradientValue } from "@/domain/recommendedProduct";
+import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 
 function parseGradientValue(raw: string | null | undefined): HeaderGradientValue | null {
   if (!raw?.trim()) return null;
@@ -35,17 +36,23 @@ export function resolveVitrineHeaderMedia(
   | "headerLayoutType"
   | "headerBgType"
   | "headerSolidColor"
+  | "headerAvatarBorder"
 > {
   const brandPrimary = options?.brandPrimary ?? visual.accentColor;
   const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
   const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
 
-  const layout = visual.headerLayoutType ?? "banner_overlay";
+  const layout = normalizeHeaderLayoutType(visual.headerLayoutType);
   let bgType = visual.headerBgType;
   if (!bgType) {
     if (visual.useBrandGradientBanner) bgType = "gradient";
-    else if (visual.bannerPreviewUrl) bgType = "image";
+    else if (visual.bannerPreviewUrl && layout === "banner_overlay") bgType = "image";
     else bgType = "solid";
+  }
+
+  // Layouts pleine page / en-tête coloré : fond uni ou dégradé uniquement
+  if (layout !== "banner_overlay" && bgType === "image") {
+    bgType = "gradient";
   }
 
   const avatarUrl = visual.avatarPreviewUrl;
@@ -65,21 +72,28 @@ export function resolveVitrineHeaderMedia(
       visual.headerBgValue?.startsWith("#") ? visual.headerBgValue : "#FFFFFF";
   }
 
-  // Legacy Instagram force gradient if flag set and no explicit image preference
-  if (visual.useBrandGradientBanner && bgType !== "image") {
+  if (visual.useBrandGradientBanner && bgType !== "image" && layout === "banner_overlay") {
     bgType = "gradient";
     bannerGradient = bannerGradient ?? { from: themeBannerFrom, to: themeBannerTo };
     bannerUrl = null;
     headerSolidColor = null;
   }
 
+  const showAvatar =
+    layout === "brand_cover" || layout === "page_brand"
+      ? false
+      : layout === "avatar_cover" || layout === "banner_overlay"
+        ? true
+        : Boolean(avatarUrl);
+
   return {
     bannerUrl,
     bannerGradient,
     avatarUrl,
-    showAvatar: Boolean(avatarUrl) || layout === "banner_overlay",
+    showAvatar,
     headerLayoutType: layout,
     headerBgType: bgType,
     headerSolidColor,
+    headerAvatarBorder: visual.headerAvatarBorder !== false,
   };
 }

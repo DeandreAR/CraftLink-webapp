@@ -19,7 +19,7 @@ import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import type { OnboardingSocialFollowers } from "@/lib/onboarding/socialFollowers";
 import { parsePortfolioItems } from "@/lib/portfolio/normalizePortfolioItem";
-import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
+import { DEFAULT_PRO_SELECTION_TITLE, normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 
 /** Champs vitrine persistés (hors colonnes `profiles`). */
 export type StoredVitrineProfilePart = {
@@ -186,10 +186,9 @@ function parseVisual(raw: unknown): OnboardingVisualDraft {
   if (!raw || typeof raw !== "object") return base;
   const row = raw as Record<string, unknown>;
 
-  const headerLayoutType =
-    row.headerLayoutType === "standard" || row.headerLayoutType === "banner_overlay"
-      ? row.headerLayoutType
-      : base.headerLayoutType;
+  const headerLayoutType = normalizeHeaderLayoutType(
+    typeof row.headerLayoutType === "string" ? row.headerLayoutType : null,
+  );
 
   const headerBgType =
     row.headerBgType === "solid" ||
@@ -222,6 +221,7 @@ function parseVisual(raw: unknown): OnboardingVisualDraft {
         : row.headerBgValue === null
           ? null
           : base.headerBgValue,
+    headerAvatarBorder: row.headerAvatarBorder !== false,
   };
 }
 

@@ -570,10 +570,14 @@ export type DashboardDictionary = {
     headerAppearance: {
       title: string;
       layoutTitle: string;
-      layoutStandard: string;
-      layoutStandardHint: string;
-      layoutOverlay: string;
-      layoutOverlayHint: string;
+      layoutBanner: string;
+      layoutBannerHint: string;
+      layoutBrand: string;
+      layoutBrandHint: string;
+      layoutAvatar: string;
+      layoutAvatarHint: string;
+      layoutPageBrand: string;
+      layoutPageBrandHint: string;
       bgTitle: string;
       bgSolid: string;
       bgGradient: string;
@@ -582,6 +586,7 @@ export type DashboardDictionary = {
       gradientTo: string;
       uploadBanner: string;
       uploading: string;
+      avatarBorderLabel: string;
     };
   };
   qr: {
@@ -603,39 +608,6 @@ export type DashboardDictionary = {
     loadError: string;
     pendingCount: string;
     showArchived: string;
-    brands: {
-      title: string;
-      hint: string;
-      nameLabel: string;
-      namePlaceholder: string;
-      add: string;
-      removeAria: string;
-      empty: string;
-      maxReached: string;
-    };
-    affiliateLinks: {
-      title: string;
-      hint: string;
-      nameLabel: string;
-      namePlaceholder: string;
-      discountLabel: string;
-      discountPlaceholder: string;
-      urlLabel: string;
-      urlPlaceholder: string;
-      imageLabel: string;
-      imageHint: string;
-      imageUpload: string;
-      imageRemove: string;
-      imageUploading: string;
-      shareTitle: string;
-      shareHint: string;
-      shareCopy: string;
-      shareCopied: string;
-      add: string;
-      remove: string;
-      maxReached: string;
-      empty: string;
-    };
     proSelection: {
       title: string;
       hint: string;
@@ -651,13 +623,11 @@ export type DashboardDictionary = {
       moveUp: string;
       moveDown: string;
       formTitle: string;
-      formBrand: string;
       formDescription: string;
+      formDiscount: string;
       formImage: string;
       formUrl: string;
-      formPrice: string;
       formActive: string;
-      uploadImage: string;
       uploading: string;
       saving: string;
       error: string;
@@ -950,7 +920,6 @@ export type VitrineDictionary = {
   presentation: {
     quoteFreeHint: string;
     portfolioTitle: string;
-    affiliateLinksTitle: string;
     contactTabLabel: string;
     proSelectionTitle: string;
     proSelectionSearch: string;
@@ -1209,25 +1178,6 @@ export type OnboardingDictionary = {
     googleRatingLabel: string;
     googleReviewCountPlaceholder: string;
     googleRatingPlaceholder: string;
-  };
-  affiliateLinks: {
-    title: string;
-    hint: string;
-    nameLabel: string;
-    namePlaceholder: string;
-    discountLabel: string;
-    discountPlaceholder: string;
-    urlLabel: string;
-    urlPlaceholder: string;
-    imageLabel: string;
-    imageHint: string;
-    imageUpload: string;
-    imageRemove: string;
-    imageUploading: string;
-    add: string;
-    remove: string;
-    maxReached: string;
-    empty: string;
   };
   visual: {
     title: string;

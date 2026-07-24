@@ -9,7 +9,6 @@ import { getMetierLabel } from "@/lib/onboarding/metierOptions";
 import { getFontById } from "@/lib/onboarding/onboardingFonts";
 import { onboardingSocialToVitrineLinks } from "@/lib/onboarding/socialLinks";
 import { resolveSocialFollowers } from "@/lib/onboarding/socialFollowers";
-import { onboardingAffiliateToVitrineLinks } from "@/lib/onboarding/affiliateLinks";
 import { onboardingServicesToVitrine } from "@/lib/onboarding/toVitrineServices";
 import { resolveTradeLabelFallback } from "@/lib/onboarding/proImport/toProfileDraft";
 import type { VitrineDictionary } from "@/i18n/types";
@@ -99,11 +98,7 @@ export function buildOnboardingPreviewProps(
     vitrineCopy.presentation.followersLabel,
     locale,
   );
-  const affiliateLinks = onboardingAffiliateToVitrineLinks(profile.affiliateLinks ?? [], {
-    pageSlug: profile.pageSlug,
-  });
   const hasSocial = socialLinks.length > 0;
-  const hasAffiliateLinks = affiliateLinks.length > 0 && plan === "PRO";
   const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
   const proSelectionEnabled = profile.proSelectionEnabled !== false;
   const proSelectionTitle =
@@ -141,7 +136,7 @@ export function buildOnboardingPreviewProps(
       googleBusinessUrl: hasGoogleBusiness ? profile.social.googleBusinessUrl.trim() : null,
       statBadges,
       socialLinks,
-      affiliateLinks,
+      affiliateLinks: [],
       recommendedProducts: [],
       portfolioItems,
       media: headerMedia,
@@ -165,7 +160,7 @@ export function buildOnboardingPreviewProps(
         showStatBadges: statBadges.length > 0,
         showInterventionTags: useInterventions,
         showCollaborationButton: false,
-        showAffiliateLinks: hasAffiliateLinks,
+        showAffiliateLinks: false,
         showProSelection: plan === "PRO" && proSelectionEnabled,
         proSelectionTitle,
         showPortfolioGallery: hasPortfolio,

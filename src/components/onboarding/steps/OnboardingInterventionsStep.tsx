@@ -23,7 +23,6 @@ import {
   patchSocialFollower,
   type SocialNetworkKey,
 } from "@/lib/onboarding/socialFollowers";
-import { AffiliateLinksEditor } from "@/components/onboarding/AffiliateLinksEditor";
 import { formatOnboardingPriceLabel } from "@/lib/onboarding/toVitrineServices";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 
@@ -717,14 +716,6 @@ export function OnboardingInterventionsStep({
         </div>
       </div>
 
-      {profile.plan === "PRO" && metierKey ? (
-        <AffiliateLinksEditor
-          links={profile.affiliateLinks ?? []}
-          onChange={(affiliateLinks) => onProfileChange({ affiliateLinks })}
-          copy={copy.affiliateLinks}
-          optionalBadge={i.optionalBadge}
-        />
-      ) : null}
     </div>
   );
 }

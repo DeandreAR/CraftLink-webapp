@@ -112,27 +112,6 @@ export const onboardingFr: OnboardingDictionary = {
     googleReviewCountPlaceholder: "Ex. 48",
     googleRatingPlaceholder: "Ex. 4,9",
   },
-  affiliateLinks: {
-    title: "Liens d'affiliation & codes partenaires",
-    hint:
-      "Ajoutez vos liens avec un nom, une réduction et une image d’aperçu (affichée au partage social).",
-    nameLabel: "Nom du lien",
-    namePlaceholder: "Ex. Code Leroy Merlin",
-    discountLabel: "Réduction",
-    discountPlaceholder: "Ex. -10 %, livraison offerte",
-    urlLabel: "URL du lien",
-    urlPlaceholder: "https://…",
-    imageLabel: "Image d’aperçu (optionnel)",
-    imageHint:
-      "Si vide, l’aperçu du produit (Open Graph) est utilisé pour le post.",
-    imageUpload: "Ajouter une image",
-    imageRemove: "Retirer",
-    imageUploading: "Envoi…",
-    add: "Ajouter un lien",
-    remove: "Supprimer",
-    maxReached: "Maximum de 12 liens atteint.",
-    empty: "Aucun lien pour l'instant — ajoutez vos codes affiliation ou partenaires.",
-  },
   visual: {
     title: "Personnalisation visuelle",
     subtitle: "Médias, police et couleur des boutons secondaires.",

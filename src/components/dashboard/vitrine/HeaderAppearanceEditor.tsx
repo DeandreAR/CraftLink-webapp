@@ -1,7 +1,8 @@
 "use client";
 
-import { HEADER_SOLID_PRESETS } from "@/domain/recommendedProduct";
+import { HEADER_SOLID_PRESETS, normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 import type { OnboardingProfileDraft } from "@/domain/onboarding";
+import type { HeaderLayoutType } from "@/domain/recommendedProduct";
 import { serializeGradientValue } from "@/lib/vitrine/resolveVitrineHeaderMedia";
 import { uploadBannerImage } from "@/lib/vitrine/bannerStorage";
 import { compressGalleryImage } from "@/lib/portfolio/compressGalleryImage";
@@ -14,10 +15,14 @@ type HeaderAppearanceEditorProps = {
   copy: {
     title: string;
     layoutTitle: string;
-    layoutStandard: string;
-    layoutStandardHint: string;
-    layoutOverlay: string;
-    layoutOverlayHint: string;
+    layoutBanner: string;
+    layoutBannerHint: string;
+    layoutBrand: string;
+    layoutBrandHint: string;
+    layoutAvatar: string;
+    layoutAvatarHint: string;
+    layoutPageBrand: string;
+    layoutPageBrandHint: string;
     bgTitle: string;
     bgSolid: string;
     bgGradient: string;
@@ -26,8 +31,98 @@ type HeaderAppearanceEditorProps = {
     gradientTo: string;
     uploadBanner: string;
     uploading: string;
+    avatarBorderLabel: string;
   };
 };
+
+type LayoutOptionId = Exclude<HeaderLayoutType, "standard">;
+
+function LayoutPreview({
+  id,
+  accent,
+}: {
+  id: LayoutOptionId;
+  accent: string;
+}) {
+  if (id === "banner_overlay") {
+    return (
+      <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+        <div className="h-10" style={{ backgroundColor: "#c4b5a5" }}>
+          <div className="flex h-full items-end justify-center pb-1">
+            <span className="rounded bg-black/35 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wide text-white">
+              Bannière
+            </span>
+          </div>
+        </div>
+        <div className="-mt-3 flex flex-col items-center pb-2">
+          <div
+            className="h-7 w-7 rounded-full border-2 border-white shadow"
+            style={{ backgroundColor: accent }}
+          />
+          <span className="mt-1 text-[8px] font-medium text-neutral-500">Photo</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (id === "brand_cover") {
+    return (
+      <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+        <div
+          className="flex h-12 flex-col items-center justify-center px-1 text-center"
+          style={{ background: `linear-gradient(135deg, ${accent} 0%, #fff5f0 100%)` }}
+        >
+          <span className="text-[9px] font-extrabold text-neutral-900">Nom</span>
+          <span className="text-[7px] text-neutral-600">En-tête seulement</span>
+        </div>
+        <div className="space-y-1 bg-white p-1.5">
+          <div className="h-1.5 rounded bg-neutral-100" />
+          <div className="h-1.5 w-2/3 rounded bg-neutral-100" />
+        </div>
+      </div>
+    );
+  }
+
+  if (id === "page_brand") {
+    return (
+      <div
+        className="flex h-[4.75rem] flex-col overflow-hidden rounded-xl border border-neutral-200 px-1.5 py-1.5"
+        style={{ background: `linear-gradient(180deg, ${accent} 0%, #fff5f0 100%)` }}
+      >
+        <span className="text-center text-[9px] font-extrabold text-neutral-900">
+          Nom entreprise
+        </span>
+        <span className="mt-0.5 text-center text-[7px] font-semibold uppercase tracking-wide text-neutral-600">
+          Toute la page
+        </span>
+        <div className="mt-auto space-y-1 rounded-md bg-white/50 p-1">
+          <div className="h-1 rounded bg-white/80" />
+          <div className="h-1 w-3/4 rounded bg-white/80" />
+        </div>
+      </div>
+    );
+  }
+
+  // avatar_cover — pleine page
+  return (
+    <div
+      className="flex h-[4.75rem] flex-col items-center overflow-hidden rounded-xl border border-neutral-200 px-1.5 py-1.5"
+      style={{ background: `linear-gradient(180deg, ${accent} 0%, #fff5f0 100%)` }}
+    >
+      <div
+        className="h-7 w-7 rounded-full border-2 border-white shadow"
+        style={{ backgroundColor: accent }}
+      />
+      <span className="mt-1 text-[7px] font-semibold uppercase tracking-wide text-neutral-700">
+        Toute la page
+      </span>
+      <div className="mt-auto w-full space-y-1 rounded-md bg-white/50 p-1">
+        <div className="h-1 rounded bg-white/80" />
+        <div className="h-1 w-2/3 rounded bg-white/80" />
+      </div>
+    </div>
+  );
+}
 
 export function HeaderAppearanceEditor({
   profile,
@@ -36,10 +131,16 @@ export function HeaderAppearanceEditor({
   copy,
 }: HeaderAppearanceEditorProps) {
   const visual = profile.visual;
-  const layout = visual.headerLayoutType ?? "banner_overlay";
-  const bgType = visual.headerBgType ?? "solid";
+  const layout = normalizeHeaderLayoutType(visual.headerLayoutType);
+  const bgType =
+    layout === "banner_overlay"
+      ? (visual.headerBgType ?? "image")
+      : visual.headerBgType === "image"
+        ? "gradient"
+        : (visual.headerBgType ?? "solid");
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const accent = visual.accentColor || "#EFA188";
 
   let gradientFrom = "#EFA188";
   let gradientTo = "#FFF5F0";
@@ -59,6 +160,26 @@ export function HeaderAppearanceEditor({
     onChange({ visual: { ...visual, ...patch } });
   };
 
+  const selectLayout = (next: LayoutOptionId) => {
+    if (next === "banner_overlay") {
+      patchVisual({
+        headerLayoutType: next,
+        headerBgType:
+          visual.bannerPreviewUrl || visual.headerBgValue?.startsWith("http")
+            ? "image"
+            : visual.headerBgType === "solid"
+              ? "solid"
+              : "gradient",
+      });
+      return;
+    }
+    patchVisual({
+      headerLayoutType: next,
+      headerBgType: visual.headerBgType === "image" ? "gradient" : visual.headerBgType ?? "gradient",
+      useBrandGradientBanner: visual.headerBgType !== "solid",
+    });
+  };
+
   const handleBannerUpload = async (file: File | undefined) => {
     if (!file || !file.type.startsWith("image/")) return;
     setUploading(true);
@@ -66,6 +187,7 @@ export function HeaderAppearanceEditor({
       const compressed = await compressGalleryImage(file);
       const { publicUrl } = await uploadBannerImage(workspaceId, compressed, "image/webp");
       patchVisual({
+        headerLayoutType: "banner_overlay",
         headerBgType: "image",
         headerBgValue: publicUrl,
         bannerPreviewUrl: publicUrl,
@@ -79,6 +201,45 @@ export function HeaderAppearanceEditor({
     }
   };
 
+  const layoutOptions: Array<{
+    id: LayoutOptionId;
+    label: string;
+    hint: string;
+  }> = [
+    {
+      id: "banner_overlay",
+      label: copy.layoutBanner,
+      hint: copy.layoutBannerHint,
+    },
+    {
+      id: "brand_cover",
+      label: copy.layoutBrand,
+      hint: copy.layoutBrandHint,
+    },
+    {
+      id: "avatar_cover",
+      label: copy.layoutAvatar,
+      hint: copy.layoutAvatarHint,
+    },
+    {
+      id: "page_brand",
+      label: copy.layoutPageBrand,
+      hint: copy.layoutPageBrandHint,
+    },
+  ];
+
+  const bgOptions =
+    layout === "banner_overlay"
+      ? ([
+          { id: "image" as const, label: copy.bgImage },
+          { id: "gradient" as const, label: copy.bgGradient },
+          { id: "solid" as const, label: copy.bgSolid },
+        ] as const)
+      : ([
+          { id: "gradient" as const, label: copy.bgGradient },
+          { id: "solid" as const, label: copy.bgSolid },
+        ] as const);
+
   return (
     <div className="space-y-5 rounded-2xl border border-neutral-200 bg-white p-4">
       <div>
@@ -90,52 +251,20 @@ export function HeaderAppearanceEditor({
           {copy.layoutTitle}
         </p>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
-          {(
-            [
-              {
-                id: "standard" as const,
-                label: copy.layoutStandard,
-                hint: copy.layoutStandardHint,
-              },
-              {
-                id: "banner_overlay" as const,
-                label: copy.layoutOverlay,
-                hint: copy.layoutOverlayHint,
-              },
-            ] as const
-          ).map((option) => (
+          {layoutOptions.map((option) => (
             <button
               key={option.id}
               type="button"
-              onClick={() => patchVisual({ headerLayoutType: option.id })}
+              onClick={() => selectLayout(option.id)}
               className={`rounded-2xl border p-3 text-left transition ${
                 layout === option.id
                   ? "border-[#EFA188] bg-[#FFF5F0] ring-1 ring-[#EFA188]/40"
                   : "border-neutral-200 bg-neutral-50 hover:border-neutral-300"
               }`}
             >
-              <p className="text-sm font-semibold text-neutral-900">{option.label}</p>
-              <p className="mt-1 text-[11px] text-neutral-500">{option.hint}</p>
-              <div
-                className={`mt-3 overflow-hidden rounded-xl border border-neutral-200 bg-white ${
-                  option.id === "banner_overlay" ? "pt-0" : "p-2"
-                }`}
-              >
-                <div
-                  className={`bg-neutral-200 ${
-                    option.id === "banner_overlay" ? "h-10" : "h-6 rounded-lg"
-                  }`}
-                />
-                {option.id === "banner_overlay" ? (
-                  <div className="-mt-3 flex justify-center">
-                    <div className="h-6 w-6 rounded-full border-2 border-white bg-[#EFA188]" />
-                  </div>
-                ) : (
-                  <div className="mt-2 flex justify-center">
-                    <div className="h-5 w-5 rounded-full bg-[#EFA188]" />
-                  </div>
-                )}
-              </div>
+              <LayoutPreview id={option.id} accent={accent} />
+              <p className="mt-2.5 text-sm font-semibold text-neutral-900">{option.label}</p>
+              <p className="mt-1 text-[11px] leading-snug text-neutral-500">{option.hint}</p>
             </button>
           ))}
         </div>
@@ -146,13 +275,7 @@ export function HeaderAppearanceEditor({
           {copy.bgTitle}
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
-          {(
-            [
-              { id: "solid" as const, label: copy.bgSolid },
-              { id: "gradient" as const, label: copy.bgGradient },
-              { id: "image" as const, label: copy.bgImage },
-            ] as const
-          ).map((option) => (
+          {bgOptions.map((option) => (
             <button
               key={option.id}
               type="button"
@@ -256,7 +379,7 @@ export function HeaderAppearanceEditor({
           </div>
         ) : null}
 
-        {bgType === "image" ? (
+        {bgType === "image" && layout === "banner_overlay" ? (
           <div className="mt-3 space-y-2">
             {(visual.headerBgValue || visual.bannerPreviewUrl) && (
               <div
@@ -284,6 +407,18 @@ export function HeaderAppearanceEditor({
           </div>
         ) : null}
       </div>
+
+      {layout === "avatar_cover" || layout === "banner_overlay" ? (
+        <label className="flex items-center justify-between gap-3 rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-2.5">
+          <span className="text-sm font-medium text-neutral-800">{copy.avatarBorderLabel}</span>
+          <input
+            type="checkbox"
+            checked={visual.headerAvatarBorder !== false}
+            onChange={(e) => patchVisual({ headerAvatarBorder: e.target.checked })}
+            className="h-4 w-4 accent-neutral-900"
+          />
+        </label>
+      ) : null}
     </div>
   );
 }

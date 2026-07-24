@@ -10,7 +10,13 @@ import type {
   VitrineService,
   VitrineTheme,
 } from "@/domain/vitrine";
+import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 import { vitrineThemeStyle } from "@/lib/vitrine/theme";
+import {
+  isFullPageBackgroundLayout,
+  isLightVitrineCover,
+  resolveVitrineCoverStyle,
+} from "@/lib/vitrine/vitrineCoverStyle";
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineContentTabs } from "@/components/vitrine/VitrineContentTabs";
 import { VitrineDetailsSection } from "@/components/vitrine/VitrineDetailsSection";
@@ -63,6 +69,10 @@ export function LinkInBioPage({
     profileSettings.visibility.proSelectionTitle ||
     copy.presentation.proSelectionTitle;
 
+  const layout = normalizeHeaderLayoutType(artisan.media.headerLayoutType);
+  const fullPageBg = isFullPageBackgroundLayout(layout);
+  const lightCover = isLightVitrineCover(artisan.media);
+
   useEffect(() => {
     if (embedded) return;
     document.documentElement.classList.add("scrollbar-hide");
@@ -89,6 +99,14 @@ export function LinkInBioPage({
     window.setTimeout(() => setTabLoading(false), 180);
   };
 
+  const shellStyle = {
+    ...vitrineThemeStyle(theme),
+    color: "var(--v-text)",
+    ...(fullPageBg
+      ? resolveVitrineCoverStyle(artisan.media)
+      : { backgroundColor: "#ffffff" }),
+  };
+
   return (
     <div
       className={
@@ -100,57 +118,112 @@ export function LinkInBioPage({
       <div
         className={
           embedded
-            ? "mx-auto flex w-full max-w-md flex-col overflow-x-hidden bg-white"
-            : "mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px]"
+            ? `mx-auto flex w-full max-w-md flex-col overflow-x-hidden ${
+                fullPageBg ? "min-h-full" : "bg-white"
+              }`
+            : `mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px] ${
+                fullPageBg ? "" : "bg-white"
+              }`
         }
-        style={{
-          ...vitrineThemeStyle(theme),
-          backgroundColor: "#ffffff",
-          color: "var(--v-text)",
-        }}
+        style={shellStyle}
+        data-vitrine-cover={fullPageBg ? (lightCover ? "light" : "dark") : undefined}
       >
         <VitrineProfileHero artisan={artisan} showSocialLinks={showSocial} />
 
-        {!showDetails ? (
-          <>
-            {showProSelection ? (
-              <>
-                <VitrinePresentation
-                  artisan={artisan}
-                  services={services}
-                  planTier={planTier}
-                  theme={theme}
-                  profileSettings={profileSettings}
-                  copy={copy}
-                  servicesSurDevisLabel={copy.services.surDevis}
-                  onOpenDetails={openDetails}
-                  identityOnly
-                />
-
-                <VitrineContentTabs
-                  contactLabel={copy.presentation.contactTabLabel}
-                  proSelectionLabel={proSelectionTitle}
-                  active={contentTab}
-                  onChange={switchTab}
-                  showProSelection
-                />
-
-                {tabLoading ? (
-                  <div className="space-y-3 px-4 py-6 sm:px-5">
-                    <div className="h-10 animate-pulse rounded-2xl bg-neutral-100" />
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="aspect-square animate-pulse rounded-2xl bg-neutral-100" />
-                      <div className="aspect-square animate-pulse rounded-2xl bg-neutral-100" />
-                    </div>
+        <div
+          className={
+            fullPageBg
+              ? lightCover
+                ? "relative z-10 flex flex-1 flex-col"
+                : "relative z-10 flex flex-1 flex-col"
+              : "flex flex-1 flex-col"
+          }
+        >
+          {!showDetails ? (
+            <>
+              {showProSelection ? (
+                <>
+                  <div
+                    className={
+                      fullPageBg && !lightCover
+                        ? "[&_h1]:text-white [&_.text-neutral-900]:text-white [&_.text-neutral-800]:text-white/90 [&_.text-neutral-500]:text-white/70"
+                        : undefined
+                    }
+                  >
+                    <VitrinePresentation
+                      artisan={artisan}
+                      services={services}
+                      planTier={planTier}
+                      theme={theme}
+                      profileSettings={profileSettings}
+                      copy={copy}
+                      servicesSurDevisLabel={copy.services.surDevis}
+                      onOpenDetails={openDetails}
+                      identityOnly
+                    />
                   </div>
-                ) : contentTab === "pro" ? (
-                  <VitrineProSelectionPanel
-                    products={artisan.recommendedProducts ?? []}
-                    searchPlaceholder={copy.presentation.proSelectionSearch}
-                    emptyLabel={copy.presentation.proSelectionEmpty}
-                    ctaLabel={copy.presentation.proSelectionCta}
+
+                  <VitrineContentTabs
+                    contactLabel={copy.presentation.contactTabLabel}
+                    proSelectionLabel={proSelectionTitle}
+                    active={contentTab}
+                    onChange={switchTab}
+                    showProSelection
                   />
-                ) : (
+
+                  {tabLoading ? (
+                    <div className="space-y-3 px-4 py-6 sm:px-5">
+                      <div className="h-10 animate-pulse rounded-2xl bg-black/10" />
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="aspect-square animate-pulse rounded-2xl bg-black/10" />
+                        <div className="aspect-square animate-pulse rounded-2xl bg-black/10" />
+                      </div>
+                    </div>
+                  ) : contentTab === "pro" ? (
+                    <div
+                      className={
+                        fullPageBg && !lightCover
+                          ? "[&_.text-neutral-900]:text-neutral-900 [&_.text-neutral-600]:text-neutral-600 [&_.text-neutral-500]:text-neutral-500"
+                          : undefined
+                      }
+                    >
+                      <VitrineProSelectionPanel
+                        products={artisan.recommendedProducts ?? []}
+                        searchPlaceholder={copy.presentation.proSelectionSearch}
+                        emptyLabel={copy.presentation.proSelectionEmpty}
+                        ctaLabel={copy.presentation.proSelectionCta}
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className={
+                        fullPageBg && !lightCover
+                          ? "[&_h1]:text-white [&_.text-neutral-900]:text-white [&_.text-neutral-800]:text-white/90 [&_.text-neutral-500]:text-white/70"
+                          : undefined
+                      }
+                    >
+                      <VitrinePresentation
+                        artisan={artisan}
+                        services={services}
+                        planTier={planTier}
+                        theme={theme}
+                        profileSettings={profileSettings}
+                        copy={copy}
+                        servicesSurDevisLabel={copy.services.surDevis}
+                        onOpenDetails={openDetails}
+                        hideIdentity
+                      />
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div
+                  className={
+                    fullPageBg && !lightCover
+                      ? "[&_h1]:text-white [&_.text-neutral-900]:text-white [&_.text-neutral-800]:text-white/90 [&_.text-neutral-500]:text-white/70"
+                      : undefined
+                  }
+                >
                   <VitrinePresentation
                     artisan={artisan}
                     services={services}
@@ -160,40 +233,28 @@ export function LinkInBioPage({
                     copy={copy}
                     servicesSurDevisLabel={copy.services.surDevis}
                     onOpenDetails={openDetails}
-                    hideIdentity
                   />
-                )}
-              </>
-            ) : (
-              <VitrinePresentation
-                artisan={artisan}
-                services={services}
-                planTier={planTier}
-                theme={theme}
-                profileSettings={profileSettings}
-                copy={copy}
-                servicesSurDevisLabel={copy.services.surDevis}
-                onOpenDetails={openDetails}
-              />
-            )}
+                </div>
+              )}
 
-            <VitrineFooter label={copy.poweredBy} />
-          </>
-        ) : (
-          <div id="vitrine-details" className="flex-1">
-            <VitrineDetailsSection
-              pageSlug={artisan.slug}
-              zone={artisan.serviceAreaSummary || artisan.city}
-              metierKey={artisan.metierKey}
-              planTier={planTier}
-              profileSettings={profileSettings}
-              services={services}
-              copy={copy}
-              initialIntent={openIntent}
-              onBack={() => setInteractionState("INITIAL")}
-            />
-          </div>
-        )}
+              <VitrineFooter label={copy.poweredBy} />
+            </>
+          ) : (
+            <div id="vitrine-details" className="flex-1 rounded-t-3xl bg-white">
+              <VitrineDetailsSection
+                pageSlug={artisan.slug}
+                zone={artisan.serviceAreaSummary || artisan.city}
+                metierKey={artisan.metierKey}
+                planTier={planTier}
+                profileSettings={profileSettings}
+                services={services}
+                copy={copy}
+                initialIntent={openIntent}
+                onBack={() => setInteractionState("INITIAL")}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

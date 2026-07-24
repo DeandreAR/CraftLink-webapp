@@ -1,4 +1,10 @@
 import type { ArtisanVitrineProfile } from "@/domain/vitrine";
+import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
+import {
+  isFullPageBackgroundLayout,
+  isLightVitrineCover,
+  resolveVitrineCoverStyle,
+} from "@/lib/vitrine/vitrineCoverStyle";
 import { VitrineSocialLinks } from "@/components/vitrine/VitrineSocialLinks";
 
 type VitrineProfileHeroProps = {
@@ -14,14 +20,15 @@ const COLLAGE_PLACEHOLDERS: [string, string, string] = [
 
 function HeaderBackground({
   media,
+  heightClass,
 }: {
   media: ArtisanVitrineProfile["media"];
+  heightClass: string;
 }) {
-  const bgType = media.headerBgType;
-  const heightClass =
-    media.headerLayoutType === "standard" ? "h-28 sm:h-32" : "h-44 sm:h-48";
-
-  if (bgType === "solid" || (!media.bannerUrl && !media.bannerGradient && media.headerSolidColor)) {
+  if (
+    media.headerBgType === "solid" ||
+    (!media.bannerUrl && !media.bannerGradient && media.headerSolidColor)
+  ) {
     return (
       <div
         className={`w-full ${heightClass}`}
@@ -86,21 +93,32 @@ function HeaderBackground({
   );
 }
 
-function AvatarBlock({ artisan }: { artisan: ArtisanVitrineProfile }) {
+function AvatarBlock({
+  artisan,
+  withBorder,
+}: {
+  artisan: ArtisanVitrineProfile;
+  withBorder: boolean;
+}) {
   const { media } = artisan;
+  const borderClass = withBorder
+    ? "border-[5px] border-white shadow-[0_14px_36px_rgba(15,23,42,0.2)]"
+    : "border-0 shadow-[0_10px_28px_rgba(15,23,42,0.18)]";
+
   if (media.avatarUrl) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={media.avatarUrl}
         alt=""
-        className="h-[7.25rem] w-[7.25rem] rounded-full border-[5px] border-white object-cover object-[center_18%] shadow-[0_14px_36px_rgba(15,23,42,0.2)]"
+        className={`h-[7.25rem] w-[7.25rem] rounded-full object-cover object-[center_18%] ${borderClass}`}
       />
     );
   }
 
   return (
     <div
-      className="flex h-[7.25rem] w-[7.25rem] items-center justify-center rounded-full border-[5px] border-white bg-[var(--primary-color)] text-2xl font-bold text-white shadow-[0_14px_36px_rgba(15,23,42,0.2)]"
+      className={`flex h-[7.25rem] w-[7.25rem] items-center justify-center rounded-full bg-[var(--primary-color)] text-2xl font-bold text-white ${borderClass}`}
       aria-hidden
     >
       {artisan.avatarInitials}
@@ -113,43 +131,101 @@ export function VitrineProfileHero({
   showSocialLinks,
 }: VitrineProfileHeroProps) {
   const { media } = artisan;
-  const layout = media.headerLayoutType ?? "banner_overlay";
-  const showAvatar = media.showAvatar;
+  const layout = normalizeHeaderLayoutType(media.headerLayoutType);
+  const withBorder = media.headerAvatarBorder !== false;
+  const light = isLightVitrineCover(media);
+  const fullPage = isFullPageBackgroundLayout(layout);
 
-  if (layout === "standard") {
+  // Pleine page : le fond est sur le shell — ici uniquement photo / nom.
+  if (layout === "avatar_cover") {
     return (
-      <div className="relative overflow-hidden bg-[var(--bg-color)]">
-        <HeaderBackground media={media} />
-        <div className="relative z-10 flex flex-col items-center px-4 pb-2 pt-4">
-          {showAvatar ? <AvatarBlock artisan={artisan} /> : null}
-          {showSocialLinks ? (
-            <div className={`w-full ${showAvatar ? "mt-4" : ""}`}>
-              <VitrineSocialLinks links={artisan.socialLinks} />
-            </div>
-          ) : null}
-        </div>
+      <div className="relative z-10 flex flex-col items-center px-4 pb-2 pt-8">
+        <AvatarBlock artisan={artisan} withBorder={withBorder} />
+        {showSocialLinks ? (
+          <div className="mt-4 w-full">
+            <VitrineSocialLinks links={artisan.socialLinks} />
+          </div>
+        ) : null}
       </div>
     );
   }
 
-  return (
-    <div className="relative overflow-hidden bg-[var(--bg-color)]">
-      <HeaderBackground media={media} />
+  if (layout === "page_brand") {
+    return (
+      <div className="relative z-10 flex flex-col items-center px-5 pb-4 pt-10 text-center">
+        <p
+          className={`text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-[2rem] ${
+            light ? "text-neutral-900" : "text-white drop-shadow-sm"
+          }`}
+        >
+          {artisan.businessName}
+        </p>
+        {artisan.tradeLabel ? (
+          <p
+            className={`mt-2 text-sm font-medium ${
+              light ? "text-neutral-700" : "text-white/90"
+            }`}
+          >
+            {artisan.tradeLabel}
+            {artisan.city ? ` · ${artisan.city}` : ""}
+          </p>
+        ) : null}
+        {showSocialLinks ? (
+          <div className="mt-5 w-full">
+            <VitrineSocialLinks links={artisan.socialLinks} />
+          </div>
+        ) : null}
+      </div>
+    );
+  }
 
-      {showAvatar ? (
-        <div className="relative z-10 -mt-14 flex flex-col items-center px-4 pb-1">
-          <AvatarBlock artisan={artisan} />
-          {showSocialLinks ? (
-            <div className="mt-4 w-full">
-              <VitrineSocialLinks links={artisan.socialLinks} />
-            </div>
+  if (layout === "brand_cover") {
+    return (
+      <div className="relative overflow-hidden">
+        <div
+          className="flex min-h-[11.5rem] flex-col items-center justify-center px-5 py-10 text-center sm:min-h-[13rem]"
+          style={resolveVitrineCoverStyle(media)}
+        >
+          <p
+            className={`text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-[2rem] ${
+              light ? "text-neutral-900" : "text-white"
+            }`}
+          >
+            {artisan.businessName}
+          </p>
+          {artisan.tradeLabel ? (
+            <p
+              className={`mt-2 text-sm font-medium ${
+                light ? "text-neutral-700" : "text-white/85"
+              }`}
+            >
+              {artisan.tradeLabel}
+              {artisan.city ? ` · ${artisan.city}` : ""}
+            </p>
           ) : null}
         </div>
-      ) : showSocialLinks ? (
-        <div className="px-4 py-4">
-          <VitrineSocialLinks links={artisan.socialLinks} />
-        </div>
-      ) : null}
+        {showSocialLinks ? (
+          <div className="bg-white px-4 py-4">
+            <VitrineSocialLinks links={artisan.socialLinks} />
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+
+  // banner_overlay
+  return (
+    <div className={`relative overflow-hidden ${fullPage ? "" : "bg-[var(--bg-color)]"}`}>
+      <HeaderBackground media={media} heightClass="h-44 sm:h-48" />
+
+      <div className="relative z-10 -mt-14 flex flex-col items-center px-4 pb-1">
+        <AvatarBlock artisan={artisan} withBorder={withBorder} />
+        {showSocialLinks ? (
+          <div className="mt-4 w-full">
+            <VitrineSocialLinks links={artisan.socialLinks} />
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

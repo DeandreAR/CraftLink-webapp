@@ -6,10 +6,10 @@ import type {
   VitrineService,
   VitrineTheme,
 } from "@/domain/vitrine";
+import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 import { resolvePrimaryQuoteLabel } from "@/lib/vitrine/ctaLabels";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import type { VitrineDictionary } from "@/i18n/types";
-import { VitrineAffiliateLinks } from "@/components/vitrine/VitrineAffiliateLinks";
 import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
 import { VitrineCertificationBadges } from "@/components/vitrine/VitrineCertificationBadges";
@@ -28,9 +28,7 @@ type VitrinePresentationProps = {
   copy: VitrineDictionary;
   servicesSurDevisLabel?: string;
   onOpenDetails: (intent: VitrineOpenIntent) => void;
-  /** Affiche uniquement nom / métier / badges / about (au-dessus des onglets). */
   identityOnly?: boolean;
-  /** Masque le bloc identité (contenu onglet Contact). */
   hideIdentity?: boolean;
 };
 
@@ -47,6 +45,8 @@ export function VitrinePresentation({
   hideIdentity = false,
 }: VitrinePresentationProps) {
   const { visibility } = profileSettings;
+  const layout = normalizeHeaderLayoutType(artisan.media.headerLayoutType);
+  const nameInHero = layout === "brand_cover" || layout === "page_brand";
   const tradeLine = `${artisan.tradeLabel} - ${artisan.city}`;
   const primaryQuoteLabel = resolvePrimaryQuoteLabel(planTier, profileSettings.cta);
   const portfolioItems = artisan.portfolioItems ?? [];
@@ -60,8 +60,6 @@ export function VitrinePresentation({
     artisan.interventions.length > 0;
   const showServicesOnPresentation =
     visibility.showServicesOnPresentation && services.length > 0;
-  const showAffiliateLinks =
-    visibility.showAffiliateLinks && (artisan.affiliateLinks?.length ?? 0) > 0;
   const certificationBadges = artisan.certifications ?? [];
   const useBrandCta = isProPublicPlan(planTier);
 
@@ -73,12 +71,18 @@ export function VitrinePresentation({
     >
       {!hideIdentity ? (
         <>
-          <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight text-neutral-900 sm:text-[1.75rem]">
-            {artisan.businessName}
-          </h1>
-          <p className="mt-2 mb-5 text-sm font-medium text-neutral-800 sm:text-[15px]">
-            {tradeLine}
-          </p>
+          {!nameInHero ? (
+            <>
+              <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight text-neutral-900 sm:text-[1.75rem]">
+                {artisan.businessName}
+              </h1>
+              <p className="mt-2 mb-5 text-sm font-medium text-neutral-800 sm:text-[15px]">
+                {tradeLine}
+              </p>
+            </>
+          ) : (
+            <div className="mb-4" />
+          )}
 
           {visibility.showStatBadges ? (
             <VitrineStatBadges
@@ -126,13 +130,6 @@ export function VitrinePresentation({
             theme={theme}
             onAction={onOpenDetails}
           />
-
-          {showAffiliateLinks ? (
-            <VitrineAffiliateLinks
-              links={artisan.affiliateLinks ?? []}
-              title={copy.presentation.affiliateLinksTitle}
-            />
-          ) : null}
 
           {showServicesOnPresentation ? (
             <VitrineServicesPublicList

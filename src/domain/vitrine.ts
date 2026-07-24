@@ -34,9 +34,9 @@ export type VitrineVisibilitySettings = {
   showInterventionTags: boolean;
   showCollaborationButton: boolean;
   showPortfolioGallery: boolean;
-  /** Liens d'affiliation / codes partenaires nommés (Pro). */
+  /** @deprecated Remplacé par l’onglet « La Sélection Pro » (recommended_items). */
   showAffiliateLinks: boolean;
-  /** Onglet « La Sélection Pro » (produits recommandés). */
+  /** Onglet « La Sélection Pro » (items recommandés unifiés). */
   showProSelection: boolean;
   /** Titre de l’onglet Sélection Pro. */
   proSelectionTitle: string;
@@ -88,19 +88,29 @@ export type VitrineMedia = {
   bannerCollage?: [string | null, string | null, string | null];
   avatarUrl?: string | null;
   showAvatar: boolean;
-  headerLayoutType?: "standard" | "banner_overlay";
+  headerLayoutType?: "banner_overlay" | "brand_cover" | "avatar_cover" | "page_brand" | "standard";
   headerBgType?: "solid" | "gradient" | "image";
   /** Couleur unie du header (layout standard / fond solid). */
   headerSolidColor?: string | null;
+  /** Contour blanc autour de la photo de profil. */
+  headerAvatarBorder?: boolean;
 };
 
 export type VitrineRecommendedProduct = {
   id: string;
   title: string;
   description?: string | null;
+  /** Image produit / logo (optionnelle). */
+  imageUrl: string | null;
+  /** Lien marchand, marque ou affiliation. */
+  url: string;
+  /** Code promo / réduction affiché. */
+  discountCode?: string | null;
+  /** @deprecated Prefer description */
   brand?: string | null;
-  imageUrl: string;
+  /** @deprecated Prefer url */
   affiliateUrl: string;
+  /** @deprecated Prefer discountCode */
   priceHint?: string | null;
 };
 

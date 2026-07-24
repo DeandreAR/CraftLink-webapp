@@ -4,8 +4,7 @@ export const vitrineEn: VitrineDictionary = {
   presentation: {
     quoteFreeHint: "100% free quote · No commitment",
     portfolioTitle: "Recent work",
-    affiliateLinksTitle: "Partner links",
-    contactTabLabel: "Contact & Links",
+    contactTabLabel: "Links",
     proSelectionTitle: "Pro Picks",
     proSelectionSearch: "Search equipment…",
     proSelectionEmpty: "No products match your search.",
