@@ -9,8 +9,7 @@ import { LeadCopyRequestButton } from "@/components/dashboard/leads/LeadCopyRequ
 import { LeadDetailMedia } from "@/components/dashboard/leads/LeadDetailMedia";
 import { LeadScheduleEditor } from "@/components/dashboard/leads/LeadScheduleEditor";
 import { LeadStatusPicker } from "@/components/dashboard/leads/LeadStatusControls";
-import { GlowButton } from "@/components/ui/GlowButton";
-import { LandingCta } from "@/components/landing/LandingCta";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import {
   formatClientPhone,
   formatLeadDate,
@@ -174,23 +173,23 @@ export function LeadInboxDetail({
       </div>
 
       <footer className="flex flex-col gap-2 border-t border-slate-100 bg-white px-4 py-3 lg:flex-row lg:px-8 lg:py-4">
-        <GlowButton
+        <DashboardButton
           type="button"
           disabled={busy}
-          className="w-full flex-1 justify-center py-2.5 lg:py-3.5"
+          className="w-full flex-1 justify-center"
           onClick={handleValidate}
         >
           {inbox.validateAndPlan}
-        </GlowButton>
-        <LandingCta
+        </DashboardButton>
+        <DashboardButton
           type="button"
           variant="secondary"
           disabled={busy}
-          className="w-full flex-1 justify-center py-2.5 lg:max-w-[12rem] lg:py-3.5"
+          className="w-full flex-1 justify-center lg:max-w-[12rem]"
           onClick={handleArchive}
         >
           {inbox.archive}
-        </LandingCta>
+        </DashboardButton>
       </footer>
     </article>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FaArrowUpRightFromSquare, FaList, FaPalette, FaPen } from "react-icons/fa6";
 import { updateDashboardProfileAction } from "@/app/actions/dashboard";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { CertificationTagsField } from "@/components/dashboard/vitrine/CertificationTagsField";
 import { PortfolioGalleryEditor } from "@/components/dashboard/vitrine/PortfolioGalleryEditor";
@@ -10,7 +11,6 @@ import { HeaderAppearanceEditor } from "@/components/dashboard/vitrine/HeaderApp
 import { OnboardingGeneralStep } from "@/components/onboarding/steps/OnboardingGeneralStep";
 import { OnboardingInterventionsStep } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
-import { GlowButton } from "@/components/ui/GlowButton";
 import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
 import type { Profile } from "@/domain/profile";
 import {
@@ -103,9 +103,9 @@ export function VitrineEditor({
   ];
 
   return (
-    <div className="space-y-4 rounded-[18px] border border-neutral-200 bg-white p-4 md:p-5">
+    <div className="space-y-5">
       {slug ? (
-        <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-2.5">
+        <div className="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
           <PublicPageUrlWithCopy
             label={v.fields.pageUrl}
             displayUrl={publicUrl}
@@ -114,15 +114,16 @@ export function VitrineEditor({
             copiedLabel={v.pageUrlCopied}
             urlClassName="text-sm"
           />
-          <GlowButton
+          <DashboardButton
             href={publicPath}
             external={false}
             variant="secondary"
-            className="mt-2 gap-1.5 text-xs"
+            size="sm"
+            className="shrink-0"
           >
             <FaArrowUpRightFromSquare className="h-3 w-3" aria-hidden />
             {v.viewPage}
-          </GlowButton>
+          </DashboardButton>
         </div>
       ) : null}
 
@@ -131,9 +132,18 @@ export function VitrineEditor({
         active={section}
         onChange={setSection}
         ariaLabel={v.title}
+        className="mb-0"
       />
 
-      <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm">
+      <div className="pt-1">
+        <p className="db-section-label mb-3">
+          {section === "general"
+            ? v.editorSections.general
+            : section === "content"
+              ? v.editorSections.content
+              : v.editorSections.visual}
+        </p>
+
         {section === "general" ? (
           <div className="space-y-5">
             <OnboardingGeneralStep
@@ -196,24 +206,23 @@ export function VitrineEditor({
       </div>
 
       {slug ? (
-        <p className="text-xs text-neutral-400">
+        <p className="text-xs text-slate-400">
           {publicPageSlugPrefix()}
-          <span className="font-mono text-neutral-600">{slug}</span>
+          <span className="font-mono text-slate-600">{slug}</span>
         </p>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-3 border-t border-neutral-100 pt-4">
-        <GlowButton
+      <div className="flex flex-wrap items-center gap-3 border-t border-slate-100 pt-4">
+        <DashboardButton
           type="button"
           disabled={saving}
           onClick={() => void handleSave()}
-          className="gap-1.5 text-sm"
         >
           <FaPen className="h-3 w-3" aria-hidden />
           {saving ? v.saving : v.save}
-        </GlowButton>
+        </DashboardButton>
         {feedback === "saved" ? (
-          <span className="text-sm font-medium text-teal-700">{v.saved}</span>
+          <span className="text-sm font-medium text-emerald-700">{v.saved}</span>
         ) : null}
         {feedback === "error" ? (
           <span className="text-sm font-medium text-red-600">{v.saveError}</span>

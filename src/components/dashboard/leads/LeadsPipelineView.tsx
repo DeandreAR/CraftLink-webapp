@@ -47,7 +47,7 @@ function PipelineColumn({
         event.preventDefault();
         handleDrop(workflowStatus);
       }}
-      className={`flex w-full shrink-0 flex-col rounded-2xl border bg-white shadow-[0_8px_24px_rgba(33,33,41,0.06)] transition md:w-[min(82vw,280px)] md:snap-start ${
+      className={`flex w-full shrink-0 flex-col rounded-xl border border-slate-200 bg-white shadow-sm transition md:w-[min(82vw,280px)] md:snap-start ${
         isDropTarget ? "border-black ring-2 ring-black/10" : "border-neutral-200"
       } ${workflowStatusColumnClass(workflowStatus)}`}
     >

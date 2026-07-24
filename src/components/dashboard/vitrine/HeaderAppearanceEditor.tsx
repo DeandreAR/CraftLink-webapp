@@ -241,15 +241,13 @@ export function HeaderAppearanceEditor({
         ] as const);
 
   return (
-    <div className="space-y-5 rounded-2xl border border-neutral-200 bg-white p-4">
-      <div>
-        <h3 className="text-sm font-bold text-neutral-900">{copy.title}</h3>
+    <div className="space-y-5">
+      <div className="db-card-header mb-0 pb-0 border-0">
+        <p className="db-section-label">{copy.title}</p>
       </div>
 
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
-          {copy.layoutTitle}
-        </p>
+        <p className="db-section-label">{copy.layoutTitle}</p>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           {layoutOptions.map((option) => (
             <button
@@ -271,9 +269,7 @@ export function HeaderAppearanceEditor({
       </div>
 
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
-          {copy.bgTitle}
-        </p>
+        <p className="db-section-label">{copy.bgTitle}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {bgOptions.map((option) => (
             <button

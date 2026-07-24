@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { FaCreditCard } from "react-icons/fa6";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { StripeCheckoutButton } from "@/components/stripe/StripeCheckoutButton";
-import { GlowButton } from "@/components/ui/GlowButton";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import { isProUser, isSubscribedPro, isTrialActive } from "@/domain/proAccess";
 import type { ProAccessProfile } from "@/domain/proAccess";
@@ -149,18 +149,17 @@ export function BillingSection({
 
       {showPortal ? (
         <DashboardCard variant="flat" className="p-5 sm:p-6">
-          <h3 className="text-base font-bold text-[#212129]">{b.portalSectionTitle}</h3>
-          <p className="mt-1 text-sm leading-relaxed text-[#5b6478]">{b.portalSectionBody}</p>
+          <h3 className="text-base font-semibold text-slate-900">{b.portalSectionTitle}</h3>
+          <p className="mt-1 text-sm leading-relaxed text-slate-500">{b.portalSectionBody}</p>
           <div className="mt-4">
-            <GlowButton
+            <DashboardButton
               type="button"
               variant="secondary"
               disabled={portalLoading}
               onClick={() => void handlePortal()}
-              className="w-full justify-center text-sm sm:w-auto"
             >
               {portalLoading ? b.manageStripeLoading : b.manageStripe}
-            </GlowButton>
+            </DashboardButton>
           </div>
           {portalError ? (
             <p className="mt-3 text-sm text-red-600" role="alert">

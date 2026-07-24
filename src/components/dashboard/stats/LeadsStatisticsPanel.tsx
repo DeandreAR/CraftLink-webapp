@@ -138,7 +138,7 @@ export function LeadsStatisticsPanel({
           <p className="text-[11px] leading-relaxed text-[#5b6478]">{s.montantHint}</p>
 
           <div className="grid gap-4 lg:grid-cols-5">
-            <section className="rounded-2xl border border-[#212129]/8 bg-white/90 p-4 shadow-[0_8px_24px_rgba(33,33,41,0.04)] lg:col-span-3">
+            <section className="db-card p-4 lg:col-span-3">
               <h4 className="text-sm font-bold text-[#212129]">{s.timeline.title}</h4>
               <p className="mt-0.5 text-xs text-[#5b6478]">{s.timeline.subtitle}</p>
               <div className="mt-4 h-56 w-full sm:h-64">
@@ -192,7 +192,7 @@ export function LeadsStatisticsPanel({
               </div>
             </section>
 
-            <section className="rounded-2xl border border-[#212129]/8 bg-white/90 p-4 shadow-[0_8px_24px_rgba(33,33,41,0.04)] lg:col-span-2">
+            <section className="db-card p-4 lg:col-span-2">
               <h4 className="text-sm font-bold text-[#212129]">
                 {s.distribution.title}
               </h4>
@@ -281,7 +281,7 @@ function KpiCard({
   hint?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-[#212129]/8 bg-white/90 p-3.5 shadow-[0_8px_24px_rgba(33,33,41,0.04)] sm:p-4">
+    <div className="db-card p-3.5 sm:p-4">
       <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5b6478]">
         {label}
       </p>

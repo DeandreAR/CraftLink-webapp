@@ -13,7 +13,7 @@ import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
 import { compressGalleryImage } from "@/lib/portfolio/compressGalleryImage";
 import { uploadGalleryImage } from "@/lib/portfolio/galleryStorage";
-import { LandingCta } from "@/components/landing/LandingCta";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import {
   authFieldClassName,
   authLabelClassName,
@@ -189,19 +189,19 @@ export function ProSelectionManager({
   };
 
   return (
-    <div className="space-y-4 rounded-[18px] border border-neutral-200 bg-white p-4 md:p-5">
-      <div>
-        <h3 className="text-sm font-bold text-neutral-900">{copy.title}</h3>
-        <p className="mt-1 text-xs text-neutral-600">{copy.hint}</p>
+    <div className="db-card space-y-4 p-4 md:p-5">
+      <div className="db-card-header">
+        <h3 className="text-sm font-semibold text-slate-900">{copy.title}</h3>
+        <p className="mt-1 text-xs text-slate-500">{copy.hint}</p>
       </div>
 
-      <label className="flex items-center justify-between gap-3 rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-2.5">
-        <span className="text-sm font-medium text-neutral-800">{copy.enabledLabel}</span>
+      <label className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5">
+        <span className="text-sm font-medium text-slate-800">{copy.enabledLabel}</span>
         <input
           type="checkbox"
           checked={enabled}
           onChange={(e) => onProfileChange({ proSelectionEnabled: e.target.checked })}
-          className="h-4 w-4 accent-neutral-900"
+          className="h-4 w-4 accent-slate-900"
         />
       </label>
 
@@ -294,7 +294,7 @@ export function ProSelectionManager({
       )}
 
       {creating || editingId ? (
-        <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/80 p-3">
+        <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-3">
           <div>
             <label className={authLabelClassName}>{copy.formTitle}</label>
             <input
@@ -361,24 +361,23 @@ export function ProSelectionManager({
             {copy.formActive}
           </label>
           <div className="flex flex-wrap gap-2">
-            <LandingCta
+            <DashboardButton
               type="button"
-              variant="peach"
+              variant="primary"
               disabled={pending}
               onClick={handleSaveForm}
-              className="text-sm"
             >
               {pending ? copy.saving : copy.save}
-            </LandingCta>
-            <LandingCta type="button" variant="secondary" onClick={closeForm} className="text-sm">
+            </DashboardButton>
+            <DashboardButton type="button" variant="secondary" onClick={closeForm}>
               {copy.cancel}
-            </LandingCta>
+            </DashboardButton>
           </div>
         </div>
       ) : (
-        <LandingCta type="button" variant="secondary" onClick={openCreate} className="w-full text-sm">
+        <DashboardButton type="button" variant="secondary" onClick={openCreate} className="w-full">
           {copy.add}
-        </LandingCta>
+        </DashboardButton>
       )}
 
       {feedback ? <p className="text-sm text-red-600">{feedback}</p> : null}

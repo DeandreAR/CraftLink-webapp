@@ -1,20 +1,19 @@
-/* CraftLink dashboard — SaaS neutre (Linear / Vercel), accent pêche conservé */
+/* CraftLink dashboard — OpenShip Light / Linear (cool slate, 1 accent) */
 
 .dashboard-page {
   --db-bg: #f8f9fa;
   --db-surface: #ffffff;
-  --db-border: rgb(226 232 240 / 0.9); /* slate-200 */
-  --db-border-strong: #cbd5e1; /* slate-300 */
-  --db-ink: #0f172a; /* slate-900 */
-  --db-muted: #64748b; /* slate-500 */
-  --db-meta: #94a3b8; /* slate-400 */
+  --db-border: #e2e8f0;
+  --db-border-strong: #cbd5e1;
+  --db-ink: #0f172a;
+  --db-muted: #64748b;
+  --db-meta: #94a3b8;
   --db-peach: #efa188;
   --db-peach-deep: #e08a6f;
   --db-danger: #ef4444;
-  --db-radius: 0.75rem; /* xl */
+  --db-radius: 0.75rem;
   --db-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
 
-  /* Legacy aliases (composants existants) */
   --lk-cream: var(--db-bg);
   --lk-peach: var(--db-peach);
   --lk-peach-deep: var(--db-peach-deep);
@@ -31,7 +30,7 @@
 .dashboard-page .lk-display {
   font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.15;
   color: var(--db-ink);
@@ -48,13 +47,13 @@
 .dashboard-page .db-badge {
   display: inline-flex;
   align-items: center;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
   border: 1px solid var(--db-border);
   background: #f8fafc;
-  padding: 0.35rem 0.65rem;
+  padding: 0.25rem 0.5rem;
   font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--db-ink);
 }
@@ -71,13 +70,13 @@
   color: var(--db-meta);
 }
 
-.dashboard-page .db-organize-shell {
-  background: var(--db-surface);
-  border: 1px solid var(--db-border);
-  border-radius: var(--db-radius);
-  box-shadow: var(--db-shadow);
+.dashboard-page .db-card-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
+.dashboard-page .db-organize-shell,
 .dashboard-page .db-profile-section {
   border-radius: var(--db-radius);
   border: 1px solid var(--db-border);
@@ -98,7 +97,7 @@
   border-color: color-mix(in srgb, var(--db-danger) 28%, transparent);
 }
 
-/* Inputs */
+/* Inputs — net, pas de nested soft surfaces */
 .dashboard-page .db-input,
 .dashboard-page input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="hidden"]),
 .dashboard-page textarea,
@@ -175,5 +174,25 @@
   background: #0f172a;
   font-weight: 500;
   color: #ffffff;
-  box-shadow: var(--db-shadow);
+  box-shadow: none;
+}
+
+/* List rows */
+.dashboard-page .db-list-row {
+  border-radius: var(--db-radius);
+  border: 1px solid transparent;
+  background: var(--db-surface);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dashboard-page .db-list-row:hover {
+  border-color: var(--db-border);
+  background: #ffffff;
+}
+
+.dashboard-page .db-list-row[data-active="true"] {
+  border-color: #0f172a;
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: none;
 }

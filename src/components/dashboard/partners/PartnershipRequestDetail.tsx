@@ -2,7 +2,7 @@
 
 import { FaCommentSms, FaEnvelope, FaPhone, FaWhatsapp, FaXmark } from "react-icons/fa6";
 import { updatePartnershipRequestAction } from "@/app/actions/partnerships";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import type { DashboardPartnershipRequest, PartnershipWorkflowStatus } from "@/domain/partnershipRequest";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
@@ -84,15 +84,15 @@ export function PartnershipRequestDetail({
   const body = (
     <>
       <div className="mt-3 space-y-2 md:mt-4 md:space-y-3">
-        <GlowButton
+        <DashboardButton
           href={contactLinks.email}
           external
-          className={`w-full gap-2 ${compact ? "py-2 text-xs" : "text-sm"}`}
+          className={`w-full ${compact ? "text-xs" : ""}`}
           onClick={handleContactOpen}
         >
           <FaEnvelope className="h-3.5 w-3.5 md:h-4 md:w-4" aria-hidden />
           {d.contactCta}
-        </GlowButton>
+        </DashboardButton>
 
         {contactLinks.sms || contactLinks.whatsapp ? (
           <div className="grid grid-cols-2 gap-1.5 md:gap-2">
@@ -180,42 +180,42 @@ export function PartnershipRequestDetail({
 
       <div className="mt-3 flex flex-wrap gap-1.5 pb-1 md:mt-4 md:gap-2 md:pb-0">
         {request.workflowStatus !== "CONTACTE" ? (
-          <GlowButton
+          <DashboardButton
             type="button"
             variant="secondary"
-            className="text-[10px] md:text-xs"
+            size="sm"
             onClick={() => void setStatus("CONTACTE")}
           >
             {d.markContacted}
-          </GlowButton>
+          </DashboardButton>
         ) : (
-          <GlowButton
+          <DashboardButton
             type="button"
             variant="secondary"
-            className="text-[10px] md:text-xs"
+            size="sm"
             onClick={() => void setStatus("A_TRAITER")}
           >
             {d.markPending}
-          </GlowButton>
+          </DashboardButton>
         )}
         {request.workflowStatus !== "ARCHIVE" ? (
-          <GlowButton
+          <DashboardButton
             type="button"
             variant="secondary"
-            className="text-[10px] md:text-xs"
+            size="sm"
             onClick={() => void setStatus("ARCHIVE")}
           >
             {d.archive}
-          </GlowButton>
+          </DashboardButton>
         ) : (
-          <GlowButton
+          <DashboardButton
             type="button"
             variant="secondary"
-            className="text-[10px] md:text-xs"
+            size="sm"
             onClick={() => void setStatus("A_TRAITER")}
           >
             {d.markPending}
-          </GlowButton>
+          </DashboardButton>
         )}
       </div>
     </>
@@ -256,7 +256,7 @@ export function PartnershipRequestDetail({
   }
 
   return (
-    <aside className="rounded-[18px] border border-[#212129]/10 bg-white p-5 shadow-[0_16px_40px_rgba(33,33,41,0.08)]">
+    <aside className="db-card p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h2 className="text-lg font-bold text-[#212129]">{d.title}</h2>

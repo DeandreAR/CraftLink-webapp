@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { updateDashboardProfileAction } from "@/app/actions/dashboard";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import { ProSelectionManager } from "@/components/dashboard/partners/ProSelectionManager";
-import { LandingCta } from "@/components/landing/LandingCta";
 import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import type { Profile } from "@/domain/profile";
 import {
@@ -49,18 +49,17 @@ export function PartnersProSelectionCard({ profile, copy }: PartnersProSelection
         }}
         copy={c}
       />
-      <div className="flex flex-wrap items-center gap-3 px-1">
-        <LandingCta
+      <div className="flex flex-wrap items-center gap-3">
+        <DashboardButton
           type="button"
-          variant="peach"
+          variant="primary"
           disabled={saving}
           onClick={() => void handleSaveSettings()}
-          className="text-sm"
         >
           {saving ? copy.vitrine.saving : c.saveSettings}
-        </LandingCta>
+        </DashboardButton>
         {feedback === "saved" ? (
-          <span className="text-sm font-medium text-teal-700">{copy.vitrine.saved}</span>
+          <span className="text-sm font-medium text-emerald-700">{copy.vitrine.saved}</span>
         ) : null}
         {feedback === "error" ? (
           <span className="text-sm font-medium text-red-600">{copy.vitrine.saveError}</span>

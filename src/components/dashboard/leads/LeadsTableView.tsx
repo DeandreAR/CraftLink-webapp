@@ -309,7 +309,7 @@ export function LeadsTableView({
   const allSelected = leads.length > 0 && leads.every((lead) => selectedIds.has(lead.id));
 
   return (
-    <div className="scrollbar-soft overflow-x-auto rounded-2xl border border-[#212129]/8 bg-white shadow-[0_12px_32px_rgba(33,33,41,0.06)]">
+    <div className="scrollbar-soft overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full border-collapse text-left text-sm" style={{ tableLayout: "fixed" }}>
         <colgroup>
           {(Object.keys(DEFAULT_WIDTHS) as TableColumnKey[]).map((key) => (

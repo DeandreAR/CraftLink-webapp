@@ -53,38 +53,38 @@ export function ProFeatureGuard({
   const { title, description } = resolveProFeatureCopy(feature, copy);
 
   return (
-    <div className="relative min-h-[280px] overflow-hidden rounded-2xl">
-      <div className="pointer-events-none select-none opacity-40 blur-sm" aria-hidden>
+    <div className="relative min-h-[280px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="pointer-events-none select-none opacity-30" aria-hidden>
         {children}
       </div>
 
       <div
-        className="absolute inset-0 flex items-center justify-center bg-white/50 p-4 backdrop-blur-md"
+        className="absolute inset-0 flex items-center justify-center bg-slate-50/80 p-4"
         role="region"
         aria-labelledby={`pro-feature-${feature}-title`}
       >
-        <div className="w-full max-w-md rounded-2xl border border-zinc-200/80 bg-white p-6 text-center shadow-[0_16px_48px_rgba(33,33,41,0.08)] sm:p-8">
-          <span className="inline-flex items-center rounded-full bg-[#efa188]/10 px-3 py-1 text-xs font-semibold text-[#efa188]">
+        <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm sm:p-8">
+          <span className="db-section-label inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 normal-case tracking-normal text-slate-500">
             {g.badge}
           </span>
           <h3
             id={`pro-feature-${feature}-title`}
-            className="mt-4 text-lg font-bold tracking-tight text-[#212129] md:text-xl"
+            className="mt-4 text-lg font-semibold tracking-tight text-slate-900 md:text-xl"
           >
             {title}
           </h3>
-          <p className="mt-3 text-sm leading-relaxed text-[#5b6478]">{description}</p>
+          <p className="mt-3 text-sm leading-relaxed text-slate-500">{description}</p>
           <div className="mt-6">
             <StripeCheckoutButton
               priceKey="pro_monthly"
               locale={locale}
               successPath={authPath(locale, "dashboard")}
-              className="w-full justify-center !border-0 !bg-[#efa188] !text-zinc-950 !shadow-[0_2px_15px_rgba(0,0,0,0.06)] hover:!brightness-95"
+              className="w-full justify-center !rounded-lg !border-0 !bg-slate-900 !text-white !shadow-none hover:!bg-slate-800"
             >
               {g.cta}
             </StripeCheckoutButton>
           </div>
-          <p className="mt-3 text-xs text-[#5b6478]">{g.reassurance}</p>
+          <p className="mt-3 text-xs text-slate-500">{g.reassurance}</p>
         </div>
       </div>
     </div>
