@@ -6,6 +6,7 @@ import { getDictionary } from "@/i18n/getDictionary";
 import { sanitizePageSlugInput } from "@/lib/onboarding/pageSlug";
 import { resolvePublicPlanTier } from "@/lib/planTier/publicPlanTier";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
+import { listPublicRecommendedProducts } from "@/lib/recommendedProducts/recommendedProductsService";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mapStoredConfigToVitrinePage } from "@/lib/vitrine/mapProfileToVitrinePage";
 
@@ -24,7 +25,9 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("full_name, whatsapp_number, plan_tier, page_slug, voice_capture_enabled, vitrine_presentation, certifications, trial_ends_at, is_subscribed")
+    .select(
+      "id, full_name, whatsapp_number, plan_tier, page_slug, voice_capture_enabled, vitrine_presentation, certifications, trial_ends_at, is_subscribed",
+    )
     .eq("page_slug", normalized)
     .maybeSingle();
 
@@ -38,7 +41,7 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
   const config = parseStoredVitrineConfig(data.vitrine_presentation);
   const dict = await getDictionary(defaultLocale);
 
-  return mapStoredConfigToVitrinePage(
+  const page = mapStoredConfigToVitrinePage(
     {
       full_name: data.full_name,
       whatsapp_number: data.whatsapp_number,
@@ -55,4 +58,13 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
     dict.vitrine,
     dict.onboarding,
   );
+
+  if (!page) return null;
+
+  if (planTier === "PRO" && page.profileSettings.visibility.showProSelection) {
+    const products = await listPublicRecommendedProducts(String(data.id));
+    page.artisan.recommendedProducts = products;
+  }
+
+  return page;
 }

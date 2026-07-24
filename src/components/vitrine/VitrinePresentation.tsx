@@ -28,6 +28,10 @@ type VitrinePresentationProps = {
   copy: VitrineDictionary;
   servicesSurDevisLabel?: string;
   onOpenDetails: (intent: VitrineOpenIntent) => void;
+  /** Affiche uniquement nom / métier / badges / about (au-dessus des onglets). */
+  identityOnly?: boolean;
+  /** Masque le bloc identité (contenu onglet Contact). */
+  hideIdentity?: boolean;
 };
 
 export function VitrinePresentation({
@@ -39,6 +43,8 @@ export function VitrinePresentation({
   copy,
   servicesSurDevisLabel = "Sur devis",
   onOpenDetails,
+  identityOnly = false,
+  hideIdentity = false,
 }: VitrinePresentationProps) {
   const { visibility } = profileSettings;
   const tradeLine = `${artisan.tradeLabel} - ${artisan.city}`;
@@ -60,83 +66,95 @@ export function VitrinePresentation({
   const useBrandCta = isProPublicPlan(planTier);
 
   return (
-    <section className="px-4 pb-2 pt-5 text-center sm:px-5 sm:pt-6">
-      <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight text-neutral-900 sm:text-[1.75rem]">
-        {artisan.businessName}
-      </h1>
-      <p className="mt-2 mb-5 text-sm font-medium text-neutral-800 sm:text-[15px]">
-        {tradeLine}
-      </p>
+    <section
+      className={`px-4 text-center sm:px-5 ${
+        hideIdentity ? "pb-2 pt-3" : "pb-2 pt-5 sm:pt-6"
+      }`}
+    >
+      {!hideIdentity ? (
+        <>
+          <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight text-neutral-900 sm:text-[1.75rem]">
+            {artisan.businessName}
+          </h1>
+          <p className="mt-2 mb-5 text-sm font-medium text-neutral-800 sm:text-[15px]">
+            {tradeLine}
+          </p>
 
-      {visibility.showStatBadges ? (
-        <VitrineStatBadges
-          badges={artisan.statBadges}
-          googleBusinessUrl={artisan.googleBusinessUrl}
-        />
+          {visibility.showStatBadges ? (
+            <VitrineStatBadges
+              badges={artisan.statBadges}
+              googleBusinessUrl={artisan.googleBusinessUrl}
+            />
+          ) : null}
+
+          {showAbout && artisan.aboutSection ? (
+            <VitrineAboutSection
+              title={artisan.aboutSection.title}
+              body={artisan.aboutSection.body}
+            />
+          ) : null}
+
+          {certificationBadges.length > 0 ? (
+            <VitrineCertificationBadges
+              items={certificationBadges}
+              ariaLabel={copy.presentation.certificationsAriaLabel}
+            />
+          ) : null}
+
+          {showInterventions ? (
+            <VitrineInterventionTags items={artisan.interventions} />
+          ) : null}
+        </>
       ) : null}
 
-      {showAbout && artisan.aboutSection ? (
-        <VitrineAboutSection
-          title={artisan.aboutSection.title}
-          body={artisan.aboutSection.body}
-        />
-      ) : null}
+      {identityOnly ? null : (
+        <>
+          <VitrinePrimaryCtaButton
+            label={primaryQuoteLabel}
+            freeHint={copy.presentation.quoteFreeHint}
+            onClick={() => onOpenDetails("quote")}
+            useBrandColor={useBrandCta}
+          />
 
-      {certificationBadges.length > 0 ? (
-        <VitrineCertificationBadges
-          items={certificationBadges}
-          ariaLabel={copy.presentation.certificationsAriaLabel}
-        />
-      ) : null}
+          <VitrineActionButtons
+            pageSlug={artisan.slug}
+            artisanPhone={artisan.phone}
+            serviceZone={artisan.serviceAreaSummary || artisan.city}
+            copy={copy}
+            planTier={planTier}
+            profileSettings={profileSettings}
+            theme={theme}
+            onAction={onOpenDetails}
+          />
 
-      {showInterventions ? (
-        <VitrineInterventionTags items={artisan.interventions} />
-      ) : null}
+          {showAffiliateLinks ? (
+            <VitrineAffiliateLinks
+              links={artisan.affiliateLinks ?? []}
+              title={copy.presentation.affiliateLinksTitle}
+            />
+          ) : null}
 
-      <VitrinePrimaryCtaButton
-        label={primaryQuoteLabel}
-        freeHint={copy.presentation.quoteFreeHint}
-        onClick={() => onOpenDetails("quote")}
-        useBrandColor={useBrandCta}
-      />
+          {showServicesOnPresentation ? (
+            <VitrineServicesPublicList
+              services={services}
+              title={copy.details.servicesTitle}
+              surDevisLabel={servicesSurDevisLabel}
+            />
+          ) : null}
 
-      <VitrineActionButtons
-        pageSlug={artisan.slug}
-        artisanPhone={artisan.phone}
-        serviceZone={artisan.serviceAreaSummary || artisan.city}
-        copy={copy}
-        planTier={planTier}
-        profileSettings={profileSettings}
-        theme={theme}
-        onAction={onOpenDetails}
-      />
+          {showPortfolio ? (
+            <VitrinePortfolioGallery
+              items={portfolioItems}
+              title={copy.presentation.portfolioTitle}
+            />
+          ) : null}
 
-      {showAffiliateLinks ? (
-        <VitrineAffiliateLinks
-          links={artisan.affiliateLinks ?? []}
-          title={copy.presentation.affiliateLinksTitle}
-        />
-      ) : null}
-
-      {showServicesOnPresentation ? (
-        <VitrineServicesPublicList
-          services={services}
-          title={copy.details.servicesTitle}
-          surDevisLabel={servicesSurDevisLabel}
-        />
-      ) : null}
-
-      {showPortfolio ? (
-        <VitrinePortfolioGallery
-          items={portfolioItems}
-          title={copy.presentation.portfolioTitle}
-        />
-      ) : null}
-
-      <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-neutral-500">
-        <span aria-hidden>📍</span>
-        {artisan.serviceAreaSummary}
-      </p>
+          <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-neutral-500">
+            <span aria-hidden>📍</span>
+            {artisan.serviceAreaSummary}
+          </p>
+        </>
+      )}
     </section>
   );
 }

@@ -567,6 +567,22 @@ export type DashboardDictionary = {
       googleAlt: string;
       directAlt: string;
     };
+    headerAppearance: {
+      title: string;
+      layoutTitle: string;
+      layoutStandard: string;
+      layoutStandardHint: string;
+      layoutOverlay: string;
+      layoutOverlayHint: string;
+      bgTitle: string;
+      bgSolid: string;
+      bgGradient: string;
+      bgImage: string;
+      gradientFrom: string;
+      gradientTo: string;
+      uploadBanner: string;
+      uploading: string;
+    };
   };
   qr: {
     title: string;
@@ -619,6 +635,33 @@ export type DashboardDictionary = {
       remove: string;
       maxReached: string;
       empty: string;
+    };
+    proSelection: {
+      title: string;
+      hint: string;
+      enabledLabel: string;
+      titleLabel: string;
+      titlePlaceholder: string;
+      add: string;
+      edit: string;
+      remove: string;
+      save: string;
+      cancel: string;
+      empty: string;
+      moveUp: string;
+      moveDown: string;
+      formTitle: string;
+      formBrand: string;
+      formDescription: string;
+      formImage: string;
+      formUrl: string;
+      formPrice: string;
+      formActive: string;
+      uploadImage: string;
+      uploading: string;
+      saving: string;
+      error: string;
+      saveSettings: string;
     };
     columns: {
       company: string;
@@ -908,6 +951,11 @@ export type VitrineDictionary = {
     quoteFreeHint: string;
     portfolioTitle: string;
     affiliateLinksTitle: string;
+    contactTabLabel: string;
+    proSelectionTitle: string;
+    proSelectionSearch: string;
+    proSelectionEmpty: string;
+    proSelectionCta: string;
     reportUrgency: string;
     followersLabel: string;
     urgencyWhatsAppMessage: string;

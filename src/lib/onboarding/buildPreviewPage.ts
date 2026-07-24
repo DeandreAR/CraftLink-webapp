@@ -18,6 +18,8 @@ import { portfolioItemsToVitrine } from "@/lib/portfolio/portfolioToVitrine";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import { buildStatBadges } from "@/lib/vitrine/buildStatBadges";
 import { resolveShowUrgentButton } from "@/lib/vitrine/resolveShowUrgentButton";
+import { resolveVitrineHeaderMedia } from "@/lib/vitrine/resolveVitrineHeaderMedia";
+import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
 import type {
   PublicPlanTier,
 } from "@/domain/vitrine";
@@ -78,8 +80,17 @@ export function buildOnboardingPreviewProps(
   const useBrandBanner =
     isInstagramImport || profile.visual.useBrandGradientBanner === true;
 
-  const bannerUrl = useBrandBanner ? null : profile.visual.bannerPreviewUrl;
-  const avatarUrl = profile.visual.avatarPreviewUrl;
+  const brandPrimary = profile.visual.accentColor;
+  const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
+  const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
+
+  const headerMedia = resolveVitrineHeaderMedia(
+    {
+      ...profile.visual,
+      useBrandGradientBanner: useBrandBanner,
+    },
+    { brandPrimary },
+  );
 
   const socialFollowers = resolveSocialFollowers(profile);
   const socialLinks = onboardingSocialToVitrineLinks(
@@ -94,15 +105,14 @@ export function buildOnboardingPreviewProps(
   const hasSocial = socialLinks.length > 0;
   const hasAffiliateLinks = affiliateLinks.length > 0 && plan === "PRO";
   const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
+  const proSelectionEnabled = profile.proSelectionEnabled !== false;
+  const proSelectionTitle =
+    profile.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE;
 
   const useInterventions =
     profile.presentationMode === "interventions" && profile.selectedInterventions.length > 0;
   const useAbout =
     profile.presentationMode === "about" && profile.aboutText.trim().length > 0;
-
-  const brandPrimary = profile.visual.accentColor;
-  const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
-  const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
 
   const statBadges = buildStatBadges(profile, vitrineCopy, locale);
   const portfolioItems = toVitrinePortfolio(profile.portfolioItems);
@@ -132,15 +142,9 @@ export function buildOnboardingPreviewProps(
       statBadges,
       socialLinks,
       affiliateLinks,
+      recommendedProducts: [],
       portfolioItems,
-      media: {
-        bannerUrl,
-        bannerGradient: useBrandBanner
-          ? { from: themeBannerFrom, to: themeBannerTo }
-          : undefined,
-        avatarUrl,
-        showAvatar: Boolean(avatarUrl),
-      },
+      media: headerMedia,
     },
     services: vitrineServices,
     planTier,
@@ -162,6 +166,8 @@ export function buildOnboardingPreviewProps(
         showInterventionTags: useInterventions,
         showCollaborationButton: false,
         showAffiliateLinks: hasAffiliateLinks,
+        showProSelection: plan === "PRO" && proSelectionEnabled,
+        proSelectionTitle,
         showPortfolioGallery: hasPortfolio,
         showServicesOnPresentation: vitrineServices.length > 0,
         showUrgentButton: resolveShowUrgentButton(metierKey, profile.urgencyCtaEnabled),

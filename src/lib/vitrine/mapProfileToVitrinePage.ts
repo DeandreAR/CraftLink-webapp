@@ -80,6 +80,8 @@ export function mapStoredConfigToVitrinePage(
         showCollaborationButton: planTier === "PRO",
         showAffiliateLinks:
           planTier === "PRO" && (preview.artisan.affiliateLinks?.length ?? 0) > 0,
+        showProSelection:
+          planTier === "PRO" && preview.profileSettings.visibility.showProSelection,
       },
       voiceCaptureEnabled: resolveVoiceCaptureEnabled({
         plan_tier: row.plan_tier,

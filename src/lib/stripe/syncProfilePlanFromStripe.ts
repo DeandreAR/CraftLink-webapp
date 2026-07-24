@@ -38,10 +38,11 @@ export type StripeProfileSyncResult = {
 /**
  * Répare is_subscribed et références Stripe (customer / subscription) depuis l’API prod.
  * L'essai Pro local (trial_ends_at) n'est pas géré par Stripe.
+ * Ne downgrade pas un Pro posé manuellement (sans stripe_subscription_id en base).
  */
 export async function syncProfilePlanFromStripeIfNeeded(
   userId: string,
-  currentPlanTier: string | null | undefined,
+  _currentPlanTier: string | null | undefined,
   stripeCustomerId?: string | null,
   currentIsSubscribed?: boolean | null,
 ): Promise<StripeProfileSyncResult> {
@@ -65,12 +66,12 @@ export async function syncProfilePlanFromStripeIfNeeded(
     const stripe = getStripe();
     const subscription = await fetchPrimarySubscription(stripe, customerId);
     const wasSubscribed =
-      currentIsSubscribed === true ||
-      profile?.is_subscribed === true ||
-      currentPlanTier === STRIPE_PRO_PLAN_TIER;
+      currentIsSubscribed === true || profile?.is_subscribed === true;
+    const hadRecordedSubscription = Boolean(profile?.stripe_subscription_id?.trim());
 
     if (!subscription) {
-      if (wasSubscribed) {
+      // Uniquement si un vrai abonnement Stripe était enregistré — évite d’écraser un Pro manuel.
+      if (wasSubscribed && hadRecordedSubscription) {
         const result = await setProfilePlanByUserId(
           userId,
           STRIPE_FREE_PLAN_TIER,
@@ -88,7 +89,7 @@ export async function syncProfilePlanFromStripeIfNeeded(
           subscriptionId: null,
         };
       }
-      return { planTier: null, isSubscribed: false, customerId, subscriptionId: null };
+      return { planTier: null, isSubscribed: null, customerId, subscriptionId: null };
     }
 
     const subscriptionId = subscription.id;

@@ -12,10 +12,12 @@ import type {
 } from "@/domain/vitrine";
 import { vitrineThemeStyle } from "@/lib/vitrine/theme";
 import type { VitrineDictionary } from "@/i18n/types";
+import { VitrineContentTabs } from "@/components/vitrine/VitrineContentTabs";
 import { VitrineDetailsSection } from "@/components/vitrine/VitrineDetailsSection";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
 import { VitrinePresentation } from "@/components/vitrine/VitrinePresentation";
 import { VitrineProfileHero } from "@/components/vitrine/VitrineProfileHero";
+import { VitrineProSelectionPanel } from "@/components/vitrine/VitrineProSelectionPanel";
 
 export type LinkInBioPageProps = {
   artisan: ArtisanVitrineProfile;
@@ -44,6 +46,8 @@ export function LinkInBioPage({
   const [internalState, setInternalState] =
     useState<VitrineInteractionState>("INITIAL");
   const [openIntent, setOpenIntent] = useState<VitrineOpenIntent>("quote");
+  const [contentTab, setContentTab] = useState<"contact" | "pro">("contact");
+  const [tabLoading, setTabLoading] = useState(false);
 
   const interactionState = controlledState ?? internalState;
   const setInteractionState = (next: VitrineInteractionState) => {
@@ -54,6 +58,10 @@ export function LinkInBioPage({
   const showDetails = interactionState === "DETAILS_VISIBLE";
   const showSocial =
     profileSettings.visibility.showSocialLinks && artisan.socialLinks.length > 0;
+  const showProSelection = profileSettings.visibility.showProSelection;
+  const proSelectionTitle =
+    profileSettings.visibility.proSelectionTitle ||
+    copy.presentation.proSelectionTitle;
 
   useEffect(() => {
     if (embedded) return;
@@ -72,6 +80,13 @@ export function LinkInBioPage({
         block: "start",
       });
     }, 80);
+  };
+
+  const switchTab = (tab: "contact" | "pro") => {
+    if (tab === contentTab) return;
+    setTabLoading(true);
+    setContentTab(tab);
+    window.setTimeout(() => setTabLoading(false), 180);
   };
 
   return (
@@ -98,16 +113,70 @@ export function LinkInBioPage({
 
         {!showDetails ? (
           <>
-            <VitrinePresentation
-              artisan={artisan}
-              services={services}
-              planTier={planTier}
-              theme={theme}
-              profileSettings={profileSettings}
-              copy={copy}
-              servicesSurDevisLabel={copy.services.surDevis}
-              onOpenDetails={openDetails}
-            />
+            {showProSelection ? (
+              <>
+                <VitrinePresentation
+                  artisan={artisan}
+                  services={services}
+                  planTier={planTier}
+                  theme={theme}
+                  profileSettings={profileSettings}
+                  copy={copy}
+                  servicesSurDevisLabel={copy.services.surDevis}
+                  onOpenDetails={openDetails}
+                  identityOnly
+                />
+
+                <VitrineContentTabs
+                  contactLabel={copy.presentation.contactTabLabel}
+                  proSelectionLabel={proSelectionTitle}
+                  active={contentTab}
+                  onChange={switchTab}
+                  showProSelection
+                />
+
+                {tabLoading ? (
+                  <div className="space-y-3 px-4 py-6 sm:px-5">
+                    <div className="h-10 animate-pulse rounded-2xl bg-neutral-100" />
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="aspect-square animate-pulse rounded-2xl bg-neutral-100" />
+                      <div className="aspect-square animate-pulse rounded-2xl bg-neutral-100" />
+                    </div>
+                  </div>
+                ) : contentTab === "pro" ? (
+                  <VitrineProSelectionPanel
+                    products={artisan.recommendedProducts ?? []}
+                    searchPlaceholder={copy.presentation.proSelectionSearch}
+                    emptyLabel={copy.presentation.proSelectionEmpty}
+                    ctaLabel={copy.presentation.proSelectionCta}
+                  />
+                ) : (
+                  <VitrinePresentation
+                    artisan={artisan}
+                    services={services}
+                    planTier={planTier}
+                    theme={theme}
+                    profileSettings={profileSettings}
+                    copy={copy}
+                    servicesSurDevisLabel={copy.services.surDevis}
+                    onOpenDetails={openDetails}
+                    hideIdentity
+                  />
+                )}
+              </>
+            ) : (
+              <VitrinePresentation
+                artisan={artisan}
+                services={services}
+                planTier={planTier}
+                theme={theme}
+                profileSettings={profileSettings}
+                copy={copy}
+                servicesSurDevisLabel={copy.services.surDevis}
+                onOpenDetails={openDetails}
+              />
+            )}
+
             <VitrineFooter label={copy.poweredBy} />
           </>
         ) : (

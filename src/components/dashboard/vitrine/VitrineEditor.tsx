@@ -6,6 +6,7 @@ import { updateDashboardProfileAction } from "@/app/actions/dashboard";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { CertificationTagsField } from "@/components/dashboard/vitrine/CertificationTagsField";
 import { PortfolioGalleryEditor } from "@/components/dashboard/vitrine/PortfolioGalleryEditor";
+import { HeaderAppearanceEditor } from "@/components/dashboard/vitrine/HeaderAppearanceEditor";
 import { OnboardingGeneralStep } from "@/components/onboarding/steps/OnboardingGeneralStep";
 import { OnboardingInterventionsStep } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
@@ -175,6 +176,12 @@ export function VitrineEditor({
 
         {section === "visual" ? (
           <div className="space-y-6">
+            <HeaderAppearanceEditor
+              profile={profileDraft}
+              workspaceId={workspaceId}
+              onChange={patchProfile}
+              copy={v.headerAppearance}
+            />
             <OnboardingVisualStep
               copy={onboardingCopy}
               vitrineCopy={vitrineCopy}

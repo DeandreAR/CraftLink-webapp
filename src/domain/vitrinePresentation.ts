@@ -19,6 +19,7 @@ import { resolveCraftlinkPlan } from "@/domain/craftlinkPlan";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
 import type { OnboardingSocialFollowers } from "@/lib/onboarding/socialFollowers";
 import { parsePortfolioItems } from "@/lib/portfolio/normalizePortfolioItem";
+import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
 
 /** Champs vitrine persistés (hors colonnes `profiles`). */
 export type StoredVitrineProfilePart = {
@@ -34,6 +35,8 @@ export type StoredVitrineProfilePart = {
   affiliateLinks: OnboardingAffiliateLink[];
   partnerBrands: OnboardingPartnerBrand[];
   urgencyCtaEnabled?: boolean;
+  proSelectionEnabled?: boolean;
+  proSelectionTitle?: string;
   visual: OnboardingVisualDraft;
   portfolioItems?: OnboardingPortfolioItem[];
   importPlatform?: ProImportPlatform;
@@ -182,14 +185,43 @@ function parseVisual(raw: unknown): OnboardingVisualDraft {
   const base = defaultVisualDraft();
   if (!raw || typeof raw !== "object") return base;
   const row = raw as Record<string, unknown>;
+
+  const headerLayoutType =
+    row.headerLayoutType === "standard" || row.headerLayoutType === "banner_overlay"
+      ? row.headerLayoutType
+      : base.headerLayoutType;
+
+  const headerBgType =
+    row.headerBgType === "solid" ||
+    row.headerBgType === "gradient" ||
+    row.headerBgType === "image"
+      ? row.headerBgType
+      : base.headerBgType;
+
   return {
     fontId: (typeof row.fontId === "string" ? row.fontId : base.fontId) as OnboardingVisualDraft["fontId"],
     accentColor: typeof row.accentColor === "string" ? row.accentColor : base.accentColor,
     avatarPreviewUrl:
-      typeof row.avatarPreviewUrl === "string" ? row.avatarPreviewUrl : row.avatarPreviewUrl === null ? null : base.avatarPreviewUrl,
+      typeof row.avatarPreviewUrl === "string"
+        ? row.avatarPreviewUrl
+        : row.avatarPreviewUrl === null
+          ? null
+          : base.avatarPreviewUrl,
     bannerPreviewUrl:
-      typeof row.bannerPreviewUrl === "string" ? row.bannerPreviewUrl : row.bannerPreviewUrl === null ? null : base.bannerPreviewUrl,
+      typeof row.bannerPreviewUrl === "string"
+        ? row.bannerPreviewUrl
+        : row.bannerPreviewUrl === null
+          ? null
+          : base.bannerPreviewUrl,
     useBrandGradientBanner: row.useBrandGradientBanner === true,
+    headerLayoutType,
+    headerBgType,
+    headerBgValue:
+      typeof row.headerBgValue === "string"
+        ? row.headerBgValue
+        : row.headerBgValue === null
+          ? null
+          : base.headerBgValue,
   };
 }
 
@@ -245,6 +277,12 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
     partnerBrands: parsePartnerBrands(row.partnerBrands),
     urgencyCtaEnabled:
       typeof row.urgencyCtaEnabled === "boolean" ? row.urgencyCtaEnabled : undefined,
+    proSelectionEnabled:
+      typeof row.proSelectionEnabled === "boolean" ? row.proSelectionEnabled : true,
+    proSelectionTitle:
+      typeof row.proSelectionTitle === "string" && row.proSelectionTitle.trim()
+        ? row.proSelectionTitle.trim()
+        : DEFAULT_PRO_SELECTION_TITLE,
     visual: parseVisual(row.visual),
     portfolioItems: parsePortfolioItems(row.portfolioItems),
     importPlatform:
@@ -348,6 +386,9 @@ export function profileToEditorState(profile: Profile): {
     affiliateLinks: config.profile.affiliateLinks,
     partnerBrands: config.profile.partnerBrands ?? [],
     urgencyCtaEnabled: config.profile.urgencyCtaEnabled,
+    proSelectionEnabled: config.profile.proSelectionEnabled ?? true,
+    proSelectionTitle:
+      config.profile.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE,
     visual: config.profile.visual,
     portfolioItems: config.profile.portfolioItems,
     importPlatform: config.profile.importPlatform,
@@ -393,6 +434,9 @@ export function editorStateToStoredConfig(
       affiliateLinks: profileDraft.affiliateLinks,
       partnerBrands: profileDraft.partnerBrands ?? [],
       urgencyCtaEnabled: profileDraft.urgencyCtaEnabled,
+      proSelectionEnabled: profileDraft.proSelectionEnabled ?? true,
+      proSelectionTitle:
+        profileDraft.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE,
       visual,
       portfolioItems: profileDraft.portfolioItems,
       importPlatform: profileDraft.importPlatform,

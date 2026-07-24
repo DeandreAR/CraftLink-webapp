@@ -36,6 +36,10 @@ export type VitrineVisibilitySettings = {
   showPortfolioGallery: boolean;
   /** Liens d'affiliation / codes partenaires nommés (Pro). */
   showAffiliateLinks: boolean;
+  /** Onglet « La Sélection Pro » (produits recommandés). */
+  showProSelection: boolean;
+  /** Titre de l’onglet Sélection Pro. */
+  proSelectionTitle: string;
   /** Affiche la liste des prestations sur la page de présentation (pas le formulaire). */
   showServicesOnPresentation: boolean;
   /** Bouton « Signaler une urgence » — dépend du métier (voir `metierSupportsUrgencyCta`). */
@@ -84,6 +88,20 @@ export type VitrineMedia = {
   bannerCollage?: [string | null, string | null, string | null];
   avatarUrl?: string | null;
   showAvatar: boolean;
+  headerLayoutType?: "standard" | "banner_overlay";
+  headerBgType?: "solid" | "gradient" | "image";
+  /** Couleur unie du header (layout standard / fond solid). */
+  headerSolidColor?: string | null;
+};
+
+export type VitrineRecommendedProduct = {
+  id: string;
+  title: string;
+  description?: string | null;
+  brand?: string | null;
+  imageUrl: string;
+  affiliateUrl: string;
+  priceHint?: string | null;
 };
 
 export type SocialLinkType =
@@ -153,6 +171,7 @@ export type ArtisanVitrineProfile = {
   googleBusinessUrl?: string | null;
   socialLinks: VitrineSocialLink[];
   affiliateLinks: VitrineAffiliateLink[];
+  recommendedProducts?: VitrineRecommendedProduct[];
   portfolioItems?: VitrinePortfolioItem[];
   aboutSection?: VitrineAboutSection | null;
   certifications?: string[];

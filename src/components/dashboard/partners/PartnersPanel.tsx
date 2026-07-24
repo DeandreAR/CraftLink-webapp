@@ -7,6 +7,7 @@ import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
 import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
 import { PartnersBrandsCard } from "@/components/dashboard/partners/PartnersBrandsCard";
+import { PartnersProSelectionCard } from "@/components/dashboard/partners/PartnersProSelectionCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -268,6 +269,7 @@ export function PartnersPanel({
       </div>
 
       <PartnersBrandsCard profile={profile} copy={copy} />
+      {pro ? <PartnersProSelectionCard profile={profile} copy={copy} /> : null}
       {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
 
       {pro ? null : (
