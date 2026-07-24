@@ -51,7 +51,7 @@ type DetailSectionProps = {
 };
 
 const SECTION_TONES: Record<DetailSectionProps["tone"], string> = {
-  quick: "bg-[#FFF5F2] border border-[#EFA188]/20",
+  quick: "bg-slate-50 border border-slate-200",
   client: "bg-slate-50/90 border border-slate-100",
   work: "bg-[#F0FDFA]/80 border border-teal-100/80",
   attachments: "bg-amber-50/70 border border-amber-100/80",
@@ -137,7 +137,7 @@ export function LeadDetailPanel({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-xl border border-neutral-200 bg-[#FDFBF7] px-3 py-2 text-xs font-bold text-[#212129] transition hover:border-[#EFA188]/50 hover:bg-[#FFF5F2]"
+            className="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 transition hover:bg-slate-50"
             aria-label={d.close}
           >
             <FaXmark className="h-3.5 w-3.5" aria-hidden />

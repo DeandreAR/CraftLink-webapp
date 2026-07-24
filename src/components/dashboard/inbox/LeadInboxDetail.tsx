@@ -68,28 +68,28 @@ export function LeadInboxDetail({
     onScheduleChange(next);
   };
 
-  const sectionClass = `rounded-2xl border border-[#212129]/8 bg-[#FDFBF7] p-3 lg:p-5 ${
+  const sectionClass = `rounded-xl border border-slate-200/80 bg-slate-50 p-3 lg:p-5 ${
     compact ? "db-inbox-section" : ""
   }`;
 
   return (
     <article
-      className={`flex h-full min-h-[20rem] flex-col overflow-hidden rounded-[1.5rem] border-2 border-[#212129]/8 bg-white shadow-xl ${
+      className={`flex h-full min-h-[20rem] flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm ${
         compact ? "db-inbox-detail-sheet" : ""
       }`}
     >
-      <header className="border-b border-[#EFA188]/20 bg-gradient-to-r from-[#FFF5F0] to-white px-4 py-3 lg:px-8 lg:py-5">
+      <header className="border-b border-slate-100 bg-white px-4 py-3 lg:px-8 lg:py-5">
         {onBack && compact ? (
           <button
             type="button"
             onClick={onBack}
-            className="mb-2 inline-flex items-center gap-2 text-xs font-bold text-[#5b6478] transition hover:text-[#212129]"
+            className="mb-2 inline-flex items-center gap-2 text-xs font-semibold text-slate-500 transition hover:text-slate-900"
           >
             <FaArrowLeft className="h-3.5 w-3.5" aria-hidden />
             {inbox.backToList}
           </button>
         ) : null}
-        <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#EFA188]">
+        <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
           #{formatRequestNumber(lead.requestNumber)} · {inbox.statusNew}
         </p>
         <h2 className="lk-display mt-0.5 text-lg lg:mt-1 lg:text-[1.65rem]">{lead.clientName}</h2>
@@ -173,7 +173,7 @@ export function LeadInboxDetail({
         </section>
       </div>
 
-      <footer className="flex flex-col gap-2 border-t border-[#EFA188]/20 bg-white px-4 py-3 lg:flex-row lg:px-8 lg:py-4">
+      <footer className="flex flex-col gap-2 border-t border-slate-100 bg-white px-4 py-3 lg:flex-row lg:px-8 lg:py-4">
         <GlowButton
           type="button"
           disabled={busy}

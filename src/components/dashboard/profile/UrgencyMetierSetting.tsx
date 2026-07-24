@@ -57,8 +57,8 @@ export function UrgencyMetierSetting({ profile, copy, locale }: UrgencyMetierSet
   if (!metierKey) {
     return (
       <div className="db-profile-section db-profile-section--urgency db-urgency-compact p-4 md:p-8">
-        <h3 className="text-sm font-black text-[#212129] md:text-base">{p.urgencyTitle}</h3>
-        <p className="mt-1.5 text-xs leading-relaxed text-[#5b6478] md:mt-2 md:text-sm">
+        <h3 className="text-sm font-semibold text-slate-900 md:text-base">{p.urgencyTitle}</h3>
+        <p className="mt-1.5 text-xs leading-relaxed text-slate-500 md:mt-2 md:text-sm">
           {p.metierNotSetHint}
         </p>
       </div>
@@ -75,11 +75,11 @@ export function UrgencyMetierSetting({ profile, copy, locale }: UrgencyMetierSet
     <div className="db-profile-section db-profile-section--urgency db-urgency-compact p-3 md:p-8">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-black text-[#212129] md:text-base">{p.urgencyTitle}</h3>
-          <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#5b6478] md:mt-1 md:text-xs">
+          <h3 className="text-sm font-semibold text-slate-900 md:text-base">{p.urgencyTitle}</h3>
+          <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-slate-400 md:mt-1">
             {metierLabel}
           </p>
-          <p className="db-urgency-body mt-2 text-xs leading-relaxed text-[#5b6478] md:text-sm">
+          <p className="db-urgency-body mt-2 text-xs leading-relaxed text-slate-500 md:text-sm">
             {bodyCopy}
           </p>
         </div>
@@ -91,7 +91,7 @@ export function UrgencyMetierSetting({ profile, copy, locale }: UrgencyMetierSet
           disabled={saving}
           onClick={() => void toggle()}
           className={`relative h-7 w-12 shrink-0 rounded-full transition md:h-8 md:w-14 ${
-            enabled ? "bg-[#212129]" : "bg-neutral-300"
+            enabled ? "bg-slate-900" : "bg-slate-300"
           } disabled:opacity-60`}
         >
           <span

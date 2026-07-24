@@ -145,7 +145,7 @@ export function InboxPanel({
               }
             />
           ) : (
-            <div className="flex min-h-[12rem] items-center justify-center rounded-[1.25rem] border-2 border-dashed border-[#EFA188]/35 bg-white/70 p-6 text-center lg:min-h-[20rem] lg:rounded-[1.5rem] lg:p-8">
+            <div className="flex min-h-[12rem] items-center justify-center rounded-xl border border-dashed border-slate-200 bg-white p-6 text-center lg:min-h-[20rem] lg:p-8">
               <p className="max-w-xs text-sm font-medium text-[#5b6478]">
                 {inbox.selectLead}
               </p>

@@ -61,7 +61,7 @@ function RequestsTable({
     <>
       <div className="hidden overflow-hidden db-card-flat md:block">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-[#EFA188]/15 bg-[#FDFBF7] text-[11px] font-bold uppercase tracking-wide text-[#5b6478]">
+          <thead className="border-b border-slate-100 bg-slate-50 text-[11px] font-medium uppercase tracking-wider text-slate-400">
             <tr>
               <th className="px-4 py-3">{p.columns.company}</th>
               <th className="px-4 py-3">{p.columns.contact}</th>
@@ -76,8 +76,8 @@ function RequestsTable({
               return (
                 <tr
                   key={request.id}
-                  className={`cursor-pointer border-b border-[#212129]/6 last:border-0 ${
-                    selected ? "bg-[#EFA188]/12" : "hover:bg-[#FDFBF7]"
+                  className={`cursor-pointer border-b border-slate-100 last:border-0 ${
+                    selected ? "bg-slate-50" : "hover:bg-slate-50/80"
                   }`}
                   onClick={() => onSelect(request.id)}
                 >
@@ -115,7 +115,7 @@ function RequestsTable({
                 type="button"
                 onClick={() => onSelect(request.id)}
                 className={`w-full db-card-flat p-3 text-left ${
-                  selected ? "border-[#EFA188]/50 bg-[#EFA188]/10" : ""
+                  selected ? "border-slate-300 bg-slate-50" : ""
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
@@ -216,10 +216,10 @@ export function PartnersPanel({
   const content = (
     <div className="space-y-6 md:space-y-8">
       <div>
-        <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478] max-md:text-xs">
+        <h3 className="text-sm font-medium uppercase tracking-wider text-slate-400 max-md:text-xs">
           {p.requestsTitle}
         </h3>
-        <p className="mt-1 text-sm text-[#5b6478] max-md:hidden">{p.requestsHint}</p>
+        <p className="mt-1 text-sm text-slate-500 max-md:hidden">{p.requestsHint}</p>
       </div>
 
       {loadError ? (

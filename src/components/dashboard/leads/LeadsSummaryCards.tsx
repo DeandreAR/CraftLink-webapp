@@ -21,8 +21,8 @@ const CARDS: SummaryCard[] = [
   {
     key: "total",
     icon: FaClipboardList,
-    accent: "text-[#212129]",
-    iconWrap: "bg-[#FDFBF7] text-[#212129] ring-1 ring-[#212129]/10",
+    accent: "text-slate-900",
+    iconWrap: "bg-slate-50 text-slate-700 ring-1 ring-slate-200",
   },
   {
     key: "urgent",
@@ -40,7 +40,7 @@ const CARDS: SummaryCard[] = [
     key: "done",
     icon: FaCircleCheck,
     accent: "text-emerald-700",
-    iconWrap: "bg-[#B2F5EA]/40 text-emerald-700 ring-1 ring-[#B2F5EA]",
+    iconWrap: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100",
   },
 ];
 
@@ -52,7 +52,7 @@ export function LeadsSummaryCards({ stats, copy }: LeadsSummaryCardsProps) {
       {CARDS.map(({ key, icon: Icon, accent, iconWrap }) => (
         <DashboardCard key={key} as="article" variant="flat" className="p-4">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-[#5b6478]">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               {s[key]}
             </p>
             <span

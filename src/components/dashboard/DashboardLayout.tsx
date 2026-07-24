@@ -67,12 +67,8 @@ export function DashboardLayout({
   }, [initialTab]);
 
   return (
-    <div className="dashboard-page relative flex min-h-[100dvh] text-[#212129]">
+    <div className="dashboard-page relative flex min-h-[100dvh] text-slate-900">
       <RegisterServiceWorker />
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -right-24 top-0 h-72 w-72 rounded-full bg-[#EFA188]/14 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-[#D6BCFA]/12 blur-3xl" />
-      </div>
 
       <DashboardSidebar
         active={tab}
@@ -83,7 +79,7 @@ export function DashboardLayout({
       />
 
       <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/8 bg-[#1a1d24] px-4 py-3 md:hidden">
+        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-3 md:hidden">
           <Link href={home} className="inline-flex items-center" aria-label="CraftLink">
             <img
               src="/images/logo_main.png"
@@ -98,7 +94,7 @@ export function DashboardLayout({
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="rounded-full border border-[#EFA188]/45 bg-[#EFA188]/20 px-3 py-1.5 text-[11px] font-bold text-white transition active:scale-[0.98] hover:bg-[#EFA188]/35"
+              className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.98] hover:bg-slate-800"
             >
               {copy.signOut}
             </button>

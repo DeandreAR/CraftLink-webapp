@@ -22,7 +22,7 @@ export function DashboardBottomNav({ active, onChange, copy }: DashboardBottomNa
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-[70] border-t border-white/8 bg-[#1a1d24] pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-[70] border-t border-slate-800 bg-slate-950 pb-[env(safe-area-inset-bottom)] md:hidden"
       aria-label="Navigation tableau de bord"
     >
       <ul className="grid grid-cols-4">
@@ -33,16 +33,16 @@ export function DashboardBottomNav({ active, onChange, copy }: DashboardBottomNa
               <button
                 type="button"
                 onClick={() => onChange(id)}
-                className={`relative flex w-full cursor-pointer flex-col items-center gap-0.5 px-1 py-2.5 text-[9px] font-semibold transition-colors duration-200 ${
-                  isActive ? "text-white" : "text-neutral-500"
+                className={`relative flex w-full cursor-pointer flex-col items-center gap-0.5 px-1 py-2.5 text-[9px] font-semibold transition-colors duration-150 ${
+                  isActive ? "text-white" : "text-slate-500"
                 }`}
                 aria-current={isActive ? "page" : undefined}
               >
                 <span
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors duration-200 ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-md transition-colors duration-150 ${
                     isActive
-                      ? "bg-[#EFA188]/25 text-[#EFA188] ring-1 ring-[#EFA188]/30"
-                      : "text-neutral-500"
+                      ? "bg-white/10 text-[#EFA188] ring-1 ring-white/10"
+                      : "text-slate-500"
                   }`}
                 >
                   <Icon className="h-4 w-4" aria-hidden />

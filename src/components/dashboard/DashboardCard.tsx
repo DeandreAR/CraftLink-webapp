@@ -12,7 +12,7 @@ type DashboardCardProps = {
 export function DashboardCard({
   children,
   className = "",
-  variant = "gradient",
+  variant = "flat",
   as: Tag = "div",
 }: DashboardCardProps) {
   const surface = variant === "flat" ? "db-card-flat" : "db-card";

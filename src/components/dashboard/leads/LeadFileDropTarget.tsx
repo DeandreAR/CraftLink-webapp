@@ -37,7 +37,7 @@ export function LeadFileDropTarget({
       {children}
       {enabled && (dragOver || uploading) ? (
         <div
-          className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-1 rounded-[inherit] border-2 border-dashed border-[#EFA188] bg-[#FFF5F2]/95 px-2 text-center backdrop-blur-[1px]"
+          className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-1 rounded-[inherit] border-2 border-dashed border-slate-400 bg-white/95 px-2 text-center"
           aria-live="polite"
         >
           <FaCloudArrowUp className="h-4 w-4 text-[#c45a3a]" aria-hidden />

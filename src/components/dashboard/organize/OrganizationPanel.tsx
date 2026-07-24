@@ -216,7 +216,7 @@ export function OrganizationPanel({
         }
       />
 
-      <div className="db-organize-shell rounded-[1.5rem] border border-[#212129]/8 bg-white/60 p-4 shadow-[0_16px_48px_rgba(33,33,41,0.06)] backdrop-blur-sm md:p-5">
+      <div className="db-organize-shell rounded-xl p-4 md:p-5">
         {catchUpLead ? (
           <SmartCatchUpBanner
             lead={catchUpLead}

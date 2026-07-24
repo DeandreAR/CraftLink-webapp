@@ -43,7 +43,7 @@ export function ProfileMobileNav({ sections, ariaLabel }: ProfileMobileNavProps)
 
   const tabList = (
     <div
-      className="scrollbar-hide -mx-1 mb-4 flex gap-1.5 overflow-x-auto px-1 pb-1 md:mb-5 md:gap-2 lg:sticky lg:top-4 lg:z-10 lg:bg-[#FDFBF7]/95 lg:backdrop-blur-sm"
+      className="db-segmented scrollbar-hide mb-4 lg:sticky lg:top-4 lg:z-10"
       role="tablist"
       aria-label={ariaLabel}
     >
@@ -55,12 +55,9 @@ export function ProfileMobileNav({ sections, ariaLabel }: ProfileMobileNavProps)
             type="button"
             role="tab"
             aria-selected={isActive}
+            data-active={isActive ? "true" : undefined}
             onClick={() => selectSection(section.id)}
-            className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-bold transition md:px-4 md:py-2 md:text-xs ${
-              isActive
-                ? "bg-[#212129] text-white"
-                : "border border-[#212129]/12 bg-white text-[#5b6478]"
-            }`}
+            className="db-segmented-item cursor-pointer text-[11px] md:text-xs"
           >
             {section.label}
           </button>

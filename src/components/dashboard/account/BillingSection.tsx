@@ -74,17 +74,17 @@ export function BillingSection({
       <DashboardCard variant="flat" className="p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex min-w-0 items-start gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EFA188]/18 text-[#212129] ring-1 ring-[#EFA188]/30">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700">
               <FaCreditCard className="h-4 w-4" aria-hidden />
             </span>
             <div className="min-w-0">
-              <p className="text-xs font-bold uppercase tracking-wide text-[#5b6478]">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                 {b.currentPlan}
               </p>
-              <h3 className="mt-1 text-lg font-bold text-[#212129]">
+              <h3 className="mt-1 text-lg font-semibold text-slate-900">
                 {trialActive ? `${b.pro} (${b.badgeTrial})` : pro ? b.pro : b.essential}
               </h3>
-              <p className="text-sm text-[#5b6478]">
+              <p className="text-sm text-slate-500">
                 {subscribed
                   ? b.proPriceMonthly
                   : trialActive
@@ -94,7 +94,7 @@ export function BillingSection({
                       : b.essentialPrice}
               </p>
               {trialActive && proAccess.trial_ends_at ? (
-                <p className="mt-1 text-xs font-medium text-[#efa188]">
+                <p className="mt-1 text-xs font-medium text-slate-600">
                   {b.trialEndsOn.replace(
                     "{date}",
                     formatBillingDate(proAccess.trial_ends_at, locale),
@@ -106,28 +106,28 @@ export function BillingSection({
           <span
             className={
               trialActive
-                ? "inline-flex items-center rounded-full border border-[#efa188]/40 bg-[#efa188]/15 px-3 py-1 text-xs font-semibold text-[#c45c3e]"
+                ? "inline-flex items-center rounded-lg border border-[#EFA188]/50 bg-[#EFA188]/15 px-3 py-1 text-xs font-semibold text-slate-900"
                 : pro
-                  ? "inline-flex items-center rounded-full bg-[#212129] px-3 py-1 text-xs font-semibold text-white"
-                  : "inline-flex items-center rounded-full border border-[#EFA188]/40 bg-[#FFF5F2] px-3 py-1 text-xs font-semibold text-[#212129]"
+                  ? "inline-flex items-center rounded-lg bg-slate-900 px-3 py-1 text-xs font-semibold text-white"
+                  : "inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700"
             }
           >
             {trialActive ? b.badgeTrial : pro ? b.badgePro : b.badgeFree}
           </span>
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-[#5b6478]">
+        <p className="mt-4 text-sm leading-relaxed text-slate-500">
           {pro ? b.proFeatures : b.essentialFeatures}
         </p>
 
         {subscribed ? (
-          <div className="mt-4 rounded-xl border border-[#EFA188]/20 bg-[#FDFBF7] px-3 py-2.5">
-            <p className="text-[11px] font-bold uppercase tracking-wide text-[#5b6478]">
+          <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5">
+            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               {b.nextBilling}
             </p>
-            <p className="mt-1 text-sm font-semibold text-[#212129]">{nextBillingLabel}</p>
+            <p className="mt-1 text-sm font-semibold text-slate-900">{nextBillingLabel}</p>
             {intervalLabel ? (
-              <p className="mt-0.5 text-xs text-[#5b6478]">{intervalLabel}</p>
+              <p className="mt-0.5 text-xs text-slate-500">{intervalLabel}</p>
             ) : null}
           </div>
         ) : (
@@ -141,7 +141,7 @@ export function BillingSection({
               {b.upgradePro}
             </StripeCheckoutButton>
             {trialActive ? (
-              <p className="mt-2 text-xs leading-relaxed text-[#5b6478]">{b.trialUpgradeHint}</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">{b.trialUpgradeHint}</p>
             ) : null}
           </div>
         )}

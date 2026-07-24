@@ -28,16 +28,16 @@ export function SmartCatchUpBanner({
     <div
       role="region"
       aria-label={c.ariaLabel}
-      className="mb-5 overflow-hidden rounded-2xl border-2 border-[#EFA188]/50 bg-gradient-to-br from-[#FFF5F2] via-white to-[#FDFBF7] shadow-[0_12px_32px_rgba(239,161,136,0.15)]"
+      className="mb-5 overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm"
     >
-      <div className="border-b border-[#EFA188]/25 bg-[#EFA188]/10 px-4 py-2">
-        <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#c45a3a]">
+      <div className="border-b border-slate-100 bg-slate-50 px-4 py-2">
+        <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
           {c.eyebrow}
         </p>
       </div>
       <div className="p-4">
-        <p className="text-sm font-bold text-[#212129]">{question}</p>
-        <p className="mt-1 text-xs text-[#5b6478]">
+        <p className="text-sm font-semibold text-slate-900">{question}</p>
+        <p className="mt-1 text-xs text-slate-500">
           {lead.workType} · {lead.zone}
         </p>
         {error ? (

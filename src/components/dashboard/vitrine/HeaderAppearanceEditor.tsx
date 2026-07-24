@@ -256,10 +256,10 @@ export function HeaderAppearanceEditor({
               key={option.id}
               type="button"
               onClick={() => selectLayout(option.id)}
-              className={`rounded-2xl border p-3 text-left transition ${
+              className={`rounded-xl border p-3 text-left transition ${
                 layout === option.id
-                  ? "border-[#EFA188] bg-[#FFF5F0] ring-1 ring-[#EFA188]/40"
-                  : "border-neutral-200 bg-neutral-50 hover:border-neutral-300"
+                  ? "border-slate-900 bg-white shadow-sm ring-1 ring-slate-900/10"
+                  : "border-slate-200 bg-slate-50 hover:border-slate-300"
               }`}
             >
               <LayoutPreview id={option.id} accent={accent} />

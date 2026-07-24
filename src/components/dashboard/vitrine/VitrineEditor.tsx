@@ -133,15 +133,7 @@ export function VitrineEditor({
         ariaLabel={v.title}
       />
 
-      <div
-        className={`pt-2 ${
-          section === "general"
-            ? "rounded-2xl border border-[#EFA188]/25 bg-[#FFF5F0]/50 p-4"
-            : section === "content"
-              ? "rounded-2xl border border-[#B2F5EA]/40 bg-[#F0FDF9]/50 p-4"
-              : "rounded-2xl border border-[#D6BCFA]/35 bg-[#F5F0FF]/40 p-4"
-        }`}
-      >
+      <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm">
         {section === "general" ? (
           <div className="space-y-5">
             <OnboardingGeneralStep

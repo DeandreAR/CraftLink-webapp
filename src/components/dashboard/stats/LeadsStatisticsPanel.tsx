@@ -82,11 +82,11 @@ export function LeadsStatisticsPanel({
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h3 className="text-base font-bold text-[#212129]">{s.title}</h3>
-          <p className="mt-1 max-w-xl text-sm text-[#5b6478]">{s.subtitle}</p>
+          <h3 className="text-base font-semibold text-slate-900">{s.title}</h3>
+          <p className="mt-1 max-w-xl text-sm text-slate-500">{s.subtitle}</p>
         </div>
         <div
-          className="flex w-full gap-1 overflow-x-auto rounded-2xl border border-[#212129]/8 bg-white/90 p-1 sm:w-auto"
+          className="db-segmented w-full sm:w-auto"
           role="group"
           aria-label={s.periodAriaLabel}
         >
@@ -97,11 +97,8 @@ export function LeadsStatisticsPanel({
                 key={id}
                 type="button"
                 onClick={() => setPeriod(id)}
-                className={`shrink-0 rounded-xl px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-                  active
-                    ? "bg-[#212129] text-white shadow-[0_6px_18px_rgba(33,33,41,0.2)]"
-                    : "text-[#5b6478] hover:bg-[#EFA188]/12 hover:text-[#212129]"
-                }`}
+                data-active={active ? "true" : undefined}
+                className="db-segmented-item cursor-pointer text-xs sm:text-sm"
               >
                 {s.periods[id]}
               </button>
@@ -111,7 +108,7 @@ export function LeadsStatisticsPanel({
       </div>
 
       {filtered.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-14 text-center text-sm text-[#5b6478]">
+        <p className="rounded-xl border border-dashed border-slate-200 bg-white py-14 text-center text-sm text-slate-500">
           {s.empty}
         </p>
       ) : (

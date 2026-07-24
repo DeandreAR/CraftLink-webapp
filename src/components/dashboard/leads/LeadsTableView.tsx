@@ -184,7 +184,7 @@ function LeadTableDataRow({
       }}
       className={`cursor-pointer border-b border-neutral-100 last:border-0 ${
         dragOver || uploading
-          ? "bg-[#FFF5F2] outline outline-2 outline-[#EFA188]/60"
+          ? "bg-slate-50 outline outline-2 outline-slate-900/20"
           : selected
             ? "bg-slate-50"
             : muted

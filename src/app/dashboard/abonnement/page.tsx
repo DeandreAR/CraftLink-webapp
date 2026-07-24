@@ -19,16 +19,12 @@ export default async function AbonnementPage() {
   const basePath = "";
 
   return (
-    <main className="dashboard-page relative min-h-[100dvh] px-4 py-8 text-[#212129] sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -right-24 top-0 h-72 w-72 rounded-full bg-[#EFA188]/14 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-[#D6BCFA]/12 blur-3xl" />
-      </div>
+    <main className="dashboard-page relative min-h-[100dvh] px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
       <div className="relative mx-auto w-full max-w-6xl">
         <p className="mb-4">
           <Link
             href={authPath(lang, "dashboard")}
-            className="text-sm font-semibold text-[#5b6478] underline-offset-2 hover:text-[#212129] hover:underline"
+            className="text-sm font-semibold text-slate-500 underline-offset-2 hover:text-slate-900 hover:underline"
           >
             ← {b.backToDashboard}
           </Link>

@@ -56,7 +56,7 @@ export function CertificationTagsField({ value, onChange, copy }: CertificationT
         <ul className="flex flex-wrap gap-2" aria-label={copy.label}>
           {tags.map((tag, index) => (
             <li key={`${tag}-${index}`}>
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#EFA188]/45 bg-[#EFA188]/12 px-3 py-1.5 text-xs font-semibold text-[#212129]">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700">
                 {tag}
                 <button
                   type="button"

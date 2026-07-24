@@ -294,7 +294,7 @@ export function ProSelectionManager({
       )}
 
       {creating || editingId ? (
-        <div className="space-y-3 rounded-2xl border border-[#EFA188]/30 bg-[#FFF5F0]/40 p-3">
+        <div className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/80 p-3">
           <div>
             <label className={authLabelClassName}>{copy.formTitle}</label>
             <input
