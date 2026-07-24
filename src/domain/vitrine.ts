@@ -18,6 +18,9 @@ export type VitrineTheme = {
   textMuted: string;
   bannerFrom: string;
   bannerTo: string;
+  /** Police choisie dans l’éditeur Visuel. */
+  fontFamily?: string;
+  fontId?: string;
 };
 
 /** Bloc sous les badges : liste d’interventions ou texte « À propos ». */

@@ -200,6 +200,12 @@ function parseVisual(raw: unknown): OnboardingVisualDraft {
   return {
     fontId: (typeof row.fontId === "string" ? row.fontId : base.fontId) as OnboardingVisualDraft["fontId"],
     accentColor: typeof row.accentColor === "string" ? row.accentColor : base.accentColor,
+    secondaryButtonColor:
+      typeof row.secondaryButtonColor === "string"
+        ? row.secondaryButtonColor
+        : typeof row.accentColor === "string"
+          ? row.accentColor
+          : base.secondaryButtonColor,
     avatarPreviewUrl:
       typeof row.avatarPreviewUrl === "string"
         ? row.avatarPreviewUrl

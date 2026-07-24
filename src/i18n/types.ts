@@ -1191,6 +1191,8 @@ export type OnboardingDictionary = {
     colorLabel: string;
     colorHint: string;
     colorPickerLabel: string;
+    secondaryColorLabel: string;
+    secondaryColorHint: string;
     previewTitle: string;
     previewHint: string;
     portfolioLaterHint: string;

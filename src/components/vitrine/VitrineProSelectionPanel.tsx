@@ -1,6 +1,7 @@
 "use client";
 
 import { useDeferredValue, useMemo, useState } from "react";
+import { LuSearch } from "react-icons/lu";
 import type { VitrineRecommendedProduct } from "@/domain/vitrine";
 
 type VitrineProSelectionPanelProps = {
@@ -35,22 +36,26 @@ export function VitrineProSelectionPanel({
   }, [products, deferredQuery]);
 
   return (
-    <div className="px-4 pb-4 pt-2 text-left sm:px-5">
-      <label className="block">
+    <div className="px-4 pb-4 pt-3 text-left sm:px-5">
+      <label className="relative block">
         <span className="sr-only">{searchPlaceholder}</span>
+        <LuSearch
+          className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400"
+          aria-hidden
+        />
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={searchPlaceholder}
-          className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 outline-none ring-[#EFA188]/30 placeholder:text-neutral-400 focus:ring-2"
+          className="w-full rounded-full border border-neutral-200/90 bg-white py-3 pl-11 pr-4 text-sm font-medium text-neutral-900 shadow-[0_2px_10px_rgba(0,0,0,0.05)] outline-none placeholder:font-normal placeholder:text-neutral-400 focus:border-neutral-400 focus:ring-2 focus:ring-neutral-900/10"
         />
       </label>
 
       {filtered.length === 0 ? (
-        <p className="mt-6 text-center text-sm text-neutral-500">{emptyLabel}</p>
+        <p className="mt-8 text-center text-sm text-neutral-500">{emptyLabel}</p>
       ) : (
-        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2">
+        <ul className="mt-4 grid grid-cols-2 gap-3">
           {filtered.map((product) => {
             const href = product.url || product.affiliateUrl;
             const discount = product.discountCode ?? product.priceHint;
@@ -59,7 +64,7 @@ export function VitrineProSelectionPanel({
             return (
               <li
                 key={product.id}
-                className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm"
+                className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
               >
                 {image ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -69,16 +74,16 @@ export function VitrineProSelectionPanel({
                     className="aspect-square w-full object-cover bg-neutral-100"
                   />
                 ) : (
-                  <div className="flex aspect-square w-full items-center justify-center bg-neutral-100 text-2xl font-black text-neutral-400">
+                  <div className="flex aspect-square w-full items-center justify-center bg-neutral-100 text-2xl font-bold text-neutral-400">
                     {product.title.slice(0, 1).toUpperCase()}
                   </div>
                 )}
                 <div className="flex flex-1 flex-col gap-1.5 p-3">
-                  <p className="text-sm font-semibold leading-snug text-neutral-900">
+                  <p className="text-sm font-semibold leading-snug tracking-tight text-neutral-900">
                     {product.title}
                   </p>
                   {product.description ? (
-                    <p className="line-clamp-2 text-xs text-neutral-600">
+                    <p className="line-clamp-2 text-xs leading-relaxed text-neutral-500">
                       {product.description}
                     </p>
                   ) : null}
@@ -89,7 +94,7 @@ export function VitrineProSelectionPanel({
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center justify-center rounded-full bg-neutral-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800"
+                    className="mt-auto inline-flex items-center justify-center rounded-full bg-neutral-950 px-3 py-2.5 text-xs font-semibold tracking-tight text-white transition hover:bg-neutral-800 active:scale-[0.98]"
                   >
                     {ctaLabel}
                   </a>

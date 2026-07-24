@@ -20,6 +20,7 @@ import {
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineContentTabs } from "@/components/vitrine/VitrineContentTabs";
 import { VitrineDetailsSection } from "@/components/vitrine/VitrineDetailsSection";
+import { VitrineFontLoader } from "@/components/vitrine/VitrineFontLoader";
 import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
 import { VitrinePresentation } from "@/components/vitrine/VitrinePresentation";
 import { VitrineProfileHero } from "@/components/vitrine/VitrineProfileHero";
@@ -72,6 +73,7 @@ export function LinkInBioPage({
   const layout = normalizeHeaderLayoutType(artisan.media.headerLayoutType);
   const fullPageBg = isFullPageBackgroundLayout(layout);
   const lightCover = isLightVitrineCover(artisan.media);
+  const onDarkCover = fullPageBg && !lightCover;
 
   useEffect(() => {
     if (embedded) return;
@@ -102,6 +104,7 @@ export function LinkInBioPage({
   const shellStyle = {
     ...vitrineThemeStyle(theme),
     color: "var(--v-text)",
+    ...(theme.fontFamily ? { fontFamily: theme.fontFamily } : {}),
     ...(fullPageBg
       ? resolveVitrineCoverStyle(artisan.media)
       : { backgroundColor: "#ffffff" }),
@@ -115,13 +118,14 @@ export function LinkInBioPage({
           : "min-h-screen bg-[#e8e8e8] font-sans sm:bg-neutral-200"
       }
     >
+      <VitrineFontLoader fontId={theme.fontId} />
       <div
         className={
           embedded
             ? `mx-auto flex w-full max-w-md flex-col overflow-x-hidden ${
                 fullPageBg ? "min-h-full" : "bg-white"
               }`
-            : `mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px] ${
+            : `mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden font-sans tracking-tight shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px] ${
                 fullPageBg ? "" : "bg-white"
               }`
         }
@@ -143,25 +147,18 @@ export function LinkInBioPage({
             <>
               {showProSelection ? (
                 <>
-                  <div
-                    className={
-                      fullPageBg && !lightCover
-                        ? "[&_h1]:text-white [&_.text-neutral-900]:text-white [&_.text-neutral-800]:text-white/90 [&_.text-neutral-500]:text-white/70"
-                        : undefined
-                    }
-                  >
-                    <VitrinePresentation
-                      artisan={artisan}
-                      services={services}
-                      planTier={planTier}
-                      theme={theme}
-                      profileSettings={profileSettings}
-                      copy={copy}
-                      servicesSurDevisLabel={copy.services.surDevis}
-                      onOpenDetails={openDetails}
-                      identityOnly
-                    />
-                  </div>
+                  <VitrinePresentation
+                    artisan={artisan}
+                    services={services}
+                    planTier={planTier}
+                    theme={theme}
+                    profileSettings={profileSettings}
+                    copy={copy}
+                    servicesSurDevisLabel={copy.services.surDevis}
+                    onOpenDetails={openDetails}
+                    identityOnly
+                    onDarkCover={onDarkCover}
+                  />
 
                   <VitrineContentTabs
                     contactLabel={copy.presentation.contactTabLabel}
@@ -180,61 +177,39 @@ export function LinkInBioPage({
                       </div>
                     </div>
                   ) : contentTab === "pro" ? (
-                    <div
-                      className={
-                        fullPageBg && !lightCover
-                          ? "[&_.text-neutral-900]:text-neutral-900 [&_.text-neutral-600]:text-neutral-600 [&_.text-neutral-500]:text-neutral-500"
-                          : undefined
-                      }
-                    >
-                      <VitrineProSelectionPanel
-                        products={artisan.recommendedProducts ?? []}
-                        searchPlaceholder={copy.presentation.proSelectionSearch}
-                        emptyLabel={copy.presentation.proSelectionEmpty}
-                        ctaLabel={copy.presentation.proSelectionCta}
-                      />
-                    </div>
+                    <VitrineProSelectionPanel
+                      products={artisan.recommendedProducts ?? []}
+                      searchPlaceholder={copy.presentation.proSelectionSearch}
+                      emptyLabel={copy.presentation.proSelectionEmpty}
+                      ctaLabel={copy.presentation.proSelectionCta}
+                    />
                   ) : (
-                    <div
-                      className={
-                        fullPageBg && !lightCover
-                          ? "[&_h1]:text-white [&_.text-neutral-900]:text-white [&_.text-neutral-800]:text-white/90 [&_.text-neutral-500]:text-white/70"
-                          : undefined
-                      }
-                    >
-                      <VitrinePresentation
-                        artisan={artisan}
-                        services={services}
-                        planTier={planTier}
-                        theme={theme}
-                        profileSettings={profileSettings}
-                        copy={copy}
-                        servicesSurDevisLabel={copy.services.surDevis}
-                        onOpenDetails={openDetails}
-                        hideIdentity
-                      />
-                    </div>
+                    <VitrinePresentation
+                      artisan={artisan}
+                      services={services}
+                      planTier={planTier}
+                      theme={theme}
+                      profileSettings={profileSettings}
+                      copy={copy}
+                      servicesSurDevisLabel={copy.services.surDevis}
+                      onOpenDetails={openDetails}
+                      hideIdentity
+                      onDarkCover={onDarkCover}
+                    />
                   )}
                 </>
               ) : (
-                <div
-                  className={
-                    fullPageBg && !lightCover
-                      ? "[&_h1]:text-white [&_.text-neutral-900]:text-white [&_.text-neutral-800]:text-white/90 [&_.text-neutral-500]:text-white/70"
-                      : undefined
-                  }
-                >
-                  <VitrinePresentation
-                    artisan={artisan}
-                    services={services}
-                    planTier={planTier}
-                    theme={theme}
-                    profileSettings={profileSettings}
-                    copy={copy}
-                    servicesSurDevisLabel={copy.services.surDevis}
-                    onOpenDetails={openDetails}
-                  />
-                </div>
+                <VitrinePresentation
+                  artisan={artisan}
+                  services={services}
+                  planTier={planTier}
+                  theme={theme}
+                  profileSettings={profileSettings}
+                  copy={copy}
+                  servicesSurDevisLabel={copy.services.surDevis}
+                  onOpenDetails={openDetails}
+                  onDarkCover={onDarkCover}
+                />
               )}
 
               <VitrineFooter label={copy.poweredBy} />

@@ -114,7 +114,7 @@ export const onboardingFr: OnboardingDictionary = {
   },
   visual: {
     title: "Personnalisation visuelle",
-    subtitle: "Médias, police et couleur des boutons secondaires.",
+    subtitle: "Médias, police et couleurs des boutons.",
     avatarLabel: "Photo de profil",
     bannerLabel: "Bannière du haut",
     uploadHint: "JPEG ou PNG · 5 Mo max",
@@ -122,8 +122,11 @@ export const onboardingFr: OnboardingDictionary = {
     errorSize: "Fichier trop lourd (5 Mo maximum).",
     fontLabel: "Police de la page",
     colorLabel: "Couleur du bouton devis",
-    colorHint: "S’applique au bouton « Besoin d’un devis rapide » sur votre page Pro.",
+    colorHint: "S’applique au bouton principal « devis » — le plus visible de votre page.",
     colorPickerLabel: "Couleur personnalisée",
+    secondaryColorLabel: "Couleur des autres boutons",
+    secondaryColorHint:
+      "S’applique aux boutons secondaires (question, urgence, partenariats).",
     previewTitle: "Aperçu de votre page",
     previewHint: "Faites défiler pour voir toute la page.",
     portfolioLaterHint:

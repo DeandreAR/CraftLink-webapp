@@ -68,8 +68,10 @@ export type OnboardingPortfolioItem = {
 
 export type OnboardingVisualDraft = {
   fontId: OnboardingFontId;
-  /** Couleur dominante (logo) — CTA principal et --primary-color. */
+  /** Couleur du CTA devis (--primary-color). */
   accentColor: string;
+  /** Couleur des boutons secondaires (info, urgence, partenariats). */
+  secondaryButtonColor: string;
   avatarPreviewUrl: string | null;
   bannerPreviewUrl: string | null;
   /** Bannière CSS (import Instagram — pas d’image en base). */
@@ -159,8 +161,9 @@ export const defaultSocialDraft = (): OnboardingSocialDraft => ({
 });
 
 export const defaultVisualDraft = (): OnboardingVisualDraft => ({
-  fontId: "inter",
+  fontId: "outfit",
   accentColor: "#9a8468",
+  secondaryButtonColor: "#9a8468",
   avatarPreviewUrl: null,
   bannerPreviewUrl: null,
   headerLayoutType: "banner_overlay",

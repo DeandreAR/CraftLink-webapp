@@ -3,6 +3,8 @@ import type { VitrineStatBadge } from "@/domain/vitrine";
 type VitrineStatBadgesProps = {
   badges: VitrineStatBadge[];
   googleBusinessUrl?: string | null;
+  /** Fond sombre (page entière) : pastille toujours lisible. */
+  onDarkCover?: boolean;
 };
 
 function YellowStars({ count = 5 }: { count?: number }) {
@@ -32,6 +34,7 @@ function resolveBadgeHref(
 export function VitrineStatBadges({
   badges,
   googleBusinessUrl,
+  onDarkCover = false,
 }: VitrineStatBadgesProps) {
   if (badges.length === 0) return null;
 
@@ -40,11 +43,12 @@ export function VitrineStatBadges({
       {badges.map((badge) => {
         const href = resolveBadgeHref(badge, googleBusinessUrl);
         const isRating = badge.kind === "google_rating";
-        const className =
-          "rounded-full border border-neutral-900 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-900 transition hover:bg-neutral-50";
+        const className = onDarkCover
+          ? "rounded-full border border-white/40 bg-white px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-950 shadow-[0_6px_20px_rgba(0,0,0,0.22)] transition hover:bg-white"
+          : "rounded-full border border-neutral-900/90 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-950 shadow-sm transition hover:bg-neutral-50";
 
         const content = isRating ? (
-          <span className="inline-flex items-center gap-1.5 normal-case">
+          <span className="inline-flex items-center gap-1.5 normal-case tracking-tight">
             <span>{badge.rating ?? badge.label.replace(/\s*★.*/, "").trim()}</span>
             <YellowStars count={badge.starCount ?? 5} />
           </span>

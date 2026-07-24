@@ -24,18 +24,18 @@ type VitrineActionButtonsProps = {
   onAction: (intent: VitrineOpenIntent) => void;
 };
 
-const iconClass = "absolute left-5 h-6 w-6 shrink-0";
-
 const secondaryClass =
-  "relative flex min-h-[3.45rem] w-full items-center justify-center rounded-full border-2 px-12 text-center text-sm font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_3px_10px_rgba(0,0,0,0.12)] transition active:scale-[0.98]";
+  "relative flex min-h-[3.25rem] w-full items-center justify-center rounded-full border-2 px-12 text-center text-sm font-semibold tracking-tight shadow-[0_2px_10px_rgba(0,0,0,0.06)] transition duration-200 hover:brightness-[0.99] active:scale-[0.985]";
 
 function secondaryButtonStyle(accent: string): CSSProperties {
   return {
-    background: `linear-gradient(180deg, color-mix(in srgb, ${accent} 8%, white) 0%, color-mix(in srgb, ${accent} 18%, white) 100%)`,
+    background: `linear-gradient(180deg, color-mix(in srgb, ${accent} 10%, white) 0%, color-mix(in srgb, ${accent} 22%, white) 100%)`,
     borderColor: accent,
-    color: `color-mix(in srgb, ${accent} 72%, black)`,
+    color: `color-mix(in srgb, ${accent} 78%, black)`,
   };
 }
+
+const iconClass = "absolute left-5 h-[1.15rem] w-[1.15rem] shrink-0";
 
 export function VitrineActionButtons({
   pageSlug,
@@ -75,14 +75,14 @@ export function VitrineActionButtons({
   };
 
   return (
-    <div className="mt-5 space-y-3.5">
+    <div className="mt-4 space-y-2.5">
       <button
         type="button"
         onClick={() => onAction("info")}
         className={secondaryClass}
         style={secondaryStyle}
       >
-        <LuInfo className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
+        <LuInfo className={iconClass} strokeWidth={2.5} style={{ color: accent }} aria-hidden />
         <span>{cta.secondaryInfo}</span>
       </button>
 
@@ -94,7 +94,7 @@ export function VitrineActionButtons({
           style={secondaryStyle}
           aria-label={cta.secondaryUrgent}
         >
-          <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
+          <LuCalendarClock className={iconClass} strokeWidth={2.5} style={{ color: accent }} aria-hidden />
           <span>{cta.secondaryUrgent}</span>
         </button>
       ) : null}
@@ -106,7 +106,7 @@ export function VitrineActionButtons({
           className={secondaryClass}
           style={secondaryStyle}
         >
-          <LuShare2 className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
+          <LuShare2 className={iconClass} strokeWidth={2.5} style={{ color: accent }} aria-hidden />
           <span>{cta.collaboration}</span>
         </button>
       ) : null}

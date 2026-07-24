@@ -369,7 +369,7 @@ function CaptureFormBody({
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="mt-5 flex min-h-[3.5rem] w-full items-center justify-center rounded-[20px] bg-[var(--primary-color)] text-base font-bold text-[var(--v-primary-fg)] disabled:opacity-60"
+          className="mt-5 flex min-h-[3.5rem] w-full items-center justify-center rounded-full bg-[var(--primary-color)] text-base font-bold tracking-tight text-[var(--v-primary-fg)] shadow-[0_10px_28px_color-mix(in_srgb,var(--primary-color)_35%,transparent)] transition hover:brightness-105 active:scale-[0.985] disabled:opacity-60"
         >
           {status === "submitting" ? form.submitting : form.submit}
         </button>

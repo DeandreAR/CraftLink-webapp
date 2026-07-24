@@ -113,7 +113,7 @@ export const onboardingEn: OnboardingDictionary = {
   },
   visual: {
     title: "Visual customization",
-    subtitle: "Media, font and secondary button colour.",
+    subtitle: "Media, font and button colours.",
     avatarLabel: "Profile photo",
     bannerLabel: "Header banner",
     uploadHint: "JPEG or PNG · 5 MB max",
@@ -121,8 +121,10 @@ export const onboardingEn: OnboardingDictionary = {
     errorSize: "File too large (5 MB maximum).",
     fontLabel: "Page font",
     colorLabel: "Quote button colour",
-    colorHint: "Applies to the “Need a quick quote” button on your Pro page.",
+    colorHint: "Applies to the main quote CTA — the most visible button on your page.",
     colorPickerLabel: "Custom colour",
+    secondaryColorLabel: "Other buttons colour",
+    secondaryColorHint: "Applies to secondary buttons (question, urgency, partnerships).",
     previewTitle: "Page preview",
     previewHint: "Scroll to see the full page.",
     portfolioLaterHint:

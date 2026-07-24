@@ -6,46 +6,63 @@ type VitrinePrimaryCtaButtonProps = {
   label: string;
   freeHint: string;
   onClick: () => void;
-  /** Utilise --primary-color (marque artisan) au lieu du dégradé orange par défaut. */
+  /**
+   * true = couleur marque (`--primary-color`).
+   * false = dégradé orange CraftLink par défaut.
+   */
   useBrandColor?: boolean;
+  onDarkCover?: boolean;
 };
 
 const CTA_GRADIENT =
-  "linear-gradient(90deg, #fb923c 0%, #f97316 45%, #ea580c 70%, #dc2626 100%)";
+  "linear-gradient(135deg, #fb923c 0%, #f97316 40%, #ea580c 72%, #dc2626 100%)";
 
+/**
+ * CTA devis — le plus visible. Couleur = picker « bouton devis » (theme.primary).
+ */
 export function VitrinePrimaryCtaButton({
   label,
   freeHint,
   onClick,
   useBrandColor = false,
+  onDarkCover = false,
 }: VitrinePrimaryCtaButtonProps) {
   return (
     <div className="mt-7">
       <button
         type="button"
         onClick={onClick}
-        className="relative flex min-h-[4.65rem] w-full items-center justify-center rounded-full px-12 text-[15px] font-extrabold tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition active:scale-[0.98] sm:text-base"
+        className="group relative flex min-h-[3.75rem] w-full items-center justify-center overflow-hidden rounded-full px-14 text-[15px] font-bold tracking-tight text-white transition duration-200 hover:brightness-[1.04] active:scale-[0.985] sm:min-h-[4rem] sm:text-base"
         style={
           useBrandColor
             ? {
                 background: "var(--primary-color)",
                 color: "var(--v-primary-fg, #ffffff)",
+                boxShadow:
+                  "0 12px 32px color-mix(in srgb, var(--primary-color) 42%, transparent), 0 4px 12px rgba(0,0,0,0.12)",
               }
             : {
                 background: CTA_GRADIENT,
-                color: "#ffffff",
+                boxShadow:
+                  "0 12px 32px rgba(234,88,12,0.35), 0 4px 12px rgba(0,0,0,0.12)",
               }
         }
       >
         <span
-          className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full bg-white"
+          className="absolute left-3.5 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm sm:left-4"
           style={{ color: useBrandColor ? "var(--primary-color)" : "#ea580c" }}
         >
-          <LuQuote className="h-[1.15rem] w-[1.15rem]" aria-hidden />
+          <LuQuote className="h-5 w-5" aria-hidden />
         </span>
-        <span className="text-center">{label}</span>
+        <span className="relative text-center">{label}</span>
       </button>
-      <p className="mt-2 text-center text-xs font-medium text-neutral-500">{freeHint}</p>
+      <p
+        className={`mt-2.5 text-center text-[11px] font-medium tracking-wide ${
+          onDarkCover ? "text-white/70" : "text-neutral-500"
+        }`}
+      >
+        {freeHint}
+      </p>
     </div>
   );
 }

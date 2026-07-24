@@ -46,8 +46,9 @@ export function mappedImportToProfileDraft(
     selectedInterventions: [],
     social: socialPatch,
     visual: {
-      fontId: "inter",
+      fontId: "outfit",
       accentColor: brandColor,
+      secondaryButtonColor: brandColor,
       avatarPreviewUrl: mapped.avatarUrl || null,
       bannerPreviewUrl: isInstagram ? null : mapped.avatarUrl || null,
       useBrandGradientBanner: isInstagram || mapped.useBrandGradientBanner === true,

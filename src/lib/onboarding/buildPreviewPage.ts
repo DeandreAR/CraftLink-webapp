@@ -146,13 +146,17 @@ export function buildOnboardingPreviewProps(
     theme: {
       primary: brandPrimary,
       primaryForeground: "#ffffff",
-      accent: profile.visual.accentColor,
+      accent:
+        profile.visual.secondaryButtonColor?.trim() ||
+        profile.visual.accentColor,
       background: "#ffffff",
       surface: "#fafafa",
       text: "#171717",
       textMuted: "#737373",
       bannerFrom: themeBannerFrom,
       bannerTo: themeBannerTo,
+      fontId: profile.visual.fontId,
+      fontFamily: getFontById(profile.visual.fontId).family,
     },
     profileSettings: {
       visibility: {

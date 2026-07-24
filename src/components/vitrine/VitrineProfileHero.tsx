@@ -102,8 +102,8 @@ function AvatarBlock({
 }) {
   const { media } = artisan;
   const borderClass = withBorder
-    ? "border-[5px] border-white shadow-[0_14px_36px_rgba(15,23,42,0.2)]"
-    : "border-0 shadow-[0_10px_28px_rgba(15,23,42,0.18)]";
+    ? "border-[3px] border-white shadow-none"
+    : "border-0 shadow-none";
 
   if (media.avatarUrl) {
     return (
@@ -135,6 +135,7 @@ export function VitrineProfileHero({
   const withBorder = media.headerAvatarBorder !== false;
   const light = isLightVitrineCover(media);
   const fullPage = isFullPageBackgroundLayout(layout);
+  const onDarkCover = fullPage && !light;
 
   // Pleine page : le fond est sur le shell — ici uniquement photo / nom.
   if (layout === "avatar_cover") {
@@ -143,7 +144,7 @@ export function VitrineProfileHero({
         <AvatarBlock artisan={artisan} withBorder={withBorder} />
         {showSocialLinks ? (
           <div className="mt-4 w-full">
-            <VitrineSocialLinks links={artisan.socialLinks} />
+            <VitrineSocialLinks links={artisan.socialLinks} onDarkCover={onDarkCover} />
           </div>
         ) : null}
       </div>
@@ -154,7 +155,7 @@ export function VitrineProfileHero({
     return (
       <div className="relative z-10 flex flex-col items-center px-5 pb-4 pt-10 text-center">
         <p
-          className={`text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-[2rem] ${
+          className={`text-[1.85rem] font-semibold leading-[1.08] tracking-[-0.045em] sm:text-[2.05rem] ${
             light ? "text-neutral-900" : "text-white drop-shadow-sm"
           }`}
         >
@@ -162,8 +163,8 @@ export function VitrineProfileHero({
         </p>
         {artisan.tradeLabel ? (
           <p
-            className={`mt-2 text-sm font-medium ${
-              light ? "text-neutral-700" : "text-white/90"
+            className={`mt-2.5 text-[13px] font-medium leading-relaxed tracking-[-0.01em] ${
+              light ? "text-neutral-600" : "text-white/85"
             }`}
           >
             {artisan.tradeLabel}
@@ -172,7 +173,7 @@ export function VitrineProfileHero({
         ) : null}
         {showSocialLinks ? (
           <div className="mt-5 w-full">
-            <VitrineSocialLinks links={artisan.socialLinks} />
+            <VitrineSocialLinks links={artisan.socialLinks} onDarkCover={onDarkCover} />
           </div>
         ) : null}
       </div>
@@ -187,7 +188,7 @@ export function VitrineProfileHero({
           style={resolveVitrineCoverStyle(media)}
         >
           <p
-            className={`text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-[2rem] ${
+            className={`text-[1.75rem] font-bold leading-[1.1] tracking-[-0.03em] sm:text-[2rem] ${
               light ? "text-neutral-900" : "text-white"
             }`}
           >

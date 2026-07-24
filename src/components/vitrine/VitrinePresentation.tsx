@@ -8,7 +8,6 @@ import type {
 } from "@/domain/vitrine";
 import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 import { resolvePrimaryQuoteLabel } from "@/lib/vitrine/ctaLabels";
-import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import type { VitrineDictionary } from "@/i18n/types";
 import { VitrineAboutSection } from "@/components/vitrine/VitrineAboutSection";
 import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons";
@@ -30,6 +29,8 @@ type VitrinePresentationProps = {
   onOpenDetails: (intent: VitrineOpenIntent) => void;
   identityOnly?: boolean;
   hideIdentity?: boolean;
+  /** Page entière sur fond sombre : titres blancs, badges Google lisibles. */
+  onDarkCover?: boolean;
 };
 
 export function VitrinePresentation({
@@ -43,6 +44,7 @@ export function VitrinePresentation({
   onOpenDetails,
   identityOnly = false,
   hideIdentity = false,
+  onDarkCover = false,
 }: VitrinePresentationProps) {
   const { visibility } = profileSettings;
   const layout = normalizeHeaderLayoutType(artisan.media.headerLayoutType);
@@ -61,7 +63,14 @@ export function VitrinePresentation({
   const showServicesOnPresentation =
     visibility.showServicesOnPresentation && services.length > 0;
   const certificationBadges = artisan.certifications ?? [];
-  const useBrandCta = isProPublicPlan(planTier);
+  /** Toujours la couleur artisan : le picker « bouton devis » doit se refléter. */
+  const useBrandCta = true;
+  const titleClass = onDarkCover
+    ? "text-[1.7rem] font-bold leading-[1.12] tracking-[-0.04em] text-white sm:text-[1.85rem]"
+    : "text-[1.7rem] font-bold leading-[1.12] tracking-[-0.03em] text-neutral-900 sm:text-[1.85rem]";
+  const metaClass = onDarkCover
+    ? "vitrine-cover-muted mt-2 mb-5 text-sm font-medium leading-relaxed tracking-tight text-white/80 sm:text-[15px]"
+    : "mt-2 mb-5 text-sm font-medium leading-relaxed tracking-tight text-neutral-600 sm:text-[15px]";
 
   return (
     <section
@@ -73,12 +82,8 @@ export function VitrinePresentation({
         <>
           {!nameInHero ? (
             <>
-              <h1 className="text-[1.65rem] font-extrabold leading-tight tracking-tight text-neutral-900 sm:text-[1.75rem]">
-                {artisan.businessName}
-              </h1>
-              <p className="mt-2 mb-5 text-sm font-medium text-neutral-800 sm:text-[15px]">
-                {tradeLine}
-              </p>
+              <h1 className={titleClass}>{artisan.businessName}</h1>
+              <p className={metaClass}>{tradeLine}</p>
             </>
           ) : (
             <div className="mb-4" />
@@ -88,6 +93,7 @@ export function VitrinePresentation({
             <VitrineStatBadges
               badges={artisan.statBadges}
               googleBusinessUrl={artisan.googleBusinessUrl}
+              onDarkCover={onDarkCover}
             />
           ) : null}
 
@@ -118,6 +124,7 @@ export function VitrinePresentation({
             freeHint={copy.presentation.quoteFreeHint}
             onClick={() => onOpenDetails("quote")}
             useBrandColor={useBrandCta}
+            onDarkCover={onDarkCover}
           />
 
           <VitrineActionButtons
@@ -146,7 +153,11 @@ export function VitrinePresentation({
             />
           ) : null}
 
-          <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-neutral-500">
+          <p
+            className={`mt-5 flex items-center justify-center gap-1.5 text-xs ${
+              onDarkCover ? "text-white/70" : "text-neutral-500"
+            }`}
+          >
             <span aria-hidden>📍</span>
             {artisan.serviceAreaSummary}
           </p>
