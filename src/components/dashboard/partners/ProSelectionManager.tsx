@@ -10,7 +10,10 @@ import {
 } from "@/app/actions/recommendedProducts";
 import type { RecommendedItem } from "@/domain/recommendedProduct";
 import type { OnboardingProfileDraft } from "@/domain/onboarding";
-import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
+import {
+  DEFAULT_PRO_SELECTION_TITLE,
+  MAX_RECOMMENDED_ITEMS,
+} from "@/domain/recommendedProduct";
 import { compressGalleryImage } from "@/lib/portfolio/compressGalleryImage";
 import { uploadGalleryImage } from "@/lib/portfolio/galleryStorage";
 import { DashboardButton } from "@/components/dashboard/DashboardButton";
@@ -42,6 +45,7 @@ type ProSelectionManagerCopy = {
   uploading: string;
   saving: string;
   error: string;
+  maxReached?: string;
 };
 
 type ProSelectionManagerProps = {
@@ -87,6 +91,7 @@ export function ProSelectionManager({
   const enabled = profileDraft.proSelectionEnabled !== false;
   const sectionTitle =
     profileDraft.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE;
+  const atLimit = items.length >= MAX_RECOMMENDED_ITEMS;
 
   const refresh = async () => {
     const result = await listRecommendedProductsAction();
@@ -99,6 +104,10 @@ export function ProSelectionManager({
   }, []);
 
   const openCreate = () => {
+    if (atLimit) {
+      setFeedback(copy.maxReached ?? copy.error);
+      return;
+    }
     setCreating(true);
     setEditingId(null);
     setForm(emptyForm());
@@ -156,7 +165,11 @@ export function ProSelectionManager({
         : await createRecommendedProductAction(payload);
 
       if (!result.ok) {
-        setFeedback(copy.error);
+        setFeedback(
+          !editingId && result.error === "max_reached"
+            ? (copy.maxReached ?? copy.error)
+            : copy.error,
+        );
         return;
       }
       closeForm();
@@ -375,7 +388,13 @@ export function ProSelectionManager({
           </div>
         </div>
       ) : (
-        <DashboardButton type="button" variant="secondary" onClick={openCreate} className="w-full">
+        <DashboardButton
+          type="button"
+          variant="secondary"
+          onClick={openCreate}
+          className="w-full"
+          disabled={atLimit}
+        >
           {copy.add}
         </DashboardButton>
       )}

@@ -9,6 +9,11 @@ import type { VitrineRecommendedProduct } from "@/domain/vitrine";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+export type CreateRecommendedItemOptions = {
+  /** Plafond plan (Free = 3, Pro = MAX_RECOMMENDED_ITEMS). */
+  maxItems?: number;
+};
+
 function mapRow(row: Record<string, unknown>): RecommendedItem {
   return {
     id: String(row.id),
@@ -85,11 +90,13 @@ export const listPublicRecommendedProducts = listPublicRecommendedItems;
 export async function createRecommendedItem(
   profileId: string,
   input: RecommendedItemInput,
+  options?: CreateRecommendedItemOptions,
 ): Promise<{ ok: true; item: RecommendedItem } | { ok: false; error: string }> {
   const supabase = await createClient();
+  const maxItems = options?.maxItems ?? MAX_RECOMMENDED_ITEMS;
 
   const existing = await listOwnRecommendedItems(profileId);
-  if (existing.length >= MAX_RECOMMENDED_ITEMS) {
+  if (existing.length >= maxItems) {
     return { ok: false, error: "max_reached" };
   }
 

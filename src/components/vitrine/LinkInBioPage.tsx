@@ -25,6 +25,7 @@ import { VitrineFooter } from "@/components/vitrine/VitrineFooter";
 import { VitrinePresentation } from "@/components/vitrine/VitrinePresentation";
 import { VitrineProfileHero } from "@/components/vitrine/VitrineProfileHero";
 import { VitrineProSelectionPanel } from "@/components/vitrine/VitrineProSelectionPanel";
+import { VitrinePageViewTracker } from "@/lib/analytics/trackVitrineEvent";
 
 export type LinkInBioPageProps = {
   artisan: ArtisanVitrineProfile;
@@ -118,6 +119,7 @@ export function LinkInBioPage({
           : "min-h-screen bg-[#e8e8e8] font-sans sm:bg-neutral-200"
       }
     >
+      {!embedded ? <VitrinePageViewTracker slug={artisan.slug} /> : null}
       <VitrineFontLoader fontId={theme.fontId} />
       <div
         className={
@@ -182,6 +184,7 @@ export function LinkInBioPage({
                       searchPlaceholder={copy.presentation.proSelectionSearch}
                       emptyLabel={copy.presentation.proSelectionEmpty}
                       ctaLabel={copy.presentation.proSelectionCta}
+                      pageSlug={artisan.slug}
                     />
                   ) : (
                     <VitrinePresentation

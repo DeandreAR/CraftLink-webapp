@@ -1,14 +1,16 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState, type MouseEvent } from "react";
 import { LuSearch } from "react-icons/lu";
 import type { VitrineRecommendedProduct } from "@/domain/vitrine";
+import { trackVitrineEvent } from "@/lib/analytics/trackVitrineEvent";
 
 type VitrineProSelectionPanelProps = {
   products: VitrineRecommendedProduct[];
   searchPlaceholder: string;
   emptyLabel: string;
   ctaLabel: string;
+  pageSlug?: string;
 };
 
 export function VitrineProSelectionPanel({
@@ -16,6 +18,7 @@ export function VitrineProSelectionPanel({
   searchPlaceholder,
   emptyLabel,
   ctaLabel,
+  pageSlug,
 }: VitrineProSelectionPanelProps) {
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
@@ -34,6 +37,18 @@ export function VitrineProSelectionPanel({
       return haystack.includes(deferredQuery);
     });
   }, [products, deferredQuery]);
+
+  const handleAffiliateClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (pageSlug) {
+      trackVitrineEvent(pageSlug, "click_affiliate");
+    }
+    if (!href) {
+      event.preventDefault();
+    }
+  };
 
   return (
     <div className="px-4 pb-4 pt-3 text-left sm:px-5">
@@ -91,9 +106,10 @@ export function VitrineProSelectionPanel({
                     <p className="text-xs font-semibold text-[#EFA188]">{discount}</p>
                   ) : null}
                   <a
-                    href={href}
+                    href={href || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => handleAffiliateClick(e, href)}
                     className="mt-auto inline-flex items-center justify-center rounded-full bg-neutral-950 px-3 py-2.5 text-xs font-semibold tracking-tight text-white transition hover:bg-neutral-800 active:scale-[0.98]"
                   >
                     {ctaLabel}

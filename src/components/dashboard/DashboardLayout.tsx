@@ -12,6 +12,8 @@ import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { ArtisanProfilePanel } from "@/components/dashboard/profile/ArtisanProfilePanel";
 import { PushNotificationsPrompt } from "@/components/pwa/PushNotificationsPrompt";
 import { RegisterServiceWorker } from "@/components/pwa/RegisterServiceWorker";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
@@ -33,6 +35,7 @@ type DashboardLayoutProps = {
   initialLoadError: string | null;
   initialPartnershipRequests: DashboardPartnershipRequest[];
   initialPartnershipLoadError: string | null;
+  initialAudienceMetrics?: AudienceMetrics;
   initialTab?: DashboardTab;
   initialLeadId?: string | null;
 };
@@ -55,6 +58,7 @@ export function DashboardLayout({
   initialLoadError,
   initialPartnershipRequests,
   initialPartnershipLoadError,
+  initialAudienceMetrics = EMPTY_AUDIENCE_METRICS,
   initialTab = "inbox",
   initialLeadId = null,
 }: DashboardLayoutProps) {
@@ -123,6 +127,7 @@ export function DashboardLayout({
                     locale={locale}
                     initialLeads={initialLeads}
                     initialLoadError={initialLoadError}
+                    initialAudienceMetrics={initialAudienceMetrics}
                   />
                 ) : null}
                 {tab === "profile" ? (

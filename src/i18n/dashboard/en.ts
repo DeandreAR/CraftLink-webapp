@@ -253,7 +253,7 @@ export const dashboardEn: DashboardDictionary = {
     stats: {
       title: "Activity tracking",
       subtitle:
-        "Request volume, conversion and status mix — so you can read seasonality between jobs.",
+        "Storefront audience, request volume, conversion and status mix — so you can read seasonality between jobs.",
       empty: "No requests in this period. Share your link to start measuring.",
       periodAriaLabel: "Statistics time filter",
       periods: {
@@ -261,6 +261,15 @@ export const dashboardEn: DashboardDictionary = {
         month: "This month",
         year: "This year",
       },
+      audience: {
+        title: "Storefront performance",
+        hint: "Acquisition over the last 30 days",
+        pageViews: "Page views",
+        contacts: "Contact actions",
+        materialClicks: "Pro picks clicks",
+      },
+      businessTitle: "Business activity",
+      businessHint: "Pipeline conversion for the selected period",
       kpis: {
         total: "Requests received",
         conversion: "Conversion rate",
@@ -509,6 +518,7 @@ export const dashboardEn: DashboardDictionary = {
       saving: "Saving…",
       error: "Could not save. Please try again.",
       saveSettings: "Save title / activation",
+      maxReached: "Item limit reached.",
     },
     columns: {
       company: "Company",

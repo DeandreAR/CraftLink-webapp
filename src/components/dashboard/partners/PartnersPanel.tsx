@@ -266,7 +266,7 @@ export function PartnersPanel({
         ) : null}
       </div>
 
-      {pro ? <PartnersProSelectionCard profile={profile} copy={copy} /> : null}
+      <PartnersProSelectionCard profile={profile} copy={copy} />
     </div>
   );
 

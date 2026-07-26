@@ -25,13 +25,13 @@ export function DashboardPageHeader({
       }`.trim()}
     >
       <div className="min-w-0 flex-1">
-        <h1 className="lk-display text-2xl font-bold text-slate-900 md:text-[1.75rem]">
+        <h1 className="lk-display text-2xl font-bold text-black md:text-[1.75rem]">
           {title}
         </h1>
         {subtitle ? (
           <p
-            className={`mt-1.5 max-w-2xl text-sm leading-relaxed text-slate-500 ${
-              compactOnMobile ? "db-header-banner max-md:text-xs" : ""
+            className={`db-header-banner mt-3 max-w-2xl text-sm leading-relaxed ${
+              compactOnMobile ? "max-md:text-xs" : ""
             }`}
           >
             {subtitle}

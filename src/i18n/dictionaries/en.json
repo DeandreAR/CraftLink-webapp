@@ -388,7 +388,7 @@
         "highlightPro": true
       },
       {
-        "label": "**Statistics view**: quote win rate & revenue tracking",
+        "label": "**Statistics view**: storefront audience (views, contacts, material clicks) + quote win rate & revenue",
         "essential": false,
         "pro": true,
         "showEssential": false,
@@ -407,13 +407,22 @@
         "pro": true,
         "showEssential": false,
         "highlightPro": true
+      },
+      {
+        "labelEssential": "❌ **Brand affiliation & collaboration**",
+        "label": "**Affiliation & collaboration** (Pro Picks + brand partnerships)",
+        "essential": false,
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       }
     ],
     "proAdvantages": [
       "Get leads via phone notifications — no external setup.",
-      "Steer your season with conversion stats and revenue tracking.",
+      "Steer your season with storefront audience, conversion stats and revenue tracking.",
       "Plan field jobs in a dedicated calendar.",
       "Track every job end-to-end with the Pipeline view.",
+      "Monetise via affiliation and brand collaborations.",
       "Export your data for accounting — with no limits."
     ]
   },

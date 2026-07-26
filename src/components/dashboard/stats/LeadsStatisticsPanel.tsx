@@ -13,6 +13,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
@@ -25,9 +27,11 @@ import {
   type StatsPeriod,
   type StatsStatusBucket,
 } from "@/lib/leads/leadAnalytics";
+import { AudienceKpiSection } from "@/components/dashboard/stats/AudienceKpiSection";
 
 type LeadsStatisticsPanelProps = {
   leads: DashboardLead[];
+  audience?: AudienceMetrics;
   copy: DashboardDictionary;
   locale: Locale;
 };
@@ -43,6 +47,7 @@ const BUCKET_COLORS: Record<StatsStatusBucket, string> = {
 
 export function LeadsStatisticsPanel({
   leads,
+  audience = EMPTY_AUDIENCE_METRICS,
   copy,
   locale,
 }: LeadsStatisticsPanelProps) {
@@ -105,6 +110,15 @@ export function LeadsStatisticsPanel({
             );
           })}
         </div>
+      </div>
+
+      <AudienceKpiSection audience={audience} copy={copy} />
+
+      <div>
+        <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+          {s.businessTitle}
+        </p>
+        <p className="mt-0.5 text-xs text-slate-500">{s.businessHint}</p>
       </div>
 
       {filtered.length === 0 ? (

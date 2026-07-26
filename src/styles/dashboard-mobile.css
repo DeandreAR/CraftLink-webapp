@@ -7,10 +7,12 @@
 
   .dashboard-page .db-page-header-compact .db-header-banner {
     margin-top: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.55rem 0.85rem;
     font-size: 0.6875rem;
-    line-height: 1.35;
-    border-radius: 0.75rem;
+    line-height: 1.4;
+    border-radius: 0.875rem;
+    background: #09090b;
+    color: #e4e4e7;
   }
 
   .dashboard-page .db-profile-section {

@@ -202,9 +202,20 @@
   background: #ffffff;
 }
 
-.dashboard-page .db-list-row[data-active="true"] {
+  .dashboard-page .db-list-row[data-active="true"] {
   border-color: #000000;
   background: #000000;
   color: #ffffff;
   box-shadow: none;
+}
+
+/* Bannière sous-titre page — fond sombre pour contraste */
+.dashboard-page .db-header-banner {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #18181b;
+  color: #f4f4f5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }

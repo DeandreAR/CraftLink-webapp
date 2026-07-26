@@ -9,6 +9,7 @@ import type {
 } from "@/domain/vitrine";
 import type { VitrineDictionary } from "@/i18n/types";
 import { submitUrgencyClick } from "@/lib/leads/submitUrgencyClick";
+import { trackVitrineEvent } from "@/lib/analytics/trackVitrineEvent";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import { buildUrgencyWhatsAppUrl } from "@/lib/vitrine/buildUrgencyWhatsApp";
 import { LuCalendarClock, LuInfo, LuShare2 } from "react-icons/lu";
@@ -64,6 +65,8 @@ export function VitrineActionButtons({
   const iconColor = `color-mix(in srgb, ${accent} 75%, #111111)`;
 
   const handleUrgentClick = () => {
+    trackVitrineEvent(pageSlug, "click_whatsapp");
+
     const whatsappUrl = buildUrgencyWhatsAppUrl(
       artisanPhone,
       copy.presentation.urgencyWhatsAppMessage,

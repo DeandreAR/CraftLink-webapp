@@ -24,6 +24,7 @@ import {
   shouldShowServices,
 } from "@/lib/vitrine/captureForm";
 import { submitPublicLead } from "@/lib/leads/submitPublicLead";
+import { trackVitrineEvent } from "@/lib/analytics/trackVitrineEvent";
 import { getJobNeedOptions } from "@/lib/vitrine/getJobNeedOptions";
 import { VitrineBackButton } from "@/components/vitrine/VitrineBackButton";
 import { VitrineCollaborationForm } from "@/components/vitrine/VitrineCollaborationForm";
@@ -207,6 +208,7 @@ function CaptureFormBody({
         return;
       }
 
+      trackVitrineEvent(pageSlug, hasVoice ? "voice_sent" : "form_submit");
       router.push(`/share/${result.leadId}?submitted=1`);
     } catch {
       setStatus("error");

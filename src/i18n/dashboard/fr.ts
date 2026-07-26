@@ -253,7 +253,7 @@ export const dashboardFr: DashboardDictionary = {
     stats: {
       title: "Suivi de votre activité",
       subtitle:
-        "Volume de demandes, conversion et répartition — pour piloter votre saisonnalité entre deux chantiers.",
+        "Audience vitrine, volume de demandes, conversion et répartition — pour piloter votre saisonnalité entre deux chantiers.",
       empty: "Aucune demande sur cette période. Partagez votre lien pour commencer à mesurer.",
       periodAriaLabel: "Filtre temporel des statistiques",
       periods: {
@@ -261,6 +261,15 @@ export const dashboardFr: DashboardDictionary = {
         month: "Ce mois-ci",
         year: "Cette année",
       },
+      audience: {
+        title: "Performance vitrine",
+        hint: "Acquisition sur les 30 derniers jours",
+        pageViews: "Visites",
+        contacts: "Prises de contact",
+        materialClicks: "Clics matériel Pro",
+      },
+      businessTitle: "Activité business",
+      businessHint: "Conversion de votre pipeline sur la période sélectionnée",
       kpis: {
         total: "Demandes reçues",
         conversion: "Taux de conversion",
@@ -510,6 +519,7 @@ export const dashboardFr: DashboardDictionary = {
       saving: "Enregistrement…",
       error: "Impossible d’enregistrer. Réessayez.",
       saveSettings: "Enregistrer le titre / activation",
+      maxReached: "Limite d’items atteinte.",
     },
     columns: {
       company: "Entreprise",

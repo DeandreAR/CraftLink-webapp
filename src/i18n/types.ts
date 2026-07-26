@@ -409,6 +409,15 @@ export type DashboardDictionary = {
       empty: string;
       periodAriaLabel: string;
       periods: Record<"7d" | "month" | "year", string>;
+      audience: {
+        title: string;
+        hint: string;
+        pageViews: string;
+        contacts: string;
+        materialClicks: string;
+      };
+      businessTitle: string;
+      businessHint: string;
       kpis: {
         total: string;
         conversion: string;
@@ -632,6 +641,7 @@ export type DashboardDictionary = {
       saving: string;
       error: string;
       saveSettings: string;
+      maxReached: string;
     };
     columns: {
       company: string;

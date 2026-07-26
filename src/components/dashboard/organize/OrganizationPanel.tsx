@@ -19,6 +19,8 @@ import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBan
 import { WhatsAppUpgradeModal } from "@/components/dashboard/leads/WhatsAppUpgradeModal";
 import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
 import type { LeadsViewHandlers } from "@/components/dashboard/leads/leadsViewTypes";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { Profile } from "@/domain/profile";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -40,6 +42,7 @@ type OrganizationPanelProps = {
   locale: Locale;
   initialLeads: DashboardLead[];
   initialLoadError: string | null;
+  initialAudienceMetrics?: AudienceMetrics;
 };
 
 export function OrganizationPanel({
@@ -48,6 +51,7 @@ export function OrganizationPanel({
   locale,
   initialLeads,
   initialLoadError,
+  initialAudienceMetrics = EMPTY_AUDIENCE_METRICS,
 }: OrganizationPanelProps) {
   const o = copy.organize;
   const workspace = useLeadsWorkspace({
@@ -282,6 +286,7 @@ export function OrganizationPanel({
             >
               <LeadsStatisticsPanel
                 leads={workspace.leads}
+                audience={initialAudienceMetrics}
                 copy={copy}
                 locale={locale}
               />

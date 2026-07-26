@@ -4,6 +4,8 @@ import Link from "next/link";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { DashboardLead } from "@/domain/lead";
 import type { ProAccessProfile } from "@/domain/proAccess";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -12,6 +14,7 @@ import { authPath } from "@/lib/auth/paths";
 
 type StatistiquesPageClientProps = {
   leads: DashboardLead[];
+  audience?: AudienceMetrics;
   loadError: string | null;
   proAccess: ProAccessProfile;
   copy: DashboardDictionary;
@@ -20,6 +23,7 @@ type StatistiquesPageClientProps = {
 
 export function StatistiquesPageClient({
   leads,
+  audience = EMPTY_AUDIENCE_METRICS,
   loadError,
   proAccess,
   copy,
@@ -54,7 +58,12 @@ export function StatistiquesPageClient({
             copy={copy}
             locale={locale}
           >
-            <LeadsStatisticsPanel leads={leads} copy={copy} locale={locale} />
+            <LeadsStatisticsPanel
+              leads={leads}
+              audience={audience}
+              copy={copy}
+              locale={locale}
+            />
           </ProFeatureGuard>
         </div>
       </div>
