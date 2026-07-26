@@ -1,9 +1,11 @@
 export type OnboardingFontId =
-  | "inter"
-  | "poppins"
+  | "outfit"
   | "plus-jakarta"
-  | "montserrat"
-  | "sora";
+  | "dm-sans"
+  | "sora"
+  | "poppins"
+  | "inter"
+  | "montserrat";
 
 export type OnboardingFontOption = {
   id: OnboardingFontId;
@@ -14,10 +16,28 @@ export type OnboardingFontOption = {
 
 export const ONBOARDING_FONTS: OnboardingFontOption[] = [
   {
-    id: "inter",
-    label: "Inter",
-    family: '"Inter", ui-sans-serif, system-ui, sans-serif',
-    googleQuery: "Inter:wght@400;600;700",
+    id: "outfit",
+    label: "Outfit",
+    family: '"Outfit", ui-sans-serif, system-ui, sans-serif',
+    googleQuery: "Outfit:wght@400;500;600;700",
+  },
+  {
+    id: "plus-jakarta",
+    label: "Plus Jakarta Sans",
+    family: '"Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif',
+    googleQuery: "Plus+Jakarta+Sans:wght@400;500;600;700",
+  },
+  {
+    id: "dm-sans",
+    label: "DM Sans",
+    family: '"DM Sans", ui-sans-serif, system-ui, sans-serif',
+    googleQuery: "DM+Sans:wght@400;500;600;700",
+  },
+  {
+    id: "sora",
+    label: "Sora",
+    family: '"Sora", ui-sans-serif, system-ui, sans-serif',
+    googleQuery: "Sora:wght@400;600;700",
   },
   {
     id: "poppins",
@@ -26,22 +46,16 @@ export const ONBOARDING_FONTS: OnboardingFontOption[] = [
     googleQuery: "Poppins:wght@400;600;700",
   },
   {
-    id: "plus-jakarta",
-    label: "Plus Jakarta Sans",
-    family: '"Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif',
-    googleQuery: "Plus+Jakarta+Sans:wght@400;600;700",
+    id: "inter",
+    label: "Inter",
+    family: '"Inter", ui-sans-serif, system-ui, sans-serif',
+    googleQuery: "Inter:wght@400;600;700",
   },
   {
     id: "montserrat",
     label: "Montserrat",
     family: '"Montserrat", ui-sans-serif, system-ui, sans-serif',
     googleQuery: "Montserrat:wght@400;600;700",
-  },
-  {
-    id: "sora",
-    label: "Sora",
-    family: '"Sora", ui-sans-serif, system-ui, sans-serif',
-    googleQuery: "Sora:wght@400;600;700",
   },
 ];
 
@@ -63,7 +77,7 @@ export const COLOR_PRESETS: readonly string[] = [
   "rgba(154, 132, 104, 0.9)",
 ];
 
-export function getFontById(id: OnboardingFontId): OnboardingFontOption {
+export function getFontById(id: OnboardingFontId | string): OnboardingFontOption {
   return ONBOARDING_FONTS.find((f) => f.id === id) ?? ONBOARDING_FONTS[0];
 }
 

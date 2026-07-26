@@ -67,7 +67,7 @@ export function LeadAttachmentUpload({
             {...dropProps}
             className={`${embedded ? "" : "mt-2 "}flex min-h-[88px] w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-4 text-center transition ${
               dragOver
-                ? "border-[#EFA188] bg-[#FFF5F2]"
+                ? "border-slate-900 bg-slate-50"
                 : "border-neutral-200 bg-white/80 hover:border-neutral-300"
             } disabled:opacity-60`}
           >

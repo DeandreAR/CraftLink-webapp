@@ -1,4 +1,5 @@
 import { DashboardLayout, type DashboardTab } from "@/components/dashboard/DashboardLayout";
+import type { AudienceMetrics } from "@/domain/analytics";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
@@ -17,6 +18,7 @@ type DashboardShellProps = {
   initialLoadError: string | null;
   initialPartnershipRequests: DashboardPartnershipRequest[];
   initialPartnershipLoadError: string | null;
+  initialAudienceMetrics?: AudienceMetrics;
   initialTab?: DashboardTab;
   initialLeadId?: string | null;
 };
@@ -32,6 +34,7 @@ export function DashboardShell({
   initialLoadError,
   initialPartnershipRequests,
   initialPartnershipLoadError,
+  initialAudienceMetrics,
   initialTab = "inbox",
   initialLeadId = null,
 }: DashboardShellProps) {
@@ -47,6 +50,7 @@ export function DashboardShell({
       initialLoadError={initialLoadError}
       initialPartnershipRequests={initialPartnershipRequests}
       initialPartnershipLoadError={initialPartnershipLoadError}
+      initialAudienceMetrics={initialAudienceMetrics}
       initialTab={initialTab}
       initialLeadId={initialLeadId}
     />

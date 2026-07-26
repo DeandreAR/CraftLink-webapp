@@ -204,6 +204,47 @@ export type DashboardDictionary = {
     profile: string;
     partners: string;
   };
+  tours: {
+    prev: string;
+    next: string;
+    done: string;
+    inbox: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+    organize: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+    profile: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+    partners: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+  };
   inbox: {
     title: string;
     subtitle: string;
@@ -409,6 +450,15 @@ export type DashboardDictionary = {
       empty: string;
       periodAriaLabel: string;
       periods: Record<"7d" | "month" | "year", string>;
+      audience: {
+        title: string;
+        hint: string;
+        pageViews: string;
+        contacts: string;
+        materialClicks: string;
+      };
+      businessTitle: string;
+      businessHint: string;
       kpis: {
         total: string;
         conversion: string;
@@ -567,6 +617,27 @@ export type DashboardDictionary = {
       googleAlt: string;
       directAlt: string;
     };
+    headerAppearance: {
+      title: string;
+      layoutTitle: string;
+      layoutBanner: string;
+      layoutBannerHint: string;
+      layoutBrand: string;
+      layoutBrandHint: string;
+      layoutAvatar: string;
+      layoutAvatarHint: string;
+      layoutPageBrand: string;
+      layoutPageBrandHint: string;
+      bgTitle: string;
+      bgSolid: string;
+      bgGradient: string;
+      bgImage: string;
+      gradientFrom: string;
+      gradientTo: string;
+      uploadBanner: string;
+      uploading: string;
+      avatarBorderLabel: string;
+    };
   };
   qr: {
     title: string;
@@ -587,38 +658,31 @@ export type DashboardDictionary = {
     loadError: string;
     pendingCount: string;
     showArchived: string;
-    brands: {
+    proSelection: {
       title: string;
       hint: string;
-      nameLabel: string;
-      namePlaceholder: string;
+      enabledLabel: string;
+      titleLabel: string;
+      titlePlaceholder: string;
       add: string;
-      removeAria: string;
-      empty: string;
-      maxReached: string;
-    };
-    affiliateLinks: {
-      title: string;
-      hint: string;
-      nameLabel: string;
-      namePlaceholder: string;
-      discountLabel: string;
-      discountPlaceholder: string;
-      urlLabel: string;
-      urlPlaceholder: string;
-      imageLabel: string;
-      imageHint: string;
-      imageUpload: string;
-      imageRemove: string;
-      imageUploading: string;
-      shareTitle: string;
-      shareHint: string;
-      shareCopy: string;
-      shareCopied: string;
-      add: string;
+      edit: string;
       remove: string;
-      maxReached: string;
+      save: string;
+      cancel: string;
       empty: string;
+      moveUp: string;
+      moveDown: string;
+      formTitle: string;
+      formDescription: string;
+      formDiscount: string;
+      formImage: string;
+      formUrl: string;
+      formActive: string;
+      uploading: string;
+      saving: string;
+      error: string;
+      saveSettings: string;
+      maxReached: string;
     };
     columns: {
       company: string;
@@ -907,7 +971,11 @@ export type VitrineDictionary = {
   presentation: {
     quoteFreeHint: string;
     portfolioTitle: string;
-    affiliateLinksTitle: string;
+    contactTabLabel: string;
+    proSelectionTitle: string;
+    proSelectionSearch: string;
+    proSelectionEmpty: string;
+    proSelectionCta: string;
     reportUrgency: string;
     followersLabel: string;
     urgencyWhatsAppMessage: string;
@@ -1162,25 +1230,6 @@ export type OnboardingDictionary = {
     googleReviewCountPlaceholder: string;
     googleRatingPlaceholder: string;
   };
-  affiliateLinks: {
-    title: string;
-    hint: string;
-    nameLabel: string;
-    namePlaceholder: string;
-    discountLabel: string;
-    discountPlaceholder: string;
-    urlLabel: string;
-    urlPlaceholder: string;
-    imageLabel: string;
-    imageHint: string;
-    imageUpload: string;
-    imageRemove: string;
-    imageUploading: string;
-    add: string;
-    remove: string;
-    maxReached: string;
-    empty: string;
-  };
   visual: {
     title: string;
     subtitle: string;
@@ -1193,6 +1242,8 @@ export type OnboardingDictionary = {
     colorLabel: string;
     colorHint: string;
     colorPickerLabel: string;
+    secondaryColorLabel: string;
+    secondaryColorHint: string;
     previewTitle: string;
     previewHint: string;
     portfolioLaterHint: string;

@@ -9,6 +9,7 @@ import type {
 } from "@/domain/vitrine";
 import type { VitrineDictionary } from "@/i18n/types";
 import { submitUrgencyClick } from "@/lib/leads/submitUrgencyClick";
+import { trackVitrineEvent } from "@/lib/analytics/trackVitrineEvent";
 import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import { buildUrgencyWhatsAppUrl } from "@/lib/vitrine/buildUrgencyWhatsApp";
 import { LuCalendarClock, LuInfo, LuShare2 } from "react-icons/lu";
@@ -24,18 +25,28 @@ type VitrineActionButtonsProps = {
   onAction: (intent: VitrineOpenIntent) => void;
 };
 
-const iconClass = "absolute left-5 h-6 w-6 shrink-0";
-
+/** Style référence : pill pastel, icône à gauche, relief bas — sans cercle blanc. */
 const secondaryClass =
-  "relative flex min-h-[3.45rem] w-full items-center justify-center rounded-full border-2 px-12 text-center text-sm font-semibold shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_3px_10px_rgba(0,0,0,0.12)] transition active:scale-[0.98]";
+  "relative z-10 flex min-h-[3.35rem] w-full items-center justify-center rounded-full px-12 text-center text-[15px] font-semibold tracking-[-0.01em] text-neutral-900 transition duration-150 hover:brightness-[0.99] active:translate-y-px";
 
+/**
+ * Fond teinté transparent (couleur picker) + 3D doux comme la référence.
+ */
 function secondaryButtonStyle(accent: string): CSSProperties {
   return {
-    background: `linear-gradient(180deg, color-mix(in srgb, ${accent} 8%, white) 0%, color-mix(in srgb, ${accent} 18%, white) 100%)`,
-    borderColor: accent,
-    color: `color-mix(in srgb, ${accent} 72%, black)`,
+    background: `linear-gradient(180deg, color-mix(in srgb, ${accent} 14%, white) 0%, color-mix(in srgb, ${accent} 28%, white) 55%, color-mix(in srgb, ${accent} 36%, white) 100%)`,
+    color: "#111827",
+    border: `1px solid color-mix(in srgb, ${accent} 28%, transparent)`,
+    boxShadow: [
+      `0 6px 14px color-mix(in srgb, ${accent} 18%, transparent)`,
+      "0 1px 2px rgba(0,0,0,0.05)",
+      "inset 0 1px 0 rgba(255,255,255,0.75)",
+      `inset 0 -3px 6px color-mix(in srgb, ${accent} 16%, transparent)`,
+    ].join(", "),
   };
 }
+
+const iconClass = "absolute left-5 h-[1.2rem] w-[1.2rem] shrink-0";
 
 export function VitrineActionButtons({
   pageSlug,
@@ -49,10 +60,13 @@ export function VitrineActionButtons({
 }: VitrineActionButtonsProps) {
   const { visibility, cta } = profileSettings;
   const isPro = isProPublicPlan(planTier);
-  const accent = theme.accent;
+  const accent = theme.accent?.trim() || "#EFA188";
   const secondaryStyle = secondaryButtonStyle(accent);
+  const iconColor = `color-mix(in srgb, ${accent} 75%, #111111)`;
 
   const handleUrgentClick = () => {
+    trackVitrineEvent(pageSlug, "click_whatsapp");
+
     const whatsappUrl = buildUrgencyWhatsAppUrl(
       artisanPhone,
       copy.presentation.urgencyWhatsAppMessage,
@@ -75,14 +89,14 @@ export function VitrineActionButtons({
   };
 
   return (
-    <div className="mt-5 space-y-3.5">
+    <div className="mt-3.5 space-y-2.5">
       <button
         type="button"
         onClick={() => onAction("info")}
         className={secondaryClass}
         style={secondaryStyle}
       >
-        <LuInfo className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
+        <LuInfo className={iconClass} strokeWidth={2.35} style={{ color: iconColor }} aria-hidden />
         <span>{cta.secondaryInfo}</span>
       </button>
 
@@ -94,8 +108,18 @@ export function VitrineActionButtons({
           style={secondaryStyle}
           aria-label={cta.secondaryUrgent}
         >
-          <LuCalendarClock className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
-          <span>{cta.secondaryUrgent}</span>
+          <span className="absolute left-5 inline-flex items-center gap-1">
+            <LuCalendarClock
+              className="h-[1.15rem] w-[1.15rem]"
+              strokeWidth={2.35}
+              style={{ color: iconColor }}
+              aria-hidden
+            />
+            <span className="text-[15px] leading-none" aria-hidden>
+              🚨
+            </span>
+          </span>
+          <span>{cta.secondaryUrgent.replace(/^🚨\s*/, "")}</span>
         </button>
       ) : null}
 
@@ -106,7 +130,7 @@ export function VitrineActionButtons({
           className={secondaryClass}
           style={secondaryStyle}
         >
-          <LuShare2 className={iconClass} strokeWidth={2.75} style={{ color: accent }} aria-hidden />
+          <LuShare2 className={iconClass} strokeWidth={2.35} style={{ color: iconColor }} aria-hidden />
           <span>{cta.collaboration}</span>
         </button>
       ) : null}

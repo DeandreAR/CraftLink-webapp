@@ -1,30 +1,34 @@
 /**
- * CraftLink landing — OpenShip Light
- * Fond zinc-50, cartes blanches, accent pêche. Brush hero conservé.
+ * CraftLink landing — Design System (CLAUDE.md)
+ * Blanc #FFF · Accent #EFA188 · CTA noir · Typo Lexend · Mobile first
  */
 .landing-page {
-  --lk-cream: #fafafa;
+  --lk-cream: #ffffff;
   --lk-peach: #efa188;
   --lk-peach-deep: #e08a6f;
-  --lk-mint: #5fecd5;
+  --lk-peach-soft: color-mix(in srgb, #efa188 12%, white);
+  --lk-mint: #b2f5ea;
   --lk-lavender: #d6bcfa;
-  --lk-ink: #18181b;
-  --lk-muted: #71717a;
-  --lk-border: rgba(228, 228, 231, 0.9);
+  --lk-ink: #000000;
+  --lk-muted: #52525b;
+  --lk-border: rgba(0, 0, 0, 0.08);
   --lk-card: #ffffff;
-  --lk-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+  --lk-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --lk-radius: 1.25rem; /* 20px */
+  --lk-radius-lg: 1.5rem; /* 24px */
 
   background: var(--lk-cream);
   color: var(--lk-ink);
   font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .landing-page .lk-display {
   font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
   font-style: normal;
   font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
   color: var(--lk-ink);
 }
 
@@ -33,14 +37,14 @@
   align-items: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  border: 1px solid color-mix(in srgb, var(--lk-peach) 20%, transparent);
-  background: color-mix(in srgb, var(--lk-peach) 10%, transparent);
-  padding: 0.4rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--lk-peach) 28%, transparent);
+  background: var(--lk-peach-soft);
+  padding: 0.45rem 1rem;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   text-transform: none;
-  color: var(--lk-peach);
+  color: var(--lk-peach-deep);
 }
 
 .landing-page .lk-eyebrow::before {
@@ -50,6 +54,7 @@
 .landing-page .lk-lead {
   color: var(--lk-muted);
   line-height: 1.65;
+  font-size: 1.0625rem;
 }
 
 .landing-page .lk-section {
@@ -57,12 +62,12 @@
 }
 
 .landing-page .lk-section-alt {
-  background: #ffffff;
+  background: #fafafa;
   border-block: 1px solid var(--lk-border);
 }
 
 .landing-page .lk-card {
-  border-radius: 1.25rem;
+  border-radius: var(--lk-radius-lg);
   border: 1px solid var(--lk-border);
   background: var(--lk-card);
   box-shadow: var(--lk-shadow);
@@ -79,4 +84,39 @@
 
 .landing-page .lk-section-index {
   display: none;
+}
+
+.landing-page .lk-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .landing-page .lk-container {
+    padding-inline: 1.5rem;
+  }
+}
+
+.landing-page .lk-section-pad {
+  padding-block: 4rem;
+}
+
+@media (min-width: 768px) {
+  .landing-page .lk-section-pad {
+    padding-block: 6rem;
+  }
+}
+
+.landing-page .lk-paint-rule {
+  border: 0;
+  height: 3px;
+  width: 4rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    var(--lk-peach) 0%,
+    color-mix(in srgb, var(--lk-peach) 20%, white) 100%
+  );
 }

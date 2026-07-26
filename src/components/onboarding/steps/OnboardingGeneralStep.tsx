@@ -110,11 +110,12 @@ export function OnboardingGeneralStep({
                     aboutText: "",
                   })
                 }
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-[20px] border px-3.5 py-2 text-sm font-semibold transition ${
                   selected
-                    ? "border-black bg-black text-white"
-                    : "border-neutral-200 bg-white text-neutral-700 hover:border-neutral-400"
+                    ? "border-black bg-black text-white shadow-[0_4px_14px_rgba(0,0,0,0.12)]"
+                    : "border-black/10 bg-white text-zinc-600 hover:border-[#efa188]/50 hover:bg-[#efa188]/08"
                 }`}
+                aria-pressed={selected}
               >
                 <span aria-hidden>{icon}</span>
                 {label}

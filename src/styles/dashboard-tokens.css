@@ -1,16 +1,36 @@
-/* CraftLink dashboard — même ADN couleur que la landing Mokaform */
+/**
+ * CraftLink dashboard — même logique que la landing (CLAUDE.md)
+ * Blanc · Accent #EFA188 · CTA noir · coins 20–24px · mobile first
+ */
+
 .dashboard-page {
-  --lk-cream: #fdfbf7;
-  --lk-peach: #efa188;
-  --lk-peach-deep: #e08a6f;
+  --db-bg: #fafafa;
+  --db-surface: #ffffff;
+  --db-border: rgba(0, 0, 0, 0.08);
+  --db-border-strong: rgba(0, 0, 0, 0.14);
+  --db-ink: #000000;
+  --db-muted: #52525b;
+  --db-meta: #71717a;
+  --db-peach: #efa188;
+  --db-peach-deep: #e08a6f;
+  --db-peach-soft: color-mix(in srgb, #efa188 12%, white);
+  --db-danger: #ef4444;
+  --db-radius: 1.25rem; /* 20px */
+  --db-radius-lg: 1.5rem; /* 24px */
+  --db-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+
+  --lk-cream: var(--db-bg);
+  --lk-peach: var(--db-peach);
+  --lk-peach-deep: var(--db-peach-deep);
   --lk-mint: #b2f5ea;
   --lk-lavender: #d6bcfa;
-  --lk-ink: #212129;
-  --lk-muted: #5b6478;
+  --lk-ink: var(--db-ink);
+  --lk-muted: var(--db-muted);
 
-  background: var(--lk-cream);
-  color: var(--lk-ink);
+  background: var(--db-bg);
+  color: var(--db-ink);
   font-family: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .dashboard-page .lk-display {
@@ -18,82 +38,278 @@
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.035em;
-  line-height: 1.08;
-  color: var(--lk-ink);
+  line-height: 1.1;
+  color: var(--db-ink);
 }
 
-.dashboard-page .db-card {
-  border-radius: 1.25rem;
-  border: 1.5px solid color-mix(in srgb, var(--lk-peach) 28%, transparent);
-  background: linear-gradient(
-    155deg,
-    #ffffff 0%,
-    color-mix(in srgb, var(--lk-peach) 6%, white) 55%,
-    color-mix(in srgb, var(--lk-lavender) 4%, white) 100%
-  );
-  box-shadow: 0 12px 40px color-mix(in srgb, var(--lk-ink) 6%, transparent);
-}
-
+.dashboard-page .db-card,
 .dashboard-page .db-card-flat {
-  border-radius: 1.25rem;
-  border: 1.5px solid color-mix(in srgb, var(--lk-ink) 8%, transparent);
-  background: #ffffff;
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--lk-ink) 4%, transparent);
+  border-radius: var(--db-radius-lg);
+  border: 1px solid var(--db-border);
+  background: var(--db-surface);
+  box-shadow: var(--db-shadow);
 }
 
 .dashboard-page .db-badge {
   display: inline-flex;
   align-items: center;
   border-radius: 9999px;
-  border: 1px solid color-mix(in srgb, var(--lk-peach) 45%, transparent);
-  background: color-mix(in srgb, var(--lk-peach) 18%, white);
-  padding: 0.35rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--db-peach) 28%, transparent);
+  background: var(--db-peach-soft);
+  padding: 0.3rem 0.75rem;
   font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--lk-ink);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--db-peach-deep);
 }
 
 .dashboard-page .db-muted {
-  color: var(--lk-muted);
+  color: var(--db-muted);
 }
 
-.dashboard-page .db-organize-shell {
-  background: linear-gradient(
-    165deg,
-    color-mix(in srgb, var(--lk-peach) 5%, white) 0%,
-    #ffffff 45%,
-    color-mix(in srgb, var(--lk-lavender) 4%, white) 100%
-  );
+.dashboard-page .db-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--db-meta);
 }
 
+.dashboard-page .db-card-header {
+  border-bottom: 1px solid var(--db-border);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-page .db-organize-shell,
 .dashboard-page .db-profile-section {
-  border-radius: 1.25rem;
-  border: 1.5px solid color-mix(in srgb, var(--lk-ink) 8%, transparent);
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--lk-ink) 4%, transparent);
+  border-radius: var(--db-radius-lg);
+  border: 1px solid var(--db-border);
+  background: var(--db-surface);
+  box-shadow: var(--db-shadow);
 }
 
-.dashboard-page .db-profile-section--urgency {
-  background: linear-gradient(135deg, #fff5f0 0%, #ffffff 55%, #fdfbf7 100%);
-  border-color: color-mix(in srgb, var(--lk-peach) 40%, transparent);
-}
-
-.dashboard-page .db-profile-section--editor {
-  background: #ffffff;
-  border-color: color-mix(in srgb, var(--lk-mint) 40%, transparent);
-}
-
-.dashboard-page .db-profile-section--qr {
-  background: linear-gradient(135deg, #f5f0ff 0%, #ffffff 50%, #fdfbf7 100%);
-  border-color: color-mix(in srgb, var(--lk-lavender) 50%, transparent);
-}
-
+.dashboard-page .db-profile-section--urgency,
+.dashboard-page .db-profile-section--editor,
+.dashboard-page .db-profile-section--qr,
 .dashboard-page .db-profile-section--billing {
-  background: linear-gradient(135deg, #ffffff 0%, #fff8f5 100%);
-  border-color: color-mix(in srgb, var(--lk-peach) 30%, transparent);
+  background: var(--db-surface);
+  border-color: var(--db-border);
 }
 
 .dashboard-page .db-profile-section--danger {
+  background: var(--db-surface);
+  border-color: color-mix(in srgb, var(--db-danger) 28%, transparent);
+}
+
+/* Inputs */
+.dashboard-page .db-input,
+.dashboard-page input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="hidden"]),
+.dashboard-page textarea,
+.dashboard-page select {
+  min-height: 2.75rem;
+  border-radius: 0.875rem;
+  border-color: var(--db-border-strong);
   background: #ffffff;
-  border-color: color-mix(in srgb, #ef4444 25%, transparent);
+  color: var(--db-ink);
+  box-shadow: none;
+}
+
+.dashboard-page textarea {
+  min-height: 6rem;
+}
+
+.dashboard-page input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="hidden"]):focus,
+.dashboard-page textarea:focus,
+.dashboard-page select:focus {
+  border-color: #000000;
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 0.12);
+}
+
+/* Segmented control */
+.dashboard-page .db-segmented {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid var(--db-border);
+  background: #f4f4f5;
+  padding: 0.3rem;
+}
+
+.dashboard-page .db-segmented-item {
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--db-muted);
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.dashboard-page .db-segmented-item:hover {
+  color: var(--db-ink);
+}
+
+.dashboard-page .db-segmented-item[aria-selected="true"],
+.dashboard-page .db-segmented-item[data-active="true"] {
+  border-color: var(--db-border);
+  background: #ffffff;
+  font-weight: 600;
+  color: var(--db-ink);
+  box-shadow: var(--db-shadow);
+}
+
+/* Chips / métiers */
+.dashboard-page .db-chip {
+  border-radius: 9999px;
+  border: 1px solid var(--db-border);
+  background: #ffffff;
+  padding: 0.45rem 0.875rem;
+  font-size: 0.875rem;
+  color: var(--db-muted);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.dashboard-page .db-chip:hover {
+  border-color: color-mix(in srgb, var(--db-peach) 40%, transparent);
+  background: var(--db-peach-soft);
+}
+
+.dashboard-page .db-chip[aria-pressed="true"],
+.dashboard-page .db-chip[data-active="true"] {
+  border-color: #000000;
+  background: #000000;
+  font-weight: 600;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* List rows */
+.dashboard-page .db-list-row {
+  border-radius: var(--db-radius);
+  border: 1px solid transparent;
+  background: var(--db-surface);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dashboard-page .db-list-row:hover {
+  border-color: var(--db-border);
+  background: #ffffff;
+}
+
+  .dashboard-page .db-list-row[data-active="true"] {
+  border-color: #000000;
+  background: #000000;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* Bannière sous-titre page — fond sombre pour contraste */
+.dashboard-page .db-header-banner {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #18181b;
+  color: #f4f4f5;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* —— Driver.js onboarding tours (CraftLink) —— */
+.driver-popover.craftlink-driver-popover {
+  background: #ffffff;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.12),
+    0 2px 6px rgba(15, 23, 42, 0.06);
+  max-width: min(20.5rem, calc(100vw - 1.5rem));
+  padding: 1rem 1rem 0.85rem;
+  color: #0f172a;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-description {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #64748b;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-progress-text {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-footer {
+  margin-top: 0.85rem;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-navigation-btns {
+  gap: 0.5rem;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-prev-btn,
+.driver-popover.craftlink-driver-popover .driver-popover-next-btn {
+  min-width: 2.25rem;
+  justify-content: center;
+  font-size: 1.125rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-next-btn {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  text-shadow: none;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-prev-btn {
+  background: transparent;
+  border: 1px solid rgb(226 232 240);
+  color: #0f172a;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  text-shadow: none;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-prev-btn:hover {
+  background: #f8fafc;
+  border-color: rgb(203 213 225);
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-next-btn:hover {
+  background: #1e293b;
+  border-color: #1e293b;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-close-btn {
+  color: #94a3b8;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-close-btn:hover {
+  color: #0f172a;
+}
+
+@media (max-width: 640px) {
+  .driver-popover.craftlink-driver-popover {
+    max-width: calc(100vw - 1rem);
+  }
 }

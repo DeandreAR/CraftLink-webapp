@@ -168,7 +168,7 @@ export function OnboardingVisualStep({
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {COLOR_PRESETS.map((color) => (
                 <button
-                  key={color}
+                  key={`devis-${color}`}
                   type="button"
                   aria-label={color}
                   onClick={() => patchVisual({ accentColor: normalizeAccentColor(color) })}
@@ -194,6 +194,43 @@ export function OnboardingVisualStep({
             </div>
           </div>
 
+          <div>
+            <p className={authLabelClassName}>{v.secondaryColorLabel}</p>
+            <p className="mt-0.5 text-xs text-neutral-600">{v.secondaryColorHint}</p>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              {COLOR_PRESETS.map((color) => (
+                <button
+                  key={`secondary-${color}`}
+                  type="button"
+                  aria-label={color}
+                  onClick={() =>
+                    patchVisual({ secondaryButtonColor: normalizeAccentColor(color) })
+                  }
+                  className={`h-9 w-9 rounded-full border-2 transition ${
+                    (profile.visual.secondaryButtonColor || profile.visual.accentColor) ===
+                    color
+                      ? "border-black scale-110"
+                      : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+              <input
+                type="color"
+                value={
+                  (profile.visual.secondaryButtonColor || profile.visual.accentColor).startsWith(
+                    "#",
+                  )
+                    ? profile.visual.secondaryButtonColor || profile.visual.accentColor
+                    : "#9a8468"
+                }
+                onChange={(e) => patchVisual({ secondaryButtonColor: e.target.value })}
+                className="h-9 w-9 cursor-pointer rounded-lg border border-neutral-200"
+                aria-label={v.secondaryColorLabel}
+              />
+            </div>
+          </div>
+
           <p className="rounded-2xl border border-dashed border-neutral-200 bg-neutral-50 px-4 py-3 text-xs text-neutral-600">
             {v.portfolioLaterHint}
           </p>
@@ -208,7 +245,7 @@ export function OnboardingVisualStep({
       </div>
 
       {showCreatePageButton && onCreatePage ? (
-        <LandingCta type="button" variant="peach" onClick={onCreatePage} className="w-full justify-center">
+        <LandingCta type="button" variant="primary" onClick={onCreatePage} className="w-full justify-center">
           {v.createPage}
         </LandingCta>
       ) : null}

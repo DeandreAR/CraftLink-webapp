@@ -32,14 +32,25 @@ const VISIBLE_SOCIAL_TYPES: SocialLinkType[] = [
 
 type VitrineSocialLinksProps = {
   links: VitrineSocialLink[];
+  onDarkCover?: boolean;
 };
 
-export function VitrineSocialLinks({ links }: VitrineSocialLinksProps) {
+export function VitrineSocialLinks({
+  links,
+  onDarkCover = false,
+}: VitrineSocialLinksProps) {
   const visibleLinks = links.filter((link) =>
     VISIBLE_SOCIAL_TYPES.includes(link.type),
   );
 
   if (visibleLinks.length === 0) return null;
+
+  const iconClass = onDarkCover
+    ? "text-white transition hover:scale-110 hover:opacity-80"
+    : "text-neutral-900 transition hover:scale-110 hover:opacity-70";
+  const labelClass = onDarkCover
+    ? "text-center text-[9px] font-medium leading-tight text-white/70"
+    : "text-center text-[9px] font-medium leading-tight text-neutral-500";
 
   return (
     <ul className="flex flex-wrap items-start justify-center gap-5">
@@ -53,16 +64,14 @@ export function VitrineSocialLinks({ links }: VitrineSocialLinksProps) {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-neutral-900 transition hover:scale-110 hover:opacity-70"
+              className={iconClass}
               aria-label={link.label}
               title={link.label}
             >
               <Icon className="h-[1.35rem] w-[1.35rem]" aria-hidden />
             </a>
             {link.followerLabel ? (
-              <span className="text-center text-[9px] font-medium leading-tight text-neutral-500">
-                {link.followerLabel}
-              </span>
+              <span className={labelClass}>{link.followerLabel}</span>
             ) : null}
           </li>
         );

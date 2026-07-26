@@ -28,6 +28,126 @@ export const dashboardFr: DashboardDictionary = {
     profile: "Métier, urgence, vitrine, abonnement et certifications.",
     partners: "Marques, codes affiliés et commissions.",
   },
+  tours: {
+    prev: "‹",
+    next: "›",
+    done: "Terminé",
+    inbox: {
+      steps: [
+        {
+          element: "demandes-inbox",
+          title: "Centralisation de vos messages",
+          description:
+            "Retrouvez ici tous les messages et formulaires envoyés par vos clients depuis votre vitrine.",
+        },
+        {
+          element: "demandes-media",
+          title: "Détail de la demande",
+          description:
+            "Ouvrez une demande pour lire le dossier, écouter les vocaux et gagner du temps sur le brief.",
+          descriptionEssential:
+            "Ouvrez une demande pour lire le dossier complet : besoin, zone et coordonnées client.",
+        },
+      ],
+    },
+    organize: {
+      steps: [
+        {
+          element: "dashboard-sections",
+          title: "Trois espaces de travail",
+          description:
+            "Liste, Calendrier et Statistiques : changez d’espace pour piloter vos dossiers.",
+          descriptionEssential:
+            "Gérez vos demandes validées ici. Calendrier et Statistiques débloquent avec le Pro.",
+        },
+        {
+          element: "dashboard-section-list",
+          title: "Onglet Liste",
+          description:
+            "Vos demandes validées : relances, statuts et actions quotidiennes.",
+        },
+        {
+          element: "dashboard-kpis",
+          title: "Indicateurs rapides",
+          description:
+            "Volume de demandes, urgences et dossiers traités — le pouls de votre activité.",
+        },
+        {
+          element: "dashboard-views",
+          title: "Trois façons de voir la liste",
+          description:
+            "Tableau (détail), Cartes (mobile) ou Pipeline (avancement des chantiers).",
+          descriptionEssential:
+            "Tableau pour le détail, Cartes pour le mobile. Le Pipeline est réservé au Pro.",
+        },
+        {
+          element: "dashboard-view-table",
+          title: "Vue Tableau",
+          description:
+            "Colonnes triables, filtres et contact WhatsApp — idéal pour traiter vite.",
+        },
+        {
+          element: "dashboard-view-cards",
+          title: "Vue Cartes",
+          description:
+            "Une carte par client, pratique sur téléphone pour scanner vos dossiers.",
+        },
+        {
+          element: "dashboard-pipeline",
+          title: "Vue Pipeline",
+          description:
+            "Colonnes par statut : glissez les dossiers de « à faire » jusqu’au chantier gagné.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-calendar",
+          title: "Onglet Calendrier",
+          description:
+            "Planifiez vos interventions terrain (jour, semaine, mois) — réservé au Pro.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-stats",
+          title: "Onglet Statistiques",
+          description:
+            "Audience vitrine, conversion et CA — pour mesurer ce qui marche (Pro).",
+          proOnly: true,
+        },
+      ],
+    },
+    profile: {
+      steps: [
+        {
+          element: "profil-appearance",
+          title: "Personnalisation visuelle",
+          description:
+            "Choisissez mise en page, couleur, dégradé ou bannière pour mettre en valeur votre entreprise.",
+        },
+        {
+          element: "profil-link",
+          title: "Votre lien unique",
+          description:
+            "Copiez votre lien CraftLink pour l’ajouter à votre bio Instagram, SMS ou cartes de visite.",
+        },
+      ],
+    },
+    partners: {
+      steps: [
+        {
+          element: "partenariats-selection",
+          title: "Recommandations & affiliation",
+          description:
+            "Ajoutez vos outils, marques de confiance et codes promo à partager avec vos clients.",
+        },
+        {
+          element: "partenariats-toggle",
+          title: "Affichage sur votre page",
+          description:
+            "Activez ou désactivez l’onglet « La Sélection Pro » sur votre vitrine en un clic.",
+        },
+      ],
+    },
+  },
   inbox: {
     title: "Demandes reçues",
     subtitle:
@@ -253,7 +373,7 @@ export const dashboardFr: DashboardDictionary = {
     stats: {
       title: "Suivi de votre activité",
       subtitle:
-        "Volume de demandes, conversion et répartition — pour piloter votre saisonnalité entre deux chantiers.",
+        "Audience vitrine, volume de demandes, conversion et répartition — pour piloter votre saisonnalité entre deux chantiers.",
       empty: "Aucune demande sur cette période. Partagez votre lien pour commencer à mesurer.",
       periodAriaLabel: "Filtre temporel des statistiques",
       periods: {
@@ -261,6 +381,15 @@ export const dashboardFr: DashboardDictionary = {
         month: "Ce mois-ci",
         year: "Cette année",
       },
+      audience: {
+        title: "Performance vitrine",
+        hint: "Acquisition sur les 30 derniers jours",
+        pageViews: "Visites",
+        contacts: "Prises de contact",
+        materialClicks: "Clics matériel Pro",
+      },
+      businessTitle: "Activité business",
+      businessHint: "Conversion de votre pipeline sur la période sélectionnée",
       kpis: {
         total: "Demandes reçues",
         conversion: "Taux de conversion",
@@ -436,6 +565,31 @@ export const dashboardFr: DashboardDictionary = {
       googleAlt: "Fiche Google My Business",
       directAlt: "Photo de chantier",
     },
+    headerAppearance: {
+      title: "Apparence & Header",
+      layoutTitle: "Style de la page (4 choix)",
+      layoutBanner: "Bannière & photo",
+      layoutBannerHint:
+        "Image en haut + photo qui chevauche — le reste de la page reste blanc.",
+      layoutBrand: "En-tête + nom",
+      layoutBrandHint:
+        "Dégradé/couleur uniquement en haut, avec le nom d’entreprise dans l’en-tête.",
+      layoutAvatar: "Page entière + photo",
+      layoutAvatarHint:
+        "Le dégradé/couleur remplit toute la hauteur de la page, photo de profil centrée en haut.",
+      layoutPageBrand: "Page entière + nom",
+      layoutPageBrandHint:
+        "Le dégradé/couleur remplit toute la page, avec le nom d’entreprise en haut.",
+      bgTitle: "Fond (uni ou dégradé)",
+      bgSolid: "Couleur unie",
+      bgGradient: "Dégradé",
+      bgImage: "Image bannière",
+      gradientFrom: "Couleur 1",
+      gradientTo: "Couleur 2",
+      uploadBanner: "Uploader une bannière",
+      uploading: "Envoi…",
+      avatarBorderLabel: "Contour blanc autour de la photo",
+    },
   },
   qr: {
     title: "QR Code Camion",
@@ -446,7 +600,7 @@ export const dashboardFr: DashboardDictionary = {
   partners: {
     title: "Partenariats & Affiliation",
     subtitle:
-      "Vos marques, vos liens affiliés avec réductions, et les demandes de collaboration reçues.",
+      "Votre Sélection Pro (produits, marques, codes) et les demandes de collaboration reçues.",
     requestsTitle: "Demandes entrantes",
     requestsHint:
       "Marques et annonceurs qui souhaitent collaborer via votre page vitrine.",
@@ -460,41 +614,32 @@ export const dashboardFr: DashboardDictionary = {
     loadError: "Impossible de charger les demandes de partenariat.",
     pendingCount: "{count} à traiter",
     showArchived: "Afficher les archives",
-    brands: {
-      title: "Marques avec lesquelles je travaille",
-      hint: "Renseignez les marques que vous utilisez ou recommandez à vos clients.",
-      nameLabel: "Nom de la marque",
-      namePlaceholder: "Ex. Weber, Legrand, Velux…",
-      add: "Ajouter",
-      removeAria: "Retirer {name}",
-      empty: "Aucune marque renseignée pour le moment.",
-      maxReached: "Maximum de 12 marques.",
-    },
-    affiliateLinks: {
-      title: "Liens d'affiliation & codes partenaires",
+    proSelection: {
+      title: "La Sélection Pro",
       hint:
-        "Nom, réduction, lien et image d’aperçu — à partager sur les réseaux (aperçu produit ou votre image).",
-      nameLabel: "Nom du lien",
-      namePlaceholder: "Ex. Code Leroy Merlin",
-      discountLabel: "Réduction",
-      discountPlaceholder: "Ex. -10 %, livraison offerte",
-      urlLabel: "URL",
-      urlPlaceholder: "https://…",
-      imageLabel: "Image d’aperçu (optionnel)",
-      imageHint:
-        "Prioritaire sur l’aperçu produit. Sinon CraftLink tente l’image Open Graph du lien.",
-      imageUpload: "Ajouter une image",
-      imageRemove: "Retirer",
-      imageUploading: "Envoi…",
-      shareTitle: "Liens à poster sur les réseaux",
-      shareHint:
-        "Copiez ces URLs CraftLink : le post affichera votre image ou l’aperçu produit.",
-      shareCopy: "Copier",
-      shareCopied: "Copié",
-      add: "Ajouter un lien",
+        "Un seul module : produits, marques et liens affiliés avec codes promo — affichés dans l’onglet de votre vitrine.",
+      enabledLabel: "Afficher l’onglet sur ma page",
+      titleLabel: "Titre de l’onglet",
+      titlePlaceholder: "La Sélection Pro",
+      add: "Ajouter un item",
+      edit: "Modifier",
       remove: "Supprimer",
-      maxReached: "Maximum de 12 liens.",
-      empty: "Ajoutez vos liens d'affiliation pour les partager sur votre page.",
+      save: "Enregistrer",
+      cancel: "Annuler",
+      empty: "Aucun item pour l’instant — ajoutez une marque, un produit ou un lien.",
+      moveUp: "↑",
+      moveDown: "↓",
+      formTitle: "Titre",
+      formDescription: "Description courte",
+      formDiscount: "Code / réduction",
+      formImage: "Image",
+      formUrl: "Lien (boutique, marque ou affiliation)",
+      formActive: "Visible sur la page",
+      uploading: "Envoi…",
+      saving: "Enregistrement…",
+      error: "Impossible d’enregistrer. Réessayez.",
+      saveSettings: "Enregistrer le titre / activation",
+      maxReached: "Limite d’items atteinte.",
     },
     columns: {
       company: "Entreprise",

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import "driver.js/dist/driver.css";
 import { signOutAction } from "@/app/actions/auth";
 import { DashboardBottomNav } from "@/components/dashboard/DashboardBottomNav";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
@@ -12,6 +13,8 @@ import { PartnersPanel } from "@/components/dashboard/partners/PartnersPanel";
 import { ArtisanProfilePanel } from "@/components/dashboard/profile/ArtisanProfilePanel";
 import { PushNotificationsPrompt } from "@/components/pwa/PushNotificationsPrompt";
 import { RegisterServiceWorker } from "@/components/pwa/RegisterServiceWorker";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
@@ -33,6 +36,7 @@ type DashboardLayoutProps = {
   initialLoadError: string | null;
   initialPartnershipRequests: DashboardPartnershipRequest[];
   initialPartnershipLoadError: string | null;
+  initialAudienceMetrics?: AudienceMetrics;
   initialTab?: DashboardTab;
   initialLeadId?: string | null;
 };
@@ -55,6 +59,7 @@ export function DashboardLayout({
   initialLoadError,
   initialPartnershipRequests,
   initialPartnershipLoadError,
+  initialAudienceMetrics = EMPTY_AUDIENCE_METRICS,
   initialTab = "inbox",
   initialLeadId = null,
 }: DashboardLayoutProps) {
@@ -67,12 +72,8 @@ export function DashboardLayout({
   }, [initialTab]);
 
   return (
-    <div className="dashboard-page relative flex min-h-[100dvh] text-[#212129]">
+    <div className="dashboard-page relative flex min-h-[100dvh] text-black">
       <RegisterServiceWorker />
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -right-24 top-0 h-72 w-72 rounded-full bg-[#EFA188]/14 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-[#D6BCFA]/12 blur-3xl" />
-      </div>
 
       <DashboardSidebar
         active={tab}
@@ -83,14 +84,14 @@ export function DashboardLayout({
       />
 
       <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/8 bg-[#1a1d24] px-4 py-3 md:hidden">
+        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-black/8 bg-white/95 px-4 py-3 backdrop-blur-md md:hidden">
           <Link href={home} className="inline-flex items-center" aria-label="CraftLink">
             <img
               src="/images/logo_main.png"
               alt="CraftLink"
               width={1731}
               height={350}
-              className="block h-6 w-auto max-w-none brightness-0 invert"
+              className="block h-7 w-auto max-w-none"
               decoding="async"
             />
           </Link>
@@ -98,7 +99,7 @@ export function DashboardLayout({
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="rounded-full border border-[#EFA188]/45 bg-[#EFA188]/20 px-3 py-1.5 text-[11px] font-bold text-white transition active:scale-[0.98] hover:bg-[#EFA188]/35"
+              className="min-h-[40px] rounded-[20px] border border-black/10 bg-white px-3.5 py-2 text-[11px] font-semibold text-black transition hover:bg-[#efa188]/10 active:scale-[0.98]"
             >
               {copy.signOut}
             </button>
@@ -127,6 +128,7 @@ export function DashboardLayout({
                     locale={locale}
                     initialLeads={initialLeads}
                     initialLoadError={initialLoadError}
+                    initialAudienceMetrics={initialAudienceMetrics}
                   />
                 ) : null}
                 {tab === "profile" ? (

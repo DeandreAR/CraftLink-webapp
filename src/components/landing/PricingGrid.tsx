@@ -266,7 +266,7 @@ export function PricingGrid({
 
   const essentialCard = (
     <div
-      className={`flex flex-col rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] ${
+      className={`flex flex-col rounded-[24px] border border-black/8 bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)] ${
         isSplit ? "md:p-7" : "md:p-8"
       }`}
     >
@@ -316,7 +316,7 @@ export function PricingGrid({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay: 0.08 }}
       whileHover={isSplit ? undefined : { y: -4, scale: 1.01 }}
-      className={`relative flex flex-col overflow-hidden rounded-2xl border-2 bg-white shadow-[0_2px_15px_rgba(0,0,0,0.03)] ${
+      className={`relative flex flex-col overflow-hidden rounded-[24px] border-2 bg-white shadow-[0_8px_28px_rgba(239,161,136,0.14)] ${
         isSplit
           ? "z-10 -my-2 border-[#efa188] p-6 md:-my-3 md:p-8"
           : "border-[#efa188] p-6 md:p-8 lg:scale-[1.02]"
@@ -378,7 +378,7 @@ export function PricingGrid({
         {isOnboardingMode && actions ? (
           <LandingCta
             type="button"
-            variant="peach"
+            variant="primary"
             className="w-full justify-center"
             onClick={() => actions.onSelectPro(proPeriod)}
           >
@@ -387,7 +387,7 @@ export function PricingGrid({
         ) : (
           <LandingCta
             href={onboardingPath(locale, { plan: "pro", billing: proPeriod })}
-            variant="peach"
+            variant="primary"
             className="w-full justify-center"
           >
             {pro.cta}
@@ -399,7 +399,7 @@ export function PricingGrid({
 
   const customCard = (
     <div
-      className={`flex flex-col rounded-2xl border border-dashed border-zinc-200 bg-zinc-50/80 p-6 ${
+      className={`flex flex-col rounded-[24px] border border-dashed border-black/15 bg-[#fafafa] p-6 ${
         isSplit ? "md:p-7" : "md:p-8"
       }`}
     >

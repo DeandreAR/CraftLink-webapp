@@ -23,12 +23,13 @@ export function LandingSectionHeader({
         {index}
       </span>
       <span className="lk-eyebrow">{eyebrow}</span>
-      <h2 id={id} className="lk-display mt-5 text-3xl md:text-[2.65rem] lg:text-[2.85rem]">
+      <h2
+        id={id}
+        className="lk-display mt-5 text-[1.85rem] sm:text-3xl md:text-[2.65rem] lg:text-[2.85rem]"
+      >
         {title}
       </h2>
-      {lead ? (
-        <p className="lk-lead mt-4 text-base md:text-lg">{lead}</p>
-      ) : null}
+      {lead ? <p className="lk-lead mt-4 text-base md:text-lg">{lead}</p> : null}
       <hr className="lk-paint-rule mt-8 max-w-xs" aria-hidden />
     </header>
   );

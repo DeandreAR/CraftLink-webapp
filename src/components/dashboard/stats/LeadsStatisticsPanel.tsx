@@ -13,6 +13,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
@@ -25,9 +27,11 @@ import {
   type StatsPeriod,
   type StatsStatusBucket,
 } from "@/lib/leads/leadAnalytics";
+import { AudienceKpiSection } from "@/components/dashboard/stats/AudienceKpiSection";
 
 type LeadsStatisticsPanelProps = {
   leads: DashboardLead[];
+  audience?: AudienceMetrics;
   copy: DashboardDictionary;
   locale: Locale;
 };
@@ -43,6 +47,7 @@ const BUCKET_COLORS: Record<StatsStatusBucket, string> = {
 
 export function LeadsStatisticsPanel({
   leads,
+  audience = EMPTY_AUDIENCE_METRICS,
   copy,
   locale,
 }: LeadsStatisticsPanelProps) {
@@ -82,11 +87,11 @@ export function LeadsStatisticsPanel({
     <div className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h3 className="text-base font-bold text-[#212129]">{s.title}</h3>
-          <p className="mt-1 max-w-xl text-sm text-[#5b6478]">{s.subtitle}</p>
+          <h3 className="text-base font-semibold text-slate-900">{s.title}</h3>
+          <p className="mt-1 max-w-xl text-sm text-slate-500">{s.subtitle}</p>
         </div>
         <div
-          className="flex w-full gap-1 overflow-x-auto rounded-2xl border border-[#212129]/8 bg-white/90 p-1 sm:w-auto"
+          className="db-segmented w-full sm:w-auto"
           role="group"
           aria-label={s.periodAriaLabel}
         >
@@ -97,11 +102,8 @@ export function LeadsStatisticsPanel({
                 key={id}
                 type="button"
                 onClick={() => setPeriod(id)}
-                className={`shrink-0 rounded-xl px-3 py-2 text-xs font-semibold transition sm:text-sm ${
-                  active
-                    ? "bg-[#212129] text-white shadow-[0_6px_18px_rgba(33,33,41,0.2)]"
-                    : "text-[#5b6478] hover:bg-[#EFA188]/12 hover:text-[#212129]"
-                }`}
+                data-active={active ? "true" : undefined}
+                className="db-segmented-item cursor-pointer text-xs sm:text-sm"
               >
                 {s.periods[id]}
               </button>
@@ -110,8 +112,17 @@ export function LeadsStatisticsPanel({
         </div>
       </div>
 
+      <AudienceKpiSection audience={audience} copy={copy} />
+
+      <div>
+        <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+          {s.businessTitle}
+        </p>
+        <p className="mt-0.5 text-xs text-slate-500">{s.businessHint}</p>
+      </div>
+
       {filtered.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-14 text-center text-sm text-[#5b6478]">
+        <p className="rounded-xl border border-dashed border-slate-200 bg-white py-14 text-center text-sm text-slate-500">
           {s.empty}
         </p>
       ) : (
@@ -141,7 +152,7 @@ export function LeadsStatisticsPanel({
           <p className="text-[11px] leading-relaxed text-[#5b6478]">{s.montantHint}</p>
 
           <div className="grid gap-4 lg:grid-cols-5">
-            <section className="rounded-2xl border border-[#212129]/8 bg-white/90 p-4 shadow-[0_8px_24px_rgba(33,33,41,0.04)] lg:col-span-3">
+            <section className="db-card p-4 lg:col-span-3">
               <h4 className="text-sm font-bold text-[#212129]">{s.timeline.title}</h4>
               <p className="mt-0.5 text-xs text-[#5b6478]">{s.timeline.subtitle}</p>
               <div className="mt-4 h-56 w-full sm:h-64">
@@ -195,7 +206,7 @@ export function LeadsStatisticsPanel({
               </div>
             </section>
 
-            <section className="rounded-2xl border border-[#212129]/8 bg-white/90 p-4 shadow-[0_8px_24px_rgba(33,33,41,0.04)] lg:col-span-2">
+            <section className="db-card p-4 lg:col-span-2">
               <h4 className="text-sm font-bold text-[#212129]">
                 {s.distribution.title}
               </h4>
@@ -284,7 +295,7 @@ function KpiCard({
   hint?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-[#212129]/8 bg-white/90 p-3.5 shadow-[0_8px_24px_rgba(33,33,41,0.04)] sm:p-4">
+    <div className="db-card p-3.5 sm:p-4">
       <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#5b6478]">
         {label}
       </p>

@@ -9,7 +9,6 @@ import { getMetierLabel } from "@/lib/onboarding/metierOptions";
 import { getFontById } from "@/lib/onboarding/onboardingFonts";
 import { onboardingSocialToVitrineLinks } from "@/lib/onboarding/socialLinks";
 import { resolveSocialFollowers } from "@/lib/onboarding/socialFollowers";
-import { onboardingAffiliateToVitrineLinks } from "@/lib/onboarding/affiliateLinks";
 import { onboardingServicesToVitrine } from "@/lib/onboarding/toVitrineServices";
 import { resolveTradeLabelFallback } from "@/lib/onboarding/proImport/toProfileDraft";
 import type { VitrineDictionary } from "@/i18n/types";
@@ -18,6 +17,8 @@ import { portfolioItemsToVitrine } from "@/lib/portfolio/portfolioToVitrine";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import { buildStatBadges } from "@/lib/vitrine/buildStatBadges";
 import { resolveShowUrgentButton } from "@/lib/vitrine/resolveShowUrgentButton";
+import { resolveVitrineHeaderMedia } from "@/lib/vitrine/resolveVitrineHeaderMedia";
+import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
 import type {
   PublicPlanTier,
 } from "@/domain/vitrine";
@@ -78,8 +79,17 @@ export function buildOnboardingPreviewProps(
   const useBrandBanner =
     isInstagramImport || profile.visual.useBrandGradientBanner === true;
 
-  const bannerUrl = useBrandBanner ? null : profile.visual.bannerPreviewUrl;
-  const avatarUrl = profile.visual.avatarPreviewUrl;
+  const brandPrimary = profile.visual.accentColor;
+  const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
+  const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
+
+  const headerMedia = resolveVitrineHeaderMedia(
+    {
+      ...profile.visual,
+      useBrandGradientBanner: useBrandBanner,
+    },
+    { brandPrimary },
+  );
 
   const socialFollowers = resolveSocialFollowers(profile);
   const socialLinks = onboardingSocialToVitrineLinks(
@@ -88,21 +98,16 @@ export function buildOnboardingPreviewProps(
     vitrineCopy.presentation.followersLabel,
     locale,
   );
-  const affiliateLinks = onboardingAffiliateToVitrineLinks(profile.affiliateLinks ?? [], {
-    pageSlug: profile.pageSlug,
-  });
   const hasSocial = socialLinks.length > 0;
-  const hasAffiliateLinks = affiliateLinks.length > 0 && plan === "PRO";
   const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
+  const proSelectionEnabled = profile.proSelectionEnabled !== false;
+  const proSelectionTitle =
+    profile.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE;
 
   const useInterventions =
     profile.presentationMode === "interventions" && profile.selectedInterventions.length > 0;
   const useAbout =
     profile.presentationMode === "about" && profile.aboutText.trim().length > 0;
-
-  const brandPrimary = profile.visual.accentColor;
-  const themeBannerFrom = `color-mix(in srgb, ${brandPrimary} 35%, white)`;
-  const themeBannerTo = `color-mix(in srgb, ${brandPrimary} 8%, white)`;
 
   const statBadges = buildStatBadges(profile, vitrineCopy, locale);
   const portfolioItems = toVitrinePortfolio(profile.portfolioItems);
@@ -131,29 +136,27 @@ export function buildOnboardingPreviewProps(
       googleBusinessUrl: hasGoogleBusiness ? profile.social.googleBusinessUrl.trim() : null,
       statBadges,
       socialLinks,
-      affiliateLinks,
+      affiliateLinks: [],
+      recommendedProducts: [],
       portfolioItems,
-      media: {
-        bannerUrl,
-        bannerGradient: useBrandBanner
-          ? { from: themeBannerFrom, to: themeBannerTo }
-          : undefined,
-        avatarUrl,
-        showAvatar: Boolean(avatarUrl),
-      },
+      media: headerMedia,
     },
     services: vitrineServices,
     planTier,
     theme: {
       primary: brandPrimary,
       primaryForeground: "#ffffff",
-      accent: profile.visual.accentColor,
+      accent:
+        profile.visual.secondaryButtonColor?.trim() ||
+        profile.visual.accentColor,
       background: "#ffffff",
       surface: "#fafafa",
       text: "#171717",
       textMuted: "#737373",
       bannerFrom: themeBannerFrom,
       bannerTo: themeBannerTo,
+      fontId: profile.visual.fontId,
+      fontFamily: getFontById(profile.visual.fontId).family,
     },
     profileSettings: {
       visibility: {
@@ -161,7 +164,9 @@ export function buildOnboardingPreviewProps(
         showStatBadges: statBadges.length > 0,
         showInterventionTags: useInterventions,
         showCollaborationButton: false,
-        showAffiliateLinks: hasAffiliateLinks,
+        showAffiliateLinks: false,
+        showProSelection: plan === "PRO" && proSelectionEnabled,
+        proSelectionTitle,
         showPortfolioGallery: hasPortfolio,
         showServicesOnPresentation: vitrineServices.length > 0,
         showUrgentButton: resolveShowUrgentButton(metierKey, profile.urgencyCtaEnabled),

@@ -1,7 +1,7 @@
 "use client";
 
 import { FaDownload, FaQrcode } from "react-icons/fa6";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import type { DashboardDictionary } from "@/i18n/types";
 import { buildPublicPageAbsoluteUrl, buildPublicPageDisplayUrl } from "@/lib/onboarding/publicPageUrl";
 import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
@@ -23,21 +23,21 @@ export function QrCodeVanModule({ slug, copy }: QrCodeVanModuleProps) {
 
   if (!slug?.trim()) {
     return (
-      <p className="rounded-[18px] border border-dashed border-neutral-200 py-10 text-center text-sm text-neutral-500">
+      <p className="rounded-xl border border-dashed border-slate-200 py-10 text-center text-sm text-slate-500">
         Publiez votre page pour générer votre QR Code.
       </p>
     );
   }
 
   return (
-    <div className="rounded-[18px] border border-neutral-200 bg-white p-5 text-center">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-neutral-100 text-neutral-800">
-        <FaQrcode className="h-6 w-6" aria-hidden />
+    <div className="text-center">
+      <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-700">
+        <FaQrcode className="h-5 w-5" aria-hidden />
       </div>
-      <h3 className="mt-3 text-base font-bold text-black">{q.title}</h3>
-      <p className="mt-1 text-sm text-neutral-600">{q.subtitle}</p>
+      <h3 className="mt-3 text-sm font-semibold text-slate-900">{q.title}</h3>
+      <p className="mt-1 text-xs text-slate-500">{q.subtitle}</p>
 
-      <div className="mx-auto mt-5 inline-block rounded-2xl border border-neutral-100 bg-white p-3 shadow-sm">
+      <div className="mx-auto mt-5 inline-block rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={qrSrc}
@@ -54,19 +54,19 @@ export function QrCodeVanModule({ slug, copy }: QrCodeVanModuleProps) {
         copyAriaLabel={copy.vitrine.copyPageUrl}
         copiedLabel={copy.vitrine.pageUrlCopied}
         className="mx-auto mt-3 max-w-sm"
-        urlClassName="text-xs text-neutral-500"
+        urlClassName="text-xs text-slate-500"
       />
-      <p className="mt-2 text-xs text-neutral-400">{q.printHint}</p>
+      <p className="mt-2 text-xs text-slate-400">{q.printHint}</p>
 
-      <GlowButton
+      <DashboardButton
         href={qrSrc}
         external
         download="craftlink-qr-camion.png"
-        className="mt-5 w-full justify-center gap-2 sm:w-auto"
+        className="mt-5 w-full justify-center sm:w-auto"
       >
         <FaDownload className="h-4 w-4" aria-hidden />
         {q.download}
-      </GlowButton>
+      </DashboardButton>
     </div>
   );
 }

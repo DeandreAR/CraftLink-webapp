@@ -1,5 +1,5 @@
-/** Champs formulaire auth — alignés sur la landing (coins 24px, focus noir). */
+/** Champs formulaire — CraftLink (coins 20px, focus noir). */
 export const authFieldClassName =
-  "mt-1.5 w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 shadow-sm outline-none transition placeholder:text-neutral-400 focus:border-black focus:ring-2 focus:ring-black/10";
+  "mt-1.5 w-full min-h-[52px] rounded-[20px] border border-black/15 bg-white px-4 py-3 text-sm text-black outline-none transition placeholder:text-zinc-400 focus:border-black focus:ring-2 focus:ring-black/12";
 
-export const authLabelClassName = "text-sm font-semibold text-neutral-800";
+export const authLabelClassName = "text-sm font-semibold text-zinc-800";

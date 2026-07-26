@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa6";
 import type { Profile } from "@/domain/profile";
-import type { ProAccessProfile } from "@/domain/proAccess";
 import { isProUser } from "@/domain/proAccess";
 import { resolveVoiceCaptureEnabled } from "@/lib/dashboard/voiceCaptureDefault";
 import { updateVoiceCaptureAction } from "@/app/actions/dashboard";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { onboardingPath } from "@/lib/auth/paths";
@@ -40,24 +39,20 @@ export function VoiceCaptureSetting({ profile, copy, locale }: VoiceCaptureSetti
   };
 
   return (
-    <div
-      className={`rounded-[18px] border p-4 ${
-        pro ? "border-neutral-200 bg-white" : "border-neutral-200 bg-neutral-50"
-      }`}
-    >
+    <div className="border-t border-slate-100 pt-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-base font-bold text-black">{v.title}</h3>
+            <h3 className="text-sm font-semibold text-slate-900">{v.title}</h3>
             {!pro ? (
-              <span className="inline-flex items-center gap-1 rounded-md bg-neutral-900 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+              <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-600">
                 <FaLock className="h-2.5 w-2.5" aria-hidden />
                 {v.proBadge}
               </span>
             ) : null}
           </div>
-          <p className="mt-1 text-sm text-neutral-600">{v.description}</p>
-          <p className="mt-2 text-xs text-neutral-500">{v.rawAudioNote}</p>
+          <p className="mt-1 text-xs text-slate-500">{v.description}</p>
+          <p className="mt-1.5 text-xs text-slate-400">{v.rawAudioNote}</p>
         </div>
 
         <button
@@ -68,14 +63,14 @@ export function VoiceCaptureSetting({ profile, copy, locale }: VoiceCaptureSetti
           onClick={() => void toggle()}
           className={`relative h-7 w-12 shrink-0 rounded-full transition ${
             !pro
-              ? "cursor-not-allowed bg-neutral-200"
+              ? "cursor-not-allowed bg-slate-200"
               : enabled
-                ? "bg-black"
-                : "bg-neutral-300"
+                ? "bg-slate-900"
+                : "bg-slate-300"
           }`}
         >
           <span
-            className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition ${
+            className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow-sm transition ${
               enabled ? "left-5" : "left-0.5"
             }`}
           />
@@ -83,14 +78,15 @@ export function VoiceCaptureSetting({ profile, copy, locale }: VoiceCaptureSetti
       </div>
 
       {!pro ? (
-        <div className="mt-4 rounded-xl border border-dashed border-neutral-300 bg-white/80 px-3 py-3">
-          <p className="text-xs leading-relaxed text-neutral-600">{v.lockedHint}</p>
-          <GlowButton
+        <div className="mt-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3 py-3">
+          <p className="text-xs leading-relaxed text-slate-500">{v.lockedHint}</p>
+          <DashboardButton
             href={onboardingPath(locale, { plan: "pro" })}
-            className="mt-3 text-xs"
+            size="sm"
+            className="mt-3"
           >
             {v.upgradeCta}
-          </GlowButton>
+          </DashboardButton>
         </div>
       ) : null}
 

@@ -403,7 +403,7 @@ export function ArtisanOnboardingWizard({
         {phase !== "visual" ? (
           <LandingCta
             type="button"
-            variant="peach"
+            variant="primary"
             onClick={goNext}
             disabled={!canGoNext || creating}
             className="flex-1 justify-center disabled:opacity-50"

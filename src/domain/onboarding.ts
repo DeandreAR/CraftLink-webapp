@@ -1,6 +1,11 @@
 import type { OnboardingFontId } from "@/lib/onboarding/onboardingFonts";
 import type { OnboardingSocialFollowers } from "@/lib/onboarding/socialFollowers";
 import type { MetierKey } from "@/lib/vitrine/metierConfigs";
+import type {
+  HeaderBgType,
+  HeaderLayoutType,
+} from "@/domain/recommendedProduct";
+import { DEFAULT_PRO_SELECTION_TITLE } from "@/domain/recommendedProduct";
 
 export type OnboardingPlan = "FREE" | "PRO";
 
@@ -63,12 +68,27 @@ export type OnboardingPortfolioItem = {
 
 export type OnboardingVisualDraft = {
   fontId: OnboardingFontId;
-  /** Couleur dominante (logo) — CTA principal et --primary-color. */
+  /** Couleur du CTA devis (--primary-color). */
   accentColor: string;
+  /** Couleur des boutons secondaires (info, urgence, partenariats). */
+  secondaryButtonColor: string;
   avatarPreviewUrl: string | null;
   bannerPreviewUrl: string | null;
   /** Bannière CSS (import Instagram — pas d’image en base). */
   useBrandGradientBanner?: boolean;
+  /** Layout header : standard (centré) ou bannière + avatar chevauchant. */
+  headerLayoutType?: HeaderLayoutType;
+  /** Fond header : uni, dégradé ou image. */
+  headerBgType?: HeaderBgType;
+  /**
+   * Valeur fond :
+   * - solid → hex `#FFFFFF`
+   * - gradient → JSON `{"from":"#…","to":"#…"}` ou legacy dégradé Instagram
+   * - image → URL (sinon `bannerPreviewUrl`)
+   */
+  headerBgValue?: string | null;
+  /** Contour blanc autour de la photo (layout avatar_cover / banner_overlay). */
+  headerAvatarBorder?: boolean;
 };
 
 export type OnboardingProfileDraft = {
@@ -88,6 +108,10 @@ export type OnboardingProfileDraft = {
   partnerBrands: OnboardingPartnerBrand[];
   /** Affiche le bouton urgence sur la vitrine (si le métier le permet). */
   urgencyCtaEnabled?: boolean;
+  /** Onglet « La Sélection Pro » sur la vitrine publique. */
+  proSelectionEnabled?: boolean;
+  /** Titre personnalisable de l’onglet Sélection Pro. */
+  proSelectionTitle?: string;
   visual: OnboardingVisualDraft;
   importPlatform?: ProImportPlatform;
   importIdentifier?: string;
@@ -137,10 +161,15 @@ export const defaultSocialDraft = (): OnboardingSocialDraft => ({
 });
 
 export const defaultVisualDraft = (): OnboardingVisualDraft => ({
-  fontId: "inter",
+  fontId: "outfit",
   accentColor: "#9a8468",
+  secondaryButtonColor: "#9a8468",
   avatarPreviewUrl: null,
   bannerPreviewUrl: null,
+  headerLayoutType: "banner_overlay",
+  headerBgType: "solid",
+  headerBgValue: "#FFFFFF",
+  headerAvatarBorder: true,
 });
 
 export const defaultOnboardingProfile = (
@@ -160,6 +189,8 @@ export const defaultOnboardingProfile = (
   social: defaultSocialDraft(),
   affiliateLinks: [],
   partnerBrands: [],
+  proSelectionEnabled: true,
+  proSelectionTitle: DEFAULT_PRO_SELECTION_TITLE,
   visual: defaultVisualDraft(),
   pageSlug: "",
   pageSlugConfirmed: false,

@@ -184,7 +184,7 @@ function LeadTableDataRow({
       }}
       className={`cursor-pointer border-b border-neutral-100 last:border-0 ${
         dragOver || uploading
-          ? "bg-[#FFF5F2] outline outline-2 outline-[#EFA188]/60"
+          ? "bg-slate-50 outline outline-2 outline-slate-900/20"
           : selected
             ? "bg-slate-50"
             : muted
@@ -309,7 +309,7 @@ export function LeadsTableView({
   const allSelected = leads.length > 0 && leads.every((lead) => selectedIds.has(lead.id));
 
   return (
-    <div className="scrollbar-soft overflow-x-auto rounded-2xl border border-[#212129]/8 bg-white shadow-[0_12px_32px_rgba(33,33,41,0.06)]">
+    <div className="scrollbar-soft overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full border-collapse text-left text-sm" style={{ tableLayout: "fixed" }}>
         <colgroup>
           {(Object.keys(DEFAULT_WIDTHS) as TableColumnKey[]).map((key) => (

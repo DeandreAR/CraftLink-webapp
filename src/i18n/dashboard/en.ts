@@ -28,6 +28,126 @@ export const dashboardEn: DashboardDictionary = {
     profile: "Trade, urgency, storefront, subscription and certifications.",
     partners: "Brands, affiliate codes and benefits.",
   },
+  tours: {
+    prev: "‹",
+    next: "›",
+    done: "Done",
+    inbox: {
+      steps: [
+        {
+          element: "demandes-inbox",
+          title: "All your messages in one place",
+          description:
+            "Find every message and form submitted by clients from your storefront here.",
+        },
+        {
+          element: "demandes-media",
+          title: "Request details",
+          description:
+            "Open a request to read the file, play voice notes and brief yourself faster.",
+          descriptionEssential:
+            "Open a request to read the full file: need, area and client contact details.",
+        },
+      ],
+    },
+    organize: {
+      steps: [
+        {
+          element: "dashboard-sections",
+          title: "Three workspaces",
+          description:
+            "List, Calendar and Statistics — switch spaces to run your jobs.",
+          descriptionEssential:
+            "Manage validated requests here. Calendar and Statistics unlock with Pro.",
+        },
+        {
+          element: "dashboard-section-list",
+          title: "List tab",
+          description:
+            "Your validated requests: follow-ups, statuses and daily actions.",
+        },
+        {
+          element: "dashboard-kpis",
+          title: "Quick indicators",
+          description:
+            "Request volume, urgencies and completed files — your activity pulse.",
+        },
+        {
+          element: "dashboard-views",
+          title: "Three ways to view the list",
+          description:
+            "Table (detail), Cards (mobile) or Pipeline (job progress).",
+          descriptionEssential:
+            "Table for detail, Cards for mobile. Pipeline is Pro-only.",
+        },
+        {
+          element: "dashboard-view-table",
+          title: "Table view",
+          description:
+            "Sortable columns, filters and WhatsApp contact — ideal for fast triage.",
+        },
+        {
+          element: "dashboard-view-cards",
+          title: "Cards view",
+          description:
+            "One card per client — handy on phone to scan your files.",
+        },
+        {
+          element: "dashboard-pipeline",
+          title: "Pipeline view",
+          description:
+            "Status columns: drag files from to-do through to won jobs.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-calendar",
+          title: "Calendar tab",
+          description:
+            "Plan field jobs (day, week, month) — Pro plan only.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-stats",
+          title: "Statistics tab",
+          description:
+            "Storefront audience, conversion and revenue — measure what works (Pro).",
+          proOnly: true,
+        },
+      ],
+    },
+    profile: {
+      steps: [
+        {
+          element: "profil-appearance",
+          title: "Visual customization",
+          description:
+            "Pick layout, solid color, gradient or banner image to showcase your business.",
+        },
+        {
+          element: "profil-link",
+          title: "Your unique link",
+          description:
+            "Copy your CraftLink URL for Instagram bio, SMS or business cards.",
+        },
+      ],
+    },
+    partners: {
+      steps: [
+        {
+          element: "partenariats-selection",
+          title: "Recommendations & affiliation",
+          description:
+            "Add trusted tools, brands and promo codes to share with your clients.",
+        },
+        {
+          element: "partenariats-toggle",
+          title: "Show on your page",
+          description:
+            "Toggle the Pro Picks tab on your public storefront in one click.",
+        },
+      ],
+    },
+  },
   inbox: {
     title: "Incoming requests",
     subtitle:
@@ -253,7 +373,7 @@ export const dashboardEn: DashboardDictionary = {
     stats: {
       title: "Activity tracking",
       subtitle:
-        "Request volume, conversion and status mix — so you can read seasonality between jobs.",
+        "Storefront audience, request volume, conversion and status mix — so you can read seasonality between jobs.",
       empty: "No requests in this period. Share your link to start measuring.",
       periodAriaLabel: "Statistics time filter",
       periods: {
@@ -261,6 +381,15 @@ export const dashboardEn: DashboardDictionary = {
         month: "This month",
         year: "This year",
       },
+      audience: {
+        title: "Storefront performance",
+        hint: "Acquisition over the last 30 days",
+        pageViews: "Page views",
+        contacts: "Contact actions",
+        materialClicks: "Pro picks clicks",
+      },
+      businessTitle: "Business activity",
+      businessHint: "Pipeline conversion for the selected period",
       kpis: {
         total: "Requests received",
         conversion: "Conversion rate",
@@ -436,6 +565,31 @@ export const dashboardEn: DashboardDictionary = {
       googleAlt: "Google Business Profile",
       directAlt: "Project photo",
     },
+    headerAppearance: {
+      title: "Appearance & Header",
+      layoutTitle: "Page style (4 options)",
+      layoutBanner: "Banner & photo",
+      layoutBannerHint:
+        "Image on top + overlapping photo — the rest of the page stays white.",
+      layoutBrand: "Header + name",
+      layoutBrandHint:
+        "Gradient/color only at the top, with the business name in the header.",
+      layoutAvatar: "Full page + photo",
+      layoutAvatarHint:
+        "Gradient/color fills the full page height, with the profile photo centered on top.",
+      layoutPageBrand: "Full page + name",
+      layoutPageBrandHint:
+        "Gradient/color fills the full page, with the business name at the top.",
+      bgTitle: "Background (solid or gradient)",
+      bgSolid: "Solid color",
+      bgGradient: "Gradient",
+      bgImage: "Banner image",
+      gradientFrom: "Color 1",
+      gradientTo: "Color 2",
+      uploadBanner: "Upload a banner",
+      uploading: "Uploading…",
+      avatarBorderLabel: "White border around the photo",
+    },
   },
   qr: {
     title: "Van QR Code",
@@ -446,7 +600,7 @@ export const dashboardEn: DashboardDictionary = {
   partners: {
     title: "Partnerships & Affiliation",
     subtitle:
-      "Your brands, affiliate links with discounts, and incoming collaboration requests.",
+      "Your Pro Picks (products, brands, discount codes) and incoming collaboration requests.",
     requestsTitle: "Incoming requests",
     requestsHint: "Brands and advertisers reaching out via your storefront.",
     lockedTitle: "Available on Pro plan",
@@ -459,41 +613,32 @@ export const dashboardEn: DashboardDictionary = {
     loadError: "Could not load partnership requests.",
     pendingCount: "{count} pending",
     showArchived: "Show archived",
-    brands: {
-      title: "Brands I work with",
-      hint: "List the brands you use or recommend to your clients.",
-      nameLabel: "Brand name",
-      namePlaceholder: "E.g. Weber, Legrand, Velux…",
-      add: "Add",
-      removeAria: "Remove {name}",
-      empty: "No brands added yet.",
-      maxReached: "Maximum of 12 brands.",
-    },
-    affiliateLinks: {
-      title: "Affiliate & partner links",
+    proSelection: {
+      title: "Pro Picks",
       hint:
-        "Name, discount, link and preview image — for social posts (product preview or your image).",
-      nameLabel: "Link name",
-      namePlaceholder: "E.g. Leroy Merlin code",
-      discountLabel: "Discount",
-      discountPlaceholder: "E.g. -10%, free delivery",
-      urlLabel: "URL",
-      urlPlaceholder: "https://…",
-      imageLabel: "Preview image (optional)",
-      imageHint:
-        "Takes priority over the product preview. Otherwise CraftLink tries the link’s Open Graph image.",
-      imageUpload: "Add an image",
-      imageRemove: "Remove",
-      imageUploading: "Uploading…",
-      shareTitle: "Links to post on social",
-      shareHint:
-        "Copy these CraftLink URLs — the post will show your image or the product preview.",
-      shareCopy: "Copy",
-      shareCopied: "Copied",
-      add: "Add a link",
-      remove: "Remove",
-      maxReached: "Maximum of 12 links.",
-      empty: "Add affiliate links to share them on your public page.",
+        "One module: products, brands and affiliate links with promo codes — shown in a dedicated storefront tab.",
+      enabledLabel: "Show tab on my page",
+      titleLabel: "Tab title",
+      titlePlaceholder: "Pro Picks",
+      add: "Add an item",
+      edit: "Edit",
+      remove: "Delete",
+      save: "Save",
+      cancel: "Cancel",
+      empty: "No items yet — add a brand, product or link.",
+      moveUp: "↑",
+      moveDown: "↓",
+      formTitle: "Title",
+      formDescription: "Short description",
+      formDiscount: "Code / discount",
+      formImage: "Image",
+      formUrl: "Link (shop, brand or affiliate)",
+      formActive: "Visible on the page",
+      uploading: "Uploading…",
+      saving: "Saving…",
+      error: "Could not save. Please try again.",
+      saveSettings: "Save title / activation",
+      maxReached: "Item limit reached.",
     },
     columns: {
       company: "Company",

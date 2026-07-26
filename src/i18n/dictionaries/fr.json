@@ -388,7 +388,7 @@
         "highlightPro": true
       },
       {
-        "label": "**Vue Statistiques** : suivi du taux de signature de devis & chiffre d'affaires",
+        "label": "**Vue Statistiques** : audience vitrine (vues, contacts, clics matériel) + taux de signature & CA",
         "essential": false,
         "pro": true,
         "showEssential": false,
@@ -407,13 +407,22 @@
         "pro": true,
         "showEssential": false,
         "highlightPro": true
+      },
+      {
+        "labelEssential": "❌ **Affiliation & collaboration** marques",
+        "label": "**Affiliation & collaboration** (Sélection Pro + partenariats marques)",
+        "essential": false,
+        "pro": true,
+        "showEssential": false,
+        "highlightPro": true
       }
     ],
     "proAdvantages": [
       "Recevez vos demandes par notification téléphone, sans config externe.",
-      "Pilotez votre saison avec des stats de conversion et de chiffre d'affaires.",
+      "Pilotez votre saison avec l’audience vitrine, les stats de conversion et le chiffre d'affaires.",
       "Planifiez vos interventions terrain dans un calendrier dédié.",
       "Suivez chaque chantier de A à Z avec la vue Pipeline.",
+      "Monétisez via l’affiliation et les collaborations marques.",
       "Exportez vos données pour la compta — sans limite."
     ]
   },

@@ -5,19 +5,20 @@ import { createPortal } from "react-dom";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { ProFeatureGuard } from "@/components/dashboard/ProFeatureGuard";
 import { PartnershipRequestDetail } from "@/components/dashboard/partners/PartnershipRequestDetail";
-import { PartnersAffiliateLinksCard } from "@/components/dashboard/partners/PartnersAffiliateLinksCard";
-import { PartnersBrandsCard } from "@/components/dashboard/partners/PartnersBrandsCard";
+import { PartnersProSelectionCard } from "@/components/dashboard/partners/PartnersProSelectionCard";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
 import type { Profile } from "@/domain/profile";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { hasProFeatureAccess } from "@/lib/dashboard/planAccess";
+import { resolveTourSteps } from "@/lib/dashboard/resolveTourSteps";
 import { buildDemoPartnershipRequest } from "@/lib/partnerships/demoPartnershipRequest";
 import {
   formatPartnershipDate,
   partnershipStatusBadgeClass,
 } from "@/lib/partnerships/partnershipDisplay";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useOnboardingTour } from "@/hooks/useOnboardingTour";
 
 function withDemoRequestIfEmpty(requests: DashboardPartnershipRequest[]): DashboardPartnershipRequest[] {
   if (requests.length > 0 || process.env.NODE_ENV !== "development") {
@@ -62,7 +63,7 @@ function RequestsTable({
     <>
       <div className="hidden overflow-hidden db-card-flat md:block">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-[#EFA188]/15 bg-[#FDFBF7] text-[11px] font-bold uppercase tracking-wide text-[#5b6478]">
+          <thead className="border-b border-slate-100 bg-slate-50 text-[11px] font-medium uppercase tracking-wider text-slate-400">
             <tr>
               <th className="px-4 py-3">{p.columns.company}</th>
               <th className="px-4 py-3">{p.columns.contact}</th>
@@ -77,8 +78,8 @@ function RequestsTable({
               return (
                 <tr
                   key={request.id}
-                  className={`cursor-pointer border-b border-[#212129]/6 last:border-0 ${
-                    selected ? "bg-[#EFA188]/12" : "hover:bg-[#FDFBF7]"
+                  className={`cursor-pointer border-b border-slate-100 last:border-0 ${
+                    selected ? "bg-slate-50" : "hover:bg-slate-50/80"
                   }`}
                   onClick={() => onSelect(request.id)}
                 >
@@ -116,7 +117,7 @@ function RequestsTable({
                 type="button"
                 onClick={() => onSelect(request.id)}
                 className={`w-full db-card-flat p-3 text-left ${
-                  selected ? "border-[#EFA188]/50 bg-[#EFA188]/10" : ""
+                  selected ? "border-slate-300 bg-slate-50" : ""
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
@@ -154,6 +155,19 @@ export function PartnersPanel({
   const p = copy.partners;
   const isDesktopPartners = useMediaQuery("(min-width: 768px)");
   const [mounted, setMounted] = useState(false);
+
+  const partnersTourSteps = useMemo(
+    () => resolveTourSteps(copy.tours.partners.steps, pro),
+    [copy.tours.partners.steps, pro],
+  );
+
+  useOnboardingTour("partners", partnersTourSteps, {
+    enabled: pro,
+    prevLabel: copy.tours.prev,
+    nextLabel: copy.tours.next,
+    doneLabel: copy.tours.done,
+    delayMs: 700,
+  });
 
   const [requests, setRequests] = useState(() => withDemoRequestIfEmpty(initialRequests));
   const [loadError] = useState(initialLoadError);
@@ -217,10 +231,10 @@ export function PartnersPanel({
   const content = (
     <div className="space-y-6 md:space-y-8">
       <div>
-        <h3 className="text-sm font-black uppercase tracking-[0.12em] text-[#5b6478] max-md:text-xs">
+        <h3 className="text-sm font-medium uppercase tracking-wider text-slate-400 max-md:text-xs">
           {p.requestsTitle}
         </h3>
-        <p className="mt-1 text-sm text-[#5b6478] max-md:hidden">{p.requestsHint}</p>
+        <p className="mt-1 text-sm text-slate-500 max-md:hidden">{p.requestsHint}</p>
       </div>
 
       {loadError ? (
@@ -267,12 +281,7 @@ export function PartnersPanel({
         ) : null}
       </div>
 
-      <PartnersBrandsCard profile={profile} copy={copy} />
-      {pro ? <PartnersAffiliateLinksCard profile={profile} copy={copy} /> : null}
-
-      {pro ? null : (
-        <p className="text-xs text-[#5b6478]">{p.affiliateLinks.hint}</p>
-      )}
+      <PartnersProSelectionCard profile={profile} copy={copy} />
     </div>
   );
 

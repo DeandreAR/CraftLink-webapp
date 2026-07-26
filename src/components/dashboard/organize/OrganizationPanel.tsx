@@ -19,6 +19,8 @@ import { SmartCatchUpBanner } from "@/components/dashboard/leads/SmartCatchUpBan
 import { WhatsAppUpgradeModal } from "@/components/dashboard/leads/WhatsAppUpgradeModal";
 import { LeadsStatisticsPanel } from "@/components/dashboard/stats/LeadsStatisticsPanel";
 import type { LeadsViewHandlers } from "@/components/dashboard/leads/leadsViewTypes";
+import type { AudienceMetrics } from "@/domain/analytics";
+import { EMPTY_AUDIENCE_METRICS } from "@/domain/analytics";
 import type { Profile } from "@/domain/profile";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
@@ -30,6 +32,9 @@ import {
   type LeadTableFilter,
 } from "@/lib/leads/filterLeads";
 import { DEFAULT_LEAD_SORT, sortLeads, type LeadSortState } from "@/lib/leads/sortLeads";
+import { useOnboardingTour } from "@/hooks/useOnboardingTour";
+import { hasProFeatureAccess } from "@/lib/dashboard/planAccess";
+import { resolveTourSteps } from "@/lib/dashboard/resolveTourSteps";
 
 export type OrganizeDisplayView = "table" | "cards" | "pipeline";
 export type OrganizeSectionView = "list" | "calendar" | "stats";
@@ -40,6 +45,7 @@ type OrganizationPanelProps = {
   locale: Locale;
   initialLeads: DashboardLead[];
   initialLoadError: string | null;
+  initialAudienceMetrics?: AudienceMetrics;
 };
 
 export function OrganizationPanel({
@@ -48,6 +54,7 @@ export function OrganizationPanel({
   locale,
   initialLeads,
   initialLoadError,
+  initialAudienceMetrics = EMPTY_AUDIENCE_METRICS,
 }: OrganizationPanelProps) {
   const o = copy.organize;
   const workspace = useLeadsWorkspace({
@@ -167,16 +174,19 @@ export function OrganizationPanel({
       id: "list" as const,
       label: copy.leads.views.listSection,
       icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+      dataTour: "dashboard-section-list",
     },
     {
       id: "calendar" as const,
       label: copy.leads.views.calendarSection,
       icon: <FaCalendarDays className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+      dataTour: "dashboard-section-calendar",
     },
     {
       id: "stats" as const,
       label: copy.leads.views.statsSection,
       icon: <FaChartPie className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+      dataTour: "dashboard-section-stats",
     },
   ];
 
@@ -185,21 +195,68 @@ export function OrganizationPanel({
       id: "table" as const,
       label: copy.leads.views.table,
       icon: <FaTableColumns className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+      dataTour: "dashboard-view-table",
     },
     {
       id: "cards" as const,
       label: copy.leads.views.cards,
       icon: <FaList className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+      dataTour: "dashboard-view-cards",
     },
     {
       id: "pipeline" as const,
       label: copy.leads.views.pipeline,
       icon: <FaGrip className="h-3.5 w-3.5 opacity-70" aria-hidden />,
+      dataTour: "dashboard-pipeline",
     },
   ];
 
   const supportsBulkSelect = section === "list" && (view === "table" || view === "cards");
   const calendarLeads = useMemo(() => sortedOrganizedLeads, [sortedOrganizedLeads]);
+
+  const prepareOrganizeTour = useCallback(async () => {
+    setSection("list");
+    setView("table");
+    await new Promise((resolve) => setTimeout(resolve, 80));
+  }, []);
+
+  const onBeforeOrganizeStep = useCallback(async (elementKey: string) => {
+    if (
+      elementKey === "dashboard-sections" ||
+      elementKey === "dashboard-section-list" ||
+      elementKey === "dashboard-kpis" ||
+      elementKey === "dashboard-views" ||
+      elementKey === "dashboard-view-table"
+    ) {
+      setSection("list");
+      setView("table");
+    } else if (elementKey === "dashboard-view-cards") {
+      setSection("list");
+      setView("cards");
+    } else if (elementKey === "dashboard-pipeline") {
+      setSection("list");
+      setView("pipeline");
+    } else if (elementKey === "dashboard-section-calendar") {
+      setSection("calendar");
+    } else if (elementKey === "dashboard-section-stats") {
+      setSection("stats");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 60));
+  }, []);
+
+  const isPro = hasProFeatureAccess(profile);
+  const organizeTourSteps = useMemo(
+    () => resolveTourSteps(copy.tours.organize.steps, isPro),
+    [copy.tours.organize.steps, isPro],
+  );
+
+  useOnboardingTour("organize", organizeTourSteps, {
+    prevLabel: copy.tours.prev,
+    nextLabel: copy.tours.next,
+    doneLabel: copy.tours.done,
+    prepare: prepareOrganizeTour,
+    onBeforeStep: onBeforeOrganizeStep,
+  });
 
   return (
     <section className="space-y-0">
@@ -216,7 +273,7 @@ export function OrganizationPanel({
         }
       />
 
-      <div className="db-organize-shell rounded-[1.5rem] border border-[#212129]/8 bg-white/60 p-4 shadow-[0_16px_48px_rgba(33,33,41,0.06)] backdrop-blur-sm md:p-5">
+      <div className="db-organize-shell rounded-xl p-4 md:p-5">
         {catchUpLead ? (
           <SmartCatchUpBanner
             lead={catchUpLead}
@@ -261,6 +318,7 @@ export function OrganizationPanel({
           active={section}
           onChange={setSection}
           ariaLabel={copy.leads.views.sectionAriaLabel}
+          dataTour="dashboard-sections"
         />
 
         {section === "list" ? (
@@ -269,6 +327,7 @@ export function OrganizationPanel({
             active={view}
             onChange={handleViewChange}
             ariaLabel={copy.leads.views.ariaLabel}
+            dataTour="dashboard-views"
           />
         ) : null}
 
@@ -282,6 +341,7 @@ export function OrganizationPanel({
             >
               <LeadsStatisticsPanel
                 leads={workspace.leads}
+                audience={initialAudienceMetrics}
                 copy={copy}
                 locale={locale}
               />
@@ -317,7 +377,7 @@ export function OrganizationPanel({
               ) : null}
 
               {displayedLeads.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-[#EFA188]/35 bg-white/70 py-16 text-center text-sm text-[#5b6478]">
+                <p className="rounded-xl border border-dashed border-slate-200 bg-white py-16 text-center text-sm text-slate-500">
                   {o.empty}
                 </p>
               ) : view === "table" ? (

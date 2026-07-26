@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { DashboardPageClient } from "@/components/auth/DashboardPageClient";
 import { getDictionary } from "@/i18n/getDictionary";
 import { isLocale, type Locale } from "@/i18n/config";
+import { loadAudienceMetrics } from "@/lib/analytics/analyticsEvents";
 import { requireSessionProfile } from "@/lib/auth/guards";
 import {
   parseDashboardLeadId,
@@ -31,6 +32,7 @@ export default async function LangDashboardPage({ params, searchParams }: Props)
     requests: initialPartnershipRequests,
     loadError: initialPartnershipLoadError,
   } = await loadWorkspacePartnershipRequestsForSession(session);
+  const initialAudienceMetrics = await loadAudienceMetrics(session.user.id);
 
   return (
     <DashboardPageClient
@@ -44,6 +46,7 @@ export default async function LangDashboardPage({ params, searchParams }: Props)
       initialLoadError={initialLoadError}
       initialPartnershipRequests={initialPartnershipRequests}
       initialPartnershipLoadError={initialPartnershipLoadError}
+      initialAudienceMetrics={initialAudienceMetrics}
       initialTab={parseDashboardTab(query.tab)}
       initialLeadId={parseDashboardLeadId(query.lead)}
     />

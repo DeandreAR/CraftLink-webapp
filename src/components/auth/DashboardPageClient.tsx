@@ -3,6 +3,7 @@
 import { DashboardEntrance } from "@/components/auth/DashboardEntrance";
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import type { DashboardTab } from "@/components/dashboard/DashboardLayout";
+import type { AudienceMetrics } from "@/domain/analytics";
 import type { SubscriptionBillingSnapshot } from "@/domain/billing";
 import type { DashboardLead } from "@/domain/lead";
 import type { DashboardPartnershipRequest } from "@/domain/partnershipRequest";
@@ -21,6 +22,7 @@ type DashboardPageClientProps = {
   initialLoadError: string | null;
   initialPartnershipRequests: DashboardPartnershipRequest[];
   initialPartnershipLoadError: string | null;
+  initialAudienceMetrics?: AudienceMetrics;
   initialTab?: DashboardTab;
   initialLeadId?: string | null;
 };
@@ -36,6 +38,7 @@ export function DashboardPageClient({
   initialLoadError,
   initialPartnershipRequests,
   initialPartnershipLoadError,
+  initialAudienceMetrics,
   initialTab = "inbox",
   initialLeadId = null,
 }: DashboardPageClientProps) {
@@ -52,6 +55,7 @@ export function DashboardPageClient({
         initialLoadError={initialLoadError}
         initialPartnershipRequests={initialPartnershipRequests}
         initialPartnershipLoadError={initialPartnershipLoadError}
+        initialAudienceMetrics={initialAudienceMetrics}
         initialTab={initialTab}
         initialLeadId={initialLeadId}
       />

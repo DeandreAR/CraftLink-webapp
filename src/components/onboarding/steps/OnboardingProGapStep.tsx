@@ -119,7 +119,7 @@ export function OnboardingProGapStep({
         </div>
       ))}
 
-      <LandingCta type="button" variant="peach" onClick={onContinue} className="w-full justify-center">
+      <LandingCta type="button" variant="primary" onClick={onContinue} className="w-full justify-center">
         {p.gapContinue}
       </LandingCta>
     </div>

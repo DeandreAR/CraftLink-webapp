@@ -59,10 +59,12 @@ function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequir
     affiliateLinks: profile.affiliateLinks ?? [],
     partnerBrands: profile.partnerBrands ?? [],
     visual: {
-      fontId: "inter" as const,
+      fontId: "outfit" as const,
       accentColor: "#9a8468",
+      secondaryButtonColor: "#9a8468",
       avatarPreviewUrl: null,
       bannerPreviewUrl: null,
+      useBrandGradientBanner: false,
       ...profile.visual,
     },
     pageSlug: profile.pageSlug ?? "",
