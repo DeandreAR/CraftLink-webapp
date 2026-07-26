@@ -204,6 +204,47 @@ export type DashboardDictionary = {
     profile: string;
     partners: string;
   };
+  tours: {
+    prev: string;
+    next: string;
+    done: string;
+    inbox: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+    organize: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+    profile: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+    partners: {
+      steps: Array<{
+        element: string;
+        title: string;
+        description: string;
+        descriptionEssential?: string;
+        proOnly?: boolean;
+      }>;
+    };
+  };
   inbox: {
     title: string;
     subtitle: string;

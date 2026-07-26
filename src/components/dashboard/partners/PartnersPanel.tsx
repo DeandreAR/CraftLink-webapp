@@ -11,12 +11,14 @@ import type { Profile } from "@/domain/profile";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { hasProFeatureAccess } from "@/lib/dashboard/planAccess";
+import { resolveTourSteps } from "@/lib/dashboard/resolveTourSteps";
 import { buildDemoPartnershipRequest } from "@/lib/partnerships/demoPartnershipRequest";
 import {
   formatPartnershipDate,
   partnershipStatusBadgeClass,
 } from "@/lib/partnerships/partnershipDisplay";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useOnboardingTour } from "@/hooks/useOnboardingTour";
 
 function withDemoRequestIfEmpty(requests: DashboardPartnershipRequest[]): DashboardPartnershipRequest[] {
   if (requests.length > 0 || process.env.NODE_ENV !== "development") {
@@ -153,6 +155,19 @@ export function PartnersPanel({
   const p = copy.partners;
   const isDesktopPartners = useMediaQuery("(min-width: 768px)");
   const [mounted, setMounted] = useState(false);
+
+  const partnersTourSteps = useMemo(
+    () => resolveTourSteps(copy.tours.partners.steps, pro),
+    [copy.tours.partners.steps, pro],
+  );
+
+  useOnboardingTour("partners", partnersTourSteps, {
+    enabled: pro,
+    prevLabel: copy.tours.prev,
+    nextLabel: copy.tours.next,
+    doneLabel: copy.tours.done,
+    delayMs: 700,
+  });
 
   const [requests, setRequests] = useState(() => withDemoRequestIfEmpty(initialRequests));
   const [loadError] = useState(initialLoadError);

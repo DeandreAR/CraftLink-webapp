@@ -219,3 +219,97 @@
   color: #f4f4f5;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
+
+/* —— Driver.js onboarding tours (CraftLink) —— */
+.driver-popover.craftlink-driver-popover {
+  background: #ffffff;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.12),
+    0 2px 6px rgba(15, 23, 42, 0.06);
+  max-width: min(20.5rem, calc(100vw - 1.5rem));
+  padding: 1rem 1rem 0.85rem;
+  color: #0f172a;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-description {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #64748b;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-progress-text {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-footer {
+  margin-top: 0.85rem;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-navigation-btns {
+  gap: 0.5rem;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-prev-btn,
+.driver-popover.craftlink-driver-popover .driver-popover-next-btn {
+  min-width: 2.25rem;
+  justify-content: center;
+  font-size: 1.125rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-next-btn {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  text-shadow: none;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-prev-btn {
+  background: transparent;
+  border: 1px solid rgb(226 232 240);
+  color: #0f172a;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  text-shadow: none;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-prev-btn:hover {
+  background: #f8fafc;
+  border-color: rgb(203 213 225);
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-next-btn:hover {
+  background: #1e293b;
+  border-color: #1e293b;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-close-btn {
+  color: #94a3b8;
+}
+
+.driver-popover.craftlink-driver-popover .driver-popover-close-btn:hover {
+  color: #0f172a;
+}
+
+@media (max-width: 640px) {
+  .driver-popover.craftlink-driver-popover {
+    max-width: calc(100vw - 1rem);
+  }
+}

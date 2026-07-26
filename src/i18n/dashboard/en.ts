@@ -28,6 +28,126 @@ export const dashboardEn: DashboardDictionary = {
     profile: "Trade, urgency, storefront, subscription and certifications.",
     partners: "Brands, affiliate codes and benefits.",
   },
+  tours: {
+    prev: "‹",
+    next: "›",
+    done: "Done",
+    inbox: {
+      steps: [
+        {
+          element: "demandes-inbox",
+          title: "All your messages in one place",
+          description:
+            "Find every message and form submitted by clients from your storefront here.",
+        },
+        {
+          element: "demandes-media",
+          title: "Request details",
+          description:
+            "Open a request to read the file, play voice notes and brief yourself faster.",
+          descriptionEssential:
+            "Open a request to read the full file: need, area and client contact details.",
+        },
+      ],
+    },
+    organize: {
+      steps: [
+        {
+          element: "dashboard-sections",
+          title: "Three workspaces",
+          description:
+            "List, Calendar and Statistics — switch spaces to run your jobs.",
+          descriptionEssential:
+            "Manage validated requests here. Calendar and Statistics unlock with Pro.",
+        },
+        {
+          element: "dashboard-section-list",
+          title: "List tab",
+          description:
+            "Your validated requests: follow-ups, statuses and daily actions.",
+        },
+        {
+          element: "dashboard-kpis",
+          title: "Quick indicators",
+          description:
+            "Request volume, urgencies and completed files — your activity pulse.",
+        },
+        {
+          element: "dashboard-views",
+          title: "Three ways to view the list",
+          description:
+            "Table (detail), Cards (mobile) or Pipeline (job progress).",
+          descriptionEssential:
+            "Table for detail, Cards for mobile. Pipeline is Pro-only.",
+        },
+        {
+          element: "dashboard-view-table",
+          title: "Table view",
+          description:
+            "Sortable columns, filters and WhatsApp contact — ideal for fast triage.",
+        },
+        {
+          element: "dashboard-view-cards",
+          title: "Cards view",
+          description:
+            "One card per client — handy on phone to scan your files.",
+        },
+        {
+          element: "dashboard-pipeline",
+          title: "Pipeline view",
+          description:
+            "Status columns: drag files from to-do through to won jobs.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-calendar",
+          title: "Calendar tab",
+          description:
+            "Plan field jobs (day, week, month) — Pro plan only.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-stats",
+          title: "Statistics tab",
+          description:
+            "Storefront audience, conversion and revenue — measure what works (Pro).",
+          proOnly: true,
+        },
+      ],
+    },
+    profile: {
+      steps: [
+        {
+          element: "profil-appearance",
+          title: "Visual customization",
+          description:
+            "Pick layout, solid color, gradient or banner image to showcase your business.",
+        },
+        {
+          element: "profil-link",
+          title: "Your unique link",
+          description:
+            "Copy your CraftLink URL for Instagram bio, SMS or business cards.",
+        },
+      ],
+    },
+    partners: {
+      steps: [
+        {
+          element: "partenariats-selection",
+          title: "Recommendations & affiliation",
+          description:
+            "Add trusted tools, brands and promo codes to share with your clients.",
+        },
+        {
+          element: "partenariats-toggle",
+          title: "Show on your page",
+          description:
+            "Toggle the Pro Picks tab on your public storefront in one click.",
+        },
+      ],
+    },
+  },
   inbox: {
     title: "Incoming requests",
     subtitle:

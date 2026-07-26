@@ -28,6 +28,126 @@ export const dashboardFr: DashboardDictionary = {
     profile: "Métier, urgence, vitrine, abonnement et certifications.",
     partners: "Marques, codes affiliés et commissions.",
   },
+  tours: {
+    prev: "‹",
+    next: "›",
+    done: "Terminé",
+    inbox: {
+      steps: [
+        {
+          element: "demandes-inbox",
+          title: "Centralisation de vos messages",
+          description:
+            "Retrouvez ici tous les messages et formulaires envoyés par vos clients depuis votre vitrine.",
+        },
+        {
+          element: "demandes-media",
+          title: "Détail de la demande",
+          description:
+            "Ouvrez une demande pour lire le dossier, écouter les vocaux et gagner du temps sur le brief.",
+          descriptionEssential:
+            "Ouvrez une demande pour lire le dossier complet : besoin, zone et coordonnées client.",
+        },
+      ],
+    },
+    organize: {
+      steps: [
+        {
+          element: "dashboard-sections",
+          title: "Trois espaces de travail",
+          description:
+            "Liste, Calendrier et Statistiques : changez d’espace pour piloter vos dossiers.",
+          descriptionEssential:
+            "Gérez vos demandes validées ici. Calendrier et Statistiques débloquent avec le Pro.",
+        },
+        {
+          element: "dashboard-section-list",
+          title: "Onglet Liste",
+          description:
+            "Vos demandes validées : relances, statuts et actions quotidiennes.",
+        },
+        {
+          element: "dashboard-kpis",
+          title: "Indicateurs rapides",
+          description:
+            "Volume de demandes, urgences et dossiers traités — le pouls de votre activité.",
+        },
+        {
+          element: "dashboard-views",
+          title: "Trois façons de voir la liste",
+          description:
+            "Tableau (détail), Cartes (mobile) ou Pipeline (avancement des chantiers).",
+          descriptionEssential:
+            "Tableau pour le détail, Cartes pour le mobile. Le Pipeline est réservé au Pro.",
+        },
+        {
+          element: "dashboard-view-table",
+          title: "Vue Tableau",
+          description:
+            "Colonnes triables, filtres et contact WhatsApp — idéal pour traiter vite.",
+        },
+        {
+          element: "dashboard-view-cards",
+          title: "Vue Cartes",
+          description:
+            "Une carte par client, pratique sur téléphone pour scanner vos dossiers.",
+        },
+        {
+          element: "dashboard-pipeline",
+          title: "Vue Pipeline",
+          description:
+            "Colonnes par statut : glissez les dossiers de « à faire » jusqu’au chantier gagné.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-calendar",
+          title: "Onglet Calendrier",
+          description:
+            "Planifiez vos interventions terrain (jour, semaine, mois) — réservé au Pro.",
+          proOnly: true,
+        },
+        {
+          element: "dashboard-section-stats",
+          title: "Onglet Statistiques",
+          description:
+            "Audience vitrine, conversion et CA — pour mesurer ce qui marche (Pro).",
+          proOnly: true,
+        },
+      ],
+    },
+    profile: {
+      steps: [
+        {
+          element: "profil-appearance",
+          title: "Personnalisation visuelle",
+          description:
+            "Choisissez mise en page, couleur, dégradé ou bannière pour mettre en valeur votre entreprise.",
+        },
+        {
+          element: "profil-link",
+          title: "Votre lien unique",
+          description:
+            "Copiez votre lien CraftLink pour l’ajouter à votre bio Instagram, SMS ou cartes de visite.",
+        },
+      ],
+    },
+    partners: {
+      steps: [
+        {
+          element: "partenariats-selection",
+          title: "Recommandations & affiliation",
+          description:
+            "Ajoutez vos outils, marques de confiance et codes promo à partager avec vos clients.",
+        },
+        {
+          element: "partenariats-toggle",
+          title: "Affichage sur votre page",
+          description:
+            "Activez ou désactivez l’onglet « La Sélection Pro » sur votre vitrine en un clic.",
+        },
+      ],
+    },
+  },
   inbox: {
     title: "Demandes reçues",
     subtitle:

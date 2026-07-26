@@ -48,7 +48,7 @@ export function LeadsSummaryCards({ stats, copy }: LeadsSummaryCardsProps) {
   const s = copy.leads.summary;
 
   return (
-    <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4" data-tour="dashboard-kpis">
       {CARDS.map(({ key, icon: Icon, accent, iconWrap }) => (
         <DashboardCard key={key} as="article" variant="flat" className="p-4">
           <div className="flex items-start justify-between gap-2">

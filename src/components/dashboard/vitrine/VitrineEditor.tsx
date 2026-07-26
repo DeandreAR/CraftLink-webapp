@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowUpRightFromSquare, FaList, FaPalette, FaPen } from "react-icons/fa6";
 import { updateDashboardProfileAction } from "@/app/actions/dashboard";
 import { DashboardButton } from "@/components/dashboard/DashboardButton";
@@ -11,6 +11,7 @@ import { HeaderAppearanceEditor } from "@/components/dashboard/vitrine/HeaderApp
 import { OnboardingGeneralStep } from "@/components/onboarding/steps/OnboardingGeneralStep";
 import { OnboardingInterventionsStep } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
+import { OPEN_VITRINE_VISUAL_EVENT } from "@/lib/dashboard/vitrineTourEvents";
 import type { OnboardingProfileDraft, OnboardingService } from "@/domain/onboarding";
 import type { Profile } from "@/domain/profile";
 import {
@@ -56,6 +57,12 @@ export function VitrineEditor({
   );
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState<"saved" | "error" | null>(null);
+
+  useEffect(() => {
+    const openVisual = () => setSection("visual");
+    window.addEventListener(OPEN_VITRINE_VISUAL_EVENT, openVisual);
+    return () => window.removeEventListener(OPEN_VITRINE_VISUAL_EVENT, openVisual);
+  }, []);
 
   const slug = profile.page_slug?.trim() ?? "";
   const publicPath = slug ? buildPublicPagePath(slug, locale) : "";
@@ -105,8 +112,10 @@ export function VitrineEditor({
   return (
     <div className="space-y-5">
       {slug ? (
-        <div className="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between">
-          <PublicPageUrlWithCopy
+        <div
+          data-tour="profil-link"
+          className="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between"
+        >          <PublicPageUrlWithCopy
             label={v.fields.pageUrl}
             displayUrl={publicUrl}
             copyText={absoluteUrl}
@@ -177,7 +186,7 @@ export function VitrineEditor({
         ) : null}
 
         {section === "visual" ? (
-          <div className="space-y-6">
+          <div className="space-y-6" data-tour="profil-appearance">
             <HeaderAppearanceEditor
               profile={profileDraft}
               workspaceId={workspaceId}

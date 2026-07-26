@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useCallback, useMemo } from "react";
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader";
 import { BillingSection } from "@/components/dashboard/account/BillingSection";
 import { DeleteAccountSection } from "@/components/dashboard/account/DeleteAccountSection";
@@ -14,6 +15,10 @@ import type { Profile } from "@/domain/profile";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { abonnementPath } from "@/lib/auth/paths";
+import { hasProFeatureAccess } from "@/lib/dashboard/planAccess";
+import { resolveTourSteps } from "@/lib/dashboard/resolveTourSteps";
+import { OPEN_PROFILE_EDITOR_EVENT, OPEN_VITRINE_VISUAL_EVENT } from "@/lib/dashboard/vitrineTourEvents";
+import { useOnboardingTour } from "@/hooks/useOnboardingTour";
 
 type ArtisanProfilePanelProps = {
   profile: Profile;
@@ -33,6 +38,25 @@ export function ArtisanProfilePanel({
   locale,
 }: ArtisanProfilePanelProps) {
   const p = copy.profilePanel;
+
+  const prepareProfileTour = useCallback(async () => {
+    window.dispatchEvent(new CustomEvent(OPEN_PROFILE_EDITOR_EVENT));
+    window.dispatchEvent(new CustomEvent(OPEN_VITRINE_VISUAL_EVENT));
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }, []);
+
+  const isPro = hasProFeatureAccess(profile);
+  const profileTourSteps = useMemo(
+    () => resolveTourSteps(copy.tours.profile.steps, isPro),
+    [copy.tours.profile.steps, isPro],
+  );
+
+  useOnboardingTour("profile", profileTourSteps, {
+    prevLabel: copy.tours.prev,
+    nextLabel: copy.tours.next,
+    doneLabel: copy.tours.done,
+    prepare: prepareProfileTour,
+  });
 
   const urgencyBlock = (
     <UrgencyMetierSetting profile={profile} copy={copy} locale={locale} />

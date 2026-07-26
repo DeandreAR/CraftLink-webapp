@@ -6,6 +6,8 @@ export type DashboardViewTab<T extends string> = {
   id: T;
   label: string;
   icon?: ReactNode;
+  /** Ancre Driver.js (`data-tour`). */
+  dataTour?: string;
 };
 
 type DashboardViewTabsProps<T extends string> = {
@@ -14,6 +16,8 @@ type DashboardViewTabsProps<T extends string> = {
   onChange: (id: T) => void;
   ariaLabel: string;
   className?: string;
+  /** Ancre Driver.js sur le conteneur entier. */
+  dataTour?: string;
 };
 
 /** Segmented control — barre unifiée style Linear / Vercel. */
@@ -23,12 +27,14 @@ export function DashboardViewTabs<T extends string>({
   onChange,
   ariaLabel,
   className = "",
+  dataTour,
 }: DashboardViewTabsProps<T>) {
   return (
     <div
       className={`db-segmented scrollbar-hide mb-4 w-full max-w-full ${className}`.trim()}
       role="tablist"
       aria-label={ariaLabel}
+      data-tour={dataTour}
     >
       {tabs.map((tab) => {
         const isActive = active === tab.id;
@@ -39,6 +45,7 @@ export function DashboardViewTabs<T extends string>({
             role="tab"
             aria-selected={isActive}
             data-active={isActive ? "true" : undefined}
+            data-tour={tab.dataTour}
             onClick={() => onChange(tab.id)}
             className="db-segmented-item flex cursor-pointer items-center gap-2"
           >

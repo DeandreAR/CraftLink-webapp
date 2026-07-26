@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { OPEN_PROFILE_EDITOR_EVENT } from "@/lib/dashboard/vitrineTourEvents";
 
 export type ProfileMobileSection = {
   id: string;
@@ -26,6 +27,16 @@ export function ProfileMobileNav({ sections, ariaLabel }: ProfileMobileNavProps)
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
+
+  useEffect(() => {
+    const openEditor = () => {
+      if (sections.some((s) => s.id === "editor")) {
+        setActive("editor");
+      }
+    };
+    window.addEventListener(OPEN_PROFILE_EDITOR_EVENT, openEditor);
+    return () => window.removeEventListener(OPEN_PROFILE_EDITOR_EVENT, openEditor);
+  }, [sections]);
 
   const current = sections.find((section) => section.id === active) ?? sections[0];
 

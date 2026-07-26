@@ -11,6 +11,9 @@ import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
 import { useLeadsWorkspace } from "@/lib/dashboard/useLeadsWorkspace";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useOnboardingTour } from "@/hooks/useOnboardingTour";
+import { hasProFeatureAccess } from "@/lib/dashboard/planAccess";
+import { resolveTourSteps } from "@/lib/dashboard/resolveTourSteps";
 
 type InboxPanelProps = {
   profile: Profile;
@@ -73,6 +76,17 @@ export function InboxPanel({
   }, [showCompactDetail]);
 
   const inbox = copy.inbox;
+  const isPro = hasProFeatureAccess(profile);
+  const inboxTourSteps = useMemo(
+    () => resolveTourSteps(copy.tours.inbox.steps, isPro),
+    [copy.tours.inbox.steps, isPro],
+  );
+
+  useOnboardingTour("inbox", inboxTourSteps, {
+    prevLabel: copy.tours.prev,
+    nextLabel: copy.tours.next,
+    doneLabel: copy.tours.done,
+  });
 
   const handleValidate = (leadId: string, schedule: DashboardLead["schedule"]) => {
     validateAndPlanLead(leadId, schedule ?? null);
@@ -106,6 +120,7 @@ export function InboxPanel({
 
       <div className="flex flex-col gap-4 lg:flex-row lg:gap-8">
         <div
+          data-tour="demandes-inbox"
           className={`min-w-0 lg:w-[35%] lg:shrink-0 ${
             showCompactDetail ? "hidden lg:block" : "block"
           }`}
@@ -122,6 +137,7 @@ export function InboxPanel({
         </div>
 
         <div
+          data-tour="demandes-media"
           className={`min-w-0 flex-1 lg:w-[65%] ${
             showCompactDetail ? "block" : "hidden lg:block"
           }`}

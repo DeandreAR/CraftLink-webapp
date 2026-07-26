@@ -202,14 +202,16 @@ export function ProSelectionManager({
   };
 
   return (
-    <div className="db-card space-y-4 p-4 md:p-5">
+    <div className="db-card space-y-4 p-4 md:p-5" data-tour="partenariats-selection">
       <div className="db-card-header">
         <h3 className="text-sm font-semibold text-slate-900">{copy.title}</h3>
         <p className="mt-1 text-xs text-slate-500">{copy.hint}</p>
       </div>
 
-      <label className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5">
-        <span className="text-sm font-medium text-slate-800">{copy.enabledLabel}</span>
+      <label
+        data-tour="partenariats-toggle"
+        className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2.5"
+      >        <span className="text-sm font-medium text-slate-800">{copy.enabledLabel}</span>
         <input
           type="checkbox"
           checked={enabled}
