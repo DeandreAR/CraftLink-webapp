@@ -15,34 +15,34 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
   const copyrightBefore = footer.copyrightBefore.replace("{year}", String(year));
 
   return (
-    <footer className="border-t border-zinc-200/80 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 md:flex-row md:items-start md:justify-between md:px-6">
+    <footer className="border-t border-black/8 bg-white">
+      <div className="lk-container flex flex-col gap-10 py-14 md:flex-row md:items-start md:justify-between md:py-16">
         <div className="max-w-md">
           <img
             src="/images/logo_main.png"
             alt="CraftLink"
             width={1731}
             height={350}
-            className="mb-4 block h-6 w-auto"
+            className="mb-5 block h-7 w-auto"
             decoding="async"
           />
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm leading-relaxed text-zinc-500">
             {copyrightBefore}
             <Link
               href={getLegalHref(lang, "mentionsLegales")}
-              className="font-medium text-zinc-700 underline decoration-[#efa188]/50 underline-offset-2 transition hover:text-[#efa188]"
+              className="font-medium text-black underline decoration-[#efa188]/60 underline-offset-2 transition hover:text-[#efa188]"
             >
               {footer.copyrightLink}
             </Link>
             {footer.copyrightAfter}
           </p>
-          <p className="mt-1 text-sm text-zinc-400">{footer.tagline}</p>
+          <p className="mt-2 text-sm text-zinc-400">{footer.tagline}</p>
         </div>
-        <nav className="flex flex-col gap-2" aria-label={footer.legalNavLabel}>
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-400">
+        <nav className="flex flex-col gap-3" aria-label={footer.legalNavLabel}>
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-400">
             {footer.legalNavLabel}
           </p>
-          <ul className="flex flex-col gap-1.5 text-sm font-medium">
+          <ul className="flex flex-col gap-2.5 text-sm font-medium">
             {(
               [
                 ["mentionsLegales", footer.links.mentionsLegales],
@@ -54,7 +54,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
               <li key={key}>
                 <Link
                   href={getLegalHref(lang, key)}
-                  className="text-zinc-500 transition hover:text-zinc-900"
+                  className="text-zinc-500 transition hover:text-black"
                 >
                   {label}
                 </Link>
@@ -63,7 +63,7 @@ export function LandingFooter({ lang, footer }: LandingFooterProps) {
             <li>
               <button
                 type="button"
-                className="text-left text-zinc-500 transition hover:text-zinc-900"
+                className="min-h-[44px] text-left text-zinc-500 transition hover:text-black md:min-h-0"
                 onClick={() =>
                   window.dispatchEvent(new CustomEvent("craftlink:open-cookie-settings"))
                 }

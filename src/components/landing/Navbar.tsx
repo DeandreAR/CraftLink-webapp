@@ -44,23 +44,23 @@ type NavbarProps = {
 };
 
 const desktopNavLink =
-  "hidden rounded-lg px-2.5 py-2 text-xs font-semibold text-zinc-500 transition-colors hover:text-zinc-900 md:inline-flex lg:px-3 lg:text-sm";
+  "hidden rounded-xl px-3 py-2.5 text-sm font-semibold text-zinc-500 transition-colors hover:text-black md:inline-flex";
 
 const mobileNavLink =
-  "block rounded-lg px-3 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-[#efa188]/10";
+  "flex min-h-[48px] items-center rounded-xl px-3.5 py-3 text-[0.95rem] font-semibold text-black transition-colors hover:bg-[#efa188]/12";
 
 const headerBarScrolled =
-  "border-zinc-200/80 bg-white/90 shadow-[0_2px_15px_rgba(0,0,0,0.03)] backdrop-blur-md";
+  "border-black/8 bg-white/92 shadow-[0_4px_24px_rgba(0,0,0,0.05)] backdrop-blur-md";
 
-const headerBarDefault = "border-transparent bg-zinc-50/80 backdrop-blur-sm";
+const headerBarDefault = "border-transparent bg-white/80 backdrop-blur-sm";
 
-const mobileMenuBottom = "calc(3.5rem + env(safe-area-inset-bottom))";
+const mobileMenuBottom = "calc(3.75rem + env(safe-area-inset-bottom))";
 
 const mobileHeaderCtaClass =
-  "px-2 py-1 text-[10px] leading-tight shadow-none hover:translate-y-0";
+  "min-h-[36px] px-2.5 py-1.5 text-[11px] leading-tight shadow-none hover:translate-y-0";
 
 const mobileMenuCtaClass =
-  "w-full px-3 py-1.5 text-xs shadow-none hover:translate-y-0";
+  "w-full min-h-[52px] px-4 py-3 text-sm shadow-none hover:translate-y-0";
 
 export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -139,9 +139,9 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
   const authCtas = isAuthenticated ? (
     <LandingCta
       href={dashboardHref}
-      variant="peach"
+      variant="primary"
       size="compact"
-      className="shrink-0 whitespace-nowrap px-3 lg:px-4"
+      className="shrink-0 whitespace-nowrap px-4"
     >
       {L.mySpace}
     </LandingCta>
@@ -151,15 +151,15 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
         href={authPath(lang, "login")}
         variant="secondary"
         size="compact"
-        className="shrink-0 whitespace-nowrap px-3 lg:px-4"
+        className="shrink-0 whitespace-nowrap px-4"
       >
         {L.login}
       </LandingCta>
       <LandingCta
         href={authPath(lang, "signup")}
-        variant="peach"
+        variant="primary"
         size="compact"
-        className="shrink-0 whitespace-nowrap px-3 lg:px-4"
+        className="shrink-0 whitespace-nowrap px-4"
       >
         {L.createAccount}
       </LandingCta>
@@ -167,7 +167,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
   );
 
   const mobileHeaderAuth = isAuthenticated ? (
-    <LandingCta href={dashboardHref} variant="peach" className={mobileHeaderCtaClass}>
+    <LandingCta href={dashboardHref} variant="primary" className={mobileHeaderCtaClass}>
       {L.mySpace}
     </LandingCta>
   ) : (
@@ -181,7 +181,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
       </LandingCta>
       <LandingCta
         href={authPath(lang, "signup")}
-        variant="peach"
+        variant="primary"
         className={mobileHeaderCtaClass}
       >
         {L.createAccount}
@@ -192,7 +192,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
   const mobileMenuAuth = isAuthenticated ? (
     <LandingCta
       href={dashboardHref}
-      variant="peach"
+      variant="primary"
       className={mobileMenuCtaClass}
       onClick={closeMenu}
     >
@@ -210,7 +210,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
       </LandingCta>
       <LandingCta
         href={authPath(lang, "signup")}
-        variant="peach"
+        variant="primary"
         className={mobileMenuCtaClass}
         onClick={closeMenu}
       >
@@ -223,7 +223,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
     <>
       <header className="sticky top-0 z-50">
         <div className={`border-b transition-all duration-300 ${headerBarClass}`}>
-          <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-4 md:justify-between md:gap-4 md:px-6">
+          <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center gap-2 px-4 md:justify-between md:gap-4 md:px-6">
             <div className="flex min-w-0 items-center gap-2">
               <Link href={homeHref} className="inline-flex shrink-0 items-center" aria-label="CraftLink">
                 <img
@@ -231,15 +231,15 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
                   alt="CraftLink"
                   width={1731}
                   height={350}
-                  className="block h-6 w-auto md:h-7"
+                  className="block h-7 w-auto md:h-8"
                   decoding="async"
                 />
               </Link>
 
-              <div className="flex shrink-0 items-center gap-1 md:hidden">{mobileHeaderAuth}</div>
+              <div className="flex shrink-0 items-center gap-1.5 md:hidden">{mobileHeaderAuth}</div>
             </div>
 
-            <nav className="hidden shrink-0 items-center gap-1.5 md:flex lg:gap-2.5" aria-label="Navigation principale">
+            <nav className="hidden shrink-0 items-center gap-2 md:flex lg:gap-3" aria-label="Navigation principale">
               {navItems.map((item) => (
                 <a
                   key={item.href}
@@ -261,7 +261,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
         <div className="pointer-events-auto px-3 pb-[max(0.65rem,env(safe-area-inset-bottom))] pt-2">
           <button
             type="button"
-            className={`flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 active:scale-[0.96] ${headerBarScrolled}`}
+            className={`flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 active:scale-[0.96] ${headerBarScrolled}`}
             aria-expanded={menuOpen}
             aria-controls="landing-mobile-menu"
             aria-label={menuOpen ? L.mobileMenuClose : L.mobileMenuOpen}
@@ -289,15 +289,15 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
         id="landing-mobile-menu"
         aria-label="Navigation mobile"
         style={{ bottom: mobileMenuBottom }}
-        className={`fixed right-3 z-[58] w-[min(calc(100vw-1.5rem),17rem)] overflow-hidden rounded-2xl border transition-all duration-300 md:hidden ${headerBarScrolled} ${
+        className={`fixed right-3 z-[58] w-[min(calc(100vw-1.5rem),18rem)] overflow-hidden rounded-[24px] border transition-all duration-300 md:hidden ${headerBarScrolled} ${
           menuOpen
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none translate-y-2 opacity-0"
         }`}
         aria-hidden={!menuOpen}
       >
-        <div className="max-h-[min(62dvh,28rem)] overflow-y-auto p-2.5">
-          <ul className="space-y-0.5">
+        <div className="max-h-[min(68dvh,32rem)] overflow-y-auto p-3">
+          <ul className="space-y-1">
             {navItems.map((item) => (
               <li key={item.href}>
                 <a href={item.href} className={mobileNavLink} onClick={closeMenu}>
@@ -307,8 +307,8 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
             ))}
           </ul>
 
-          <div className="mt-2.5 border-t border-zinc-200/80 pt-2.5 text-center">
-            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
+          <div className="mt-3 border-t border-black/8 pt-3 text-center">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-zinc-500">
               {L.languageSwitcherLabel}
             </p>
             <LocaleSwitcher
@@ -318,7 +318,7 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
             />
           </div>
 
-          <div className="mt-2.5 flex flex-col gap-1">{mobileMenuAuth}</div>
+          <div className="mt-3 flex flex-col gap-2">{mobileMenuAuth}</div>
         </div>
       </nav>
     </>

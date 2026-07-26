@@ -9,7 +9,6 @@ type LandingPricingSectionProps = {
   locale: Locale;
 };
 
-/** Tarifs OpenShip Light — constat + grille Essentiel / Pro. */
 export function LandingPricingSection({
   model,
   basePath,
@@ -23,16 +22,17 @@ export function LandingPricingSection({
       className="lk-section scroll-mt-28"
       aria-labelledby="pricing-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
+      <div className="lk-container lk-section-pad">
         <div className="mx-auto max-w-2xl text-center">
           <span className="lk-eyebrow">{copy.sectionEyebrow}</span>
           <h2
             id="pricing-heading"
-            className="lk-display mt-5 text-3xl text-zinc-900 md:text-4xl"
+            className="lk-display mt-5 text-[1.85rem] sm:text-3xl md:text-4xl lg:text-[2.65rem]"
           >
             {copy.sectionTitle}
           </h2>
-          <p className="mt-4 text-base text-zinc-500 md:text-lg">{copy.sectionLead}</p>
+          <p className="lk-lead mt-4 text-base md:text-lg">{copy.sectionLead}</p>
+          <hr className="lk-paint-rule mx-auto mt-8" aria-hidden />
         </div>
 
         <LandingConstatCard contrast={copy.splitContrast} />
