@@ -23,7 +23,7 @@ export function buildStatBadges(
     if (googleReviews != null && googleReviews > 0) {
       badges.push({
         id: "reviews",
-        label: `${googleReviews}+ Avis Google`,
+        label: locale === "en" ? `${googleReviews}+ Google reviews` : `${googleReviews}+ avis Google`,
         kind: "google_reviews",
       });
     }

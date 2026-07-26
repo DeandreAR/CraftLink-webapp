@@ -32,19 +32,18 @@ export function VitrinePrimaryCtaButton({
       <button
         type="button"
         onClick={onClick}
-        className="group relative flex min-h-[3.75rem] w-full items-center justify-center overflow-hidden rounded-full px-14 text-[15px] font-bold tracking-tight text-white transition duration-200 hover:brightness-[1.04] active:scale-[0.985] sm:min-h-[4rem] sm:text-base"
+        className="group relative flex min-h-[3.5rem] w-full items-center justify-center overflow-hidden rounded-full px-14 text-[15px] font-semibold tracking-[-0.015em] text-white transition duration-200 hover:brightness-[1.03] active:scale-[0.99] sm:min-h-[3.65rem] sm:text-[15.5px]"
         style={
           useBrandColor
             ? {
                 background: "var(--primary-color)",
                 color: "var(--v-primary-fg, #ffffff)",
                 boxShadow:
-                  "0 12px 32px color-mix(in srgb, var(--primary-color) 42%, transparent), 0 4px 12px rgba(0,0,0,0.12)",
+                  "0 8px 22px color-mix(in srgb, var(--primary-color) 28%, transparent)",
               }
             : {
                 background: CTA_GRADIENT,
-                boxShadow:
-                  "0 12px 32px rgba(234,88,12,0.35), 0 4px 12px rgba(0,0,0,0.12)",
+                boxShadow: "0 8px 22px rgba(234,88,12,0.28)",
               }
         }
       >

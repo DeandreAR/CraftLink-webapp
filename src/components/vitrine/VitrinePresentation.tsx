@@ -94,6 +94,7 @@ export function VitrinePresentation({
               badges={artisan.statBadges}
               googleBusinessUrl={artisan.googleBusinessUrl}
               onDarkCover={onDarkCover}
+              accentColor={theme.accent}
             />
           ) : null}
 
