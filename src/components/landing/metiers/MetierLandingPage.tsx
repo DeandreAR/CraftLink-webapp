@@ -74,7 +74,7 @@ export async function MetierLandingPage({ lang, entry }: MetierLandingPageProps)
 
                 <LandingHeroReveal delay={0.2}>
                   <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                    <LandingCta href={signupHref} variant="peach">
+                    <LandingCta href={signupHref} variant="primary">
                       {content.ctaButton}
                     </LandingCta>
                     <LandingCta href={lang === defaultLocale ? "/#controle" : `/${lang}#controle`} variant="secondary">
@@ -130,7 +130,7 @@ export async function MetierLandingPage({ lang, entry }: MetierLandingPageProps)
                   </h2>
                   <p className="lk-lead mt-4 text-base md:text-lg">{content.ctaLead}</p>
                 </div>
-                <LandingCta href={signupHref} variant="peach" className="min-w-[240px] shrink-0">
+                <LandingCta href={signupHref} variant="primary" className="min-w-[240px] shrink-0">
                   {content.ctaButton}
                 </LandingCta>
               </div>

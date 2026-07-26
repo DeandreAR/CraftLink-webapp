@@ -435,7 +435,7 @@ export function ProOnboardingWizard({
               ← {copy.back}
             </Link>
           )}
-          <LandingCta type="button" variant="peach" onClick={goManualNext} className="flex-1 justify-center">
+          <LandingCta type="button" variant="primary" onClick={goManualNext} className="flex-1 justify-center">
             {copy.next}
           </LandingCta>
         </div>

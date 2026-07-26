@@ -36,25 +36,25 @@ export function DashboardSidebar({
   const descriptions = copy.tabDescriptions;
 
   return (
-    <aside className="hidden h-[100dvh] w-[240px] shrink-0 flex-col border-r border-slate-800 bg-slate-950 md:flex lg:w-[260px]">
-      <div className="border-b border-slate-800 px-5 py-5">
+    <aside className="hidden h-[100dvh] w-[240px] shrink-0 flex-col border-r border-black/8 bg-white md:flex lg:w-[260px]">
+      <div className="border-b border-black/8 px-5 py-5">
         <Link href={home} className="inline-flex items-center" aria-label="CraftLink">
           <img
             src="/images/logo_main.png"
             alt="CraftLink"
             width={1731}
             height={350}
-            className="block h-7 w-auto max-w-none brightness-0 invert"
+            className="block h-7 w-auto max-w-none"
             decoding="async"
           />
         </Link>
         {businessName ? (
-          <p className="mt-3 truncate text-xs font-medium text-slate-400">{businessName}</p>
+          <p className="mt-3 truncate text-xs font-semibold text-zinc-500">{businessName}</p>
         ) : null}
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 px-3 py-5" aria-label={copy.inbox.listAriaLabel}>
-        <p className="mb-2 px-3 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+        <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
           Espace pro
         </p>
         {NAV_ITEMS.map(({ id, icon: Icon }) => {
@@ -64,23 +64,23 @@ export function DashboardSidebar({
               key={id}
               type="button"
               onClick={() => onChange(id)}
-              className={`relative flex w-full cursor-pointer items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors duration-150 ${
-                isActive ? "text-white" : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+              className={`relative flex w-full cursor-pointer items-start gap-3 rounded-[20px] px-3 py-2.5 text-left transition-colors duration-150 ${
+                isActive ? "text-black" : "text-zinc-500 hover:bg-[#efa188]/08 hover:text-black"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
               {isActive ? (
                 <motion.span
                   layoutId="dashboard-nav-active"
-                  className="absolute inset-0 rounded-lg bg-white/10 ring-1 ring-white/10"
+                  className="absolute inset-0 rounded-[20px] bg-[#efa188]/12 ring-1 ring-[#efa188]/25"
                   transition={{ type: "spring", stiffness: 420, damping: 34 }}
                 />
               ) : null}
               <span
-                className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition-colors duration-150 ${
+                className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] transition-colors duration-150 ${
                   isActive
-                    ? "bg-[#EFA188]/20 text-[#EFA188]"
-                    : "bg-white/5 text-slate-400"
+                    ? "bg-black text-white"
+                    : "bg-zinc-100 text-zinc-500"
                 }`}
               >
                 <Icon className="h-4 w-4" aria-hidden />
@@ -89,7 +89,7 @@ export function DashboardSidebar({
                 <span className="block text-sm font-semibold">{labels[id]}</span>
                 <span
                   className={`mt-0.5 block text-[10px] leading-snug ${
-                    isActive ? "text-slate-300" : "text-slate-500"
+                    isActive ? "text-zinc-600" : "text-zinc-400"
                   }`}
                 >
                   {descriptions[id]}
@@ -100,12 +100,12 @@ export function DashboardSidebar({
         })}
       </nav>
 
-      <div className="border-t border-slate-800 p-3">
+      <div className="border-t border-black/8 p-3">
         <form action={signOutAction}>
           <input type="hidden" name="locale" value={locale} />
           <button
             type="submit"
-            className="w-full cursor-pointer rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-500 transition hover:bg-white/5 hover:text-slate-300"
+            className="w-full min-h-[48px] cursor-pointer rounded-[20px] px-3 py-2.5 text-left text-sm font-semibold text-zinc-500 transition hover:bg-zinc-100 hover:text-black"
           >
             {copy.signOut}
           </button>

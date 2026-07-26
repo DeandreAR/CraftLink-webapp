@@ -110,10 +110,10 @@ export function OnboardingGeneralStep({
                     aboutText: "",
                   })
                 }
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm transition ${
+                className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-[20px] border px-3.5 py-2 text-sm font-semibold transition ${
                   selected
-                    ? "border-black bg-black font-medium text-white shadow-sm"
-                    : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100"
+                    ? "border-black bg-black text-white shadow-[0_4px_14px_rgba(0,0,0,0.12)]"
+                    : "border-black/10 bg-white text-zinc-600 hover:border-[#efa188]/50 hover:bg-[#efa188]/08"
                 }`}
                 aria-pressed={selected}
               >

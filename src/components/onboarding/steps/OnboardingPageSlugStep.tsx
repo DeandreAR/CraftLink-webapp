@@ -169,7 +169,7 @@ export function OnboardingPageSlugStep({
 
       <LandingCta
         type="button"
-        variant="peach"
+        variant="primary"
         disabled={!canConfirm || checking}
         onClick={() => {
           onChange({ pageSlug: input, pageSlugConfirmed: true });

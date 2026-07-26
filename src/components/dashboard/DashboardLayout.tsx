@@ -67,7 +67,7 @@ export function DashboardLayout({
   }, [initialTab]);
 
   return (
-    <div className="dashboard-page relative flex min-h-[100dvh] text-slate-900">
+    <div className="dashboard-page relative flex min-h-[100dvh] text-black">
       <RegisterServiceWorker />
 
       <DashboardSidebar
@@ -79,14 +79,14 @@ export function DashboardLayout({
       />
 
       <div className="relative flex min-h-[100dvh] min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-3 md:hidden">
+        <header className="sticky top-0 z-40 flex items-center justify-between border-b border-black/8 bg-white/95 px-4 py-3 backdrop-blur-md md:hidden">
           <Link href={home} className="inline-flex items-center" aria-label="CraftLink">
             <img
               src="/images/logo_main.png"
               alt="CraftLink"
               width={1731}
               height={350}
-              className="block h-6 w-auto max-w-none brightness-0 invert"
+              className="block h-7 w-auto max-w-none"
               decoding="async"
             />
           </Link>
@@ -94,7 +94,7 @@ export function DashboardLayout({
             <input type="hidden" name="locale" value={locale} />
             <button
               type="submit"
-              className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-[11px] font-semibold text-white transition active:scale-[0.98] hover:bg-slate-800"
+              className="min-h-[40px] rounded-[20px] border border-black/10 bg-white px-3.5 py-2 text-[11px] font-semibold text-black transition hover:bg-[#efa188]/10 active:scale-[0.98]"
             >
               {copy.signOut}
             </button>

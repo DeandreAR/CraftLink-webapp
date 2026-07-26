@@ -245,7 +245,7 @@ export function OnboardingVisualStep({
       </div>
 
       {showCreatePageButton && onCreatePage ? (
-        <LandingCta type="button" variant="peach" onClick={onCreatePage} className="w-full justify-center">
+        <LandingCta type="button" variant="primary" onClick={onCreatePage} className="w-full justify-center">
           {v.createPage}
         </LandingCta>
       ) : null}
