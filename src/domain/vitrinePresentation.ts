@@ -21,6 +21,15 @@ import type { OnboardingSocialFollowers } from "@/lib/onboarding/socialFollowers
 import { parsePortfolioItems } from "@/lib/portfolio/normalizePortfolioItem";
 import { DEFAULT_PRO_SELECTION_TITLE, normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
 
+function parseOptionalNumber(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim()) {
+    const n = Number(value.replace(",", "."));
+    if (Number.isFinite(n)) return n;
+  }
+  return undefined;
+}
+
 /** Champs vitrine persistés (hors colonnes `profiles`). */
 export type StoredVitrineProfilePart = {
   metierKey: MetierKey | "";
@@ -297,22 +306,14 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
       row.importPlatform === "facebook"
         ? row.importPlatform
         : undefined,
-    importGoogleRating:
-      typeof row.importGoogleRating === "number" ? row.importGoogleRating : undefined,
-    importGoogleReviewCount:
-      typeof row.importGoogleReviewCount === "number" ? row.importGoogleReviewCount : undefined,
-    importExperienceYears:
-      typeof row.importExperienceYears === "number" ? row.importExperienceYears : undefined,
+    importGoogleRating: parseOptionalNumber(row.importGoogleRating),
+    importGoogleReviewCount: parseOptionalNumber(row.importGoogleReviewCount),
+    importExperienceYears: parseOptionalNumber(row.importExperienceYears),
     experienceYears:
-      typeof row.experienceYears === "number"
-        ? row.experienceYears
-        : typeof row.importExperienceYears === "number"
-          ? row.importExperienceYears
-          : undefined,
-    completedProjectsCount:
-      typeof row.completedProjectsCount === "number" ? row.completedProjectsCount : undefined,
-    importFollowerCount:
-      typeof row.importFollowerCount === "number" ? row.importFollowerCount : undefined,
+      parseOptionalNumber(row.experienceYears) ??
+      parseOptionalNumber(row.importExperienceYears),
+    completedProjectsCount: parseOptionalNumber(row.completedProjectsCount),
+    importFollowerCount: parseOptionalNumber(row.importFollowerCount),
     socialFollowers: parseSocialFollowers(row.socialFollowers),
     magicImportSuccessCount:
       typeof row.magicImportSuccessCount === "number"

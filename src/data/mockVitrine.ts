@@ -61,20 +61,15 @@ const BASE_PROFILE: Omit<ArtisanVitrineProfile, "slug"> = {
     avatarUrl: DEMO_ELECTRICIAN_IMAGE,
   },
   statBadges: [
-    { id: "experience", label: "10+ ans d'expérience", kind: "experience" },
-    { id: "projects", label: "250+ réalisations", kind: "projects" },
     {
-      id: "reviews",
-      label: "25+ Avis Google",
-      kind: "google_reviews",
-    },
-    {
-      id: "rating",
-      label: "4.9",
+      id: "google",
+      label: "4.9 · 48+ avis",
       kind: "google_rating",
       rating: "4.9",
       starCount: 5,
     },
+    { id: "experience", label: "10+ ans d'expérience", kind: "experience" },
+    { id: "projects", label: "250+ réalisations", kind: "projects" },
   ],
   interventions: [
     "Dépannage Urgent",

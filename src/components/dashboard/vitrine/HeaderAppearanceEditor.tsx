@@ -6,7 +6,7 @@ import type { HeaderLayoutType } from "@/domain/recommendedProduct";
 import { serializeGradientValue } from "@/lib/vitrine/resolveVitrineHeaderMedia";
 import { uploadBannerImage } from "@/lib/vitrine/bannerStorage";
 import { compressGalleryImage } from "@/lib/portfolio/compressGalleryImage";
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 
 type HeaderAppearanceEditorProps = {
   profile: OnboardingProfileDraft;
@@ -37,16 +37,44 @@ type HeaderAppearanceEditorProps = {
 
 type LayoutOptionId = Exclude<HeaderLayoutType, "standard">;
 
-/** Couleurs fixes des miniatures — indépendantes du CTA devis. */
-const PREVIEW_ACCENT = "#EFA188";
-const PREVIEW_BANNER = "#c4b5a5";
-const PREVIEW_WASH = "#fff5f0";
+type LayoutPreviewBg = {
+  mode: "solid" | "gradient" | "image";
+  solid: string;
+  from: string;
+  to: string;
+  imageUrl: string | null;
+};
 
-function LayoutPreview({ id }: { id: LayoutOptionId }) {
+function coverBackgroundStyle(bg: LayoutPreviewBg): CSSProperties {
+  if (bg.mode === "image" && bg.imageUrl) {
+    return {
+      backgroundImage: `url(${bg.imageUrl})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    };
+  }
+  if (bg.mode === "solid") {
+    return { backgroundColor: bg.solid };
+  }
+  return {
+    background: `linear-gradient(135deg, ${bg.from} 0%, ${bg.to} 100%)`,
+  };
+}
+
+function LayoutPreview({
+  id,
+  bg,
+}: {
+  id: LayoutOptionId;
+  bg: LayoutPreviewBg;
+}) {
+  const coverStyle = coverBackgroundStyle(bg);
+  const avatarColor = bg.mode === "solid" ? bg.solid : bg.from;
+
   if (id === "banner_overlay") {
     return (
       <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
-        <div className="h-10" style={{ backgroundColor: PREVIEW_BANNER }}>
+        <div className="h-10" style={coverStyle}>
           <div className="flex h-full items-end justify-center pb-1">
             <span className="rounded bg-black/35 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wide text-white">
               Bannière
@@ -56,7 +84,7 @@ function LayoutPreview({ id }: { id: LayoutOptionId }) {
         <div className="-mt-3 flex flex-col items-center pb-2">
           <div
             className="h-7 w-7 rounded-full border-2 border-white shadow"
-            style={{ backgroundColor: PREVIEW_ACCENT }}
+            style={{ backgroundColor: avatarColor }}
           />
           <span className="mt-1 text-[8px] font-medium text-neutral-500">Photo</span>
         </div>
@@ -69,9 +97,7 @@ function LayoutPreview({ id }: { id: LayoutOptionId }) {
       <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
         <div
           className="flex h-12 flex-col items-center justify-center px-1 text-center"
-          style={{
-            background: `linear-gradient(135deg, ${PREVIEW_ACCENT} 0%, ${PREVIEW_WASH} 100%)`,
-          }}
+          style={coverStyle}
         >
           <span className="text-[9px] font-extrabold text-neutral-900">Nom</span>
           <span className="text-[7px] text-neutral-600">En-tête seulement</span>
@@ -88,9 +114,7 @@ function LayoutPreview({ id }: { id: LayoutOptionId }) {
     return (
       <div
         className="flex h-[4.75rem] flex-col overflow-hidden rounded-xl border border-neutral-200 px-1.5 py-1.5"
-        style={{
-          background: `linear-gradient(180deg, ${PREVIEW_ACCENT} 0%, ${PREVIEW_WASH} 100%)`,
-        }}
+        style={coverStyle}
       >
         <span className="text-center text-[9px] font-extrabold text-neutral-900">
           Nom entreprise
@@ -110,13 +134,11 @@ function LayoutPreview({ id }: { id: LayoutOptionId }) {
   return (
     <div
       className="flex h-[4.75rem] flex-col items-center overflow-hidden rounded-xl border border-neutral-200 px-1.5 py-1.5"
-      style={{
-        background: `linear-gradient(180deg, ${PREVIEW_ACCENT} 0%, ${PREVIEW_WASH} 100%)`,
-      }}
+      style={coverStyle}
     >
       <div
         className="h-7 w-7 rounded-full border-2 border-white shadow"
-        style={{ backgroundColor: PREVIEW_ACCENT }}
+        style={{ backgroundColor: avatarColor }}
       />
       <span className="mt-1 text-[7px] font-semibold uppercase tracking-wide text-neutral-700">
         Toute la page
@@ -159,6 +181,26 @@ export function HeaderAppearanceEditor({
       // ignore
     }
   }
+
+  const solidColor =
+    visual.headerBgValue?.startsWith("#") ? visual.headerBgValue : "#FFFFFF";
+  const imageUrl =
+    visual.headerBgValue?.startsWith("http") || visual.headerBgValue?.startsWith("/")
+      ? visual.headerBgValue
+      : visual.bannerPreviewUrl;
+
+  const previewBg: LayoutPreviewBg = {
+    mode:
+      bgType === "image"
+        ? "image"
+        : bgType === "solid"
+          ? "solid"
+          : "gradient",
+    solid: solidColor,
+    from: gradientFrom,
+    to: gradientTo,
+    imageUrl: imageUrl || null,
+  };
 
   const patchVisual = (patch: Partial<OnboardingProfileDraft["visual"]>) => {
     onChange({ visual: { ...visual, ...patch } });
@@ -264,7 +306,7 @@ export function HeaderAppearanceEditor({
                   : "border-slate-200 bg-slate-50 hover:border-slate-300"
               }`}
             >
-              <LayoutPreview id={option.id} />
+              <LayoutPreview id={option.id} bg={previewBg} />
               <p className="mt-2.5 text-sm font-semibold text-neutral-900">{option.label}</p>
               <p className="mt-1 text-[11px] leading-snug text-neutral-500">{option.hint}</p>
             </button>

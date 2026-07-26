@@ -14,26 +14,46 @@ export function buildStatBadges(
   locale: Locale,
 ): VitrineStatBadge[] {
   const badges: VitrineStatBadge[] = [];
-  const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
+  const googleUrl = profile.social.googleBusinessUrl.trim();
+  const hasGoogleBusiness = googleUrl.length > 0;
 
   if (hasGoogleBusiness) {
     const googleReviews = profile.importGoogleReviewCount;
     const googleRating = profile.importGoogleRating;
 
-    if (googleReviews != null && googleReviews > 0) {
-      badges.push({
-        id: "reviews",
-        label: locale === "en" ? `${googleReviews}+ Google reviews` : `${googleReviews}+ avis Google`,
-        kind: "google_reviews",
-      });
-    }
-
+    // Une pastille Google : note + étoiles (et compteur d’avis si dispo)
     if (googleRating != null && googleRating > 0) {
+      const reviewPart =
+        googleReviews != null && googleReviews > 0
+          ? locale === "en"
+            ? ` · ${googleReviews}+ reviews`
+            : ` · ${googleReviews}+ avis`
+          : "";
       badges.push({
-        id: "rating",
-        label: String(googleRating),
+        id: "google",
+        label: `${googleRating}${reviewPart}`,
         kind: "google_rating",
         rating: String(googleRating),
+        starCount: 5,
+        href: googleUrl,
+      });
+    } else if (googleReviews != null && googleReviews > 0) {
+      badges.push({
+        id: "google",
+        label:
+          locale === "en"
+            ? `${googleReviews}+ Google reviews`
+            : `${googleReviews}+ avis Google`,
+        kind: "google_reviews",
+        href: googleUrl,
+        starCount: 5,
+      });
+    } else {
+      badges.push({
+        id: "google",
+        label: locale === "en" ? "Google reviews" : "Avis Google",
+        kind: "google_reviews",
+        href: googleUrl,
         starCount: 5,
       });
     }
