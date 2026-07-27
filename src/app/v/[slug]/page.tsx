@@ -1,34 +1,30 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { LinkInBioPage } from "@/components/vitrine/LinkInBioPage";
 import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
-import { buildPublicPagePath } from "@/lib/onboarding/publicPageUrl";
-import { buildPageOpenGraph } from "@/lib/seo/siteMetadata";
+import {
+  buildVitrineNotFoundMetadata,
+  buildVitrinePageMetadata,
+} from "@/lib/seo/vitrinePageMetadata";
 import { fetchPublicVitrinePage } from "@/lib/vitrine/fetchPublicVitrinePage";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({ params }: Props) {
+/**
+ * Métadonnées dynamiques pour l’URL publique `getcraftlink.com/{username}`.
+ * (Rewrite proxy → cette route interne `/v/[slug]`.)
+ */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const data = await fetchPublicVitrinePage(slug);
   if (!data) {
-    return { title: "Page introuvable — CraftLink" };
+    return buildVitrineNotFoundMetadata();
   }
 
-  const title = `${data.artisan.businessName} — Devis & contact`;
-  const description = data.artisan.city
-    ? `${data.artisan.tradeLabel} — ${data.artisan.city}`
-    : data.artisan.tradeLabel;
-  const path = buildPublicPagePath(slug);
-
-  return {
-    title,
-    description,
-    alternates: { canonical: path },
-    openGraph: buildPageOpenGraph({ title, description, path }),
-  };
+  return buildVitrinePageMetadata(data.artisan, data.artisan.slug || slug);
 }
 
 export default async function PublicVitrinePage({ params }: Props) {
