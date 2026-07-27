@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaArrowUpRightFromSquare, FaList, FaPalette, FaPen } from "react-icons/fa6";
+import { FaList, FaPalette, FaPen } from "react-icons/fa6";
 import { updateDashboardProfileAction } from "@/app/actions/dashboard";
 import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import { DashboardViewTabs } from "@/components/dashboard/DashboardViewTabs";
 import { CertificationTagsField } from "@/components/dashboard/vitrine/CertificationTagsField";
 import { PortfolioGalleryEditor } from "@/components/dashboard/vitrine/PortfolioGalleryEditor";
 import { HeaderAppearanceEditor } from "@/components/dashboard/vitrine/HeaderAppearanceEditor";
+import { PageSlugEditor } from "@/components/dashboard/vitrine/PageSlugEditor";
 import { OnboardingGeneralStep } from "@/components/onboarding/steps/OnboardingGeneralStep";
 import { OnboardingInterventionsStep } from "@/components/onboarding/steps/OnboardingInterventionsStep";
 import { OnboardingVisualStep } from "@/components/onboarding/steps/OnboardingVisualStep";
@@ -18,13 +19,6 @@ import {
   editorStateToStoredConfig,
   profileToEditorState,
 } from "@/domain/vitrinePresentation";
-import {
-  buildPublicPageAbsoluteUrl,
-  buildPublicPageDisplayUrl,
-  buildPublicPagePath,
-  publicPageSlugPrefix,
-} from "@/lib/onboarding/publicPageUrl";
-import { PublicPageUrlWithCopy } from "@/components/ui/PublicPageUrlWithCopy";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import type { DashboardDictionary, OnboardingDictionary, VitrineDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
@@ -65,9 +59,6 @@ export function VitrineEditor({
   }, []);
 
   const slug = profile.page_slug?.trim() ?? "";
-  const publicPath = slug ? buildPublicPagePath(slug, locale) : "";
-  const publicUrl = slug ? buildPublicPageDisplayUrl(slug) : "";
-  const absoluteUrl = slug ? buildPublicPageAbsoluteUrl(slug) : "";
 
   const patchProfile = (patch: Partial<OnboardingProfileDraft>) => {
     setProfileDraft((prev) => ({ ...prev, ...patch }));
@@ -112,27 +103,8 @@ export function VitrineEditor({
   return (
     <div className="space-y-5">
       {slug ? (
-        <div
-          data-tour="profil-link"
-          className="flex flex-col gap-2 border-b border-slate-100 pb-4 sm:flex-row sm:items-center sm:justify-between"
-        >          <PublicPageUrlWithCopy
-            label={v.fields.pageUrl}
-            displayUrl={publicUrl}
-            copyText={absoluteUrl}
-            copyAriaLabel={v.copyPageUrl}
-            copiedLabel={v.pageUrlCopied}
-            urlClassName="text-sm"
-          />
-          <DashboardButton
-            href={publicPath}
-            external={false}
-            variant="secondary"
-            size="sm"
-            className="shrink-0"
-          >
-            <FaArrowUpRightFromSquare className="h-3 w-3" aria-hidden />
-            {v.viewPage}
-          </DashboardButton>
+        <div data-tour="profil-link">
+          <PageSlugEditor profile={profile} copy={copy} locale={locale} />
         </div>
       ) : null}
 
@@ -213,13 +185,6 @@ export function VitrineEditor({
           </div>
         ) : null}
       </div>
-
-      {slug ? (
-        <p className="text-xs text-slate-400">
-          {publicPageSlugPrefix()}
-          <span className="font-mono text-slate-600">{slug}</span>
-        </p>
-      ) : null}
 
       <div className="flex flex-wrap items-center gap-3 border-t border-slate-100 pt-4">
         <DashboardButton

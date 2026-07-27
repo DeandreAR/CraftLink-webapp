@@ -3,7 +3,6 @@ import type {
   PublicPlanTier,
   VitrineOpenIntent,
   VitrineProfileSettings,
-  VitrineService,
   VitrineTheme,
 } from "@/domain/vitrine";
 import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
@@ -14,18 +13,15 @@ import { VitrineActionButtons } from "@/components/vitrine/VitrineActionButtons"
 import { VitrineCertificationBadges } from "@/components/vitrine/VitrineCertificationBadges";
 import { VitrineInterventionTags } from "@/components/vitrine/VitrineInterventionTags";
 import { VitrinePortfolioGallery } from "@/components/vitrine/VitrinePortfolioGallery";
-import { VitrineServicesPublicList } from "@/components/vitrine/VitrineServicesPublicList";
 import { VitrinePrimaryCtaButton } from "@/components/vitrine/VitrinePrimaryCtaButton";
 import { VitrineStatBadges } from "@/components/vitrine/VitrineStatBadges";
 
 type VitrinePresentationProps = {
   artisan: ArtisanVitrineProfile;
-  services?: VitrineService[];
   planTier: PublicPlanTier;
   theme: VitrineTheme;
   profileSettings: VitrineProfileSettings;
   copy: VitrineDictionary;
-  servicesSurDevisLabel?: string;
   onOpenDetails: (intent: VitrineOpenIntent) => void;
   identityOnly?: boolean;
   hideIdentity?: boolean;
@@ -35,12 +31,10 @@ type VitrinePresentationProps = {
 
 export function VitrinePresentation({
   artisan,
-  services = [],
   planTier,
   theme,
   profileSettings,
   copy,
-  servicesSurDevisLabel = "Sur devis",
   onOpenDetails,
   identityOnly = false,
   hideIdentity = false,
@@ -60,8 +54,6 @@ export function VitrinePresentation({
     visibility.contentBlockMode === "interventions" &&
     visibility.showInterventionTags &&
     artisan.interventions.length > 0;
-  const showServicesOnPresentation =
-    visibility.showServicesOnPresentation && services.length > 0;
   const certificationBadges = artisan.certifications ?? [];
   /** Toujours la couleur artisan : le picker « bouton devis » doit se refléter. */
   const useBrandCta = true;
@@ -137,14 +129,6 @@ export function VitrinePresentation({
             theme={theme}
             onAction={onOpenDetails}
           />
-
-          {showServicesOnPresentation ? (
-            <VitrineServicesPublicList
-              services={services}
-              title={copy.details.servicesTitle}
-              surDevisLabel={servicesSurDevisLabel}
-            />
-          ) : null}
 
           {showPortfolio ? (
             <VitrinePortfolioGallery

@@ -49,7 +49,7 @@ export async function syncProfilePlanFromStripeIfNeeded(
   const supabase = await createClient();
   const { data: profile } = await supabase
     .from("profiles")
-    .select("stripe_customer_id, stripe_subscription_id, is_subscribed")
+    .select("stripe_customer_id, stripe_subscription_id, is_subscribed, plan_tier")
     .eq("id", userId)
     .maybeSingle();
 
@@ -65,9 +65,11 @@ export async function syncProfilePlanFromStripeIfNeeded(
   try {
     const stripe = getStripe();
     const subscription = await fetchPrimarySubscription(stripe, customerId);
-    const wasSubscribed =
-      currentIsSubscribed === true || profile?.is_subscribed === true;
+    const dbSubscribed = profile?.is_subscribed === true;
+    const wasSubscribed = currentIsSubscribed === true || dbSubscribed;
     const hadRecordedSubscription = Boolean(profile?.stripe_subscription_id?.trim());
+    const planTier = String(profile?.plan_tier ?? "").trim().toUpperCase();
+    const dbLooksPro = dbSubscribed && planTier === STRIPE_PRO_PLAN_TIER;
 
     if (!subscription) {
       // Uniquement si un vrai abonnement Stripe était enregistré — évite d’écraser un Pro manuel.
@@ -93,9 +95,9 @@ export async function syncProfilePlanFromStripeIfNeeded(
     }
 
     const subscriptionId = subscription.id;
-    const shouldActivate = !wasSubscribed;
+    const needsProRepair = !dbLooksPro;
 
-    if (shouldActivate) {
+    if (needsProRepair) {
       const result = await setProfilePlanByUserId(
         userId,
         STRIPE_PRO_PLAN_TIER,
@@ -104,7 +106,8 @@ export async function syncProfilePlanFromStripeIfNeeded(
       );
       if (!result.ok) {
         console.error("[stripe] sync PRO failed:", result.error);
-        return { planTier: null, isSubscribed: true, customerId, subscriptionId };
+        // Ne pas mentir à la session : sans écriture DB, l’utilisateur n’est pas Pro côté actions.
+        return { planTier: null, isSubscribed: null, customerId, subscriptionId };
       }
       return {
         planTier: STRIPE_PRO_PLAN_TIER,
@@ -118,7 +121,12 @@ export async function syncProfilePlanFromStripeIfNeeded(
       await setProfileStripeSubscriptionByUserId(userId, subscriptionId, customerId);
     }
 
-    return { planTier: null, isSubscribed: true, customerId, subscriptionId };
+    return {
+      planTier: STRIPE_PRO_PLAN_TIER,
+      isSubscribed: true,
+      customerId,
+      subscriptionId,
+    };
   } catch (error) {
     console.error("[stripe] sync billing failed:", error);
     return { planTier: null, isSubscribed: null, customerId, subscriptionId: null };

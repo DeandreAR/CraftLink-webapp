@@ -9,7 +9,7 @@ import { updateVoiceCaptureAction } from "@/app/actions/dashboard";
 import { DashboardButton } from "@/components/dashboard/DashboardButton";
 import type { DashboardDictionary } from "@/i18n/types";
 import type { Locale } from "@/i18n/config";
-import { onboardingPath } from "@/lib/auth/paths";
+import { abonnementPath } from "@/lib/auth/paths";
 
 type VoiceCaptureSettingProps = {
   profile: Profile;
@@ -81,7 +81,7 @@ export function VoiceCaptureSetting({ profile, copy, locale }: VoiceCaptureSetti
         <div className="mt-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 px-3 py-3">
           <p className="text-xs leading-relaxed text-slate-500">{v.lockedHint}</p>
           <DashboardButton
-            href={onboardingPath(locale, { plan: "pro" })}
+            href={abonnementPath(locale)}
             size="sm"
             className="mt-3"
           >

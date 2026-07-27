@@ -25,15 +25,19 @@ export function isTrialActive(
  * Pro si abonnement Stripe actif, essai local encore valide, ou palier PRO
  * posé manuellement / legacy en base (`plan_tier`).
  */
+function isSubscribedFlag(value: unknown): boolean {
+  return value === true || value === "true" || value === 1;
+}
+
 export function isProUser(profile: ProAccessProfile): boolean {
-  if (profile.is_subscribed === true) return true;
+  if (isSubscribedFlag(profile.is_subscribed)) return true;
   if (isTrialActive(profile.trial_ends_at)) return true;
   const tier = String(profile.plan_tier ?? "").trim().toUpperCase();
   return tier === "PRO" || tier === "EARLY_BIRD" || tier === "EARLY BIRD";
 }
 
 export function isSubscribedPro(profile: ProAccessProfile): boolean {
-  return profile.is_subscribed === true;
+  return isSubscribedFlag(profile.is_subscribed);
 }
 
 export function pickProAccess(profile: ProAccessProfile): ProAccessProfile {

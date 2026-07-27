@@ -151,12 +151,10 @@ export function LinkInBioPage({
                 <>
                   <VitrinePresentation
                     artisan={artisan}
-                    services={services}
                     planTier={planTier}
                     theme={theme}
                     profileSettings={profileSettings}
                     copy={copy}
-                    servicesSurDevisLabel={copy.services.surDevis}
                     onOpenDetails={openDetails}
                     identityOnly
                     onDarkCover={onDarkCover}
@@ -189,12 +187,10 @@ export function LinkInBioPage({
                   ) : (
                     <VitrinePresentation
                       artisan={artisan}
-                      services={services}
                       planTier={planTier}
                       theme={theme}
                       profileSettings={profileSettings}
                       copy={copy}
-                      servicesSurDevisLabel={copy.services.surDevis}
                       onOpenDetails={openDetails}
                       hideIdentity
                       onDarkCover={onDarkCover}
@@ -204,12 +200,10 @@ export function LinkInBioPage({
               ) : (
                 <VitrinePresentation
                   artisan={artisan}
-                  services={services}
                   planTier={planTier}
                   theme={theme}
                   profileSettings={profileSettings}
                   copy={copy}
-                  servicesSurDevisLabel={copy.services.surDevis}
                   onOpenDetails={openDetails}
                   onDarkCover={onDarkCover}
                 />

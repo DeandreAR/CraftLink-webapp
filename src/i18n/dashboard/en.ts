@@ -519,6 +519,31 @@ export const dashboardEn: DashboardDictionary = {
     copyPageUrl: "Copy my page URL",
     pageUrlCopied: "URL copied!",
     editPage: "Edit page",
+    pageSlug: {
+      edit: "Change URL",
+      cancel: "Cancel",
+      confirm: "Confirm change",
+      saving: "Updating…",
+      saved: "URL updated: {slug}. The old address no longer works.",
+      saveError: "Could not change the URL. Please try again.",
+      warning:
+        "Warning: the old URL will stop working immediately. Limit: 2 changes every 12 months.",
+      inputLabel: "New address",
+      checking: "Checking…",
+      available: "This address is available.",
+      unchanged: "This is already your current URL.",
+      quotaHint: "Changes left: {remaining} / {max} (over 12 months).",
+      quotaReached: "Limit reached: max 2 changes over 12 months.",
+      nextAvailable: "Next change available on {date}.",
+      errors: {
+        empty: "Enter an address.",
+        tooShort: "Minimum 3 characters.",
+        tooLong: "Maximum 48 characters.",
+        invalidChars: "Letters, numbers and hyphens only.",
+        reserved: "This address is reserved.",
+        taken: "This address is already taken.",
+      },
+    },
     voiceCapture: {
       title: "Voice capture",
       description:

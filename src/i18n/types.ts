@@ -575,6 +575,30 @@ export type DashboardDictionary = {
     copyPageUrl: string;
     pageUrlCopied: string;
     editPage: string;
+    pageSlug: {
+      edit: string;
+      cancel: string;
+      confirm: string;
+      saving: string;
+      saved: string;
+      saveError: string;
+      warning: string;
+      inputLabel: string;
+      checking: string;
+      available: string;
+      unchanged: string;
+      quotaHint: string;
+      quotaReached: string;
+      nextAvailable: string;
+      errors: {
+        empty: string;
+        tooShort: string;
+        tooLong: string;
+        invalidChars: string;
+        reserved: string;
+        taken: string;
+      };
+    };
     voiceCapture: {
       title: string;
       description: string;

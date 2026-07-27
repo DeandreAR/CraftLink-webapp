@@ -519,6 +519,31 @@ export const dashboardFr: DashboardDictionary = {
     copyPageUrl: "Copier l'URL de ma page",
     pageUrlCopied: "URL copiée !",
     editPage: "Modifier la page",
+    pageSlug: {
+      edit: "Changer l’URL",
+      cancel: "Annuler",
+      confirm: "Confirmer le changement",
+      saving: "Mise à jour…",
+      saved: "URL mise à jour : {slug}. L’ancienne adresse ne fonctionne plus.",
+      saveError: "Impossible de changer l’URL. Réessayez.",
+      warning:
+        "Attention : l’ancienne URL sera immédiatement inutilisable. Quota : 2 changements maximum sur 12 mois.",
+      inputLabel: "Nouvelle adresse",
+      checking: "Vérification…",
+      available: "Cette adresse est disponible.",
+      unchanged: "C’est déjà votre URL actuelle.",
+      quotaHint: "Changements restants : {remaining} / {max} (sur 12 mois).",
+      quotaReached: "Quota atteint : 2 changements max sur 12 mois.",
+      nextAvailable: "Prochain changement possible le {date}.",
+      errors: {
+        empty: "Indiquez une adresse.",
+        tooShort: "Minimum 3 caractères.",
+        tooLong: "Maximum 48 caractères.",
+        invalidChars: "Lettres, chiffres et tirets uniquement.",
+        reserved: "Cette adresse est réservée.",
+        taken: "Cette adresse est déjà prise.",
+      },
+    },
     voiceCapture: {
       title: "Capture vocale",
       description:

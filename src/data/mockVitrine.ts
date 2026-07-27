@@ -151,7 +151,7 @@ const SETTINGS_ESSENTIAL: VitrineProfileSettings = {
     showProSelection: false,
     proSelectionTitle: "La Sélection Pro",
     showPortfolioGallery: true,
-    showServicesOnPresentation: true,
+    showServicesOnPresentation: false,
     showUrgentButton: true,
     contentBlockMode: "interventions",
   },

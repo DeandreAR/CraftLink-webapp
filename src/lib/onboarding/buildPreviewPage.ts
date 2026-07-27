@@ -168,7 +168,7 @@ export function buildOnboardingPreviewProps(
         showProSelection: plan === "PRO" && proSelectionEnabled,
         proSelectionTitle,
         showPortfolioGallery: hasPortfolio,
-        showServicesOnPresentation: vitrineServices.length > 0,
+        showServicesOnPresentation: false,
         showUrgentButton: resolveShowUrgentButton(metierKey, profile.urgencyCtaEnabled),
         contentBlockMode: useAbout ? "about" : "interventions",
       },

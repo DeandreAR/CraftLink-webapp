@@ -15,6 +15,8 @@ export type Profile = {
   full_name: string | null;
   whatsapp_number: string | null;
   page_slug: string | null;
+  /** Dates ISO des changements d’URL (quota 2 / 12 mois). */
+  page_slug_change_dates?: string[];
   onboarding_completed_at: string | null;
   whatsapp_clicks_this_month?: number;
   whatsapp_clicks_month_key?: string | null;

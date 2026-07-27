@@ -12,8 +12,9 @@ export function shouldShowDelaySelection(
   return metierFields?.showUrgency ?? true;
 }
 
+/** Prestations uniquement dans les formulaires devis / question — pas sur la présentation. */
 export function shouldShowServices(intent: VitrineOpenIntent): boolean {
-  return intent !== "urgent";
+  return intent === "quote" || intent === "info";
 }
 
 export function areServicesRequired(_intent: VitrineOpenIntent): boolean {

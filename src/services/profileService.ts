@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { AuthResult } from "@/domain/auth";
 import type { CreateProfileInput, Profile } from "@/domain/profile";
 import { parseStoredVitrineConfig } from "@/domain/vitrinePresentation";
+import { parsePageSlugChangeDates } from "@/domain/pageSlugQuota";
 import { normalizeCertifications } from "@/lib/profile/normalizeCertifications";
 import {
   DEFAULT_PLAN_TIER,
@@ -20,6 +21,7 @@ const PROFILE_COLUMNS = [
   "whatsapp_number",
   "plan_tier",
   "page_slug",
+  "page_slug_change_dates",
   "onboarding_completed_at",
   "whatsapp_clicks_this_month",
   "whatsapp_clicks_month_key",
@@ -54,6 +56,7 @@ function mapProfile(row: Record<string, unknown>): Profile {
     full_name: (row.full_name as string | null) ?? null,
     whatsapp_number: (row.whatsapp_number as string | null) ?? null,
     page_slug: (row.page_slug as string | null) ?? null,
+    page_slug_change_dates: parsePageSlugChangeDates(row.page_slug_change_dates),
     onboarding_completed_at: (row.onboarding_completed_at as string | null) ?? null,
     whatsapp_clicks_this_month:
       typeof row.whatsapp_clicks_this_month === "number"

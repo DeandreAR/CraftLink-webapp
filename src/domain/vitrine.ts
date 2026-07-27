@@ -43,7 +43,10 @@ export type VitrineVisibilitySettings = {
   showProSelection: boolean;
   /** Titre de l’onglet Sélection Pro. */
   proSelectionTitle: string;
-  /** Affiche la liste des prestations sur la page de présentation (pas le formulaire). */
+  /**
+   * Legacy — toujours `false`.
+   * Les prestations s’affichent uniquement dans les formulaires devis / question.
+   */
   showServicesOnPresentation: boolean;
   /** Bouton « Signaler une urgence » — dépend du métier (voir `metierSupportsUrgencyCta`). */
   showUrgentButton: boolean;
