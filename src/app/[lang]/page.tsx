@@ -9,6 +9,9 @@ type LangPageProps = {
   params: Promise<{ lang: string }>;
 };
 
+/** ISR — landing localisée. */
+export const revalidate = 600;
+
 export async function generateMetadata({
   params,
 }: LangPageProps): Promise<Metadata> {

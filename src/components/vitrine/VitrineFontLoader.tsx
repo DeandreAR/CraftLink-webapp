@@ -11,8 +11,19 @@ type VitrineFontLoaderProps = {
   fontId?: string | null;
 };
 
+function ensurePreconnect(href: string, crossOrigin?: string) {
+  const existing = document.querySelector(`link[data-vitrine-preconnect="${href}"]`);
+  if (existing) return;
+  const link = document.createElement("link");
+  link.rel = "preconnect";
+  link.href = href;
+  if (crossOrigin) link.crossOrigin = crossOrigin;
+  link.dataset.vitrinePreconnect = href;
+  document.head.appendChild(link);
+}
+
 /**
- * Charge la Google Font de la vitrine (page publique + aperçu).
+ * Charge la Google Font de la vitrine (page publique + aperçu) avec display=swap.
  */
 export function VitrineFontLoader({ fontId }: VitrineFontLoaderProps) {
   useEffect(() => {
@@ -21,6 +32,9 @@ export function VitrineFontLoader({ fontId }: VitrineFontLoaderProps) {
     const href = buildGoogleFontsHref([id]);
     const existing = document.querySelector(`link[data-vitrine-font="${id}"]`);
     if (existing) return;
+
+    ensurePreconnect("https://fonts.googleapis.com");
+    ensurePreconnect("https://fonts.gstatic.com", "anonymous");
 
     const link = document.createElement("link");
     link.rel = "stylesheet";

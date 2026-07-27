@@ -26,6 +26,7 @@ import { VitrinePresentation } from "@/components/vitrine/VitrinePresentation";
 import { VitrineProfileHero } from "@/components/vitrine/VitrineProfileHero";
 import { VitrineProSelectionPanel } from "@/components/vitrine/VitrineProSelectionPanel";
 import { VitrinePageViewTracker } from "@/lib/analytics/trackVitrineEvent";
+import { OptimizedRemoteImage } from "@/components/media/OptimizedRemoteImage";
 
 export type LinkInBioPageProps = {
   artisan: ArtisanVitrineProfile;
@@ -102,12 +103,15 @@ export function LinkInBioPage({
     window.setTimeout(() => setTabLoading(false), 180);
   };
 
+  const shellHasRemoteCoverImage = fullPageBg && Boolean(artisan.media.bannerUrl);
   const shellStyle = {
     ...vitrineThemeStyle(theme),
     color: "var(--v-text)",
     ...(theme.fontFamily ? { fontFamily: theme.fontFamily } : {}),
     ...(fullPageBg
-      ? resolveVitrineCoverStyle(artisan.media)
+      ? shellHasRemoteCoverImage
+        ? { backgroundColor: "#111111" }
+        : resolveVitrineCoverStyle(artisan.media)
       : { backgroundColor: "#ffffff" }),
   };
 
@@ -124,16 +128,27 @@ export function LinkInBioPage({
       <div
         className={
           embedded
-            ? `mx-auto flex w-full max-w-md flex-col overflow-x-hidden ${
+            ? `relative mx-auto flex w-full max-w-md flex-col overflow-x-hidden ${
                 fullPageBg ? "min-h-full" : "bg-white"
               }`
-            : `mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden font-sans tracking-tight shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px] ${
+            : `relative mx-auto flex min-h-screen w-full max-w-md flex-col overflow-x-hidden font-sans tracking-tight shadow-[0_4px_24px_rgba(0,0,0,0.08),0_16px_48px_rgba(0,0,0,0.1)] sm:my-3 sm:min-h-[calc(100dvh-1.5rem)] sm:rounded-[28px] ${
                 fullPageBg ? "" : "bg-white"
               }`
         }
         style={shellStyle}
         data-vitrine-cover={fullPageBg ? (lightCover ? "light" : "dark") : undefined}
       >
+        {shellHasRemoteCoverImage && artisan.media.bannerUrl ? (
+          <OptimizedRemoteImage
+            src={artisan.media.bannerUrl}
+            alt=""
+            fill
+            priority
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 448px"
+            className="pointer-events-none absolute inset-0 -z-0 object-cover object-center"
+          />
+        ) : null}
         <VitrineProfileHero artisan={artisan} showSocialLinks={showSocial} />
 
         <div

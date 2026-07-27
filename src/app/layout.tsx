@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Lexend } from "next/font/google";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { CookieConsentRoot } from "@/components/consent/CookieConsentRoot";
+import { getResourcePreconnectOrigins } from "@/lib/seo/preconnectOrigins";
 import { buildDefaultSiteMetadata } from "@/lib/seo/siteMetadata";
 import "./globals.css";
 
@@ -9,6 +10,7 @@ const lexend = Lexend({
   variable: "--font-lexend",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = buildDefaultSiteMetadata({
@@ -28,11 +30,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const preconnectOrigins = getResourcePreconnectOrigins();
+
   return (
     <html lang="fr" className={`${lexend.variable} h-full antialiased`}>
+      <head>
+        {preconnectOrigins.map((origin) => (
+          <link key={origin} rel="preconnect" href={origin} crossOrigin="anonymous" />
+        ))}
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
+      </head>
       <body className="min-h-full font-sans">
-        <MicrosoftClarity />
         {children}
+        <MicrosoftClarity />
         <CookieConsentRoot />
       </body>
     </html>

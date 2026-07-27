@@ -40,6 +40,8 @@ function ProfileAvatar({
           height={img}
           className="h-full w-full object-cover"
           sizes={`${img}px`}
+          priority={size === "lg"}
+          fetchPriority={size === "lg" ? "high" : "auto"}
         />
       </div>
     </div>
@@ -49,7 +51,7 @@ function ProfileAvatar({
 function RealisationThumb({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative aspect-square overflow-hidden bg-neutral-100">
-      <Image src={src} alt={alt} fill className="object-cover" sizes="80px" />
+      <Image src={src} alt={alt} fill className="object-cover" sizes="80px" priority={false} />
     </div>
   );
 }

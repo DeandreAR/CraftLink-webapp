@@ -1,5 +1,6 @@
 import type { ArtisanVitrineProfile } from "@/domain/vitrine";
 import { normalizeHeaderLayoutType } from "@/domain/recommendedProduct";
+import { OptimizedRemoteImage } from "@/components/media/OptimizedRemoteImage";
 import {
   isFullPageBackgroundLayout,
   isLightVitrineCover,
@@ -54,16 +55,26 @@ function HeaderBackground({
 
   if (media.bannerUrl) {
     return (
-      <div
-        className={`w-full bg-cover bg-[center_22%] ${heightClass}`}
-        style={{ backgroundImage: `url(${media.bannerUrl})` }}
-        role="img"
-        aria-label="Bannière"
-      />
+      <div className={`relative w-full overflow-hidden ${heightClass}`} role="img" aria-label="Bannière">
+        <OptimizedRemoteImage
+          src={media.bannerUrl}
+          alt=""
+          fill
+          priority
+          fetchPriority="high"
+          sizes="(max-width: 768px) 100vw, 448px"
+          className="object-cover object-[center_22%]"
+        />
+      </div>
     );
   }
 
   const tiles = media.bannerCollage ?? [null, null, null];
+  const collageSlots: Array<{ index: 0 | 1 | 2; spanClass: string }> = [
+    { index: 0, spanClass: "" },
+    { index: 2, spanClass: "row-span-2" },
+    { index: 1, spanClass: "" },
+  ];
 
   return (
     <div
@@ -71,24 +82,31 @@ function HeaderBackground({
       role="img"
       aria-label="Bannière"
     >
-      <div
-        className="bg-cover bg-center"
-        style={{
-          backgroundImage: tiles[0] ? `url(${tiles[0]})` : COLLAGE_PLACEHOLDERS[0],
-        }}
-      />
-      <div
-        className="row-span-2 bg-cover bg-center"
-        style={{
-          backgroundImage: tiles[2] ? `url(${tiles[2]})` : COLLAGE_PLACEHOLDERS[2],
-        }}
-      />
-      <div
-        className="bg-cover bg-center"
-        style={{
-          backgroundImage: tiles[1] ? `url(${tiles[1]})` : COLLAGE_PLACEHOLDERS[1],
-        }}
-      />
+      {collageSlots.map(({ index, spanClass }) => {
+        const src = tiles[index];
+        if (src) {
+          return (
+            <div key={index} className={`relative overflow-hidden ${spanClass}`}>
+              <OptimizedRemoteImage
+                src={src}
+                alt=""
+                fill
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                sizes="(max-width: 768px) 50vw, 224px"
+                className="object-cover object-center"
+              />
+            </div>
+          );
+        }
+        return (
+          <div
+            key={index}
+            className={`bg-cover bg-center ${spanClass}`}
+            style={{ backgroundImage: COLLAGE_PLACEHOLDERS[index] }}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -107,12 +125,19 @@ function AvatarBlock({
 
   if (media.avatarUrl) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={media.avatarUrl}
-        alt=""
-        className={`h-[7.25rem] w-[7.25rem] rounded-full object-cover object-[center_18%] ${borderClass}`}
-      />
+      <div
+        className={`relative h-[7.25rem] w-[7.25rem] overflow-hidden rounded-full ${borderClass}`}
+      >
+        <OptimizedRemoteImage
+          src={media.avatarUrl}
+          alt=""
+          fill
+          priority
+          fetchPriority="high"
+          sizes="116px"
+          className="object-cover object-[center_18%]"
+        />
+      </div>
     );
   }
 
@@ -181,29 +206,43 @@ export function VitrineProfileHero({
   }
 
   if (layout === "brand_cover") {
+    const coverHasImage = Boolean(media.bannerUrl);
     return (
       <div className="relative overflow-hidden">
         <div
-          className="flex min-h-[11.5rem] flex-col items-center justify-center px-5 py-10 text-center sm:min-h-[13rem]"
-          style={resolveVitrineCoverStyle(media)}
+          className="relative flex min-h-[11.5rem] flex-col items-center justify-center px-5 py-10 text-center sm:min-h-[13rem]"
+          style={coverHasImage ? undefined : resolveVitrineCoverStyle(media)}
         >
-          <p
-            className={`text-[1.75rem] font-bold leading-[1.1] tracking-[-0.03em] sm:text-[2rem] ${
-              light ? "text-neutral-900" : "text-white"
-            }`}
-          >
-            {artisan.businessName}
-          </p>
-          {artisan.tradeLabel ? (
+          {coverHasImage && media.bannerUrl ? (
+            <OptimizedRemoteImage
+              src={media.bannerUrl}
+              alt=""
+              fill
+              priority
+              fetchPriority="high"
+              sizes="(max-width: 768px) 100vw, 448px"
+              className="object-cover object-center"
+            />
+          ) : null}
+          <div className="relative z-10">
             <p
-              className={`mt-2 text-sm font-medium ${
-                light ? "text-neutral-700" : "text-white/85"
+              className={`text-[1.75rem] font-bold leading-[1.1] tracking-[-0.03em] sm:text-[2rem] ${
+                light ? "text-neutral-900" : "text-white"
               }`}
             >
-              {artisan.tradeLabel}
-              {artisan.city ? ` · ${artisan.city}` : ""}
+              {artisan.businessName}
             </p>
-          ) : null}
+            {artisan.tradeLabel ? (
+              <p
+                className={`mt-2 text-sm font-medium ${
+                  light ? "text-neutral-700" : "text-white/85"
+                }`}
+              >
+                {artisan.tradeLabel}
+                {artisan.city ? ` · ${artisan.city}` : ""}
+              </p>
+            ) : null}
+          </div>
         </div>
         {showSocialLinks ? (
           <div className="bg-white px-4 py-4">

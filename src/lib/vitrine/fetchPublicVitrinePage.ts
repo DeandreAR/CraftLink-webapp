@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import type { MockVitrinePage } from "@/data/mockVitrine";
 import { getMockVitrineBySlug } from "@/data/mockVitrine";
 import { parseStoredVitrineConfig } from "@/domain/vitrinePresentation";
@@ -10,16 +11,11 @@ import { listPublicRecommendedProducts } from "@/lib/recommendedProducts/recomme
 import { createAdminClient } from "@/lib/supabase/admin";
 import { mapStoredConfigToVitrinePage } from "@/lib/vitrine/mapProfileToVitrinePage";
 
-/**
- * Charge une vitrine publique : mocks démo d'abord, puis profil Supabase par `page_slug`.
- */
-export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrinePage | null> {
-  const normalized = sanitizePageSlugInput(slug);
-  if (!normalized) return null;
+const VITRINE_REVALIDATE_SECONDS = 300;
 
-  const mock = getMockVitrineBySlug(normalized);
-  if (mock) return mock;
-
+async function loadPublicVitrineFromSupabase(
+  normalized: string,
+): Promise<MockVitrinePage | null> {
   const supabase = createAdminClient();
   if (!supabase) return null;
 
@@ -67,4 +63,25 @@ export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrineP
   }
 
   return page;
+}
+
+/**
+ * Charge une vitrine publique : mocks démo d'abord, puis profil Supabase par `page_slug`.
+ * Résultat mis en cache ISR (5 min) pour accélérer TTFB / LCP.
+ */
+export async function fetchPublicVitrinePage(slug: string): Promise<MockVitrinePage | null> {
+  const normalized = sanitizePageSlugInput(slug);
+  if (!normalized) return null;
+
+  const mock = getMockVitrineBySlug(normalized);
+  if (mock) return mock;
+
+  return unstable_cache(
+    () => loadPublicVitrineFromSupabase(normalized),
+    ["public-vitrine", normalized],
+    {
+      revalidate: VITRINE_REVALIDATE_SECONDS,
+      tags: [`vitrine:${normalized}`],
+    },
+  )();
 }

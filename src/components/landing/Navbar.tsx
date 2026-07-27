@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { LocaleSwitcher } from "@/components/i18n/LocaleSwitcher";
@@ -226,13 +227,15 @@ export function Navbar({ lang, labels, hiddenSections = [] }: NavbarProps) {
           <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center gap-2 px-4 md:justify-between md:gap-4 md:px-6">
             <div className="flex min-w-0 items-center gap-2">
               <Link href={homeHref} className="inline-flex shrink-0 items-center" aria-label="CraftLink">
-                <img
+                <Image
                   src="/images/logo_main.png"
                   alt="CraftLink"
-                  width={1731}
-                  height={350}
+                  width={173}
+                  height={35}
                   className="block h-7 w-auto md:h-8"
-                  decoding="async"
+                  priority
+                  fetchPriority="high"
+                  sizes="(max-width: 768px) 112px, 128px"
                 />
               </Link>
 

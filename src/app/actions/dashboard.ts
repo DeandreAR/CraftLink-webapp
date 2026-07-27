@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { resolveCraftlinkPlanFromAccess } from "@/lib/dashboard/planAccess";
 import { isProUser } from "@/domain/proAccess";
@@ -78,6 +78,7 @@ export async function updateDashboardProfileAction(
   if (slug) {
     revalidatePath(`/${slug}`);
     revalidatePath(`/v/${slug}`);
+    revalidateTag(`vitrine:${slug}`, "max");
   }
 
   return { ok: true };

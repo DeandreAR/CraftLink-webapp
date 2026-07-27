@@ -9,6 +9,7 @@ type LandingHeroRevealProps = {
   delay?: number;
 };
 
+/** Révélation sans opacity:0 initiale — évite de retarder le LCP. */
 export function LandingHeroReveal({
   children,
   className = "",
@@ -19,10 +20,10 @@ export function LandingHeroReveal({
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={reduce ? false : { y: 14 }}
+      animate={{ y: 0 }}
       transition={{
-        duration: 0.65,
+        duration: 0.55,
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}

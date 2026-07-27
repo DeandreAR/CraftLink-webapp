@@ -4,6 +4,9 @@ import { defaultLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
 import { buildPageOpenGraph } from "@/lib/seo/siteMetadata";
 
+/** ISR — régénère la landing toutes les 10 minutes. */
+export const revalidate = 600;
+
 export async function generateMetadata(): Promise<Metadata> {
   const dict = await getDictionary(defaultLocale);
   return {

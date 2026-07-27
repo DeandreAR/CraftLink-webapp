@@ -13,6 +13,9 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+/** ISR vitrine — contenu artisan rafraîchi toutes les 5 minutes. */
+export const revalidate = 300;
+
 /**
  * Métadonnées dynamiques pour l’URL publique `getcraftlink.com/{username}`.
  * (Rewrite proxy → cette route interne `/v/[slug]`.)
