@@ -197,6 +197,8 @@ export function LinkInBioPage({
                       searchPlaceholder={copy.presentation.proSelectionSearch}
                       emptyLabel={copy.presentation.proSelectionEmpty}
                       ctaLabel={copy.presentation.proSelectionCta}
+                      badgeAmazonLabel={copy.presentation.proSelectionBadgeAmazon}
+                      badgeAffiliateLabel={copy.presentation.proSelectionBadgeAffiliate}
                       pageSlug={artisan.slug}
                     />
                   ) : (

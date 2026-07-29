@@ -1,4 +1,44 @@
-/** Item unifié « La Sélection Pro » (marque, produit, lien affilié). */
+/** Type de lien Sélection Pro (Amazon distinct de l’affiliation générique). */
+export type RecommendedLinkKind = "amazon" | "affiliate" | "other";
+
+export const RECOMMENDED_LINK_KINDS: RecommendedLinkKind[] = [
+  "amazon",
+  "affiliate",
+  "other",
+];
+
+export function isRecommendedLinkKind(value: unknown): value is RecommendedLinkKind {
+  return value === "amazon" || value === "affiliate" || value === "other";
+}
+
+/** Détecte Amazon depuis l’URL (fallback si link_kind non renseigné). */
+export function detectRecommendedLinkKind(url: string): RecommendedLinkKind {
+  try {
+    const host = new URL(url.trim()).hostname.toLowerCase();
+    if (
+      host.includes("amazon.") ||
+      host.includes("amzn.") ||
+      host === "a.co" ||
+      host.endsWith(".a.co")
+    ) {
+      return "amazon";
+    }
+  } catch {
+    // ignore
+  }
+  return "other";
+}
+
+export function normalizeRecommendedLinkKind(
+  value: unknown,
+  url?: string,
+): RecommendedLinkKind {
+  if (isRecommendedLinkKind(value)) return value;
+  if (url?.trim()) return detectRecommendedLinkKind(url);
+  return "other";
+}
+
+/** Item unifié « La Sélection Pro » (marque, produit, Amazon, affiliation). */
 export type RecommendedItem = {
   id: string;
   profile_id: string;
@@ -6,6 +46,8 @@ export type RecommendedItem = {
   description: string | null;
   discount_code: string | null;
   url: string;
+  /** Amazon | affiliation | autre (marque, boutique…). */
+  link_kind: RecommendedLinkKind;
   image_url: string | null;
   position: number;
   is_active: boolean;
@@ -17,6 +59,7 @@ export type RecommendedItemInput = {
   description?: string | null;
   discount_code?: string | null;
   url: string;
+  link_kind?: RecommendedLinkKind;
   image_url?: string | null;
   is_active?: boolean;
 };

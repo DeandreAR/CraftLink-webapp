@@ -94,16 +94,9 @@
   },
   "hero": {
     "pill": "Built for building trades",
-    "titleBefore": "Your showcase page and contact link",
-    "rotatingWords": [
-      "for your SMS",
-      "for WhatsApp",
-      "on Google",
-      "for your job sites"
-    ],
-    "titleAfter": "kept ultra-simple.",
+    "title": "Your contact link and showcase page to stop the message chaos on Instagram.",
     "typingTitle": {
-      "intro": "One link to centralise every client request from ",
+      "intro": "Your contact link and showcase page to stop the message chaos on ",
       "channels": [
         { "label": "Instagram", "color": "#E4405F" },
         { "label": "Facebook", "color": "#1877F2" },
@@ -140,7 +133,7 @@
       "highlightLabels": ["Quotes", "Reviews", "Area"],
       "reelsTab": "Reels"
     },
-    "lead": "Your showcase page sorts and organises job requests on its own. CraftLink helps you win better-qualified leads — never lose a contact request again. Fewer scattered messages, more time for you and more serious clients.",
+    "lead": "One unique contact link that automatically filters and qualifies your job requests. CraftLink helps you win better-qualified leads — never lose a contact request again. Fewer scattered messages, more time for you and more serious clients.",
     "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
     "ctaSecondary": "See features",

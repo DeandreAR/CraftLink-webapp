@@ -94,16 +94,9 @@
   },
   "hero": {
     "pill": "Conçu pour les artisans du bâtiment",
-    "titleBefore": "Votre page vitrine et lien de contact",
-    "rotatingWords": [
-      "pour vos SMS",
-      "pour WhatsApp",
-      "sur Google",
-      "pour vos Chantiers"
-    ],
-    "titleAfter": "ultra-simple.",
+    "title": "Votre lien de contact et page vitrine pour stopper le chaos des messages sur Instagram.",
     "typingTitle": {
-      "intro": "Un lien unique pour centraliser toutes vos demandes clients sur ",
+      "intro": "Votre lien de contact et page vitrine pour stopper le chaos des messages sur ",
       "channels": [
         { "label": "Instagram", "color": "#E4405F" },
         { "label": "Gmail", "color": "#f46c09" },
@@ -140,7 +133,7 @@
       "highlightLabels": ["Devis", "Avis", "Zone"],
       "reelsTab": "Reels"
     },
-    "lead": "Votre page vitrine trie et organise les demandes de chantiers tout seul. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
+    "lead": "Un lien de contact unique qui filtre et qualifie vos demandes de chantiers automatiquement. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
     "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
     "ctaPrimary": "Créer ma page gratuitement",
     "ctaSecondary": "Voir les fonctionnalités",

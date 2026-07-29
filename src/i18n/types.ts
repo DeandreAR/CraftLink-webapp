@@ -701,7 +701,13 @@ export type DashboardDictionary = {
       formDiscount: string;
       formImage: string;
       formUrl: string;
+      formLinkKind: string;
+      formLinkKindAmazon: string;
+      formLinkKindAffiliate: string;
+      formLinkKindOther: string;
       formActive: string;
+      badgeAmazon: string;
+      badgeAffiliate: string;
       uploading: string;
       saving: string;
       error: string;
@@ -905,9 +911,8 @@ export type HeroAsideShowcaseDictionary = {
 
 export type HeroDictionary = {
   pill: string;
-  titleBefore: string;
-  rotatingWords: string[];
-  titleAfter: string;
+  /** Titre H1 principal du hero. */
+  title: string;
   typingTitle: HeroTypingTitleDictionary;
   asideShowcaseAlt: string;
   asideShowcase: HeroAsideShowcaseDictionary;
@@ -1000,6 +1005,8 @@ export type VitrineDictionary = {
     proSelectionSearch: string;
     proSelectionEmpty: string;
     proSelectionCta: string;
+    proSelectionBadgeAmazon: string;
+    proSelectionBadgeAffiliate: string;
     reportUrgency: string;
     followersLabel: string;
     urgencyWhatsAppMessage: string;

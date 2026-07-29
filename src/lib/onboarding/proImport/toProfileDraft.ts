@@ -23,6 +23,7 @@ export function mappedImportToProfileDraft(
     tiktok: "",
     threads: "",
     snapchat: "",
+    youtube: "",
     googleBusinessUrl:
       mapped.platform === "google" ? (mapped.googleBusinessUrl?.trim() ?? "") : "",
   };

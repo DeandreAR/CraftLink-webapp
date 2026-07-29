@@ -8,12 +8,16 @@ import {
   reorderRecommendedProductsAction,
   updateRecommendedProductAction,
 } from "@/app/actions/recommendedProducts";
-import type { RecommendedItem } from "@/domain/recommendedProduct";
-import type { OnboardingProfileDraft } from "@/domain/onboarding";
+import type {
+  RecommendedItem,
+  RecommendedLinkKind,
+} from "@/domain/recommendedProduct";
 import {
   DEFAULT_PRO_SELECTION_TITLE,
+  detectRecommendedLinkKind,
   MAX_RECOMMENDED_ITEMS,
 } from "@/domain/recommendedProduct";
+import type { OnboardingProfileDraft } from "@/domain/onboarding";
 import { compressGalleryImage } from "@/lib/portfolio/compressGalleryImage";
 import { uploadGalleryImage } from "@/lib/portfolio/galleryStorage";
 import { DashboardButton } from "@/components/dashboard/DashboardButton";
@@ -41,7 +45,13 @@ type ProSelectionManagerCopy = {
   formDiscount: string;
   formImage: string;
   formUrl: string;
+  formLinkKind: string;
+  formLinkKindAmazon: string;
+  formLinkKindAffiliate: string;
+  formLinkKindOther: string;
   formActive: string;
+  badgeAmazon: string;
+  badgeAffiliate: string;
   uploading: string;
   saving: string;
   error: string;
@@ -61,6 +71,7 @@ type FormState = {
   discount_code: string;
   image_url: string;
   url: string;
+  link_kind: RecommendedLinkKind;
   is_active: boolean;
 };
 
@@ -70,8 +81,15 @@ const emptyForm = (): FormState => ({
   discount_code: "",
   image_url: "",
   url: "",
+  link_kind: "other",
   is_active: true,
 });
+
+function linkKindLabel(kind: RecommendedLinkKind, copy: ProSelectionManagerCopy): string {
+  if (kind === "amazon") return copy.badgeAmazon;
+  if (kind === "affiliate") return copy.badgeAffiliate;
+  return copy.formLinkKindOther;
+}
 
 export function ProSelectionManager({
   profileDraft,
@@ -123,6 +141,7 @@ export function ProSelectionManager({
       discount_code: item.discount_code ?? "",
       image_url: item.image_url ?? "",
       url: item.url,
+      link_kind: item.link_kind,
       is_active: item.is_active,
     });
     setFeedback(null);
@@ -157,6 +176,7 @@ export function ProSelectionManager({
         discount_code: form.discount_code || null,
         image_url: form.image_url || null,
         url: form.url,
+        link_kind: form.link_kind,
         is_active: form.is_active,
       };
 
@@ -264,7 +284,14 @@ export function ProSelectionManager({
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-neutral-900">{item.title}</p>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <p className="truncate text-sm font-semibold text-neutral-900">{item.title}</p>
+                  {item.link_kind !== "other" ? (
+                    <span className="rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                      {linkKindLabel(item.link_kind, copy)}
+                    </span>
+                  ) : null}
+                </div>
                 <p className="truncate text-[11px] text-neutral-500">
                   {[item.discount_code, item.url].filter(Boolean).join(" · ")}
                 </p>
@@ -334,7 +361,22 @@ export function ProSelectionManager({
               <input
                 className={authFieldClassName}
                 value={form.url}
-                onChange={(e) => setForm((p) => ({ ...p, url: e.target.value }))}
+                onChange={(e) => {
+                  const url = e.target.value;
+                  setForm((p) => {
+                    const detected = detectRecommendedLinkKind(url);
+                    return {
+                      ...p,
+                      url,
+                      link_kind:
+                        detected === "amazon" && p.link_kind !== "affiliate"
+                          ? "amazon"
+                          : p.link_kind === "amazon" && detected !== "amazon"
+                            ? "other"
+                            : p.link_kind,
+                    };
+                  });
+                }}
                 placeholder="https://…"
               />
             </div>
@@ -347,6 +389,26 @@ export function ProSelectionManager({
                 placeholder="Ex. -10% code CRAFT10"
               />
             </div>
+          </div>
+          <div>
+            <label className={authLabelClassName} htmlFor="pro-link-kind">
+              {copy.formLinkKind}
+            </label>
+            <select
+              id="pro-link-kind"
+              className={authFieldClassName}
+              value={form.link_kind}
+              onChange={(e) =>
+                setForm((p) => ({
+                  ...p,
+                  link_kind: e.target.value as RecommendedLinkKind,
+                }))
+              }
+            >
+              <option value="amazon">{copy.formLinkKindAmazon}</option>
+              <option value="affiliate">{copy.formLinkKindAffiliate}</option>
+              <option value="other">{copy.formLinkKindOther}</option>
+            </select>
           </div>
           <div>
             <label className={authLabelClassName}>{copy.formImage}</label>

@@ -185,6 +185,7 @@ function parseSocial(raw: unknown): OnboardingSocialDraft {
     tiktok: typeof row.tiktok === "string" ? row.tiktok : base.tiktok,
     threads: typeof row.threads === "string" ? row.threads : base.threads,
     snapchat: typeof row.snapchat === "string" ? row.snapchat : base.snapchat,
+    youtube: typeof row.youtube === "string" ? row.youtube : base.youtube,
     googleBusinessUrl:
       typeof row.googleBusinessUrl === "string" ? row.googleBusinessUrl : base.googleBusinessUrl,
   };
@@ -245,7 +246,14 @@ function parseSocialFollowers(raw: unknown): OnboardingSocialFollowers | undefin
   const row = raw as Record<string, unknown>;
   const result: OnboardingSocialFollowers = {};
 
-  for (const key of ["instagram", "facebook", "tiktok", "threads", "snapchat"] as const) {
+  for (const key of [
+    "instagram",
+    "facebook",
+    "tiktok",
+    "threads",
+    "snapchat",
+    "youtube",
+  ] as const) {
     const entry = row[key];
     if (!entry || typeof entry !== "object") continue;
     const stat = entry as Record<string, unknown>;

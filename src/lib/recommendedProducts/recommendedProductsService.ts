@@ -4,7 +4,10 @@ import type {
   RecommendedItem,
   RecommendedItemInput,
 } from "@/domain/recommendedProduct";
-import { MAX_RECOMMENDED_ITEMS } from "@/domain/recommendedProduct";
+import {
+  MAX_RECOMMENDED_ITEMS,
+  normalizeRecommendedLinkKind,
+} from "@/domain/recommendedProduct";
 import type { VitrineRecommendedProduct } from "@/domain/vitrine";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -15,13 +18,15 @@ export type CreateRecommendedItemOptions = {
 };
 
 function mapRow(row: Record<string, unknown>): RecommendedItem {
+  const url = String(row.url ?? "");
   return {
     id: String(row.id),
     profile_id: String(row.profile_id),
     title: String(row.title ?? ""),
     description: typeof row.description === "string" ? row.description : null,
     discount_code: typeof row.discount_code === "string" ? row.discount_code : null,
-    url: String(row.url ?? ""),
+    url,
+    link_kind: normalizeRecommendedLinkKind(row.link_kind, url),
     image_url: typeof row.image_url === "string" ? row.image_url : null,
     position: Number(row.position ?? 0),
     is_active: row.is_active !== false,
@@ -39,6 +44,7 @@ export function toVitrineRecommendedItem(
     brand: null,
     imageUrl: item.image_url,
     url: item.url,
+    linkKind: item.link_kind,
     affiliateUrl: item.url,
     discountCode: item.discount_code,
     priceHint: item.discount_code,
@@ -109,6 +115,8 @@ export async function createRecommendedItem(
     .maybeSingle();
 
   const nextPosition = Number(maxRow?.position ?? -1) + 1;
+  const url = input.url.trim();
+  const linkKind = normalizeRecommendedLinkKind(input.link_kind, url);
 
   const { data, error } = await supabase
     .from("recommended_items")
@@ -117,7 +125,8 @@ export async function createRecommendedItem(
       title: input.title.trim(),
       description: input.description?.trim() || null,
       discount_code: input.discount_code?.trim() || null,
-      url: input.url.trim(),
+      url,
+      link_kind: linkKind,
       image_url: input.image_url?.trim() || null,
       is_active: input.is_active !== false,
       position: nextPosition,
@@ -147,6 +156,7 @@ export async function createRecommendedProduct(
     description: input.description ?? input.brand,
     discount_code: input.discount_code ?? input.price_hint,
     url: input.url || input.affiliate_url || "",
+    link_kind: input.link_kind,
     image_url: input.image_url,
     is_active: input.is_active,
   });
@@ -171,6 +181,20 @@ export async function updateRecommendedItem(
   if (input.image_url !== undefined) patch.image_url = input.image_url?.trim() || null;
   if (input.is_active !== undefined) patch.is_active = input.is_active;
   if (input.position !== undefined) patch.position = input.position;
+
+  if (input.link_kind !== undefined || input.url !== undefined) {
+    let urlForKind = input.url?.trim() ?? "";
+    if (!urlForKind) {
+      const { data: current } = await supabase
+        .from("recommended_items")
+        .select("url")
+        .eq("id", itemId)
+        .eq("profile_id", profileId)
+        .maybeSingle();
+      urlForKind = String(current?.url ?? "");
+    }
+    patch.link_kind = normalizeRecommendedLinkKind(input.link_kind, urlForKind);
+  }
 
   const { data, error } = await supabase
     .from("recommended_items")
@@ -203,6 +227,7 @@ export async function updateRecommendedProduct(
     description: input.description,
     discount_code: input.discount_code ?? input.price_hint,
     url: input.url ?? input.affiliate_url,
+    link_kind: input.link_kind,
     image_url: input.image_url,
     is_active: input.is_active,
     position: input.position,

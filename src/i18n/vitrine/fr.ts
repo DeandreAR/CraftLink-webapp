@@ -9,6 +9,8 @@ export const vitrineFr: VitrineDictionary = {
     proSelectionSearch: "Rechercher un équipement…",
     proSelectionEmpty: "Aucun produit ne correspond à votre recherche.",
     proSelectionCta: "Voir l’offre",
+    proSelectionBadgeAmazon: "Amazon",
+    proSelectionBadgeAffiliate: "Affiliation",
     reportUrgency: "🚨 Signaler une urgence",
     followersLabel: "{count} abonnés",
     urgencyWhatsAppMessage:

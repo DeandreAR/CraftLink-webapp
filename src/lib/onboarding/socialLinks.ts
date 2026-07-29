@@ -48,6 +48,13 @@ const SOCIAL_FIELDS: SocialField[] = [
     label: "Snapchat",
     prefix: "https://snapchat.com/add/",
   },
+  {
+    key: "youtube",
+    networkKey: "youtube",
+    type: "youtube",
+    label: "YouTube",
+    prefix: "https://youtube.com/@",
+  },
 ];
 
 function normalizeHref(raw: string, prefix?: string): string {

@@ -10,6 +10,8 @@ type VitrineProSelectionPanelProps = {
   searchPlaceholder: string;
   emptyLabel: string;
   ctaLabel: string;
+  badgeAmazonLabel?: string;
+  badgeAffiliateLabel?: string;
   pageSlug?: string;
 };
 
@@ -18,6 +20,8 @@ export function VitrineProSelectionPanel({
   searchPlaceholder,
   emptyLabel,
   ctaLabel,
+  badgeAmazonLabel = "Amazon",
+  badgeAffiliateLabel = "Affiliation",
   pageSlug,
 }: VitrineProSelectionPanelProps) {
   const [query, setQuery] = useState("");
@@ -31,6 +35,7 @@ export function VitrineProSelectionPanel({
         product.description ?? "",
         product.discountCode ?? product.priceHint ?? "",
         product.brand ?? "",
+        product.linkKind ?? "",
       ]
         .join(" ")
         .toLowerCase();
@@ -75,24 +80,37 @@ export function VitrineProSelectionPanel({
             const href = product.url || product.affiliateUrl;
             const discount = product.discountCode ?? product.priceHint;
             const image = product.imageUrl?.trim() || null;
+            const kindBadge =
+              product.linkKind === "amazon"
+                ? badgeAmazonLabel
+                : product.linkKind === "affiliate"
+                  ? badgeAffiliateLabel
+                  : null;
 
             return (
               <li
                 key={product.id}
                 className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
               >
-                {image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={image}
-                    alt=""
-                    className="aspect-square w-full object-cover bg-neutral-100"
-                  />
-                ) : (
-                  <div className="flex aspect-square w-full items-center justify-center bg-neutral-100 text-2xl font-bold text-neutral-400">
-                    {product.title.slice(0, 1).toUpperCase()}
-                  </div>
-                )}
+                <div className="relative">
+                  {image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={image}
+                      alt=""
+                      className="aspect-square w-full object-cover bg-neutral-100"
+                    />
+                  ) : (
+                    <div className="flex aspect-square w-full items-center justify-center bg-neutral-100 text-2xl font-bold text-neutral-400">
+                      {product.title.slice(0, 1).toUpperCase()}
+                    </div>
+                  )}
+                  {kindBadge ? (
+                    <span className="absolute left-2 top-2 rounded-md bg-white/95 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-neutral-800 shadow-sm">
+                      {kindBadge}
+                    </span>
+                  ) : null}
+                </div>
                 <div className="flex flex-1 flex-col gap-1.5 p-3">
                   <p className="text-sm font-semibold leading-snug tracking-tight text-neutral-900">
                     {product.title}

@@ -1,4 +1,9 @@
-import type { OnboardingProfileDraft, OnboardingService, ProImportPlatform } from "@/domain/onboarding";
+import {
+  defaultSocialDraft,
+  type OnboardingProfileDraft,
+  type OnboardingService,
+  type ProImportPlatform,
+} from "@/domain/onboarding";
 import { AI_GENERATION_QUOTA_EXCEEDED } from "@/lib/ai/aiGenerationQuotaShared";
 import {
   IMPORT_PROVIDER_ERROR,
@@ -48,12 +53,7 @@ function buildMissingFields(profile: Partial<OnboardingProfileDraft>): ProRequir
     selectedInterventions: profile.selectedInterventions ?? [],
     aboutText: profile.aboutText ?? "",
     social: {
-      instagram: "",
-      facebook: "",
-      tiktok: "",
-      threads: "",
-      snapchat: "",
-      googleBusinessUrl: "",
+      ...defaultSocialDraft(),
       ...profile.social,
     },
     affiliateLinks: profile.affiliateLinks ?? [],

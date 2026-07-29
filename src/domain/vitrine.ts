@@ -1,3 +1,5 @@
+import type { RecommendedLinkKind } from "@/domain/recommendedProduct";
+
 /** Niveau d’abonnement simplifié pour la vitrine publique. */
 export type PublicPlanTier = "ALL_SOURCES" | "PRO";
 
@@ -110,6 +112,8 @@ export type VitrineRecommendedProduct = {
   imageUrl: string | null;
   /** Lien marchand, marque ou affiliation. */
   url: string;
+  /** Type de lien : Amazon, affiliation, autre. */
+  linkKind?: RecommendedLinkKind;
   /** Code promo / réduction affiché. */
   discountCode?: string | null;
   /** @deprecated Prefer description */
@@ -127,6 +131,7 @@ export type SocialLinkType =
   | "tiktok"
   | "threads"
   | "snapchat"
+  | "youtube"
   | "google"
   | "website"
   | "whatsapp";

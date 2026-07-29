@@ -5,7 +5,8 @@ export type SocialNetworkKey =
   | "facebook"
   | "tiktok"
   | "threads"
-  | "snapchat";
+  | "snapchat"
+  | "youtube";
 
 export type SocialFollowerStat = {
   count: number;
@@ -22,6 +23,7 @@ export const SOCIAL_NETWORK_KEYS: SocialNetworkKey[] = [
   "tiktok",
   "threads",
   "snapchat",
+  "youtube",
 ];
 
 export function isSocialNetworkKey(key: string): key is SocialNetworkKey {

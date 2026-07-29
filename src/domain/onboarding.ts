@@ -46,6 +46,7 @@ export type OnboardingSocialDraft = {
   tiktok: string;
   threads: string;
   snapchat: string;
+  youtube: string;
   googleBusinessUrl: string;
 };
 
@@ -157,6 +158,7 @@ export const defaultSocialDraft = (): OnboardingSocialDraft => ({
   tiktok: "",
   threads: "",
   snapchat: "",
+  youtube: "",
   googleBusinessUrl: "",
 });
 

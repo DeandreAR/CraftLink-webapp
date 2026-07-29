@@ -1,5 +1,5 @@
 import { HeroAsideShowcase } from "@/components/landing/HeroAsideShowcase";
-import { HeroRotatingTitle } from "@/components/landing/HeroRotatingTitle";
+import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
 import { LandingCta } from "@/components/landing/LandingCta";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingHeroDiagonalBrush } from "@/components/landing/LandingHeroDiagonalBrush";
@@ -34,11 +34,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               <div className="min-w-0 text-center lg:text-left">
                 <LandingHeroReveal>
                   <p className="lk-eyebrow">{hero.pill}</p>
-                  <HeroRotatingTitle
-                    className="landing-hero-title mt-5 !text-[2rem] leading-[1.08] sm:!text-[2.5rem] md:!text-[3rem] lg:!text-[3.35rem]"
-                    before={hero.titleBefore}
-                    words={hero.rotatingWords}
-                    after={hero.titleAfter}
+                  <HeroTypingTitle
+                    intro={hero.typingTitle.intro}
+                    channels={hero.typingTitle.channels}
                   />
                 </LandingHeroReveal>
 

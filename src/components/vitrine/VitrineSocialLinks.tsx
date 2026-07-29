@@ -7,6 +7,7 @@ import {
   SiSnapchat,
   SiThreads,
   SiTiktok,
+  SiYoutube,
 } from "react-icons/si";
 import type { SocialLinkType, VitrineSocialLink } from "@/domain/vitrine";
 
@@ -17,6 +18,7 @@ const SOCIAL_ICONS: Partial<Record<SocialLinkType, IconType>> = {
   tiktok: SiTiktok,
   threads: SiThreads,
   snapchat: SiSnapchat,
+  youtube: SiYoutube,
   website: LuGlobe,
 };
 
@@ -27,6 +29,7 @@ const VISIBLE_SOCIAL_TYPES: SocialLinkType[] = [
   "tiktok",
   "threads",
   "snapchat",
+  "youtube",
   "website",
 ];
 
