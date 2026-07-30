@@ -165,6 +165,7 @@ export function LeadInboxDetail({
           <div className="mt-2 lg:mt-3">
             <LeadScheduleEditor
               schedule={schedule}
+              lead={{ ...lead, schedule }}
               onChange={handleScheduleChange}
               copy={copy}
             />

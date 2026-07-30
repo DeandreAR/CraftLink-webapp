@@ -1,5 +1,5 @@
 import { HeroAsideShowcase } from "@/components/landing/HeroAsideShowcase";
-import { HeroTypingTitle } from "@/components/landing/HeroTypingTitle";
+import { HeroTypingChannels } from "@/components/landing/HeroTypingChannels";
 import { LandingCta } from "@/components/landing/LandingCta";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingHeroDiagonalBrush } from "@/components/landing/LandingHeroDiagonalBrush";
@@ -34,10 +34,9 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               <div className="min-w-0 text-center lg:text-left">
                 <LandingHeroReveal>
                   <p className="lk-eyebrow">{hero.pill}</p>
-                  <HeroTypingTitle
-                    intro={hero.typingTitle.intro}
-                    channels={hero.typingTitle.channels}
-                  />
+                  <h1 className="lk-display landing-hero-title mt-5 text-[2rem] leading-[1.08] text-black sm:text-[2.5rem] md:text-[3rem] lg:text-[3.35rem]">
+                    {hero.title}
+                  </h1>
                 </LandingHeroReveal>
 
                 <LandingHeroReveal delay={0.08}>
@@ -45,7 +44,11 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                     {hero.lead}
                   </p>
                   <p className="mx-auto mt-3 max-w-lg text-base font-semibold leading-relaxed text-black md:text-[1.05rem] lg:mx-0">
-                    {hero.controlPhrase}
+                    {hero.controlPhrase}{" "}
+                    <HeroTypingChannels
+                      intro={hero.typingTitle.intro}
+                      channels={hero.typingTitle.channels}
+                    />
                   </p>
                 </LandingHeroReveal>
 

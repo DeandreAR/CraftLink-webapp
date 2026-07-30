@@ -168,7 +168,7 @@ const SETTINGS_PRO: VitrineProfileSettings = {
     showSocialLinks: true,
     showStatBadges: true,
     showInterventionTags: true,
-    showCollaborationButton: true,
+    showCollaborationButton: false,
     showAffiliateLinks: false,
     showProSelection: true,
     proSelectionTitle: "La Sélection Pro",

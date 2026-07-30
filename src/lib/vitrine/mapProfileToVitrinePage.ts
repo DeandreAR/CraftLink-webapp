@@ -77,7 +77,7 @@ export function mapStoredConfigToVitrinePage(
       ...preview.profileSettings,
       visibility: {
         ...preview.profileSettings.visibility,
-        showCollaborationButton: planTier === "PRO",
+        showCollaborationButton: false,
         showAffiliateLinks: false,
         showProSelection:
           planTier === "PRO" && preview.profileSettings.visibility.showProSelection,

@@ -11,8 +11,7 @@ type VitrineContentTabsProps = {
 };
 
 /**
- * Segmented control style Linktree : piste sombre + pastille blanche active.
- * Isolé du thème pleine page (contraste garanti).
+ * Switch Contact / Sélection Pro — piste gris clair + pastille blanche active.
  */
 export function VitrineContentTabs({
   contactLabel,
@@ -26,7 +25,7 @@ export function VitrineContentTabs({
   return (
     <div className="relative z-20 mx-4 mt-3 sm:mx-5">
       <div
-        className="grid grid-cols-2 gap-0 rounded-full bg-neutral-950/90 p-1 shadow-[0_8px_24px_rgba(0,0,0,0.18)] ring-1 ring-black/10 backdrop-blur-md"
+        className="grid grid-cols-2 gap-0 rounded-full bg-[#f4f4f5] p-1 ring-1 ring-neutral-200/90"
         role="tablist"
         aria-label="Navigation vitrine"
       >
@@ -65,13 +64,13 @@ function TabButton({
       aria-selected={selected}
       onClick={onClick}
       className={`relative z-0 rounded-full px-3 py-2.5 text-[13px] font-semibold tracking-tight transition-colors sm:text-sm ${
-        selected ? "text-neutral-950" : "text-white/75 hover:text-white"
+        selected ? "text-neutral-950" : "text-neutral-500 hover:text-neutral-800"
       }`}
     >
       {selected ? (
         <motion.span
           layoutId={layoutId}
-          className="absolute inset-0 -z-10 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.18)]"
+          className="absolute inset-0 -z-10 rounded-full bg-white shadow-[0_1px_4px_rgba(0,0,0,0.08)] ring-1 ring-black/5"
           transition={{ type: "spring", stiffness: 420, damping: 32 }}
         />
       ) : null}

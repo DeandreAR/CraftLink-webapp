@@ -26,6 +26,10 @@ export type LeadSchedule = {
   durationPreset: LeadDurationPreset;
   /** Valeur numérique pour minutes ou heures. */
   durationValue?: number;
+  /** Heure de début facultative (HH:mm). Absente → événement journée. */
+  startTime?: string;
+  /** Heure de fin facultative (HH:mm). */
+  endTime?: string;
 };
 
 /** Message vocal client (Whisper + résumé IA). */

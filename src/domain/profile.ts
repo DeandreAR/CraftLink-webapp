@@ -32,6 +32,7 @@ export type Profile = {
   vitrine_presentation?: StoredVitrineConfig | null;
   /** Certifications & diplômes (badges vitrine publique). */
   certifications?: string[];
+  calendar_feed_token?: string | null;
   created_at: string | null;
   updated_at: string | null;
 };

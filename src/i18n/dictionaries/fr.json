@@ -94,18 +94,17 @@
   },
   "hero": {
     "pill": "Conçu pour les artisans du bâtiment",
-    "title": "Votre lien de contact et page vitrine pour stopper le chaos des messages sur Instagram.",
+    "title": "Votre lien de contact et page vitrine pour stopper le chaos des messages.",
     "typingTitle": {
-      "intro": "Votre lien de contact et page vitrine pour stopper le chaos des messages sur ",
+      "intro": "Mettez-le pour ",
       "channels": [
         { "label": "Instagram", "color": "#E4405F" },
-        { "label": "Gmail", "color": "#f46c09" },
-        { "label": "SMS", "color": "#25D366" },
+        { "label": "les SMS", "color": "#25D366" },
         { "label": "Facebook", "color": "#1877F2" },
         { "label": "TikTok", "color": "#FE2C55" },
         { "label": "Snapchat", "color": "#FFFC00" },
         { "label": "Threads", "color": "#000000" },
-        { "label": "QR codes", "color": "#E7E2CA" }
+        { "label": "les QR codes", "color": "#E7E2CA" }
       ]
     },
     "asideShowcaseAlt": "De la bio Instagram à la page getcraftlink.com/lucas_martin : un profil artisan transformé en vitrine CraftLink.",

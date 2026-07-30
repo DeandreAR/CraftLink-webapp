@@ -301,7 +301,7 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
     urgencyCtaEnabled:
       typeof row.urgencyCtaEnabled === "boolean" ? row.urgencyCtaEnabled : undefined,
     proSelectionEnabled:
-      typeof row.proSelectionEnabled === "boolean" ? row.proSelectionEnabled : true,
+      typeof row.proSelectionEnabled === "boolean" ? row.proSelectionEnabled : false,
     proSelectionTitle:
       typeof row.proSelectionTitle === "string" && row.proSelectionTitle.trim()
         ? row.proSelectionTitle.trim()
@@ -401,7 +401,7 @@ export function profileToEditorState(profile: Profile): {
     affiliateLinks: config.profile.affiliateLinks,
     partnerBrands: config.profile.partnerBrands ?? [],
     urgencyCtaEnabled: config.profile.urgencyCtaEnabled,
-    proSelectionEnabled: config.profile.proSelectionEnabled ?? true,
+    proSelectionEnabled: config.profile.proSelectionEnabled === true,
     proSelectionTitle:
       config.profile.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE,
     visual: config.profile.visual,
@@ -449,7 +449,7 @@ export function editorStateToStoredConfig(
       affiliateLinks: profileDraft.affiliateLinks,
       partnerBrands: profileDraft.partnerBrands ?? [],
       urgencyCtaEnabled: profileDraft.urgencyCtaEnabled,
-      proSelectionEnabled: profileDraft.proSelectionEnabled ?? true,
+      proSelectionEnabled: profileDraft.proSelectionEnabled === true,
       proSelectionTitle:
         profileDraft.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE,
       visual,

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { HeroTypingChannel } from "@/i18n/types";
 
-type HeroTypingTitleProps = {
+type HeroTypingChannelsProps = {
   intro: string;
   channels: HeroTypingChannel[];
   className?: string;
@@ -13,11 +13,11 @@ const TYPING_MS = 85;
 const DELETING_MS = 45;
 const PAUSE_AFTER_WORD_MS = 1800;
 
-export function HeroTypingTitle({
+export function HeroTypingChannels({
   intro,
   channels,
   className = "",
-}: HeroTypingTitleProps) {
+}: HeroTypingChannelsProps) {
   const [channelIndex, setChannelIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -62,16 +62,13 @@ export function HeroTypingTitle({
     setIsDeleting(false);
   }, [channelIndex, typingReady]);
 
-  const titleClass =
-    `lk-display landing-hero-title mt-5 text-[2rem] leading-[1.08] text-black sm:text-[2.5rem] md:text-[3rem] lg:text-[3.35rem] ${className}`.trim();
-
   const channelLabel =
     !typingReady && firstChannel ? firstChannel.label : displayText;
   const channelColor =
     !typingReady && firstChannel ? firstChannel.color : currentColor;
 
   return (
-    <h1 className={titleClass}>
+    <span className={className.trim()}>
       {intro}
       <span style={{ color: channelColor }}>{channelLabel}</span>
       {typingReady ? (
@@ -79,6 +76,6 @@ export function HeroTypingTitle({
           |
         </span>
       ) : null}
-    </h1>
+    </span>
   );
 }

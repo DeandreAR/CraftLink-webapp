@@ -94,13 +94,12 @@
   },
   "hero": {
     "pill": "Built for building trades",
-    "title": "Your contact link and showcase page to stop the message chaos on Instagram.",
+    "title": "Your contact link and showcase page to stop the message chaos.",
     "typingTitle": {
-      "intro": "Your contact link and showcase page to stop the message chaos on ",
+      "intro": "Put it for ",
       "channels": [
         { "label": "Instagram", "color": "#E4405F" },
         { "label": "Facebook", "color": "#1877F2" },
-        { "label": "Gmail", "color": "#EA4335" },
         { "label": "SMS", "color": "#25D366" },
         { "label": "TikTok", "color": "#FE2C55" },
         { "label": "Snapchat", "color": "#FFFC00" },

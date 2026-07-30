@@ -10,9 +10,8 @@ import type {
 import type { VitrineDictionary } from "@/i18n/types";
 import { submitUrgencyClick } from "@/lib/leads/submitUrgencyClick";
 import { trackVitrineEvent } from "@/lib/analytics/trackVitrineEvent";
-import { isProPublicPlan } from "@/lib/planTier/publicPlanTier";
 import { buildUrgencyWhatsAppUrl } from "@/lib/vitrine/buildUrgencyWhatsApp";
-import { LuCalendarClock, LuInfo, LuShare2 } from "react-icons/lu";
+import { LuCalendarClock, LuInfo } from "react-icons/lu";
 
 type VitrineActionButtonsProps = {
   pageSlug: string;
@@ -53,13 +52,11 @@ export function VitrineActionButtons({
   artisanPhone = "",
   serviceZone = "",
   copy,
-  planTier,
   profileSettings,
   theme,
   onAction,
 }: VitrineActionButtonsProps) {
   const { visibility, cta } = profileSettings;
-  const isPro = isProPublicPlan(planTier);
   const accent = theme.accent?.trim() || "#EFA188";
   const secondaryStyle = secondaryButtonStyle(accent);
   const iconColor = `color-mix(in srgb, ${accent} 75%, #111111)`;
@@ -120,18 +117,6 @@ export function VitrineActionButtons({
             </span>
           </span>
           <span>{cta.secondaryUrgent.replace(/^🚨\s*/, "")}</span>
-        </button>
-      ) : null}
-
-      {isPro && visibility.showCollaborationButton ? (
-        <button
-          type="button"
-          onClick={() => onAction("collaboration")}
-          className={secondaryClass}
-          style={secondaryStyle}
-        >
-          <LuShare2 className={iconClass} strokeWidth={2.35} style={{ color: iconColor }} aria-hidden />
-          <span>{cta.collaboration}</span>
         </button>
       ) : null}
     </div>

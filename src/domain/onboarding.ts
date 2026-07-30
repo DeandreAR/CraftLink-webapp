@@ -191,7 +191,7 @@ export const defaultOnboardingProfile = (
   social: defaultSocialDraft(),
   affiliateLinks: [],
   partnerBrands: [],
-  proSelectionEnabled: true,
+  proSelectionEnabled: false,
   proSelectionTitle: DEFAULT_PRO_SELECTION_TITLE,
   visual: defaultVisualDraft(),
   pageSlug: "",

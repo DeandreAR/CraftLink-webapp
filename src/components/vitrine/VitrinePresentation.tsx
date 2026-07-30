@@ -102,10 +102,6 @@ export function VitrinePresentation({
               ariaLabel={copy.presentation.certificationsAriaLabel}
             />
           ) : null}
-
-          {showInterventions ? (
-            <VitrineInterventionTags items={artisan.interventions} />
-          ) : null}
         </>
       ) : null}
 
@@ -129,6 +125,10 @@ export function VitrinePresentation({
             theme={theme}
             onAction={onOpenDetails}
           />
+
+          {showInterventions ? (
+            <VitrineInterventionTags items={artisan.interventions} />
+          ) : null}
 
           {showPortfolio ? (
             <VitrinePortfolioGallery

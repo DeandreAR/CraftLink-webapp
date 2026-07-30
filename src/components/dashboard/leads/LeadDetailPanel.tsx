@@ -271,6 +271,7 @@ export function LeadDetailPanel({
           <DetailSection title={w.sectionPlanning} tone="planning">
             <LeadScheduleEditor
               schedule={lead.schedule}
+              lead={lead}
               onChange={onScheduleChange}
               copy={copy}
             />

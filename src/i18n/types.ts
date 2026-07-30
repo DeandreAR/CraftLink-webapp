@@ -481,6 +481,9 @@ export type DashboardDictionary = {
       title: string;
       hint: string;
       dateLabel: string;
+      startTimeLabel: string;
+      endTimeLabel: string;
+      timeOptionalHint: string;
       durationLabel: string;
       minutesValueLabel: string;
       hoursValueLabel: string;
@@ -490,6 +493,9 @@ export type DashboardDictionary = {
       save: string;
       clear: string;
       savedHint: string;
+      allDayHint: string;
+      addToCalendar: string;
+      addToCalendarBusy: string;
     };
     calendar: {
       views: Record<"day" | "week" | "month", string>;
@@ -500,6 +506,19 @@ export type DashboardDictionary = {
       emptyDay: string;
       notScheduled: string;
       weekdays: string[];
+      feedTitle: string;
+      feedHint: string;
+      feedLoading: string;
+      feedStep1: string;
+      feedStep2: string;
+      feedStep3: string;
+      feedApple: string;
+      feedGoogle: string;
+      feedCopy: string;
+      feedCopied: string;
+      feedCopyError: string;
+      feedRegen: string;
+      feedRegenBusy: string;
     };
     catchUp: {
       eyebrow: string;

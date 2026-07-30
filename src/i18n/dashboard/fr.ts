@@ -103,8 +103,14 @@ export const dashboardFr: DashboardDictionary = {
           element: "dashboard-section-calendar",
           title: "Onglet Calendrier",
           description:
-            "Planifiez vos interventions terrain (jour, semaine, mois) — réservé au Pro.",
+            "Planifiez vos interventions terrain (jour, semaine, mois). Réservé au Pro.",
           proOnly: true,
+        },
+        {
+          element: "dashboard-calendar-feed",
+          title: "Sync agenda — une seule fois",
+          description:
+            "Abonnez Apple, Google ou Outlook à CraftLink. Ensuite, chaque chantier planifié apparaît automatiquement dans votre agenda — plus besoin d’exporter RDV par RDV.",
         },
         {
           element: "dashboard-section-stats",
@@ -143,7 +149,7 @@ export const dashboardFr: DashboardDictionary = {
           element: "partenariats-toggle",
           title: "Affichage sur votre page",
           description:
-            "Activez ou désactivez l’onglet « La Sélection Pro » sur votre vitrine en un clic.",
+            "C’est vous qui décidez : activez la Sélection Pro pour l’afficher sur votre vitrine, ou laissez désactivé pour qu’elle reste invisible.",
         },
       ],
     },
@@ -418,6 +424,10 @@ export const dashboardFr: DashboardDictionary = {
       title: "Planifier la réalisation",
       hint: "Date et durée estimée pour organiser votre chantier.",
       dateLabel: "Date de réalisation",
+      startTimeLabel: "Début (facultatif)",
+      endTimeLabel: "Fin (facultatif)",
+      timeOptionalHint:
+        "Sans horaire, l’événement est créé sur toute la journée dans votre calendrier.",
       durationLabel: "Durée estimée",
       minutesValueLabel: "Nombre de minutes",
       hoursValueLabel: "Nombre d'heures",
@@ -432,6 +442,9 @@ export const dashboardFr: DashboardDictionary = {
       save: "Enregistrer la planification",
       clear: "Supprimer la planification",
       savedHint: "Planifié le {date} · {duration}",
+      allDayHint: "journée entière",
+      addToCalendar: "Ajouter à mon calendrier (.ics)",
+      addToCalendarBusy: "Génération…",
     },
     calendar: {
       views: { day: "Jour", week: "Semaine", month: "Mois" },
@@ -442,6 +455,20 @@ export const dashboardFr: DashboardDictionary = {
       emptyDay: "Aucune réalisation planifiée ce jour.",
       notScheduled: "Non planifié",
       weekdays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+      feedTitle: "Synchroniser mon agenda (une seule fois)",
+      feedHint:
+        "Abonnez votre calendrier Apple, Google ou Outlook à CraftLink. Ensuite, chaque intervention planifiée apparaît automatiquement — plus besoin d’exporter RDV par RDV.",
+      feedLoading: "Préparation du lien…",
+      feedStep1: "Cliquez sur Apple ou Google, ou copiez le lien.",
+      feedStep2: "Ajoutez le calendrier dans votre application agenda.",
+      feedStep3: "Planifiez vos chantiers dans CraftLink : ils se mettent à jour tout seuls.",
+      feedApple: "Ajouter à Apple Calendar",
+      feedGoogle: "Ajouter à Google Agenda",
+      feedCopy: "Copier le lien",
+      feedCopied: "Lien copié !",
+      feedCopyError: "Impossible de copier le lien.",
+      feedRegen: "Régénérer le lien (si vous l’avez partagé par erreur)",
+      feedRegenBusy: "Régénération…",
     },
     catchUp: {
       eyebrow: "Relance à traiter",
@@ -635,15 +662,15 @@ export const dashboardFr: DashboardDictionary = {
     upgradeCta: "Passer au Plan Pro",
     empty: "Aucune demande de partenariat pour le moment.",
     emptyHint:
-      "Les marques remplissent le formulaire via le bouton « Partenariats & Marques » sur votre vitrine Pro.",
+      "Les marques découvrent votre Sélection Pro sur la vitrine et peuvent vous contacter depuis cet espace.",
     loadError: "Impossible de charger les demandes de partenariat.",
     pendingCount: "{count} à traiter",
     showArchived: "Afficher les archives",
     proSelection: {
       title: "La Sélection Pro",
       hint:
-        "Gérez les liens de votre page : Amazon, affiliation et autres boutiques — affichés dans l’onglet Sélection Pro.",
-      enabledLabel: "Afficher l’onglet sur ma page",
+        "Choisissez d’afficher ou non l’onglet Sélection Pro sur votre page. Désactivé = invisible pour vos clients.",
+      enabledLabel: "Afficher la Sélection Pro sur ma page",
       titleLabel: "Titre de l’onglet",
       titlePlaceholder: "La Sélection Pro",
       add: "Ajouter un item",

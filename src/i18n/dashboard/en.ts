@@ -103,8 +103,14 @@ export const dashboardEn: DashboardDictionary = {
           element: "dashboard-section-calendar",
           title: "Calendar tab",
           description:
-            "Plan field jobs (day, week, month) — Pro plan only.",
+            "Plan field jobs (day, week, month). Pro plan only.",
           proOnly: true,
+        },
+        {
+          element: "dashboard-calendar-feed",
+          title: "Calendar sync — once",
+          description:
+            "Subscribe Apple, Google or Outlook to CraftLink. After that, every scheduled job appears automatically in your calendar — no need to export one by one.",
         },
         {
           element: "dashboard-section-stats",
@@ -143,7 +149,7 @@ export const dashboardEn: DashboardDictionary = {
           element: "partenariats-toggle",
           title: "Show on your page",
           description:
-            "Toggle the Pro Picks tab on your public storefront in one click.",
+            "You decide: turn Pro Picks on to show it on your storefront, or leave it off to keep it hidden.",
         },
       ],
     },
@@ -418,6 +424,10 @@ export const dashboardEn: DashboardDictionary = {
       title: "Schedule the job",
       hint: "Set a date and estimated duration for your planning.",
       dateLabel: "Scheduled date",
+      startTimeLabel: "Start (optional)",
+      endTimeLabel: "End (optional)",
+      timeOptionalHint:
+        "Without a time slot, the event is created as an all-day event in your calendar.",
       durationLabel: "Estimated duration",
       minutesValueLabel: "Minutes",
       hoursValueLabel: "Hours",
@@ -432,6 +442,9 @@ export const dashboardEn: DashboardDictionary = {
       save: "Save schedule",
       clear: "Remove schedule",
       savedHint: "Scheduled on {date} · {duration}",
+      allDayHint: "all day",
+      addToCalendar: "Add to my calendar (.ics)",
+      addToCalendarBusy: "Generating…",
     },
     calendar: {
       views: { day: "Day", week: "Week", month: "Month" },
@@ -442,6 +455,20 @@ export const dashboardEn: DashboardDictionary = {
       emptyDay: "No scheduled jobs this day.",
       notScheduled: "Not scheduled",
       weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      feedTitle: "Sync my calendar (once)",
+      feedHint:
+        "Subscribe Apple, Google or Outlook to CraftLink. After that, every scheduled job appears automatically — no need to export one by one.",
+      feedLoading: "Preparing your link…",
+      feedStep1: "Tap Apple or Google, or copy the link.",
+      feedStep2: "Add the calendar in your calendar app.",
+      feedStep3: "Schedule jobs in CraftLink — they update on their own.",
+      feedApple: "Add to Apple Calendar",
+      feedGoogle: "Add to Google Calendar",
+      feedCopy: "Copy link",
+      feedCopied: "Link copied!",
+      feedCopyError: "Could not copy the link.",
+      feedRegen: "Regenerate link (if it was shared by mistake)",
+      feedRegenBusy: "Regenerating…",
     },
     catchUp: {
       eyebrow: "Follow-up needed",
@@ -634,15 +661,15 @@ export const dashboardEn: DashboardDictionary = {
     upgradeCta: "Upgrade to Pro",
     empty: "No partnership requests yet.",
     emptyHint:
-      "Brands submit the form via the « Partnerships & Brands » button on your Pro storefront.",
+      "Brands discover your Pro Picks on the storefront and can reach you from this workspace.",
     loadError: "Could not load partnership requests.",
     pendingCount: "{count} pending",
     showArchived: "Show archived",
     proSelection: {
       title: "Pro Picks",
       hint:
-        "Manage page links: Amazon, affiliate and other shops — shown in the Pro Picks tab.",
-      enabledLabel: "Show tab on my page",
+        "Choose whether to show the Pro Picks tab on your page. Off = hidden from clients.",
+      enabledLabel: "Show Pro Picks on my page",
       titleLabel: "Tab title",
       titlePlaceholder: "Pro Picks",
       add: "Add an item",

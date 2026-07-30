@@ -65,6 +65,12 @@ function parseSchedule(raw: unknown): LeadSchedule | null {
     date: s.date,
     durationPreset: s.durationPreset,
     durationValue: s.durationValue,
+    ...(typeof s.startTime === "string" && s.startTime.trim()
+      ? { startTime: s.startTime.trim() }
+      : {}),
+    ...(typeof s.endTime === "string" && s.endTime.trim()
+      ? { endTime: s.endTime.trim() }
+      : {}),
   };
 }
 

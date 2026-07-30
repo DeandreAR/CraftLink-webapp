@@ -3,16 +3,23 @@
 import { useState } from "react";
 import type { DashboardLead, LeadDurationPreset, LeadSchedule } from "@/domain/lead";
 import type { DashboardDictionary } from "@/i18n/types";
+import { CalendarIcsButton } from "@/components/dashboard/leads/CalendarIcsButton";
 
 type LeadScheduleEditorProps = {
   schedule: LeadSchedule | null | undefined;
+  lead?: DashboardLead;
   onChange: (schedule: LeadSchedule | null) => void;
   copy: DashboardDictionary;
 };
 
 const PRESETS: LeadDurationPreset[] = ["minutes", "hours", "half_day", "full_day"];
 
-export function LeadScheduleEditor({ schedule, onChange, copy }: LeadScheduleEditorProps) {
+export function LeadScheduleEditor({
+  schedule,
+  lead,
+  onChange,
+  copy,
+}: LeadScheduleEditorProps) {
   const s = copy.leads.schedule;
   const [preset, setPreset] = useState<LeadDurationPreset>(
     schedule?.durationPreset ?? "hours",
@@ -21,6 +28,8 @@ export function LeadScheduleEditor({ schedule, onChange, copy }: LeadScheduleEdi
     String(schedule?.durationValue ?? (schedule?.durationPreset === "minutes" ? 60 : 2)),
   );
   const [date, setDate] = useState(schedule?.date ?? "");
+  const [startTime, setStartTime] = useState(schedule?.startTime ?? "");
+  const [endTime, setEndTime] = useState(schedule?.endTime ?? "");
 
   const apply = () => {
     if (!date) {
@@ -34,11 +43,15 @@ export function LeadScheduleEditor({ schedule, onChange, copy }: LeadScheduleEdi
       ...((preset === "minutes" || preset === "hours") && Number.isFinite(value)
         ? { durationValue: value }
         : {}),
+      ...(startTime.trim() ? { startTime: startTime.trim() } : {}),
+      ...(endTime.trim() ? { endTime: endTime.trim() } : {}),
     });
   };
 
   const clear = () => {
     setDate("");
+    setStartTime("");
+    setEndTime("");
     onChange(null);
   };
 
@@ -57,6 +70,28 @@ export function LeadScheduleEditor({ schedule, onChange, copy }: LeadScheduleEdi
             className="mt-1 w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
           />
         </label>
+
+        <div className="grid grid-cols-2 gap-3">
+          <label className="block text-xs font-semibold text-slate-600">
+            {s.startTimeLabel}
+            <input
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              className="mt-1 w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
+            />
+          </label>
+          <label className="block text-xs font-semibold text-slate-600">
+            {s.endTimeLabel}
+            <input
+              type="time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              className="mt-1 w-full rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
+            />
+          </label>
+        </div>
+        <p className="text-[11px] leading-snug text-slate-500">{s.timeOptionalHint}</p>
 
         <label className="block text-xs font-semibold text-slate-600">
           {s.durationLabel}
@@ -104,6 +139,31 @@ export function LeadScheduleEditor({ schedule, onChange, copy }: LeadScheduleEdi
             {s.clear}
           </button>
         ) : null}
+        {lead && (lead.schedule?.date || date) ? (
+          <CalendarIcsButton
+            lead={{
+              ...lead,
+              schedule: {
+                date: lead.schedule?.date || date,
+                durationPreset: lead.schedule?.durationPreset ?? preset,
+                ...(lead.schedule?.durationValue != null
+                  ? { durationValue: lead.schedule.durationValue }
+                  : (preset === "minutes" || preset === "hours") &&
+                      Number.isFinite(Number(durationValue))
+                    ? { durationValue: Number(durationValue) }
+                    : {}),
+                ...(lead.schedule?.startTime || startTime.trim()
+                  ? { startTime: lead.schedule?.startTime || startTime.trim() }
+                  : {}),
+                ...(lead.schedule?.endTime || endTime.trim()
+                  ? { endTime: lead.schedule?.endTime || endTime.trim() }
+                  : {}),
+              },
+            }}
+            copy={copy}
+            className="w-full px-4 py-2.5 text-sm sm:w-auto"
+          />
+        ) : null}
       </div>
 
       {schedule ? (
@@ -111,6 +171,7 @@ export function LeadScheduleEditor({ schedule, onChange, copy }: LeadScheduleEdi
           {s.savedHint
             .replace("{date}", schedule.date)
             .replace("{duration}", formatPreview(schedule, s))}
+          {!schedule.startTime ? ` · ${s.allDayHint}` : null}
         </p>
       ) : null}
     </div>
@@ -121,6 +182,10 @@ function formatPreview(
   schedule: LeadSchedule,
   s: DashboardDictionary["leads"]["schedule"],
 ): string {
+  if (schedule.startTime) {
+    const end = schedule.endTime ? `–${schedule.endTime}` : "";
+    return `${schedule.startTime}${end}`;
+  }
   if (schedule.durationPreset === "minutes") {
     return `${schedule.durationValue ?? 30} ${s.minutesUnit}`;
   }

@@ -128,9 +128,7 @@ export function LeadsCalendar({
         <MonthGrid
           cursor={cursor}
           leads={scheduledLeads}
-          locale={locale}
           copy={copy}
-          durationLabels={durationLabels}
           onOpenDetail={onOpenDetail}
         />
       ) : null}
@@ -139,7 +137,6 @@ export function LeadsCalendar({
           cursor={cursor}
           leads={scheduledLeads}
           locale={locale}
-          copy={copy}
           durationLabels={durationLabels}
           onOpenDetail={onOpenDetail}
         />
@@ -148,7 +145,6 @@ export function LeadsCalendar({
         <DayList
           cursor={cursor}
           leads={scheduledLeads}
-          locale={locale}
           copy={copy}
           durationLabels={durationLabels}
           onOpenDetail={onOpenDetail}
@@ -161,16 +157,12 @@ export function LeadsCalendar({
 function MonthGrid({
   cursor,
   leads,
-  locale,
   copy,
-  durationLabels,
   onOpenDetail,
 }: {
   cursor: Date;
   leads: DashboardLead[];
-  locale: Locale;
   copy: DashboardDictionary;
-  durationLabels: Parameters<typeof formatDurationLabel>[1];
   onOpenDetail: (id: string) => void;
 }) {
   const c = copy.leads.calendar;
@@ -179,7 +171,7 @@ function MonthGrid({
 
   return (
     <div className="mt-4">
-      <div className="grid grid-cols-7 gap-px rounded-lg border border-neutral-200 bg-neutral-200 overflow-hidden">
+      <div className="grid grid-cols-7 gap-px overflow-hidden rounded-lg border border-neutral-200 bg-neutral-200">
         {weekdayLabels.map((label) => (
           <div
             key={label}
@@ -229,14 +221,12 @@ function WeekGrid({
   cursor,
   leads,
   locale,
-  copy,
   durationLabels,
   onOpenDetail,
 }: {
   cursor: Date;
   leads: DashboardLead[];
   locale: Locale;
-  copy: DashboardDictionary;
   durationLabels: Parameters<typeof formatDurationLabel>[1];
   onOpenDetail: (id: string) => void;
 }) {
@@ -285,14 +275,12 @@ function WeekGrid({
 function DayList({
   cursor,
   leads,
-  locale,
   copy,
   durationLabels,
   onOpenDetail,
 }: {
   cursor: Date;
   leads: DashboardLead[];
-  locale: Locale;
   copy: DashboardDictionary;
   durationLabels: Parameters<typeof formatDurationLabel>[1];
   onOpenDetail: (id: string) => void;

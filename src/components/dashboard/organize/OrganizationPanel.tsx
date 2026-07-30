@@ -9,6 +9,7 @@ import { LeadCard } from "@/components/dashboard/leads/LeadCard";
 import { LeadDetailPanel } from "@/components/dashboard/leads/LeadDetailPanel";
 import { LeadsBulkActionsBar } from "@/components/dashboard/leads/LeadsBulkActionsBar";
 import { LeadsCalendar } from "@/components/dashboard/leads/LeadsCalendar";
+import { CalendarFeedSubscribe } from "@/components/dashboard/leads/CalendarFeedSubscribe";
 import { LeadsCardsToolbar } from "@/components/dashboard/leads/LeadsCardsToolbar";
 import { LeadsPipelineView } from "@/components/dashboard/leads/LeadsPipelineView";
 import { LeadsSummaryCards } from "@/components/dashboard/leads/LeadsSummaryCards";
@@ -236,7 +237,10 @@ export function OrganizationPanel({
     } else if (elementKey === "dashboard-pipeline") {
       setSection("list");
       setView("pipeline");
-    } else if (elementKey === "dashboard-section-calendar") {
+    } else if (
+      elementKey === "dashboard-section-calendar" ||
+      elementKey === "dashboard-calendar-feed"
+    ) {
       setSection("calendar");
     } else if (elementKey === "dashboard-section-stats") {
       setSection("stats");
@@ -347,19 +351,22 @@ export function OrganizationPanel({
               />
             </ProFeatureGuard>
           ) : section === "calendar" ? (
-            <ProFeatureGuard
-              feature="calendar"
-              proAccess={profile}
-              copy={copy}
-              locale={locale}
-            >
-              <LeadsCalendar
-                leads={calendarLeads}
+            <>
+              <ProFeatureGuard
+                feature="calendar"
+                proAccess={profile}
                 copy={copy}
                 locale={locale}
-                onOpenDetail={setSelectedLeadId}
-              />
-            </ProFeatureGuard>
+              >
+                <LeadsCalendar
+                  leads={calendarLeads}
+                  copy={copy}
+                  locale={locale}
+                  onOpenDetail={setSelectedLeadId}
+                />
+              </ProFeatureGuard>
+              <CalendarFeedSubscribe copy={copy} />
+            </>
           ) : (
             <>
               {!showArchived && view !== "pipeline" ? (

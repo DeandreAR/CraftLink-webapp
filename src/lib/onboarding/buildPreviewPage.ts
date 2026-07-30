@@ -100,7 +100,7 @@ export function buildOnboardingPreviewProps(
   );
   const hasSocial = socialLinks.length > 0;
   const hasGoogleBusiness = profile.social.googleBusinessUrl.trim().length > 0;
-  const proSelectionEnabled = profile.proSelectionEnabled !== false;
+  const proSelectionEnabled = profile.proSelectionEnabled === true;
   const proSelectionTitle =
     profile.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE;
 
