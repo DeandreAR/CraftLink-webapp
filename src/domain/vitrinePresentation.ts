@@ -44,6 +44,8 @@ export type StoredVitrineProfilePart = {
   affiliateLinks: OnboardingAffiliateLink[];
   partnerBrands: OnboardingPartnerBrand[];
   urgencyCtaEnabled?: boolean;
+  /** Canal urgence vitrine : whatsapp (défaut) | form. */
+  urgencyContactMode?: "whatsapp" | "form";
   proSelectionEnabled?: boolean;
   proSelectionTitle?: string;
   visual: OnboardingVisualDraft;
@@ -300,6 +302,10 @@ function parseProfilePart(raw: unknown): StoredVitrineProfilePart {
     partnerBrands: parsePartnerBrands(row.partnerBrands),
     urgencyCtaEnabled:
       typeof row.urgencyCtaEnabled === "boolean" ? row.urgencyCtaEnabled : undefined,
+    urgencyContactMode:
+      row.urgencyContactMode === "form" || row.urgencyContactMode === "whatsapp"
+        ? row.urgencyContactMode
+        : "whatsapp",
     proSelectionEnabled:
       typeof row.proSelectionEnabled === "boolean" ? row.proSelectionEnabled : false,
     proSelectionTitle:
@@ -401,6 +407,8 @@ export function profileToEditorState(profile: Profile): {
     affiliateLinks: config.profile.affiliateLinks,
     partnerBrands: config.profile.partnerBrands ?? [],
     urgencyCtaEnabled: config.profile.urgencyCtaEnabled,
+    urgencyContactMode:
+      config.profile.urgencyContactMode === "form" ? "form" : "whatsapp",
     proSelectionEnabled: config.profile.proSelectionEnabled === true,
     proSelectionTitle:
       config.profile.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE,
@@ -449,6 +457,8 @@ export function editorStateToStoredConfig(
       affiliateLinks: profileDraft.affiliateLinks,
       partnerBrands: profileDraft.partnerBrands ?? [],
       urgencyCtaEnabled: profileDraft.urgencyCtaEnabled,
+      urgencyContactMode:
+        profileDraft.urgencyContactMode === "form" ? "form" : "whatsapp",
       proSelectionEnabled: profileDraft.proSelectionEnabled === true,
       proSelectionTitle:
         profileDraft.proSelectionTitle?.trim() || DEFAULT_PRO_SELECTION_TITLE,

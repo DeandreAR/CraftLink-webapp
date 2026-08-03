@@ -179,6 +179,8 @@ export function buildOnboardingPreviewProps(
         collaboration: "Partenariats & Marques",
       },
       voiceCaptureEnabled: plan === "PRO",
+      urgencyContactMode:
+        profile.urgencyContactMode === "form" ? "form" : "whatsapp",
     },
     copy: vitrineCopy,
   };

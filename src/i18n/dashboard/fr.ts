@@ -190,6 +190,13 @@ export const dashboardFr: DashboardDictionary = {
       "Le bouton urgence est masqué sur votre page. Vos clients passent par le formulaire de projet classique.",
     urgencyOptionalBody:
       "Ce métier n'affiche pas le bouton urgence par défaut. Activez-le si vous proposez aussi des dépannages ou interventions urgentes.",
+    urgencyModeTitle: "Comment recevoir les urgences ?",
+    urgencyModeHint:
+      "Par défaut, le client ouvre WhatsApp. Vous pouvez à la place afficher uniquement le formulaire de demande urgente CraftLink.",
+    urgencyModeWhatsApp: "WhatsApp (recommandé)",
+    urgencyModeWhatsAppHint: "Redirection directe vers votre numéro WhatsApp.",
+    urgencyModeForm: "Formulaire uniquement",
+    urgencyModeFormHint: "Le client remplit une demande urgente sur CraftLink — pas de WhatsApp.",
     projectFormBadge: "Formulaire projet",
     metierNotSet: "Métier non renseigné",
     metierNotSetHint:

@@ -62,6 +62,12 @@ export function VitrineActionButtons({
   const iconColor = `color-mix(in srgb, ${accent} 75%, #111111)`;
 
   const handleUrgentClick = () => {
+    const mode = profileSettings.urgencyContactMode ?? "whatsapp";
+    if (mode === "form") {
+      onAction("urgent");
+      return;
+    }
+
     trackVitrineEvent(pageSlug, "click_whatsapp");
 
     const whatsappUrl = buildUrgencyWhatsAppUrl(

@@ -274,6 +274,12 @@ export type DashboardDictionary = {
     urgencyEnabledBody: string;
     urgencyHiddenBody: string;
     urgencyOptionalBody: string;
+    urgencyModeTitle: string;
+    urgencyModeHint: string;
+    urgencyModeWhatsApp: string;
+    urgencyModeWhatsAppHint: string;
+    urgencyModeForm: string;
+    urgencyModeFormHint: string;
     projectFormBadge: string;
     metierNotSet: string;
     metierNotSetHint: string;

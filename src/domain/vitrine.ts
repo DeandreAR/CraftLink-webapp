@@ -68,6 +68,10 @@ export type VitrineProfileSettings = {
   cta: VitrineCtaLabels;
   /** Capture vocale (fichier audio brut) — Pro uniquement, activable depuis le dashboard. */
   voiceCaptureEnabled?: boolean;
+  /**
+   * Canal du bouton urgence : WhatsApp (défaut) ou formulaire CraftLink.
+   */
+  urgencyContactMode?: "whatsapp" | "form";
 };
 
 export type VitrineStatBadgeKind =

@@ -190,6 +190,13 @@ export const dashboardEn: DashboardDictionary = {
       "The urgency button is hidden on your page. Clients use the standard project form instead.",
     urgencyOptionalBody:
       "Your trade does not show the urgency button by default. Turn it on if you also offer emergency call-outs.",
+    urgencyModeTitle: "How should urgent requests arrive?",
+    urgencyModeHint:
+      "By default, clients open WhatsApp. You can instead show only the CraftLink urgent request form.",
+    urgencyModeWhatsApp: "WhatsApp (recommended)",
+    urgencyModeWhatsAppHint: "Direct redirect to your WhatsApp number.",
+    urgencyModeForm: "Form only",
+    urgencyModeFormHint: "Clients fill an urgent CraftLink request — no WhatsApp.",
     projectFormBadge: "Project form",
     metierNotSet: "Trade not set",
     metierNotSetHint:

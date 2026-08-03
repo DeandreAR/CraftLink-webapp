@@ -109,6 +109,10 @@ export type OnboardingProfileDraft = {
   partnerBrands: OnboardingPartnerBrand[];
   /** Affiche le bouton urgence sur la vitrine (si le métier le permet). */
   urgencyCtaEnabled?: boolean;
+  /**
+   * Canal urgence : WhatsApp (défaut) ou formulaire CraftLink uniquement.
+   */
+  urgencyContactMode?: "whatsapp" | "form";
   /** Onglet « La Sélection Pro » sur la vitrine publique. */
   proSelectionEnabled?: boolean;
   /** Titre personnalisable de l’onglet Sélection Pro. */

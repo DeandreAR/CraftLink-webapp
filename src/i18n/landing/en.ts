@@ -94,6 +94,7 @@ export const landingEn: LandingExtendedDictionary = {
           "SMS, Facebook, WhatsApp: everything is scattered",
           "Blurry photos, incomplete address, vague urgency",
           "You chase clients 3 times before you can price the job",
+          "Cold outreach and useless marketing pitches clogging your inbox",
         ],
       },
       with: {
@@ -104,6 +105,7 @@ export const landingEn: LandingExtendedDictionary = {
           "Structured file: area, urgency, scope of work",
           "Voice note transcribed automatically if they prefer talking",
           "WhatsApp opens with full context already in hand",
+          "Less spammy outreach: CraftLink filters off-topic marketing",
         ],
       },
     },

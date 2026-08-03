@@ -94,6 +94,7 @@ export const landingFr: LandingExtendedDictionary = {
           "SMS, Facebook, WhatsApp : tout est éparpillé",
           "Photos floues, adresse incomplète, urgence floue",
           "Vous relancez 3 fois avant de pouvoir chiffrer",
+          "Démarchage et offres marketing inutiles qui polluent vos messages",
         ],
       },
       with: {
@@ -104,6 +105,7 @@ export const landingFr: LandingExtendedDictionary = {
           "Dossier structuré : zone, urgence, nature des travaux",
           "Vocal transcrit automatiquement si le client préfère parler",
           "WhatsApp ouvert avec tout le contexte déjà en main",
+          "Moins de démarchage inutile : CraftLink filtre le marketing hors sujet",
         ],
       },
     },
