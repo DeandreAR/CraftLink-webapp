@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "CraftLink | Le site vitrine et outil de contact pour les artisans",
-    "description": "Créez une page pro avec un lien unique : capture vocale, transcription, tri automatique des demandes et redirection WhatsApp. Pour artisans du bâtiment — électriciens, plombiers, plaquistes, menuisiers, chauffagistes et corps de métier."
+    "title": "CraftLink | Page vitrine et demandes claires pour les artisans",
+    "description": "Une page vitrine simple pour les artisans : partagez un lien, recevez des demandes de chantier claires avec photos et détails sur WhatsApp. Pour électriciens, plombiers et métiers du bâtiment."
   },
   "nav": {
     "howItWorks": "Comment ça marche",
@@ -94,7 +94,7 @@
   },
   "hero": {
     "pill": "Conçu pour les artisans du bâtiment",
-    "title": "Votre lien de contact et page vitrine pour stopper le chaos des messages.",
+    "title": "Ne perdez plus vos soirées à trier vos messages. Recevez des demandes de chantier claires et complètes.",
     "typingTitle": {
       "intro": "Mettez-le pour ",
       "channels": [
@@ -132,7 +132,7 @@
       "highlightLabels": ["Devis", "Avis", "Zone"],
       "reelsTab": "Reels"
     },
-    "lead": "Un lien de contact unique qui filtre et qualifie vos demandes de chantiers automatiquement. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients. Les démarcheurs, eux, passent leur chemin.",
+    "lead": "Un lien de contact unique qui filtre et qualifie vos demandes de chantiers automatiquement. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
     "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
     "ctaPrimary": "Créer ma page gratuitement",
     "ctaSecondary": "Voir les fonctionnalités",
@@ -151,14 +151,20 @@
       {
         "index": "02",
         "title": "CraftLink centralise et organise vos demandes instantanément",
-        "description": "Toutes les informations clés sont triées et regroupées dans un dashboard épuré. Plus aucun message ne se perd."
+        "description": "Toutes les informations clés sont triées et regroupées dans un tableau épuré. Plus aucun message ne se perd."
       },
       {
         "index": "03",
         "title": "Pilotez votre activité et recontactez vos clients rapidement",
         "description": "Visualisez vos chantiers en un clin d'œil, validez les dossiers sérieux et relancez les bons profils en un clic."
       }
-    ]
+    ],
+    "reassurance": {
+      "eyebrow": "La confiance avant le premier appel",
+      "title": "Une image professionnelle qui rassure vos prospects",
+      "lead": "Mettez en avant vos réalisations, votre zone d'intervention, vos labels (RGE, Qualifelec, etc.) et vos avis clients au même endroit.",
+      "message": "Une image professionnelle qui rassure vos prospects avant même votre premier échange."
+    }
   },
   "pourquoi": {
     "pillars": [

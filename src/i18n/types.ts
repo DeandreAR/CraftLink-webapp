@@ -959,6 +959,12 @@ export type LandingFeaturesDictionary = {
   title: string;
   lead: string;
   cards: LandingFeatureCard[];
+  reassurance: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    message: string;
+  };
 };
 
 export type LegalSectionJson = {

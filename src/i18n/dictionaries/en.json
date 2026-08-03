@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "CraftLink | Showcase site and contact tool for tradespeople",
-    "description": "Create a professional page with one link: voice capture funnel, transcription, lead scoring, and WhatsApp handoff. Built for tradespeople who don’t have a full website — electricians, plumbers, drywallers, joiners, HVAC, and construction trades."
+    "description": "A simple storefront page for tradespeople: share one link, receive clear job requests with photos and details on WhatsApp. Built for electricians, plumbers and building trades."
   },
   "nav": {
     "howItWorks": "How it works",
@@ -94,7 +94,7 @@
   },
   "hero": {
     "pill": "Built for building trades",
-    "title": "Your contact link and showcase page to stop the message chaos.",
+    "title": "Stop losing your evenings sorting messages. Get clear, complete job requests.",
     "typingTitle": {
       "intro": "Put it for ",
       "channels": [
@@ -132,7 +132,7 @@
       "highlightLabels": ["Quotes", "Reviews", "Area"],
       "reelsTab": "Reels"
     },
-    "lead": "One unique contact link that automatically filters and qualifies your job requests. CraftLink helps you win better-qualified leads — never lose a contact request again. Fewer scattered messages, more time for you and more serious clients. Cold callers and marketing pitches? They move on.",
+    "lead": "One unique contact link that automatically filters and qualifies your job requests. CraftLink helps you win better-qualified leads — never lose a contact request again. Fewer scattered messages, more time for you and more serious clients.",
     "controlPhrase": "One link to share. Clear files. Save time at the end of the day.",
     "ctaPrimary": "Create my page for free",
     "ctaSecondary": "See features",
@@ -151,14 +151,20 @@
       {
         "index": "02",
         "title": "CraftLink centralizes and organizes your requests instantly",
-        "description": "All key information is sorted and grouped in a clean dashboard. No message gets lost."
+        "description": "All key information is sorted and grouped in a clean board. No message gets lost."
       },
       {
         "index": "03",
         "title": "Run your business and follow up with clients fast",
-        "description": "See your jobs at a glance, validate serious files and follow up on the right leads in one click."
+        "description": "See your jobs at a glance, validate serious files and follow up on the right profiles in one click."
       }
-    ]
+    ],
+    "reassurance": {
+      "eyebrow": "Trust before the first call",
+      "title": "A professional image that reassures prospects",
+      "lead": "Show your work, service area, labels (RGE, Qualifelec, etc.) and client reviews in one place.",
+      "message": "A professional image that reassures your prospects before the first conversation."
+    }
   },
   "pourquoi": {
     "pillars": [

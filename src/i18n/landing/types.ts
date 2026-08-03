@@ -36,6 +36,7 @@ export type LandingControlStep = {
 export type LandingControlCompareSide = {
   label: string;
   title: string;
+  example: string;
   items: string[];
 };
 

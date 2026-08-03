@@ -21,12 +21,12 @@ export async function LandingHome({ lang }: { lang: Locale }) {
   const { landing, hero, features } = dict;
 
   return (
-    <div className="landing-page landing-home min-h-screen bg-white text-black">
+    <div className="landing-page landing-home min-h-screen bg-slate-50 text-slate-900">
       <Navbar lang={lang} labels={dict.nav} hiddenSections={["metiers"]} />
       <LandingWhatsAppFloat lang={lang} />
 
       <main className="landing-main relative max-md:pb-24">
-        <section className="landing-hero relative flex min-h-[min(100dvh,920px)] flex-col justify-center overflow-hidden bg-white">
+        <section className="landing-hero relative flex min-h-[min(100dvh,920px)] flex-col justify-center overflow-hidden bg-slate-50">
           <LandingHeroDiagonalBrush variant="hero" />
 
           <div className="lk-container relative z-10 pb-16 pt-10 md:pb-24 md:pt-16">
@@ -34,16 +34,16 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               <div className="min-w-0 text-center lg:text-left">
                 <LandingHeroReveal>
                   <p className="lk-eyebrow">{hero.pill}</p>
-                  <h1 className="lk-display landing-hero-title mt-5 text-[2rem] leading-[1.08] text-black sm:text-[2.5rem] md:text-[3rem] lg:text-[3.35rem]">
+                  <h1 className="lk-display landing-hero-title mt-5 text-[1.85rem] leading-[1.12] text-slate-900 sm:text-[2.35rem] md:text-[2.85rem] lg:text-[3.15rem]">
                     {hero.title}
                   </h1>
                 </LandingHeroReveal>
 
                 <LandingHeroReveal delay={0.08}>
-                  <p className="lk-lead mx-auto mt-6 max-w-lg text-base md:text-lg lg:mx-0">
+                  <p className="lk-lead mx-auto mt-6 max-w-xl text-base text-slate-600 md:text-lg lg:mx-0">
                     {hero.lead}
                   </p>
-                  <p className="mx-auto mt-3 max-w-lg text-base font-semibold leading-relaxed text-black md:text-[1.05rem] lg:mx-0">
+                  <p className="mx-auto mt-3 max-w-xl text-base font-semibold leading-relaxed text-slate-900 md:text-[1.05rem] lg:mx-0">
                     {hero.controlPhrase}{" "}
                     <HeroTypingChannels
                       intro={hero.typingTitle.intro}
@@ -73,7 +73,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
               </div>
 
               <LandingHeroReveal delay={0.1} className="min-w-0">
-                <div id="preview" className="mx-auto w-full max-w-md lg:max-w-none">
+                <div id="preview" className="mx-auto w-full max-w-md scroll-mt-28 lg:max-w-none">
                   <HeroAsideShowcase
                     alt={hero.asideShowcaseAlt}
                     copy={hero.asideShowcase}
@@ -96,20 +96,22 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           locale={lang}
         />
 
-        <section id="cta" className="lk-section-alt scroll-mt-28">
+        <section id="cta" className="scroll-mt-28 bg-slate-50">
           <div className="lk-container lk-section-pad">
-            <div className="lk-card relative overflow-hidden px-6 py-10 md:px-12 md:py-14">
+            <div className="relative overflow-hidden rounded-[24px] border border-slate-200 bg-white px-6 py-10 shadow-sm md:px-12 md:py-14">
               <div
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(239,161,136,0.18),transparent_55%)]"
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(239,161,136,0.14),transparent_55%)]"
                 aria-hidden
               />
               <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
                 <div className="max-w-xl">
-                  <h2 className="lk-display text-[1.75rem] md:text-3xl lg:text-[2.15rem]">
+                  <h2 className="lk-display text-[1.75rem] text-slate-900 md:text-3xl lg:text-[2.15rem]">
                     {landing.cta.title}{" "}
                     <span className="text-[#efa188]">{landing.cta.titleHighlight}</span>
                   </h2>
-                  <p className="lk-lead mt-3 text-base md:text-lg">{landing.cta.lead}</p>
+                  <p className="mt-3 text-base leading-relaxed text-slate-600 md:text-lg">
+                    {landing.cta.lead}
+                  </p>
                 </div>
                 <LandingCta
                   href={onboardingPath(lang)}

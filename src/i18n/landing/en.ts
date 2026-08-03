@@ -87,25 +87,26 @@ export const landingEn: LandingExtendedDictionary = {
     compare: {
       eyebrow: "Before / After",
       without: {
-        label: "The chaos",
-        title:
-          "Dozens of scattered messages — half lack the details you need to quote.",
+        label: "Without CraftLink",
+        title: "Vague messages — no photos, urgency or real brief.",
+        example: "Hi, how much to redo the electrics?",
         items: [
-          "SMS, Facebook, WhatsApp: everything is scattered",
-          "Blurry photos, incomplete address, vague urgency",
-          "You chase clients 3 times before you can price the job",
-          "Cold outreach and useless marketing pitches clogging your inbox",
+          "No photo",
+          "Unknown urgency",
+          "Endless follow-ups",
+          "Details scattered everywhere",
         ],
       },
       with: {
-        label: "CraftLink clarity",
-        title:
-          "Complete requests in one place — you know exactly where to start.",
+        label: "With CraftLink",
+        title: "One complete request — ready before you call back.",
+        example:
+          "Electrical panel renovation — 3 photos attached — Within 15 days — Voice note summarised.",
         items: [
-          "Structured file: area, urgency, scope of work",
-          "Voice note transcribed automatically if they prefer talking",
           "WhatsApp opens with full context already in hand",
-          "Less spammy outreach: CraftLink filters off-topic marketing",
+          "Ready-to-handle request",
+          "Photos, details and urgency included",
+          "Less useless outreach & marketing noise",
         ],
       },
     },
@@ -118,7 +119,7 @@ export const landingEn: LandingExtendedDictionary = {
       {
         index: "Step 2",
         title: "CraftLink centralizes and organizes your requests instantly",
-        lead: "All key information is sorted and grouped in a clean dashboard. No message gets lost.",
+        lead: "All key information is sorted and grouped in a clean board. No message gets lost.",
       },
       {
         index: "Step 3",

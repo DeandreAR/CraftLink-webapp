@@ -71,8 +71,8 @@ export const landingFr: LandingExtendedDictionary = {
   cta: {
     title: "Prêt à recevoir des demandes",
     titleHighlight: "claires et complètes",
-    lead: "Créez votre page en quelques minutes : un lien, des dossiers structurés, WhatsApp comme d’habitude.",
-    button: "Créer ma page maintenant",
+    lead: "Créez votre page en quelques minutes : un lien à partager, des dossiers cadrés, WhatsApp comme d’habitude.",
+    button: "Créer ma page vitrine maintenant",
   },
   control: {
     header: {
@@ -87,25 +87,26 @@ export const landingFr: LandingExtendedDictionary = {
     compare: {
       eyebrow: "Avant / Après",
       without: {
-        label: "Le chaos",
-        title:
-          "Des dizaines de messages éparpillés — la moitié manque d’informations précises.",
+        label: "Sans CraftLink",
+        title: "Des messages flous — sans photos, urgence ni vrai brief.",
+        example: "Bonjour c'est combien pour refaire l'électricité ?",
         items: [
-          "SMS, Facebook, WhatsApp : tout est éparpillé",
-          "Photos floues, adresse incomplète, urgence floue",
-          "Vous relancez 3 fois avant de pouvoir chiffrer",
-          "Démarchage et offres marketing inutiles qui polluent vos messages",
+          "Absence de photo",
+          "Urgence inconnue",
+          "Relances interminables",
+          "Informations dispersées",
         ],
       },
       with: {
-        label: "La clarté CraftLink",
-        title:
-          "Des demandes complètes centralisées — vous savez par quoi commencer.",
+        label: "Avec CraftLink",
+        title: "Une demande complète — prête avant même de rappeler.",
+        example:
+          "Rénovation Tableau Électrique — 3 photos jointes — Intervenir sous 15 jours — Message vocal résumé.",
         items: [
-          "Dossier structuré : zone, urgence, nature des travaux",
-          "Vocal transcrit automatiquement si le client préfère parler",
           "WhatsApp ouvert avec tout le contexte déjà en main",
-          "Moins de démarchage inutile : CraftLink filtre le marketing hors sujet",
+          "Dossier prêt à traiter",
+          "Photos, détails et urgence inclus",
+          "Moins de démarchage inutile et de marketing hors sujet",
         ],
       },
     },
@@ -118,7 +119,7 @@ export const landingFr: LandingExtendedDictionary = {
       {
         index: "Étape 2",
         title: "CraftLink centralise et organise vos demandes instantanément",
-        lead: "Toutes les informations clés sont triées et regroupées dans un dashboard épuré. Plus aucun message ne se perd.",
+        lead: "Toutes les informations clés sont triées et regroupées dans un tableau épuré. Plus aucun message ne se perd.",
       },
       {
         index: "Étape 3",
