@@ -885,16 +885,6 @@ export type FeaturesFlowDictionary = {
   contactRows: FeaturesFlowContactRow[];
 };
 
-export type HeroTypingChannel = {
-  label: string;
-  color: string;
-};
-
-export type HeroTypingTitleDictionary = {
-  intro: string;
-  channels: HeroTypingChannel[];
-};
-
 export type PourquoiPillarBulletJson = {
   emoji: string;
   text: string;
@@ -934,18 +924,26 @@ export type HeroAsideShowcaseDictionary = {
   reelsTab: string;
 };
 
+export type HeroTypingChannel = {
+  label: string;
+  color: string;
+};
+
+export type HeroTypingTitleDictionary = {
+  intro: string;
+  channels: HeroTypingChannel[];
+};
+
 export type HeroDictionary = {
   pill: string;
   /** Titre H1 principal du hero. */
   title: string;
-  typingTitle: HeroTypingTitleDictionary;
   asideShowcaseAlt: string;
   asideShowcase: HeroAsideShowcaseDictionary;
   lead: string;
-  controlPhrase: string;
   ctaPrimary: string;
-  ctaSecondary: string;
-  ctaSecondaryHref: string;
+  /** Micro-copy sous le CTA : intro + animation des réseaux. */
+  typingTitle: HeroTypingTitleDictionary;
 };
 
 export type LandingFeatureCard = {

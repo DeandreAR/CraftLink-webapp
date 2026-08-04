@@ -16,7 +16,7 @@ export function LandingFeaturesSection({
   return (
     <section
       id="features"
-      className="scroll-mt-28 bg-slate-50"
+      className="scroll-mt-28 bg-[#FDFBF7]"
       aria-labelledby="features-heading"
     >
       <div className="lk-container lk-section-pad">

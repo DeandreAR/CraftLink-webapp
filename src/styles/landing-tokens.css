@@ -3,7 +3,7 @@
  * Blanc #FFF · Accent #EFA188 · CTA noir · Typo Lexend · Mobile first
  */
 .landing-page {
-  --lk-cream: #ffffff;
+  --lk-cream: #fdfbf7;
   --lk-peach: #efa188;
   --lk-peach-deep: #e08a6f;
   --lk-peach-soft: color-mix(in srgb, #efa188 12%, white);

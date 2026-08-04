@@ -94,19 +94,7 @@
   },
   "hero": {
     "pill": "Conçu pour les artisans du bâtiment",
-    "title": "Ne perdez plus vos soirées à trier vos messages. Recevez des demandes de chantier claires et complètes.",
-    "typingTitle": {
-      "intro": "Mettez-le pour ",
-      "channels": [
-        { "label": "Instagram", "color": "#E4405F" },
-        { "label": "les SMS", "color": "#25D366" },
-        { "label": "Facebook", "color": "#1877F2" },
-        { "label": "TikTok", "color": "#FE2C55" },
-        { "label": "Snapchat", "color": "#FFFC00" },
-        { "label": "Threads", "color": "#000000" },
-        { "label": "les QR codes", "color": "#E7E2CA" }
-      ]
-    },
+    "title": "Moins d'appels inutiles. Plus de vrais chantiers.",
     "asideShowcaseAlt": "De la bio Instagram à la page getcraftlink.com/lucas_martin : un profil artisan transformé en vitrine CraftLink.",
     "asideShowcase": {
       "url": "getcraftlink.com/lucas_martin",
@@ -132,11 +120,20 @@
       "highlightLabels": ["Devis", "Avis", "Zone"],
       "reelsTab": "Reels"
     },
-    "lead": "Un lien de contact unique qui filtre et qualifie vos demandes de chantiers automatiquement. CraftLink vous fait gagner des leads mieux qualifiés — ne perdez plus aucune demande de contact. Moins de messages éparpillés, plus de temps pour vous et plus de vrais clients.",
-    "controlPhrase": "Un lien à partager. Des dossiers clairs. Gagnez du temps en fin de journée.",
-    "ctaPrimary": "Créer ma page gratuitement",
-    "ctaSecondary": "Voir les fonctionnalités",
-    "ctaSecondaryHref": "#features"
+    "lead": "Créez votre page vitrine simple pour présenter votre activité et vos réalisations. CraftLink filtre vos demandes de chantier : vous recevez des demandes claires et mieux qualifiées, et gagnez du temps chaque jour.",
+    "ctaPrimary": "Créer mon lien gratuitement",
+    "typingTitle": {
+      "intro": "Un seul lien à partager sur ",
+      "channels": [
+        { "label": "Instagram", "color": "#E4405F" },
+        { "label": "les SMS", "color": "#25D366" },
+        { "label": "Facebook", "color": "#1877F2" },
+        { "label": "TikTok", "color": "#FE2C55" },
+        { "label": "Snapchat", "color": "#FFFC00" },
+        { "label": "Threads", "color": "#000000" },
+        { "label": "les QR codes", "color": "#E7E2CA" }
+      ]
+    }
   },
   "features": {
     "eyebrow": "Comment ça marche",

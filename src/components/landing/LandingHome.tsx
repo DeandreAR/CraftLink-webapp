@@ -21,12 +21,12 @@ export async function LandingHome({ lang }: { lang: Locale }) {
   const { landing, hero, features } = dict;
 
   return (
-    <div className="landing-page landing-home min-h-screen bg-slate-50 text-slate-900">
+    <div className="landing-page landing-home min-h-screen bg-[#FDFBF7] text-slate-900">
       <Navbar lang={lang} labels={dict.nav} hiddenSections={["metiers"]} />
       <LandingWhatsAppFloat lang={lang} />
 
       <main className="landing-main relative max-md:pb-24">
-        <section className="landing-hero relative flex min-h-[min(100dvh,920px)] flex-col justify-center overflow-hidden bg-slate-50">
+        <section className="landing-hero relative flex min-h-[min(100dvh,920px)] flex-col justify-center overflow-hidden bg-[#FDFBF7]">
           <LandingHeroDiagonalBrush variant="hero" />
 
           <div className="lk-container relative z-10 pb-16 pt-10 md:pb-24 md:pt-16">
@@ -40,11 +40,8 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                 </LandingHeroReveal>
 
                 <LandingHeroReveal delay={0.08}>
-                  <p className="lk-lead mx-auto mt-6 max-w-xl text-base text-slate-600 md:text-lg lg:mx-0">
-                    {hero.lead}
-                  </p>
-                  <p className="mx-auto mt-3 max-w-xl text-base font-semibold leading-relaxed text-slate-900 md:text-[1.05rem] lg:mx-0">
-                    {hero.controlPhrase}{" "}
+                  <p className="lk-lead mx-auto mt-5 max-w-xl text-base text-slate-600 md:text-lg lg:mx-0">
+                    {hero.lead}{" "}
                     <HeroTypingChannels
                       intro={hero.typingTitle.intro}
                       channels={hero.typingTitle.channels}
@@ -53,20 +50,13 @@ export async function LandingHome({ lang }: { lang: Locale }) {
                 </LandingHeroReveal>
 
                 <LandingHeroReveal delay={0.12}>
-                  <div className="mt-9 flex flex-col items-stretch gap-3 sm:mx-auto sm:max-w-md sm:flex-row sm:items-center lg:mx-0 lg:max-w-none">
+                  <div className="mt-8 flex flex-col items-stretch sm:mx-auto sm:max-w-md lg:mx-0 lg:max-w-none">
                     <LandingCta
                       href={onboardingPath(lang)}
                       variant="primary"
-                      className="w-full sm:w-auto sm:min-w-[12.5rem]"
+                      className="w-full sm:w-auto sm:min-w-[14rem]"
                     >
                       {hero.ctaPrimary}
-                    </LandingCta>
-                    <LandingCta
-                      href={`${basePath}${hero.ctaSecondaryHref}`}
-                      variant="secondary"
-                      className="w-full sm:w-auto"
-                    >
-                      {hero.ctaSecondary}
                     </LandingCta>
                   </div>
                 </LandingHeroReveal>
@@ -96,7 +86,7 @@ export async function LandingHome({ lang }: { lang: Locale }) {
           locale={lang}
         />
 
-        <section id="cta" className="scroll-mt-28 bg-slate-50">
+        <section id="cta" className="scroll-mt-28 bg-[#FDFBF7]">
           <div className="lk-container lk-section-pad">
             <div className="relative overflow-hidden rounded-[24px] border border-slate-200 bg-white px-6 py-10 shadow-sm md:px-12 md:py-14">
               <div
